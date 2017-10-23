@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2005
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tanji", "Tanji\Tanji.csproj", "{C47F4DAB-ED63-4E36-AA49-A843EFE6D0C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tangine", "Tangine\Tangine.csproj", "{82F644CD-3896-482C-B47D-E34529E95D52}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C47F4DAB-ED63-4E36-AA49-A843EFE6D0C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C47F4DAB-ED63-4E36-AA49-A843EFE6D0C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C47F4DAB-ED63-4E36-AA49-A843EFE6D0C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C47F4DAB-ED63-4E36-AA49-A843EFE6D0C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82F644CD-3896-482C-B47D-E34529E95D52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82F644CD-3896-482C-B47D-E34529E95D52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82F644CD-3896-482C-B47D-E34529E95D52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82F644CD-3896-482C-B47D-E34529E95D52}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D991E5FF-BFED-41CE-AD1C-7371F9C9F105}
+	EndGlobalSection
+EndGlobal
