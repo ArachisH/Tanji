@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 
@@ -17,7 +18,7 @@ namespace Tanji.Pages.About
             : base(ui, tab)
         {
             TanjiRepo = new GitRepository("ArachisH", "Tanji");
-            LocalVersion = new Version(Application.ProductVersion);
+            LocalVersion = Assembly.GetExecutingAssembly().GetName().Version;
 
             UI.Shown += UI_Shown;
             UI.TanjiVersionTxt.Text = ("v" + LocalVersion);
