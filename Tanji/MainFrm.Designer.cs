@@ -305,7 +305,7 @@
             this.sKoreLabelBox3.Size = new System.Drawing.Size(100, 20);
             this.sKoreLabelBox3.TabIndex = 108;
             this.sKoreLabelBox3.Text = "Proxy Port";
-            this.sKoreLabelBox3.Value = "8081";
+            this.sKoreLabelBox3.Value = "8282";
             this.sKoreLabelBox3.ValueAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.sKoreLabelBox3.ValueReadOnly = true;
             // 
