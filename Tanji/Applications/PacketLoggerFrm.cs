@@ -148,6 +148,12 @@ namespace Tanji.Applications
                 {
                     TopMost = isChecked;
                     MainUI.TopMost = isChecked;
+
+                    Text = "Tanji ~ Packet Logger";
+                    if (TopMost)
+                    {
+                        Text += " | Top Most";
+                    }
                     break;
                 }
             }
