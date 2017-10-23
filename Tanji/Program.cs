@@ -13,6 +13,8 @@ namespace Tanji
             AppDomain.CurrentDomain
                 .UnhandledException += UnhandledException;
 
+            Eavesdropper.Overrides.AddRange(new[] { "*google.com", "*discordapp.com" });
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainFrm());
