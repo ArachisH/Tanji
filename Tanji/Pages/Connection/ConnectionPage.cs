@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using System.Linq;
 using System.Drawing;
+using System.Net.Http;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -36,7 +37,7 @@ namespace Tanji.Pages.Connection
 
     public class ConnectionPage : TanjiPage
     {
-        private const ushort EAVESDROP_PROXY_PORT = 8081;
+        private const ushort EAVESDROP_PROXY_PORT = 8282;
         private const string EAVESDROP_ROOT_CERTIFICATE_NAME = "EavesdropRoot.cer";
 
         private readonly Action<TanjiState> _setState;
@@ -215,26 +216,60 @@ namespace Tanji.Pages.Connection
             }
         }
 
-        private void InjectClient(object sender, RequestInterceptedEventArgs e)
+        private Task InjectGameClientAsync(object sender, RequestInterceptedEventArgs e)
         {
             if (e.Request.RequestUri.OriginalString.EndsWith("-Tanji"))
             {
-                Eavesdropper.RequestIntercepted -= InjectClient;
+                Eavesdropper.RequestInterceptedAsync -= InjectGameClientAsync;
                 e.Request = WebRequest.Create(new Uri(UI.Game.Location));
-                Eavesdropper.ResponseIntercepted += ReplaceClient;
+                Eavesdropper.ResponseInterceptedAsync += InterceptGameClientAsync;
+            }
+            return null;
+        }
+        private async Task ReplaceResourcesAsync(object sender, ResponseInterceptedEventArgs e)
+        {
+            string absoluteUri = e.Response.ResponseUri.AbsoluteUri;
+            if (VariableReplacements.ContainsKey(absoluteUri))
+            {
+                var httpResponse = (HttpWebResponse)e.Response;
+                string replacementUrl = VariableReplacements[absoluteUri];
+
+                if (httpResponse.StatusCode == HttpStatusCode.TemporaryRedirect)
+                {
+                    VariableReplacements.Remove(absoluteUri);
+                    absoluteUri = httpResponse.Headers[HttpResponseHeader.Location];
+                    VariableReplacements[absoluteUri] = replacementUrl;
+                    return;
+                }
+
+                if (replacementUrl.StartsWith("http"))
+                {
+                    using (var webClient = new WebClient())
+                    {
+                        e.Content = new ByteArrayContent(await webClient.DownloadDataTaskAsync(replacementUrl).ConfigureAwait(false));
+                    }
+                }
+                else e.Content = new ByteArrayContent(File.ReadAllBytes(replacementUrl));
+
+                VariableReplacements.Remove(absoluteUri);
+                if (VariableReplacements.Count < 1)
+                {
+                    Halt();
+                    SetState(TanjiState.StandingBy);
+                }
             }
         }
-        private void ReplaceClient(object sender, ResponseInterceptedEventArgs e)
+        private async Task InterceptGameClientAsync(object sender, ResponseInterceptedEventArgs e)
         {
             if (e.Response.ContentType != "application/x-shockwave-flash" &&
                 !File.Exists(e.Response.ResponseUri.LocalPath)) return;
 
-            Eavesdropper.ResponseIntercepted -= ReplaceClient;
+            Eavesdropper.ResponseInterceptedAsync -= InterceptGameClientAsync;
             ushort infoPort = ushort.Parse(UI.GameData.InfoPort.Split(',')[0]);
 
             if (UI.Game == null)
             {
-                VerifyGameClientAsync(e.Payload).Wait();
+                VerifyGameClientAsync(await e.Content.ReadAsByteArrayAsync().ConfigureAwait(false)).Wait();
                 SetState(TanjiState.ModifyingClient);
 
                 UI.Game.BypassOriginCheck();
@@ -246,43 +281,43 @@ namespace Tanji.Pages.Connection
                 UI.Game.Assemble();
 
                 SetState(TanjiState.CompressingClient);
-                e.Payload = UI.Game.Compress();
+                byte[] compressed = UI.Game.Compress();
+                e.Content = new ByteArrayContent(compressed);
 
                 string clientPath = Path.Combine(
                     _modifiedClientsDir.FullName, UI.Game.GetClientRevision());
 
                 Directory.CreateDirectory(clientPath);
-                File.WriteAllBytes(clientPath + "\\Habbo.swf", e.Payload);
+                File.WriteAllBytes(clientPath + "\\Habbo.swf", compressed);
             }
             else
             {
                 if (UI.ModulesPg.ModifyGame(UI.Game))
                     UI.Game.Assemble();
 
-                e.Payload = UI.Game.ToByteArray();
+                e.Content = new ByteArrayContent(UI.Game.ToByteArray());
             }
 
             if (VariableReplacements.Count > 0)
             {
-                Eavesdropper.ResponseIntercepted += ReplaceResources;
+                Eavesdropper.ResponseInterceptedAsync += ReplaceResourcesAsync;
             }
             else Halt();
 
             SetState(TanjiState.InterceptingConnection);
-            UI.Connection.ConnectAsync(UI.GameData.InfoHost,
-                infoPort).ContinueWith(ConnectTaskCompleted);
+            Task connectTask = UI.Connection.ConnectAsync(UI.GameData.InfoHost, infoPort).ContinueWith(ConnectTaskCompleted);
         }
-        private void ExtractGameData(object sender, ResponseInterceptedEventArgs e)
+        private async Task InterceptClientPageAsync(object sender, ResponseInterceptedEventArgs e)
         {
             if (e.Response.ContentType != "text/html") return;
             if (State != TanjiState.ExtractingGameData) return;
 
-            string responseBody = Encoding.UTF8.GetString(e.Payload);
+            string responseBody = await e.Content.ReadAsStringAsync().ConfigureAwait(false);
             if (responseBody.Contains("swfobject.embedSWF") &&
                 responseBody.Contains("connection.info.host"))
             {
-                byte[] replacementData = e.Payload;
-                Eavesdropper.ResponseIntercepted -= ExtractGameData;
+                byte[] replacementData = Encoding.UTF8.GetBytes(responseBody);
+                Eavesdropper.ResponseInterceptedAsync -= InterceptClientPageAsync;
                 try
                 {
                     UI.GameData.Update(responseBody);
@@ -328,12 +363,12 @@ namespace Tanji.Pages.Connection
                     if (verifyGameClientTask.Result)
                     {
                         SetState(TanjiState.InjectingClient);
-                        Eavesdropper.RequestIntercepted += InjectClient;
+                        Eavesdropper.RequestInterceptedAsync += InjectGameClientAsync;
                     }
                     else
                     {
                         SetState(TanjiState.InterceptingClient);
-                        Eavesdropper.ResponseIntercepted += ReplaceClient;
+                        Eavesdropper.ResponseInterceptedAsync += InterceptGameClientAsync;
                     }
                 }
                 catch (Exception ex)
@@ -347,40 +382,9 @@ namespace Tanji.Pages.Connection
                 {
                     if (State == TanjiState.ExtractingGameData)
                     {
-                        Eavesdropper.ResponseIntercepted += ExtractGameData;
+                        Eavesdropper.ResponseInterceptedAsync += InterceptClientPageAsync;
                     }
-                    else e.Payload = replacementData;
-                }
-            }
-        }
-        private void ReplaceResources(object sender, ResponseInterceptedEventArgs e)
-        {
-            string absoluteUri = e.Response.ResponseUri.AbsoluteUri;
-            if (VariableReplacements.ContainsKey(absoluteUri))
-            {
-                var httpResponse = (HttpWebResponse)e.Response;
-                string replacementUrl = VariableReplacements[absoluteUri];
-
-                if (httpResponse.StatusCode == HttpStatusCode.TemporaryRedirect)
-                {
-                    VariableReplacements.Remove(absoluteUri);
-                    absoluteUri = httpResponse.Headers[HttpResponseHeader.Location];
-                    VariableReplacements[absoluteUri] = replacementUrl;
-                    return;
-                }
-
-                if (replacementUrl.StartsWith("http"))
-                {
-                    using (var webClient = new WebClient())
-                        e.Payload = webClient.DownloadData(replacementUrl);
-                }
-                else e.Payload = File.ReadAllBytes(replacementUrl);
-
-                VariableReplacements.Remove(absoluteUri);
-                if (VariableReplacements.Count < 1)
-                {
-                    Halt();
-                    SetState(TanjiState.StandingBy);
+                    else e.Content = new ByteArrayContent(replacementData);
                 }
             }
         }
@@ -388,10 +392,10 @@ namespace Tanji.Pages.Connection
         public void Halt()
         {
             Eavesdropper.Terminate();
-            Eavesdropper.RequestIntercepted -= InjectClient;
-            Eavesdropper.ResponseIntercepted -= ReplaceClient;
-            Eavesdropper.ResponseIntercepted -= ExtractGameData;
-            Eavesdropper.ResponseIntercepted -= ReplaceResources;
+            Eavesdropper.RequestInterceptedAsync -= InjectGameClientAsync;
+            Eavesdropper.ResponseInterceptedAsync -= InterceptGameClientAsync;
+            Eavesdropper.ResponseInterceptedAsync -= InterceptClientPageAsync;
+            Eavesdropper.ResponseInterceptedAsync -= ReplaceResourcesAsync;
         }
         public void Reset()
         {
@@ -412,7 +416,7 @@ namespace Tanji.Pages.Connection
         }
         public void Connect()
         {
-            Eavesdropper.ResponseIntercepted += ExtractGameData;
+            Eavesdropper.ResponseInterceptedAsync += InterceptClientPageAsync;
             Eavesdropper.Initiate(EAVESDROP_PROXY_PORT);
 
             SetState(TanjiState.ExtractingGameData);
