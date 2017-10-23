@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tangine", "Tangine\Tangine.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eavesdrop", "Submodules\Eavesdrop\Eavesdrop\Eavesdrop.csproj", "{DE239471-7950-4049-9B92-3C1A4C4CA063}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sulakore", "Sulakore\Sulakore.csproj", "{15E841EC-2411-4F1B-A3EE-07E86CDB32C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{DE239471-7950-4049-9B92-3C1A4C4CA063}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE239471-7950-4049-9B92-3C1A4C4CA063}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE239471-7950-4049-9B92-3C1A4C4CA063}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15E841EC-2411-4F1B-A3EE-07E86CDB32C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15E841EC-2411-4F1B-A3EE-07E86CDB32C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15E841EC-2411-4F1B-A3EE-07E86CDB32C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15E841EC-2411-4F1B-A3EE-07E86CDB32C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
