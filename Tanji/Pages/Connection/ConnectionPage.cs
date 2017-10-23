@@ -216,15 +216,43 @@ namespace Tanji.Pages.Connection
             }
         }
 
-        private Task InjectGameClientAsync(object sender, RequestInterceptedEventArgs e)
+        private async Task InjectGameClientAsync(object sender, RequestInterceptedEventArgs e)
         {
-            if (e.Request.RequestUri.OriginalString.EndsWith("-Tanji"))
+            if (!e.Uri.Query.StartsWith("?Tanji-")) return;
+            Eavesdropper.RequestInterceptedAsync -= InjectGameClientAsync;
+
+            Uri remoteUrl = e.Request.RequestUri;
+            string clientPath = Path.GetFullPath($"Modified Clients/{remoteUrl.Host}/{remoteUrl.LocalPath}");
+            if (!string.IsNullOrWhiteSpace(CustomClientPath))
             {
-                Eavesdropper.RequestInterceptedAsync -= InjectGameClientAsync;
-                e.Request = WebRequest.Create(new Uri(UI.Game.Location));
+                clientPath = CustomClientPath;
+            }
+            if (!File.Exists(clientPath))
+            {
+                SetState(TanjiState.InterceptingClient);
                 Eavesdropper.ResponseInterceptedAsync += InterceptGameClientAsync;
             }
-            return null;
+            else
+            {
+                if (!await VerifyGameClientAsync(clientPath).ConfigureAwait(false))
+                {
+                    Reset();
+                    return;
+                }
+
+                UI.ModulesPg.ModifyGame(UI.Game);
+                if (VariableReplacements.Count > 0)
+                {
+                    Eavesdropper.ResponseInterceptedAsync += ReplaceResourcesAsync;
+                }
+                else Halt();
+
+                SetState(TanjiState.InterceptingConnection);
+                ushort infoPort = ushort.Parse(UI.GameData.InfoPort.Split(',')[0]);
+                Task connectTask = UI.Connection.ConnectAsync(UI.GameData.InfoHost, infoPort).ContinueWith(ConnectTaskCompleted);
+
+                e.Request = WebRequest.Create(new Uri(clientPath));
+            }
         }
         private async Task ReplaceResourcesAsync(object sender, ResponseInterceptedEventArgs e)
         {
@@ -261,41 +289,32 @@ namespace Tanji.Pages.Connection
         }
         private async Task InterceptGameClientAsync(object sender, ResponseInterceptedEventArgs e)
         {
-            if (e.Response.ContentType != "application/x-shockwave-flash" &&
-                !File.Exists(e.Response.ResponseUri.LocalPath)) return;
-
+            if (!e.Uri.Query.StartsWith("?Tanji-")) return;
+            if (e.ContentType != "application/x-shockwave-flash") return;
             Eavesdropper.ResponseInterceptedAsync -= InterceptGameClientAsync;
-            ushort infoPort = ushort.Parse(UI.GameData.InfoPort.Split(',')[0]);
 
-            if (UI.Game == null)
+            string clientPath = Path.GetFullPath($"Modified Clients/{e.Uri.Host}/{e.Uri.LocalPath}");
+            string clientDirectory = Path.GetDirectoryName(clientPath);
+            Directory.CreateDirectory(clientDirectory);
+
+            VerifyGameClientAsync(await e.Content.ReadAsByteArrayAsync().ConfigureAwait(false)).Wait();
+
+            SetState(TanjiState.ModifyingClient);
+            UI.Game.BypassOriginCheck();
+            UI.Game.BypassRemoteHostCheck();
+            UI.Game.ReplaceRSAKeys(HandshakeManager.FAKE_EXPONENT, HandshakeManager.FAKE_MODULUS);
+            UI.ModulesPg.ModifyGame(UI.Game);
+
+            SetState(TanjiState.AssemblingClient);
+            UI.Game.Assemble();
+
+            SetState(TanjiState.CompressingClient);
+            byte[] compressed = UI.Game.Compress();
+
+            e.Content = new ByteArrayContent(compressed);
+            using (var clientStream = File.Open(clientPath, FileMode.Create, FileAccess.Write))
             {
-                VerifyGameClientAsync(await e.Content.ReadAsByteArrayAsync().ConfigureAwait(false)).Wait();
-                SetState(TanjiState.ModifyingClient);
-
-                UI.Game.BypassOriginCheck();
-                UI.Game.BypassRemoteHostCheck();
-                UI.Game.ReplaceRSAKeys(HandshakeManager.FAKE_EXPONENT, HandshakeManager.FAKE_MODULUS);
-                UI.ModulesPg.ModifyGame(UI.Game);
-
-                SetState(TanjiState.AssemblingClient);
-                UI.Game.Assemble();
-
-                SetState(TanjiState.CompressingClient);
-                byte[] compressed = UI.Game.Compress();
-                e.Content = new ByteArrayContent(compressed);
-
-                string clientPath = Path.Combine(
-                    _modifiedClientsDir.FullName, UI.Game.GetClientRevision());
-
-                Directory.CreateDirectory(clientPath);
-                File.WriteAllBytes(clientPath + "\\Habbo.swf", compressed);
-            }
-            else
-            {
-                if (UI.ModulesPg.ModifyGame(UI.Game))
-                    UI.Game.Assemble();
-
-                e.Content = new ByteArrayContent(UI.Game.ToByteArray());
+                clientStream.Write(compressed, 0, compressed.Length);
             }
 
             if (VariableReplacements.Count > 0)
@@ -305,87 +324,58 @@ namespace Tanji.Pages.Connection
             else Halt();
 
             SetState(TanjiState.InterceptingConnection);
+            ushort infoPort = ushort.Parse(UI.GameData.InfoPort.Split(',')[0]);
             Task connectTask = UI.Connection.ConnectAsync(UI.GameData.InfoHost, infoPort).ContinueWith(ConnectTaskCompleted);
         }
         private async Task InterceptClientPageAsync(object sender, ResponseInterceptedEventArgs e)
         {
+            if (e.Content == null) return;
+            if (!e.ContentType.StartsWith("text")) return;
+
+            string body = await e.Content.ReadAsStringAsync().ConfigureAwait(false);
+            if (!body.Contains("info.host") && !body.Contains("info.port")) return;
+
+            if (State != TanjiState.ExtractingGameData) return;
+            Eavesdropper.ResponseInterceptedAsync -= InterceptClientPageAsync;
+
             if (e.Response.ContentType != "text/html") return;
             if (State != TanjiState.ExtractingGameData) return;
 
-            string responseBody = await e.Content.ReadAsStringAsync().ConfigureAwait(false);
-            if (responseBody.Contains("swfobject.embedSWF") &&
-                responseBody.Contains("connection.info.host"))
+            byte[] replacementData = Encoding.UTF8.GetBytes(body);
+            Eavesdropper.ResponseInterceptedAsync -= InterceptClientPageAsync;
+
+            try
             {
-                byte[] replacementData = Encoding.UTF8.GetBytes(responseBody);
-                Eavesdropper.ResponseInterceptedAsync -= InterceptClientPageAsync;
-                try
+                UI.GameData.Update(body);
+                UI.Hotel = SKore.ToHotel(UI.GameData.InfoHost);
+
+                UI.ModulesPg.ModifyGameData(UI.GameData);
+                body = UI.GameData.Source;
+
+                body = body.Replace(UI.GameData.InfoHost, "127.0.0.1");
+                body = body.Replace(".swf", $".swf?Tanji-{DateTime.Now.Ticks}");
+
+                string[] resourceKeys = VariableReplacements.Keys.ToArray();
+                foreach (string variable in resourceKeys)
                 {
-                    UI.GameData.Update(responseBody);
-                    UI.Hotel = SKore.ToHotel(UI.GameData.InfoHost);
+                    string fakeValue = VariableReplacements[variable];
+                    string realValue = UI.GameData[variable].Replace("\\/", "/");
 
-                    UI.ModulesPg.ModifyGameData(UI.GameData);
-                    responseBody = UI.GameData.Source;
-
-                    var clientUri = new Uri(UI.GameData["flash.client.url"]);
-                    string clientPath = clientUri.Segments[2].TrimEnd('/');
-
-                    Task<bool> verifyGameClientTask = null;
-                    if (!string.IsNullOrWhiteSpace(CustomClientPath))
-                    {
-                        verifyGameClientTask =
-                            VerifyGameClientAsync(CustomClientPath);
-                    }
-                    if (verifyGameClientTask == null || !verifyGameClientTask.Result)
-                    {
-                        verifyGameClientTask =
-                            VerifyGameClientAsync($"{_modifiedClientsDir.FullName}\\{clientPath}\\Habbo.swf");
-                    }
-
-                    string embeddedSwf = responseBody.GetChild("embedSWF(", ',');
-                    string nonCachedSwf = $"{embeddedSwf} + \"?{DateTime.Now.Ticks}-Tanji\"";
-
-                    responseBody = responseBody.Replace(
-                        "embedSWF(" + embeddedSwf, "embedSWF(" + nonCachedSwf);
-
-                    responseBody = responseBody.Replace(UI.GameData.InfoHost, "127.0.0.1");
-                    replacementData = Encoding.UTF8.GetBytes(responseBody);
-
-                    string[] resourceKeys = VariableReplacements.Keys.ToArray();
-                    foreach (string variable in resourceKeys)
-                    {
-                        string fakeValue = VariableReplacements[variable];
-                        string realValue = UI.GameData[variable].Replace("\\/", "/");
-
-                        VariableReplacements.Remove(variable);
-                        VariableReplacements[realValue] = fakeValue;
-                    }
-
-                    if (verifyGameClientTask.Result)
-                    {
-                        SetState(TanjiState.InjectingClient);
-                        Eavesdropper.RequestInterceptedAsync += InjectGameClientAsync;
-                    }
-                    else
-                    {
-                        SetState(TanjiState.InterceptingClient);
-                        Eavesdropper.ResponseInterceptedAsync += InterceptGameClientAsync;
-                    }
+                    VariableReplacements.Remove(variable);
+                    VariableReplacements[realValue] = fakeValue;
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Intercepted game data is not recognized as coming from a valid Habbo Hotel site.",
-                        "Tanji ~ Alert!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                
+                e.Content = new StringContent(body);
+                SetState(TanjiState.InjectingClient);
+                Eavesdropper.RequestInterceptedAsync += InjectGameClientAsync;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Intercepted game data is not recognized as coming from a valid Habbo Hotel site.",
+                    "Tanji ~ Alert!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 
-                    WriteLog(ex);
-                }
-                finally
-                {
-                    if (State == TanjiState.ExtractingGameData)
-                    {
-                        Eavesdropper.ResponseInterceptedAsync += InterceptClientPageAsync;
-                    }
-                    else e.Content = new ByteArrayContent(replacementData);
-                }
+                WriteLog(ex);
+                Reset();
             }
         }
 
@@ -575,7 +565,9 @@ namespace Tanji.Pages.Connection
             finally
             {
                 if (UI.Game != game)
+                {
                     game.Dispose();
+                }
             }
         }
 
@@ -596,9 +588,11 @@ namespace Tanji.Pages.Connection
                 if (VariableReplacements.Count > 0)
                 {
                     SetState(TanjiState.ReplacingResources);
+                    return;
                 }
-                else SetState(TanjiState.StandingBy);
             }
+            Halt();
+            SetState(TanjiState.StandingBy);
         }
 
         protected override void OnTabSelecting(TabControlCancelEventArgs e)
