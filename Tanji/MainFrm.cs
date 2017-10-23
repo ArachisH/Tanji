@@ -109,7 +109,7 @@ namespace Tanji
         }
         private void TanjiDonateTxt_Click(object sender, EventArgs e)
         {
-            Process.Start("https://www.PayPal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KKT8YD2Z8K5WU");
+            Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HMYZ4GB5N2PAU");
         }
         private void TanjiVersionTxt_Click(object sender, EventArgs e)
         {
