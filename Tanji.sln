@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eavesdrop", "Submodules\Eav
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sulakore", "Sulakore\Sulakore.csproj", "{15E841EC-2411-4F1B-A3EE-07E86CDB32C7}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flazzy", "Submodules\Flazzy\Flazzy\Flazzy.csproj", "{706A74B1-739F-41F4-A5E3-B1B4EA01EBEC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{15E841EC-2411-4F1B-A3EE-07E86CDB32C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15E841EC-2411-4F1B-A3EE-07E86CDB32C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15E841EC-2411-4F1B-A3EE-07E86CDB32C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{706A74B1-739F-41F4-A5E3-B1B4EA01EBEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{706A74B1-739F-41F4-A5E3-B1B4EA01EBEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{706A74B1-739F-41F4-A5E3-B1B4EA01EBEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{706A74B1-739F-41F4-A5E3-B1B4EA01EBEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
