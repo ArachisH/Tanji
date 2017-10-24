@@ -25,8 +25,6 @@ using Sulakore.Communication;
 
 using Eavesdrop;
 
-using Tangine.Habbo;
-
 namespace Tanji
 {
     [DesignerCategory("Form")]
