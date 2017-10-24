@@ -59,19 +59,14 @@ namespace Tanji.Pages.Modules.Handlers
 
         private async Task GrabRemoteModuleAsync()
         {
-            RemoteModule = await HNode.ListenAsync(
-                8055).ConfigureAwait(false);
-
-            Task receiveRemModuDataTask =
-                ReceiveRemoteModuleDataAsync();
+            RemoteModule = await HNode.AcceptAsync(8055).ConfigureAwait(false);
+            Task receiveRemModuDataTask = ReceiveRemoteModuleDataAsync();
         }
         private async Task ReceiveRemoteModuleDataAsync()
         {
             try
             {
-                HMessage packet = await RemoteModule
-                   .ReceiveAsync().ConfigureAwait(false);
-
+                HMessage packet = await RemoteModule.ReceivePacketAsync().ConfigureAwait(false);
                 if (packet == null)
                 {
                     DataAwaiters.Values.ToList()
@@ -166,8 +161,7 @@ namespace Tanji.Pages.Modules.Handlers
 
                 if (response != null)
                 {
-                    await RemoteModule.SendAsync(
-                        response).ConfigureAwait(false);
+                    await RemoteModule.SendPacketAsync(response).ConfigureAwait(false);
                 }
             }
             finally

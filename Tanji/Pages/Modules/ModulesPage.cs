@@ -280,8 +280,7 @@ namespace Tanji.Pages.Modules
 
             if (Contractor.RemoteModule != null)
             {
-                Contractor.RemoteModule
-                    .SendAsync(1, game.Location);
+                Contractor.RemoteModule.SendPacketAsync(1, game.Location);
             }
 
             foreach (ModuleItem moduleItem in moduleItems)
@@ -301,8 +300,7 @@ namespace Tanji.Pages.Modules
 
             if (Contractor.RemoteModule != null)
             {
-                Contractor.RemoteModule
-                    .SendAsync(2, gameData.Source);
+                Contractor.RemoteModule.SendPacketAsync(2, gameData.Source);
             }
 
             foreach (ModuleItem moduleItem in moduleItems)
@@ -421,7 +419,7 @@ namespace Tanji.Pages.Modules
                 interceptedData.WriteBoolean(e.IsBlocked);
                 interceptedData.WriteInteger(e.Packet.Length + 4);
                 interceptedData.WriteBytes(e.Packet.ToBytes());
-                Contractor.RemoteModule.SendAsync(interceptedData);
+                Contractor.RemoteModule.SendPacketAsync(interceptedData);
 
                 DataInterceptedEventArgs args = Contractor
                     .DataAwaiters[stamp].Task.Result;
