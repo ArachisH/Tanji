@@ -143,9 +143,8 @@ namespace Tangine
                         if (!string.IsNullOrWhiteSpace(location))
                         {
                             _game = new HGame(location);
-
-                            _game.Decompress();
                             _game.Disassemble();
+
                             _game.GenerateMessageHashes();
 
                             if (_initializationSource == null)
