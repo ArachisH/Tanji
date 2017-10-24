@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Net;
+using System.Text;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using Sulakore.Crypto;
-using System.Text;
 using Sulakore.Protocol;
 
 namespace Sulakore.Communication
