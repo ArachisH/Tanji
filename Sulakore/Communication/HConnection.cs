@@ -17,7 +17,6 @@ namespace Sulakore.Communication
     public class HConnection : IHConnection, IDisposable
     {
         private bool _isIntercepting;
-        private int _inSteps, _outSteps;
         private readonly object _disconnectLock;
 
         /// <summary>
