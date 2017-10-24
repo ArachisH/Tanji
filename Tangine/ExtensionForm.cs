@@ -3,8 +3,6 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
-using Tangine.Habbo;
-
 using Sulakore.Habbo;
 using Sulakore.Modules;
 using Sulakore.Habbo.Web;
