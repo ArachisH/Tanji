@@ -1,4 +1,4 @@
-﻿using Tangine.Habbo;
+﻿using Sulakore.Habbo;
 
 namespace Tangine
 {
