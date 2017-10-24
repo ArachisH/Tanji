@@ -4,25 +4,12 @@ using System.Numerics;
 using System.Globalization;
 using System.Security.Cryptography;
 
-namespace Sulakore.Protocol.Encryption
+namespace Sulakore.Crypto
 {
-    public enum PKCSPadding
-    {
-        /// <summary>
-        /// Represents a padding type that will fill a byte array's empty indices with the maximum value of a <see cref="byte"/>.
-        /// </summary>
-        MaxByte = 1,
-        /// <summary>
-        /// Represents a padding type that will fill a byte array's empty indices with random byte values.
-        /// </summary>
-        RandomByte = 2
-    }
-
     public class HKeyExchange : IDisposable
     {
-        private readonly int _blockSize;
+        private const int BLOCK_SIZE = 128;
         private readonly Random _numberGenerator;
-        private readonly RNGCryptoServiceProvider _strongNumberGenerator;
 
         public BigInteger Modulus { get; }
         public BigInteger Exponent { get; }
@@ -35,41 +22,37 @@ namespace Sulakore.Protocol.Encryption
         public BigInteger DHPrime { get; private set; }
         public BigInteger DHGenerator { get; private set; }
 
-        public bool IsDisposed { get; private set; }
         public bool CanDecrypt => (PrivateExponent != BigInteger.Zero);
         public PKCSPadding Padding { get; set; } = PKCSPadding.MaxByte;
 
         private HKeyExchange()
         {
             _numberGenerator = new Random();
-            _strongNumberGenerator = new RNGCryptoServiceProvider();
         }
-        private HKeyExchange(RSACryptoServiceProvider rsa) :
-            this()
+        public HKeyExchange(int rsaKeySize)
+            : this()
         {
-            RSA = rsa;
+            RSA = new RSACryptoServiceProvider(rsaKeySize);
             RSAParameters keys = RSA.ExportParameters(true);
 
-            Modulus = new BigInteger(keys.Modulus);
-            Exponent = new BigInteger(keys.Exponent);
-            PrivateExponent = new BigInteger(keys.D);
+            Modulus = new BigInteger(ReverseNull(keys.Modulus));
+            Exponent = new BigInteger(ReverseNull(keys.Exponent));
+            PrivateExponent = new BigInteger(ReverseNull(keys.D));
 
             GenerateDHPrimes(256);
-            GenerateDHKeys(DHGenerator, DHPrime);
-
-            _blockSize = (RSA.KeySize -
-                RSA.LegalKeySizes[0].SkipSize) / 8;
+            GenerateDHKeys(DHPrime, DHGenerator);
         }
-
-        public HKeyExchange(int exponent, string modulus) :
-            this(exponent, modulus, string.Empty)
+        public HKeyExchange(int exponent, string modulus)
+            : this(exponent, modulus, string.Empty)
         { }
-        public HKeyExchange(int exponent, string modulus, string privateExponent) :
-            this()
+        public HKeyExchange(int exponent, string modulus, string privateExponent)
+            : this()
         {
             var keys = new RSAParameters();
+
             Exponent = new BigInteger(exponent);
             keys.Exponent = Exponent.ToByteArray();
+            Array.Reverse(keys.Exponent);
 
             Modulus = BigInteger.Parse("0" + modulus, NumberStyles.HexNumber);
             keys.Modulus = Modulus.ToByteArray();
@@ -87,9 +70,6 @@ namespace Sulakore.Protocol.Encryption
 
             RSA = new RSACryptoServiceProvider();
             RSA.ImportParameters(keys);
-
-            _blockSize = (RSA.KeySize -
-                RSA.LegalKeySizes[0].SkipSize) / 8;
         }
 
         public virtual string GetSignedP()
@@ -121,15 +101,15 @@ namespace Sulakore.Protocol.Encryption
             DHPrime = Verify(p);
             if (DHPrime <= 2)
             {
-                throw new Exception(
-                    "P cannot be <= 2!\r\n" + DHPrime);
+                throw new ArgumentException(
+                    "P cannot be less than, or equal to 2.\r\n" + DHPrime, nameof(DHPrime));
             }
 
             DHGenerator = Verify(g);
             if (DHGenerator >= DHPrime)
             {
-                throw new Exception(
-                    $"G cannot be >= P!\r\n{DHPrime}\r\n{DHGenerator}");
+                throw new ArgumentException(
+                    $"G cannot be greater than, or equal to P.\r\n{DHPrime}\r\n{DHGenerator}", nameof(DHGenerator));
             }
 
             GenerateDHKeys(DHPrime, DHGenerator);
@@ -155,7 +135,7 @@ namespace Sulakore.Protocol.Encryption
 
         protected virtual byte[] PKCSPad(byte[] data)
         {
-            var buffer = new byte[_blockSize - 1];
+            var buffer = new byte[BLOCK_SIZE - 1];
             int dataStartPos = (buffer.Length - data.Length);
 
             buffer[0] = (byte)Padding;
@@ -201,7 +181,7 @@ namespace Sulakore.Protocol.Encryption
         protected BigInteger RandomInteger(int bitSize)
         {
             var integerData = new byte[bitSize / 8];
-            _strongNumberGenerator.GetBytes(integerData);
+            _numberGenerator.NextBytes(integerData);
 
             integerData[integerData.Length - 1] &= 0x7f;
             return new BigInteger(integerData);
@@ -209,8 +189,6 @@ namespace Sulakore.Protocol.Encryption
 
         protected virtual void GenerateDHPrimes(int bitSize)
         {
-            // TODO: Create "real" primes, or at least something close to a real prime.
-            // These values are currently just strong random generated numbers, but hey, it's faster.
             DHPrime = RandomInteger(bitSize);
             DHGenerator = RandomInteger(bitSize);
 
@@ -254,18 +232,35 @@ namespace Sulakore.Protocol.Encryption
             return BigInteger.Parse(Encoding.UTF8.GetString(valueData));
         }
 
-        public virtual BigInteger CalculatePrivate(BigInteger value) =>
-            BigInteger.ModPow(value, PrivateExponent, Modulus);
-
-        public virtual BigInteger CalculatePublic(BigInteger value) =>
-            BigInteger.ModPow(value, Exponent, Modulus);
-
-        public static HKeyExchange Create(int keySize)
+        private byte[] ReverseNull(byte[] data)
         {
-            var rsa = new RSACryptoServiceProvider(keySize);
-            rsa.ExportParameters(true);
+            bool isNegative = false;
+            int newSize = data.Length;
+            if (data[0] > 127)
+            {
+                newSize += 1;
+                isNegative = true;
+            }
 
-            return new HKeyExchange(rsa);
+            var reversed = new byte[newSize];
+            for (int i = 0; i < data.Length; i++)
+            {
+                reversed[i] = data[data.Length - (i + 1)];
+            }
+            if (isNegative)
+            {
+                reversed[reversed.Length - 1] = 0;
+            }
+            return reversed;
+        }
+
+        public virtual BigInteger CalculatePublic(BigInteger value)
+        {
+            return BigInteger.ModPow(value, Exponent, Modulus);
+        }
+        public virtual BigInteger CalculatePrivate(BigInteger value)
+        {
+            return BigInteger.ModPow(value, PrivateExponent, Modulus);
         }
 
         public void Dispose()
@@ -274,13 +269,10 @@ namespace Sulakore.Protocol.Encryption
         }
         protected virtual void Dispose(bool disposing)
         {
-            if (IsDisposed) return;
             if (disposing)
             {
                 RSA.Dispose();
-                _strongNumberGenerator.Dispose();
             }
-            IsDisposed = true;
         }
     }
 }
