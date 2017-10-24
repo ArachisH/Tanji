@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Sulakore</RootNamespace>
     <AssemblyName>Sulakore</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <ShouldCreateLogs>True</ShouldCreateLogs>
@@ -83,19 +83,20 @@
     <Compile Include="Habbo\Enums\HModel.cs" />
     <Compile Include="Habbo\Enums\HSign.cs" />
     <Compile Include="Habbo\Enums\HSize.cs" />
-    <Compile Include="Habbo\Enums\HSpeech.cs" />
     <Compile Include="Habbo\Enums\HStance.cs" />
     <Compile Include="Habbo\Enums\HTheme.cs" />
-    <Compile Include="Habbo\Headers\Incoming.cs" />
-    <Compile Include="Habbo\Headers\Outgoing.cs" />
+    <Compile Include="Habbo\HData.cs" />
+    <Compile Include="Habbo\HGame.cs" />
     <Compile Include="Habbo\HEntity.cs" />
-    <Compile Include="Habbo\HEntityAction.cs" />
+    <Compile Include="Habbo\HEntityUpdate.cs" />
     <Compile Include="Habbo\HFurniture.cs" />
     <Compile Include="Habbo\HItem.cs" />
     <Compile Include="Habbo\HMap.cs" />
     <Compile Include="Habbo\HPoint.cs" />
-    <Compile Include="Habbo\HStuffData.cs" />
-    <Compile Include="Habbo\IHEntity.cs" />
+    <Compile Include="Habbo\Messages\HashResolvingException.cs" />
+    <Compile Include="Habbo\Messages\Identifiers.cs" />
+    <Compile Include="Habbo\Messages\Incoming.cs" />
+    <Compile Include="Habbo\Messages\Outgoing.cs" />
     <Compile Include="Habbo\Web\HBadge.cs" />
     <Compile Include="Habbo\Web\HFriend.cs" />
     <Compile Include="Habbo\Web\HGameData.cs" />
@@ -114,6 +115,12 @@
     <Compile Include="Protocol\Enums\HDestination.cs" />
     <Compile Include="Protocol\HMessage.cs" />
     <Compile Include="SKore.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Submodules\Flazzy\Flazzy\Flazzy.csproj">
+      <Project>{ced7a534-da5f-4d7b-8464-0a9e18605f35}</Project>
+      <Name>Flazzy</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
