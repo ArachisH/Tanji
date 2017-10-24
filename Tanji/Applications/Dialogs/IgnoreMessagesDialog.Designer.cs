@@ -61,6 +61,8 @@
             this.IgnoredVw.TabIndex = 0;
             this.IgnoredVw.UseCompatibleStateImageBehavior = false;
             this.IgnoredVw.View = System.Windows.Forms.View.Details;
+            this.IgnoredVw.ItemSelectionStateChanged += new System.EventHandler(this.IgnoredVw_ItemSelectionStateChanged);
+            this.IgnoredVw.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.IgnoredVw_ItemChecked);
             // 
             // TypeCol
             // 
@@ -168,7 +170,6 @@
             this.Controls.Add(this.TypeTxt);
             this.Controls.Add(this.AddHeaderBtn);
             this.Controls.Add(this.IgnoredVw);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "IgnoreMessagesDialog";

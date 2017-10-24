@@ -33,30 +33,30 @@ namespace Tanji.Applications
             this.components = new System.ComponentModel.Container();
             this.LoggerTxt = new System.Windows.Forms.RichTextBox();
             this.PacketLoggerContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.PLCMCopyBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.PLCMCopyBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.PacketLoggerMenu = new System.Windows.Forms.MenuStrip();
-            this.FileBtn = new System.Windows.Forms.ToolStripMenuItem();
-            this.FindBtn = new System.Windows.Forms.ToolStripMenuItem();
-            this.FindMessageBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileBtn = new Tanji.Controls.BindableToolStripMenuItem();
+            this.FindBtn = new Tanji.Controls.BindableToolStripMenuItem();
+            this.FindMessageBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.FileSep1 = new System.Windows.Forms.ToolStripSeparator();
-            this.EmptyLogBtn = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewBtn = new System.Windows.Forms.ToolStripMenuItem();
-            this.DisplayFiltersBtn = new System.Windows.Forms.ToolStripMenuItem();
-            this.BlockedBtn = new System.Windows.Forms.ToolStripMenuItem();
-            this.ReplacedBtn = new System.Windows.Forms.ToolStripMenuItem();
-            this.DisplaySpecialsBtn = new System.Windows.Forms.ToolStripMenuItem();
-            this.HashBtn = new System.Windows.Forms.ToolStripMenuItem();
-            this.TimestampBtn = new System.Windows.Forms.ToolStripMenuItem();
-            this.ClassNameBtn = new System.Windows.Forms.ToolStripMenuItem();
-            this.ParserName = new System.Windows.Forms.ToolStripMenuItem();
-            this.DisplayStructureBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.EmptyLogBtn = new Tanji.Controls.BindableToolStripMenuItem();
+            this.ViewBtn = new Tanji.Controls.BindableToolStripMenuItem();
+            this.DisplayFiltersBtn = new Tanji.Controls.BindableToolStripMenuItem();
+            this.BlockedBtn = new Tanji.Controls.BindableToolStripMenuItem();
+            this.ReplacedBtn = new Tanji.Controls.BindableToolStripMenuItem();
+            this.DisplaySpecialsBtn = new Tanji.Controls.BindableToolStripMenuItem();
+            this.HashBtn = new Tanji.Controls.BindableToolStripMenuItem();
+            this.StructureBtn = new Tanji.Controls.BindableToolStripMenuItem();
+            this.HexadecimalBtn = new Tanji.Controls.BindableToolStripMenuItem();
+            this.ParserNameBtn = new Tanji.Controls.BindableToolStripMenuItem();
+            this.MessageName = new Tanji.Controls.BindableToolStripMenuItem();
             this.ViewSep1 = new System.Windows.Forms.ToolStripSeparator();
-            this.ViewOutgoingBtn = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewIncomingBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewOutgoingBtn = new Tanji.Controls.BindableToolStripMenuItem();
+            this.ViewIncomingBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.ViewSep2 = new System.Windows.Forms.ToolStripSeparator();
-            this.AlwaysOnTopBtn = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolsBtn = new System.Windows.Forms.ToolStripMenuItem();
-            this.IgnoreMessagesBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.AlwaysOnTopBtn = new Tanji.Controls.BindableToolStripMenuItem();
+            this.ToolsBtn = new Tanji.Controls.BindableToolStripMenuItem();
+            this.IgnoreMessagesBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.PacketLoggerStrip = new System.Windows.Forms.StatusStrip();
             this.ViewOutgoingLbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.ViewIncomingLbl = new System.Windows.Forms.ToolStripStatusLabel();
@@ -155,7 +155,6 @@ namespace Tanji.Applications
             this.ViewBtn.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.DisplayFiltersBtn,
             this.DisplaySpecialsBtn,
-            this.DisplayStructureBtn,
             this.ViewSep1,
             this.ViewOutgoingBtn,
             this.ViewIncomingBtn,
@@ -196,53 +195,56 @@ namespace Tanji.Applications
             // 
             this.DisplaySpecialsBtn.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.HashBtn,
-            this.TimestampBtn,
-            this.ClassNameBtn,
-            this.ParserName});
+            this.StructureBtn,
+            this.HexadecimalBtn,
+            this.ParserNameBtn,
+            this.MessageName});
             this.DisplaySpecialsBtn.Name = "DisplaySpecialsBtn";
             this.DisplaySpecialsBtn.Size = new System.Drawing.Size(196, 22);
-            this.DisplaySpecialsBtn.Text = "Display Specials";
+            this.DisplaySpecialsBtn.Text = "Display Details";
             // 
             // HashBtn
             // 
+            this.HashBtn.Checked = true;
             this.HashBtn.CheckOnClick = true;
+            this.HashBtn.CheckState = System.Windows.Forms.CheckState.Checked;
             this.HashBtn.Name = "HashBtn";
-            this.HashBtn.Size = new System.Drawing.Size(141, 22);
+            this.HashBtn.Size = new System.Drawing.Size(155, 22);
             this.HashBtn.Text = "Hash";
             // 
-            // TimestampBtn
+            // StructureBtn
             // 
-            this.TimestampBtn.CheckOnClick = true;
-            this.TimestampBtn.Name = "TimestampBtn";
-            this.TimestampBtn.Size = new System.Drawing.Size(141, 22);
-            this.TimestampBtn.Text = "Timestamp";
+            this.StructureBtn.Checked = true;
+            this.StructureBtn.CheckOnClick = true;
+            this.StructureBtn.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.StructureBtn.Name = "StructureBtn";
+            this.StructureBtn.Size = new System.Drawing.Size(155, 22);
+            this.StructureBtn.Text = "Structure";
             // 
-            // ClassNameBtn
+            // HexadecimalBtn
             // 
-            this.ClassNameBtn.Checked = true;
-            this.ClassNameBtn.CheckOnClick = true;
-            this.ClassNameBtn.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ClassNameBtn.Name = "ClassNameBtn";
-            this.ClassNameBtn.Size = new System.Drawing.Size(141, 22);
-            this.ClassNameBtn.Text = "Class Name";
+            this.HexadecimalBtn.CheckOnClick = true;
+            this.HexadecimalBtn.Name = "HexadecimalBtn";
+            this.HexadecimalBtn.Size = new System.Drawing.Size(155, 22);
+            this.HexadecimalBtn.Text = "Hexadecimal";
             // 
-            // ParserName
+            // ParserNameBtn
             // 
-            this.ParserName.Checked = true;
-            this.ParserName.CheckOnClick = true;
-            this.ParserName.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ParserName.Name = "ParserName";
-            this.ParserName.Size = new System.Drawing.Size(141, 22);
-            this.ParserName.Text = "Parser Name";
+            this.ParserNameBtn.Checked = true;
+            this.ParserNameBtn.CheckOnClick = true;
+            this.ParserNameBtn.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ParserNameBtn.Name = "ParserNameBtn";
+            this.ParserNameBtn.Size = new System.Drawing.Size(155, 22);
+            this.ParserNameBtn.Text = "Parser Name";
             // 
-            // DisplayStructureBtn
+            // MessageName
             // 
-            this.DisplayStructureBtn.Checked = true;
-            this.DisplayStructureBtn.CheckOnClick = true;
-            this.DisplayStructureBtn.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.DisplayStructureBtn.Name = "DisplayStructureBtn";
-            this.DisplayStructureBtn.Size = new System.Drawing.Size(196, 22);
-            this.DisplayStructureBtn.Text = "Display Structure";
+            this.MessageName.Checked = true;
+            this.MessageName.CheckOnClick = true;
+            this.MessageName.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.MessageName.Name = "MessageName";
+            this.MessageName.Size = new System.Drawing.Size(155, 22);
+            this.MessageName.Text = "Message Name";
             // 
             // ViewSep1
             // 
@@ -293,8 +295,8 @@ namespace Tanji.Applications
             // IgnoreMessagesBtn
             // 
             this.IgnoreMessagesBtn.Name = "IgnoreMessagesBtn";
-            this.IgnoreMessagesBtn.Size = new System.Drawing.Size(171, 22);
-            this.IgnoreMessagesBtn.Text = "Ignore Messages...";
+            this.IgnoreMessagesBtn.Size = new System.Drawing.Size(162, 22);
+            this.IgnoreMessagesBtn.Text = "Ignore Messages";
             this.IgnoreMessagesBtn.Click += new System.EventHandler(this.IgnoreMessagesBtn_Click);
             // 
             // PacketLoggerStrip
@@ -353,34 +355,34 @@ namespace Tanji.Applications
 
         #endregion
         private System.Windows.Forms.MenuStrip PacketLoggerMenu;
-        private System.Windows.Forms.ToolStripMenuItem FileBtn;
-        private System.Windows.Forms.ToolStripMenuItem EmptyLogBtn;
-        private System.Windows.Forms.ToolStripMenuItem ViewBtn;
-        private System.Windows.Forms.ToolStripMenuItem DisplayFiltersBtn;
-        private System.Windows.Forms.ToolStripMenuItem BlockedBtn;
-        private System.Windows.Forms.ToolStripMenuItem ReplacedBtn;
+        private Tanji.Controls.BindableToolStripMenuItem FileBtn;
+        private Tanji.Controls.BindableToolStripMenuItem EmptyLogBtn;
+        private Tanji.Controls.BindableToolStripMenuItem ViewBtn;
+        private Tanji.Controls.BindableToolStripMenuItem DisplayFiltersBtn;
+        private Tanji.Controls.BindableToolStripMenuItem BlockedBtn;
+        private Tanji.Controls.BindableToolStripMenuItem ReplacedBtn;
         private System.Windows.Forms.ToolStripSeparator ViewSep2;
-        private System.Windows.Forms.ToolStripMenuItem AlwaysOnTopBtn;
+        private Tanji.Controls.BindableToolStripMenuItem AlwaysOnTopBtn;
         private System.Windows.Forms.StatusStrip PacketLoggerStrip;
         private System.Windows.Forms.ToolStripStatusLabel ViewOutgoingLbl;
         private System.Windows.Forms.ToolStripStatusLabel ViewIncomingLbl;
-        private System.Windows.Forms.ToolStripMenuItem DisplayStructureBtn;
         private System.Windows.Forms.ContextMenuStrip PacketLoggerContextMenu;
-        public System.Windows.Forms.ToolStripMenuItem PLCMCopyBtn;
-        private System.Windows.Forms.ToolStripMenuItem DisplaySpecialsBtn;
-        private System.Windows.Forms.ToolStripMenuItem TimestampBtn;
-        private System.Windows.Forms.ToolStripMenuItem ClassNameBtn;
-        private System.Windows.Forms.ToolStripMenuItem ParserName;
-        private System.Windows.Forms.ToolStripMenuItem HashBtn;
-        private System.Windows.Forms.ToolStripMenuItem FindMessageBtn;
+        public Tanji.Controls.BindableToolStripMenuItem PLCMCopyBtn;
+        private Tanji.Controls.BindableToolStripMenuItem DisplaySpecialsBtn;
+        private Tanji.Controls.BindableToolStripMenuItem MessageName;
+        private Tanji.Controls.BindableToolStripMenuItem ParserNameBtn;
+        private Tanji.Controls.BindableToolStripMenuItem HashBtn;
+        private Tanji.Controls.BindableToolStripMenuItem FindMessageBtn;
         private System.Windows.Forms.ToolStripSeparator FileSep1;
-        private System.Windows.Forms.ToolStripMenuItem FindBtn;
+        private Tanji.Controls.BindableToolStripMenuItem FindBtn;
         internal System.Windows.Forms.RichTextBox LoggerTxt;
-        private System.Windows.Forms.ToolStripMenuItem ViewOutgoingBtn;
-        private System.Windows.Forms.ToolStripMenuItem ViewIncomingBtn;
+        private Tanji.Controls.BindableToolStripMenuItem ViewOutgoingBtn;
+        private Tanji.Controls.BindableToolStripMenuItem ViewIncomingBtn;
         private System.Windows.Forms.ToolStripSeparator ViewSep1;
         internal System.Windows.Forms.ToolStripStatusLabel RevisionTxt;
-        private System.Windows.Forms.ToolStripMenuItem ToolsBtn;
-        private System.Windows.Forms.ToolStripMenuItem IgnoreMessagesBtn;
+        private Tanji.Controls.BindableToolStripMenuItem ToolsBtn;
+        private Tanji.Controls.BindableToolStripMenuItem IgnoreMessagesBtn;
+        private Controls.BindableToolStripMenuItem StructureBtn;
+        private Controls.BindableToolStripMenuItem HexadecimalBtn;
     }
 }
