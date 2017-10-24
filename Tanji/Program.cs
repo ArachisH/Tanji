@@ -10,10 +10,22 @@ namespace Tanji
         [STAThread]
         private static void Main()
         {
-            AppDomain.CurrentDomain
-                .UnhandledException += UnhandledException;
-
-            Eavesdropper.Overrides.AddRange(new[] { "*google.com", "*discordapp.com" });
+            AppDomain.CurrentDomain.UnhandledException += UnhandledException;
+            Eavesdropper.Overrides.AddRange(new[]
+            {
+                "*google*",
+                "*discordapp.com",
+                "*gstatic.com",
+                "*imgur.com",
+                "*github.com",
+                "*googleapis.com",
+                "*facebook.com",
+                "*cloudfront.net",
+                "*gvt1.com",
+                "*jquery.com",
+                "*akamai.net",
+                "*ultra-rv.com"
+            });
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -22,8 +34,10 @@ namespace Tanji
         private static void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             var exception = (Exception)e.ExceptionObject;
-            MessageBox.Show($"Message: {exception.Message}\r\n\r\n{exception.StackTrace.Trim()}",
-                "Tanji ~ Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            string title = ("Tanji - " + (e.IsTerminating ? "Critical Error!" : "Error!"));
+            string message = $"Message: {exception.Message}\r\n\r\n{exception.StackTrace.Trim()}";
+            MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             if (e.IsTerminating)
             {
