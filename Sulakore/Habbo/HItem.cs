@@ -1,10 +1,8 @@
 ﻿using Sulakore.Protocol;
 
-using System.Collections.Generic;
-
 namespace Sulakore.Habbo
 {
-    public class HItem
+    public class HItem : HData
     {
         public int Id { get; set; }
         public int TypeId { get; set; }
@@ -14,64 +12,45 @@ namespace Sulakore.Habbo
         public int SecondsToExpiration { get; set; }
         public bool HasRentPeriodStarted { get; set; }
 
-        public HItem(int id, int typeId, int category,
-            int secondsToExpiration, bool hasRentPeriodStarted, int roomId)
-        {
-            Id = id;
-            TypeId = typeId;
-            Category = category;
-            SecondsToExpiration = secondsToExpiration;
-            HasRentPeriodStarted = hasRentPeriodStarted;
-            RoomId = roomId;
-        }
-
-        public static IReadOnlyList<HItem> Parse(HMessage packet)
+        public HItem(HMessage packet)
         {
             packet.ReadInteger();
+            string unknown1 = packet.ReadString();
+
+            Id = packet.ReadInteger();
+            TypeId = packet.ReadInteger();
             packet.ReadInteger();
 
-            int itemCount = packet.ReadInteger();
-            var itemList = new List<HItem>(itemCount);
+            Category = packet.ReadInteger();
+            ReadData(packet, Category);
 
-            for (int i = 0; i < itemList.Capacity; i++)
+            packet.ReadBoolean();
+            packet.ReadBoolean();
+            packet.ReadBoolean();
+            packet.ReadBoolean();
+            SecondsToExpiration = packet.ReadInteger();
+
+            HasRentPeriodStarted = packet.ReadBoolean();
+            RoomId = packet.ReadInteger();
+
+            if (unknown1 == "S")
             {
+                SlotId = packet.ReadString();
                 packet.ReadInteger();
-                string s1 = packet.ReadString();
-
-                int id = packet.ReadInteger();
-                int typeId = packet.ReadInteger();
-                packet.ReadInteger();
-
-                int category = packet.ReadInteger();
-                HStuffData.ReadStuffData(category, packet);
-
-                packet.ReadBoolean();
-                packet.ReadBoolean();
-                packet.ReadBoolean();
-                packet.ReadBoolean();
-                int secondsToExpiration = packet.ReadInteger();
-
-                bool hasRentPeriodStarted = packet.ReadBoolean();
-                int roomId = packet.ReadInteger();
-
-                var item = new HItem(id, typeId, category,
-                    secondsToExpiration, hasRentPeriodStarted, roomId);
-
-                if (s1 == "S")
-                {
-                    item.SlotId = packet.ReadString();
-                    packet.ReadInteger();
-                }
-                itemList.Add(item);
             }
-            return itemList;
         }
 
-        public override string ToString()
+        public static HItem[] Parse(HMessage packet)
         {
-            return $"{nameof(Id)}: {Id}, {nameof(TypeId)}: {TypeId}, " +
-                $"{nameof(RoomId)}: {RoomId}, {nameof(Category)}: {Category}, {nameof(SlotId)}: {SlotId}, " +
-                $"{nameof(SecondsToExpiration)}: {SecondsToExpiration}, {nameof(HasRentPeriodStarted)}: {HasRentPeriodStarted}";
+            int loc1 = packet.ReadInteger();
+            int loc2 = packet.ReadInteger();
+
+            var items = new HItem[packet.ReadInteger()];
+            for (int i = 0; i < items.Length; i++)
+            {
+                items[i] = new HItem(packet);
+            }
+            return items;
         }
     }
 }

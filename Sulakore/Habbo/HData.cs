@@ -1,78 +1,99 @@
-﻿using Sulakore.Protocol;
+﻿using System.Collections.Generic;
+
+using Sulakore.Protocol;
 
 namespace Sulakore.Habbo
 {
-    public static class HStuffData
+    public abstract class HData
     {
-        public static void ReadStuffData(int category, HMessage packet)
+        protected object[] ReadData(HMessage packet, int category)
         {
-            switch (category & 255)
+            var values = new List<object>();
+            switch (category & 0xFF)
             {
                 case 0:
                 {
-                    packet.ReadString();
+                    values.Add(packet.ReadString());
                     break;
                 }
                 case 1: /* MapStuffData */
                 {
                     int count = packet.ReadInteger();
+                    values.Add(count);
+
                     for (int j = 0; j < count; j++)
                     {
-                        packet.ReadString();
-                        packet.ReadString();
+                        values.Add(packet.ReadString());
+                        values.Add(packet.ReadString());
                     }
                     break;
                 }
                 case 2: /* StringArrayStuffData */
                 {
                     int count = packet.ReadInteger();
+                    values.Add(count);
+
                     for (int j = 0; j < count; j++)
                     {
-                        packet.ReadString();
+                        values.Add(packet.ReadString());
                     }
                     break;
                 }
                 case 3:
                 {
-                    packet.ReadString();
-                    packet.ReadInteger();
+                    values.Add(packet.ReadString());
+                    values.Add(packet.ReadInteger());
                     break;
                 }
                 case 5: /* IntArrayStuffData */
                 {
                     int count = packet.ReadInteger();
+                    values.Add(count);
+
                     for (int j = 0; j < count; j++)
                     {
-                        packet.ReadInteger();
+                        values.Add(packet.ReadInteger());
                     }
                     break;
                 }
                 case 6: /* HighScoreStuffData */
                 {
-                    packet.ReadString();
-                    packet.ReadInteger();
-                    packet.ReadInteger();
+                    values.Add(packet.ReadString());
+                    values.Add(packet.ReadInteger());
+                    values.Add(packet.ReadInteger());
 
                     int count = packet.ReadInteger();
+                    values.Add(count);
+
                     for (int j = 0; j < count; j++)
                     {
                         int score = packet.ReadInteger();
+                        values.Add(score);
+
                         int subCount = packet.ReadInteger();
+                        values.Add(subCount);
+
                         for (int k = 0; k < subCount; k++)
                         {
-                            packet.ReadString();
+                            values.Add(packet.ReadString());
                         }
                     }
                     break;
                 }
                 case 7:
                 {
-                    packet.ReadString();
-                    packet.ReadInteger();
-                    packet.ReadInteger();
+                    values.Add(packet.ReadString());
+                    values.Add(packet.ReadInteger());
+                    values.Add(packet.ReadInteger());
                     break;
                 }
             }
+            if (((category & 0xFF00) & 0x100) > 0)
+            {
+                values.Add(packet.ReadInteger());
+                values.Add(packet.ReadInteger());
+            }
+            return values.ToArray();
         }
     }
 }
