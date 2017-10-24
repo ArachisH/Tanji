@@ -1,69 +1,62 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.ComponentModel;
 using System.Collections.Generic;
 
 using Tanji.Components;
 
 using Tangine.Habbo;
 
-using FlashInspect.ActionScript;
-
 namespace Tanji.Applications.Dialogs
 {
-    public partial class FindMessageDialog : TanjiForm
+    [DesignerCategory("Form")]
+    public partial class FindMessageDialog : ObservableForm
     {
         private readonly HGame _game;
 
         private string _hash = string.Empty;
         public string Hash
         {
-            get { return _hash; }
+            get => _hash;
             set
             {
                 _hash = value;
-                RaiseOnPropertyChanged(nameof(Hash));
+                RaiseOnPropertyChanged();
             }
         }
 
-        public FindMessageDialog(HGame game)
+        public FindMessageDialog(HGame game, string hash)
         {
             _game = game;
+
             InitializeComponent();
 
-            HashTxt.DataBindings.Add("Text", this,
-                nameof(Hash), false, DataSourceUpdateMode.OnPropertyChanged);
+            Bind(HashTxt, "Text", nameof(Hash));
+
+            Hash = hash;
+            HashTxt.SelectAll();
         }
 
         private void FindBtn_Click(object sender, EventArgs e)
         {
             HeadersVw.ClearItems();
-            _game.GenerateMessageHashes();
-            IEnumerable<ASClass> messages = _game.GetMessages(Hash);
-            if (messages == null)
+
+            List<MessageItem> messages = null;
+            if (!_game.Messages.TryGetValue(Hash, out messages))
             {
-                MessageBox.Show("Cannot find any Outgoing/Incoming messages that are associated with this hash.",
-                    "Tanji ~ Alert!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                MessageBox.Show("Unable to find any messages that are associated with the specified hash.",
+                    "Tanji - Alert!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 
                 HashTxt.Select();
                 HashTxt.SelectAll();
                 return;
             }
 
-            foreach (ASClass msgClass in messages)
+            foreach (MessageItem message in messages)
             {
-                ushort header = _game.GetMessageHeader(msgClass);
-                bool isOutgoing = _game.IsMessageOutgoing(msgClass);
-                string messageName = msgClass.Instance.Name.Name;
-
-                string type = "Outgoing";
-                if (!isOutgoing)
-                {
-                    type = "Incoming";
-                    messageName += (", " + _game.GetIncomingMessageParser(
-                        msgClass).Instance.Name.Name);
-                }
-                ListViewItem item = HeadersVw.AddFocusedItem(type, header, messageName);
-                item.Tag = msgClass; // Display the message/class information? GG m8?
+                string type = (message.IsOutgoing ? "Outgoing" : "Incoming");
+                ListViewItem item = HeadersVw.AddFocusedItem(type, message.Id, message.Class.QName.Name);
+                item.Tag = message;
             }
         }
 
