@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Net;
-using System.Linq;
 using System.Threading;
-using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using Sulakore.Protocol;
-using Sulakore.Habbo.Headers;
 
 namespace Sulakore.Communication
 {
