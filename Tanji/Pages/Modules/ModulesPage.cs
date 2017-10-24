@@ -10,16 +10,14 @@ using Tanji.Properties;
 using Tanji.Manipulators;
 using Tanji.Pages.Modules.Handlers;
 
-using Sulakore;
+using Tangine;
+using Tangine.GitHub;
+
 using Sulakore.Habbo;
 using Sulakore.Modules;
 using Sulakore.Protocol;
 using Sulakore.Habbo.Web;
 using Sulakore.Communication;
-
-using Tangine;
-using Tangine.Habbo;
-using Tangine.GitHub;
 
 namespace Tanji.Pages.Modules
 {

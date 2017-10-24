@@ -20,8 +20,6 @@ using Flazzy;
 
 using Eavesdrop;
 
-using Tangine.Habbo;
-
 namespace Tanji.Pages.Connection
 {
     public enum TanjiState
