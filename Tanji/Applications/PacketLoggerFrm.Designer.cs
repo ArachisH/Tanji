@@ -180,7 +180,7 @@ namespace Tanji.Applications
             this.BlockedBtn.CheckOnClick = true;
             this.BlockedBtn.CheckState = System.Windows.Forms.CheckState.Checked;
             this.BlockedBtn.Name = "BlockedBtn";
-            this.BlockedBtn.Size = new System.Drawing.Size(122, 22);
+            this.BlockedBtn.Size = new System.Drawing.Size(152, 22);
             this.BlockedBtn.Text = "Blocked";
             // 
             // ReplacedBtn
@@ -189,7 +189,7 @@ namespace Tanji.Applications
             this.ReplacedBtn.CheckOnClick = true;
             this.ReplacedBtn.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ReplacedBtn.Name = "ReplacedBtn";
-            this.ReplacedBtn.Size = new System.Drawing.Size(122, 22);
+            this.ReplacedBtn.Size = new System.Drawing.Size(152, 22);
             this.ReplacedBtn.Text = "Replaced";
             // 
             // DisplaySpecialsBtn
@@ -337,6 +337,7 @@ namespace Tanji.Applications
             this.Controls.Add(this.LoggerTxt);
             this.Controls.Add(this.PacketLoggerStrip);
             this.Controls.Add(this.PacketLoggerMenu);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.Name = "PacketLoggerFrm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Tanji ~ Packet Logger";
