@@ -30,57 +30,60 @@ namespace Tanji.Applications.Dialogs
             InitializeComponent();
 
             IgnoredVw.BeginUpdate();
-            foreach (int container in ignoredMessages.Keys)
+            foreach (int identifier in ignoredMessages.Keys)
             {
-                var id = (ushort)((container >> 1) & ushort.MaxValue);
-                bool isOutgoing = ((container & 1) == 1);
+                bool isOutgoing = (identifier >= ushort.MaxValue);
+                int id = (isOutgoing ? (identifier - ushort.MaxValue) : identifier);
 
-                string type = (isOutgoing ? "Outgoing" : "Incoming");
-                ListViewItem item = IgnoredVw.AddItem(type, id);
+                var item = new ListViewItem(new string[]
+                {
+                    (isOutgoing ? "Outgoing" : "Incoming"),
+                    id.ToString()
+                });
+                item.Tag = identifier;
+                item.Checked = ignoredMessages[identifier];
 
-                item.Checked = ignoredMessages[id];
+                IgnoredVw.AddItem(item);
             }
             IgnoredVw.EndUpdate();
 
             Bind(HeaderTxt, "Value", nameof(Id));
 
             TypeTxt.SelectedIndex = 0;
-            IgnoredVw.ItemChecked += IgnoredVw_ItemChecked;
-            IgnoredVw.ItemSelectionStateChanged += IgnoredVw_ItemSelectionStateChanged;
         }
 
         private void RemoveBtn_Click(object sender, EventArgs e)
         {
-            var container = (ushort)IgnoredVw.SelectedItem.Tag;
-            if (_ignoredMessages.ContainsKey(container))
+            var identifier = (int)IgnoredVw.SelectedItem.Tag;
+            if (_ignoredMessages.ContainsKey(identifier))
             {
-                _ignoredMessages.Remove(container);
+                _ignoredMessages.Remove(identifier);
             }
             IgnoredVw.RemoveSelectedItem();
         }
         private void AddHeaderBtn_Click(object sender, EventArgs e)
         {
-            ushort container = 0;
             bool isOutgoing = (TypeTxt.Text == "Outgoing");
-            container |= (ushort)((Id & ushort.MaxValue) << 1);
-            container |= (ushort)(isOutgoing ? 1 : 0);
+            int identifier = (isOutgoing ? (Id + ushort.MaxValue) : Id);
 
-            if (!_ignoredMessages.ContainsKey(container))
+            if (!_ignoredMessages.ContainsKey(identifier))
             {
-                _ignoredMessages[container] = true;
+                _ignoredMessages.Add(identifier, true);
+                var item = new ListViewItem(new string[]
+                {
+                    (isOutgoing ? "Outgoing" : "Incoming"),
+                    Id.ToString()
+                });
 
-                var item = new ListViewItem(new string[] { TypeTxt.Text, Id.ToString() });
-                item.Tag = container;
                 item.Checked = true;
-
+                item.Tag = identifier;
                 IgnoredVw.AddItem(item);
             }
         }
 
         private void IgnoredVw_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-            var container = (ushort)e.Item.Tag;
-            _ignoredMessages[container] = e.Item.Checked;
+            _ignoredMessages[(int)e.Item.Tag] = e.Item.Checked;
         }
         private void IgnoredVw_ItemSelectionStateChanged(object sender, EventArgs e)
         {

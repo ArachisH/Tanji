@@ -35,45 +35,17 @@ namespace Tanji.Applications
         public Color OutgoingHighlight { get; set; } = Color.FromArgb(0, 102, 204);
         public Color StructureHighlight { get; set; } = Color.FromArgb(0, 204, 136);
 
-        public bool IsFindDialogOpened
-        {
-            get
-            {
-                return (_currentFindUI != null &&
-                    !_currentFindUI.IsDisposed);
-            }
-        }
-        public bool IsFindMessageDialogOpened
-        {
-            get
-            {
-                return (_currentFindMessageUI != null &&
-                    !_currentFindMessageUI.IsDisposed);
-            }
-        }
-        public bool IsIgnoreMessagesDialogOpened
-        {
-            get
-            {
-                return (_currentIgnoreMessagesUI != null &&
-                    !_currentIgnoreMessagesUI.IsDisposed);
-            }
-        }
+        public bool IsFindDialogOpened => (!(_currentFindUI?.IsDisposed ?? true));
+        public bool IsFindMessageDialogOpened => (!(_currentFindMessageUI?.IsDisposed ?? true));
+        public bool IsIgnoreMessagesDialogOpened => (!(_currentIgnoreMessagesUI?.IsDisposed ?? true));
 
         private bool _isReceiving = true;
-        public bool IsReceiving
-        {
-            get
-            {
-                return (_isReceiving &&
-                    (IsViewingOutgoing || IsViewingIncoming));
-            }
-        }
+        public bool IsReceiving => (_isReceiving && (IsViewingOutgoing || IsViewingIncoming));
 
         private bool _isDisplayingBlocked = true;
         public bool IsDisplayingBlocked
         {
-            get { return _isDisplayingBlocked; }
+            get => _isDisplayingBlocked;
             set
             {
                 _isDisplayingBlocked = value;
@@ -84,7 +56,7 @@ namespace Tanji.Applications
         private bool _isDisplayingReplaced = true;
         public bool IsDisplayingReplaced
         {
-            get { return _isDisplayingReplaced; }
+            get => _isDisplayingReplaced;
             set
             {
                 _isDisplayingReplaced = value;
@@ -97,7 +69,7 @@ namespace Tanji.Applications
         {
             get
             {
-                if (_main.Game?.IsPostShuffle ?? true)
+                if (_main?.Game?.IsPostShuffle ?? true)
                 {
                     return _isDisplayingHash;
                 }
@@ -113,7 +85,7 @@ namespace Tanji.Applications
         private bool _isDisplayingHexadecimal = false;
         public bool IsDisplayingHexadecimal
         {
-            get { return _isDisplayingHexadecimal; }
+            get => _isDisplayingHexadecimal;
             set
             {
                 _isDisplayingHexadecimal = value;
@@ -124,7 +96,7 @@ namespace Tanji.Applications
         private bool _isDisplayingStructure = true;
         public bool IsDisplayingStructure
         {
-            get { return _isDisplayingStructure; }
+            get => _isDisplayingStructure;
             set
             {
                 _isDisplayingStructure = value;
@@ -135,7 +107,7 @@ namespace Tanji.Applications
         private bool _isDisplayingParserName = true;
         public bool IsDisplayingParserName
         {
-            get { return _isDisplayingParserName; }
+            get => _isDisplayingParserName;
             set
             {
                 _isDisplayingParserName = value;
@@ -146,7 +118,7 @@ namespace Tanji.Applications
         private bool _isDisplayingMessageName = true;
         public bool IsDisplayingMessageName
         {
-            get { return _isDisplayingMessageName; }
+            get => _isDisplayingMessageName;
             set
             {
                 _isDisplayingMessageName = value;
@@ -157,7 +129,7 @@ namespace Tanji.Applications
         private bool _isViewingOutgoing = true;
         public bool IsViewingOutgoing
         {
-            get { return _isViewingOutgoing; }
+            get => _isViewingOutgoing;
             set
             {
                 _isViewingOutgoing = value;
@@ -168,7 +140,7 @@ namespace Tanji.Applications
         private bool _isViewingIncoming = true;
         public bool IsViewingIncoming
         {
-            get { return _isViewingIncoming; }
+            get => _isViewingIncoming;
             set
             {
                 _isViewingIncoming = value;
@@ -202,6 +174,20 @@ namespace Tanji.Applications
         public PacketLoggerFrm(MainFrm main)
         {
             InitializeComponent();
+
+            Bind(BlockedBtn, "Checked", nameof(IsDisplayingBlocked));
+            Bind(ReplacedBtn, "Checked", nameof(IsDisplayingReplaced));
+
+            Bind(HashBtn, "Checked", nameof(IsDisplayingHash));
+            Bind(HexadecimalBtn, "Checked", nameof(IsDisplayingHexadecimal));
+            Bind(StructureBtn, "Checked", nameof(IsDisplayingStructure));
+            Bind(ParserNameBtn, "Checked", nameof(IsDisplayingParserName));
+            Bind(MessageName, "Checked", nameof(IsDisplayingMessageName));
+
+            Bind(ViewOutgoingBtn, "Checked", nameof(IsViewingOutgoing));
+            Bind(ViewIncomingBtn, "Checked", nameof(IsViewingIncoming));
+
+            Bind(AlwaysOnTopBtn, "Checked", nameof(IsAlwaysOnTop));
 
             _main = main;
             _writeQueueLock = new object();
@@ -334,7 +320,7 @@ namespace Tanji.Applications
                     int position = 0;
                     bool endReading = false;
                     HMessage packet = args.Packet;
-                    string structure = ("{id:" + packet.Header + "}");
+                    string structure = $"{{l}}{{u:{packet.Header}}}";
                     foreach (string valueType in message.Structure)
                     {
                         if (endReading) break;
@@ -423,11 +409,12 @@ namespace Tanji.Applications
 
             if (_ignoredMessages.Count > 0)
             {
-                ushort container = 0;
-                container |= (ushort)((e.Packet.Header & ushort.MaxValue) << 1);
-                container |= (ushort)(isOutgoing ? 1 : 0);
-
-                if (_ignoredMessages.ContainsKey(container)) return false;
+                int container = e.Packet.Header;
+                if (isOutgoing)
+                {
+                    container += ushort.MaxValue;
+                }
+                if (_ignoredMessages.TryGetValue(container, out bool isIgnoring) && isIgnoring) return false;
             }
             return true;
         }
@@ -440,6 +427,33 @@ namespace Tanji.Applications
 
                 LoggerTxt.SelectionColor = chunk.Item2;
                 LoggerTxt.AppendText(chunk.Item1);
+            }
+        }
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(e);
+            switch (e.PropertyName)
+            {
+                case nameof(IsAlwaysOnTop):
+                {
+                    Text = "Tanji ~ Packet Logger";
+                    if (IsAlwaysOnTop)
+                    {
+                        Text += " | Top Most";
+                    }
+                    break;
+                }
+                case nameof(IsViewingOutgoing):
+                {
+                    ViewOutgoingLbl.Text = ("View Outgoing: " + IsViewingOutgoing);
+                    break;
+                }
+                case nameof(IsViewingIncoming):
+                {
+                    ViewIncomingLbl.Text = ("View Incoming: " + IsViewingIncoming);
+                    break;
+                }
             }
         }
 
