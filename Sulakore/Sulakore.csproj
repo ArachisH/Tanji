@@ -47,6 +47,7 @@
     <Compile Include="Communication\Event Args\DataInterceptedEventArgs.cs" />
     <Compile Include="Communication\HConnection.cs" />
     <Compile Include="Communication\HNode.cs" />
+    <Compile Include="Communication\HotelEndPoint.cs" />
     <Compile Include="Communication\HTriggers.cs" />
     <Compile Include="Communication\IHConnection.cs" />
     <Compile Include="Components\Event Args\ScheduleTickEventArgs.cs" />
@@ -60,6 +61,9 @@
     <Compile Include="Components\SKoreMap.cs" />
     <Compile Include="Components\SKoreScheduleView.cs" />
     <Compile Include="Components\SKoreTabControl.cs" />
+    <Compile Include="Crypto\HKeyExchange.cs" />
+    <Compile Include="Crypto\PKCSPadding.cs" />
+    <Compile Include="Crypto\RC4.cs" />
     <Compile Include="Habbo\Enums\HSize.cs" />
     <Compile Include="Modules\Attributes\ModuleAttribute.cs" />
     <Compile Include="Modules\Attributes\AuthorAttribute.cs" />
@@ -89,8 +93,6 @@
     <Compile Include="Modules\IContractor.cs" />
     <Compile Include="Modules\IModule.cs" />
     <Compile Include="Protocol\BigEndian.cs" />
-    <Compile Include="Protocol\Encryption\HKeyExchange.cs" />
-    <Compile Include="Protocol\Encryption\Rc4.cs" />
     <Compile Include="Protocol\Enums\HDestination.cs" />
     <Compile Include="Protocol\HMessage.cs" />
     <Compile Include="Habbo\Web\HBadge.cs" />
