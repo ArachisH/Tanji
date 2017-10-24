@@ -1,6 +1,6 @@
-﻿using Sulakore.Protocol;
+﻿using Sulakore.Crypto;
+using Sulakore.Protocol;
 using Sulakore.Communication;
-using Sulakore.Protocol.Encryption;
 
 using Tanji.Manipulators;
 
@@ -26,6 +26,7 @@ namespace Tanji.Pages.Connection.Handlers
     {
         private int _incomingOffset;
         private byte[] _localSharedKey, _remoteSharedKey;
+        private HKeyExchange _remoteExchange, _localExchange;
 
         private readonly HConnection _connection;
 
@@ -102,8 +103,8 @@ namespace Tanji.Pages.Connection.Handlers
 
         private void InitializeKeys()
         {
-            Remote.Exchange = new HKeyExchange(REAL_EXPONENT, REAL_MODULUS);
-            Local.Exchange = new HKeyExchange(FAKE_EXPONENT, FAKE_MODULUS, FAKE_PRIVATE_EXPONENT);
+            _remoteExchange = new HKeyExchange(REAL_EXPONENT, REAL_MODULUS);
+            _localExchange = new HKeyExchange(FAKE_EXPONENT, FAKE_MODULUS, FAKE_PRIVATE_EXPONENT);
         }
         private void FinalizeHandshake()
         {
@@ -114,42 +115,45 @@ namespace Tanji.Pages.Connection.Handlers
         private void ReplaceLocalPublicKey(DataInterceptedEventArgs e)
         {
             string localPublicKey = e.Packet.ReadString();
-            _localSharedKey = Local.Exchange.GetSharedKey(localPublicKey);
+            _localSharedKey = _localExchange.GetSharedKey(localPublicKey);
 
             // Use the same padding the client used when encrypting our public key.
-            Remote.Exchange.Padding = Local.Exchange.Padding;
+            _remoteExchange.Padding = _localExchange.Padding;
 
-            string remotePublicKey = Remote.Exchange.GetPublicKey();
+            string remotePublicKey = _remoteExchange.GetPublicKey();
             e.Packet.ReplaceString(remotePublicKey, 0);
         }
         private void ReplaceRemotePublicKey(DataInterceptedEventArgs e)
         {
             string remotePublicKey = e.Packet.ReadString();
-            _remoteSharedKey = Remote.Exchange.GetSharedKey(remotePublicKey);
+            _remoteSharedKey = _remoteExchange.GetSharedKey(remotePublicKey);
 
             // Use the same padding the server used when signing our public key.
-            Local.Exchange.Padding = Remote.Exchange.Padding;
+            _localExchange.Padding = _remoteExchange.Padding;
 
-            string localPublicKey = Local.Exchange.GetPublicKey();
+            string localPublicKey = _localExchange.GetPublicKey();
             e.Packet.ReplaceString(localPublicKey, 0);
 
-            Local.Exchange.Dispose();
-            Remote.Exchange.Dispose();
+            _localExchange.Dispose();
+            _remoteExchange.Dispose();
 
-            Local.Decrypter = new Rc4(_localSharedKey);
-            Remote.Encrypter = new Rc4(_remoteSharedKey);
+            Local.Decrypter = new RC4(_localSharedKey);
+            Local.IsDecrypting = true;
+
+            Remote.Encrypter = new RC4(_remoteSharedKey);
+            Remote.IsEncrypting = true;
         }
         private void ReplaceRemoteSignedPrimes(DataInterceptedEventArgs e)
         {
             string remoteP = e.Packet.ReadString();
             string remoteG = e.Packet.ReadString();
-            Remote.Exchange.VerifyDHPrimes(remoteP, remoteG);
+            _remoteExchange.VerifyDHPrimes(remoteP, remoteG);
 
             // Use the same padding the server used when signing our generated primes.
-            Local.Exchange.Padding = Remote.Exchange.Padding;
+            _localExchange.Padding = _remoteExchange.Padding;
 
-            string localP = Local.Exchange.GetSignedP();
-            string localG = Local.Exchange.GetSignedG();
+            string localP = _localExchange.GetSignedP();
+            string localG = _localExchange.GetSignedG();
             e.Packet = new HMessage(e.Packet.Header, localP, localG);
         }
 
@@ -161,8 +165,8 @@ namespace Tanji.Pages.Connection.Handlers
             Local.Decrypter = null;
             Remote.Encrypter = null;
 
-            Local.Exchange.Dispose();
-            Remote.Exchange.Dispose();
+            _localExchange.Dispose();
+            _remoteExchange.Dispose();
         }
     }
 }

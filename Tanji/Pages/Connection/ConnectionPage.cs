@@ -247,10 +247,7 @@ namespace Tanji.Pages.Connection
                 }
                 else Halt();
 
-                SetState(TanjiState.InterceptingConnection);
-                ushort infoPort = ushort.Parse(UI.GameData.InfoPort.Split(',')[0]);
-                Task connectTask = UI.Connection.ConnectAsync(UI.GameData.InfoHost, infoPort).ContinueWith(ConnectTaskCompleted);
-
+                Task interceptConnectionTask = InterceptConnectionAsync();
                 e.Request = WebRequest.Create(new Uri(clientPath));
             }
         }
@@ -322,10 +319,7 @@ namespace Tanji.Pages.Connection
                 Eavesdropper.ResponseInterceptedAsync += ReplaceResourcesAsync;
             }
             else Halt();
-
-            SetState(TanjiState.InterceptingConnection);
-            ushort infoPort = ushort.Parse(UI.GameData.InfoPort.Split(',')[0]);
-            Task connectTask = UI.Connection.ConnectAsync(UI.GameData.InfoHost, infoPort).ContinueWith(ConnectTaskCompleted);
+            Task interceptConnectionTask = InterceptConnectionAsync();
         }
         private async Task InterceptClientPageAsync(object sender, ResponseInterceptedEventArgs e)
         {
@@ -364,7 +358,7 @@ namespace Tanji.Pages.Connection
                     VariableReplacements.Remove(variable);
                     VariableReplacements[realValue] = fakeValue;
                 }
-                
+
                 e.Content = new StringContent(body);
                 SetState(TanjiState.InjectingClient);
                 Eavesdropper.RequestInterceptedAsync += InjectGameClientAsync;
@@ -377,6 +371,28 @@ namespace Tanji.Pages.Connection
                 WriteLog(ex);
                 Reset();
             }
+        }
+
+        private async Task InterceptConnectionAsync()
+        {
+            SetState(TanjiState.InterceptingConnection);
+
+            ushort infoPort = ushort.Parse(UI.GameData.InfoPort.Split(',')[0]);
+            await UI.Connection.InterceptAsync(UI.GameData.InfoHost, infoPort).ConfigureAwait(false);
+
+            if (UI.Connection.IsConnected)
+            {
+                if (VariableReplacements.Count > 0)
+                {
+                    SetState(TanjiState.ReplacingResources);
+                }
+                else
+                {
+                    SetState(TanjiState.StandingBy);
+                    Halt();
+                }
+            }
+            else Reset();
         }
 
         public void Halt()

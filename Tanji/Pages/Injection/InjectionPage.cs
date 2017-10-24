@@ -62,10 +62,7 @@ namespace Tanji.Pages.Injection
             HNode node = (toServer ?
                 UI.Connection.Remote : UI.Connection.Local);
 
-            int sent = await node.SendAsync(
-                packet).ConfigureAwait(false);
-
-            return sent;
+            return await node.SendPacketAsync(packet).ConfigureAwait(false);
         }
         public async Task<int> InjectInputAsync(HDestination destination)
         {
