@@ -113,21 +113,20 @@ namespace Tangine
 
         private void RequestRemoteContractorData()
         {
-            _remoteContractor.SendAsync(0); // Hotel
-            _remoteContractor.SendAsync(1); // Game
-            _remoteContractor.SendAsync(2); // GameData
-            _remoteContractor.SendAsync(3); // Connection Info
+            _remoteContractor.SendPacketAsync(0); // Hotel
+            _remoteContractor.SendPacketAsync(1); // Game
+            _remoteContractor.SendPacketAsync(2); // GameData
+            _remoteContractor.SendPacketAsync(3); // Connection Info
         }
         private async Task ReceiveRemoteContractorDataAsync()
         {
             try
             {
-                HMessage packet = await _remoteContractor
-                    .ReceiveAsync().ConfigureAwait(false);
-
+                HMessage packet = await _remoteContractor.ReceivePacketAsync().ConfigureAwait(false);
                 if (packet == null)
+                {
                     Environment.Exit(0);
-
+                }
                 #region Switch: packet.Header
                 switch (packet.Header)
                 {
@@ -184,7 +183,7 @@ namespace Tangine
                         int dataLength = packet.ReadInteger();
                         byte[] data = packet.ReadBytes(dataLength);
                         var interPacket = new HMessage(data, destination);
-                        
+
                         var args = new DataInterceptedEventArgs(interPacket, step, null);
                         try
                         {
@@ -229,8 +228,7 @@ namespace Tangine
             {
                 try
                 {
-                    remoteContractor = HNode.ConnectAsync(
-                        "localhost", 8055).Result;
+                    remoteContractor = HNode.ConnectNewAsync("localhost", 8055).Result;
                 }
                 catch
                 {
@@ -256,7 +254,7 @@ namespace Tangine
             interceptedData.WriteInteger(args.Packet.Length + 4);
             interceptedData.WriteBytes(args.Packet.ToBytes());
 
-            return _remoteContractor.SendAsync(interceptedData);
+            return _remoteContractor.SendPacketAsync(interceptedData);
         }
     }
 }
