@@ -16,8 +16,9 @@ namespace Sulakore.Communication
     /// </summary>
     public class HConnection : IHConnection, IDisposable
     {
+        private bool _isIntercepting;
+        private int _inSteps, _outSteps;
         private readonly object _disconnectLock;
-        private readonly IDictionary<ushort, TcpListener> _listeners;
 
         /// <summary>
         /// Occurs when the intercepted local <see cref="HNode"/> initiates the handshake with the server.
@@ -29,9 +30,9 @@ namespace Sulakore.Communication
         /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
         protected virtual void OnConnected(EventArgs e)
         {
-            SuppressDisconnectEvent = false;
             Connected?.Invoke(this, e);
         }
+
         /// <summary>
         /// Occurs when either client/server have been disconnected, or when <see cref="Disconnect"/> has been called if <see cref="IsConnected"/> is true.
         /// </summary>
@@ -42,15 +43,9 @@ namespace Sulakore.Communication
         /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
         protected virtual void OnDisconnected(EventArgs e)
         {
-            lock (_disconnectLock)
-            {
-                if (!SuppressDisconnectEvent)
-                {
-                    SuppressDisconnectEvent = true;
-                    Disconnected?.Invoke(this, e);
-                }
-            }
+            Disconnected?.Invoke(this, e);
         }
+
         /// <summary>
         /// Occurs when outgoing data from the local <see cref="HNode"/> has been intercepted.
         /// </summary>
@@ -64,6 +59,7 @@ namespace Sulakore.Communication
         {
             DataOutgoing?.Invoke(this, e);
         }
+
         /// <summary>
         /// Occurs when incoming data from the remote <see cref="HNode"/> has been intercepted.
         /// </summary>
@@ -109,22 +105,8 @@ namespace Sulakore.Communication
         /// </summary>
         public HNode Remote { get; private set; }
 
-        /// <summary>
-        /// Gets a value that determines whether the <see cref="HConnection"/> has established a connection with the game.
-        /// </summary>
-        public bool IsConnected
-        {
-            get
-            {
-                return ((Local?.IsConnected ?? false) &&
-                    (Remote?.IsConnected ?? false));
-            }
-        }
-        /// <summary>
-        /// Gets a value that determines whether the <see cref="HConnection"/> has been disposed.
-        /// </summary>
-        public bool IsDisposed { get; private set; }
-        protected bool SuppressDisconnectEvent { get; set; } = true;
+        public int SocketSkip { get; set; } = 2;
+        public bool IsConnected { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HConnection"/> class.
@@ -132,124 +114,78 @@ namespace Sulakore.Communication
         public HConnection()
         {
             _disconnectLock = new object();
-            _listeners = new Dictionary<ushort, TcpListener>();
         }
 
-        /// <summary>
-        /// Disconnects from the remote endpoint.
-        /// </summary>
-        public void Disconnect()
+        public Task InterceptAsync(IPEndPoint endpoint)
         {
-            if (Monitor.TryEnter(_disconnectLock))
+            return InterceptAsync(new HotelEndPoint(endpoint));
+        }
+        public Task InterceptAsync(string host, int port)
+        {
+            return InterceptAsync(HotelEndPoint.Parse(host, port));
+        }
+        public async Task InterceptAsync(HotelEndPoint endpoint)
+        {
+            Host = endpoint.Host;
+            Port = (ushort)endpoint.Port;
+
+            _isIntercepting = true;
+            int interceptCount = 0;
+            while (!IsConnected && _isIntercepting)
             {
                 try
                 {
-                    TcpListener[] listeners = _listeners.Values.ToArray();
-                    foreach (TcpListener listener in listeners) listener.Stop();
+                    Local = await HNode.AcceptAsync(endpoint.Port).ConfigureAwait(false);
+                    if (!_isIntercepting) break;
 
-                    Local?.Dispose();
-                    Local = null;
-
-                    Remote?.Dispose();
-                    Remote = null;
-
-                    TotalIncoming = TotalOutgoing = 0;
-                    OnDisconnected(EventArgs.Empty);
-                }
-                finally { Monitor.Exit(_disconnectLock); }
-            }
-        }
-        /// <summary>
-        /// Intercepts the attempted connection on the specified port(s), and establishes a connection with the host in an asynchronous operation.
-        /// </summary>
-        /// <param name="host">The host to establish a connection with.</param>
-        /// <param name="ports">The port(s) to intercept the local connection attempt.</param>
-        /// <returns></returns>
-        public async Task ConnectAsync(string host, ushort port)
-        {
-            Disconnect();
-
-            Port = port;
-            Host = host.Split(':')[0];
-
-            Address = (await Dns.GetHostAddressesAsync(
-                Host).ConfigureAwait(false))[0].ToString();
-
-            await InterceptClientAsync(
-                port).ConfigureAwait(false);
-        }
-
-        private async Task InterceptClientAsync(ushort port)
-        {
-            try
-            {
-                TcpListener listener = null;
-                if (!_listeners.ContainsKey(port))
-                {
-                    listener = new TcpListener(IPAddress.Loopback, port);
-                    _listeners[port] = listener;
-                }
-                else listener = _listeners[port];
-
-                listener.Start();
-                while (!IsConnected)
-                {
-                    Socket client = await listener
-                        .AcceptSocketAsync().ConfigureAwait(false);
-
-                    HNode remote = Remote;
-                    var local = new HNode(client);
-                    if (remote == null)
+                    if (++interceptCount == SocketSkip)
                     {
-                        remote = await HNode.ConnectAsync(
-                            Address, port).ConfigureAwait(false);
+                        interceptCount = 0;
+                        continue;
                     }
 
-                    await InterceptClientDataAsync(
-                        local, remote).ConfigureAwait(false);
-                }
-            }
-            catch { /* Swallow exceptions. */ }
-        }
-        private async Task InterceptClientDataAsync(HNode local, HNode remote)
-        {
-            try
-            {
-                byte[] buffer = await local.PeekAsync(6)
-                    .ConfigureAwait(false);
+                    byte[] buffer = await Local.PeekAsync(6).ConfigureAwait(false);
+                    if (!_isIntercepting) break;
 
-                if (buffer == null || buffer.Length < 4)
-                {
-                    Remote = remote;
-                    return;
-                }
-                if (BigEndian.ToUInt16(buffer, 4) == Outgoing.Global.GetClientVersion)
-                {
-                    Local = local;
-                    Remote = remote;
+                    if (buffer.Length == 0)
+                    {
+                        interceptCount--;
+                        continue;
+                    }
+
+                    Remote = await HNode.ConnectNewAsync(endpoint).ConfigureAwait(false);
+                    if (!_isIntercepting) break;
+
+                    if (BigEndian.ToUInt16(buffer, 4) != 4000)
+                    {
+                        buffer = await Local.ReceiveAsync(512).ConfigureAwait(false);
+                        await Remote.SendAsync(buffer).ConfigureAwait(false);
+
+                        buffer = await Remote.ReceiveAsync(1024).ConfigureAwait(false);
+                        await Local.SendAsync(buffer).ConfigureAwait(false);
+                        continue;
+                    }
+                    if (!_isIntercepting) break;
+
+                    IsConnected = true;
                     OnConnected(EventArgs.Empty);
 
+                    TotalIncoming = 0;
+                    TotalOutgoing = 0;
                     Task readOutgoingTask = ReadOutgoingAsync();
                     Task readIncomingTask = ReadIncomingAsync();
                 }
-                else
+                finally
                 {
-                    buffer = await local.ReceiveAsync(1024).ConfigureAwait(false);
-                    await remote.SendAsync(buffer).ConfigureAwait(false);
-
-                    buffer = await remote.ReceiveAsync(1024).ConfigureAwait(false);
-                    await local.SendAsync(buffer).ConfigureAwait(false);
+                    if (!IsConnected)
+                    {
+                        Local?.Dispose();
+                        Remote?.Dispose();
+                    }
                 }
             }
-            catch { /* Swallow exceptions. */ }
-            finally
-            {
-                if (Local != local)
-                    local.Dispose();
-
-                if (Remote != remote)
-                    remote.Dispose();
-            }
+            HNode.StopListeners(endpoint.Port);
+            _isIntercepting = false;
         }
 
         /// <summary>
@@ -294,9 +230,7 @@ namespace Sulakore.Communication
 
         private async Task ReadOutgoingAsync()
         {
-            HMessage packet = await Local.ReceiveAsync()
-                .ConfigureAwait(false);
-
+            HMessage packet = await Local.ReceivePacketAsync().ConfigureAwait(false);
             if (IsConnected && packet != null && !packet.IsCorrupted)
             {
                 packet.Destination = HDestination.Server;
@@ -307,15 +241,12 @@ namespace Sulakore.Communication
         }
         private void HandleOutgoing(HMessage packet, int count)
         {
-            HandleMessage(packet, count,
-                ReadOutgoingAsync, Remote, OnDataOutgoing);
+            HandleMessage(packet, count, ReadOutgoingAsync, Remote, OnDataOutgoing);
         }
 
         private async Task ReadIncomingAsync()
         {
-            HMessage packet = await Remote.ReceiveAsync()
-                .ConfigureAwait(false);
-
+            HMessage packet = await Remote.ReceivePacketAsync().ConfigureAwait(false);
             if (IsConnected && packet != null && !packet.IsCorrupted)
             {
                 packet.Destination = HDestination.Client;
@@ -326,8 +257,7 @@ namespace Sulakore.Communication
         }
         private void HandleIncoming(HMessage packet, int count)
         {
-            HandleMessage(packet, count,
-                ReadIncomingAsync, Local, OnDataIncoming);
+            HandleMessage(packet, count, ReadIncomingAsync, Local, OnDataIncoming);
         }
 
         private void HandleExecutions(IList<HMessage> executions)
@@ -353,12 +283,46 @@ namespace Sulakore.Communication
 
             if (!args.IsBlocked)
             {
-                node.SendAsync(args.Packet).Wait();
+                node.SendAsync(args.Packet.ToBytes()).Wait();
                 HandleExecutions(args.Executions);
             }
 
             if (!args.HasContinued)
+            {
                 args.Continue();
+            }
+        }
+
+        /// <summary>
+        /// Disconnects from the remote endpoint.
+        /// </summary>
+        public void Disconnect()
+        {
+            if (Monitor.TryEnter(_disconnectLock))
+            {
+                try
+                {
+                    _isIntercepting = false;
+                    if (Local != null)
+                    {
+                        Local.Dispose();
+                        Local = null;
+                    }
+                    if (Remote != null)
+                    {
+                        Remote.Dispose();
+                        Remote = null;
+                    }
+
+                    TotalOutgoing = TotalIncoming = 0;
+                    if (IsConnected)
+                    {
+                        IsConnected = false;
+                        OnDisconnected(EventArgs.Empty);
+                    }
+                }
+                finally { Monitor.Exit(_disconnectLock); }
+            }
         }
 
         /// <summary>
@@ -374,16 +338,10 @@ namespace Sulakore.Communication
         /// <param name="disposing">The value that determines whether managed resources should be disposed.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (IsDisposed) return;
             if (disposing)
             {
-                SKore.Unsubscribe(ref Connected);
-                SKore.Unsubscribe(ref Disconnected);
-                SKore.Unsubscribe(ref DataIncoming);
-                SKore.Unsubscribe(ref DataOutgoing);
                 Disconnect();
             }
-            IsDisposed = true;
         }
     }
 }
