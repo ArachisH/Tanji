@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 using Tanji.Components;
 
-using Tangine.Habbo;
+using Sulakore.Habbo;
 
 namespace Tanji.Applications.Dialogs
 {

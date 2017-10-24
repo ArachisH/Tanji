@@ -9,8 +9,7 @@ using Tanji.Components;
 using Tanji.Manipulators;
 using Tanji.Applications.Dialogs;
 
-using Tangine.Habbo;
-
+using Sulakore.Habbo;
 using Sulakore.Protocol;
 using Sulakore.Communication;
 

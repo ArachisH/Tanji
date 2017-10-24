@@ -11,7 +11,6 @@ using Sulakore.Habbo.Web;
 using Sulakore.Communication;
 
 using Tangine;
-using Tangine.Habbo;
 
 namespace Tanji.Pages.Modules.Handlers
 {
@@ -40,9 +39,7 @@ namespace Tanji.Pages.Modules.Handlers
             UI = ui;
 
             DataAwaiters = new Dictionary<string, TaskCompletionSource<DataInterceptedEventArgs>>();
-
-            Task grabRemoteModuleTask =
-                GrabRemoteModuleAsync();
+            Task grabRemoteModuleTask = GrabRemoteModuleAsync();
         }
 
         public ModuleItem[] GetModuleItems()
