@@ -1562,7 +1562,6 @@
             this.ClientSize = new System.Drawing.Size(484, 369);
             this.Controls.Add(this.TanjiTabs);
             this.Controls.Add(this.TanjiStrip);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.Name = "MainFrm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
