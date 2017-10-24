@@ -73,9 +73,9 @@ namespace Tanji.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon Tanji_128 {
+        internal static System.Drawing.Icon Tanji_256 {
             get {
-                object obj = ResourceManager.GetObject("Tanji_128", resourceCulture);
+                object obj = ResourceManager.GetObject("Tanji_256", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

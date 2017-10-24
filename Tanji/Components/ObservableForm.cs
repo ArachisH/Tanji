@@ -14,7 +14,7 @@ namespace Tanji.Components
         public ObservableForm()
         {
             BackColor = Color.White;
-            Icon = Resources.Tanji_128;
+            Icon = Resources.Tanji_256;
             FormBorderStyle = FormBorderStyle.Fixed3D;
         }
 

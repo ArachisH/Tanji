@@ -26,7 +26,9 @@ namespace Tanji
                 "Tanji ~ Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             if (e.IsTerminating)
+            {
                 Eavesdropper.Terminate();
+            }
         }
     }
 }
