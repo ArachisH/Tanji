@@ -182,7 +182,6 @@ namespace Tanji.Applications
             this.BlockedBtn.Name = "BlockedBtn";
             this.BlockedBtn.Size = new System.Drawing.Size(122, 22);
             this.BlockedBtn.Text = "Blocked";
-            this.BlockedBtn.CheckedChanged += new System.EventHandler(this.Item_Checked);
             // 
             // ReplacedBtn
             // 
@@ -192,7 +191,6 @@ namespace Tanji.Applications
             this.ReplacedBtn.Name = "ReplacedBtn";
             this.ReplacedBtn.Size = new System.Drawing.Size(122, 22);
             this.ReplacedBtn.Text = "Replaced";
-            this.ReplacedBtn.CheckedChanged += new System.EventHandler(this.Item_Checked);
             // 
             // DisplaySpecialsBtn
             // 
@@ -211,7 +209,6 @@ namespace Tanji.Applications
             this.HashBtn.Name = "HashBtn";
             this.HashBtn.Size = new System.Drawing.Size(141, 22);
             this.HashBtn.Text = "Hash";
-            this.HashBtn.CheckedChanged += new System.EventHandler(this.Item_Checked);
             // 
             // TimestampBtn
             // 
@@ -219,7 +216,6 @@ namespace Tanji.Applications
             this.TimestampBtn.Name = "TimestampBtn";
             this.TimestampBtn.Size = new System.Drawing.Size(141, 22);
             this.TimestampBtn.Text = "Timestamp";
-            this.TimestampBtn.CheckedChanged += new System.EventHandler(this.Item_Checked);
             // 
             // ClassNameBtn
             // 
@@ -229,7 +225,6 @@ namespace Tanji.Applications
             this.ClassNameBtn.Name = "ClassNameBtn";
             this.ClassNameBtn.Size = new System.Drawing.Size(141, 22);
             this.ClassNameBtn.Text = "Class Name";
-            this.ClassNameBtn.CheckedChanged += new System.EventHandler(this.Item_Checked);
             // 
             // ParserName
             // 
@@ -239,7 +234,6 @@ namespace Tanji.Applications
             this.ParserName.Name = "ParserName";
             this.ParserName.Size = new System.Drawing.Size(141, 22);
             this.ParserName.Text = "Parser Name";
-            this.ParserName.CheckedChanged += new System.EventHandler(this.Item_Checked);
             // 
             // DisplayStructureBtn
             // 
@@ -249,7 +243,6 @@ namespace Tanji.Applications
             this.DisplayStructureBtn.Name = "DisplayStructureBtn";
             this.DisplayStructureBtn.Size = new System.Drawing.Size(196, 22);
             this.DisplayStructureBtn.Text = "Display Structure";
-            this.DisplayStructureBtn.CheckedChanged += new System.EventHandler(this.Item_Checked);
             // 
             // ViewSep1
             // 
@@ -265,7 +258,6 @@ namespace Tanji.Applications
             this.ViewOutgoingBtn.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.ViewOutgoingBtn.Size = new System.Drawing.Size(196, 22);
             this.ViewOutgoingBtn.Text = "View Outgoing";
-            this.ViewOutgoingBtn.CheckedChanged += new System.EventHandler(this.Item_Checked);
             // 
             // ViewIncomingBtn
             // 
@@ -276,7 +268,6 @@ namespace Tanji.Applications
             this.ViewIncomingBtn.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
             this.ViewIncomingBtn.Size = new System.Drawing.Size(196, 22);
             this.ViewIncomingBtn.Text = "View Incoming";
-            this.ViewIncomingBtn.CheckedChanged += new System.EventHandler(this.Item_Checked);
             // 
             // ViewSep2
             // 
@@ -290,7 +281,6 @@ namespace Tanji.Applications
             this.AlwaysOnTopBtn.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
             this.AlwaysOnTopBtn.Size = new System.Drawing.Size(196, 22);
             this.AlwaysOnTopBtn.Text = "Always On Top";
-            this.AlwaysOnTopBtn.CheckedChanged += new System.EventHandler(this.Item_Checked);
             // 
             // ToolsBtn
             // 
