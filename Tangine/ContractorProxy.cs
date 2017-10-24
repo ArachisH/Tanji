@@ -23,7 +23,7 @@ namespace Tangine
 
         public Task<int> SendToClientAsync(byte[] data)
         {
-            return _remoteContractor.SendAsync(4, data.Length, data);
+            return _remoteContractor.SendPacketAsync(4, data.Length, data);
         }
         public Task<int> SendToClientAsync(ushort header, params object[] values)
         {
@@ -32,7 +32,7 @@ namespace Tangine
 
         public Task<int> SendToServerAsync(byte[] data)
         {
-            return _remoteContractor.SendAsync(5, data.Length, data);
+            return _remoteContractor.SendPacketAsync(5, data.Length, data);
         }
         public Task<int> SendToServerAsync(ushort header, params object[] values)
         {
