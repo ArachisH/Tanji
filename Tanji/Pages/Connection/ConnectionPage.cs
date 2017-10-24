@@ -9,9 +9,14 @@ using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-using Tanji.Pages.Connection.Handlers;
+using Tanji.Manipulators;
 
 using Sulakore;
+using Sulakore.Habbo;
+using Sulakore.Crypto;
+using Sulakore.Communication;
+
+using Flazzy;
 
 using Eavesdrop;
 
@@ -35,7 +40,7 @@ namespace Tanji.Pages.Connection
         GeneratingMessageHashes = 11
     }
 
-    public class ConnectionPage : TanjiPage
+    public class ConnectionPage : TanjiPage, IReceiver
     {
         private const ushort EAVESDROP_PROXY_PORT = 8282;
         private const string EAVESDROP_ROOT_CERTIFICATE_NAME = "EavesdropRoot.cer";
@@ -47,7 +52,7 @@ namespace Tanji.Pages.Connection
         private TanjiState _state;
         public TanjiState State
         {
-            get { return _state; }
+            get => _state;
             set
             {
                 _state = value;
@@ -58,7 +63,7 @@ namespace Tanji.Pages.Connection
         private string _customClientPath;
         public string CustomClientPath
         {
-            get { return _customClientPath; }
+            get => _customClientPath;
             set
             {
                 _customClientPath = value;
@@ -66,7 +71,6 @@ namespace Tanji.Pages.Connection
             }
         }
 
-        public HandshakeManager HandshakeMngr { get; }
         public Dictionary<string, string> VariableReplacements { get; }
 
         public ConnectionPage(MainFrm ui, TabPage tab)
@@ -74,10 +78,8 @@ namespace Tanji.Pages.Connection
         {
             _setState = SetState;
             _connectTaskCompleted = ConnectTaskCompleted;
-            _modifiedClientsDir = Directory.CreateDirectory("Modified Clients");
 
             Tab.Paint += Tab_Paint;
-            HandshakeMngr = new HandshakeManager(ui.Connection);
 
             UI.CoTVariablesVw.AddItem("productdata.load.url", string.Empty);
             UI.CoTVariablesVw.AddItem("external.texts.txt", string.Empty);
@@ -144,7 +146,9 @@ namespace Tanji.Pages.Connection
                         "Tanji ~ Alert!", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk);
 
                     if (result == DialogResult.No)
+                    {
                         return;
+                    }
                 }
 
                 UI.Connection.Disconnect();
@@ -216,9 +220,9 @@ namespace Tanji.Pages.Connection
             }
         }
 
-        private async Task InjectGameClientAsync(object sender, RequestInterceptedEventArgs e)
+        private Task InjectGameClientAsync(object sender, RequestInterceptedEventArgs e)
         {
-            if (!e.Uri.Query.StartsWith("?Tanji-")) return;
+            if (!e.Uri.Query.StartsWith("?Tanji-")) return null;
             Eavesdropper.RequestInterceptedAsync -= InjectGameClientAsync;
 
             Uri remoteUrl = e.Request.RequestUri;
@@ -234,13 +238,20 @@ namespace Tanji.Pages.Connection
             }
             else
             {
-                if (!await VerifyGameClientAsync(clientPath).ConfigureAwait(false))
+                SetState(TanjiState.DisassemblingClient);
+                UI.Game = new HGame(clientPath);
+                UI.Game.Disassemble();
+
+                if (UI.Game.IsPostShuffle)
                 {
-                    Reset();
-                    return;
+                    SetState(TanjiState.GeneratingMessageHashes);
+                    UI.Game.GenerateMessageHashes();
                 }
 
-                UI.ModulesPg.ModifyGame(UI.Game);
+                // Synchronizing Game
+                // UI.ModulesPg.ModifyGame(UI.Game);
+                // But we need to re-assembly it :{
+
                 if (VariableReplacements.Count > 0)
                 {
                     Eavesdropper.ResponseInterceptedAsync += ReplaceResourcesAsync;
@@ -250,6 +261,7 @@ namespace Tanji.Pages.Connection
                 Task interceptConnectionTask = InterceptConnectionAsync();
                 e.Request = WebRequest.Create(new Uri(clientPath));
             }
+            return null;
         }
         private async Task ReplaceResourcesAsync(object sender, ResponseInterceptedEventArgs e)
         {
@@ -294,24 +306,44 @@ namespace Tanji.Pages.Connection
             string clientDirectory = Path.GetDirectoryName(clientPath);
             Directory.CreateDirectory(clientDirectory);
 
-            VerifyGameClientAsync(await e.Content.ReadAsByteArrayAsync().ConfigureAwait(false)).Wait();
+            SetState(TanjiState.DisassemblingClient);
+            UI.Game = new HGame(await e.Content.ReadAsByteArrayAsync());
+            UI.Game.Location = clientPath;
+            UI.Game.Disassemble();
 
-            SetState(TanjiState.ModifyingClient);
-            UI.Game.BypassOriginCheck();
-            UI.Game.BypassRemoteHostCheck();
-            UI.Game.ReplaceRSAKeys(HandshakeManager.FAKE_EXPONENT, HandshakeManager.FAKE_MODULUS);
+            if (UI.Game.IsPostShuffle)
+            {
+                SetState(TanjiState.GeneratingMessageHashes);
+                UI.Game.GenerateMessageHashes();
+
+                SetState(TanjiState.ModifyingClient);
+                UI.Game.DisableHostChecks();
+                UI.Game.InjectKeyShouter(4001);
+            }
+
+            if (UI.Hotel == HHotel.Unknown)
+            {
+                ushort infoPort = ushort.Parse(UI.GameData.InfoPort.Split(',')[0]);
+
+                SetState(TanjiState.ModifyingClient);
+                UI.Game.InjectEndPoint("127.0.0.1", infoPort);
+            }
+
+            // Synchronize Game
             UI.ModulesPg.ModifyGame(UI.Game);
 
+            CompressionKind compression = CompressionKind.ZLIB;
+#if DEBUG
+            compression = CompressionKind.None;
+#endif
+
             SetState(TanjiState.AssemblingClient);
-            UI.Game.Assemble();
+            byte[] payload = UI.Game.ToArray(compression);
 
-            SetState(TanjiState.CompressingClient);
-            byte[] compressed = UI.Game.Compress();
-
-            e.Content = new ByteArrayContent(compressed);
+            e.Content = new ByteArrayContent(payload);
             using (var clientStream = File.Open(clientPath, FileMode.Create, FileAccess.Write))
             {
-                clientStream.Write(compressed, 0, compressed.Length);
+                clientStream.Write(payload, 0, payload.Length);
             }
 
             if (VariableReplacements.Count > 0)
@@ -422,6 +454,7 @@ namespace Tanji.Pages.Connection
         }
         public void Connect()
         {
+            Eavesdropper.Certifier.CreateTrustedRootCertificate();
             Eavesdropper.ResponseInterceptedAsync += InterceptClientPageAsync;
             Eavesdropper.Initiate(EAVESDROP_PROXY_PORT);
 
@@ -531,71 +564,16 @@ namespace Tanji.Pages.Connection
             UI.BringToFront();
         }
 
-        public async Task<bool> VerifyGameClientAsync(string path)
-        {
-            if (!File.Exists(path)) return false;
-            byte[] data = File.ReadAllBytes(path);
-
-            await VerifyGameClientAsync(path, data)
-                .ConfigureAwait(false);
-
-            return (UI.Game != null);
-        }
-        public async Task<bool> VerifyGameClientAsync(byte[] data)
-        {
-            await VerifyGameClientAsync(null, data)
-                .ConfigureAwait(false);
-
-            return (UI.Game != null);
-        }
-        protected virtual async Task<bool> VerifyGameClientAsync(string path, byte[] data)
-        {
-            var game = new HGame(data);
-            game.Location = path;
-            try
-            {
-                if (game.IsCompressed)
-                {
-                    SetState(TanjiState.DecompressingClient);
-
-                    await Task.Factory.StartNew(game.Decompress)
-                        .ConfigureAwait(false);
-                }
-
-                if (game.IsCompressed) return false;
-                else UI.Game = game;
-
-                SetState(TanjiState.DisassemblingClient);
-                UI.Game.Disassemble();
-
-                SetState(TanjiState.GeneratingMessageHashes);
-                UI.Game.GenerateMessageHashes();
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                WriteLog(ex);
-                return false;
-            }
-            finally
-            {
-                if (UI.Game != game)
-                {
-                    game.Dispose();
-                }
-            }
-        }
-
         protected void DisableReplacements()
         {
             foreach (ListViewItem item in UI.CoTVariablesVw.Items)
+            {
                 item.Checked = false;
+            }
         }
         protected void ToggleClearVariableButton(ListViewItem item)
         {
-            UI.CoTClearVariableBtn.Enabled =
-                (!string.IsNullOrWhiteSpace(item.SubItems[1].Text));
+            UI.CoTClearVariableBtn.Enabled = (!string.IsNullOrWhiteSpace(item.SubItems[1].Text));
         }
         protected virtual void ConnectTaskCompleted(Task connectTask)
         {
@@ -614,8 +592,9 @@ namespace Tanji.Pages.Connection
         protected override void OnTabSelecting(TabControlCancelEventArgs e)
         {
             if (!UI.Connection.IsConnected)
+            {
                 UI.TopMost = true;
-
+            }
             base.OnTabSelecting(e);
         }
         protected override void OnTabDeselecting(TabControlCancelEventArgs e)
@@ -623,5 +602,36 @@ namespace Tanji.Pages.Connection
             UI.TopMost = UI.PacketLoggerUI.TopMost;
             base.OnTabDeselecting(e);
         }
+
+        #region IReceiver Implementation
+        public bool IsReceiving { get; set; }
+        public void HandleOutgoing(DataInterceptedEventArgs e)
+        {
+            if (e.Packet.Header == 4001)
+            {
+                string sharedKeyHex = e.Packet.ReadString();
+                if (sharedKeyHex.Length % 2 != 0)
+                {
+                    sharedKeyHex = ("0" + sharedKeyHex);
+                }
+
+                byte[] sharedKey = Enumerable.Range(0, sharedKeyHex.Length / 2)
+                    .Select(x => Convert.ToByte(sharedKeyHex.Substring(x * 2, 2), 16))
+                    .ToArray();
+
+                UI.Connection.Remote.Encrypter = new RC4(sharedKey);
+                UI.Connection.Remote.IsEncrypting = true;
+
+                e.IsBlocked = true;
+                IsReceiving = false;
+            }
+            else if (e.Step >= 10)
+            {
+                IsReceiving = false;
+            }
+        }
+        public void HandleIncoming(DataInterceptedEventArgs e)
+        { }
+        #endregion
     }
 }
