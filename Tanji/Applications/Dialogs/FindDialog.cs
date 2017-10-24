@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.ComponentModel;
 using System.Text.RegularExpressions;
 
 using Tanji.Components;
 
 namespace Tanji.Applications.Dialogs
 {
-    public partial class FindDialog : TanjiForm
+    [DesignerCategory("Form")]
+    public partial class FindDialog : ObservableForm
     {
         private RichTextBoxFinds _findOptions;
 
