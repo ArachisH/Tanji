@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -28,7 +29,8 @@ using Tangine.Habbo;
 
 namespace Tanji
 {
-    public partial class MainFrm : TanjiForm
+    [DesignerCategory("Form")]
+    public partial class MainFrm : ObservableForm
     {
         private readonly List<IHaltable> _haltables;
         private readonly List<IReceiver> _receivers;
@@ -89,14 +91,13 @@ namespace Tanji
 
             _receivers.Add(ModulesPg);
             _receivers.Add(InjectionPg.FiltersPg);
-            _receivers.Add(ConnectionPg.HandshakeMngr);
+            _receivers.Add(ConnectionPg);
             _receivers.Add(PacketLoggerUI);
         }
 
         private void MainFrm_Load(object sender, EventArgs e)
         {
             Eavesdropper.Terminate();
-            ConnectionPg.CreateTrustedRootCertificate();
         }
         private void MainFrm_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -187,12 +188,11 @@ namespace Tanji
                 return;
             }
 
-            ConnectionPg.HandshakeMngr.RestartHandshake();
+            ConnectionPg.IsReceiving = true;
             Text = $"Tanji ~ Connected[{Connection.Host}:{Connection.Port}]";
             TopMost = PacketLoggerUI.TopMost;
 
-            PacketLoggerUI.RevisionTxt.Text =
-                ("Revision: " + Game.GetClientRevision());
+            PacketLoggerUI.RevisionTxt.Text = ("Revision: " + Game.Revision);
 
             PacketLoggerUI.Show();
             PacketLoggerUI.WindowState = FormWindowState.Normal;
