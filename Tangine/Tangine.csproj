@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Tangine</RootNamespace>
     <AssemblyName>Tangine</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PrimaryVersionType>AssemblyVersionAttribute</PrimaryVersionType>
     <UpdateAssemblyVersion>True</UpdateAssemblyVersion>
@@ -20,6 +20,7 @@
     <AssemblyFileVersionSettings>None.IncrementOnDemandWithReset.None.None</AssemblyFileVersionSettings>
     <ShouldCreateLogs>True</ShouldCreateLogs>
     <AdvancedSettingsExpanded>False</AdvancedSettingsExpanded>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,9 +41,6 @@
     <DocumentationFile>bin\Release\Tangine.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FlashInspect">
-      <HintPath>..\Tanji\Dependencies\FlashInspect.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -82,6 +80,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Submodules\Flazzy\Flazzy\Flazzy.csproj">
+      <Project>{706a74b1-739f-41f4-a5e3-b1b4ea01ebec}</Project>
+      <Name>Flazzy</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sulakore\Sulakore.csproj">
       <Project>{15e841ec-2411-4f1b-a3ee-07e86cdb32c7}</Project>
       <Name>Sulakore</Name>
