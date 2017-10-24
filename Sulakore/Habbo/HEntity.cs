@@ -1,163 +1,103 @@
 ﻿using System.Globalization;
-using System.Collections.Generic;
 
 using Sulakore.Protocol;
+using System;
 
 namespace Sulakore.Habbo
 {
-    /// <summary>
-    /// Represents an in-game object that provides special information that makes it unique in a room.
-    /// </summary>
-    public class HEntity : IHEntity
+    public class HEntity : HData
     {
-        /// <summary>
-        /// Gets or sets the id of the <see cref="HEntity"/>.
-        /// </summary>
         public int Id { get; set; }
-        /// <summary>
-        /// Gets or sets the room index value of the <see cref="HEntity"/>.
-        /// </summary>
         public int Index { get; set; }
-        /// <summary>
-        /// Gets or sets the name of the <see cref="HEntity"/>.
-        /// </summary>
-        public string Name { get; set; }
-        /// <summary>
-        /// Gets or sets the motto of the <see cref="HEntity"/>.
-        /// </summary>
-        public string Motto { get; set; }
-        /// <summary>
-        /// Gets or sets the figure id of the <see cref="HEntity"/>.
-        /// </summary>
-        public string FigureId { get; set; }
-        /// <summary>
-        /// Gets or sets the favorite group badge of the <see cref="HEntity"/>.
-        /// </summary>
-        public string FavoriteGroup { get; set; }
-
-        /// <summary>
-        /// Gets or sets the <see cref="HPoint"/> of the <see cref="HEntity"/>.
-        /// </summary>
         public HPoint Tile { get; set; }
-        /// <summary>
-        /// Gets or sets the gender of the <see cref="HEntity"/>.
-        /// </summary>
+        public string Name { get; set; }
+        public string Motto { get; set; }
         public HGender Gender { get; set; }
+        public string FigureId { get; set; }
+        public string FavoriteGroup { get; set; }
+        public HEntityUpdate LastUpdate { get; private set; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="HEntity"/> class with the specified information,
-        /// </summary>
-        /// <param name="id">The id of the <see cref="HEntity"/>.</param>
-        /// <param name="index">The room index value of the <see cref="HEntity"/>.</param>
-        /// <param name="name">The name of the <see cref="HEntity"/>.</param>
-        /// <param name="tile">The <see cref="HPoint"/> of the <see cref="HEntity"/>.</param>
-        /// <param name="motto">The motto of the <see cref="HEntity"/>.</param>
-        /// <param name="gender">The <see cref="HGender"/> of the <see cref="HEntity"/>.</param>
-        /// <param name="figureId">The figure id of the <see cref="HEntity"/>.</param>
-        /// <param name="favoriteGroup">The favorite group badge of the <see cref="HEntity"/>.</param>
-        public HEntity(int id, int index, string name, HPoint tile,
-            string motto, HGender gender, string figureId, string favoriteGroup)
+        public HEntity(HMessage packet)
         {
-            Id = id;
-            Index = index;
-            Name = name;
-            Tile = tile;
-            Motto = motto;
-            Gender = gender;
-            FigureId = figureId;
-            FavoriteGroup = favoriteGroup;
-        }
+            Id = packet.ReadInteger();
+            Name = packet.ReadString();
+            Motto = packet.ReadString();
+            FigureId = packet.ReadString();
+            Index = packet.ReadInteger();
 
-        /// <summary>
-        /// Returns a <see cref="IReadOnlyList{T}"/> of type <see cref="HEntity"/> found in the <see cref="HMessage"/>.
-        /// </summary>
-        /// <param name="packet">The <see cref="HMessage"/> that contains the <see cref="HEntity"/> data to parse.</param>
-        /// <returns></returns>
-        public static IReadOnlyList<HEntity> Parse(HMessage packet)
-        {
-            int entityCount = packet.ReadInteger();
-            var entityList = new List<HEntity>(entityCount);
+            Tile = new HPoint(packet.ReadInteger(), packet.ReadInteger(),
+                double.Parse(packet.ReadString(), CultureInfo.InvariantCulture));
 
-            for (int i = 0; i < entityList.Capacity; i++)
+            packet.ReadInteger();
+            int type = packet.ReadInteger();
+            switch (type)
             {
-                int id = packet.ReadInteger();
-                string name = packet.ReadString();
-                string motto = packet.ReadString();
-                string figureId = packet.ReadString();
-                int index = packet.ReadInteger();
-                int x = packet.ReadInteger();
-                int y = packet.ReadInteger();
-
-                var z = double.Parse(
-                    packet.ReadString(), CultureInfo.InvariantCulture);
-
-                packet.ReadInteger();
-                int type = packet.ReadInteger();
-
-                HGender gender = HGender.Unisex;
-                string favoriteGroup = string.Empty;
-                #region Switch: type
-                switch (type)
+                case 1:
                 {
-                    case 1:
-                    {
-                        gender = SKore.ToGender(packet.ReadString());
-                        packet.ReadInteger();
-                        packet.ReadInteger();
-                        favoriteGroup = packet.ReadString();
-                        packet.ReadString();
-                        packet.ReadInteger();
-                        packet.ReadBoolean();
+                    Gender = SKore.ToGender(packet.ReadString());
+                    packet.ReadInteger();
+                    packet.ReadInteger();
+                    FavoriteGroup = packet.ReadString();
+                    packet.ReadString();
+                    packet.ReadInteger();
+                    packet.ReadBoolean();
 
-                        break;
-                    }
-                    case 2:
-                    {
-                        packet.ReadInteger();
-                        packet.ReadInteger();
-                        packet.ReadString();
-                        packet.ReadInteger();
-                        packet.ReadBoolean();
-                        packet.ReadBoolean();
-                        packet.ReadBoolean();
-                        packet.ReadBoolean();
-                        packet.ReadBoolean();
-                        packet.ReadBoolean();
-                        packet.ReadInteger();
-                        packet.ReadString();
-                        break;
-                    }
-                    case 4:
-                    {
-                        packet.ReadString();
-                        packet.ReadInteger();
-                        packet.ReadString();
-
-                        for (int j = packet.ReadInteger(); j > 0; j--)
-                            packet.ReadShort();
-
-                        break;
-                    }
+                    break;
                 }
-                #endregion
-
-                var entity = new HEntity(id, index, name,
-                    new HPoint(x, y, z), motto, gender, figureId, favoriteGroup);
-
-                entityList.Add(entity);
+                case 2:
+                {
+                    packet.ReadInteger();
+                    packet.ReadInteger();
+                    packet.ReadString();
+                    packet.ReadInteger();
+                    packet.ReadBoolean();
+                    packet.ReadBoolean();
+                    packet.ReadBoolean();
+                    packet.ReadBoolean();
+                    packet.ReadBoolean();
+                    packet.ReadBoolean();
+                    packet.ReadInteger();
+                    packet.ReadString();
+                    break;
+                }
+                case 4:
+                {
+                    packet.ReadString();
+                    packet.ReadInteger();
+                    packet.ReadString();
+                    for (int j = packet.ReadInteger(); j > 0; j--)
+                    {
+                        packet.ReadShort();
+                    }
+                    break;
+                }
             }
-            return entityList;
         }
 
-        /// <summary>
-        /// Converts the <see cref="HEntity"/> to a human-readable string.
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
+        public void Update(HEntityUpdate update)
         {
-            return $"{nameof(Id)}: {Id}, {nameof(Index)}: {Index}, {nameof(Name)}: {Name}, " +
-                $"{nameof(Tile)}: {Tile}, {nameof(Motto)}: {Motto}, {nameof(Gender)}: {Gender}, " +
-                $"{nameof(FigureId)}: {FigureId}, {nameof(FavoriteGroup)}: {FavoriteGroup}";
+            if (!TryUpdate(update))
+            {
+                throw new ArgumentException("Entity index does not match.", nameof(update));
+            }
+        }
+        public bool TryUpdate(HEntityUpdate update)
+        {
+            if (Index != update.Index) return false;
+
+            Tile = update.Tile;
+            LastUpdate = update;
+            return true;
+        }
+
+        public static HEntity[] Parse(HMessage packet)
+        {
+            var entities = new HEntity[packet.ReadInteger()];
+            for (int i = 0; i < entities.Length; i++)
+            {
+                entities[i] = new HEntity(packet);
+            }
+            return entities;
         }
     }
 }
