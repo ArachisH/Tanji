@@ -6,40 +6,44 @@
     public enum HHotel
     {
         /// <summary>
-        /// Represents http://www.Habbo.com (Global).
+        /// Represents an unknown hotel.
         /// </summary>
-        Com = 0,
+        Unknown = 0,
         /// <summary>
-        /// Represents http://www.Habbo.com.br (Brazil).
+        /// Represents Habbo.com (North America).
         /// </summary>
-        ComBr = 1,
+        Com = 1,
         /// <summary>
-        /// Represents http://www.Habbo.com.tr (Turkey).
+        /// Represents Habbo.com.br (Brazil).
         /// </summary>
-        ComTr = 2,
+        ComBr = 2,
         /// <summary>
-        /// Represents http://www.Habbo.de (Germany).
+        /// Represents Habbo.com.tr (Turkey).
         /// </summary>
-        De = 3,
+        ComTr = 3,
         /// <summary>
-        /// Represents http://www.Habbo.es (Spain).
+        /// Represents Habbo.de (Germany).
         /// </summary>
-        Es = 4,
+        De = 4,
         /// <summary>
-        /// Represents http://www.Habbo.fi (Finland).
+        /// Represents Habbo.es (Spain).
         /// </summary>
-        Fi = 5,
+        Es = 5,
         /// <summary>
-        /// Represents http://www.Habbo.fr (France).
+        /// Represents Habbo.fi (Finland).
         /// </summary>
-        Fr = 6,
+        Fi = 6,
         /// <summary>
-        /// Represents http://www.Habbo.it (Italy).
+        /// Represents Habbo.fr (France).
         /// </summary>
-        It = 7,
+        Fr = 7,
         /// <summary>
-        /// Represents http://www.Habbo.nl (Netherlands).
+        /// Represents Habbo.it (Italy).
         /// </summary>
-        Nl = 8
+        It = 8,
+        /// <summary>
+        /// Represents Habbo.nl (Netherlands).
+        /// </summary>
+        Nl = 9
     }
 }
