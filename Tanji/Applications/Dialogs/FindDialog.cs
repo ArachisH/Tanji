@@ -149,7 +149,7 @@ namespace Tanji.Applications.Dialogs
             int foundIndex = Find(ref value);
             if (foundIndex == -1)
             {
-                MessageBox.Show($"Cannot find \"{value}\".",
+                MessageBox.Show($"Unable to find \"{value}\".",
                     "Tanji ~ Alert!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
             else if (foundIndex != _logger.SelectionStart)
@@ -175,7 +175,9 @@ namespace Tanji.Applications.Dialogs
             }
 
             if (_logger.SelectionLength != value.Length)
+            {
                 _logger.SelectionLength = value.Length;
+            }
         }
 
         public int Find(ref string value)
@@ -201,43 +203,51 @@ namespace Tanji.Applications.Dialogs
         protected int Find(ref string value, int start, int end)
         {
             if (!WrapAround && start == 0 && end == 0)
+            {
                 return -1;
-
+            }
             if (!IsNormalMode)
             {
-                var expression = new Regex(value, GetRegExOptions());
-                Match match = expression.Match(_logger.Text, start);
-                if (match.Success)
+                try
                 {
-                    value = match.Value;
-                    return match.Index;
+                    var expression = new Regex(value, GetRegExOptions());
+                    Match match = expression.Match(_logger.Text, start);
+                    if (match.Success)
+                    {
+                        value = match.Value;
+                        return match.Index;
+                    }
+                    else return -1;
                 }
-                else return -1;
+                catch { return -1; }
             }
-
-            return _logger.Find(
-                value, start, end, _findOptions);
+            return _logger.Find(value, start, end, _findOptions);
         }
 
         private RegexOptions GetRegExOptions()
         {
             var options = RegexOptions.None;
-
             if (!MatchCase)
+            {
                 options |= RegexOptions.IgnoreCase;
-
+            }
             if (IsDirectionUp)
+            {
                 options |= RegexOptions.RightToLeft;
-
+            }
             options |= RegexOptions.Singleline;
             return options;
         }
         private void ModifyOptions(bool isFlagPresent, RichTextBoxFinds option)
         {
             if (isFlagPresent)
+            {
                 _findOptions |= option;
+            }
             else
+            {
                 _findOptions &= ~option;
+            }
         }
 
         protected override void OnLoad(EventArgs e)
