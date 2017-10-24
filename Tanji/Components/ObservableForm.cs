@@ -18,10 +18,9 @@ namespace Tanji.Components
             FormBorderStyle = FormBorderStyle.Fixed3D;
         }
 
-        protected void Bind(Control control, string propertyName, string dataMember)
+        protected void Bind(IBindableComponent component, string propertyName, string dataMember)
         {
-            control.DataBindings.Add(propertyName, this,
-                dataMember, false, DataSourceUpdateMode.OnPropertyChanged);
+            component.DataBindings.Add(propertyName, this, dataMember, false, DataSourceUpdateMode.OnPropertyChanged);
         }
         protected void RaiseOnPropertyChanged([CallerMemberName]string propertyName = "")
         {
