@@ -1,5 +1,4 @@
-﻿using Tangine.Habbo;
-
+﻿using Sulakore.Habbo;
 using Sulakore.Modules;
 using Sulakore.Habbo.Web;
 using Sulakore.Communication;
