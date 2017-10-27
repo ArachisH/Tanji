@@ -57,8 +57,6 @@
     <Compile Include="GitHub\GitProfile.cs" />
     <Compile Include="GitHub\GitRelease.cs" />
     <Compile Include="GitHub\GitRepository.cs" />
-    <Compile Include="ITContext.cs" />
-    <Compile Include="ITExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

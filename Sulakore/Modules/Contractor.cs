@@ -13,7 +13,7 @@ using Sulakore.Habbo.Messages;
 
 namespace Sulakore.Modules
 {
-    public abstract class Contractor : IContractor
+    public abstract class Contractor : IInstaller
     {
         private readonly List<string> _installedAsHashes;
         private readonly List<Assembly> _invalidAssemblies;
@@ -23,13 +23,13 @@ namespace Sulakore.Modules
         private readonly Dictionary<Type, ModuleAttribute> _moduleAttributes;
         private readonly Dictionary<Type, IEnumerable<AuthorAttribute>> _authorAttributes;
 
-        private static readonly Type _iModuleType, _iComponentType;
+        private static readonly Dictionary<Type, IInstaller> _contractors;
         private static readonly Dictionary<string, Assembly> _cachedFileAsms;
-        private static readonly Dictionary<Type, IContractor> _contractors;
 
         public DirectoryInfo ModulesDirectory { get; }
         public DirectoryInfo DependenciesDirectory { get; }
 
+        public abstract HGame Game { get; }
         public abstract Incoming In { get; }
         public abstract Outgoing Out { get; }
         public abstract HHotel Hotel { get; }
@@ -38,10 +38,8 @@ namespace Sulakore.Modules
 
         static Contractor()
         {
-            _iModuleType = typeof(IModule);
-            _iComponentType = typeof(IComponent);
             _cachedFileAsms = new Dictionary<string, Assembly>();
-            _contractors = new Dictionary<Type, IContractor>();
+            _contractors = new Dictionary<Type, IInstaller>();
         }
         public Contractor(string installDirectory)
         {
@@ -103,8 +101,7 @@ namespace Sulakore.Modules
                         var authorAtts = type.GetCustomAttributes<AuthorAttribute>();
                         _authorAttributes[type] = authorAtts;
 
-                        if (moduleAtt != null &&
-                            _iModuleType.IsAssignableFrom(type))
+                        if (moduleAtt != null && typeof(IModule).IsAssignableFrom(type))
                         {
                             moduleType = type;
                             _contractors[type] = this;
@@ -161,8 +158,9 @@ namespace Sulakore.Modules
         {
             // Multiple instances not supported.
             if (_initializedModules.ContainsKey(type))
+            {
                 return _initializedModules[type];
-
+            }
             IModule module = null;
             try
             {
@@ -184,9 +182,7 @@ namespace Sulakore.Modules
             finally
             {
                 AppDomain.CurrentDomain.AssemblyResolve -= Assembly_Resolve;
-
-                if (module != null &&
-                    _iComponentType.IsAssignableFrom(type))
+                if (module != null && typeof(IComponent).IsAssignableFrom(type))
                 {
                     ((IComponent)module).Disposed += ModuleComponent_Disposed;
                 }
@@ -276,9 +272,9 @@ namespace Sulakore.Modules
             return copiedFilePath;
         }
 
-        public static IContractor GetInstaller(Type moduleType)
+        public static IInstaller GetInstaller(Type moduleType)
         {
-            IContractor installer = null;
+            IInstaller installer = null;
             _contractors.TryGetValue(moduleType, out installer);
             return installer;
         }

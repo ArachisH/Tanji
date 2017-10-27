@@ -5,11 +5,12 @@ using Sulakore.Habbo.Messages;
 
 namespace Sulakore.Modules
 {
-    public interface IContractor
+    public interface IInstaller
     {
         Incoming In { get; }
         Outgoing Out { get; }
 
+        HGame Game { get; }
         HHotel Hotel { get; }
         HGameData GameData { get; }
         IHConnection Connection { get; }

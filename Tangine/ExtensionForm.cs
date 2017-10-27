@@ -12,69 +12,38 @@ using Sulakore.Habbo.Messages;
 
 namespace Tangine
 {
-    public class ExtensionForm : ExtensionForm<HTriggers>
-    { }
-    public class ExtensionForm<T> : Form, ITExtension where T : HTriggers
+    public class ExtensionForm : Form, IModule
     {
         private int _initStep;
-        private readonly ITContext _context;
-        private readonly IContractor _installer;
+        private readonly IInstaller _installer;
         private readonly HNode _remoteContractor;
         private readonly TaskCompletionSource<bool> _initializationSource;
 
-        ITContext ITExtension.Context => _context;
-        HTriggers ITExtension.Triggers => Triggers;
-        IContractor IModule.Installer => _installer;
+        [Browsable(false)]
+        public IInstaller Installer { get; set; }
 
         [Browsable(false)]
         public virtual bool IsRemoteModule { get; }
 
         [Browsable(false)]
-        public T Triggers { get; }
+        [Obsolete("Instead, use the (In/Out)DataCapture attributes on methods.", false)]
+        public HTriggers Triggers { get; }
 
         private HGame _game;
         [Browsable(false)]
-        public HGame Game
-        {
-            get
-            {
-                return (_game ??
-                    _context?.Game);
-            }
-        }
+        public HGame Game => (_game ?? _installer?.Game);
 
         private HHotel? _hotel;
         [Browsable(false)]
-        public HHotel Hotel
-        {
-            get
-            {
-                return (_hotel ??
-                   (_installer?.Hotel ?? HHotel.Com));
-            }
-        }
+        public HHotel Hotel => (_hotel ?? (_installer?.Hotel ?? HHotel.Com));
 
         private HGameData _gameData;
         [Browsable(false)]
-        public HGameData GameData
-        {
-            get
-            {
-                return (_gameData ??
-                    _installer?.GameData);
-            }
-        }
+        public HGameData GameData => (_gameData ?? _installer?.GameData);
 
         private readonly IHConnection _connection;
         [Browsable(false)]
-        public IHConnection Connection
-        {
-            get
-            {
-                return (_connection ??
-                    _installer?.Connection);
-            }
-        }
+        public IHConnection Connection => (_connection ?? _installer?.Connection);
 
         private readonly Incoming _in;
         [Browsable(false)]
@@ -89,8 +58,6 @@ namespace Tangine
             _in = new Incoming();
             _out = new Outgoing();
             _installer = Contractor.GetInstaller(GetType());
-            _context = (_installer as ITContext);
-
             if (_installer == null && IsRemoteModule)
             {
                 _remoteContractor = GetRemoteContractor();
@@ -107,7 +74,8 @@ namespace Tangine
                     _initializationSource = null;
                 }
             }
-            Triggers = Activator.CreateInstance<T>();
+
+            Triggers = new HTriggers();
         }
 
         public virtual void ModifyGame(HGame game)
