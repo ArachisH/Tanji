@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 
+using Tanji.Windows;
 using Tangine.GitHub;
 
 namespace Tanji.Pages.About

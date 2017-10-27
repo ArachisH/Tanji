@@ -3,6 +3,8 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
+using Tanji.Windows;
+
 namespace Tanji.Pages
 {
     public abstract class TanjiPage : INotifyPropertyChanged

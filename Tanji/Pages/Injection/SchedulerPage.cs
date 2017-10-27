@@ -18,7 +18,7 @@ namespace Tanji.Pages.Injection
         private ushort _interval = 100;
         public ushort Interval
         {
-            get { return _interval; }
+            get => _interval;
             set
             {
                 _interval = value;
@@ -29,7 +29,7 @@ namespace Tanji.Pages.Injection
         private int _cycles = 0;
         public int Cycles
         {
-            get { return _cycles; }
+            get => _cycles;
             set
             {
                 _cycles = value;
@@ -40,7 +40,7 @@ namespace Tanji.Pages.Injection
         private bool _autoStart = true;
         public bool AutoStart
         {
-            get { return _autoStart; }
+            get => _autoStart;
             set
             {
                 _autoStart = value;
@@ -51,7 +51,7 @@ namespace Tanji.Pages.Injection
         private HDestination _destination = HDestination.Server;
         public HDestination Destination
         {
-            get { return _destination; }
+            get => _destination;
             set
             {
                 _destination = value;
@@ -176,6 +176,23 @@ namespace Tanji.Pages.Injection
                 UI.STSchedulerVw.HasSelectedItem;
         }
 
+        private void UpdateUI()
+        {
+            if (_suppressUIUpdating) return;
+            UI.SchedulesTxt.Text = $"Schedules: {UI.STSchedulerVw.CheckedItems.Count}/{UI.STSchedulerVw.Items.Count}";
+        }
+        private HMessage GetPacket()
+        {
+            return new HMessage(UI.STPacketTxt.Text, Destination);
+        }
+
+        protected override void OnTabSelecting(TabControlCancelEventArgs e)
+        {
+            UI.InjectionMenu.InputBox = UI.STPacketTxt;
+            base.OnTabSelecting(e);
+        }
+
+        #region IHaltable Implementation
         public void Halt()
         {
             try
@@ -192,25 +209,8 @@ namespace Tanji.Pages.Injection
                 UpdateUI();
             }
         }
-        public HMessage GetPacket()
-        {
-            return new HMessage(
-                UI.STPacketTxt.Text, Destination);
-        }
-
-        private void UpdateUI()
-        {
-            if (!_suppressUIUpdating)
-            {
-                UI.SchedulesTxt.Text =
-                    $"Schedules: {UI.STSchedulerVw.CheckedItems.Count}/{UI.STSchedulerVw.Items.Count}";
-            }
-        }
-
-        protected override void OnTabSelecting(TabControlCancelEventArgs e)
-        {
-            UI.InjectionMenu.InputBox = UI.STPacketTxt;
-            base.OnTabSelecting(e);
-        }
+        public void Restore()
+        { }
+        #endregion
     }
 }
