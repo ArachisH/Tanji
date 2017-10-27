@@ -3,5 +3,6 @@
     public interface IHaltable
     {
         void Halt();
+        void Restore();
     }
 }
