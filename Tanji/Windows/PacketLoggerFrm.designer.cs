@@ -1,6 +1,4 @@
-﻿using Tanji.Properties;
-
-namespace Tanji.Applications
+﻿namespace Tanji.Windows
 {
     partial class PacketLoggerFrm
     {

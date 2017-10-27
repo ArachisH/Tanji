@@ -1,4 +1,4 @@
-﻿namespace Tanji.Applications.Dialogs
+﻿namespace Tanji.Windows.Dialogs
 {
     partial class FindMessageDialog
     {
