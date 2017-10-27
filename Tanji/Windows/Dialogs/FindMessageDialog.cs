@@ -7,7 +7,7 @@ using Tanji.Components;
 
 using Sulakore.Habbo;
 
-namespace Tanji.Applications.Dialogs
+namespace Tanji.Windows.Dialogs
 {
     [DesignerCategory("Form")]
     public partial class FindMessageDialog : ObservableForm

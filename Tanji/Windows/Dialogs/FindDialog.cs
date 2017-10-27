@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 using Tanji.Components;
 
-namespace Tanji.Applications.Dialogs
+namespace Tanji.Windows.Dialogs
 {
     [DesignerCategory("Form")]
     public partial class FindDialog : ObservableForm

@@ -6,11 +6,11 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
+using Tanji.Windows;
 using Tanji.Utilities;
 using Tanji.Properties;
 using Tanji.Components;
 using Tanji.Pages.About;
-using Tanji.Applications;
 using Tanji.Manipulators;
 using Tanji.Pages.Modules;
 using Tanji.Pages.Toolbox;
@@ -24,8 +24,9 @@ using Sulakore.Habbo.Web;
 using Sulakore.Communication;
 
 using Eavesdrop;
+using Sulakore.Habbo.Messages;
 
-namespace Tanji
+namespace Tanji.Windows
 {
     [DesignerCategory("Form")]
     public partial class MainFrm : ObservableForm
@@ -38,6 +39,9 @@ namespace Tanji
         private readonly Dictionary<HHotel, Dictionary<string, HProfile>> _profileCache;
 
         public KeyboardHook Hook { get; }
+
+        public Incoming In { get; set; }
+        public Outgoing Out { get; set; }
 
         public HGame Game { get; set; }
         public HHotel Hotel { get; set; }
@@ -64,6 +68,8 @@ namespace Tanji
             _avatarCache = new Dictionary<string, Bitmap>();
             _profileCache = new Dictionary<HHotel, Dictionary<string, HProfile>>();
 
+            In = new Incoming();
+            Out = new Outgoing();
             GameData = new HGameData();
             Connection = new HConnection();
             Connection.Connected += Connected;
@@ -185,6 +191,9 @@ namespace Tanji
                 Invoke(_connected, sender, e);
                 return;
             }
+
+            In.Load(Game, "Hashes.ini");
+            Out.Load(Game, "Hashes.ini");
 
             ConnectionPg.IsReceiving = true;
             Text = $"Tanji ~ Connected[{Connection.Host}:{Connection.Port}]";

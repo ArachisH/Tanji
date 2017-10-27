@@ -7,13 +7,14 @@ using System.Collections.Generic;
 
 using Tanji.Components;
 using Tanji.Manipulators;
-using Tanji.Applications.Dialogs;
+using Tanji.Windows.Dialogs;
 
 using Sulakore.Habbo;
 using Sulakore.Protocol;
 using Sulakore.Communication;
+using Sulakore.Habbo.Messages;
 
-namespace Tanji.Applications
+namespace Tanji.Windows
 {
     [DesignerCategory("Form")]
     public partial class PacketLoggerFrm : ObservableForm, IReceiver, IHaltable
@@ -37,9 +38,6 @@ namespace Tanji.Applications
         public bool IsFindDialogOpened => (!(_currentFindUI?.IsDisposed ?? true));
         public bool IsFindMessageDialogOpened => (!(_currentFindMessageUI?.IsDisposed ?? true));
         public bool IsIgnoreMessagesDialogOpened => (!(_currentIgnoreMessagesUI?.IsDisposed ?? true));
-
-        private bool _isReceiving = true;
-        public bool IsReceiving => (_isReceiving && (IsViewingOutgoing || IsViewingIncoming));
 
         private bool _isDisplayingBlocked = true;
         public bool IsDisplayingBlocked
@@ -245,11 +243,6 @@ namespace Tanji.Applications
             }
         }
 
-        public void Halt()
-        {
-            Close();
-            Hide();
-        }
         public void HandleOutgoing(DataInterceptedEventArgs e) => PushToQueue(e);
         public void HandleIncoming(DataInterceptedEventArgs e) => PushToQueue(e);
 
@@ -275,6 +268,15 @@ namespace Tanji.Applications
                 MessageItem message = GetMessage(args);
                 if (IsDisplayingHash && message != null && !string.IsNullOrWhiteSpace(message.Hash))
                 {
+                    var identifiers = (isOutgoing ? (Identifiers)_main.Out : _main.In);
+
+                    string name = identifiers.GetName(message.Hash);
+                    if (!string.IsNullOrWhiteSpace(name))
+                    {
+                        entry.Add(Tuple.Create("[", DetailHighlight));
+                        entry.Add(Tuple.Create(name, FilterHighlight));
+                        entry.Add(Tuple.Create("]\r\n", DetailHighlight));
+                    }
                     entry.Add(Tuple.Create($"[{message.Hash}]\r\n", DetailHighlight));
                 }
 
@@ -478,5 +480,19 @@ namespace Tanji.Applications
             e.Cancel = true;
             base.OnFormClosing(e);
         }
+
+        #region IReceiver Implementation
+        private bool _isReceiving = true;
+        public bool IsReceiving => (_isReceiving && (IsViewingOutgoing || IsViewingIncoming));
+        #endregion
+        #region IHaltable Implementation
+        public void Halt()
+        {
+            Close();
+            Hide();
+        }
+        public void Restore()
+        { }
+        #endregion
     }
 }

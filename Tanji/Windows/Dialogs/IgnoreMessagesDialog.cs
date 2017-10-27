@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 using Tanji.Components;
 
-namespace Tanji.Applications.Dialogs
+namespace Tanji.Windows.Dialogs
 {
     [DesignerCategory("Form")]
     public partial class IgnoreMessagesDialog : ObservableForm

@@ -1,4 +1,4 @@
-﻿namespace Tanji
+﻿namespace Tanji.Windows
 {
     partial class MainFrm
     {
