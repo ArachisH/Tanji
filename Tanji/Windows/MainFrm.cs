@@ -31,6 +31,7 @@ namespace Tanji.Windows
     [DesignerCategory("Form")]
     public partial class MainFrm : ObservableForm
     {
+        private DateTime _latencyTestStart;
         private readonly List<IHaltable> _haltables;
         private readonly List<IReceiver> _receivers;
         private readonly Dictionary<Keys, Action> _actions;
@@ -73,9 +74,9 @@ namespace Tanji.Windows
             GameData = new HGameData();
             Connection = new HConnection();
             Connection.Connected += Connected;
+            Connection.DataOutgoing += HandleData;
+            Connection.DataIncoming += HandleData;
             Connection.Disconnected += Disconnected;
-            Connection.DataOutgoing += DataOutgoing;
-            Connection.DataIncoming += DataIncoming;
 
             Hook = new KeyboardHook();
             Hook.HotkeyActivated += Hook_HotkeyActivated;
@@ -172,17 +173,6 @@ namespace Tanji.Windows
         {
             _haltables.ForEach(h => h.Halt());
         }
-        private void HandleData(DataInterceptedEventArgs e)
-        {
-            bool isOutgoing = (e.Packet.Destination == HDestination.Server);
-            foreach (IReceiver receiver in _receivers)
-            {
-                if (!receiver.IsReceiving) continue;
-
-                if (isOutgoing) receiver.HandleOutgoing(e);
-                else receiver.HandleIncoming(e);
-            }
-        }
 
         private void Connected(object sender, EventArgs e)
         {
@@ -221,7 +211,29 @@ namespace Tanji.Windows
             TopMost = true;
             Text = "Tanji ~ Disconnected";
         }
-        private void DataOutgoing(object sender, DataInterceptedEventArgs e) => HandleData(e);
-        private void DataIncoming(object sender, DataInterceptedEventArgs e) => HandleData(e);
+        private void HandleData(object sender, DataInterceptedEventArgs e)
+        {
+            bool isOutgoing = (e.Packet.Destination == HDestination.Server);
+            if (isOutgoing && e.Packet.Header == Out.LatencyTest)
+            {
+                _latencyTestStart = e.Timestamp;
+            }
+            else if (e.Packet.Header == In.LatencyResponse)
+            {
+                PacketLoggerUI.Latency = (int)(e.Timestamp - _latencyTestStart).TotalMilliseconds;
+            }
+            foreach (IReceiver receiver in _receivers)
+            {
+                if (!receiver.IsReceiving) continue;
+                if (isOutgoing)
+                {
+                    receiver.HandleOutgoing(e);
+                }
+                else
+                {
+                    receiver.HandleIncoming(e);
+                }
+            }
+        }
     }
 }

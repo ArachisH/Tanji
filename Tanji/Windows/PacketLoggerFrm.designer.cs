@@ -59,6 +59,7 @@
             this.ViewOutgoingLbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.ViewIncomingLbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.RevisionTxt = new System.Windows.Forms.ToolStripStatusLabel();
+            this.LatencyLbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.PacketLoggerContextMenu.SuspendLayout();
             this.PacketLoggerMenu.SuspendLayout();
             this.PacketLoggerStrip.SuspendLayout();
@@ -177,7 +178,7 @@
             this.BlockedBtn.CheckOnClick = true;
             this.BlockedBtn.CheckState = System.Windows.Forms.CheckState.Checked;
             this.BlockedBtn.Name = "BlockedBtn";
-            this.BlockedBtn.Size = new System.Drawing.Size(152, 22);
+            this.BlockedBtn.Size = new System.Drawing.Size(122, 22);
             this.BlockedBtn.Text = "Blocked";
             // 
             // ReplacedBtn
@@ -186,7 +187,7 @@
             this.ReplacedBtn.CheckOnClick = true;
             this.ReplacedBtn.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ReplacedBtn.Name = "ReplacedBtn";
-            this.ReplacedBtn.Size = new System.Drawing.Size(152, 22);
+            this.ReplacedBtn.Size = new System.Drawing.Size(122, 22);
             this.ReplacedBtn.Text = "Replaced";
             // 
             // DisplaySpecialsBtn
@@ -302,6 +303,7 @@
             this.PacketLoggerStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ViewOutgoingLbl,
             this.ViewIncomingLbl,
+            this.LatencyLbl,
             this.RevisionTxt});
             this.PacketLoggerStrip.Location = new System.Drawing.Point(0, 497);
             this.PacketLoggerStrip.Name = "PacketLoggerStrip";
@@ -327,6 +329,13 @@
             this.RevisionTxt.Name = "RevisionTxt";
             this.RevisionTxt.Size = new System.Drawing.Size(63, 19);
             this.RevisionTxt.Text = "Revision: 0";
+            // 
+            // LatencyLbl
+            // 
+            this.LatencyLbl.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.LatencyLbl.Name = "LatencyLbl";
+            this.LatencyLbl.Size = new System.Drawing.Size(80, 19);
+            this.LatencyLbl.Text = "Latency: 0ms";
             // 
             // PacketLoggerFrm
             // 
@@ -382,5 +391,6 @@
         private Tanji.Controls.BindableToolStripMenuItem IgnoreMessagesBtn;
         private Controls.BindableToolStripMenuItem StructureBtn;
         private Controls.BindableToolStripMenuItem HexadecimalBtn;
+        private System.Windows.Forms.ToolStripStatusLabel LatencyLbl;
     }
 }
