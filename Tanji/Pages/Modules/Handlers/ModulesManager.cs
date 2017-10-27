@@ -1,16 +1,20 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+
+using Tanji.Windows;
+
+using Tangine;
 
 using Sulakore.Habbo;
 using Sulakore.Modules;
 using Sulakore.Protocol;
 using Sulakore.Habbo.Web;
 using Sulakore.Communication;
-
-using Tangine;
+using Sulakore.Habbo.Messages;
 
 namespace Tanji.Pages.Modules.Handlers
 {
@@ -22,6 +26,8 @@ namespace Tanji.Pages.Modules.Handlers
         public delegate void ModuleActionDelegate(Type moduleType, ModuleAction action);
 
         public HGame Game => UI.Game;
+        public override Incoming In => UI.In;
+        public override Outgoing Out => UI.Out;
         public override HHotel Hotel => UI.Hotel;
         public override HGameData GameData => UI.GameData;
         public override IHConnection Connection => UI.Connection;
@@ -89,6 +95,7 @@ namespace Tanji.Pages.Modules.Handlers
                     case 1:
                     {
                         response.WriteString(Game?.Location);
+                        response.WriteString(Path.GetFullPath("Hashes.ini"));
                         break;
                     }
                     case 2:
