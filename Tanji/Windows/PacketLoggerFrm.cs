@@ -29,8 +29,8 @@ namespace Tanji.Windows
         private readonly Queue<DataInterceptedEventArgs> _intercepted;
         private readonly Action<List<Tuple<string, Color>>> _displayEntries;
 
-        public Color FilterHighlight { get; set; } = Color.Yellow;
-        public Color DetailHighlight { get; set; } = Color.DarkGray;
+        public Color DetailHighlight { get; set; } = Color.Cyan;
+        public Color DefaultHighlight { get; set; } = Color.DarkGray;
         public Color IncomingHighlight { get; set; } = Color.FromArgb(178, 34, 34);
         public Color OutgoingHighlight { get; set; } = Color.FromArgb(0, 102, 204);
         public Color StructureHighlight { get; set; } = Color.FromArgb(0, 204, 136);
@@ -141,6 +141,17 @@ namespace Tanji.Windows
             set
             {
                 _isViewingIncoming = value;
+                RaiseOnPropertyChanged();
+            }
+        }
+
+        private int _latency = 0;
+        public int Latency
+        {
+            get => _latency;
+            set
+            {
+                _latency = value;
                 RaiseOnPropertyChanged();
             }
         }
@@ -258,11 +269,15 @@ namespace Tanji.Windows
                 var entry = new List<Tuple<string, Color>>();
                 if (args.IsBlocked)
                 {
-                    entry.Add(Tuple.Create("[Blocked]\r\n", FilterHighlight));
+                    entry.Add(Tuple.Create("[", DefaultHighlight));
+                    entry.Add(Tuple.Create("Blocked", Color.Yellow));
+                    entry.Add(Tuple.Create("]\r\n", DefaultHighlight));
                 }
                 if (!args.IsOriginal)
                 {
-                    entry.Add(Tuple.Create("[Replaced]\r\n", FilterHighlight));
+                    entry.Add(Tuple.Create("[", DefaultHighlight));
+                    entry.Add(Tuple.Create("Replaced", Color.Yellow));
+                    entry.Add(Tuple.Create("]\r\n", DefaultHighlight));
                 }
 
                 MessageItem message = GetMessage(args);
@@ -273,17 +288,21 @@ namespace Tanji.Windows
                     string name = identifiers.GetName(message.Hash);
                     if (!string.IsNullOrWhiteSpace(name))
                     {
-                        entry.Add(Tuple.Create("[", DetailHighlight));
-                        entry.Add(Tuple.Create(name, FilterHighlight));
-                        entry.Add(Tuple.Create("]\r\n", DetailHighlight));
+                        entry.Add(Tuple.Create("[", DefaultHighlight));
+                        entry.Add(Tuple.Create(name, DetailHighlight));
+                        entry.Add(Tuple.Create("] ", DefaultHighlight));
                     }
-                    entry.Add(Tuple.Create($"[{message.Hash}]\r\n", DetailHighlight));
+                    entry.Add(Tuple.Create("[", DefaultHighlight));
+                    entry.Add(Tuple.Create(message.Hash, DetailHighlight));
+                    entry.Add(Tuple.Create("]\r\n", DefaultHighlight));
                 }
 
                 if (IsDisplayingHexadecimal)
                 {
                     string hex = BitConverter.ToString(args.Packet.ToBytes());
-                    entry.Add(Tuple.Create($"[{hex.Replace("-", string.Empty)}]\r\n", DetailHighlight));
+                    entry.Add(Tuple.Create("[", DefaultHighlight));
+                    entry.Add(Tuple.Create(hex.Replace("-", string.Empty), DetailHighlight));
+                    entry.Add(Tuple.Create("]\r\n", DefaultHighlight));
                 }
 
                 string arrow = "->";
@@ -297,23 +316,23 @@ namespace Tanji.Windows
                 }
 
                 entry.Add(Tuple.Create(title + "[", entryHighlight));
-                entry.Add(Tuple.Create(args.Packet.Header.ToString(), DetailHighlight));
+                entry.Add(Tuple.Create(args.Packet.Header.ToString(), DefaultHighlight));
 
                 if (message != null)
                 {
                     if (IsDisplayingMessageName)
                     {
                         entry.Add(Tuple.Create(", ", entryHighlight));
-                        entry.Add(Tuple.Create(message.Class.QName.Name, DetailHighlight));
+                        entry.Add(Tuple.Create(message.Class.QName.Name, DefaultHighlight));
                     }
                     if (IsDisplayingParserName && message.Parser != null)
                     {
                         entry.Add(Tuple.Create(", ", entryHighlight));
-                        entry.Add(Tuple.Create(message.Parser.QName.Name, DetailHighlight));
+                        entry.Add(Tuple.Create(message.Parser.QName.Name, DefaultHighlight));
                     }
                 }
                 entry.Add(Tuple.Create("]", entryHighlight));
-                entry.Add(Tuple.Create($" {arrow} ", DetailHighlight));
+                entry.Add(Tuple.Create($" {arrow} ", DefaultHighlight));
                 entry.Add(Tuple.Create($"{args.Packet}\r\n", entryHighlight));
 
                 if (IsDisplayingStructure && message?.Structure?.Length >= 0)
@@ -353,7 +372,7 @@ namespace Tanji.Windows
                         entry.Add(Tuple.Create(structure + "\r\n", StructureHighlight));
                     }
                 }
-                entry.Add(Tuple.Create("--------------------\r\n", DetailHighlight));
+                entry.Add(Tuple.Create("--------------------\r\n", DefaultHighlight));
 
                 while (!IsHandleCreated) ;
                 if (IsReceiving)
@@ -443,6 +462,11 @@ namespace Tanji.Windows
                     {
                         Text += " | Top Most";
                     }
+                    break;
+                }
+                case nameof(Latency):
+                {
+                    LatencyLbl.Text = $"Latency: {Latency}ms";
                     break;
                 }
                 case nameof(IsViewingOutgoing):
