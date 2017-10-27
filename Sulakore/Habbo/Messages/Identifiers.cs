@@ -45,6 +45,8 @@ namespace Sulakore.Habbo.Messages
         }
         public void Load(HGame game, string path)
         {
+            _ids.Clear();
+            _namesByHash.Clear();
             using (var input = new StreamReader(path))
             {
                 bool isInSection = false;
