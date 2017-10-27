@@ -272,9 +272,9 @@ namespace Tanji.Pages.Modules
 
             foreach (ModuleItem moduleItem in moduleItems)
             {
-                if (moduleItem.IsInitialized && moduleItem.Extension != null)
+                if (moduleItem.IsInitialized && moduleItem.Instance != null)
                 {
-                    moduleItem.Extension?.ModifyGame(game);
+                    moduleItem.Instance?.ModifyGame(game);
                     possiblyModified = true;
                 }
             }
@@ -293,9 +293,9 @@ namespace Tanji.Pages.Modules
             foreach (ModuleItem moduleItem in moduleItems)
             {
                 if (moduleItem.IsInitialized &&
-                    moduleItem.Extension != null)
+                    moduleItem.Instance != null)
                 {
-                    moduleItem.Extension.ModifyGameData(gameData);
+                    moduleItem.Instance.ModifyGameData(gameData);
                     possiblyModified = true;
                 }
             }
@@ -423,7 +423,7 @@ namespace Tanji.Pages.Modules
             {
                 if (!moduleItem.IsInitialized) continue;
 
-                ITExtension extension = moduleItem.Extension;
+                IModule extension = moduleItem.Instance;
                 if (extension == null) continue;
 
                 try

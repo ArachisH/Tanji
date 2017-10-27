@@ -7,8 +7,6 @@ using System.Collections.Generic;
 
 using Tanji.Windows;
 
-using Tangine;
-
 using Sulakore.Habbo;
 using Sulakore.Modules;
 using Sulakore.Protocol;
@@ -18,14 +16,14 @@ using Sulakore.Habbo.Messages;
 
 namespace Tanji.Pages.Modules.Handlers
 {
-    public class ModulesManager : Contractor, ITContext
+    public class ModulesManager : Contractor
     {
         private ModuleItem[] _moduleItemsArray;
         private readonly Dictionary<Type, ModuleItem> _moduleItems;
 
         public delegate void ModuleActionDelegate(Type moduleType, ModuleAction action);
 
-        public HGame Game => UI.Game;
+        public override HGame Game => UI.Game;
         public override Incoming In => UI.In;
         public override Outgoing Out => UI.Out;
         public override HHotel Hotel => UI.Hotel;
@@ -206,20 +204,15 @@ namespace Tanji.Pages.Modules.Handlers
         protected override void OnModuleInitialized(Type type)
         {
             IModule module = GetModule(type);
+
             ModuleItem moduleInfo = GetModuleItem(type);
+            moduleInfo.Instance = module;
 
-            var extension = (module as ITExtension);
-            if (extension != null)
+            if (module is Form ui)
             {
-                moduleInfo.Extension = extension;
-
-                var extensionForm = (module as Form);
-                if (extensionForm != null)
-                {
-                    extensionForm.Icon = UI.Icon;
-                    extensionForm.ShowIcon = true;
-                    moduleInfo.ExtensionForm = extensionForm;
-                }
+                ui.Icon = UI.Icon;
+                ui.ShowIcon = true;
+                moduleInfo.ExtensionForm = ui;
             }
 
             moduleInfo.IsInitialized = true;

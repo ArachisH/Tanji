@@ -25,9 +25,8 @@ namespace Tanji.Pages.Modules.Handlers
         public string Description { get; }
         public ListViewItem ListItem { get; }
         
+        public IModule Instance { get; set; }
         public Form ExtensionForm { get; set; }
-        public ITExtension Extension { get; set; }
-
         public bool IsInitialized { get; set; }
 
         public ModuleItem(Type type, Contractor contractor)
