@@ -16,6 +16,7 @@ namespace Sulakore.Communication
         private readonly HDestination _ogDestination;
 
         public int Step { get; }
+        public DateTime Timestamp { get; }
         public HMessage Packet { get; set; }
         public List<HMessage> Executions { get; }
 
@@ -44,6 +45,7 @@ namespace Sulakore.Communication
 
             Step = step;
             Packet = packet;
+            Timestamp = DateTime.Now;
             Executions = new List<HMessage>();
         }
 
