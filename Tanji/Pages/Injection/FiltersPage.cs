@@ -15,7 +15,7 @@ namespace Tanji.Pages.Injection
         Replace = 1
     }
 
-    public class FiltersPage : TanjiSubPage<InjectionPage>, IReceiver, IHaltable, IRetrievable, IRefreshable
+    public class FiltersPage : TanjiSubPage<InjectionPage>, IReceiver, IHaltable
     {
         private bool _suppressUIUpdating;
 
@@ -165,21 +165,7 @@ namespace Tanji.Pages.Injection
             UI.FTRemoveBtn.Enabled =
                 UI.FTFiltersVw.HasSelectedItem;
         }
-
-        public void Halt()
-        {
-            try
-            {
-                _suppressUIUpdating = true;
-                foreach (ListViewItem item in UI.FTFiltersVw.Items)
-                    item.Checked = false;
-            }
-            finally
-            {
-                _suppressUIUpdating = false;
-                Refresh();
-            }
-        }
+        
         public void Refresh()
         {
             if (!_suppressUIUpdating)
@@ -222,5 +208,26 @@ namespace Tanji.Pages.Injection
             UI.InjectionMenu.InputBox = UI.FTReplacementTxt.Box;
             base.OnTabSelecting(e);
         }
+
+        #region IHaltable Implementation
+        public void Halt()
+        {
+            try
+            {
+                _suppressUIUpdating = true;
+                foreach (ListViewItem item in UI.FTFiltersVw.Items)
+                {
+                    item.Checked = false;
+                }
+            }
+            finally
+            {
+                _suppressUIUpdating = false;
+                Refresh();
+            }
+        }
+        public void Restore()
+        { }
+        #endregion
     }
 }

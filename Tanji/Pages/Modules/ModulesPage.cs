@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
+using Tanji.Windows;
 using Tanji.Properties;
 using Tanji.Manipulators;
 using Tanji.Pages.Modules.Handlers;
@@ -28,14 +29,6 @@ namespace Tanji.Pages.Modules
         private readonly Dictionary<string, bool> _isValidUrl;
         private readonly Action<ModuleItem, DataInterceptedEventArgs, Exception> _displayModuleException;
 
-        public bool IsReceiving
-        {
-            get
-            {
-                return (Contractor.GetInitializedCount() > 0 ||
-                    Contractor.RemoteModule != null); ;
-            }
-        }
         public ModulesManager Contractor { get; }
 
         public ModuleItem SelectedModuleItem
@@ -266,11 +259,7 @@ namespace Tanji.Pages.Modules
                     Contractor.DisposeModule(moduleItem.Type);
             }
         }
-
-        public void Halt() => DisposeModules();
-        public void HandleOutgoing(DataInterceptedEventArgs e) => HandleData(e);
-        public void HandleIncoming(DataInterceptedEventArgs e) => HandleData(e);
-
+        
         public bool ModifyGame(HGame game)
         {
             bool possiblyModified = false;
@@ -489,5 +478,16 @@ namespace Tanji.Pages.Modules
             }
             UpdateUI();
         }
+
+        #region IReceiver Implementation
+        public bool IsReceiving => (Contractor.GetInitializedCount() > 0 || Contractor.RemoteModule != null);
+        public void HandleOutgoing(DataInterceptedEventArgs e) => HandleData(e);
+        public void HandleIncoming(DataInterceptedEventArgs e) => HandleData(e);
+        #endregion
+        #region IHaltable Implementation
+        public void Halt() => DisposeModules();
+        public void Restore()
+        { }
+        #endregion
     }
 }

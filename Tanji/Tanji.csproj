@@ -59,40 +59,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Applications\Dialogs\FindDialog.cs">
+    <Compile Include="Windows\Dialogs\FindDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Applications\Dialogs\FindDialog.designer.cs">
+    <Compile Include="Windows\Dialogs\FindDialog.designer.cs">
       <DependentUpon>FindDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Applications\Dialogs\FindMessageDialog.cs">
+    <Compile Include="Windows\Dialogs\FindMessageDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Applications\Dialogs\FindMessageDialog.designer.cs">
+    <Compile Include="Windows\Dialogs\FindMessageDialog.designer.cs">
       <DependentUpon>FindMessageDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Applications\Dialogs\IgnoreMessagesDialog.cs">
+    <Compile Include="Windows\Dialogs\IgnoreMessagesDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Applications\Dialogs\IgnoreMessagesDialog.designer.cs">
+    <Compile Include="Windows\Dialogs\IgnoreMessagesDialog.designer.cs">
       <DependentUpon>IgnoreMessagesDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Components\ObservableForm.cs" />
     <Compile Include="Controls\BindableToolStripMenuItem.cs" />
-    <Compile Include="MainFrm.cs">
+    <Compile Include="Windows\MainFrm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainFrm.designer.cs">
+    <Compile Include="Windows\MainFrm.designer.cs">
       <DependentUpon>MainFrm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Manipulators\IHaltable.cs" />
-    <Compile Include="Manipulators\IReceiver.cs" />
-    <Compile Include="Manipulators\IRefreshable.cs" />
-    <Compile Include="Manipulators\IRetrievable.cs" />
-    <Compile Include="Applications\PacketLoggerFrm.cs">
+    <Compile Include="Services\IHaltable.cs" />
+    <Compile Include="Services\IReceiver.cs" />
+    <Compile Include="Windows\PacketLoggerFrm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Applications\PacketLoggerFrm.designer.cs">
+    <Compile Include="Windows\PacketLoggerFrm.designer.cs">
       <DependentUpon>PacketLoggerFrm.cs</DependentUpon>
     </Compile>
     <Compile Include="Pages\About\AboutPage.cs" />
@@ -114,19 +112,16 @@
     <Compile Include="Utilities\Event Args\KeyPressedEventArgs.cs" />
     <Compile Include="Utilities\Internals\NativeMethods.cs" />
     <Compile Include="Utilities\KeyboardHook.cs" />
-    <EmbeddedResource Include="Applications\Dialogs\FindDialog.resx">
+    <EmbeddedResource Include="Windows\Dialogs\FindDialog.resx">
       <DependentUpon>FindDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Applications\Dialogs\FindMessageDialog.resx">
+    <EmbeddedResource Include="Windows\Dialogs\FindMessageDialog.resx">
       <DependentUpon>FindMessageDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Applications\Dialogs\IgnoreMessagesDialog.resx">
-      <DependentUpon>IgnoreMessagesDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainFrm.resx">
+    <EmbeddedResource Include="Windows\MainFrm.resx">
       <DependentUpon>MainFrm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Applications\PacketLoggerFrm.resx">
+    <EmbeddedResource Include="Windows\PacketLoggerFrm.resx">
       <DependentUpon>PacketLoggerFrm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -180,6 +175,7 @@
       <Name>Tangine</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Packaging.Tools.Trimming.1.1.0-preview1-25818-01\build\Microsoft.Packaging.Tools.Trimming.targets" Condition="Exists('..\packages\Microsoft.Packaging.Tools.Trimming.1.1.0-preview1-25818-01\build\Microsoft.Packaging.Tools.Trimming.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

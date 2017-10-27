@@ -7,7 +7,7 @@ using Sulakore.Protocol;
 
 namespace Tanji.Pages.Injection
 {
-    public class ConstructerPage : TanjiSubPage<InjectionPage>, IRefreshable, IRetrievable
+    public class ConstructerPage : TanjiSubPage<InjectionPage>
     {
         private const string INVALID_SINT32_VALUE =
             "The given value is not a valid 32-bit signed integer.";

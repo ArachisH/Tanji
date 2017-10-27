@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 
+using Tanji.Windows;
+
 using Sulakore.Protocol;
 
 namespace Tanji.Pages.Toolbox

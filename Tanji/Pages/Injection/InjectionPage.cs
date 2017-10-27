@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Threading.Tasks;
 
+using Tanji.Windows;
 using Tanji.Manipulators;
 
 using Sulakore.Protocol;
@@ -9,7 +10,7 @@ using Sulakore.Communication;
 
 namespace Tanji.Pages.Injection
 {
-    public class InjectionPage : TanjiPage, IRetrievable
+    public class InjectionPage : TanjiPage
     {
         private const string INJECTION_UNAUTHORIZED =
             "Injection functionality is currently disabled, consider connecting before attempting to utilize any of these services.";

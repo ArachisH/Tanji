@@ -8,7 +8,7 @@ using Sulakore.Protocol;
 
 namespace Tanji.Pages.Injection
 {
-    public class PrimitivePage : TanjiSubPage<InjectionPage>, IRetrievable
+    public class PrimitivePage : TanjiSubPage<InjectionPage>
     {
         public PrimitivePage(InjectionPage parent, TabPage tab)
             : base(parent, tab)
