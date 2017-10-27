@@ -8,6 +8,7 @@ using Sulakore.Modules;
 using Sulakore.Habbo.Web;
 using Sulakore.Protocol;
 using Sulakore.Communication;
+using Sulakore.Habbo.Messages;
 
 namespace Tangine
 {
@@ -75,8 +76,18 @@ namespace Tangine
             }
         }
 
+        private readonly Incoming _in;
+        [Browsable(false)]
+        public Incoming In => (_in ?? _installer?.In);
+
+        private readonly Outgoing _out;
+        [Browsable(false)]
+        public Outgoing Out => (_out ?? _installer?.Out);
+
         public ExtensionForm()
         {
+            _in = new Incoming();
+            _out = new Outgoing();
             _installer = Contractor.GetInstaller(GetType());
             _context = (_installer as ITContext);
 
@@ -146,7 +157,15 @@ namespace Tangine
                             _game.GenerateMessageHashes();
 
                             if (_initializationSource == null)
+                            {
                                 ModifyGame(_game);
+                            }
+                        }
+                        if (packet.Readable > 0)
+                        {
+                            string hashesPath = packet.ReadString();
+                            _in.Load(_game, hashesPath);
+                            _out.Load(_game, hashesPath);
                         }
                         break;
                     }
