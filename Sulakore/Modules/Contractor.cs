@@ -9,6 +9,7 @@ using System.Security.Cryptography;
 using Sulakore.Habbo;
 using Sulakore.Habbo.Web;
 using Sulakore.Communication;
+using Sulakore.Habbo.Messages;
 
 namespace Sulakore.Modules
 {
@@ -29,6 +30,8 @@ namespace Sulakore.Modules
         public DirectoryInfo ModulesDirectory { get; }
         public DirectoryInfo DependenciesDirectory { get; }
 
+        public abstract Incoming In { get; }
+        public abstract Outgoing Out { get; }
         public abstract HHotel Hotel { get; }
         public abstract HGameData GameData { get; }
         public abstract IHConnection Connection { get; }
