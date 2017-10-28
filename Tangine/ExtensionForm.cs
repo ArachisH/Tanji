@@ -45,18 +45,16 @@ namespace Tangine
         [Browsable(false)]
         public IHConnection Connection => (_connection ?? _installer?.Connection);
 
-        private readonly Incoming _in;
+        private Incoming _in;
         [Browsable(false)]
         public Incoming In => (_in ?? _installer?.In);
 
-        private readonly Outgoing _out;
+        private Outgoing _out;
         [Browsable(false)]
         public Outgoing Out => (_out ?? _installer?.Out);
 
         public ExtensionForm()
         {
-            _in = new Incoming();
-            _out = new Outgoing();
             _installer = Contractor.GetInstaller(GetType());
             if (_installer == null && IsRemoteModule)
             {
@@ -66,8 +64,7 @@ namespace Tangine
                     _connection = new ContractorProxy(_remoteContractor);
                     _initializationSource = new TaskCompletionSource<bool>();
 
-                    Task receiveRemContDataTask =
-                        ReceiveRemoteContractorDataAsync();
+                    Task receiveRemContDataTask = ReceiveRemoteContractorDataAsync();
 
                     RequestRemoteContractorData();
                     _initializationSource.Task.Wait();
@@ -132,7 +129,11 @@ namespace Tangine
                         if (packet.Readable > 0)
                         {
                             string hashesPath = packet.ReadString();
+
+                            _in = new Incoming();
                             _in.Load(_game, hashesPath);
+
+                            _out = new Outgoing();
                             _out.Load(_game, hashesPath);
                         }
                         break;
@@ -212,7 +213,7 @@ namespace Tangine
             {
                 try
                 {
-                    remoteContractor = HNode.ConnectNewAsync("localhost", 8055).Result;
+                    remoteContractor = HNode.ConnectNewAsync("127.0.0.1", 8055).Result;
                 }
                 catch
                 {
