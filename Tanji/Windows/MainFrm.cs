@@ -182,9 +182,6 @@ namespace Tanji.Windows
                 return;
             }
 
-            In.Load(Game, "Hashes.ini");
-            Out.Load(Game, "Hashes.ini");
-
             ConnectionPg.IsReceiving = true;
             Text = $"Tanji ~ Connected[{Connection.Host}:{Connection.Port}]";
             TopMost = PacketLoggerUI.TopMost;
