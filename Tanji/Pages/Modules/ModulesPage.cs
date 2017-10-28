@@ -105,11 +105,14 @@ namespace Tanji.Pages.Modules
             UI.MTHabboNameTxt.Text = author.HabboName;
             UI.MTHabboNameLbl.Text = $"Habbo Name({author.Hotel})";
 
-            Bitmap avatar = await UI.GetAvatarAsync(
-                author.HabboName, author.Hotel);
-
-            if (author == SelectedAuthor)
-                UI.MTAuthorPctbx.Image = avatar;
+            if (author.Hotel != HHotel.Unknown)
+            {
+                Bitmap avatar = await UI.GetAvatarAsync(author.HabboName, author.Hotel);
+                if (author == SelectedAuthor)
+                {
+                    UI.MTAuthorPctbx.Image = avatar;
+                }
+            }
         }
 
         private void MTModulesVw_ItemActivate(object sender, EventArgs e)
@@ -259,7 +262,7 @@ namespace Tanji.Pages.Modules
                     Contractor.DisposeModule(moduleItem.Type);
             }
         }
-        
+
         public bool ModifyGame(HGame game)
         {
             bool possiblyModified = false;
