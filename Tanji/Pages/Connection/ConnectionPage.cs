@@ -247,9 +247,8 @@ namespace Tanji.Pages.Connection
                     UI.Game.GenerateMessageHashes();
                 }
 
-                // Synchronizing Game
-                // UI.ModulesPg.ModifyGame(UI.Game);
-                // But we need to re-assembly it :{
+                UI.In.Load(UI.Game, "Hashes.ini");
+                UI.Out.Load(UI.Game, "Hashes.ini");
 
                 if (VariableReplacements.Count > 0)
                 {
@@ -327,6 +326,9 @@ namespace Tanji.Pages.Connection
                 SetState(TanjiState.ModifyingClient);
                 UI.Game.InjectEndPoint("127.0.0.1", infoPort);
             }
+
+            UI.In.Load(UI.Game, "Hashes.ini");
+            UI.Out.Load(UI.Game, "Hashes.ini");
 
             // Synchronize Game
             UI.ModulesPg.ModifyGame(UI.Game);
