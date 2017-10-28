@@ -183,6 +183,8 @@ namespace Tanji.Windows
         {
             InitializeComponent();
 
+            PropertyChanged += PacketLoggerFrm_PropertyChanged;
+
             Bind(BlockedBtn, "Checked", nameof(IsDisplayingBlocked));
             Bind(ReplacedBtn, "Checked", nameof(IsDisplayingReplaced));
 
@@ -203,6 +205,37 @@ namespace Tanji.Windows
             _displayEntries = DisplayEntries;
             _ignoredMessages = new Dictionary<int, bool>();
             _intercepted = new Queue<DataInterceptedEventArgs>();
+        }
+
+        private void PacketLoggerFrm_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(IsAlwaysOnTop):
+                {
+                    Text = "Tanji ~ Packet Logger";
+                    if (IsAlwaysOnTop)
+                    {
+                        Text += " | Top Most";
+                    }
+                    break;
+                }
+                case nameof(Latency):
+                {
+                    LatencyLbl.Text = $"Latency: {Latency}ms";
+                    break;
+                }
+                case nameof(IsViewingOutgoing):
+                {
+                    ViewOutgoingLbl.Text = ("View Outgoing: " + IsViewingOutgoing);
+                    break;
+                }
+                case nameof(IsViewingIncoming):
+                {
+                    ViewIncomingLbl.Text = ("View Incoming: " + IsViewingIncoming);
+                    break;
+                }
+            }
         }
 
         private void CopyBtn_Click(object sender, EventArgs e)
@@ -447,38 +480,6 @@ namespace Tanji.Windows
 
                 LoggerTxt.SelectionColor = chunk.Item2;
                 LoggerTxt.AppendText(chunk.Item1);
-            }
-        }
-
-        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            base.OnPropertyChanged(e);
-            switch (e.PropertyName)
-            {
-                case nameof(IsAlwaysOnTop):
-                {
-                    Text = "Tanji ~ Packet Logger";
-                    if (IsAlwaysOnTop)
-                    {
-                        Text += " | Top Most";
-                    }
-                    break;
-                }
-                case nameof(Latency):
-                {
-                    LatencyLbl.Text = $"Latency: {Latency}ms";
-                    break;
-                }
-                case nameof(IsViewingOutgoing):
-                {
-                    ViewOutgoingLbl.Text = ("View Outgoing: " + IsViewingOutgoing);
-                    break;
-                }
-                case nameof(IsViewingIncoming):
-                {
-                    ViewIncomingLbl.Text = ("View Incoming: " + IsViewingIncoming);
-                    break;
-                }
             }
         }
 
