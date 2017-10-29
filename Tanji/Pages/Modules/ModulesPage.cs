@@ -434,12 +434,10 @@ namespace Tanji.Pages.Modules
                     if (isOutgoing)
                     {
                         extension.HandleOutgoing(e);
-                        extension.Triggers?.HandleOutgoing(e);
                     }
                     else
                     {
                         extension.HandleIncoming(e);
-                        extension.Triggers?.HandleIncoming(e);
                     }
                 }
                 catch (Exception ex)
@@ -463,6 +461,12 @@ namespace Tanji.Pages.Modules
                 }
                 case ModuleAction.Initialized:
                 {
+                    if (UI.Connection.IsConnected)
+                    {
+                        moduleItem.Instance.ModifyGame(UI.Game);
+                        moduleItem.Instance.ModifyGameData(UI.GameData);
+                    }
+
                     moduleItem.ExtensionForm?.Show();
                     moduleItem.ListItem.SubItems[3].Text = "Initialized";
                     break;
