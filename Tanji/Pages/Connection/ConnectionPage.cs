@@ -249,6 +249,7 @@ namespace Tanji.Pages.Connection
 
                 UI.In.Load(UI.Game, "Hashes.ini");
                 UI.Out.Load(UI.Game, "Hashes.ini");
+                UI.ModulesPg.ModifyGame(UI.Game);
 
                 if (VariableReplacements.Count > 0)
                 {
