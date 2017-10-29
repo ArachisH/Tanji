@@ -24,6 +24,19 @@ namespace Sulakore.Habbo.Messages
             set => _idsByName[name] = value;
         }
 
+        public ushort GetId(string name)
+        {
+            if (!_idsByName.TryGetValue(name, out ushort id))
+            {
+                return ushort.MaxValue;
+            }
+            return id;
+        }
+        public bool TryGetId(string name, out ushort id)
+        {
+            return _idsByName.TryGetValue(name, out id);
+        }
+
         public string GetName(ushort id)
         {
             _namesById.TryGetValue(id, out string name);
@@ -33,11 +46,6 @@ namespace Sulakore.Habbo.Messages
         {
             _namesByHash.TryGetValue(hash, out string name);
             return name;
-        }
-
-        public bool TryGetId(string name, out ushort id)
-        {
-            return _idsByName.TryGetValue(name, out id);
         }
 
         public void Save(string path)
