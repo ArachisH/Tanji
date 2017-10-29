@@ -10,22 +10,22 @@ namespace Sulakore.Modules
     public abstract class DataCaptureAttribute : Attribute
     {
         public ushort? Id { get; }
-        public string Hash { get; }
+        public string Identifier { get; }
         public abstract bool IsOutgoing { get; }
 
-        internal object Target { get; set; }
-        internal MethodInfo Method { get; set; }
+        public object Target { get; set; }
+        public MethodInfo Method { get; set; }
 
         public DataCaptureAttribute(ushort id)
         {
             Id = id;
         }
-        public DataCaptureAttribute(string hash)
+        public DataCaptureAttribute(string identifier)
         {
-            Hash = hash;
+            Identifier = identifier;
         }
 
-        internal void Invoke(DataInterceptedEventArgs args)
+        public void Invoke(DataInterceptedEventArgs args)
         {
             object[] parameters = CreateValues(args);
             object result = Method?.Invoke(Target, parameters);
@@ -112,7 +112,7 @@ namespace Sulakore.Modules
         public bool Equals(DataCaptureAttribute attribute)
         {
             if (Id != attribute.Id) return false;
-            if (Hash != attribute.Hash) return false;
+            if (Identifier != attribute.Identifier) return false;
             if (!Method.Equals(attribute.Method)) return false;
             return true;
         }

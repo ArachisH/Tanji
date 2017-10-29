@@ -7,8 +7,8 @@
         public OutDataCaptureAttribute(ushort id)
             : base(id)
         { }
-        public OutDataCaptureAttribute(string hash)
-            : base(hash)
+        public OutDataCaptureAttribute(string identifier)
+            : base(identifier)
         { }
     }
 }
