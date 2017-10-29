@@ -34,7 +34,6 @@
             this.SchedulesTxt = new System.Windows.Forms.ToolStripStatusLabel();
             this.FiltersTxt = new System.Windows.Forms.ToolStripStatusLabel();
             this.ModulesTxt = new System.Windows.Forms.ToolStripStatusLabel();
-            this.TanjiDonateTxt = new System.Windows.Forms.ToolStripStatusLabel();
             this.TanjiInfoTxt = new System.Windows.Forms.ToolStripStatusLabel();
             this.CustomClientDlg = new System.Windows.Forms.OpenFileDialog();
             this.InstallModuleDlg = new System.Windows.Forms.OpenFileDialog();
@@ -149,6 +148,18 @@
             this.MTVersionCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.MTStateCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.AboutTab = new System.Windows.Forms.TabPage();
+            this.label2 = new System.Windows.Forms.Label();
+            this.DonateBtn = new Sulakore.Components.SKoreButton();
+            this.PindaPic = new System.Windows.Forms.PictureBox();
+            this.H4BB0Btn = new Sulakore.Components.SKoreButton();
+            this.SpeaqerBtn = new Sulakore.Components.SKoreButton();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.ForbiddenBtn = new Sulakore.Components.SKoreButton();
+            this.SNGButton = new Sulakore.Components.SKoreButton();
+            this.DarkboxBtn = new Sulakore.Components.SKoreButton();
+            this.HarbleBtn = new Sulakore.Components.SKoreButton();
+            this.DarkStarBtn = new Sulakore.Components.SKoreButton();
+            this.ArachisBtn = new Sulakore.Components.SKoreButton();
             this.InjectionMenu = new Sulakore.Components.SKoreInjectionMenu(this.components);
             this.SavePacketDlg = new System.Windows.Forms.SaveFileDialog();
             this.TanjiStrip.SuspendLayout();
@@ -170,6 +181,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.TTUShortInputTxt)).BeginInit();
             this.ModulesTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MTAuthorPctbx)).BeginInit();
+            this.AboutTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PindaPic)).BeginInit();
             this.SuspendLayout();
             // 
             // TanjiStrip
@@ -181,7 +194,6 @@
             this.SchedulesTxt,
             this.FiltersTxt,
             this.ModulesTxt,
-            this.TanjiDonateTxt,
             this.TanjiInfoTxt});
             this.TanjiStrip.Location = new System.Drawing.Point(0, 345);
             this.TanjiStrip.Name = "TanjiStrip";
@@ -221,22 +233,13 @@
             this.ModulesTxt.Size = new System.Drawing.Size(80, 19);
             this.ModulesTxt.Text = "Modules: 0/0";
             // 
-            // TanjiDonateTxt
-            // 
-            this.TanjiDonateTxt.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.TanjiDonateTxt.IsLink = true;
-            this.TanjiDonateTxt.LinkColor = System.Drawing.SystemColors.HotTrack;
-            this.TanjiDonateTxt.Name = "TanjiDonateTxt";
-            this.TanjiDonateTxt.Size = new System.Drawing.Size(49, 19);
-            this.TanjiDonateTxt.Text = "Donate";
-            this.TanjiDonateTxt.Click += new System.EventHandler(this.TanjiDonateTxt_Click);
-            // 
             // TanjiInfoTxt
             // 
             this.TanjiInfoTxt.IsLink = true;
             this.TanjiInfoTxt.LinkColor = System.Drawing.SystemColors.HotTrack;
             this.TanjiInfoTxt.Name = "TanjiInfoTxt";
-            this.TanjiInfoTxt.Size = new System.Drawing.Size(134, 19);
+            this.TanjiInfoTxt.Size = new System.Drawing.Size(187, 19);
+            this.TanjiInfoTxt.Spring = true;
             this.TanjiInfoTxt.Text = "GitHub - ArachisH/Tanji";
             this.TanjiInfoTxt.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.TanjiInfoTxt.Click += new System.EventHandler(this.TanjiInfoTxt_Click);
@@ -1534,6 +1537,18 @@
             // 
             // AboutTab
             // 
+            this.AboutTab.Controls.Add(this.label2);
+            this.AboutTab.Controls.Add(this.DonateBtn);
+            this.AboutTab.Controls.Add(this.PindaPic);
+            this.AboutTab.Controls.Add(this.H4BB0Btn);
+            this.AboutTab.Controls.Add(this.SpeaqerBtn);
+            this.AboutTab.Controls.Add(this.panel1);
+            this.AboutTab.Controls.Add(this.ForbiddenBtn);
+            this.AboutTab.Controls.Add(this.SNGButton);
+            this.AboutTab.Controls.Add(this.DarkboxBtn);
+            this.AboutTab.Controls.Add(this.HarbleBtn);
+            this.AboutTab.Controls.Add(this.DarkStarBtn);
+            this.AboutTab.Controls.Add(this.ArachisBtn);
             this.AboutTab.Location = new System.Drawing.Point(4, 28);
             this.AboutTab.Name = "AboutTab";
             this.AboutTab.Padding = new System.Windows.Forms.Padding(3);
@@ -1541,6 +1556,128 @@
             this.AboutTab.TabIndex = 5;
             this.AboutTab.Text = "About";
             this.AboutTab.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(206, 168);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(194, 13);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "(money will be used for tacos n\' burritos)";
+            // 
+            // DonateBtn
+            // 
+            this.DonateBtn.BackColor = System.Drawing.Color.Transparent;
+            this.DonateBtn.Location = new System.Drawing.Point(221, 148);
+            this.DonateBtn.Name = "DonateBtn";
+            this.DonateBtn.Size = new System.Drawing.Size(165, 20);
+            this.DonateBtn.Skin = System.Drawing.Color.Green;
+            this.DonateBtn.TabIndex = 13;
+            this.DonateBtn.Text = "Send me money btw, ty";
+            // 
+            // PindaPic
+            // 
+            this.PindaPic.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.PindaPic.BackColor = System.Drawing.Color.Transparent;
+            this.PindaPic.Enabled = false;
+            this.PindaPic.ErrorImage = null;
+            this.PindaPic.Image = global::Tanji.Properties.Resources._4282632170;
+            this.PindaPic.InitialImage = null;
+            this.PindaPic.Location = new System.Drawing.Point(39, -5);
+            this.PindaPic.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.PindaPic.Name = "PindaPic";
+            this.PindaPic.Size = new System.Drawing.Size(128, 220);
+            this.PindaPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.PindaPic.TabIndex = 11;
+            this.PindaPic.TabStop = false;
+            // 
+            // H4BB0Btn
+            // 
+            this.H4BB0Btn.BackColor = System.Drawing.Color.Transparent;
+            this.H4BB0Btn.Location = new System.Drawing.Point(61, 287);
+            this.H4BB0Btn.Name = "H4BB0Btn";
+            this.H4BB0Btn.Size = new System.Drawing.Size(245, 20);
+            this.H4BB0Btn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.H4BB0Btn.TabIndex = 10;
+            this.H4BB0Btn.Text = "(Brazilian) - H4BB0 Discord Server";
+            // 
+            // SpeaqerBtn
+            // 
+            this.SpeaqerBtn.BackColor = System.Drawing.Color.Transparent;
+            this.SpeaqerBtn.Location = new System.Drawing.Point(253, 88);
+            this.SpeaqerBtn.Name = "SpeaqerBtn";
+            this.SpeaqerBtn.Size = new System.Drawing.Size(100, 20);
+            this.SpeaqerBtn.TabIndex = 8;
+            this.SpeaqerBtn.Text = "@SpeaqerDev";
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.panel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.panel1.Location = new System.Drawing.Point(0, 228);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(470, 1);
+            this.panel1.TabIndex = 1;
+            // 
+            // ForbiddenBtn
+            // 
+            this.ForbiddenBtn.BackColor = System.Drawing.Color.Transparent;
+            this.ForbiddenBtn.Location = new System.Drawing.Point(353, 287);
+            this.ForbiddenBtn.Name = "ForbiddenBtn";
+            this.ForbiddenBtn.Size = new System.Drawing.Size(117, 20);
+            this.ForbiddenBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.ForbiddenBtn.TabIndex = 7;
+            this.ForbiddenBtn.Text = "Forbidden.sh";
+            // 
+            // SNGButton
+            // 
+            this.SNGButton.BackColor = System.Drawing.Color.Transparent;
+            this.SNGButton.Location = new System.Drawing.Point(353, 261);
+            this.SNGButton.Name = "SNGButton";
+            this.SNGButton.Size = new System.Drawing.Size(117, 20);
+            this.SNGButton.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.SNGButton.TabIndex = 6;
+            this.SNGButton.Text = "SnGForum.info";
+            // 
+            // DarkboxBtn
+            // 
+            this.DarkboxBtn.BackColor = System.Drawing.Color.Transparent;
+            this.DarkboxBtn.Location = new System.Drawing.Point(353, 235);
+            this.DarkboxBtn.Name = "DarkboxBtn";
+            this.DarkboxBtn.Size = new System.Drawing.Size(117, 20);
+            this.DarkboxBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.DarkboxBtn.TabIndex = 5;
+            this.DarkboxBtn.Text = "Darkbox.nl";
+            // 
+            // HarbleBtn
+            // 
+            this.HarbleBtn.BackColor = System.Drawing.Color.Transparent;
+            this.HarbleBtn.Location = new System.Drawing.Point(61, 235);
+            this.HarbleBtn.Name = "HarbleBtn";
+            this.HarbleBtn.Size = new System.Drawing.Size(245, 20);
+            this.HarbleBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.HarbleBtn.TabIndex = 4;
+            this.HarbleBtn.Text = "(International) - Harble Discord Server";
+            // 
+            // DarkStarBtn
+            // 
+            this.DarkStarBtn.BackColor = System.Drawing.Color.Transparent;
+            this.DarkStarBtn.Location = new System.Drawing.Point(253, 62);
+            this.DarkStarBtn.Name = "DarkStarBtn";
+            this.DarkStarBtn.Size = new System.Drawing.Size(100, 20);
+            this.DarkStarBtn.TabIndex = 2;
+            this.DarkStarBtn.Text = "@DarkStar851";
+            // 
+            // ArachisBtn
+            // 
+            this.ArachisBtn.BackColor = System.Drawing.Color.Transparent;
+            this.ArachisBtn.Location = new System.Drawing.Point(253, 36);
+            this.ArachisBtn.Name = "ArachisBtn";
+            this.ArachisBtn.Size = new System.Drawing.Size(100, 20);
+            this.ArachisBtn.TabIndex = 1;
+            this.ArachisBtn.Text = "@ArachisH";
             // 
             // InjectionMenu
             // 
@@ -1595,6 +1732,9 @@
             this.ModulesTab.ResumeLayout(false);
             this.ModulesTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MTAuthorPctbx)).EndInit();
+            this.AboutTab.ResumeLayout(false);
+            this.AboutTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PindaPic)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1721,8 +1861,19 @@
         internal System.Windows.Forms.SaveFileDialog SavePacketDlg;
         internal Sulakore.Components.SKoreLabelBox FTReplacementTxt;
         internal Sulakore.Components.SKoreLabelBox STHotkeyTxt;
-        internal System.Windows.Forms.ToolStripStatusLabel TanjiDonateTxt;
         private Sulakore.Components.SKoreLabelBox sKoreLabelBox1;
         internal System.Windows.Forms.Label MTHabboNameLbl;
+        private System.Windows.Forms.Panel panel1;
+        internal System.Windows.Forms.PictureBox PindaPic;
+        internal Sulakore.Components.SKoreButton HarbleBtn;
+        internal Sulakore.Components.SKoreButton DarkStarBtn;
+        internal Sulakore.Components.SKoreButton ArachisBtn;
+        internal Sulakore.Components.SKoreButton H4BB0Btn;
+        internal Sulakore.Components.SKoreButton SpeaqerBtn;
+        internal Sulakore.Components.SKoreButton ForbiddenBtn;
+        internal Sulakore.Components.SKoreButton SNGButton;
+        internal Sulakore.Components.SKoreButton DarkboxBtn;
+        private System.Windows.Forms.Label label2;
+        internal Sulakore.Components.SKoreButton DonateBtn;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Diagnostics;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 
@@ -23,6 +24,59 @@ namespace Tanji.Pages.About
 
             UI.Shown += UI_Shown;
             UI.TanjiVersionTxt.Text = ("v" + LocalVersion);
+
+            UI.ArachisBtn.Click += ArachisBtn_Click;
+            UI.DarkStarBtn.Click += DarkStarBtn_Click;
+            UI.SpeaqerBtn.Click += SpeaqerBtn_Click;
+
+            UI.DonateBtn.Click += DonateBtn_Click;
+
+            UI.HarbleBtn.Click += HarbleBtn_Click;
+            UI.H4BB0Btn.Click += H4BB0Btn_Click;
+
+            UI.DarkboxBtn.Click += DarkboxBtn_Click;
+            UI.SNGButton.Click += SNGButton_Click;
+            UI.ForbiddenBtn.Click += ForbiddenBtn_Click;
+        }
+
+        private void ArachisBtn_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://twitter.com/ArachisH");
+        }
+        private void DarkStarBtn_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://twitter.com/DarkStar851");
+        }
+        private void SpeaqerBtn_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://twitter.com/SpeaqerDev");
+        }
+
+        private void DonateBtn_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HMYZ4GB5N2PAU");
+        }
+
+        private void HarbleBtn_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://discord.gg/Vyc2gFC");
+        }
+        private void H4BB0Btn_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://discord.gg/v2e6GdJ");
+        }
+
+        private void DarkboxBtn_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://www.Darkbox.nl/");
+        }
+        private void SNGButton_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://sngforum.info/");
+        }
+        private void ForbiddenBtn_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://forbidden.sh");
         }
 
         private async void UI_Shown(object sender, EventArgs e)
@@ -41,7 +95,7 @@ namespace Tanji.Pages.About
                 UI.TanjiVersionTxt.IsLink = true;
 
                 if (LatestVersion > LocalVersion &&
-                    !latestRelease.IsPrerelease)
+                   !latestRelease.IsPrerelease)
                 {
                     UI.TanjiVersionTxt.Text = "Update Found!";
                 }
