@@ -7,8 +7,8 @@
         public InDataCaptureAttribute(ushort id)
             : base(id)
         { }
-        public InDataCaptureAttribute(string hash)
-            : base(hash)
+        public InDataCaptureAttribute(string identifier)
+            : base(identifier)
         { }
     }
 }
