@@ -249,20 +249,13 @@ namespace Tangine
                             _game.Disassemble();
 
                             _game.GenerateMessageHashes();
-                            if (_initializationSource == null)
+                            if (packet.Readable > 0)
                             {
-                                if (packet.Readable > 0)
-                                {
-                                    string hashesPath = packet.ReadString();
-
-                                    _in = new Incoming();
-                                    _in.Load(_game, hashesPath);
-
-                                    _out = new Outgoing();
-                                    _out.Load(_game, hashesPath);
-                                }
-                                _module.ModifyGame(_game);
+                                string hashesPath = packet.ReadString();
+                                _in.Load(_game, hashesPath);
+                                _out.Load(_game, hashesPath);
                             }
+                            _module.ModifyGame(_game);
                         }
                         break;
                     }
@@ -270,10 +263,7 @@ namespace Tangine
                     {
                         _initStep++;
                         _gameData = new HGameData(packet.ReadString());
-                        if (_initializationSource == null)
-                        {
-                            _module.ModifyGameData(_gameData);
-                        }
+                        _module.ModifyGameData(_gameData);
                         break;
                     }
                     case 3:
@@ -319,9 +309,9 @@ namespace Tangine
                 }
                 #endregion
 
-                if (_initStep == 4 && _initializationSource != null)
+                if (_initStep == 4)
                 {
-                    _initializationSource.SetResult(true);
+                    _initializationSource?.SetResult(true);
                 }
             }
             finally
