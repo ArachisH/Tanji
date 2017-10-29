@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Security.Principal;
 
 using Tanji.Windows;
 
@@ -12,6 +13,15 @@ namespace Tanji
         [STAThread]
         private static void Main()
         {
+            if (IsAdministrator())
+            {
+                string title = "Tanji - Alert";
+                string message = "It is NOT recommended that you run this application with administrative privileges, please restart me without doing so!\r\n\r\nDon't worry, you will not lose any functionality.";
+                MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                return;
+            }
+
             AppDomain.CurrentDomain.UnhandledException += UnhandledException;
             Eavesdropper.Overrides.AddRange(new[]
             {
@@ -33,6 +43,16 @@ namespace Tanji
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainFrm());
         }
+
+        private static bool IsAdministrator()
+        {
+            using (var identity = WindowsIdentity.GetCurrent())
+            {
+                var principal = new WindowsPrincipal(identity);
+                return principal.IsInRole(WindowsBuiltInRole.Administrator);
+            }
+        }
+
         private static void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             var exception = (Exception)e.ExceptionObject;
