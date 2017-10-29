@@ -582,7 +582,6 @@ namespace Sulakore.Habbo
         }
         #endregion
 
-
         public bool InjectRawCamera()
         {
             // TODO: Try to split this up.
@@ -1269,6 +1268,15 @@ namespace Sulakore.Habbo
             if (Messages.TryGetValue(hash, out messages))
             {
                 return messages.Select(m => m.Id).ToArray();
+            }
+            return null;
+        }
+        public IReadOnlyList<ushort> GetMessageHeaders(string hash)
+        {
+            List<MessageItem> messages = null;
+            if (Messages.TryGetValue(hash, out messages))
+            {
+                return messages.Select(m => m.Id).ToList().AsReadOnly();
             }
             return null;
         }
