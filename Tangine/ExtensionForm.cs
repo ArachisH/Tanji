@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 using Sulakore.Habbo;
 using Sulakore.Modules;
@@ -15,9 +18,13 @@ namespace Tangine
     public class ExtensionForm : Form, IModule
     {
         private int _initStep;
-        private readonly IInstaller _installer;
+        private readonly IModule _module;
         private readonly HNode _remoteContractor;
         private readonly TaskCompletionSource<bool> _initializationSource;
+        private readonly List<DataCaptureAttribute> _unknownDataAttributes;
+        private readonly Dictionary<ushort, List<DataCaptureAttribute>> _outDataAttributes, _inDataAttributes;
+
+        private const BindingFlags BINDINGS = (BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
 
         [Browsable(false)]
         public IInstaller Installer { get; set; }
@@ -31,32 +38,55 @@ namespace Tangine
 
         private HGame _game;
         [Browsable(false)]
-        public HGame Game => (_game ?? _installer?.Game);
+        public HGame Game => (_game ?? Installer?.Game);
 
         private HHotel? _hotel;
         [Browsable(false)]
-        public HHotel Hotel => (_hotel ?? (_installer?.Hotel ?? HHotel.Com));
+        public HHotel Hotel => (_hotel ?? (Installer?.Hotel ?? HHotel.Com));
 
         private HGameData _gameData;
         [Browsable(false)]
-        public HGameData GameData => (_gameData ?? _installer?.GameData);
+        public HGameData GameData => (_gameData ?? Installer?.GameData);
 
         private readonly IHConnection _connection;
         [Browsable(false)]
-        public IHConnection Connection => (_connection ?? _installer?.Connection);
+        public IHConnection Connection => (_connection ?? Installer?.Connection);
 
         private Incoming _in;
         [Browsable(false)]
-        public Incoming In => (_in ?? _installer?.In);
+        public Incoming In => (_in ?? Installer?.In);
 
         private Outgoing _out;
         [Browsable(false)]
-        public Outgoing Out => (_out ?? _installer?.Out);
+        public Outgoing Out => (_out ?? Installer?.Out);
 
         public ExtensionForm()
         {
-            _installer = Contractor.GetInstaller(GetType());
-            if (_installer == null && IsRemoteModule)
+            _module = this;
+            _unknownDataAttributes = new List<DataCaptureAttribute>();
+            _inDataAttributes = new Dictionary<ushort, List<DataCaptureAttribute>>();
+            _outDataAttributes = new Dictionary<ushort, List<DataCaptureAttribute>>();
+
+            Triggers = new HTriggers();
+            foreach (MethodInfo method in GetAllMethods(GetType()))
+            {
+                foreach (var dataCaptureAtt in method.GetCustomAttributes<DataCaptureAttribute>())
+                {
+                    if (dataCaptureAtt == null) continue;
+
+                    dataCaptureAtt.Method = method;
+                    if (_unknownDataAttributes.Any(dca => dca.Equals(dataCaptureAtt))) continue;
+
+                    dataCaptureAtt.Target = this;
+                    if (dataCaptureAtt.Id != null)
+                    {
+                        AddCallback(dataCaptureAtt, (ushort)dataCaptureAtt.Id);
+                    }
+                    else _unknownDataAttributes.Add(dataCaptureAtt);
+                }
+            }
+
+            if (Installer == null && IsRemoteModule)
             {
                 _remoteContractor = GetRemoteContractor();
                 if (_remoteContractor != null)
@@ -71,19 +101,115 @@ namespace Tangine
                     _initializationSource = null;
                 }
             }
-
-            Triggers = new HTriggers();
         }
 
+        void IModule.ModifyGame(HGame game)
+        {
+            var unresolved = new Dictionary<string, IList<string>>();
+            foreach (PropertyInfo property in GetAllProperties(GetType()))
+            {
+                var messageIdAtt = property.GetCustomAttribute<MessageIdAttribute>();
+                if (string.IsNullOrWhiteSpace(messageIdAtt?.Hash)) continue;
+
+                ushort[] ids = game.GetMessageIds(messageIdAtt.Hash);
+                if (ids != null)
+                {
+                    property.SetValue(this, ids[0]);
+                }
+                else
+                {
+                    if (!unresolved.TryGetValue(messageIdAtt.Hash, out IList<string> users))
+                    {
+                        users = new List<string>();
+                        unresolved.Add(messageIdAtt.Hash, users);
+                    }
+                    users.Add("Property: " + property.Name);
+                }
+            }
+            foreach (DataCaptureAttribute dataCaptureAtt in _unknownDataAttributes)
+            {
+                if (string.IsNullOrWhiteSpace(dataCaptureAtt.Identifier)) continue;
+
+                ushort[] ids = game.GetMessageIds(dataCaptureAtt.Identifier);
+                if (ids != null)
+                {
+                    AddCallback(dataCaptureAtt, ids[0]);
+                }
+                else
+                {
+                    var identifiers = (dataCaptureAtt.IsOutgoing ? Out : (Identifiers)In);
+                    if (identifiers.TryGetId(dataCaptureAtt.Identifier, out ushort id))
+                    {
+                        AddCallback(dataCaptureAtt, id);
+                    }
+                    else
+                    {
+                        if (!unresolved.TryGetValue(dataCaptureAtt.Identifier, out IList<string> users))
+                        {
+                            users = new List<string>();
+                            unresolved.Add(dataCaptureAtt.Identifier, users);
+                        }
+                        users.Add(dataCaptureAtt.GetType().Name + ": " + dataCaptureAtt.Method.Name);
+                    }
+                }
+            }
+            if (unresolved.Count > 0)
+            {
+                throw new HashResolvingException(game.Revision, unresolved);
+            }
+            ModifyGame(game);
+        }
         public virtual void ModifyGame(HGame game)
         { }
+
+        void IModule.ModifyGameData(HGameData gameData)
+        {
+            ModifyGameData(gameData);
+        }
         public virtual void ModifyGameData(HGameData gameData)
         { }
 
+        void IModule.HandleOutgoing(DataInterceptedEventArgs e)
+        {
+            HandleOutgoing(e);
+            HandleData(_outDataAttributes, e);
+            Triggers?.HandleOutgoing(e);
+        }
         public virtual void HandleOutgoing(DataInterceptedEventArgs e)
         { }
+
+        void IModule.HandleIncoming(DataInterceptedEventArgs e)
+        {
+            HandleIncoming(e);
+            HandleData(_inDataAttributes, e);
+            Triggers?.HandleIncoming(e);
+        }
         public virtual void HandleIncoming(DataInterceptedEventArgs e)
         { }
+
+        private void AddCallback(DataCaptureAttribute attribute, ushort id)
+        {
+            Dictionary<ushort, List<DataCaptureAttribute>> callbacks =
+                (attribute.IsOutgoing ? _outDataAttributes : _inDataAttributes);
+
+            if (!callbacks.TryGetValue(id, out List<DataCaptureAttribute> attributes))
+            {
+                attributes = new List<DataCaptureAttribute>();
+                callbacks.Add(id, attributes);
+            }
+            attributes.Add(attribute);
+        }
+        private void HandleData(IDictionary<ushort, List<DataCaptureAttribute>> callbacks, DataInterceptedEventArgs e)
+        {
+            if (callbacks.TryGetValue(e.Packet.Header, out List<DataCaptureAttribute> attributes))
+            {
+                foreach (DataCaptureAttribute attribute in attributes)
+                {
+                    e.Packet.Position = 0;
+                    attribute.Invoke(e);
+                }
+            }
+        }
 
         private void RequestRemoteContractorData()
         {
@@ -113,6 +239,9 @@ namespace Tangine
                     case 1:
                     {
                         _initStep++;
+                        _in = new Incoming();
+                        _out = new Outgoing();
+
                         string location = packet.ReadString();
                         if (!string.IsNullOrWhiteSpace(location))
                         {
@@ -120,21 +249,20 @@ namespace Tangine
                             _game.Disassemble();
 
                             _game.GenerateMessageHashes();
-
                             if (_initializationSource == null)
                             {
-                                ModifyGame(_game);
+                                if (packet.Readable > 0)
+                                {
+                                    string hashesPath = packet.ReadString();
+
+                                    _in = new Incoming();
+                                    _in.Load(_game, hashesPath);
+
+                                    _out = new Outgoing();
+                                    _out.Load(_game, hashesPath);
+                                }
+                                _module.ModifyGame(_game);
                             }
-                        }
-                        if (packet.Readable > 0)
-                        {
-                            string hashesPath = packet.ReadString();
-
-                            _in = new Incoming();
-                            _in.Load(_game, hashesPath);
-
-                            _out = new Outgoing();
-                            _out.Load(_game, hashesPath);
                         }
                         break;
                     }
@@ -142,10 +270,10 @@ namespace Tangine
                     {
                         _initStep++;
                         _gameData = new HGameData(packet.ReadString());
-
                         if (_initializationSource == null)
-                            ModifyGameData(_gameData);
-
+                        {
+                            _module.ModifyGameData(_gameData);
+                        }
                         break;
                     }
                     case 3:
@@ -172,15 +300,13 @@ namespace Tangine
                         var args = new DataInterceptedEventArgs(interPacket, step, null);
                         try
                         {
-                            if (destination == HDestination.Client)
+                            if (destination == HDestination.Server)
                             {
-                                HandleIncoming(args);
-                                Triggers?.HandleIncoming(args);
+                                _module.HandleOutgoing(args);
                             }
                             else
                             {
-                                HandleOutgoing(args);
-                                Triggers?.HandleOutgoing(args);
+                                _module.HandleIncoming(args);
                             }
                         }
                         finally
@@ -193,16 +319,14 @@ namespace Tangine
                 }
                 #endregion
 
-                if (_initStep == 4 &&
-                    _initializationSource != null)
+                if (_initStep == 4 && _initializationSource != null)
                 {
                     _initializationSource.SetResult(true);
                 }
             }
             finally
             {
-                Task receiveRemContDataTask =
-                    ReceiveRemoteContractorDataAsync();
+                Task receiveRemContDataTask = ReceiveRemoteContractorDataAsync();
             }
         }
 
@@ -240,6 +364,26 @@ namespace Tangine
             interceptedData.WriteBytes(args.Packet.ToBytes());
 
             return _remoteContractor.SendPacketAsync(interceptedData);
+        }
+
+        private IEnumerable<MethodInfo> GetAllMethods(Type type)
+        {
+            return Excavate(type, t => t.GetMethods(BINDINGS));
+        }
+        private IEnumerable<PropertyInfo> GetAllProperties(Type type)
+        {
+            return Excavate(type, t => t.GetProperties(BINDINGS));
+        }
+        private IEnumerable<T> Excavate<T>(Type type, Func<Type, IEnumerable<T>> excavator)
+        {
+            IEnumerable<T> excavated = null;
+            while (type != null && type.BaseType != null)
+            {
+                IEnumerable<T> batch = excavator(type);
+                excavated = (excavated?.Concat(batch) ?? batch);
+                type = type.BaseType; ;
+            }
+            return excavated;
         }
     }
 }
