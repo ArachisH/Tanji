@@ -5,6 +5,7 @@ using System.Reflection;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using System.Runtime.Serialization;
 
 using Sulakore.Habbo;
 using Sulakore.Habbo.Web;
@@ -23,7 +24,6 @@ namespace Sulakore.Modules
         private readonly Dictionary<Type, ModuleAttribute> _moduleAttributes;
         private readonly Dictionary<Type, IEnumerable<AuthorAttribute>> _authorAttributes;
 
-        private static readonly Dictionary<Type, IInstaller> _contractors;
         private static readonly Dictionary<string, Assembly> _cachedFileAsms;
 
         public DirectoryInfo ModulesDirectory { get; }
@@ -39,7 +39,6 @@ namespace Sulakore.Modules
         static Contractor()
         {
             _cachedFileAsms = new Dictionary<string, Assembly>();
-            _contractors = new Dictionary<Type, IInstaller>();
         }
         public Contractor(string installDirectory)
         {
@@ -50,6 +49,8 @@ namespace Sulakore.Modules
             _initializedModules = new Dictionary<Type, IModule>();
             _moduleAttributes = new Dictionary<Type, ModuleAttribute>();
             _authorAttributes = new Dictionary<Type, IEnumerable<AuthorAttribute>>();
+
+            AppDomain.CurrentDomain.AssemblyResolve += Assembly_Resolve;
 
             ModulesDirectory = Directory.CreateDirectory(installDirectory);
             DependenciesDirectory = ModulesDirectory.CreateSubdirectory("Dependencies");
@@ -89,29 +90,23 @@ namespace Sulakore.Modules
 
             if (moduleType == null)
             {
-                try
+                CopyDependencies(path, fileAsm);
+                foreach (Type type in fileAsm.ExportedTypes)
                 {
-                    CopyDependencies(path, fileAsm);
-                    AppDomain.CurrentDomain.AssemblyResolve += Assembly_Resolve;
-                    foreach (Type type in fileAsm.ExportedTypes)
+                    var moduleAtt = type.GetCustomAttribute<ModuleAttribute>();
+                    _moduleAttributes[type] = moduleAtt;
+
+                    var authorAtts = type.GetCustomAttributes<AuthorAttribute>();
+                    _authorAttributes[type] = authorAtts;
+
+                    if (moduleAtt != null && typeof(IModule).IsAssignableFrom(type))
                     {
-                        var moduleAtt = type.GetCustomAttribute<ModuleAttribute>();
-                        _moduleAttributes[type] = moduleAtt;
-
-                        var authorAtts = type.GetCustomAttributes<AuthorAttribute>();
-                        _authorAttributes[type] = authorAtts;
-
-                        if (moduleAtt != null && typeof(IModule).IsAssignableFrom(type))
-                        {
-                            moduleType = type;
-                            _contractors[type] = this;
-                            _moduleTypes[copiedFilePath] = type;
-                            _modulePaths[type] = copiedFilePath;
-                            break;
-                        }
+                        moduleType = type;
+                        _moduleTypes[copiedFilePath] = type;
+                        _modulePaths[type] = copiedFilePath;
+                        break;
                     }
                 }
-                finally { AppDomain.CurrentDomain.AssemblyResolve -= Assembly_Resolve; }
             }
 
             if (moduleType == null)
@@ -164,8 +159,11 @@ namespace Sulakore.Modules
             IModule module = null;
             try
             {
-                AppDomain.CurrentDomain.AssemblyResolve += Assembly_Resolve;
-                module = (IModule)Activator.CreateInstance(type);
+                module = (IModule)FormatterServices.GetUninitializedObject(type);
+                module.Installer = this;
+
+                ConstructorInfo moduleConstructor = type.GetConstructor(Type.EmptyTypes);
+                moduleConstructor.Invoke(module, null);
 
                 _initializedModules[type] = module;
                 OnModuleInitialized(type);
@@ -181,7 +179,6 @@ namespace Sulakore.Modules
             }
             finally
             {
-                AppDomain.CurrentDomain.AssemblyResolve -= Assembly_Resolve;
                 if (module != null && typeof(IComponent).IsAssignableFrom(type))
                 {
                     ((IComponent)module).Disposed += ModuleComponent_Disposed;
@@ -272,28 +269,21 @@ namespace Sulakore.Modules
             return copiedFilePath;
         }
 
-        public static IInstaller GetInstaller(Type moduleType)
+        private void CopyDependencies(string path, Assembly assembly)
         {
-            IInstaller installer = null;
-            _contractors.TryGetValue(moduleType, out installer);
-            return installer;
-        }
-
-        private void CopyDependencies(string filePath, Assembly fileAsm)
-        {
-            AssemblyName[] references = fileAsm.GetReferencedAssemblies();
+            AssemblyName[] references = assembly.GetReferencedAssemblies();
             var fileReferences = new Dictionary<string, AssemblyName>(references.Length);
-
             foreach (AssemblyName reference in references)
+            {
                 fileReferences[reference.Name] = reference;
+            }
 
             string[] loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies()
-                .Select(a => a.GetName().Name).ToArray();
+                .Select(a => a.GetName().Name)
+                .ToArray();
 
-            IEnumerable<string> missingAssemblies = fileReferences
-                .Keys.Except(loadedAssemblies);
-
-            var sourceDirectory = new DirectoryInfo(Path.GetDirectoryName(filePath));
+            var sourceDirectory = new DirectoryInfo(Path.GetDirectoryName(path));
+            IEnumerable<string> missingAssemblies = fileReferences.Keys.Except(loadedAssemblies);
             foreach (string missingAssembly in missingAssemblies)
             {
                 string assemblyName = fileReferences[missingAssembly].FullName;
@@ -316,11 +306,11 @@ namespace Sulakore.Modules
             FileSystemInfo[] libraries = directory.GetFileSystemInfos("*.dll");
             foreach (FileSystemInfo library in libraries)
             {
-                string libraryName = AssemblyName.GetAssemblyName(
-                    library.FullName).FullName;
-
+                string libraryName = AssemblyName.GetAssemblyName(library.FullName).FullName;
                 if (libraryName == dependencyName)
+                {
                     return library;
+                }
             }
             return null;
         }
@@ -335,8 +325,7 @@ namespace Sulakore.Modules
             FileSystemInfo dependency = GetDependencyFile(DependenciesDirectory, e.Name);
             if (dependency != null)
             {
-                byte[] rawDependency = File.ReadAllBytes(dependency.FullName);
-                return Assembly.Load(rawDependency);
+                return Assembly.Load(File.ReadAllBytes(dependency.FullName));
             }
             return null;
         }
