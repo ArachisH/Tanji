@@ -1270,7 +1270,7 @@ namespace Sulakore.Habbo
             {
                 return messages.Select(m => m.Id).ToArray();
             }
-            throw new HashResolvingException(Revision, new string[] { hash });
+            return null;
         }
         public IReadOnlyList<ushort> GetMessageHeaders(string hash)
         {
@@ -1279,7 +1279,7 @@ namespace Sulakore.Habbo
             {
                 return messages.Select(m => m.Id).ToList().AsReadOnly();
             }
-            throw new HashResolvingException(Revision, new string[] { hash });
+            return null;
         }
 
         private void LoadMessages()
