@@ -11,6 +11,7 @@ using Flazzy.Tags;
 using Flazzy.Records;
 using Flazzy.ABC.AVM2;
 using Flazzy.ABC.AVM2.Instructions;
+using Sulakore.Habbo.Messages;
 
 namespace Sulakore.Habbo
 {
@@ -1269,7 +1270,7 @@ namespace Sulakore.Habbo
             {
                 return messages.Select(m => m.Id).ToArray();
             }
-            return null;
+            throw new HashResolvingException(Revision, new string[] { hash });
         }
         public IReadOnlyList<ushort> GetMessageHeaders(string hash)
         {
@@ -1278,7 +1279,7 @@ namespace Sulakore.Habbo
             {
                 return messages.Select(m => m.Id).ToList().AsReadOnly();
             }
-            return null;
+            throw new HashResolvingException(Revision, new string[] { hash });
         }
 
         private void LoadMessages()
