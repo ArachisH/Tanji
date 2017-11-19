@@ -270,7 +270,7 @@ namespace Tanji.Windows
             }
             else
             {
-                _currentFindMessageUI = new FindMessageDialog(_main.Game, LoggerTxt.SelectedText);
+                _currentFindMessageUI = new FindMessageDialog(_main, LoggerTxt.SelectedText);
                 _currentFindMessageUI.Show(this);
             }
         }
