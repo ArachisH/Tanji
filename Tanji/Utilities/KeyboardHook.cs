@@ -6,19 +6,26 @@ namespace Tanji.Utilities
 {
     public class KeyboardHook : NativeWindow, IDisposable
     {
+        [Flags]
+        private enum Modifiers
+        {
+            None = 0,
+            Alt = 1,
+            Control = 2,
+            Shift = 4
+        }
+
         private const int WM_HOTKEY = 0x312;
 
         private readonly Keys[] _keyModifiers;
         private readonly Modifiers[] _modifiers;
         private readonly Dictionary<Modifiers, Dictionary<Keys, int>> _registeredKeys;
 
-        public event EventHandler<KeyEventArgs> HotkeyActivated;
-        protected virtual void OnKeyPressed(KeyEventArgs e)
+        public event KeyEventHandler HotkeyPressed;
+        protected virtual void OnHotkeyPressed(KeyEventArgs e)
         {
-            HotkeyActivated?.Invoke(this, e);
+            HotkeyPressed?.Invoke(this, e);
         }
-
-        public bool IsDisposed { get; private set; }
 
         public KeyboardHook()
         {
@@ -58,9 +65,7 @@ namespace Tanji.Utilities
                 if (!_registeredKeys.ContainsKey(modifiers)) return;
                 if (!_registeredKeys[modifiers].ContainsKey(keyCode)) return;
 
-                NativeMethods.UnregisterHotKey(Handle,
-                    _registeredKeys[modifiers][keyCode]);
-
+                NativeMethods.UnregisterHotKey(Handle, _registeredKeys[modifiers][keyCode]);
                 _registeredKeys[modifiers].Remove(keyCode);
             }
         }
@@ -128,10 +133,8 @@ namespace Tanji.Utilities
                 var param = (int)m.LParam;
                 var modifier = (Modifiers)(param & 0xFFFF);
 
-                Keys keyData = (GetModifierKeys(modifier) |
-                    (Keys)((param >> 16) & 0xFFFF));
-
-                OnKeyPressed(new KeyEventArgs(keyData));
+                Keys keyData = (GetModifierKeys(modifier) | (Keys)((param >> 16) & 0xFFFF));
+                OnHotkeyPressed(new KeyEventArgs(keyData));
             }
             base.WndProc(ref m);
         }
@@ -142,7 +145,6 @@ namespace Tanji.Utilities
         }
         protected virtual void Dispose(bool disposing)
         {
-            if (IsDisposed) return;
             if (disposing)
             {
                 foreach (Dictionary<Keys, int> keys in _registeredKeys.Values)
@@ -156,16 +158,6 @@ namespace Tanji.Utilities
                 _registeredKeys.Clear();
                 DestroyHandle();
             }
-            IsDisposed = true;
-        }
-
-        [Flags]
-        private enum Modifiers : uint
-        {
-            None = 0x0,
-            Alt = 0x1,
-            Control = 0x2,
-            Shift = 0x4
         }
     }
 }
