@@ -2,32 +2,17 @@
 using System.ComponentModel;
 
 using Tanji.Controls;
-using Tanji.Services;
 
 using Sulakore.Network;
 
-namespace Tanji.Windows
+namespace Tanji.Services
 {
-    [DesignerCategory("Form")]
-    public partial class PacketLoggerFrm : ObservableForm, IHaltable, IReceiver
+    [ToolboxItem(true)]
+    [DesignerCategory("UserControl")]
+    public partial class ModulesPage : ObservablePage, IHaltable, IReceiver
     {
-        private readonly MainFrm _main;
-
-        public bool IsAlwaysOnTop
+        public ModulesPage()
         {
-            get => TopMost;
-            set
-            {
-                TopMost = value;
-                _main.TopMost = value;
-                RaiseOnPropertyChanged();
-            }
-        }
-
-        public PacketLoggerFrm(MainFrm main)
-        {
-            _main = main;
-
             InitializeComponent();
         }
 
