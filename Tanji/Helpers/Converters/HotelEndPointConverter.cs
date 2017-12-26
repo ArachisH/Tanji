@@ -22,7 +22,7 @@ namespace Tanji.Helpers.Converters
                 string[] ports = points[1].Split(',');
                 if (ports.Length > 0 && ushort.TryParse(ports[0], out ushort port))
                 {
-                    endpoint = HotelEndPoint.Parse(points[0], port);
+                    HotelEndPoint.TryParse(points[0], port, out endpoint);
                 }
             }
             return endpoint;

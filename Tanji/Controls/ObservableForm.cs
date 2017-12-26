@@ -17,6 +17,8 @@ namespace Tanji.Controls
     {
         private readonly Dictionary<string, Binding> _bindings;
 
+        protected Program Master => Program.Master;
+
         public ObservableForm()
         {
             _bindings = new Dictionary<string, Binding>();
@@ -25,7 +27,7 @@ namespace Tanji.Controls
             Icon = Resources.Tanji_256;
             StartPosition = FormStartPosition.CenterScreen;
 
-            if (Program.Master != null)
+            if (Program.Master != null && !DesignMode)
             {
                 if (this is IHaltable haltable)
                 {
@@ -38,38 +40,14 @@ namespace Tanji.Controls
             }
         }
 
-        protected void Bind(IBindableComponent component, string sourceName, IValueConverter converter = null)
+        protected void Bind(IBindableComponent component, string propertyName, string dataMember, IValueConverter converter = null)
         {
-            string targetName = null;
-            switch (component)
+            var binding = new CustomBinding(propertyName, this, dataMember, converter)
             {
-                case TextBox textBox:
-                {
-                    targetName = "Text";
-                    break;
-                }
-                case CheckBox checkBox:
-                {
-                    targetName = "Checked";
-                    break;
-                }
-                case NumericUpDown numericUpDown:
-                {
-                    targetName = "Value";
-                    break;
-                }
-            }
-            if (string.IsNullOrWhiteSpace(targetName))
-            {
-                throw new ArgumentException("Unable to find the appropriate target name for the given component.", nameof(component));
-            }
-            Bind(component, targetName, sourceName, converter);
-        }
-        protected void Bind(IBindableComponent component, string targetName, string sourceName, IValueConverter converter = null)
-        {
-            var binding = new CustomBinding(targetName, this, sourceName, converter);
+                DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged
+            };
             component.DataBindings.Add(binding);
-            _bindings[sourceName] = binding;
+            _bindings[dataMember] = binding;
         }
 
         protected override void OnShown(EventArgs e)
