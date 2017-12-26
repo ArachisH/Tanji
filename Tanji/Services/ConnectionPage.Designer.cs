@@ -28,10 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("sso.ticket");
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("furnidata.load.url");
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("productdata.load.url");
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("avatareditor.promohabbos");
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("external.texts.txt");
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("external.variables.txt");
+            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem("external.figurepartlist.txt");
+            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem("external.override.texts.txt");
+            System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem("external.override.variables.txt");
             this.HotelServerTxt = new Tangine.Controls.TangineLabelBox();
             this.AutomaticServerExtractionChbx = new System.Windows.Forms.CheckBox();
             this.Seperator1 = new System.Windows.Forms.Label();
             this.VariablesLv = new Tangine.Controls.TangineListView();
+            this.VariableCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ValueCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.StatusTxt = new Tangine.Controls.TangineLabel();
             this.ConnectBtn = new Tangine.Controls.TangineButton();
             this.CancelBtn = new Tangine.Controls.TangineButton();
@@ -44,13 +55,13 @@
             this.Seperator2 = new System.Windows.Forms.Label();
             this.ValueTxt = new Tangine.Controls.TangineLabelBox();
             this.VariableTxt = new Tangine.Controls.TangineLabelBox();
-            this.VariableCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ValueCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.tangineButton1 = new Tangine.Controls.TangineButton();
+            this.ClearBtn = new Tangine.Controls.TangineButton();
+            this.UpdateBtn = new Tangine.Controls.TangineButton();
             this.SuspendLayout();
             // 
             // HotelServerTxt
             // 
+            this.HotelServerTxt.IsReadOnly = true;
             this.HotelServerTxt.Location = new System.Drawing.Point(3, 3);
             this.HotelServerTxt.Name = "HotelServerTxt";
             this.HotelServerTxt.Size = new System.Drawing.Size(317, 20);
@@ -61,6 +72,8 @@
             // AutomaticServerExtractionChbx
             // 
             this.AutomaticServerExtractionChbx.AutoSize = true;
+            this.AutomaticServerExtractionChbx.Checked = true;
+            this.AutomaticServerExtractionChbx.CheckState = System.Windows.Forms.CheckState.Checked;
             this.AutomaticServerExtractionChbx.Location = new System.Drawing.Point(326, 5);
             this.AutomaticServerExtractionChbx.Name = "AutomaticServerExtractionChbx";
             this.AutomaticServerExtractionChbx.Size = new System.Drawing.Size(157, 17);
@@ -78,6 +91,7 @@
             // 
             // VariablesLv
             // 
+            this.VariablesLv.CheckBoxes = true;
             this.VariablesLv.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.VariableCol,
             this.ValueCol});
@@ -85,6 +99,25 @@
             this.VariablesLv.GridLines = true;
             this.VariablesLv.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.VariablesLv.HideSelection = false;
+            listViewItem1.StateImageIndex = 0;
+            listViewItem2.StateImageIndex = 0;
+            listViewItem3.StateImageIndex = 0;
+            listViewItem4.StateImageIndex = 0;
+            listViewItem5.StateImageIndex = 0;
+            listViewItem6.StateImageIndex = 0;
+            listViewItem7.StateImageIndex = 0;
+            listViewItem8.StateImageIndex = 0;
+            listViewItem9.StateImageIndex = 0;
+            this.VariablesLv.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem1,
+            listViewItem2,
+            listViewItem3,
+            listViewItem4,
+            listViewItem5,
+            listViewItem6,
+            listViewItem7,
+            listViewItem8,
+            listViewItem9});
             this.VariablesLv.Location = new System.Drawing.Point(3, 30);
             this.VariablesLv.MultiSelect = false;
             this.VariablesLv.Name = "VariablesLv";
@@ -93,6 +126,16 @@
             this.VariablesLv.TabIndex = 3;
             this.VariablesLv.UseCompatibleStateImageBehavior = false;
             this.VariablesLv.View = System.Windows.Forms.View.Details;
+            // 
+            // VariableCol
+            // 
+            this.VariableCol.Text = "Variable";
+            this.VariableCol.Width = 229;
+            // 
+            // ValueCol
+            // 
+            this.ValueCol.Text = "Value";
+            this.ValueCol.Width = 230;
             // 
             // StatusTxt
             // 
@@ -110,6 +153,7 @@
             this.ConnectBtn.Size = new System.Drawing.Size(90, 20);
             this.ConnectBtn.TabIndex = 5;
             this.ConnectBtn.Text = "Connect";
+            this.ConnectBtn.Click += new System.EventHandler(this.ConnectBtn_Click);
             // 
             // CancelBtn
             // 
@@ -119,6 +163,7 @@
             this.CancelBtn.Size = new System.Drawing.Size(90, 20);
             this.CancelBtn.TabIndex = 6;
             this.CancelBtn.Text = "Cancel";
+            this.CancelBtn.Click += new System.EventHandler(this.CancelBtn_Click);
             // 
             // Seperator3
             // 
@@ -154,6 +199,7 @@
             this.ExportCertificateAuthorityBtn.Size = new System.Drawing.Size(189, 20);
             this.ExportCertificateAuthorityBtn.TabIndex = 10;
             this.ExportCertificateAuthorityBtn.Text = "Export Certificate Authority";
+            this.ExportCertificateAuthorityBtn.Click += new System.EventHandler(this.ExportCertificateAuthorityBtn_Click);
             // 
             // DestroyCertificatesBtn
             // 
@@ -163,6 +209,7 @@
             this.DestroyCertificatesBtn.Size = new System.Drawing.Size(189, 20);
             this.DestroyCertificatesBtn.TabIndex = 11;
             this.DestroyCertificatesBtn.Text = "Destroy Certificates";
+            this.DestroyCertificatesBtn.Click += new System.EventHandler(this.DestroyCertificatesBtn_Click);
             // 
             // ProxyPortLbl
             // 
@@ -184,7 +231,7 @@
             // 
             this.ValueTxt.Location = new System.Drawing.Point(3, 219);
             this.ValueTxt.Name = "ValueTxt";
-            this.ValueTxt.Size = new System.Drawing.Size(274, 20);
+            this.ValueTxt.Size = new System.Drawing.Size(384, 20);
             this.ValueTxt.TabIndex = 14;
             this.ValueTxt.Text = "";
             this.ValueTxt.TextPaddingWidth = 23;
@@ -192,35 +239,40 @@
             // 
             // VariableTxt
             // 
+            this.VariableTxt.IsReadOnly = true;
             this.VariableTxt.Location = new System.Drawing.Point(3, 245);
             this.VariableTxt.Name = "VariableTxt";
-            this.VariableTxt.Size = new System.Drawing.Size(274, 20);
+            this.VariableTxt.Size = new System.Drawing.Size(384, 20);
             this.VariableTxt.TabIndex = 15;
             this.VariableTxt.Text = "";
             this.VariableTxt.Title = "Variable";
             // 
-            // VariableCol
+            // ClearBtn
             // 
-            this.VariableCol.Text = "Variable";
+            this.ClearBtn.BackColor = System.Drawing.Color.Transparent;
+            this.ClearBtn.Location = new System.Drawing.Point(393, 245);
+            this.ClearBtn.Name = "ClearBtn";
+            this.ClearBtn.Size = new System.Drawing.Size(90, 20);
+            this.ClearBtn.TabIndex = 16;
+            this.ClearBtn.Text = "Clear";
+            this.ClearBtn.Click += new System.EventHandler(this.ClearBtn_Click);
             // 
-            // ValueCol
+            // UpdateBtn
             // 
-            this.ValueCol.Text = "Value";
-            // 
-            // tangineButton1
-            // 
-            this.tangineButton1.BackColor = System.Drawing.Color.Transparent;
-            this.tangineButton1.Location = new System.Drawing.Point(198, 164);
-            this.tangineButton1.Name = "tangineButton1";
-            this.tangineButton1.Size = new System.Drawing.Size(90, 20);
-            this.tangineButton1.TabIndex = 16;
-            this.tangineButton1.Text = "Browse";
+            this.UpdateBtn.BackColor = System.Drawing.Color.Transparent;
+            this.UpdateBtn.Location = new System.Drawing.Point(393, 219);
+            this.UpdateBtn.Name = "UpdateBtn";
+            this.UpdateBtn.Size = new System.Drawing.Size(90, 20);
+            this.UpdateBtn.TabIndex = 17;
+            this.UpdateBtn.Text = "Update";
+            this.UpdateBtn.Click += new System.EventHandler(this.UpdateBtn_Click);
             // 
             // ConnectionPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.tangineButton1);
+            this.Controls.Add(this.UpdateBtn);
+            this.Controls.Add(this.ClearBtn);
             this.Controls.Add(this.VariableTxt);
             this.Controls.Add(this.ValueTxt);
             this.Controls.Add(this.Seperator2);
@@ -238,6 +290,7 @@
             this.Controls.Add(this.HotelServerTxt);
             this.Controls.Add(this.VariablesLv);
             this.Name = "ConnectionPage";
+            this.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(this.ConnectionPage_PropertyChanged);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -263,6 +316,7 @@
         private Tangine.Controls.TangineLabelBox VariableTxt;
         private System.Windows.Forms.ColumnHeader VariableCol;
         private System.Windows.Forms.ColumnHeader ValueCol;
-        private Tangine.Controls.TangineButton tangineButton1;
+        private Tangine.Controls.TangineButton ClearBtn;
+        private Tangine.Controls.TangineButton UpdateBtn;
     }
 }
