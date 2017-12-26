@@ -41,6 +41,7 @@ namespace Tanji
         [STAThread]
         public static void Main()
         {
+            Eavesdropper.Certifier = new CertificateManager("Tanji", "Tanji Certificate Authority");
             AppDomain.CurrentDomain.UnhandledException += UnhandledException;
 
             Application.EnableVisualStyles();
