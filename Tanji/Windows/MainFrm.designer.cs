@@ -362,6 +362,7 @@
             this.MaximizeBox = false;
             this.Name = "MainFrm";
             this.Text = "Tanji - Disconnected";
+            this.TopMost = true;
             this.TanjiTabs.ResumeLayout(false);
             this.ConnectionTab.ResumeLayout(false);
             this.InjectionTab.ResumeLayout(false);

@@ -1,57 +1,53 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 using Tanji.Controls;
 using Tanji.Services;
 
 using Sulakore.Network;
+using System.Windows.Forms;
 
 namespace Tanji.Windows
 {
     [DesignerCategory("Form")]
     public partial class PacketLoggerFrm : ObservableForm, IHaltable, IReceiver
     {
-        private readonly MainFrm _main;
-
-        public bool IsAlwaysOnTop
+        public new bool TopMost
         {
-            get => TopMost;
+            get => base.TopMost;
             set
             {
-                TopMost = value;
-                _main.TopMost = value;
+                base.TopMost = value;
                 RaiseOnPropertyChanged();
             }
         }
 
-        public PacketLoggerFrm(MainFrm main)
+        public PacketLoggerFrm()
         {
-            _main = main;
-
             InitializeComponent();
+        }
+
+        private void PacketLoggerFrm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            WindowState = FormWindowState.Minimized;
         }
 
         #region IHaltable Implementation
         public void Halt()
         {
-            throw new NotImplementedException();
+            Close();
         }
         public void Restore()
         {
-            throw new NotImplementedException();
+            WindowState = FormWindowState.Normal;
         }
         #endregion
-
         #region IReceiver Implementation
         public bool IsReceiving { get; }
         public void HandleOutgoing(DataInterceptedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        { }
         public void HandleIncoming(DataInterceptedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        { }
         #endregion
     }
 }

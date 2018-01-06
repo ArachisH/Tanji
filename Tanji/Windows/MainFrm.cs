@@ -12,19 +12,27 @@ namespace Tanji.Windows
 
         public MainFrm()
         {
-            _packetLogger = new PacketLoggerFrm(this);
+            _packetLogger = new PacketLoggerFrm();
 
             InitializeComponent();
+
+            Bind(_packetLogger, "TopMost", "TopMost");
         }
 
         #region IHaltable Implementation
         public void Halt()
         {
+            Text = "Tanji - Disconnected";
             TopMost = true;
+
+            _packetLogger.Hide();
         }
         public void Restore()
         {
-            TopMost = _packetLogger.IsAlwaysOnTop;
+            Text = $"Tanji - Connected[{Program.Master.Connection.Remote.EndPoint}]";
+            TopMost = _packetLogger.TopMost;
+
+            _packetLogger.Show();
         }
         #endregion
     }

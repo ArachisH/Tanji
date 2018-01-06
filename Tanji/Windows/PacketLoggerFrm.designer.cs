@@ -37,6 +37,7 @@
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Name = "PacketLoggerFrm";
             this.Text = "PacketLoggerFrm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PacketLoggerFrm_FormClosing);
             this.ResumeLayout(false);
 
         }

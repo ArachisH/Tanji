@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 using Tanji.Controls;
 using Tanji.Helpers.Converters;
@@ -22,9 +23,10 @@ namespace Tanji.Services
 {
     [ToolboxItem(true)]
     [DesignerCategory("UserControl")]
-    public partial class ConnectionPage : ObservablePage, IReceiver
+    public partial class ConnectionPage : ObservablePage, IHaltable, IReceiver
     {
         private Guid _randomQuery;
+        private Dictionary<string, string> _variableReplacements;
 
         #region Status Constants
         private const string STANDING_BY = "Standing By...";
@@ -105,7 +107,7 @@ namespace Tanji.Services
 
         private Task InjectGameClientAsync(object sender, RequestInterceptedEventArgs e)
         {
-            if (!e.Uri.Query.StartsWith("?Tanji-")) return Task.CompletedTask;
+            if (!e.Uri.Query.StartsWith("?" + _randomQuery)) return Task.CompletedTask;
             Eavesdropper.RequestInterceptedAsync -= InjectGameClientAsync;
 
             Uri remoteUrl = e.Request.RequestUri;
@@ -144,7 +146,7 @@ namespace Tanji.Services
                 }
 
                 TerminateProxy();
-                InterceptConnection();
+                Task interceptConnectionTask = InterceptConnectionAsync();
                 e.Request = WebRequest.Create(new Uri(clientPath));
             }
             return Task.CompletedTask;
@@ -207,12 +209,12 @@ namespace Tanji.Services
             }
 
             TerminateProxy();
-            InterceptConnection();
+            Task interceptConnectionTask = InterceptConnectionAsync();
         }
         private async Task InterceptClientPageAsync(object sender, ResponseInterceptedEventArgs e)
         {
             if (e.Content == null) return;
-            if (!e.ContentType.StartsWith("text")) return;
+            if (!e.ContentType.Contains("text")) return;
 
             string body = await e.Content.ReadAsStringAsync();
             if (!body.Contains("info.host") && !body.Contains("info.port")) return;
@@ -244,18 +246,25 @@ namespace Tanji.Services
             Eavesdropper.RequestInterceptedAsync += InjectGameClientAsync;
         }
 
-        private void TerminateProxy()
+        private void BrowseBtn_Click(object sender, EventArgs e)
         {
-            Eavesdropper.Terminate();
-            Eavesdropper.RequestInterceptedAsync -= InjectGameClientAsync;
-            Eavesdropper.ResponseInterceptedAsync -= InterceptClientPageAsync;
-            Eavesdropper.ResponseInterceptedAsync -= InterceptGameClientAsync;
+            ChooseClientDlg.FileName = null;
+            if (ChooseClientDlg.ShowDialog() == DialogResult.OK)
+            {
+                CustomClientPath = ChooseClientDlg.FileName;
+            }
         }
-        private void InterceptConnection()
+        private void DestroyCertificatesBtn_Click(object sender, EventArgs e)
         {
-            Status = INTERCEPTING_CONNECTION;
-            Master.Connection.SocketSkip = (Master.Game.IsPostShuffle ? 2 : 0);
-            Task interceptTask = Master.Connection.InterceptAsync(HotelServer);
+            Eavesdropper.Certifier.DestroyCertificates();
+        }
+        private void ExportCertificateAuthorityBtn_Click(object sender, EventArgs e)
+        {
+            if (!Eavesdropper.Certifier.CreateTrustedRootCertificate()) return;
+            if (ExportCertificateDlg.ShowDialog() == DialogResult.OK)
+            {
+                Eavesdropper.Certifier.ExportTrustedRootCertificate(ExportCertificateDlg.FileName);
+            }
         }
 
         private void CancelBtn_Click(object sender, EventArgs e)
@@ -293,6 +302,11 @@ namespace Tanji.Services
                 else return;
             }
 
+            _variableReplacements = VariablesLv.CheckedItems
+                .Cast<ListViewItem>()
+                .Where(i => !string.IsNullOrWhiteSpace(i.SubItems[1].Text))
+                .ToDictionary(i => i.Text, i => i.SubItems[1].Text);
+
             if (Eavesdropper.Certifier.CreateTrustedRootCertificate())
             {
                 Eavesdropper.ResponseInterceptedAsync += InterceptClientPageAsync;
@@ -302,17 +316,37 @@ namespace Tanji.Services
         }
 
         private void ClearBtn_Click(object sender, EventArgs e)
-        { }
-        private void UpdateBtn_Click(object sender, EventArgs e)
-        { }
-
-        private void DestroyCertificatesBtn_Click(object sender, EventArgs e)
         {
-
+            ValueTxt.Text = string.Empty;
+            VariablesLv.SelectedItem.SubItems[1].Text = string.Empty;
         }
-        private void ExportCertificateAuthorityBtn_Click(object sender, EventArgs e)
+        private void UpdateBtn_Click(object sender, EventArgs e)
         {
+            VariablesLv.SelectedItem.SubItems[1].Text = ValueTxt.Text;
+        }
+        private void ValueTxt_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Enter || !UpdateBtn.Enabled) return;
 
+            e.SuppressKeyPress = true;
+            UpdateBtn_Click(sender, e);
+        }
+
+        private async void VariablesLv_ItemSelected(object sender, EventArgs e)
+        {
+            VariableTxt.Text = VariablesLv.SelectedItem.Text;
+            ValueTxt.Text = VariablesLv.SelectedItem.SubItems[1].Text;
+
+            await Task.Delay(125);
+            ValueTxt.Focus();
+        }
+        private void VariablesLv_ItemSelectionStateChanged(object sender, EventArgs e)
+        {
+            UpdateBtn.Enabled = ClearBtn.Enabled = VariablesLv.HasSelectedItem;
+            if (VariablesLv.HasSelectedItem) return;
+
+            UpdateBtn.Enabled = ClearBtn.Enabled = false;
+            VariableTxt.Text = ValueTxt.Text = string.Empty;
         }
 
         private void ConnectionPage_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -329,6 +363,7 @@ namespace Tanji.Services
                     CancelBtn.Enabled = isBusy;
                     ConnectBtn.Enabled = !isBusy;
                     HotelServerTxt.Enabled = !isBusy;
+                    CustomClientTxt.Enabled = !isBusy;
                     AutomaticServerExtractionChbx.Enabled = !isBusy;
                     break;
                 }
@@ -344,6 +379,30 @@ namespace Tanji.Services
             }
         }
 
+        private void TerminateProxy()
+        {
+            Eavesdropper.Terminate();
+            Eavesdropper.RequestInterceptedAsync -= InjectGameClientAsync;
+            Eavesdropper.ResponseInterceptedAsync -= InterceptClientPageAsync;
+            Eavesdropper.ResponseInterceptedAsync -= InterceptGameClientAsync;
+        }
+        private async Task InterceptConnectionAsync()
+        {
+            Status = INTERCEPTING_CONNECTION;
+            Master.Connection.SocketSkip = (Master.Game.IsPostShuffle ? 2 : 0);
+
+            await Master.Connection.InterceptAsync(HotelServer).ConfigureAwait(false);
+            Status = STANDING_BY;
+        }
+
+        #region IHaltable Implementation
+        public void Halt()
+        { }
+        public void Restore()
+        {
+            IsReceiving = true;
+        }
+        #endregion
         #region IReceiver Implementation
         [Browsable(false)]
         public bool IsReceiving { get; set; }
