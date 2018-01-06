@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 using Tanji.Controls;
 
@@ -16,13 +15,9 @@ namespace Tanji.Services.Injection
 
         #region IHaltable Implementation
         public void Halt()
-        {
-            throw new NotImplementedException();
-        }
+        { }
         public void Restore()
-        {
-            throw new NotImplementedException();
-        }
+        { }
         #endregion
     }
 }
