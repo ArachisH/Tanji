@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 
@@ -48,6 +49,17 @@ namespace Tangine.Controls
             }
         }
 
+        [DefaultValue(true)]
+        public new bool TabStop
+        {
+            get => base.TabStop;
+            set
+            {
+                Box.TabStop = value;
+                base.TabStop = value;
+            }
+        }
+
         public TangineLabelBox()
         {
             SetStyle((ControlStyles)2050, true);
@@ -55,10 +67,23 @@ namespace Tangine.Controls
             DoubleBuffered = true;
 
             Box = new TextBox();
+            Box.KeyDown += (sender, e) => { OnKeyDown(e); };
+
             Box.TextAlign = HorizontalAlignment.Center;
             Box.Anchor = (AnchorStyles.Left | AnchorStyles.Right);
 
             Controls.Add(Box);
+        }
+
+        protected override void OnGotFocus(EventArgs e)
+        {
+            base.OnGotFocus(e);
+            Box.Focus();
+        }
+        protected override void Select(bool directed, bool forward)
+        {
+            base.Select(directed, forward);
+            Box.Select();
         }
 
         protected override void OnPaint(PaintEventArgs e)
