@@ -1,10 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System.Windows.Forms;
+using System.ComponentModel;
 
 using Tanji.Controls;
 using Tanji.Services;
 
 using Sulakore.Network;
-using System.Windows.Forms;
 
 namespace Tanji.Windows
 {
