@@ -365,13 +365,19 @@ namespace Tanji.Windows
                 {
                     int currentLineIndex = (LogTxt.Lines.Length - 1);
                     string currentLine = LogTxt.Lines[currentLineIndex];
-                    LogTxt.Find(currentLine, RichTextBoxFinds.Reverse);
+
+                    int currentLineFirstCharIndex = LogTxt.Find(currentLine, RichTextBoxFinds.Reverse | RichTextBoxFinds.NoHighlight);
+                    LogTxt.SelectionStart = currentLineFirstCharIndex;
+                    LogTxt.SelectionLength = currentLine.Length;
 
                     LogTxt.SelectionColor = highlight;
                     LogTxt.SelectedText = message.Substring(2);
                 }
                 else
                 {
+                    LogTxt.SelectionStart = LogTxt.TextLength;
+                    LogTxt.SelectionLength = 0;
+
                     LogTxt.SelectionColor = highlight;
                     LogTxt.AppendText(message);
                 }
