@@ -132,6 +132,8 @@ namespace Tanji.Services
                     Status = GENERATING_MESSAGE_HASHES;
                     Master.Game.GenerateMessageHashes();
                 }
+                Program.Master.In.Load(Master.Game, "Hashes.ini");
+                Program.Master.Out.Load(Master.Game, "Hashes.ini");
 
                 if (Master.GameData.Hotel == HHotel.Unknown && IsExtractingHotelServer)
                 {
@@ -170,11 +172,13 @@ namespace Tanji.Services
             {
                 Status = GENERATING_MESSAGE_HASHES;
                 Master.Game.GenerateMessageHashes();
-
+                
                 Status = MODIFYING_CLIENT;
                 Master.Game.DisableHostChecks();
                 Master.Game.InjectKeyShouter(4001);
             }
+            Program.Master.In.Load(Master.Game, "Hashes.ini");
+            Program.Master.Out.Load(Master.Game, "Hashes.ini");
 
             if (Master.GameData.Hotel == HHotel.Unknown)
             {
