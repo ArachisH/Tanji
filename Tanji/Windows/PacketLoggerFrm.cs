@@ -191,7 +191,7 @@ namespace Tanji.Windows
                 if (_lastIntercepted != null && AreEqual(_lastIntercepted.Packet, intercepted.Packet))
                 {
                     entries.Add(("RL--------------------", DefaultHighlight));
-                    entries.Add((" < +" + (_streak++) + " > ", Color.Red));
+                    entries.Add((" < +" + (_streak++) + " > ", Color.MediumPurple));
                 }
                 else _streak = 1;
 

@@ -265,7 +265,6 @@
             // 
             this.LogTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
             this.LogTxt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.LogTxt.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.LogTxt.DetectUrls = false;
             this.LogTxt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.LogTxt.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
