@@ -172,7 +172,7 @@ namespace Tanji.Services
             {
                 Status = GENERATING_MESSAGE_HASHES;
                 Master.Game.GenerateMessageHashes();
-                
+
                 Status = MODIFYING_CLIENT;
                 Master.Game.DisableHostChecks();
                 Master.Game.InjectKeyShouter(4001);
@@ -195,7 +195,7 @@ namespace Tanji.Services
                 }
 
                 Status = MODIFYING_CLIENT;
-                Master.Game.InjectEndPoint("127.0.0.1", HotelServer.Port);
+                Master.Game.InjectEndPoint("127.0.0.1", Master.Connection.ListenPort);
             }
 
             CompressionKind compression = CompressionKind.ZLIB;
@@ -242,6 +242,7 @@ namespace Tanji.Services
             if (Master.GameData.Hotel != HHotel.Unknown)
             {
                 body = body.Replace(Master.GameData.InfoHost, "127.0.0.1");
+                body = body.Replace(Master.GameData.InfoPort, Master.Connection.ListenPort.ToString());
             }
             body = body.Replace(".swf", $".swf?{(_randomQuery = Guid.NewGuid())}");
             e.Content = new StringContent(body);
@@ -347,10 +348,10 @@ namespace Tanji.Services
         private void VariablesLv_ItemSelectionStateChanged(object sender, EventArgs e)
         {
             UpdateBtn.Enabled = ClearBtn.Enabled = VariablesLv.HasSelectedItem;
-            if (VariablesLv.HasSelectedItem) return;
-
-            UpdateBtn.Enabled = ClearBtn.Enabled = false;
-            VariableTxt.Text = ValueTxt.Text = string.Empty;
+            if (!VariablesLv.HasSelectedItem)
+            {
+                VariableTxt.Text = ValueTxt.Text = string.Empty;
+            }
         }
 
         private void ConnectionPage_PropertyChanged(object sender, PropertyChangedEventArgs e)
