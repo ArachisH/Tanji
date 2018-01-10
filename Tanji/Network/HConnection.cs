@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,7 +13,10 @@ namespace Tanji.Network
     {
         private bool _isIntercepting;
         private int _inSteps, _outSteps;
+
         private readonly object _disconnectLock;
+
+        private const string CROSS_DOMAIN_POLICY = "<cross-domain-policy><allow-access-from domain=\"*\" to-ports=\"*\"/></cross-domain-policy>";
 
         /// <summary>
         /// Occurs when the connection between the client, and server have been intercepted.
@@ -51,6 +55,7 @@ namespace Tanji.Network
         }
 
         public int SocketSkip { get; set; } = 2;
+        public int ListenPort { get; set; } = 9567;
         public bool IsConnected { get; private set; }
 
         public HNode Local { get; private set; }
@@ -77,7 +82,7 @@ namespace Tanji.Network
             {
                 try
                 {
-                    Local = await HNode.AcceptAsync(endpoint.Port).ConfigureAwait(false);
+                    Local = await HNode.AcceptAsync(ListenPort).ConfigureAwait(false);
                     if (!_isIntercepting) break;
 
                     if (++interceptCount == SocketSkip)
@@ -117,10 +122,11 @@ namespace Tanji.Network
                     else
                     {
                         buffer = await Local.ReceiveAsync(512).ConfigureAwait(false);
-                        await Remote.SendAsync(buffer).ConfigureAwait(false);
-
-                        buffer = await Remote.ReceiveAsync(1024).ConfigureAwait(false);
-                        await Local.SendAsync(buffer).ConfigureAwait(false);
+                        if (Encoding.UTF8.GetString(buffer).ToLower().Contains("<policy-file-request/>"))
+                        {
+                            await Local.SendAsync(Encoding.UTF8.GetBytes(CROSS_DOMAIN_POLICY)).ConfigureAwait(false);
+                        }
+                        else throw new Exception("Expected cross-domain policy request");
                         continue;
                     }
                     if (!_isIntercepting) break;
@@ -142,7 +148,7 @@ namespace Tanji.Network
                     }
                 }
             }
-            HNode.StopListeners(endpoint.Port);
+            HNode.StopListeners(ListenPort);
             _isIntercepting = false;
         }
 
