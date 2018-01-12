@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
+using Tanji.Network;
 using Tanji.Controls;
 using Tanji.Helpers.Converters;
 
@@ -135,18 +136,6 @@ namespace Tanji.Services
                 Program.Master.In.Load(Master.Game, "Hashes.ini");
                 Program.Master.Out.Load(Master.Game, "Hashes.ini");
 
-                if (Master.GameData.Hotel == HHotel.Unknown && IsExtractingHotelServer)
-                {
-                    Tuple<string, int?> endPoint = Master.Game.ExtractEndPoint();
-                    if (!string.IsNullOrWhiteSpace(endPoint.Item1) || endPoint.Item2 != null)
-                    {
-                        string host = (!string.IsNullOrWhiteSpace(endPoint.Item1) ?
-                            endPoint.Item1 : HotelServer.Host);
-
-                        HotelServer = HotelEndPoint.Parse(host, endPoint.Item2 ?? HotelServer.Port);
-                    }
-                }
-
                 TerminateProxy();
                 Task interceptConnectionTask = InterceptConnectionAsync();
                 e.Request = WebRequest.Create(new Uri(clientPath));
@@ -164,7 +153,7 @@ namespace Tanji.Services
             Directory.CreateDirectory(clientDirectory);
 
             Status = DISASSEMBLING_CLIENT;
-            Master.Game = new HGame(await e.Content.ReadAsByteArrayAsync());
+            Master.Game = new HGame(await e.Content.ReadAsByteArrayAsync().ConfigureAwait(false));
             Master.Game.Location = clientPath;
             Master.Game.Disassemble();
 
@@ -176,28 +165,12 @@ namespace Tanji.Services
                 Status = MODIFYING_CLIENT;
                 Master.Game.DisableHostChecks();
                 Master.Game.InjectKeyShouter(4001);
+                Master.Game.InjectEndPointShouter(4000);
             }
             Program.Master.In.Load(Master.Game, "Hashes.ini");
             Program.Master.Out.Load(Master.Game, "Hashes.ini");
-
-            if (Master.GameData.Hotel == HHotel.Unknown)
-            {
-                if (IsExtractingHotelServer)
-                {
-                    Tuple<string, int?> endPoint = Master.Game.ExtractEndPoint();
-                    if (!string.IsNullOrWhiteSpace(endPoint.Item1) || endPoint.Item2 != null)
-                    {
-                        string host = (!string.IsNullOrWhiteSpace(endPoint.Item1) ?
-                            endPoint.Item1 : HotelServer.Host);
-
-                        HotelServer = HotelEndPoint.Parse(host, endPoint.Item2 ?? HotelServer.Port);
-                    }
-                }
-
-                Status = MODIFYING_CLIENT;
-                Master.Game.InjectEndPoint("127.0.0.1", Master.Connection.ListenPort);
-            }
-
+            Master.Game.InjectEndPoint("127.0.0.1", Master.Connection.ListenPort);
+            
             CompressionKind compression = CompressionKind.ZLIB;
 #if DEBUG
             compression = CompressionKind.None;
@@ -220,30 +193,12 @@ namespace Tanji.Services
             if (e.Content == null) return;
             if (!e.ContentType.Contains("text")) return;
 
-            string body = await e.Content.ReadAsStringAsync();
+            string body = await e.Content.ReadAsStringAsync().ConfigureAwait(false);
             if (!body.Contains("info.host") && !body.Contains("info.port")) return;
 
             Eavesdropper.ResponseInterceptedAsync -= InterceptClientPageAsync;
             Master.GameData.Source = body;
 
-            if (IsExtractingHotelServer)
-            {
-                string[] ports = Master.GameData.InfoPort.Split(',');
-                if (ports.Length == 0 ||
-                    !ushort.TryParse(ports[0], out ushort port) ||
-                    !HotelEndPoint.TryParse(Master.GameData.InfoHost, port, out HotelEndPoint endpoint))
-                {
-                    CancelBtn_Click(this, EventArgs.Empty);
-                    return;
-                }
-                HotelServer = endpoint;
-            }
-
-            if (Master.GameData.Hotel != HHotel.Unknown)
-            {
-                body = body.Replace(Master.GameData.InfoHost, "127.0.0.1");
-                body = body.Replace(Master.GameData.InfoPort, Master.Connection.ListenPort.ToString());
-            }
             body = body.Replace(".swf", $".swf?{(_randomQuery = Guid.NewGuid())}");
             e.Content = new StringContent(body);
 
@@ -403,7 +358,7 @@ namespace Tanji.Services
         #region IHaltable Implementation
         public void Halt()
         { }
-        public void Restore()
+        public void Restore(ConnectedEventArgs e)
         {
             IsReceiving = true;
         }
