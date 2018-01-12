@@ -70,6 +70,7 @@
     <Compile Include="Helpers\CustomBinding.cs" />
     <Compile Include="Helpers\IValueConverter.cs" />
     <Compile Include="Internals\NativeMethods.cs" />
+    <Compile Include="Network\ConnectedEventArgs.cs" />
     <Compile Include="Network\HConnection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
