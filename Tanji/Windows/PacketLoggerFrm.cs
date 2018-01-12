@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
 
+using Tanji.Network;
 using Tanji.Controls;
 using Tanji.Services;
 
@@ -162,18 +163,18 @@ namespace Tanji.Windows
 
             InitializeComponent();
 
+            Bind(AlwaysOnTopBtn, "Checked", nameof(TopMost));
             Bind(BlockedBtn, "Checked", nameof(IsDisplayingBlocked));
             Bind(ReplacedBtn, "Checked", nameof(IsDisplayingReplaced));
-            Bind(DismantledBtn, "Checked", nameof(IsDisplayingDismantled));
             Bind(HashNameBtn, "Checked", nameof(IsDisplayingHashName));
-            Bind(HexadecimalBtn, "Checked", nameof(IsDisplayingHexadecimal));
-            Bind(ParserNameBtn, "Checked", nameof(IsDisplayingParserName));
-            Bind(ClassNameBtn, "Checked", nameof(IsDisplayingClassName));
             Bind(ViewOutgoingBtn, "Checked", nameof(IsViewingOutgoing));
             Bind(ViewIncomingBtn, "Checked", nameof(IsViewingIncoming));
-            Bind(AlwaysOnTopBtn, "Checked", nameof(TopMost));
+            Bind(ClassNameBtn, "Checked", nameof(IsDisplayingClassName));
+            Bind(ParserNameBtn, "Checked", nameof(IsDisplayingParserName));
+            Bind(DismantledBtn, "Checked", nameof(IsDisplayingDismantled));
+            Bind(HexadecimalBtn, "Checked", nameof(IsDisplayingHexadecimal));
         }
-
+        
         private void PacketLoggerFrm_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
@@ -188,29 +189,26 @@ namespace Tanji.Windows
                 if (!IsLoggingAuthorized(intercepted)) continue;
 
                 var entries = new List<(string, Color)>();
-                if (_lastIntercepted != null && AreEqual(_lastIntercepted.Packet, intercepted.Packet))
-                {
-                    entries.Add(("RL--------------------", DefaultHighlight));
-                    entries.Add((" < +" + (_streak++) + " > ", Color.MediumPurple));
-                }
-                else _streak = 1;
-
-                _lastIntercepted = intercepted;
-                if (_streak >= 2)
-                {
-                    while (!IsHandleCreated) ;
-                    if (IsReceiving)
-                    {
-                        Invoke(_displayEntries, entries);
-                        Application.DoEvents();
-                    }
-                    continue;
-                }
-
                 if (_lastIntercepted != null)
                 {
-                    entries.Add(("\r\n", DefaultHighlight));
+                    if (_lastIntercepted.Packet.Equals(intercepted.Packet))
+                    {
+                        entries.Add(("RL--------------------", DefaultHighlight));
+                        entries.Add((" < +" + (_streak++) + " > ", Color.MediumPurple));
+                        if (IsReceiving)
+                        {
+                            Invoke(_displayEntries, entries);
+                            Application.DoEvents();
+                        }
+                        continue;
+                    }
+                    else
+                    {
+                        _streak = 1;
+                        entries.Add(("\r\n", DefaultHighlight));
+                    }
                 }
+                _lastIntercepted = intercepted;
 
                 if (intercepted.IsBlocked)
                 {
@@ -316,8 +314,6 @@ namespace Tanji.Windows
                     }
                 }
                 entries.Add(("--------------------", DefaultHighlight));
-
-                while (!IsHandleCreated) ;
                 if (IsReceiving)
                 {
                     Invoke(_displayEntries, entries);
@@ -340,6 +336,10 @@ namespace Tanji.Windows
                 e.Continue(true);
                 try
                 {
+                    while (!IsHandleCreated)
+                    {
+                        CreateHandle();
+                    }
                     while (IsReceiving && _intercepted.Count > 0)
                     {
                         ProcessQueue();
@@ -422,7 +422,7 @@ namespace Tanji.Windows
         {
             Close();
         }
-        public void Restore()
+        public void Restore(ConnectedEventArgs e)
         {
             WindowState = FormWindowState.Normal;
         }
