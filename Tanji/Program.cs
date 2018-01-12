@@ -20,6 +20,8 @@ namespace Tanji
 {
     public class Program : IInstaller
     {
+        private Action<ConnectedEventArgs> _restore;
+
         private readonly List<IHaltable> _haltables;
         private readonly SortedList<int, IReceiver> _receivers;
         private readonly Dictionary<Keys, Action> _hotkeyActions;
@@ -141,17 +143,6 @@ namespace Tanji
             else _receivers.Add(rank, receiver);
         }
 
-        private void Connected(object sender, EventArgs e)
-        {
-            foreach (IHaltable haltable in _haltables)
-            {
-                if (haltable.InvokeRequired)
-                {
-                    haltable.Invoke((MethodInvoker)haltable.Restore, null);
-                }
-                else haltable.Restore();
-            }
-        }
         private void Disconnected(object sender, EventArgs e)
         {
             foreach (IHaltable haltable in _haltables)
@@ -161,6 +152,18 @@ namespace Tanji
                     haltable.Invoke((MethodInvoker)haltable.Halt, null);
                 }
                 else haltable.Halt();
+            }
+        }
+        private void Connected(object sender, ConnectedEventArgs e)
+        {
+            foreach (IHaltable haltable in _haltables)
+            {
+                if (haltable.InvokeRequired)
+                {
+                    _restore = haltable.Restore;
+                    haltable.Invoke(_restore, new object[] { e });
+                }
+                else haltable.Restore(e);
             }
         }
         private void HandleData(object sender, DataInterceptedEventArgs e)
