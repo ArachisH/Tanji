@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 
+using Tanji.Network;
 using Tanji.Controls;
 
 namespace Tanji.Services.Injection
@@ -16,7 +17,7 @@ namespace Tanji.Services.Injection
         #region IHaltable Implementation
         public void Halt()
         { }
-        public void Restore()
+        public void Restore(ConnectedEventArgs e)
         { }
         #endregion
     }
