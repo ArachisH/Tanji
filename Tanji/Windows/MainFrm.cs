@@ -1,7 +1,11 @@
 ﻿using System.ComponentModel;
 
+using Tanji.Network;
 using Tanji.Controls;
 using Tanji.Services;
+
+using Sulakore.Network;
+using Sulakore.Network.Protocol;
 
 namespace Tanji.Windows
 {
@@ -27,9 +31,17 @@ namespace Tanji.Windows
 
             _packetLogger.Hide();
         }
-        public void Restore()
+        public void Restore(ConnectedEventArgs e)
         {
-            Text = $"Tanji - Connected[{Program.Master.Connection.Remote.EndPoint}]";
+            HPacket endPointPkt = Master.Connection.Local.ReceivePacketAsync().Result;
+            if (ConnectionPg.IsExtractingHotelServer)
+            {
+                string host = endPointPkt.ReadUTF8();
+                int port = int.Parse(endPointPkt.ReadUTF8().Split(',')[0]);
+                e.HotelServer = ConnectionPg.HotelServer = HotelEndPoint.Parse(host, port);
+            }
+
+            Text = $"Tanji - Connected[{e.HotelServer}]";
             TopMost = _packetLogger.TopMost;
 
             _packetLogger.Show();
