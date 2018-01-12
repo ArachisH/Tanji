@@ -21,8 +21,8 @@ namespace Tanji.Network
         /// <summary>
         /// Occurs when the connection between the client, and server have been intercepted.
         /// </summary>
-        public event EventHandler Connected;
-        protected virtual void OnConnected(EventArgs e)
+        public event EventHandler<ConnectedEventArgs> Connected;
+        protected virtual void OnConnected(ConnectedEventArgs e)
         {
             Connected?.Invoke(this, e);
         }
@@ -100,9 +100,7 @@ namespace Tanji.Network
                         continue;
                     }
 
-                    Remote = await HNode.ConnectNewAsync(endpoint).ConfigureAwait(false);
-                    if (!_isIntercepting) break;
-
+                    Remote = new HNode();
                     if (HFormat.WedgieOut.GetId(buffer) == 206)
                     {
                         Local.InFormat = HFormat.WedgieOut;
@@ -122,6 +120,8 @@ namespace Tanji.Network
                     else
                     {
                         buffer = await Local.ReceiveAsync(512).ConfigureAwait(false);
+                        if (!_isIntercepting) break;
+
                         if (Encoding.UTF8.GetString(buffer).ToLower().Contains("<policy-file-request/>"))
                         {
                             await Local.SendAsync(Encoding.UTF8.GetBytes(CROSS_DOMAIN_POLICY)).ConfigureAwait(false);
@@ -129,10 +129,13 @@ namespace Tanji.Network
                         else throw new Exception("Expected cross-domain policy request");
                         continue;
                     }
-                    if (!_isIntercepting) break;
 
+                    var args = new ConnectedEventArgs(endpoint);
+                    OnConnected(args);
+                    endpoint = args.HotelServer;
+
+                    if (!await Remote.ConnectAsync(endpoint).ConfigureAwait(false)) break;
                     IsConnected = true;
-                    OnConnected(EventArgs.Empty);
 
                     _inSteps = 0;
                     _outSteps = 0;
