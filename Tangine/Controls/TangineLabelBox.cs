@@ -91,13 +91,9 @@ namespace Tangine.Controls
             e.Graphics.Clear(Color.White);
             if (!string.IsNullOrWhiteSpace(Title))
             {
-                using (var format = new StringFormat())
                 using (var lineColor = new Pen(Color.FromArgb(243, 63, 63)))
                 {
-                    format.Alignment = StringAlignment.Center;
-                    format.LineAlignment = StringAlignment.Center;
-
-                    var titleSize = e.Graphics.MeasureString(Title, Font).ToSize();
+                    Size titleSize = TextRenderer.MeasureText(e.Graphics, Title, Font);
                     titleSize.Width += (TextPaddingWidth + 1);
                     titleSize.Height = Height;
 
@@ -105,7 +101,7 @@ namespace Tangine.Controls
                     Box.Size = new Size((Width - titleRect.Width) - 7, Height);
                     Box.Location = new Point(titleRect.Right + 7, 0);
 
-                    e.Graphics.DrawString(Title, Font, Brushes.Black, titleRect, format);
+                    TextRenderer.DrawText(e.Graphics, Title, Font, titleRect, ForeColor, TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter);
                     e.Graphics.DrawLine(lineColor, titleRect.Right, 0, titleRect.Right, Height - 1);
                 }
             }

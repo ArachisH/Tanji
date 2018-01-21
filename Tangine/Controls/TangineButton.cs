@@ -11,8 +11,7 @@ namespace Tangine.Controls
     public class TangineButton : Control, IButtonControl
     {
         private bool _isPressed;
-        private const int GRAD_HEIGHT = 10;
-
+        
         [DefaultValue(DialogResult.None)]
         public DialogResult DialogResult { get; set; }
 
@@ -76,11 +75,35 @@ namespace Tangine.Controls
             }
         }
 
+        private bool _isShadowEnabled = true;
+        [DefaultValue(true)]
+        public bool IsShadowEnabled
+        {
+            get => _isShadowEnabled;
+            set
+            {
+                _isShadowEnabled = value;
+                Invalidate();
+            }
+        }
+
+        private Point _textOffset = new Point(0, -1);
+        [DefaultValue(typeof(Point), "0, -1")]
+        public Point TextOffset
+        {
+            get => _textOffset;
+            set
+            {
+                _textOffset = value;
+                Invalidate();
+            }
+        }
+
         public TangineButton()
         {
-            SetStyle((ControlStyles)2050, true);
-            DoubleBuffered = true;
+            SetStyle(ControlStyles.UserPaint | ControlStyles.SupportsTransparentBackColor, true);
 
+            DoubleBuffered = true;
             Size = new Size(100, 20);
             BackColor = Color.Transparent;
         }
@@ -102,52 +125,47 @@ namespace Tangine.Controls
         { }
         protected override void OnPaint(PaintEventArgs e)
         {
-            e.Graphics.Clear(Enabled ?
-                Skin : SystemColors.Control);
-
-            using (var pen = new Pen(Color.FromArgb(50, Color.Black)))
+            e.Graphics.Clear(Enabled ? Skin : Color.FromArgb(240, 240, 240));
+            var format = (TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter);
+            var textRect = new Rectangle(1 + TextOffset.X, 1 + TextOffset.Y, Width - 2, Height - 2);
+            if (Enabled)
             {
-                e.Graphics.DrawRectangle(pen, ClientRectangle.X, ClientRectangle.Y,
-                    ClientRectangle.Width - 1, ClientRectangle.Height - 1);
-            }
-            using (var format = new StringFormat())
-            {
-                format.Alignment = StringAlignment.Center;
-                format.LineAlignment = StringAlignment.Center;
-                if (Enabled)
+                var borderRect = new Rectangle(Location.X, Location.Y, Size.Width + 2, Size.Height + 2);
+                TextRenderer.DrawText(e.Graphics, Text, Font, textRect, Color.White, format);
+                if (_isPressed)
                 {
-                    int textOffset = 0;
-                    var clickShadow = Color.FromArgb(25, Color.Black);
-                    var textShadow = Color.FromArgb(_isPressed ? 150 : 100, Color.Black);
+                    Parent.Invalidate(borderRect, false);
 
-                    if (_isPressed)
+                    var shadow = Color.FromArgb(20, Color.Black);
+                    var topShadowRect = new Rectangle(0, 0, Width, 10);
+                    var bottomShadowRect = new Rectangle(0, Height - 10, Width, 10);
+                    using (var topShadowGradient = new LinearGradientBrush(topShadowRect, shadow, Color.Transparent, LinearGradientMode.Vertical))
+                    using (var bottomShadowGradient = new LinearGradientBrush(bottomShadowRect, Color.Transparent, shadow, LinearGradientMode.Vertical))
                     {
-                        textOffset++;
-                        var r1 = new Rectangle(0, 0, Width, GRAD_HEIGHT);
-                        using (var clickShadowGradient = new LinearGradientBrush(r1, clickShadow, Color.Transparent, 90))
-                            e.Graphics.FillRectangle(clickShadowGradient, r1);
-
-                        var r2 = new Rectangle(0, Height - GRAD_HEIGHT, Width, GRAD_HEIGHT);
-                        using (var clickShadowGradient = new LinearGradientBrush(r2, clickShadow, Color.Transparent, 270))
-                            e.Graphics.FillRectangle(clickShadowGradient, r2);
+                        e.Graphics.FillRectangle(topShadowGradient, topShadowRect);
+                        e.Graphics.FillRectangle(bottomShadowGradient, bottomShadowRect);
                     }
-                    using (var textShadowBrush = new SolidBrush(textShadow))
-                    {
-                        e.Graphics.DrawString(Text, Font, textShadowBrush,
-                            new Rectangle(textOffset + 1, textOffset + 1, Width, Height), format);
-                    }
-
-                    e.Graphics.DrawString(Text, Font, Brushes.White,
-                        new Rectangle(textOffset, textOffset, Width, Height), format);
                 }
                 else
                 {
-                    using (var solidBrush = new SolidBrush(Color.FromArgb(150, Color.Black)))
+                    using (Graphics pGraphics = Parent.CreateGraphics())
+                    using (var borderPen = new Pen(Color.FromArgb(50, Color.Black)))
                     {
-                        e.Graphics.DrawString(Text, Font, solidBrush,
-                            new Rectangle(0, 0, Width, Height), format);
+                        pGraphics.Clip = new Region(borderRect);
+
+                        pGraphics.Clear(Parent.BackColor);
+                        pGraphics.DrawLine(borderPen, Right, Location.Y, Right, Bottom);
+                        pGraphics.DrawLine(borderPen, Location.X, Bottom, Right - 1, Bottom);
                     }
                 }
+            }
+            else
+            {
+                ControlPaint.DrawStringDisabled(e.Graphics, Text, Font, SystemColors.Control, textRect, format);
+            }
+            using (var borderPen = new Pen(Color.FromArgb(50, Color.Black)))
+            {
+                e.Graphics.DrawRectangle(borderPen, new Rectangle(0, 0, Width - 1, Height - 1));
             }
             base.OnPaint(e);
         }
@@ -163,8 +181,7 @@ namespace Tangine.Controls
             }
             base.OnMouseUp(e);
 
-            if (isLeft &&
-                ClientRectangle.Contains(e.Location))
+            if (isLeft && ClientRectangle.Contains(e.Location))
             {
                 base.OnClick(e);
             }
