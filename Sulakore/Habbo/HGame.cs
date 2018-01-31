@@ -11,7 +11,6 @@ using Flazzy.Tags;
 using Flazzy.Records;
 using Flazzy.ABC.AVM2;
 using Flazzy.ABC.AVM2.Instructions;
-using Sulakore.Habbo.Messages;
 
 namespace Sulakore.Habbo
 {
@@ -1057,6 +1056,59 @@ namespace Sulakore.Habbo
             }
             return Tuple.Create(host, port);
         }
+        public bool InjectEndPointShouter(int messageId)
+        {
+            ABCFile abc = ABCFiles.Last();
+            ASInstance socketConnInstance = abc.GetFirstInstance("SocketConnection");
+            if (socketConnInstance == null) return false;
+
+            ASTrait sendFunction = InjectUniversalSendFunction(true);
+            if (sendFunction == null) return false;
+
+            ASInstance habboCommDemoInstance = abc.GetFirstInstance("HabboCommunicationDemo");
+            if (habboCommDemoInstance == null) return false;
+
+            int getPropertyIndex = abc.Pool.GetMultinameIndex("getProperty");
+            foreach (ASMethod method in habboCommDemoInstance.GetMethods(1, "void"))
+            {
+                ASParameter parameter = method.Parameters[0];
+                if (!parameter.IsOptional) continue;
+                if (parameter.Type.Name != "Event") continue;
+
+                ASCode code = method.Body.ParseCode();
+                for (int i = 0; i < code.Count; i++)
+                {
+                    ASInstruction instruction = code[i];
+                    if (instruction.OP != OPCode.GetLocal_2) continue;
+                    if (code[i + 1].OP == OPCode.PushNull) continue;
+
+                    // local2.sendMessage(messageId, getProperty("connection.info.host"), getProperty("connection.info.port"))
+                    code.InsertRange(i - 1, new ASInstruction[]
+                    {
+                        new GetLocal2Ins(),
+
+                        new PushIntIns(abc, messageId),
+
+                        new FindPropStrictIns(abc, getPropertyIndex),
+                        new PushStringIns(abc, "connection.info.host"),
+                        new CallPropertyIns(abc, getPropertyIndex, 1),
+                        new CoerceSIns(),
+
+                        new FindPropStrictIns(abc, getPropertyIndex),
+                        new PushStringIns(abc, "connection.info.port"),
+                        new CallPropertyIns(abc, getPropertyIndex, 1),
+                        new CoerceSIns(),
+
+                        new CallPropVoidIns(abc, sendFunction.QNameIndex, 3)
+                    });
+
+                    method.Body.MaxStack += 5;
+                    method.Body.Code = code.ToArray();
+                    return true;
+                }
+            }
+            return false;
+        }
         public bool InjectEndPoint(string host, int port)
         {
             ABCFile abc = ABCFiles.Last();
@@ -1269,15 +1321,6 @@ namespace Sulakore.Habbo
             if (Messages.TryGetValue(hash, out messages))
             {
                 return messages.Select(m => m.Id).ToArray();
-            }
-            return null;
-        }
-        public IReadOnlyList<ushort> GetMessageHeaders(string hash)
-        {
-            List<MessageItem> messages = null;
-            if (Messages.TryGetValue(hash, out messages))
-            {
-                return messages.Select(m => m.Id).ToList().AsReadOnly();
             }
             return null;
         }
@@ -1560,14 +1603,24 @@ namespace Sulakore.Habbo
             }
             if (port != null)
             {
-                // TODO
+                for (int i = 0; i < connectCode.Count; i++)
+                {
+                    ASInstruction instruction = connectCode[i];
+                    if (instruction.OP != OPCode.Add) continue;
+                    if (connectCode[i + 1].OP != OPCode.GetLocal_0) continue;
+
+                    connectCode.RemoveRange(i + 1, 5);
+                    connectCode.Insert(i + 1, new PushIntIns(abc, (int)port));
+                }
             }
 
             // This portion prevents any suffix from being added to the host slot.
             int magicInverseIndex = abc.Pool.AddConstant(65290);
-            foreach (ASInstruction instruction in connectCode)
+            for (int i = 0; i < connectCode.Count; i++)
             {
+                ASInstruction instruction = connectCode[i];
                 if (instruction.OP != OPCode.PushInt) continue;
+                if (connectCode[i - 1].OP == OPCode.Add) continue;
 
                 var pushIntIns = (PushIntIns)instruction;
                 pushIntIns.ValueIndex = magicInverseIndex;
