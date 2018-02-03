@@ -33,7 +33,6 @@ namespace Tangine
         public virtual bool IsRemoteModule { get; }
 
         [Browsable(false)]
-        [Obsolete("Instead, use the (In/Out)DataCapture attributes on methods.", false)]
         public HTriggers Triggers { get; }
 
         private HGame _game;
