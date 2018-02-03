@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using Sulakore.Protocol;
 using Sulakore.Communication;
@@ -7,8 +8,6 @@ namespace Tangine
 {
     internal class ContractorProxy : IHConnection
     {
-        private readonly HNode _remoteContractor;
-
         public string Host { get; set; }
         public ushort Port { get; set; }
         public string Address { get; set; }
@@ -16,14 +15,21 @@ namespace Tangine
         public int TotalOutgoing { get; set; }
         public int TotalIncoming { get; set; }
 
-        public ContractorProxy(HNode remoteContractor)
+        public HNode Local => throw new NotSupportedException();
+        public HNode Remote { get; }
+
+        public ContractorProxy(HNode remote)
         {
-            _remoteContractor = remoteContractor;
+            Remote = remote;
         }
 
         public Task<int> SendToClientAsync(byte[] data)
         {
-            return _remoteContractor.SendPacketAsync(4, data.Length, data);
+            return Remote.SendPacketAsync(4, data.Length, data);
+        }
+        public Task<int> SendToClientAsync(HMessage packet)
+        {
+            return SendToClientAsync(packet.ToBytes());
         }
         public Task<int> SendToClientAsync(ushort header, params object[] values)
         {
@@ -32,7 +38,11 @@ namespace Tangine
 
         public Task<int> SendToServerAsync(byte[] data)
         {
-            return _remoteContractor.SendPacketAsync(5, data.Length, data);
+            return Remote.SendPacketAsync(5, data.Length, data);
+        }
+        public Task<int> SendToServerAsync(HMessage packet)
+        {
+            return SendToServerAsync(packet.ToBytes());
         }
         public Task<int> SendToServerAsync(ushort header, params object[] values)
         {
