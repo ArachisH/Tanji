@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
+using Tanji.Network;
 using Tanji.Utilities;
 using Tanji.Properties;
 using Tanji.Components;
