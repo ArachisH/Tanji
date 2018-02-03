@@ -1,141 +1,168 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
-using System;
 
 namespace Sulakore.Components
 {
     [DesignerCategory("Code")]
     public class SKoreLabelBox : Control
     {
-        private Rectangle _textRect;
-        
+        private Rectangle _titleRect;
+
         [Browsable(false)]
         public TextBox Box { get; }
 
-        [DefaultValue(typeof(Color), "White")]
-        public override Color ForeColor
+        private bool _isReadOnly = false;
+        [DefaultValue(false)]
+        public bool IsReadOnly
         {
-            get { return base.ForeColor; }
-            set { base.ForeColor = value; }
+            get => _isReadOnly;
+            set
+            {
+                _isReadOnly = value;
+                Box.ForeColor = (value ? Color.FromArgb(150, 150, 150) : Color.Black);
+            }
         }
 
-        [DefaultValue(typeof(Color), "SteelBlue")]
-        public override Color BackColor
+        [DefaultValue(null)]
+        public override string Text
         {
-            get { return base.BackColor; }
-            set { base.BackColor = value; }
+            get => Box.Text;
+            set => Box.Text = value;
         }
 
         private int _textPaddingWidth = 10;
         [DefaultValue(10)]
         public int TextPaddingWidth
         {
-            get { return _textPaddingWidth; }
+            get => _textPaddingWidth;
             set
             {
                 _textPaddingWidth = value;
-                Text = Text; // Best hack 2016.
+                Title = Title;
             }
         }
 
-        [DefaultValue(typeof(HorizontalAlignment), "Left")]
-        public HorizontalAlignment ValueAlign
+        private string _title;
+        [DefaultValue(null)]
+        public string Title
         {
-            get { return Box.TextAlign; }
-            set { Box.TextAlign = value; }
-        }
-
-        [DefaultValue(false)]
-        public bool ValueReadOnly
-        {
-            get { return Box.ReadOnly; }
-            set { Box.ReadOnly = value; }
-        }
-
-        public string Value
-        {
-            get { return Box.Text; }
-            set { Box.Text = value; }
-        }
-
-        public override string Text
-        {
-            get { return base.Text; }
+            get => _title;
             set
             {
-                base.Text = value;
-                using (Graphics gfx = CreateGraphics())
-                using (var format = new StringFormat())
-                {
-                    format.Alignment = StringAlignment.Center;
-                    format.LineAlignment = StringAlignment.Center;
+                _title = value;
 
-                    Size titleSize = gfx.MeasureString(value, Font).ToSize();
-                    titleSize.Height = Height;
-                    titleSize.Width += (1 + _textPaddingWidth);
+                Size titleSize = TextRenderer.MeasureText(Title, Font);
+                titleSize.Width += TextPaddingWidth;
+                titleSize.Height = Height;
+                _titleRect = new Rectangle(new Point(0, -1), titleSize);
 
-                    _textRect = new Rectangle(new Point(0, 0), titleSize);
-                }
-
-                Box.Location = new Point(_textRect.Right, 0);
-                Box.Size = new Size(Width - _textRect.Width, Height);
+                Box.Size = new Size(Width - titleSize.Width - 7, Height);
                 Invalidate();
             }
         }
 
+        [DefaultValue(true)]
+        public new bool TabStop
+        {
+            get => Box.TabStop;
+            set => Box.TabStop = value;
+        }
+
+        [Obsolete]
+        [Browsable(false)]
+        public HorizontalAlignment ValueAlign { get; set; }
+
+        [Obsolete]
+        [Browsable(false)]
+        public string Value
+        {
+            get => Text;
+            set => Text = value;
+        }
+
+        [Obsolete]
+        [Browsable(false)]
+        public bool ValueReadOnly
+        {
+            get => IsReadOnly;
+            set => IsReadOnly = value;
+        }
+
         public SKoreLabelBox()
         {
-            SetStyle((ControlStyles)2050, true);
+            SetStyle(ControlStyles.UserPaint | ControlStyles.SupportsTransparentBackColor, true);
             DoubleBuffered = true;
 
-            Box = new TextBox();
-            Box.Anchor = (AnchorStyles.Left | AnchorStyles.Right);
-
-            ForeColor = Color.White;
-            BackColor = Color.SteelBlue;
-
+            base.TabStop = false;
             Size = new Size(200, 20);
+
+            Box = new TextBox
+            {
+                TabStop = true,
+                Dock = DockStyle.Right,
+                ForeColor = Color.Black,
+                BackColor = Color.White,
+                TextAlign = HorizontalAlignment.Center
+            };
+            Box.KeyDown += Box_KeyDown;
+            Box.TextChanged += Box_TextChanged;
             Controls.Add(Box);
         }
 
+        private void Box_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (IsReadOnly)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+            else OnKeyDown(e);
+        }
+        private void Box_TextChanged(object sender, EventArgs e)
+        {
+            OnTextChanged(e);
+        }
+
+        protected override void OnGotFocus(EventArgs e)
+        {
+            base.OnGotFocus(e);
+            Box.Focus();
+        }
         protected override void OnPaint(PaintEventArgs e)
         {
             e.Graphics.Clear(Color.White);
-            if (!string.IsNullOrWhiteSpace(Text))
+            if (!string.IsNullOrWhiteSpace(Title))
             {
-                using (var backColor = new SolidBrush(BackColor))
-                    e.Graphics.FillRectangle(backColor, _textRect);
-
-                using (var shadow = new Pen(Color.FromArgb(50, Color.Black)))
+                TextRenderer.DrawText(e.Graphics, Title, Font, _titleRect, ForeColor, TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter);
+                using (var lineColor = new Pen(Color.FromArgb(243, 63, 63)))
                 {
-                    e.Graphics.DrawRectangle(shadow, 0, 0,
-                        _textRect.Width, _textRect.Height - 1);
-                }
-                using (var format = new StringFormat())
-                using (var foreColor = new SolidBrush(ForeColor))
-                {
-                    format.Alignment = StringAlignment.Center;
-                    format.LineAlignment = StringAlignment.Center;
-                    using (var textShadowBrush = new SolidBrush(Color.FromArgb(100, Color.Black)))
-                    {
-                        e.Graphics.DrawString(Text, Font, textShadowBrush,
-                            new Rectangle(1, 1, _textRect.Width, _textRect.Height), format);
-                    }
-                    e.Graphics.DrawString(Text, Font, foreColor, _textRect, format);
+                    e.Graphics.DrawLine(lineColor, _titleRect.Right, 0, _titleRect.Right, Height);
                 }
             }
             base.OnPaint(e);
         }
+        protected override void Select(bool directed, bool forward)
+        {
+            base.Select(directed, forward);
+            Box.Select();
+        }
         protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
         {
             base.SetBoundsCore(x, y, width, 20, specified);
+            if (Box != null)
+            {
+                Title = Title;
+            }
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (!IsDisposed && disposing)
+            if (disposing)
             {
+                Box.KeyDown -= Box_KeyDown;
+                Box.TextChanged -= Box_TextChanged;
                 Box.Dispose();
             }
             base.Dispose(disposing);

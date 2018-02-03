@@ -10,7 +10,7 @@ namespace Sulakore.Components
     public class SKoreListView : ListView
     {
         private bool _lastSelectionState;
-        private ListViewItem _previouslySelectedItem;
+        private ListViewItem _previouslySelectedItem, _expectedSelection;
 
         /// <summary>
         /// Occurs when an item's selection state differs from the previous state.
@@ -211,10 +211,31 @@ namespace Sulakore.Components
             return item;
         }
 
-        protected override void OnMouseUp(MouseEventArgs e)
+        protected override void OnKeyDown(KeyEventArgs e)
         {
-            OnItemSelectionStateChanged(EventArgs.Empty);
-            base.OnMouseUp(e);
+            if (SelectedItem != null)
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.Delete: SelectedItem.Checked = false; break;
+                    case Keys.Enter: SelectedItem.Checked = !SelectedItem.Checked; break;
+                }
+            }
+            base.OnKeyDown(e);
+        }
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            _expectedSelection = GetItemAt(e.X, e.Y);
+            base.OnMouseDown(e);
+        }
+        protected override void OnSelectedIndexChanged(EventArgs e)
+        {
+            if (_expectedSelection == SelectedItem || SelectedItem != null)
+            {
+                OnItemSelectionStateChanged(EventArgs.Empty);
+            }
+            base.OnSelectedIndexChanged(e);
         }
         protected override void OnColumnWidthChanging(ColumnWidthChangingEventArgs e)
         {

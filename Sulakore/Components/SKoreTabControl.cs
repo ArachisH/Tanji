@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 
@@ -7,47 +8,69 @@ namespace Sulakore.Components
     [DesignerCategory("Code")]
     public class SKoreTabControl : TabControl
     {
-        private bool _displayBoundary = false;
+        private bool _isDisplayingBorder = false;
         [DefaultValue(false)]
-        public bool DisplayBoundary
+        public bool IsDisplayingBorder
         {
-            get { return _displayBoundary; }
-            set { _displayBoundary = value; Invalidate(); }
+            get => _isDisplayingBorder;
+            set
+            {
+                _isDisplayingBorder = value;
+                Invalidate();
+            }
         }
 
-        private Color _skin = Color.SteelBlue;
-        [DefaultValue(typeof(Color), "SteelBlue")]
+        private Color _skin = Color.FromArgb(243, 63, 63);
+        [DefaultValue(typeof(Color), "243, 63, 63")]
         public Color Skin
         {
-            get { return _skin; }
-            set { _skin = value; Invalidate(); }
+            get => _skin;
+            set
+            {
+                _skin = value;
+                Invalidate();
+            }
         }
 
         private Color _titleColor = Color.Black;
         [DefaultValue(typeof(Color), "Black")]
         public Color TitleColor
         {
-            get { return _titleColor; }
-            set { _titleColor = value; Invalidate(); }
+            get => _titleColor;
+            set
+            {
+                _titleColor = value;
+                Invalidate();
+            }
         }
 
         private Color _backcolor = Color.White;
         [DefaultValue(typeof(Color), "White")]
         public Color Backcolor
         {
-            get { return _backcolor; }
-            set { _backcolor = value; Invalidate(); }
+            get => _backcolor;
+            set
+            {
+                _backcolor = value;
+                Invalidate();
+            }
+        }
+
+        [Obsolete]
+        [Browsable(false)]
+        public bool DisplayBoundary
+        {
+            get => IsDisplayingBorder;
+            set => IsDisplayingBorder = value;
         }
 
         public SKoreTabControl()
         {
-            SetStyle((ControlStyles)2050, true);
+            SetStyle(ControlStyles.UserPaint | ControlStyles.SupportsTransparentBackColor, true);
+
             DoubleBuffered = true;
-
-            SizeMode = TabSizeMode.Fixed;
             ItemSize = new Size(95, 24);
-
-            DrawMode = TabDrawMode.OwnerDrawFixed;
+            SizeMode = TabSizeMode.Fixed;
         }
 
         protected Rectangle GetHorizontalTitleRegion(int tabIndex, int xOffset)
@@ -71,7 +94,7 @@ namespace Sulakore.Components
             glowRegion.X = x;
             glowRegion.Y = titleRegion.Y;
 
-            glowRegion.Width = 2;
+            glowRegion.Width = 1;
             glowRegion.Height = titleRegion.Height;
 
             return glowRegion;
@@ -99,7 +122,7 @@ namespace Sulakore.Components
             glowRegion.Y = (tabRegion.Y + yOffset);
 
             glowRegion.Width = titleRegion.Width;
-            glowRegion.Height = 2;
+            glowRegion.Height = 1;
 
             return glowRegion;
         }
@@ -107,21 +130,20 @@ namespace Sulakore.Components
         protected override void OnPaint(PaintEventArgs e)
         {
             e.Graphics.Clear(Backcolor);
-            if (DisplayBoundary)
+            if (IsDisplayingBorder)
             {
                 using (var pen = new Pen(Skin))
+                {
                     e.Graphics.DrawLine(pen, 0, Height - 1, Width - 1, Height - 1);
+                }
             }
             if (TabPages.Count > 0)
             {
                 Rectangle tabRegion, titleRegion, glowRegion;
 
-                using (var titleFormat = new StringFormat())
                 using (var skinBrush = new SolidBrush(Skin))
-                using (var titleBrush = new SolidBrush(TitleColor))
                 {
-                    titleFormat.Alignment = StringAlignment.Center;
-                    titleFormat.LineAlignment = StringAlignment.Center;
+                    var format = TextFormatFlags.VerticalCenter;
                     for (int i = 0; i < TabPages.Count; i++)
                     {
                         tabRegion = GetTabRect(i);
@@ -132,46 +154,39 @@ namespace Sulakore.Components
                             default:
                             case TabAlignment.Top:
                             {
+                                format |= TextFormatFlags.HorizontalCenter;
                                 titleRegion = GetVerticalTitleRegion(i, -4);
                                 glowRegion = GetVerticalGlowRegion(tabRegion, titleRegion, tabRegion.Height - 2);
                                 break;
                             }
                             case TabAlignment.Bottom:
                             {
+                                format |= TextFormatFlags.HorizontalCenter;
                                 titleRegion = GetVerticalTitleRegion(i, 0);
                                 glowRegion = GetVerticalGlowRegion(tabRegion, titleRegion, 0);
                                 break;
                             }
                             case TabAlignment.Left:
                             {
-                                titleFormat.Alignment = StringAlignment.Far;
+                                format |= TextFormatFlags.Right;
                                 titleRegion = GetHorizontalTitleRegion(i, -2);
                                 glowRegion = GetHorizontalGlowRegion(tabRegion, titleRegion, (titleRegion.X + tabRegion.Width));
                                 break;
                             }
                             case TabAlignment.Right:
                             {
-                                titleFormat.Alignment = StringAlignment.Near;
+                                format |= TextFormatFlags.Left;
                                 titleRegion = GetHorizontalTitleRegion(i, 4);
                                 glowRegion = GetHorizontalGlowRegion(tabRegion, titleRegion, tabRegion.X);
                                 break;
                             }
                         }
-
-                        e.Graphics.FillRectangle(
-                            (isSelected ? skinBrush : Brushes.Silver), glowRegion);
-
-                        e.Graphics.DrawString(TabPages[i].Text,
-                            Font, titleBrush, titleRegion, titleFormat);
+                        e.Graphics.FillRectangle((isSelected ? skinBrush : Brushes.Silver), glowRegion);
+                        TextRenderer.DrawText(e.Graphics, TabPages[i].Text, Font, titleRegion, TitleColor, format);
                     }
                 }
             }
             base.OnPaint(e);
-        }
-        protected override void OnControlAdded(ControlEventArgs e)
-        {
-            e.Control.Padding = new Padding(3, 3, 3, 3);
-            base.OnControlAdded(e);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Timers;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
@@ -6,108 +6,82 @@ using System.ComponentModel;
 namespace Sulakore.Components
 {
     [DesignerCategory("Code")]
-    public class SKoreLabel : Label
+    public class SKoreLabel : Control
     {
-        private readonly System.Timers.Timer _animateTimer;
+        private int _borderWidth = 1;
+        [DefaultValue(1)]
+        public int BorderWidth
+        {
+            get => _borderWidth;
+            set
+            {
+                _borderWidth = value;
+                Invalidate();
+            }
+        }
 
-        private readonly SetTextCallback _setText;
-        private delegate void SetTextCallback(string text);
+        private bool _isBorderVisible = true;
+        [DefaultValue(true)]
+        public bool IsBorderVisible
+        {
+            get => _isBorderVisible;
+            set
+            {
+                _isBorderVisible = value;
+                Invalidate();
+            }
+        }
+
+        [Localizable(true)]
+        [DefaultValue(typeof(Size), "150, 20")]
+        public new Size Size
+        {
+            get => base.Size;
+            set => base.Size = value;
+        }
+
+        private Color _skin = Color.FromArgb(243, 63, 63);
+        [DefaultValue(typeof(Color), "243, 63, 63")]
+        public Color Skin
+        {
+            get => _skin;
+            set
+            {
+                _skin = value;
+                Invalidate();
+            }
+        }
 
         [DefaultValue(typeof(Color), "White")]
         public override Color BackColor
         {
-            get { return base.BackColor; }
-            set { base.BackColor = value; }
+            get => base.BackColor;
+            set => base.BackColor = value;
         }
 
-        private int _borderWidth = 2;
-        [DefaultValue(2)]
-        public int BorderWidth
+        public override string Text
         {
-            get { return _borderWidth; }
-            set { _borderWidth = value; Invalidate(); }
-        }
-
-        private bool _displayBoundary;
-        [DefaultValue(false)]
-        public bool DisplayBoundary
-        {
-            get { return _displayBoundary; }
-            set { _displayBoundary = value; Invalidate(); }
-        }
-
-        private Color _skin = Color.SteelBlue;
-        [DefaultValue(typeof(Color), "SteelBlue")]
-        public Color Skin
-        {
-            get { return _skin; }
-            set { _skin = value; Invalidate(); }
-        }
-
-        private int _animationInterval = 250;
-        [DefaultValue(250)]
-        public int AnimationInterval
-        {
-            get { return _animationInterval; }
+            get => base.Text;
             set
             {
-                _animationInterval = value;
-
-                if (!DesignMode)
-                    _animateTimer.Interval = value;
+                base.Text = value;
+                Invalidate();
             }
         }
 
         public SKoreLabel()
         {
-            SetStyle((ControlStyles)2050, true);
+            SetStyle(ControlStyles.UserPaint | ControlStyles.SupportsTransparentBackColor | ControlStyles.ResizeRedraw, true);
             DoubleBuffered = true;
 
+            Height = 20;
             BackColor = Color.White;
-
-            _setText = new SetTextCallback(SetText);
-            _animateTimer = new System.Timers.Timer(_animationInterval);
-            _animateTimer.SynchronizingObject = this;
-            _animateTimer.Elapsed += DoAnimation;
         }
 
-        public void StopDotAnimation(string text)
-        {
-            _animateTimer.Stop();
-
-            if (InvokeRequired)
-                BeginInvoke(_setText, text);
-            else SetText(text);
-        }
-        public void StopDotAnimation(string format, params object[] args)
-        {
-            StopDotAnimation(string.Format(format, args));
-        }
-
-        public void SetDotAnimation(string prefix)
-        {
-            prefix += ".";
-            StopDotAnimation(string.Empty);
-
-            if (InvokeRequired)
-                BeginInvoke(_setText, prefix);
-            else SetText(prefix);
-
-            _animateTimer.Start();
-        }
-        public void SetDotAnimation(string format, params object[] args)
-        {
-            SetDotAnimation(string.Format(format, args));
-        }
-
-        protected void SetText(string text)
-        {
-            Text = text;
-        }
         protected override void OnPaint(PaintEventArgs e)
         {
             e.Graphics.Clear(BackColor);
-            if (DisplayBoundary)
+            if (IsBorderVisible)
             {
                 using (var brush = new SolidBrush(Skin))
                 {
@@ -115,22 +89,31 @@ namespace Sulakore.Components
                     e.Graphics.FillRectangle(brush, Width - BorderWidth, 0, BorderWidth, Height);
                 }
             }
+            TextRenderer.DrawText(e.Graphics, Text, Font, ClientRectangle, ForeColor);
             base.OnPaint(e);
         }
-        private void DoAnimation(object sender, ElapsedEventArgs e)
-        {
-            if (!_animateTimer.Enabled) return;
 
-            if (!Text.EndsWith("...")) Text += ".";
-            else Text = Text.Replace("...", ".");
+        [Obsolete]
+        [Browsable(false)]
+        public bool DisplayBoundary
+        {
+            get => IsBorderVisible;
+            set => IsBorderVisible = value;
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-                _animateTimer.Dispose();
+        [Obsolete]
+        [Browsable(false)]
+        public int AnimationInterval { get; set; }
 
-            base.Dispose(disposing);
+        [Obsolete]
+        public void SetDotAnimation(string format, params object[] args)
+        {
+            SetDotAnimation(string.Format(format, args));
+        }
+        [Obsolete]
+        public void StopDotAnimation(string format, params object[] args)
+        {
+            StopDotAnimation(string.Format(format, args));
         }
     }
 }

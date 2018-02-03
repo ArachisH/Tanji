@@ -142,16 +142,18 @@ namespace Sulakore.Components
 
             public int Cycles
             {
-                get { return _cycles; }
+                get => _cycles;
                 set
                 {
                     if (_cycles >= 0)
+                    {
                         _cycles = value;
+                    }
                 }
             }
             public bool IsRunning
             {
-                get { return _ticker.Enabled; }
+                get => _ticker.Enabled;
                 set
                 {
                     if (_ticker.Enabled != value)
@@ -163,7 +165,7 @@ namespace Sulakore.Components
             }
             public double Interval
             {
-                get { return _ticker.Interval; }
+                get => _ticker.Interval;
                 set
                 {
                     if (value > 0)
@@ -172,8 +174,8 @@ namespace Sulakore.Components
             }
             public ISynchronizeInvoke SynchronizingObject
             {
-                get { return _ticker.SynchronizingObject; }
-                set { _ticker.SynchronizingObject = value; }
+                get => _ticker.SynchronizingObject;
+                set => _ticker.SynchronizingObject = value;
             }
 
             public HMessage Packet { get; set; }
