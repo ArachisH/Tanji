@@ -11,9 +11,6 @@ using Tanji.Properties;
 using Tanji.Manipulators;
 using Tanji.Pages.Modules.Handlers;
 
-using Tangine;
-using Tangine.GitHub;
-
 using Sulakore.Habbo;
 using Sulakore.Modules;
 using Sulakore.Protocol;
@@ -62,9 +59,7 @@ namespace Tanji.Pages.Modules
             Tab.DragDrop += Tab_DragDrop;
             Tab.DragEnter += Tab_DragEnter;
 
-            UI.MTReleasesBtn.Click += MTReleasesBtn_Click;
             UI.MTResourceBtn.Click += MTResourceBtn_Click;
-            UI.MTDownloadLatestBtn.Click += MTDownloadLatestBtn_Click;
             UI.MTAuthorsTxt.SelectedValueChanged += MTAuthorsTxt_SelectedValueChanged;
 
             UI.MTInstallModuleBtn.Click += MTInstallModuleBtn_Click;
@@ -75,18 +70,9 @@ namespace Tanji.Pages.Modules
             UI.MTModulesVw.ItemSelectionStateChanged += MTModulesVw_ItemSelectionStateChanged;
         }
 
-        private void MTReleasesBtn_Click(object sender, EventArgs e)
-        {
-            GitRepository repo = SelectedModuleItem.Repository;
-            Process.Start($"https://github.com/{repo.OwnerName}/{repo.RepoName}/releases");
-        }
         private void MTResourceBtn_Click(object sender, EventArgs e)
         {
             Process.Start(SelectedAuthor.ResourceUrl);
-        }
-        private void MTDownloadLatestBtn_Click(object sender, EventArgs e)
-        {
-            Process.Start(SelectedModuleItem.Repository.LatestRelease.HtmlUrl);
         }
         private async void MTAuthorsTxt_SelectedValueChanged(object sender, EventArgs e)
         {
@@ -139,56 +125,13 @@ namespace Tanji.Pages.Modules
             Contractor.UninstallModule(SelectedModuleItem.Type);
         }
 
-        private async void MTModulesVw_ItemSelected(object sender, EventArgs e)
+        private void MTModulesVw_ItemSelected(object sender, EventArgs e)
         {
             ModuleItem moduleItem = SelectedModuleItem;
             bool hasAuthors = (moduleItem.Authors.Count > 0);
 
             UI.MTAuthorsTxt.Enabled = hasAuthors;
             UI.MTAuthorsTxt.DataSource = (hasAuthors ? SelectedModuleItem.Authors : null);
-
-            GitRepository repository = (moduleItem.Repository);
-            if (UI.MTReleasesBtn.Enabled = (repository != null))
-            {
-                GitRelease currentRelease = (repository.LatestRelease ??
-                    await repository.GetLatestReleaseAsync());
-
-                bool hasReleaseMatch =
-                    (currentRelease.GetVersion() == moduleItem.Version);
-
-                if (currentRelease != null && !hasReleaseMatch)
-                {
-                    List<GitRelease> releases = (repository.Releases ??
-                        await repository.GetReleasesAsync());
-
-                    foreach (GitRelease release in releases)
-                    {
-                        if (release.GetVersion() == moduleItem.Version)
-                        {
-                            hasReleaseMatch = true;
-                            currentRelease = release;
-                            break;
-                        }
-                    }
-                }
-
-                if (currentRelease != null &&
-                    moduleItem == SelectedModuleItem)
-                {
-                    if (hasReleaseMatch)
-                        DisplayDownloads(currentRelease);
-
-                    UI.MTDownloadLatestBtn.Enabled =
-                        (repository.LatestRelease.GetVersion() > moduleItem.Version);
-                }
-            }
-            else
-            {
-                UI.MTDownloadsLbl.Text = "Downloads: 0";
-
-                UI.MTDownloadLatestBtn.Enabled =
-                    UI.MTReleasesBtn.Enabled = false;
-            }
         }
         private void MTModulesVw_ItemSelectionStateChanged(object sender, EventArgs e)
         {
@@ -199,11 +142,6 @@ namespace Tanji.Pages.Modules
             {
                 UI.MTAuthorsTxt.Enabled = false;
                 UI.MTAuthorsTxt.DataSource = null;
-
-                UI.MTDownloadsLbl.Text = "Downloads: 0";
-
-                UI.MTDownloadLatestBtn.Enabled =
-                    UI.MTReleasesBtn.Enabled = false;
             }
         }
 
@@ -340,12 +278,7 @@ namespace Tanji.Pages.Modules
 
             return string.Empty;
         }
-
-        private void DisplayDownloads(GitRelease release)
-        {
-            UI.MTDownloadsLbl.Text =
-                $"Downloads: {release.Assets[0].DownloadCount:n0}";
-        }
+        
         private void DisplayModuleException(ModuleItem moduleItem, DataInterceptedEventArgs args, Exception exception)
         {
             if (UI.InvokeRequired)

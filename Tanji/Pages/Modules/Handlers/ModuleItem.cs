@@ -4,9 +4,6 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
-using Tangine;
-using Tangine.GitHub;
-
 using Sulakore.Modules;
 
 namespace Tanji.Pages.Modules.Handlers
@@ -15,7 +12,6 @@ namespace Tanji.Pages.Modules.Handlers
     {
         public Type Type { get; }
         public string Path { get; }
-        public GitRepository Repository { get; }
         public List<AuthorAttribute> Authors { get; }
 
         public Version Version { get; }
@@ -24,7 +20,7 @@ namespace Tanji.Pages.Modules.Handlers
         public string Name { get; }
         public string Description { get; }
         public ListViewItem ListItem { get; }
-        
+
         public IModule Instance { get; set; }
         public Form ExtensionForm { get; set; }
         public bool IsInitialized { get; set; }
@@ -37,11 +33,7 @@ namespace Tanji.Pages.Modules.Handlers
             VersionInfo = FileVersionInfo.GetVersionInfo(Path);
             Version = new Version(VersionInfo.FileVersion);
 
-            Authors = new List<AuthorAttribute>(
-                contractor.GetAuthorAttributes(type));
-
-            var gitHubAtt = type.GetCustomAttribute<GitHubAttribute>();
-            if (gitHubAtt != null) Repository = gitHubAtt.Repository;
+            Authors = new List<AuthorAttribute>(contractor.GetAuthorAttributes(type));
 
             var moduleAtt = contractor.GetModuleAttribute(type);
             Description = moduleAtt.Description;
