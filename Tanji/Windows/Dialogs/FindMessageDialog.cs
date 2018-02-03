@@ -44,7 +44,8 @@ namespace Tanji.Windows.Dialogs
             InitializeComponent();
             PropertyChanged += FindMessageDialog_PropertyChanged;
 
-            Bind(IdNum, "Value", nameof(Id));
+            // TODO: Implement 'Find By ID'
+            //Bind(IdNum, "Value", nameof(Id));
             Bind(HashTxt, "Text", nameof(Hash));
         }
 
@@ -69,7 +70,7 @@ namespace Tanji.Windows.Dialogs
                 case nameof(Id):
                 {
                     TryDisplayMessages(Id);
-                    IdNum.Focus();
+                    //IdNum.Focus();
                     break;
                 }
             }
