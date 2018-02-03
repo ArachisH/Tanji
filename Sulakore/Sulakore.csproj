@@ -56,7 +56,6 @@
   <ItemGroup>
     <Compile Include="Communication\Event Args\ContinuableEventArgs.cs" />
     <Compile Include="Communication\Event Args\DataInterceptedEventArgs.cs" />
-    <Compile Include="Communication\HConnection.cs" />
     <Compile Include="Communication\HNode.cs" />
     <Compile Include="Communication\HotelEndPoint.cs" />
     <Compile Include="Communication\HTriggers.cs" />
