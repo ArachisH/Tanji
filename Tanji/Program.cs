@@ -13,10 +13,14 @@ namespace Tanji
         private static void Main()
         {
             AppDomain.CurrentDomain.UnhandledException += UnhandledException;
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            Eavesdropper.Certifier = new CertificateManager("Tanji", "Tanji Certificate Authority");
             Eavesdropper.Overrides.AddRange(new[]
             {
                 "*google*",
-                "*discordapp.com",
+                "*discordapp*",
                 "*gstatic.com",
                 "*imgur.com",
                 "*github.com",
@@ -26,11 +30,12 @@ namespace Tanji
                 "*gvt1.com",
                 "*jquery.com",
                 "*akamai.net",
-                "*ultra-rv.com"
+                "*ultra-rv.com",
+                "*youtube*",
+                "*ytimg*",
+                "*ggpht*"
             });
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainFrm());
         }
 
