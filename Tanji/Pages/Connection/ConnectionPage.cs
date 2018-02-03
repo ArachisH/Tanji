@@ -42,10 +42,8 @@ namespace Tanji.Pages.Connection
     public class ConnectionPage : TanjiPage, IReceiver
     {
         private const ushort EAVESDROP_PROXY_PORT = 8282;
-        private const string EAVESDROP_ROOT_CERTIFICATE_NAME = "EavesdropRoot.cer";
 
         private readonly Action<TanjiState> _setState;
-        private readonly DirectoryInfo _modifiedClientsDir;
         private readonly Action<Task> _connectTaskCompleted;
 
         private TanjiState _state;
@@ -78,8 +76,6 @@ namespace Tanji.Pages.Connection
             _setState = SetState;
             _connectTaskCompleted = ConnectTaskCompleted;
 
-            Tab.Paint += Tab_Paint;
-
             UI.CoTVariablesVw.AddItem("productdata.load.url", string.Empty);
             UI.CoTVariablesVw.AddItem("external.texts.txt", string.Empty);
             UI.CoTVariablesVw.AddItem("external.variables.txt", string.Empty);
@@ -87,33 +83,21 @@ namespace Tanji.Pages.Connection
             UI.CoTVariablesVw.AddItem("external.figurepartlist.txt", string.Empty);
             UI.CoTVariablesVw.AddItem("external.override.variables.txt", string.Empty);
 
-            VariableReplacements = new Dictionary<string, string>(
-                UI.CoTVariablesVw.Items.Count);
-
-            UI.CoTCustomClientTxt.DataBindings.Add("Value", this,
-                nameof(CustomClientPath), false, DataSourceUpdateMode.OnPropertyChanged);
+            VariableReplacements = new Dictionary<string, string>(UI.CoTVariablesVw.Items.Count);
+            UI.CoTCustomClientTxt.DataBindings.Add("Text", this, nameof(CustomClientPath), false, DataSourceUpdateMode.OnPropertyChanged);
 
             UI.CoTBrowseBtn.Click += CoTBrowseBtn_Click;
             UI.CoTConnectBtn.Click += CoTConnectBtn_Click;
 
             UI.CoTDestroyCertificatesBtn.Click += CoTDestroyCertificatesBtn_Click;
-            UI.CoTExportRootCertificateBtn.Click += CoTExportRootCertificateBtn_Click;
+            UI.CoTExportCertificateAuthorityBtn.Click += CoTExportCertificateAuthorityBtn_Click;
 
-            UI.CoTClearVariableBtn.Click += CoTClearVariableBtn_Click;
-            UI.CoTUpdateVariableBtn.Click += CoTUpdateVariableBtn_Click;
+            UI.CoTResetBtn.Click += CoTResetBtn_Click;
+            UI.CoTUpdateBtn.Click += CoTUpdateVariableBtn_Click;
 
             UI.CoTVariablesVw.ItemChecked += CoTVariablesVw_ItemChecked;
             UI.CoTVariablesVw.ItemSelected += CoTVariablesVw_ItemSelected;
             UI.CoTVariablesVw.ItemSelectionStateChanged += CoTVariablesVw_ItemSelectionStateChanged;
-        }
-
-        private void Tab_Paint(object sender, PaintEventArgs e)
-        {
-            using (var skin = new Pen(Color.FromArgb(243, 63, 63)))
-            {
-                e.Graphics.DrawLine(skin, 6, 218, 469, 218);
-                e.Graphics.DrawLine(skin, 6, 277, 469, 277);
-            }
         }
 
         private void CoTBrowseBtn_Click(object sender, EventArgs e)
@@ -126,8 +110,6 @@ namespace Tanji.Pages.Connection
         {
             if (State != TanjiState.StandingBy)
             {
-                // We only want to cancel the resource replacing at this point,
-                // since a connection has already been established.
                 if (State == TanjiState.ReplacingResources)
                 {
                     Halt();
@@ -155,23 +137,20 @@ namespace Tanji.Pages.Connection
             }
         }
 
-        private void CoTClearVariableBtn_Click(object sender, EventArgs e)
+        private void CoTResetBtn_Click(object sender, EventArgs e)
         {
             ListViewItem item =
                 UI.CoTVariablesVw.SelectedItem;
 
             item.SubItems[1].Text = string.Empty;
-            UI.CoTClearVariableBtn.Enabled = false;
-            UI.CoTValueTxt.Value = string.Empty;
+            UI.CoTResetBtn.Enabled = false;
+            UI.CoTValueTxt.Text = string.Empty;
             item.Checked = false;
         }
         private void CoTUpdateVariableBtn_Click(object sender, EventArgs e)
         {
-            ListViewItem item =
-                UI.CoTVariablesVw.SelectedItem;
-
-            item.SubItems[1].Text =
-                UI.CoTValueTxt.Value;
+            ListViewItem item = UI.CoTVariablesVw.SelectedItem;
+            item.SubItems[1].Text = UI.CoTValueTxt.Text;
 
             ToggleClearVariableButton(item);
 
@@ -183,7 +162,7 @@ namespace Tanji.Pages.Connection
         {
             DestroySignedCertificates();
         }
-        private void CoTExportRootCertificateBtn_Click(object sender, EventArgs e)
+        private void CoTExportCertificateAuthorityBtn_Click(object sender, EventArgs e)
         {
             ExportTrustedRootCertificate();
         }
@@ -193,10 +172,10 @@ namespace Tanji.Pages.Connection
             ListViewItem item = UI.CoTVariablesVw.SelectedItem;
 
             ToggleClearVariableButton(item);
-            UI.CoTUpdateVariableBtn.Enabled = true;
+            UI.CoTUpdateBtn.Enabled = true;
 
-            UI.CoTVariableTxt.Value = item.Text;
-            UI.CoTValueTxt.Value = item.SubItems[1].Text;
+            UI.CoTVariableTxt.Text = item.Text;
+            UI.CoTValueTxt.Text = item.SubItems[1].Text;
         }
         private void CoTVariablesVw_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
@@ -211,11 +190,8 @@ namespace Tanji.Pages.Connection
         {
             if (!UI.CoTVariablesVw.HasSelectedItem)
             {
-                UI.CoTUpdateVariableBtn.Enabled =
-                    (UI.CoTClearVariableBtn.Enabled = false);
-
-                UI.CoTVariableTxt.Value =
-                   (UI.CoTValueTxt.Value = string.Empty);
+                UI.CoTUpdateBtn.Enabled = (UI.CoTResetBtn.Enabled = false);
+                UI.CoTVariableTxt.Text = (UI.CoTValueTxt.Text = string.Empty);
             }
         }
 
@@ -343,6 +319,8 @@ namespace Tanji.Pages.Connection
             byte[] payload = UI.Game.ToArray(compression);
 
             e.Content = new ByteArrayContent(payload);
+            e.Response.Headers[HttpResponseHeader.ContentLength] = payload.Length.ToString();
+
             using (var clientStream = File.Open(clientPath, FileMode.Create, FileAccess.Write))
             {
                 clientStream.Write(payload, 0, payload.Length);
@@ -478,51 +456,51 @@ namespace Tanji.Pages.Connection
             switch (State = state)
             {
                 case TanjiState.StandingBy:
-                UI.CoTStatusTxt.StopDotAnimation("Standing By...");
+                UI.CoTStatusTxt.Text = "Standing By...";
                 break;
 
                 case TanjiState.ExtractingGameData:
-                UI.CoTStatusTxt.SetDotAnimation("Extracting Game Data");
+                UI.CoTStatusTxt.Text = "Extracting Game Data";
                 break;
 
                 case TanjiState.InjectingClient:
-                UI.CoTStatusTxt.SetDotAnimation("Injecting Client");
+                UI.CoTStatusTxt.Text = "Injecting Client";
                 break;
 
                 case TanjiState.InterceptingClient:
-                UI.CoTStatusTxt.SetDotAnimation("Intercepting Client");
+                UI.CoTStatusTxt.Text = "Intercepting Client";
                 break;
 
                 case TanjiState.DecompressingClient:
-                UI.CoTStatusTxt.SetDotAnimation("Decompressing Client");
+                UI.CoTStatusTxt.Text = "Decompressing Client";
                 break;
 
                 case TanjiState.CompressingClient:
-                UI.CoTStatusTxt.SetDotAnimation("Compressing Client");
+                UI.CoTStatusTxt.Text = "Compressing Client";
                 break;
 
                 case TanjiState.DisassemblingClient:
-                UI.CoTStatusTxt.SetDotAnimation("Disassembling Client");
+                UI.CoTStatusTxt.Text = "Disassembling Client";
                 break;
 
                 case TanjiState.ModifyingClient:
-                UI.CoTStatusTxt.SetDotAnimation("Modifying Client");
+                UI.CoTStatusTxt.Text = "Modifying Client";
                 break;
 
                 case TanjiState.AssemblingClient:
-                UI.CoTStatusTxt.SetDotAnimation("Assembling Client");
+                UI.CoTStatusTxt.Text = "Assembling Client";
                 break;
 
                 case TanjiState.InterceptingConnection:
-                UI.CoTStatusTxt.SetDotAnimation("Intercepting Connection");
+                UI.CoTStatusTxt.Text = "Intercepting Connection";
                 break;
 
                 case TanjiState.ReplacingResources:
-                UI.CoTStatusTxt.SetDotAnimation("Replacing Resources");
+                UI.CoTStatusTxt.Text = "Replacing Resources";
                 break;
 
                 case TanjiState.GeneratingMessageHashes:
-                UI.CoTStatusTxt.SetDotAnimation("Generating Message Hashes");
+                UI.CoTStatusTxt.Text = "Generating Message Hashes";
                 break;
             }
             #endregion
@@ -535,18 +513,14 @@ namespace Tanji.Pages.Connection
         }
         public void ExportTrustedRootCertificate()
         {
-            string certificatePath =
-                Path.GetFullPath(EAVESDROP_ROOT_CERTIFICATE_NAME);
+            string fileName = Eavesdropper.Certifier.RootCertificateName.Replace(" ", "_") + ".cer";
+            string filePath = Path.GetFullPath(fileName);
 
-            bool exportSuccess = Eavesdropper.Certifier
-                .ExportTrustedRootCertificate(certificatePath);
+            string message = (Eavesdropper.Certifier.ExportTrustedRootCertificate(filePath)
+                ? $"Successfully exported '{fileName}' to:\r\n\r\n{filePath}"
+                : "Failed to export the certificate authority.");
 
-            string message = (exportSuccess
-                ? $"Successfully exported '{EAVESDROP_ROOT_CERTIFICATE_NAME}' to:\r\n\r\n" + certificatePath
-                : $"Failed to export '{EAVESDROP_ROOT_CERTIFICATE_NAME}' root certificate.");
-
-            MessageBox.Show(message,
-                "Tanji ~ Alert!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            MessageBox.Show(message, "Tanji ~ Alert!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
         public void CreateTrustedRootCertificate()
         {
@@ -575,7 +549,7 @@ namespace Tanji.Pages.Connection
         }
         protected void ToggleClearVariableButton(ListViewItem item)
         {
-            UI.CoTClearVariableBtn.Enabled = (!string.IsNullOrWhiteSpace(item.SubItems[1].Text));
+            UI.CoTResetBtn.Enabled = (!string.IsNullOrWhiteSpace(item.SubItems[1].Text));
         }
         protected virtual void ConnectTaskCompleted(Task connectTask)
         {
