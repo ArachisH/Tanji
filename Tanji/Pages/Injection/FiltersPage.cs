@@ -140,8 +140,7 @@ namespace Tanji.Pages.Injection
 
         private void FTActionTxt_SelectedValueChanged(object sender, EventArgs e)
         {
-            UI.FTReplacementTxt.ValueReadOnly =
-                ((FilterAction)UI.FTActionTxt.SelectedValue == FilterAction.Block);
+            UI.FTReplacementTxt.IsReadOnly = ((FilterAction)UI.FTActionTxt.SelectedValue == FilterAction.Block);
         }
 
         private void FTFiltersVw_ItemChecked(object sender, ItemCheckedEventArgs e)
@@ -176,8 +175,7 @@ namespace Tanji.Pages.Injection
         }
         public HMessage GetPacket()
         {
-            return new HMessage(
-                UI.FTReplacementTxt.Value, Destination);
+            return new HMessage(UI.FTReplacementTxt.Text, Destination);
         }
         public bool AuthorizeFilter(ushort key, HDestination destination, FilterAction action)
         {

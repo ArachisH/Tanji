@@ -29,11 +29,9 @@ namespace Tanji.Pages.Injection
             HMessage packet = GetPacket();
             UI.ITPacketTxt.Text = packet.ToString();
 
-            UI.PTHeaderTxt.Value = packet.Header.ToString();
-            UI.PTLengthTxt.Value = packet.Length.ToString("n0");
-
-            UI.PTCorruptedTxt.Value =
-                packet.IsCorrupted.ToString();
+            UI.PTHeaderTxt.Text = packet.Header.ToString();
+            UI.PTLengthTxt.Text = packet.Length.ToString("n0");
+            UI.PTCorruptedTxt.Text = packet.IsCorrupted.ToString();
 
             UI.PTCorruptedTxt.BackColor = (packet.IsCorrupted ?
                 UI.PacketLoggerUI.IncomingHighlight :

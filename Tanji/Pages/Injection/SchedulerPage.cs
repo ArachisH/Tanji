@@ -136,7 +136,7 @@ namespace Tanji.Pages.Injection
                 }
 
                 Hotkey = Keys.NoName;
-                UI.STHotkeyTxt.Value = string.Empty;
+                UI.STHotkeyTxt.Text = string.Empty;
             }
         }
 
@@ -155,7 +155,7 @@ namespace Tanji.Pages.Injection
                 HotkeyValue = (e.Modifiers + " + ");
 
             Hotkey = e.KeyData;
-            UI.STHotkeyTxt.Value = (HotkeyValue += e.KeyCode);
+            UI.STHotkeyTxt.Text = (HotkeyValue += e.KeyCode);
 
             e.Handled = true;
             e.SuppressKeyPress = true;
