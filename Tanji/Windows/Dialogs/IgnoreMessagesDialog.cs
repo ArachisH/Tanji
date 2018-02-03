@@ -61,7 +61,7 @@ namespace Tanji.Windows.Dialogs
             }
             IgnoredVw.RemoveSelectedItem();
         }
-        private void AddHeaderBtn_Click(object sender, EventArgs e)
+        private void IgnoreBtn_Click(object sender, EventArgs e)
         {
             bool isOutgoing = (TypeTxt.Text == "Outgoing");
             int identifier = (isOutgoing ? (Id + ushort.MaxValue) : Id);

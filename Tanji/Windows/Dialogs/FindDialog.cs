@@ -135,14 +135,6 @@ namespace Tanji.Windows.Dialogs
                 nameof(IsDirectionUp), false, DataSourceUpdateMode.OnPropertyChanged);
         }
 
-        private void FindTxt_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                e.SuppressKeyPress = true;
-                FindNextBtn_Click(sender, e);
-            }
-        }
         private void FindNextBtn_Click(object sender, EventArgs e)
         {
             string value = FindWhat;
@@ -177,6 +169,14 @@ namespace Tanji.Windows.Dialogs
             if (_logger.SelectionLength != value.Length)
             {
                 _logger.SelectionLength = value.Length;
+            }
+        }
+        private void FindWhatTxt_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                FindNextBtn_Click(sender, e);
             }
         }
 

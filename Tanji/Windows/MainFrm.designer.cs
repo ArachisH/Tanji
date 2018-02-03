@@ -29,25 +29,21 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.TanjiStrip = new System.Windows.Forms.StatusStrip();
-            this.TanjiVersionTxt = new System.Windows.Forms.ToolStripStatusLabel();
-            this.SchedulesTxt = new System.Windows.Forms.ToolStripStatusLabel();
-            this.FiltersTxt = new System.Windows.Forms.ToolStripStatusLabel();
-            this.ModulesTxt = new System.Windows.Forms.ToolStripStatusLabel();
-            this.TanjiInfoTxt = new System.Windows.Forms.ToolStripStatusLabel();
             this.CustomClientDlg = new System.Windows.Forms.OpenFileDialog();
             this.InstallModuleDlg = new System.Windows.Forms.OpenFileDialog();
             this.TanjiTabs = new Sulakore.Components.SKoreTabControl();
             this.ConnectionTab = new System.Windows.Forms.TabPage();
-            this.sKoreLabelBox3 = new Sulakore.Components.SKoreLabelBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.ProxyPortLbl = new Sulakore.Components.SKoreLabel();
+            this.label1 = new System.Windows.Forms.Label();
             this.CoTVariableTxt = new Sulakore.Components.SKoreLabelBox();
             this.CoTValueTxt = new Sulakore.Components.SKoreLabelBox();
             this.CoTCustomClientTxt = new Sulakore.Components.SKoreLabelBox();
             this.CoTBrowseBtn = new Sulakore.Components.SKoreButton();
-            this.CoTExportRootCertificateBtn = new Sulakore.Components.SKoreButton();
+            this.CoTExportCertificateAuthorityBtn = new Sulakore.Components.SKoreButton();
             this.CoTDestroyCertificatesBtn = new Sulakore.Components.SKoreButton();
-            this.CoTClearVariableBtn = new Sulakore.Components.SKoreButton();
-            this.CoTUpdateVariableBtn = new Sulakore.Components.SKoreButton();
+            this.CoTResetBtn = new Sulakore.Components.SKoreButton();
+            this.CoTUpdateBtn = new Sulakore.Components.SKoreButton();
             this.CoTStatusTxt = new Sulakore.Components.SKoreLabel();
             this.CoTConnectBtn = new Sulakore.Components.SKoreButton();
             this.CoTVariablesVw = new Sulakore.Components.SKoreListView();
@@ -131,14 +127,11 @@
             this.TTUShortInputTxt = new System.Windows.Forms.NumericUpDown();
             this.ModulesTab = new System.Windows.Forms.TabPage();
             this.sKoreLabelBox1 = new Sulakore.Components.SKoreLabelBox();
-            this.MTDownloadsLbl = new Sulakore.Components.SKoreLabel();
-            this.MTReleasesBtn = new Sulakore.Components.SKoreButton();
             this.MTResourceBtn = new Sulakore.Components.SKoreButton();
             this.MTHabboNameTxt = new System.Windows.Forms.TextBox();
             this.MTHabboNameLbl = new System.Windows.Forms.Label();
             this.MTAuthorsLbl = new System.Windows.Forms.Label();
             this.MTAuthorsTxt = new System.Windows.Forms.ComboBox();
-            this.MTDownloadLatestBtn = new Sulakore.Components.SKoreButton();
             this.MTUninstallModuleBtn = new Sulakore.Components.SKoreButton();
             this.MTInstallModuleBtn = new Sulakore.Components.SKoreButton();
             this.MTAuthorPctbx = new System.Windows.Forms.PictureBox();
@@ -148,21 +141,20 @@
             this.MTVersionCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.MTStateCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.AboutTab = new System.Windows.Forms.TabPage();
-            this.label2 = new System.Windows.Forms.Label();
             this.DonateBtn = new Sulakore.Components.SKoreButton();
-            this.PindaPic = new System.Windows.Forms.PictureBox();
-            this.H4BB0Btn = new Sulakore.Components.SKoreButton();
             this.SpeaqerBtn = new Sulakore.Components.SKoreButton();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.ForbiddenBtn = new Sulakore.Components.SKoreButton();
             this.SNGButton = new Sulakore.Components.SKoreButton();
             this.DarkboxBtn = new Sulakore.Components.SKoreButton();
-            this.HarbleBtn = new Sulakore.Components.SKoreButton();
             this.DarkStarBtn = new Sulakore.Components.SKoreButton();
             this.ArachisBtn = new Sulakore.Components.SKoreButton();
             this.InjectionMenu = new Sulakore.Components.SKoreInjectionMenu(this.components);
             this.SavePacketDlg = new System.Windows.Forms.SaveFileDialog();
-            this.TanjiStrip.SuspendLayout();
+            this.TanjiVersionTxt = new System.Windows.Forms.ToolStripStatusLabel();
+            this.SchedulesTxt = new System.Windows.Forms.ToolStripStatusLabel();
+            this.FiltersTxt = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ModulesTxt = new System.Windows.Forms.ToolStripStatusLabel();
+            this.TanjiInfoTxt = new System.Windows.Forms.ToolStripStatusLabel();
+            this.TanjiStrip = new System.Windows.Forms.StatusStrip();
             this.TanjiTabs.SuspendLayout();
             this.ConnectionTab.SuspendLayout();
             this.InjectionTab.SuspendLayout();
@@ -182,67 +174,8 @@
             this.ModulesTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MTAuthorPctbx)).BeginInit();
             this.AboutTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PindaPic)).BeginInit();
+            this.TanjiStrip.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // TanjiStrip
-            // 
-            this.TanjiStrip.AllowMerge = false;
-            this.TanjiStrip.BackColor = System.Drawing.Color.White;
-            this.TanjiStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TanjiVersionTxt,
-            this.SchedulesTxt,
-            this.FiltersTxt,
-            this.ModulesTxt,
-            this.TanjiInfoTxt});
-            this.TanjiStrip.Location = new System.Drawing.Point(0, 345);
-            this.TanjiStrip.Name = "TanjiStrip";
-            this.TanjiStrip.Size = new System.Drawing.Size(484, 24);
-            this.TanjiStrip.SizingGrip = false;
-            this.TanjiStrip.TabIndex = 5;
-            this.TanjiStrip.Text = "TanjiStrip";
-            // 
-            // TanjiVersionTxt
-            // 
-            this.TanjiVersionTxt.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.TanjiVersionTxt.LinkColor = System.Drawing.SystemColors.HotTrack;
-            this.TanjiVersionTxt.Name = "TanjiVersionTxt";
-            this.TanjiVersionTxt.Size = new System.Drawing.Size(50, 19);
-            this.TanjiVersionTxt.Text = "v0.0.0.0";
-            this.TanjiVersionTxt.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.TanjiVersionTxt.Click += new System.EventHandler(this.TanjiVersionTxt_Click);
-            // 
-            // SchedulesTxt
-            // 
-            this.SchedulesTxt.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.SchedulesTxt.Name = "SchedulesTxt";
-            this.SchedulesTxt.Size = new System.Drawing.Size(87, 19);
-            this.SchedulesTxt.Text = "Schedules: 0/0";
-            // 
-            // FiltersTxt
-            // 
-            this.FiltersTxt.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.FiltersTxt.Name = "FiltersTxt";
-            this.FiltersTxt.Size = new System.Drawing.Size(65, 19);
-            this.FiltersTxt.Text = "Filters: 0/0";
-            // 
-            // ModulesTxt
-            // 
-            this.ModulesTxt.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.ModulesTxt.Name = "ModulesTxt";
-            this.ModulesTxt.Size = new System.Drawing.Size(80, 19);
-            this.ModulesTxt.Text = "Modules: 0/0";
-            // 
-            // TanjiInfoTxt
-            // 
-            this.TanjiInfoTxt.IsLink = true;
-            this.TanjiInfoTxt.LinkColor = System.Drawing.SystemColors.HotTrack;
-            this.TanjiInfoTxt.Name = "TanjiInfoTxt";
-            this.TanjiInfoTxt.Size = new System.Drawing.Size(187, 19);
-            this.TanjiInfoTxt.Spring = true;
-            this.TanjiInfoTxt.Text = "GitHub - ArachisH/Tanji";
-            this.TanjiInfoTxt.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.TanjiInfoTxt.Click += new System.EventHandler(this.TanjiInfoTxt_Click);
             // 
             // CustomClientDlg
             // 
@@ -268,26 +201,28 @@
             this.TanjiTabs.DisplayBoundary = true;
             this.TanjiTabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TanjiTabs.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
+            this.TanjiTabs.IsDisplayingBorder = true;
             this.TanjiTabs.ItemSize = new System.Drawing.Size(96, 24);
             this.TanjiTabs.Location = new System.Drawing.Point(0, 0);
             this.TanjiTabs.Name = "TanjiTabs";
             this.TanjiTabs.SelectedIndex = 0;
             this.TanjiTabs.Size = new System.Drawing.Size(484, 345);
             this.TanjiTabs.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-            this.TanjiTabs.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.TanjiTabs.TabIndex = 6;
             // 
             // ConnectionTab
             // 
-            this.ConnectionTab.Controls.Add(this.sKoreLabelBox3);
+            this.ConnectionTab.Controls.Add(this.label2);
+            this.ConnectionTab.Controls.Add(this.ProxyPortLbl);
+            this.ConnectionTab.Controls.Add(this.label1);
             this.ConnectionTab.Controls.Add(this.CoTVariableTxt);
             this.ConnectionTab.Controls.Add(this.CoTValueTxt);
             this.ConnectionTab.Controls.Add(this.CoTCustomClientTxt);
             this.ConnectionTab.Controls.Add(this.CoTBrowseBtn);
-            this.ConnectionTab.Controls.Add(this.CoTExportRootCertificateBtn);
+            this.ConnectionTab.Controls.Add(this.CoTExportCertificateAuthorityBtn);
             this.ConnectionTab.Controls.Add(this.CoTDestroyCertificatesBtn);
-            this.ConnectionTab.Controls.Add(this.CoTClearVariableBtn);
-            this.ConnectionTab.Controls.Add(this.CoTUpdateVariableBtn);
+            this.ConnectionTab.Controls.Add(this.CoTResetBtn);
+            this.ConnectionTab.Controls.Add(this.CoTUpdateBtn);
             this.ConnectionTab.Controls.Add(this.CoTStatusTxt);
             this.ConnectionTab.Controls.Add(this.CoTConnectBtn);
             this.ConnectionTab.Controls.Add(this.CoTVariablesVw);
@@ -299,130 +234,138 @@
             this.ConnectionTab.Text = "Connection";
             this.ConnectionTab.UseVisualStyleBackColor = true;
             // 
-            // sKoreLabelBox3
+            // label2
             // 
-            this.sKoreLabelBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.sKoreLabelBox3.Location = new System.Drawing.Point(370, 225);
-            this.sKoreLabelBox3.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
-            this.sKoreLabelBox3.Name = "sKoreLabelBox3";
-            this.sKoreLabelBox3.Size = new System.Drawing.Size(100, 20);
-            this.sKoreLabelBox3.TabIndex = 108;
-            this.sKoreLabelBox3.Text = "Proxy Port";
-            this.sKoreLabelBox3.Value = "8282";
-            this.sKoreLabelBox3.ValueAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.sKoreLabelBox3.ValueReadOnly = true;
+            this.label2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.label2.Location = new System.Drawing.Point(6, 230);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(464, 1);
+            this.label2.TabIndex = 111;
+            // 
+            // ProxyPortLbl
+            // 
+            this.ProxyPortLbl.AnimationInterval = 0;
+            this.ProxyPortLbl.DisplayBoundary = true;
+            this.ProxyPortLbl.Location = new System.Drawing.Point(370, 234);
+            this.ProxyPortLbl.Name = "ProxyPortLbl";
+            this.ProxyPortLbl.Size = new System.Drawing.Size(100, 20);
+            this.ProxyPortLbl.TabIndex = 110;
+            this.ProxyPortLbl.Text = "Proxy Port: 8282";
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.label1.Location = new System.Drawing.Point(6, 283);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(464, 1);
+            this.label1.TabIndex = 109;
             // 
             // CoTVariableTxt
             // 
             this.CoTVariableTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CoTVariableTxt.Location = new System.Drawing.Point(6, 192);
+            this.CoTVariableTxt.IsReadOnly = true;
+            this.CoTVariableTxt.Location = new System.Drawing.Point(6, 207);
             this.CoTVariableTxt.Name = "CoTVariableTxt";
-            this.CoTVariableTxt.Size = new System.Drawing.Size(327, 20);
+            this.CoTVariableTxt.Size = new System.Drawing.Size(358, 20);
             this.CoTVariableTxt.TabIndex = 107;
-            this.CoTVariableTxt.Text = "Variable";
+            this.CoTVariableTxt.Text = "";
+            this.CoTVariableTxt.TextPaddingWidth = 0;
+            this.CoTVariableTxt.Title = "Variable";
             this.CoTVariableTxt.Value = "";
-            this.CoTVariableTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.CoTVariableTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.CoTVariableTxt.ValueReadOnly = true;
             // 
             // CoTValueTxt
             // 
             this.CoTValueTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CoTValueTxt.Location = new System.Drawing.Point(6, 166);
+            this.CoTValueTxt.Location = new System.Drawing.Point(6, 181);
             this.CoTValueTxt.Name = "CoTValueTxt";
-            this.CoTValueTxt.Size = new System.Drawing.Size(327, 20);
+            this.CoTValueTxt.Size = new System.Drawing.Size(358, 20);
             this.CoTValueTxt.TabIndex = 106;
-            this.CoTValueTxt.Text = "Value";
+            this.CoTValueTxt.Text = "";
+            this.CoTValueTxt.Title = "Value";
             this.CoTValueTxt.Value = "";
-            this.CoTValueTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.CoTValueTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.CoTValueTxt.ValueReadOnly = false;
             // 
             // CoTCustomClientTxt
             // 
             this.CoTCustomClientTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CoTCustomClientTxt.Location = new System.Drawing.Point(6, 251);
+            this.CoTCustomClientTxt.Location = new System.Drawing.Point(6, 260);
             this.CoTCustomClientTxt.Name = "CoTCustomClientTxt";
-            this.CoTCustomClientTxt.Size = new System.Drawing.Size(358, 20);
+            this.CoTCustomClientTxt.Size = new System.Drawing.Size(355, 20);
             this.CoTCustomClientTxt.TabIndex = 105;
-            this.CoTCustomClientTxt.Text = "Custom Client";
+            this.CoTCustomClientTxt.Text = "";
+            this.CoTCustomClientTxt.TextPaddingWidth = 0;
+            this.CoTCustomClientTxt.Title = "Custom Client";
             this.CoTCustomClientTxt.Value = "";
+            this.CoTCustomClientTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.CoTCustomClientTxt.ValueReadOnly = false;
             // 
             // CoTBrowseBtn
             // 
             this.CoTBrowseBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.CoTBrowseBtn.BackColor = System.Drawing.Color.Transparent;
-            this.CoTBrowseBtn.Location = new System.Drawing.Point(370, 251);
+            this.CoTBrowseBtn.Location = new System.Drawing.Point(370, 260);
             this.CoTBrowseBtn.Name = "CoTBrowseBtn";
             this.CoTBrowseBtn.Size = new System.Drawing.Size(100, 20);
-            this.CoTBrowseBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CoTBrowseBtn.TabIndex = 2;
             this.CoTBrowseBtn.Text = "Browse";
             // 
-            // CoTExportRootCertificateBtn
+            // CoTExportCertificateAuthorityBtn
             // 
-            this.CoTExportRootCertificateBtn.BackColor = System.Drawing.Color.Transparent;
-            this.CoTExportRootCertificateBtn.Location = new System.Drawing.Point(188, 225);
-            this.CoTExportRootCertificateBtn.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
-            this.CoTExportRootCertificateBtn.Name = "CoTExportRootCertificateBtn";
-            this.CoTExportRootCertificateBtn.Size = new System.Drawing.Size(176, 20);
-            this.CoTExportRootCertificateBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CoTExportRootCertificateBtn.TabIndex = 3;
-            this.CoTExportRootCertificateBtn.Text = "Export Root Certificate";
+            this.CoTExportCertificateAuthorityBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.CoTExportCertificateAuthorityBtn.Location = new System.Drawing.Point(6, 234);
+            this.CoTExportCertificateAuthorityBtn.Name = "CoTExportCertificateAuthorityBtn";
+            this.CoTExportCertificateAuthorityBtn.Size = new System.Drawing.Size(176, 20);
+            this.CoTExportCertificateAuthorityBtn.TabIndex = 3;
+            this.CoTExportCertificateAuthorityBtn.Text = "Export Certificate Authority";
             // 
             // CoTDestroyCertificatesBtn
             // 
-            this.CoTDestroyCertificatesBtn.BackColor = System.Drawing.Color.Transparent;
-            this.CoTDestroyCertificatesBtn.Location = new System.Drawing.Point(6, 225);
-            this.CoTDestroyCertificatesBtn.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
+            this.CoTDestroyCertificatesBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.CoTDestroyCertificatesBtn.Location = new System.Drawing.Point(188, 234);
             this.CoTDestroyCertificatesBtn.Name = "CoTDestroyCertificatesBtn";
             this.CoTDestroyCertificatesBtn.Size = new System.Drawing.Size(176, 20);
-            this.CoTDestroyCertificatesBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CoTDestroyCertificatesBtn.TabIndex = 2;
-            this.CoTDestroyCertificatesBtn.Text = "Destroy Certificate(s)";
+            this.CoTDestroyCertificatesBtn.Text = "Destroy Certificates";
             // 
-            // CoTClearVariableBtn
+            // CoTResetBtn
             // 
-            this.CoTClearVariableBtn.BackColor = System.Drawing.Color.Transparent;
-            this.CoTClearVariableBtn.Enabled = false;
-            this.CoTClearVariableBtn.Location = new System.Drawing.Point(339, 192);
-            this.CoTClearVariableBtn.Name = "CoTClearVariableBtn";
-            this.CoTClearVariableBtn.Size = new System.Drawing.Size(131, 20);
-            this.CoTClearVariableBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CoTClearVariableBtn.TabIndex = 95;
-            this.CoTClearVariableBtn.Text = "Clear Variable";
+            this.CoTResetBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.CoTResetBtn.Enabled = false;
+            this.CoTResetBtn.Location = new System.Drawing.Point(370, 207);
+            this.CoTResetBtn.Name = "CoTResetBtn";
+            this.CoTResetBtn.Size = new System.Drawing.Size(100, 20);
+            this.CoTResetBtn.TabIndex = 95;
+            this.CoTResetBtn.Text = "Reset";
             // 
-            // CoTUpdateVariableBtn
+            // CoTUpdateBtn
             // 
-            this.CoTUpdateVariableBtn.BackColor = System.Drawing.Color.Transparent;
-            this.CoTUpdateVariableBtn.Enabled = false;
-            this.CoTUpdateVariableBtn.Location = new System.Drawing.Point(339, 166);
-            this.CoTUpdateVariableBtn.Name = "CoTUpdateVariableBtn";
-            this.CoTUpdateVariableBtn.Size = new System.Drawing.Size(131, 20);
-            this.CoTUpdateVariableBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CoTUpdateVariableBtn.TabIndex = 94;
-            this.CoTUpdateVariableBtn.Text = "Update Variable";
+            this.CoTUpdateBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.CoTUpdateBtn.Enabled = false;
+            this.CoTUpdateBtn.Location = new System.Drawing.Point(370, 181);
+            this.CoTUpdateBtn.Name = "CoTUpdateBtn";
+            this.CoTUpdateBtn.Size = new System.Drawing.Size(100, 20);
+            this.CoTUpdateBtn.TabIndex = 94;
+            this.CoTUpdateBtn.Text = "Update";
             // 
             // CoTStatusTxt
             // 
-            this.CoTStatusTxt.AnimationInterval = 500;
-            this.CoTStatusTxt.BorderWidth = 1;
+            this.CoTStatusTxt.AnimationInterval = 0;
             this.CoTStatusTxt.DisplayBoundary = true;
             this.CoTStatusTxt.Location = new System.Drawing.Point(6, 287);
-            this.CoTStatusTxt.Margin = new System.Windows.Forms.Padding(3, 13, 3, 0);
             this.CoTStatusTxt.Name = "CoTStatusTxt";
             this.CoTStatusTxt.Size = new System.Drawing.Size(358, 20);
-            this.CoTStatusTxt.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CoTStatusTxt.TabIndex = 2;
             this.CoTStatusTxt.Text = "Standing By...";
-            this.CoTStatusTxt.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // CoTConnectBtn
             // 
-            this.CoTConnectBtn.BackColor = System.Drawing.Color.Transparent;
+            this.CoTConnectBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CoTConnectBtn.Location = new System.Drawing.Point(370, 287);
-            this.CoTConnectBtn.Margin = new System.Windows.Forms.Padding(3, 13, 3, 3);
             this.CoTConnectBtn.Name = "CoTConnectBtn";
             this.CoTConnectBtn.Size = new System.Drawing.Size(100, 20);
-            this.CoTConnectBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CoTConnectBtn.TabIndex = 1;
             this.CoTConnectBtn.Text = "Connect";
             // 
@@ -442,7 +385,7 @@
             this.CoTVariablesVw.MultiSelect = false;
             this.CoTVariablesVw.Name = "CoTVariablesVw";
             this.CoTVariablesVw.ShowItemToolTips = true;
-            this.CoTVariablesVw.Size = new System.Drawing.Size(464, 154);
+            this.CoTVariablesVw.Size = new System.Drawing.Size(464, 169);
             this.CoTVariablesVw.TabIndex = 101;
             this.CoTVariablesVw.UseCompatibleStateImageBehavior = false;
             this.CoTVariablesVw.View = System.Windows.Forms.View.Details;
@@ -474,24 +417,22 @@
             // ITSendToClientBtn
             // 
             this.ITSendToClientBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ITSendToClientBtn.BackColor = System.Drawing.Color.Transparent;
-            this.ITSendToClientBtn.Location = new System.Drawing.Point(238, 287);
+            this.ITSendToClientBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.ITSendToClientBtn.Location = new System.Drawing.Point(262, 287);
             this.ITSendToClientBtn.Name = "ITSendToClientBtn";
-            this.ITSendToClientBtn.Size = new System.Drawing.Size(113, 20);
-            this.ITSendToClientBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.ITSendToClientBtn.Size = new System.Drawing.Size(101, 20);
             this.ITSendToClientBtn.TabIndex = 7;
-            this.ITSendToClientBtn.Text = "Send To Client(F1)";
+            this.ITSendToClientBtn.Text = "Send To Client";
             // 
             // ITSendToServerBtn
             // 
             this.ITSendToServerBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ITSendToServerBtn.BackColor = System.Drawing.Color.Transparent;
-            this.ITSendToServerBtn.Location = new System.Drawing.Point(357, 287);
+            this.ITSendToServerBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.ITSendToServerBtn.Location = new System.Drawing.Point(369, 287);
             this.ITSendToServerBtn.Name = "ITSendToServerBtn";
-            this.ITSendToServerBtn.Size = new System.Drawing.Size(113, 20);
-            this.ITSendToServerBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.ITSendToServerBtn.Size = new System.Drawing.Size(101, 20);
             this.ITSendToServerBtn.TabIndex = 6;
-            this.ITSendToServerBtn.Text = "Send To Server(F2)";
+            this.ITSendToServerBtn.Text = "Send To Server";
             // 
             // InjectionTabs
             // 
@@ -503,14 +444,14 @@
             this.InjectionTabs.DisplayBoundary = true;
             this.InjectionTabs.Dock = System.Windows.Forms.DockStyle.Top;
             this.InjectionTabs.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
+            this.InjectionTabs.IsDisplayingBorder = true;
             this.InjectionTabs.ItemSize = new System.Drawing.Size(24, 65);
             this.InjectionTabs.Location = new System.Drawing.Point(3, 3);
             this.InjectionTabs.Multiline = true;
             this.InjectionTabs.Name = "InjectionTabs";
             this.InjectionTabs.SelectedIndex = 0;
-            this.InjectionTabs.Size = new System.Drawing.Size(470, 275);
+            this.InjectionTabs.Size = new System.Drawing.Size(470, 278);
             this.InjectionTabs.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-            this.InjectionTabs.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.InjectionTabs.TabIndex = 0;
             // 
             // ConstructerTab
@@ -535,7 +476,7 @@
             this.ConstructerTab.Location = new System.Drawing.Point(4, 4);
             this.ConstructerTab.Name = "ConstructerTab";
             this.ConstructerTab.Padding = new System.Windows.Forms.Padding(3);
-            this.ConstructerTab.Size = new System.Drawing.Size(397, 267);
+            this.ConstructerTab.Size = new System.Drawing.Size(397, 270);
             this.ConstructerTab.TabIndex = 2;
             this.ConstructerTab.Text = "Constructer";
             this.ConstructerTab.UseVisualStyleBackColor = true;
@@ -599,26 +540,22 @@
             // CTTransferBelowBtn
             // 
             this.CTTransferBelowBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CTTransferBelowBtn.BackColor = System.Drawing.Color.Transparent;
+            this.CTTransferBelowBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CTTransferBelowBtn.Location = new System.Drawing.Point(6, 241);
             this.CTTransferBelowBtn.Name = "CTTransferBelowBtn";
             this.CTTransferBelowBtn.Size = new System.Drawing.Size(100, 20);
-            this.CTTransferBelowBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CTTransferBelowBtn.TabIndex = 46;
             this.CTTransferBelowBtn.Text = "Transfer Below";
             // 
             // CTValueCountLbl
             // 
-            this.CTValueCountLbl.BorderWidth = 1;
+            this.CTValueCountLbl.AnimationInterval = 0;
             this.CTValueCountLbl.DisplayBoundary = true;
             this.CTValueCountLbl.Location = new System.Drawing.Point(6, 215);
-            this.CTValueCountLbl.Margin = new System.Windows.Forms.Padding(3);
             this.CTValueCountLbl.Name = "CTValueCountLbl";
             this.CTValueCountLbl.Size = new System.Drawing.Size(100, 20);
-            this.CTValueCountLbl.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CTValueCountLbl.TabIndex = 45;
             this.CTValueCountLbl.Text = "Value Count: 0";
-            this.CTValueCountLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // CTAmountTxt
             // 
@@ -646,80 +583,73 @@
             // CTRemoveBtn
             // 
             this.CTRemoveBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CTRemoveBtn.BackColor = System.Drawing.Color.Transparent;
+            this.CTRemoveBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CTRemoveBtn.Enabled = false;
             this.CTRemoveBtn.Location = new System.Drawing.Point(112, 241);
             this.CTRemoveBtn.Name = "CTRemoveBtn";
             this.CTRemoveBtn.Size = new System.Drawing.Size(89, 20);
-            this.CTRemoveBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CTRemoveBtn.TabIndex = 38;
             this.CTRemoveBtn.Text = "Remove";
             // 
             // CTMoveDownBtn
             // 
             this.CTMoveDownBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CTMoveDownBtn.BackColor = System.Drawing.Color.Transparent;
+            this.CTMoveDownBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CTMoveDownBtn.Enabled = false;
             this.CTMoveDownBtn.Location = new System.Drawing.Point(302, 241);
             this.CTMoveDownBtn.Name = "CTMoveDownBtn";
             this.CTMoveDownBtn.Size = new System.Drawing.Size(89, 20);
-            this.CTMoveDownBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CTMoveDownBtn.TabIndex = 37;
             this.CTMoveDownBtn.Text = "Move Down";
             // 
             // CTMoveUpBtn
             // 
             this.CTMoveUpBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CTMoveUpBtn.BackColor = System.Drawing.Color.Transparent;
+            this.CTMoveUpBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CTMoveUpBtn.Enabled = false;
             this.CTMoveUpBtn.Location = new System.Drawing.Point(207, 241);
             this.CTMoveUpBtn.Name = "CTMoveUpBtn";
             this.CTMoveUpBtn.Size = new System.Drawing.Size(89, 20);
-            this.CTMoveUpBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CTMoveUpBtn.TabIndex = 36;
             this.CTMoveUpBtn.Text = "Move Up";
             // 
             // CTClearBtn
             // 
             this.CTClearBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CTClearBtn.BackColor = System.Drawing.Color.Transparent;
+            this.CTClearBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CTClearBtn.Location = new System.Drawing.Point(6, 46);
             this.CTClearBtn.Name = "CTClearBtn";
             this.CTClearBtn.Size = new System.Drawing.Size(73, 20);
-            this.CTClearBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CTClearBtn.TabIndex = 35;
             this.CTClearBtn.Text = "Clear";
             // 
             // CTWriteBooleanBtn
             // 
             this.CTWriteBooleanBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CTWriteBooleanBtn.BackColor = System.Drawing.Color.Transparent;
+            this.CTWriteBooleanBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CTWriteBooleanBtn.Location = new System.Drawing.Point(293, 46);
             this.CTWriteBooleanBtn.Name = "CTWriteBooleanBtn";
             this.CTWriteBooleanBtn.Size = new System.Drawing.Size(98, 20);
-            this.CTWriteBooleanBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CTWriteBooleanBtn.TabIndex = 34;
             this.CTWriteBooleanBtn.Text = "Write Boolean";
             // 
             // CTWriteStringBtn
             // 
             this.CTWriteStringBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CTWriteStringBtn.BackColor = System.Drawing.Color.Transparent;
+            this.CTWriteStringBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CTWriteStringBtn.Location = new System.Drawing.Point(189, 46);
             this.CTWriteStringBtn.Name = "CTWriteStringBtn";
             this.CTWriteStringBtn.Size = new System.Drawing.Size(98, 20);
-            this.CTWriteStringBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CTWriteStringBtn.TabIndex = 33;
             this.CTWriteStringBtn.Text = "Write String";
             // 
             // CTWriteIntegerBtn
             // 
             this.CTWriteIntegerBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CTWriteIntegerBtn.BackColor = System.Drawing.Color.Transparent;
+            this.CTWriteIntegerBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CTWriteIntegerBtn.Location = new System.Drawing.Point(85, 46);
             this.CTWriteIntegerBtn.Name = "CTWriteIntegerBtn";
             this.CTWriteIntegerBtn.Size = new System.Drawing.Size(98, 20);
-            this.CTWriteIntegerBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CTWriteIntegerBtn.TabIndex = 32;
             this.CTWriteIntegerBtn.Text = "Write Integer";
             // 
@@ -744,7 +674,7 @@
             this.CTConstructerVw.GridLines = true;
             this.CTConstructerVw.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.CTConstructerVw.HideSelection = false;
-            this.CTConstructerVw.Location = new System.Drawing.Point(6, 71);
+            this.CTConstructerVw.Location = new System.Drawing.Point(6, 74);
             this.CTConstructerVw.MultiSelect = false;
             this.CTConstructerVw.Name = "CTConstructerVw";
             this.CTConstructerVw.ShowItemToolTips = true;
@@ -787,7 +717,7 @@
             this.SchedulerTab.Location = new System.Drawing.Point(4, 4);
             this.SchedulerTab.Name = "SchedulerTab";
             this.SchedulerTab.Padding = new System.Windows.Forms.Padding(3);
-            this.SchedulerTab.Size = new System.Drawing.Size(397, 267);
+            this.SchedulerTab.Size = new System.Drawing.Size(397, 270);
             this.SchedulerTab.TabIndex = 0;
             this.SchedulerTab.Text = "Scheduler";
             this.SchedulerTab.UseVisualStyleBackColor = true;
@@ -827,23 +757,25 @@
             // STHotkeyTxt
             // 
             this.STHotkeyTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.STHotkeyTxt.IsReadOnly = true;
             this.STHotkeyTxt.Location = new System.Drawing.Point(201, 241);
             this.STHotkeyTxt.Name = "STHotkeyTxt";
             this.STHotkeyTxt.Size = new System.Drawing.Size(190, 20);
             this.STHotkeyTxt.TabIndex = 63;
-            this.STHotkeyTxt.Text = "Hotkey";
+            this.STHotkeyTxt.Text = "";
+            this.STHotkeyTxt.TextPaddingWidth = 0;
+            this.STHotkeyTxt.Title = "Hotkey";
             this.STHotkeyTxt.Value = "";
-            this.STHotkeyTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.STHotkeyTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.STHotkeyTxt.ValueReadOnly = true;
             // 
             // STRemoveBtn
             // 
-            this.STRemoveBtn.BackColor = System.Drawing.Color.Transparent;
+            this.STRemoveBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.STRemoveBtn.Enabled = false;
             this.STRemoveBtn.Location = new System.Drawing.Point(71, 241);
             this.STRemoveBtn.Name = "STRemoveBtn";
             this.STRemoveBtn.Size = new System.Drawing.Size(59, 20);
-            this.STRemoveBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.STRemoveBtn.TabIndex = 61;
             this.STRemoveBtn.Text = "Remove";
             // 
@@ -889,21 +821,19 @@
             // 
             // STClearBtn
             // 
-            this.STClearBtn.BackColor = System.Drawing.Color.Transparent;
+            this.STClearBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.STClearBtn.Location = new System.Drawing.Point(136, 241);
             this.STClearBtn.Name = "STClearBtn";
             this.STClearBtn.Size = new System.Drawing.Size(59, 20);
-            this.STClearBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.STClearBtn.TabIndex = 58;
             this.STClearBtn.Text = "Clear";
             // 
             // STCreateBtn
             // 
-            this.STCreateBtn.BackColor = System.Drawing.Color.Transparent;
+            this.STCreateBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.STCreateBtn.Location = new System.Drawing.Point(6, 241);
             this.STCreateBtn.Name = "STCreateBtn";
             this.STCreateBtn.Size = new System.Drawing.Size(59, 20);
-            this.STCreateBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.STCreateBtn.TabIndex = 54;
             this.STCreateBtn.Text = "Create";
             // 
@@ -998,55 +928,63 @@
             this.PrimitiveTab.Location = new System.Drawing.Point(4, 4);
             this.PrimitiveTab.Name = "PrimitiveTab";
             this.PrimitiveTab.Padding = new System.Windows.Forms.Padding(3);
-            this.PrimitiveTab.Size = new System.Drawing.Size(397, 267);
+            this.PrimitiveTab.Size = new System.Drawing.Size(397, 270);
             this.PrimitiveTab.TabIndex = 1;
             this.PrimitiveTab.Text = "Primitive";
             this.PrimitiveTab.UseVisualStyleBackColor = true;
             // 
             // PTSaveAsBtn
             // 
-            this.PTSaveAsBtn.BackColor = System.Drawing.Color.Transparent;
+            this.PTSaveAsBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.PTSaveAsBtn.Location = new System.Drawing.Point(304, 241);
             this.PTSaveAsBtn.Name = "PTSaveAsBtn";
             this.PTSaveAsBtn.Size = new System.Drawing.Size(87, 20);
-            this.PTSaveAsBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.PTSaveAsBtn.TabIndex = 11;
             this.PTSaveAsBtn.Text = "Save As";
             // 
             // PTLengthTxt
             // 
             this.PTLengthTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.PTLengthTxt.IsReadOnly = true;
             this.PTLengthTxt.Location = new System.Drawing.Point(103, 241);
             this.PTLengthTxt.Name = "PTLengthTxt";
             this.PTLengthTxt.Size = new System.Drawing.Size(91, 20);
             this.PTLengthTxt.TabIndex = 10;
-            this.PTLengthTxt.Text = "Length";
+            this.PTLengthTxt.Text = "0";
+            this.PTLengthTxt.TextPaddingWidth = 0;
+            this.PTLengthTxt.Title = "Length";
             this.PTLengthTxt.Value = "0";
-            this.PTLengthTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.PTLengthTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.PTLengthTxt.ValueReadOnly = true;
             // 
             // PTHeaderTxt
             // 
             this.PTHeaderTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.PTHeaderTxt.IsReadOnly = true;
             this.PTHeaderTxt.Location = new System.Drawing.Point(6, 241);
             this.PTHeaderTxt.Name = "PTHeaderTxt";
             this.PTHeaderTxt.Size = new System.Drawing.Size(91, 20);
             this.PTHeaderTxt.TabIndex = 9;
-            this.PTHeaderTxt.Text = "Header";
+            this.PTHeaderTxt.Text = "0";
+            this.PTHeaderTxt.TextPaddingWidth = 0;
+            this.PTHeaderTxt.Title = "Header";
             this.PTHeaderTxt.Value = "0";
-            this.PTHeaderTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.PTHeaderTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.PTHeaderTxt.ValueReadOnly = true;
             // 
             // PTCorruptedTxt
             // 
             this.PTCorruptedTxt.BackColor = System.Drawing.Color.Firebrick;
+            this.PTCorruptedTxt.IsReadOnly = true;
             this.PTCorruptedTxt.Location = new System.Drawing.Point(200, 241);
             this.PTCorruptedTxt.Name = "PTCorruptedTxt";
             this.PTCorruptedTxt.Size = new System.Drawing.Size(98, 20);
             this.PTCorruptedTxt.TabIndex = 8;
-            this.PTCorruptedTxt.Text = "Corrupted";
+            this.PTCorruptedTxt.Text = "True";
+            this.PTCorruptedTxt.TextPaddingWidth = 0;
+            this.PTCorruptedTxt.Title = "Corrupted";
             this.PTCorruptedTxt.Value = "True";
-            this.PTCorruptedTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.PTCorruptedTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.PTCorruptedTxt.ValueReadOnly = true;
             // 
             // PTPacketTxt
@@ -1074,7 +1012,7 @@
             this.FiltersTab.Location = new System.Drawing.Point(4, 4);
             this.FiltersTab.Name = "FiltersTab";
             this.FiltersTab.Padding = new System.Windows.Forms.Padding(3);
-            this.FiltersTab.Size = new System.Drawing.Size(397, 267);
+            this.FiltersTab.Size = new System.Drawing.Size(397, 270);
             this.FiltersTab.TabIndex = 3;
             this.FiltersTab.Text = "Filters";
             this.FiltersTab.UseVisualStyleBackColor = true;
@@ -1082,12 +1020,16 @@
             // FTReplacementTxt
             // 
             this.FTReplacementTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.FTReplacementTxt.IsReadOnly = true;
             this.FTReplacementTxt.Location = new System.Drawing.Point(6, 241);
             this.FTReplacementTxt.Name = "FTReplacementTxt";
             this.FTReplacementTxt.Size = new System.Drawing.Size(385, 20);
             this.FTReplacementTxt.TabIndex = 54;
-            this.FTReplacementTxt.Text = "Replacement";
+            this.FTReplacementTxt.Text = "";
+            this.FTReplacementTxt.TextPaddingWidth = 0;
+            this.FTReplacementTxt.Title = "Replacement";
             this.FTReplacementTxt.Value = "";
+            this.FTReplacementTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.FTReplacementTxt.ValueReadOnly = true;
             // 
             // FTDestinationLbl
@@ -1133,22 +1075,20 @@
             // 
             // FTRemoveBtn
             // 
-            this.FTRemoveBtn.BackColor = System.Drawing.Color.Transparent;
+            this.FTRemoveBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.FTRemoveBtn.Enabled = false;
             this.FTRemoveBtn.Location = new System.Drawing.Point(305, 214);
             this.FTRemoveBtn.Name = "FTRemoveBtn";
             this.FTRemoveBtn.Size = new System.Drawing.Size(86, 20);
-            this.FTRemoveBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.FTRemoveBtn.TabIndex = 8;
             this.FTRemoveBtn.Text = "Remove";
             // 
             // FTCreateBtn
             // 
-            this.FTCreateBtn.BackColor = System.Drawing.Color.Transparent;
+            this.FTCreateBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.FTCreateBtn.Location = new System.Drawing.Point(213, 215);
             this.FTCreateBtn.Name = "FTCreateBtn";
             this.FTCreateBtn.Size = new System.Drawing.Size(86, 20);
-            this.FTCreateBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.FTCreateBtn.TabIndex = 7;
             this.FTCreateBtn.Text = "Create";
             // 
@@ -1219,11 +1159,12 @@
             // 
             this.ITPacketTxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ITPacketTxt.ItemHeight = 13;
-            this.ITPacketTxt.Location = new System.Drawing.Point(6, 286);
+            this.ITPacketTxt.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.ITPacketTxt.ItemHeight = 14;
+            this.ITPacketTxt.Location = new System.Drawing.Point(6, 287);
             this.ITPacketTxt.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
             this.ITPacketTxt.Name = "ITPacketTxt";
-            this.ITPacketTxt.Size = new System.Drawing.Size(226, 21);
+            this.ITPacketTxt.Size = new System.Drawing.Size(250, 20);
             this.ITPacketTxt.TabIndex = 8;
             // 
             // ToolboxTab
@@ -1303,21 +1244,19 @@
             // 
             // TTDecodeIntBtn
             // 
-            this.TTDecodeIntBtn.BackColor = System.Drawing.Color.Transparent;
+            this.TTDecodeIntBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.TTDecodeIntBtn.Location = new System.Drawing.Point(372, 287);
             this.TTDecodeIntBtn.Name = "TTDecodeIntBtn";
             this.TTDecodeIntBtn.Size = new System.Drawing.Size(98, 20);
-            this.TTDecodeIntBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.TTDecodeIntBtn.TabIndex = 34;
             this.TTDecodeIntBtn.Text = "Decode Int32";
             // 
             // TTDecodeUShortBtn
             // 
-            this.TTDecodeUShortBtn.BackColor = System.Drawing.Color.Transparent;
+            this.TTDecodeUShortBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.TTDecodeUShortBtn.Location = new System.Drawing.Point(372, 259);
             this.TTDecodeUShortBtn.Name = "TTDecodeUShortBtn";
             this.TTDecodeUShortBtn.Size = new System.Drawing.Size(98, 20);
-            this.TTDecodeUShortBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.TTDecodeUShortBtn.TabIndex = 35;
             this.TTDecodeUShortBtn.Text = "Decode UInt16";
             // 
@@ -1339,14 +1278,11 @@
             // 
             this.ModulesTab.AllowDrop = true;
             this.ModulesTab.Controls.Add(this.sKoreLabelBox1);
-            this.ModulesTab.Controls.Add(this.MTDownloadsLbl);
-            this.ModulesTab.Controls.Add(this.MTReleasesBtn);
             this.ModulesTab.Controls.Add(this.MTResourceBtn);
             this.ModulesTab.Controls.Add(this.MTHabboNameTxt);
             this.ModulesTab.Controls.Add(this.MTHabboNameLbl);
             this.ModulesTab.Controls.Add(this.MTAuthorsLbl);
             this.ModulesTab.Controls.Add(this.MTAuthorsTxt);
-            this.ModulesTab.Controls.Add(this.MTDownloadLatestBtn);
             this.ModulesTab.Controls.Add(this.MTUninstallModuleBtn);
             this.ModulesTab.Controls.Add(this.MTInstallModuleBtn);
             this.ModulesTab.Controls.Add(this.MTAuthorPctbx);
@@ -1362,48 +1298,26 @@
             // sKoreLabelBox1
             // 
             this.sKoreLabelBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.sKoreLabelBox1.IsReadOnly = true;
             this.sKoreLabelBox1.Location = new System.Drawing.Point(77, 287);
             this.sKoreLabelBox1.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
             this.sKoreLabelBox1.Name = "sKoreLabelBox1";
             this.sKoreLabelBox1.Size = new System.Drawing.Size(127, 20);
             this.sKoreLabelBox1.TabIndex = 16;
-            this.sKoreLabelBox1.Text = "Install Port";
+            this.sKoreLabelBox1.Text = "8055";
+            this.sKoreLabelBox1.TextPaddingWidth = 0;
+            this.sKoreLabelBox1.Title = "Install Port";
             this.sKoreLabelBox1.Value = "8055";
-            this.sKoreLabelBox1.ValueAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.sKoreLabelBox1.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.sKoreLabelBox1.ValueReadOnly = true;
-            // 
-            // MTDownloadsLbl
-            // 
-            this.MTDownloadsLbl.BorderWidth = 1;
-            this.MTDownloadsLbl.DisplayBoundary = true;
-            this.MTDownloadsLbl.Location = new System.Drawing.Point(343, 228);
-            this.MTDownloadsLbl.Margin = new System.Windows.Forms.Padding(3);
-            this.MTDownloadsLbl.Name = "MTDownloadsLbl";
-            this.MTDownloadsLbl.Size = new System.Drawing.Size(127, 20);
-            this.MTDownloadsLbl.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.MTDownloadsLbl.TabIndex = 15;
-            this.MTDownloadsLbl.Text = "Downloads: 0";
-            this.MTDownloadsLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // MTReleasesBtn
-            // 
-            this.MTReleasesBtn.BackColor = System.Drawing.Color.Transparent;
-            this.MTReleasesBtn.Enabled = false;
-            this.MTReleasesBtn.Location = new System.Drawing.Point(343, 254);
-            this.MTReleasesBtn.Name = "MTReleasesBtn";
-            this.MTReleasesBtn.Size = new System.Drawing.Size(127, 20);
-            this.MTReleasesBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.MTReleasesBtn.TabIndex = 14;
-            this.MTReleasesBtn.Text = "Releases";
             // 
             // MTResourceBtn
             // 
-            this.MTResourceBtn.BackColor = System.Drawing.Color.Transparent;
+            this.MTResourceBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.MTResourceBtn.Enabled = false;
             this.MTResourceBtn.Location = new System.Drawing.Point(77, 254);
             this.MTResourceBtn.Name = "MTResourceBtn";
             this.MTResourceBtn.Size = new System.Drawing.Size(127, 20);
-            this.MTResourceBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.MTResourceBtn.TabIndex = 13;
             // 
             // MTHabboNameTxt
@@ -1444,37 +1358,24 @@
             this.MTAuthorsTxt.Size = new System.Drawing.Size(127, 21);
             this.MTAuthorsTxt.TabIndex = 6;
             // 
-            // MTDownloadLatestBtn
-            // 
-            this.MTDownloadLatestBtn.BackColor = System.Drawing.Color.Transparent;
-            this.MTDownloadLatestBtn.Enabled = false;
-            this.MTDownloadLatestBtn.Location = new System.Drawing.Point(210, 254);
-            this.MTDownloadLatestBtn.Name = "MTDownloadLatestBtn";
-            this.MTDownloadLatestBtn.Size = new System.Drawing.Size(127, 20);
-            this.MTDownloadLatestBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.MTDownloadLatestBtn.TabIndex = 4;
-            this.MTDownloadLatestBtn.Text = "View Latest";
-            // 
             // MTUninstallModuleBtn
             // 
-            this.MTUninstallModuleBtn.BackColor = System.Drawing.Color.Transparent;
+            this.MTUninstallModuleBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.MTUninstallModuleBtn.Enabled = false;
             this.MTUninstallModuleBtn.Location = new System.Drawing.Point(210, 287);
             this.MTUninstallModuleBtn.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
             this.MTUninstallModuleBtn.Name = "MTUninstallModuleBtn";
             this.MTUninstallModuleBtn.Size = new System.Drawing.Size(127, 20);
-            this.MTUninstallModuleBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.MTUninstallModuleBtn.TabIndex = 3;
             this.MTUninstallModuleBtn.Text = "Uninstall Module";
             // 
             // MTInstallModuleBtn
             // 
-            this.MTInstallModuleBtn.BackColor = System.Drawing.Color.Transparent;
+            this.MTInstallModuleBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.MTInstallModuleBtn.Location = new System.Drawing.Point(343, 287);
             this.MTInstallModuleBtn.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
             this.MTInstallModuleBtn.Name = "MTInstallModuleBtn";
             this.MTInstallModuleBtn.Size = new System.Drawing.Size(127, 20);
-            this.MTInstallModuleBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.MTInstallModuleBtn.TabIndex = 2;
             this.MTInstallModuleBtn.Text = "Install Module";
             // 
@@ -1537,16 +1438,10 @@
             // 
             // AboutTab
             // 
-            this.AboutTab.Controls.Add(this.label2);
             this.AboutTab.Controls.Add(this.DonateBtn);
-            this.AboutTab.Controls.Add(this.PindaPic);
-            this.AboutTab.Controls.Add(this.H4BB0Btn);
             this.AboutTab.Controls.Add(this.SpeaqerBtn);
-            this.AboutTab.Controls.Add(this.panel1);
-            this.AboutTab.Controls.Add(this.ForbiddenBtn);
             this.AboutTab.Controls.Add(this.SNGButton);
             this.AboutTab.Controls.Add(this.DarkboxBtn);
-            this.AboutTab.Controls.Add(this.HarbleBtn);
             this.AboutTab.Controls.Add(this.DarkStarBtn);
             this.AboutTab.Controls.Add(this.ArachisBtn);
             this.AboutTab.Location = new System.Drawing.Point(4, 28);
@@ -1557,125 +1452,61 @@
             this.AboutTab.Text = "About";
             this.AboutTab.UseVisualStyleBackColor = true;
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(206, 168);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(194, 13);
-            this.label2.TabIndex = 14;
-            this.label2.Text = "(money will be used for tacos n\' burritos)";
-            // 
             // DonateBtn
             // 
-            this.DonateBtn.BackColor = System.Drawing.Color.Transparent;
-            this.DonateBtn.Location = new System.Drawing.Point(221, 148);
+            this.DonateBtn.BackColor = System.Drawing.Color.Green;
+            this.DonateBtn.Location = new System.Drawing.Point(203, 120);
             this.DonateBtn.Name = "DonateBtn";
-            this.DonateBtn.Size = new System.Drawing.Size(165, 20);
+            this.DonateBtn.Size = new System.Drawing.Size(53, 20);
             this.DonateBtn.Skin = System.Drawing.Color.Green;
             this.DonateBtn.TabIndex = 13;
-            this.DonateBtn.Text = "Send me money btw, ty";
-            // 
-            // PindaPic
-            // 
-            this.PindaPic.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.PindaPic.BackColor = System.Drawing.Color.Transparent;
-            this.PindaPic.Enabled = false;
-            this.PindaPic.ErrorImage = null;
-            this.PindaPic.Image = global::Tanji.Properties.Resources._4282632170;
-            this.PindaPic.InitialImage = null;
-            this.PindaPic.Location = new System.Drawing.Point(39, -5);
-            this.PindaPic.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.PindaPic.Name = "PindaPic";
-            this.PindaPic.Size = new System.Drawing.Size(128, 220);
-            this.PindaPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.PindaPic.TabIndex = 11;
-            this.PindaPic.TabStop = false;
-            // 
-            // H4BB0Btn
-            // 
-            this.H4BB0Btn.BackColor = System.Drawing.Color.Transparent;
-            this.H4BB0Btn.Location = new System.Drawing.Point(61, 287);
-            this.H4BB0Btn.Name = "H4BB0Btn";
-            this.H4BB0Btn.Size = new System.Drawing.Size(245, 20);
-            this.H4BB0Btn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.H4BB0Btn.TabIndex = 10;
-            this.H4BB0Btn.Text = "(Brazilian) - H4BB0 Discord Server";
+            this.DonateBtn.Text = "Donate";
             // 
             // SpeaqerBtn
             // 
-            this.SpeaqerBtn.BackColor = System.Drawing.Color.Transparent;
-            this.SpeaqerBtn.Location = new System.Drawing.Point(253, 88);
+            this.SpeaqerBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
+            this.SpeaqerBtn.Location = new System.Drawing.Point(97, 172);
             this.SpeaqerBtn.Name = "SpeaqerBtn";
             this.SpeaqerBtn.Size = new System.Drawing.Size(100, 20);
+            this.SpeaqerBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
             this.SpeaqerBtn.TabIndex = 8;
             this.SpeaqerBtn.Text = "@SpeaqerDev";
             // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.panel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.panel1.Location = new System.Drawing.Point(0, 228);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(470, 1);
-            this.panel1.TabIndex = 1;
-            // 
-            // ForbiddenBtn
-            // 
-            this.ForbiddenBtn.BackColor = System.Drawing.Color.Transparent;
-            this.ForbiddenBtn.Location = new System.Drawing.Point(353, 287);
-            this.ForbiddenBtn.Name = "ForbiddenBtn";
-            this.ForbiddenBtn.Size = new System.Drawing.Size(117, 20);
-            this.ForbiddenBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.ForbiddenBtn.TabIndex = 7;
-            this.ForbiddenBtn.Text = "Forbidden.sh";
-            // 
             // SNGButton
             // 
-            this.SNGButton.BackColor = System.Drawing.Color.Transparent;
-            this.SNGButton.Location = new System.Drawing.Point(353, 261);
+            this.SNGButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.SNGButton.Location = new System.Drawing.Point(262, 172);
             this.SNGButton.Name = "SNGButton";
             this.SNGButton.Size = new System.Drawing.Size(117, 20);
-            this.SNGButton.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.SNGButton.TabIndex = 6;
             this.SNGButton.Text = "SnGForum.info";
             // 
             // DarkboxBtn
             // 
-            this.DarkboxBtn.BackColor = System.Drawing.Color.Transparent;
-            this.DarkboxBtn.Location = new System.Drawing.Point(353, 235);
+            this.DarkboxBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.DarkboxBtn.Location = new System.Drawing.Point(262, 120);
             this.DarkboxBtn.Name = "DarkboxBtn";
             this.DarkboxBtn.Size = new System.Drawing.Size(117, 20);
-            this.DarkboxBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.DarkboxBtn.TabIndex = 5;
             this.DarkboxBtn.Text = "Darkbox.nl";
             // 
-            // HarbleBtn
-            // 
-            this.HarbleBtn.BackColor = System.Drawing.Color.Transparent;
-            this.HarbleBtn.Location = new System.Drawing.Point(61, 235);
-            this.HarbleBtn.Name = "HarbleBtn";
-            this.HarbleBtn.Size = new System.Drawing.Size(245, 20);
-            this.HarbleBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.HarbleBtn.TabIndex = 4;
-            this.HarbleBtn.Text = "(International) - Harble Discord Server";
-            // 
             // DarkStarBtn
             // 
-            this.DarkStarBtn.BackColor = System.Drawing.Color.Transparent;
-            this.DarkStarBtn.Location = new System.Drawing.Point(253, 62);
+            this.DarkStarBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
+            this.DarkStarBtn.Location = new System.Drawing.Point(97, 146);
             this.DarkStarBtn.Name = "DarkStarBtn";
             this.DarkStarBtn.Size = new System.Drawing.Size(100, 20);
+            this.DarkStarBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
             this.DarkStarBtn.TabIndex = 2;
             this.DarkStarBtn.Text = "@DarkStar851";
             // 
             // ArachisBtn
             // 
-            this.ArachisBtn.BackColor = System.Drawing.Color.Transparent;
-            this.ArachisBtn.Location = new System.Drawing.Point(253, 36);
+            this.ArachisBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
+            this.ArachisBtn.Location = new System.Drawing.Point(97, 120);
             this.ArachisBtn.Name = "ArachisBtn";
             this.ArachisBtn.Size = new System.Drawing.Size(100, 20);
+            this.ArachisBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
             this.ArachisBtn.TabIndex = 1;
             this.ArachisBtn.Text = "@ArachisH";
             // 
@@ -1690,6 +1521,67 @@
             this.SavePacketDlg.DefaultExt = "pkt";
             this.SavePacketDlg.Filter = "Packet (*.pkt)|*.pkt";
             this.SavePacketDlg.Title = "Tanji ~ Save Packet";
+            // 
+            // TanjiVersionTxt
+            // 
+            this.TanjiVersionTxt.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.TanjiVersionTxt.IsLink = true;
+            this.TanjiVersionTxt.LinkColor = System.Drawing.SystemColors.HotTrack;
+            this.TanjiVersionTxt.Name = "TanjiVersionTxt";
+            this.TanjiVersionTxt.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.TanjiVersionTxt.Size = new System.Drawing.Size(51, 19);
+            this.TanjiVersionTxt.Text = "v0.0.0";
+            this.TanjiVersionTxt.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.TanjiVersionTxt.Click += new System.EventHandler(this.TanjiVersionTxt_Click);
+            // 
+            // SchedulesTxt
+            // 
+            this.SchedulesTxt.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.SchedulesTxt.Name = "SchedulesTxt";
+            this.SchedulesTxt.Size = new System.Drawing.Size(87, 19);
+            this.SchedulesTxt.Text = "Schedules: 0/0";
+            // 
+            // FiltersTxt
+            // 
+            this.FiltersTxt.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.FiltersTxt.Name = "FiltersTxt";
+            this.FiltersTxt.Size = new System.Drawing.Size(65, 19);
+            this.FiltersTxt.Text = "Filters: 0/0";
+            // 
+            // ModulesTxt
+            // 
+            this.ModulesTxt.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.ModulesTxt.Name = "ModulesTxt";
+            this.ModulesTxt.Size = new System.Drawing.Size(80, 19);
+            this.ModulesTxt.Text = "Modules: 0/0";
+            // 
+            // TanjiInfoTxt
+            // 
+            this.TanjiInfoTxt.IsLink = true;
+            this.TanjiInfoTxt.LinkColor = System.Drawing.SystemColors.HotTrack;
+            this.TanjiInfoTxt.Name = "TanjiInfoTxt";
+            this.TanjiInfoTxt.Size = new System.Drawing.Size(176, 19);
+            this.TanjiInfoTxt.Spring = true;
+            this.TanjiInfoTxt.Text = "Github - ArachisH/Tanji";
+            this.TanjiInfoTxt.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.TanjiInfoTxt.Click += new System.EventHandler(this.TanjiInfoTxt_Click);
+            // 
+            // TanjiStrip
+            // 
+            this.TanjiStrip.AllowMerge = false;
+            this.TanjiStrip.BackColor = System.Drawing.Color.White;
+            this.TanjiStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TanjiVersionTxt,
+            this.SchedulesTxt,
+            this.FiltersTxt,
+            this.ModulesTxt,
+            this.TanjiInfoTxt});
+            this.TanjiStrip.Location = new System.Drawing.Point(0, 345);
+            this.TanjiStrip.Name = "TanjiStrip";
+            this.TanjiStrip.Size = new System.Drawing.Size(484, 24);
+            this.TanjiStrip.SizingGrip = false;
+            this.TanjiStrip.TabIndex = 5;
+            this.TanjiStrip.Text = "TanjiStrip";
             // 
             // MainFrm
             // 
@@ -1706,8 +1598,6 @@
             this.TopMost = true;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainFrm_FormClosed);
             this.Load += new System.EventHandler(this.MainFrm_Load);
-            this.TanjiStrip.ResumeLayout(false);
-            this.TanjiStrip.PerformLayout();
             this.TanjiTabs.ResumeLayout(false);
             this.ConnectionTab.ResumeLayout(false);
             this.InjectionTab.ResumeLayout(false);
@@ -1733,22 +1623,15 @@
             this.ModulesTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MTAuthorPctbx)).EndInit();
             this.AboutTab.ResumeLayout(false);
-            this.AboutTab.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PindaPic)).EndInit();
+            this.TanjiStrip.ResumeLayout(false);
+            this.TanjiStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.StatusStrip TanjiStrip;
-        private System.Windows.Forms.ToolStripStatusLabel TanjiInfoTxt;
-        internal System.Windows.Forms.ToolStripStatusLabel ModulesTxt;
-        internal System.Windows.Forms.ToolStripStatusLabel SchedulesTxt;
-        internal System.Windows.Forms.ToolStripStatusLabel TanjiVersionTxt;
         public Sulakore.Components.SKoreInjectionMenu InjectionMenu;
-        internal System.Windows.Forms.ToolStripStatusLabel FiltersTxt;
         private System.Windows.Forms.TabPage AboutTab;
         private System.Windows.Forms.TabPage ModulesTab;
         private System.Windows.Forms.TabPage ToolboxTab;
@@ -1822,10 +1705,10 @@
         internal System.Windows.Forms.ComboBox ITPacketTxt;
         private System.Windows.Forms.TabPage ConnectionTab;
         internal Sulakore.Components.SKoreButton CoTBrowseBtn;
-        internal Sulakore.Components.SKoreButton CoTExportRootCertificateBtn;
+        internal Sulakore.Components.SKoreButton CoTExportCertificateAuthorityBtn;
         internal Sulakore.Components.SKoreButton CoTDestroyCertificatesBtn;
-        internal Sulakore.Components.SKoreButton CoTClearVariableBtn;
-        internal Sulakore.Components.SKoreButton CoTUpdateVariableBtn;
+        internal Sulakore.Components.SKoreButton CoTResetBtn;
+        internal Sulakore.Components.SKoreButton CoTUpdateBtn;
         internal Sulakore.Components.SKoreLabel CoTStatusTxt;
         internal Sulakore.Components.SKoreButton CoTConnectBtn;
         internal Sulakore.Components.SKoreListView CoTVariablesVw;
@@ -1838,7 +1721,6 @@
         private System.Windows.Forms.ColumnHeader MTNameCol;
         private System.Windows.Forms.ColumnHeader MTVersionCol;
         internal System.Windows.Forms.PictureBox MTAuthorPctbx;
-        internal Sulakore.Components.SKoreButton MTDownloadLatestBtn;
         internal Sulakore.Components.SKoreButton MTUninstallModuleBtn;
         internal Sulakore.Components.SKoreButton MTInstallModuleBtn;
         private System.Windows.Forms.ColumnHeader MTDescriptionCol;
@@ -1846,12 +1728,9 @@
         private System.Windows.Forms.Label MTAuthorsLbl;
         internal System.Windows.Forms.ComboBox MTAuthorsTxt;
         internal Sulakore.Components.SKoreButton MTResourceBtn;
-        internal Sulakore.Components.SKoreButton MTReleasesBtn;
         internal System.Windows.Forms.TextBox MTHabboNameTxt;
         private System.Windows.Forms.ColumnHeader STHotkeyCol;
-        internal Sulakore.Components.SKoreLabel MTDownloadsLbl;
         internal Sulakore.Components.SKoreLabelBox CoTCustomClientTxt;
-        internal Sulakore.Components.SKoreLabelBox sKoreLabelBox3;
         internal Sulakore.Components.SKoreLabelBox CoTVariableTxt;
         internal Sulakore.Components.SKoreLabelBox CoTValueTxt;
         internal Sulakore.Components.SKoreLabelBox PTCorruptedTxt;
@@ -1863,17 +1742,20 @@
         internal Sulakore.Components.SKoreLabelBox STHotkeyTxt;
         private Sulakore.Components.SKoreLabelBox sKoreLabelBox1;
         internal System.Windows.Forms.Label MTHabboNameLbl;
-        private System.Windows.Forms.Panel panel1;
-        internal System.Windows.Forms.PictureBox PindaPic;
-        internal Sulakore.Components.SKoreButton HarbleBtn;
         internal Sulakore.Components.SKoreButton DarkStarBtn;
         internal Sulakore.Components.SKoreButton ArachisBtn;
-        internal Sulakore.Components.SKoreButton H4BB0Btn;
         internal Sulakore.Components.SKoreButton SpeaqerBtn;
-        internal Sulakore.Components.SKoreButton ForbiddenBtn;
         internal Sulakore.Components.SKoreButton SNGButton;
         internal Sulakore.Components.SKoreButton DarkboxBtn;
-        private System.Windows.Forms.Label label2;
         internal Sulakore.Components.SKoreButton DonateBtn;
+        internal System.Windows.Forms.ToolStripStatusLabel TanjiVersionTxt;
+        internal System.Windows.Forms.ToolStripStatusLabel SchedulesTxt;
+        internal System.Windows.Forms.ToolStripStatusLabel FiltersTxt;
+        internal System.Windows.Forms.ToolStripStatusLabel ModulesTxt;
+        private System.Windows.Forms.ToolStripStatusLabel TanjiInfoTxt;
+        private System.Windows.Forms.StatusStrip TanjiStrip;
+        private System.Windows.Forms.Label label1;
+        private Sulakore.Components.SKoreLabel ProxyPortLbl;
+        private System.Windows.Forms.Label label2;
     }
 }

@@ -6,7 +6,6 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-using Tanji.Windows;
 using Tanji.Utilities;
 using Tanji.Properties;
 using Tanji.Components;
@@ -22,9 +21,9 @@ using Sulakore.Habbo;
 using Sulakore.Protocol;
 using Sulakore.Habbo.Web;
 using Sulakore.Communication;
+using Sulakore.Habbo.Messages;
 
 using Eavesdrop;
-using Sulakore.Habbo.Messages;
 
 namespace Tanji.Windows
 {
@@ -113,14 +112,10 @@ namespace Tanji.Windows
         {
             Process.Start("https://GitHub.com/ArachisH/Tanji");
         }
-        private void TanjiDonateTxt_Click(object sender, EventArgs e)
-        {
-            Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HMYZ4GB5N2PAU");
-        }
         private void TanjiVersionTxt_Click(object sender, EventArgs e)
         {
-            if (AboutPg.TanjiRepo.LatestRelease != null)
-                Process.Start(AboutPg.TanjiRepo.LatestRelease.HtmlUrl);
+            // TODO
+            throw new NotImplementedException();
         }
 
         private void Hook_HotkeyActivated(object sender, KeyEventArgs e)

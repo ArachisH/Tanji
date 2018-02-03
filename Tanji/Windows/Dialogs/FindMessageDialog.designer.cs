@@ -28,45 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.HashLbl = new System.Windows.Forms.Label();
-            this.HashTxt = new System.Windows.Forms.TextBox();
             this.FindBtn = new Sulakore.Components.SKoreButton();
             this.HeadersVw = new Sulakore.Components.SKoreListView();
             this.TypeCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.IDCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.NameCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ClassNameCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ParserNameCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Glow1Pnl = new System.Windows.Forms.Panel();
-            this.IdNum = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
-            this.IDCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            ((System.ComponentModel.ISupportInitialize)(this.IdNum)).BeginInit();
+            this.HashTxt = new Sulakore.Components.SKoreLabelBox();
             this.SuspendLayout();
-            // 
-            // HashLbl
-            // 
-            this.HashLbl.AutoSize = true;
-            this.HashLbl.Location = new System.Drawing.Point(100, 15);
-            this.HashLbl.Name = "HashLbl";
-            this.HashLbl.Size = new System.Drawing.Size(35, 13);
-            this.HashLbl.TabIndex = 0;
-            this.HashLbl.Text = "Hash:";
-            // 
-            // HashTxt
-            // 
-            this.HashTxt.Location = new System.Drawing.Point(135, 12);
-            this.HashTxt.Name = "HashTxt";
-            this.HashTxt.Size = new System.Drawing.Size(243, 20);
-            this.HashTxt.TabIndex = 1;
-            this.HashTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // FindBtn
             // 
-            this.FindBtn.BackColor = System.Drawing.Color.Transparent;
+            this.FindBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.FindBtn.Location = new System.Drawing.Point(384, 12);
             this.FindBtn.Name = "FindBtn";
             this.FindBtn.Size = new System.Drawing.Size(66, 20);
-            this.FindBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.FindBtn.TabIndex = 2;
             this.FindBtn.Text = "Find";
             this.FindBtn.Click += new System.EventHandler(this.FindBtn_Click);
@@ -99,6 +77,11 @@
             // 
             this.TypeCol.Text = "Type";
             // 
+            // IDCol
+            // 
+            this.IDCol.Text = "ID";
+            this.IDCol.Width = 45;
+            // 
             // NameCol
             // 
             this.NameCol.Text = "Name";
@@ -123,32 +106,17 @@
             this.Glow1Pnl.Size = new System.Drawing.Size(462, 1);
             this.Glow1Pnl.TabIndex = 4;
             // 
-            // IdNum
+            // HashTxt
             // 
-            this.IdNum.Location = new System.Drawing.Point(33, 12);
-            this.IdNum.Maximum = new decimal(new int[] {
-            4000,
-            0,
-            0,
-            0});
-            this.IdNum.Name = "IdNum";
-            this.IdNum.Size = new System.Drawing.Size(61, 20);
-            this.IdNum.TabIndex = 5;
-            this.IdNum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 15);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(21, 13);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "ID:";
-            // 
-            // IDCol
-            // 
-            this.IDCol.Text = "ID";
-            this.IDCol.Width = 45;
+            this.HashTxt.Location = new System.Drawing.Point(12, 12);
+            this.HashTxt.Name = "HashTxt";
+            this.HashTxt.Size = new System.Drawing.Size(366, 20);
+            this.HashTxt.TabIndex = 7;
+            this.HashTxt.Text = "";
+            this.HashTxt.Title = "Hash";
+            this.HashTxt.Value = "";
+            this.HashTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.HashTxt.ValueReadOnly = false;
             // 
             // FindMessageDialog
             // 
@@ -156,37 +124,28 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(462, 165);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.IdNum);
+            this.Controls.Add(this.HashTxt);
             this.Controls.Add(this.Glow1Pnl);
-            this.Controls.Add(this.HashLbl);
             this.Controls.Add(this.HeadersVw);
             this.Controls.Add(this.FindBtn);
-            this.Controls.Add(this.HashTxt);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FindMessageDialog";
             this.ShowInTaskbar = false;
             this.Text = "Tanji ~ Find Message";
-            ((System.ComponentModel.ISupportInitialize)(this.IdNum)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label HashLbl;
         private Sulakore.Components.SKoreButton FindBtn;
         private Sulakore.Components.SKoreListView HeadersVw;
         private System.Windows.Forms.ColumnHeader TypeCol;
         private System.Windows.Forms.ColumnHeader ClassNameCol;
-        internal System.Windows.Forms.TextBox HashTxt;
         private System.Windows.Forms.Panel Glow1Pnl;
-        private System.Windows.Forms.NumericUpDown IdNum;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ColumnHeader NameCol;
         private System.Windows.Forms.ColumnHeader ParserNameCol;
         private System.Windows.Forms.ColumnHeader IDCol;
+        private Sulakore.Components.SKoreLabelBox HashTxt;
     }
 }

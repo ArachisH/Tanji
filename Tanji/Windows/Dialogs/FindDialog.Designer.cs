@@ -29,10 +29,8 @@
         private void InitializeComponent()
         {
             this.FindNextBtn = new Sulakore.Components.SKoreButton();
-            this.FindWhatTxt = new System.Windows.Forms.TextBox();
             this.MatchCaseChckbx = new System.Windows.Forms.CheckBox();
             this.MatchWordChckbx = new System.Windows.Forms.CheckBox();
-            this.FindWhatLbl = new System.Windows.Forms.Label();
             this.DirectionGrpbx = new System.Windows.Forms.GroupBox();
             this.DownRd = new System.Windows.Forms.RadioButton();
             this.UpRd = new System.Windows.Forms.RadioButton();
@@ -40,6 +38,7 @@
             this.RegExRd = new System.Windows.Forms.RadioButton();
             this.NormalRd = new System.Windows.Forms.RadioButton();
             this.WrapAroundChckbx = new System.Windows.Forms.CheckBox();
+            this.FindWhatTxt = new Sulakore.Components.SKoreLabelBox();
             this.DirectionGrpbx.SuspendLayout();
             this.ModeGrpbx.SuspendLayout();
             this.SuspendLayout();
@@ -47,24 +46,13 @@
             // FindNextBtn
             // 
             this.FindNextBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.FindNextBtn.BackColor = System.Drawing.Color.Transparent;
-            this.FindNextBtn.Location = new System.Drawing.Point(252, 10);
+            this.FindNextBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.FindNextBtn.Location = new System.Drawing.Point(252, 12);
             this.FindNextBtn.Name = "FindNextBtn";
-            this.FindNextBtn.Size = new System.Drawing.Size(77, 22);
-            this.FindNextBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.FindNextBtn.Size = new System.Drawing.Size(77, 20);
             this.FindNextBtn.TabIndex = 4;
             this.FindNextBtn.Text = "Find Next";
             this.FindNextBtn.Click += new System.EventHandler(this.FindNextBtn_Click);
-            // 
-            // FindWhatTxt
-            // 
-            this.FindWhatTxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.FindWhatTxt.Location = new System.Drawing.Point(71, 12);
-            this.FindWhatTxt.Name = "FindWhatTxt";
-            this.FindWhatTxt.Size = new System.Drawing.Size(175, 20);
-            this.FindWhatTxt.TabIndex = 3;
-            this.FindWhatTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // MatchCaseChckbx
             // 
@@ -85,15 +73,6 @@
             this.MatchWordChckbx.TabIndex = 6;
             this.MatchWordChckbx.Text = "Match Word";
             this.MatchWordChckbx.UseVisualStyleBackColor = true;
-            // 
-            // FindWhatLbl
-            // 
-            this.FindWhatLbl.AutoSize = true;
-            this.FindWhatLbl.Location = new System.Drawing.Point(12, 15);
-            this.FindWhatLbl.Name = "FindWhatLbl";
-            this.FindWhatLbl.Size = new System.Drawing.Size(59, 13);
-            this.FindWhatLbl.TabIndex = 7;
-            this.FindWhatLbl.Text = "Find What:";
             // 
             // DirectionGrpbx
             // 
@@ -173,27 +152,38 @@
             this.WrapAroundChckbx.Text = "Wrap Around";
             this.WrapAroundChckbx.UseVisualStyleBackColor = true;
             // 
+            // FindWhatTxt
+            // 
+            this.FindWhatTxt.Location = new System.Drawing.Point(12, 12);
+            this.FindWhatTxt.Name = "FindWhatTxt";
+            this.FindWhatTxt.Size = new System.Drawing.Size(234, 20);
+            this.FindWhatTxt.TabIndex = 11;
+            this.FindWhatTxt.Text = "";
+            this.FindWhatTxt.Title = "Find What";
+            this.FindWhatTxt.Value = "";
+            this.FindWhatTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.FindWhatTxt.ValueReadOnly = false;
+            this.FindWhatTxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FindWhatTxt_KeyDown);
+            // 
             // FindDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(341, 111);
+            this.Controls.Add(this.FindWhatTxt);
             this.Controls.Add(this.WrapAroundChckbx);
             this.Controls.Add(this.ModeGrpbx);
             this.Controls.Add(this.DirectionGrpbx);
-            this.Controls.Add(this.FindWhatLbl);
             this.Controls.Add(this.MatchWordChckbx);
             this.Controls.Add(this.MatchCaseChckbx);
             this.Controls.Add(this.FindNextBtn);
-            this.Controls.Add(this.FindWhatTxt);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FindDialog";
             this.ShowInTaskbar = false;
             this.Text = "Tanji ~ Find";
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FindTxt_KeyDown);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FindWhatTxt_KeyDown);
             this.DirectionGrpbx.ResumeLayout(false);
             this.DirectionGrpbx.PerformLayout();
             this.ModeGrpbx.ResumeLayout(false);
@@ -208,7 +198,6 @@
         private Sulakore.Components.SKoreButton FindNextBtn;
         private System.Windows.Forms.CheckBox MatchCaseChckbx;
         private System.Windows.Forms.CheckBox MatchWordChckbx;
-        private System.Windows.Forms.Label FindWhatLbl;
         private System.Windows.Forms.GroupBox DirectionGrpbx;
         private System.Windows.Forms.RadioButton DownRd;
         private System.Windows.Forms.RadioButton UpRd;
@@ -216,6 +205,6 @@
         private System.Windows.Forms.RadioButton RegExRd;
         private System.Windows.Forms.RadioButton NormalRd;
         private System.Windows.Forms.CheckBox WrapAroundChckbx;
-        internal System.Windows.Forms.TextBox FindWhatTxt;
+        private Sulakore.Components.SKoreLabelBox FindWhatTxt;
     }
 }

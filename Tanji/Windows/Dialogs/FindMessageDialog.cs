@@ -54,7 +54,7 @@ namespace Tanji.Windows.Dialogs
             if (!TryDisplayMessages(Hash))
             {
                 HashTxt.Select();
-                HashTxt.SelectAll();
+                HashTxt.Box.SelectAll();
                 return;
             }
         }
