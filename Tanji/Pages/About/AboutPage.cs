@@ -2,7 +2,6 @@
 using System.Reflection;
 using System.Diagnostics;
 using System.Windows.Forms;
-using System.Threading.Tasks;
 
 using Tanji.Windows;
 
@@ -26,22 +25,28 @@ namespace Tanji.Pages.About
             UI.DarkStarBtn.Click += DarkStarBtn_Click;
 
             UI.DonateBtn.Click += DonateBtn_Click;
+            UI.HarbleDiscordBtn.Click += HarbleDiscordBtn_Click;
 
             UI.SNGButton.Click += SNGButton_Click;
             UI.DarkboxBtn.Click += DarkboxBtn_Click;
+        }
+
+        private void UI_Shown(object sender, EventArgs e)
+        {
+            UI.Shown -= UI_Shown;
         }
 
         private void ArachisBtn_Click(object sender, EventArgs e)
         {
             Process.Start("https://twitter.com/ArachisH");
         }
-        private void DarkStarBtn_Click(object sender, EventArgs e)
-        {
-            Process.Start("https://twitter.com/DarkStar851");
-        }
         private void SpeaqerBtn_Click(object sender, EventArgs e)
         {
             Process.Start("https://twitter.com/SpeaqerDev");
+        }
+        private void DarkStarBtn_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://twitter.com/DarkStar851");
         }
 
         private void DonateBtn_Click(object sender, EventArgs e)
@@ -49,20 +54,18 @@ namespace Tanji.Pages.About
             Process.Start("https://beerpay.io/ArachisH/Tanji");
             Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HMYZ4GB5N2PAU");
         }
-
-        private void DarkboxBtn_Click(object sender, EventArgs e)
+        private void HarbleDiscordBtn_Click(object sender, EventArgs e)
         {
-            Process.Start("https://www.Darkbox.nl/");
+            Process.Start("https://discord.gg/Vyc2gFC");
         }
+
         private void SNGButton_Click(object sender, EventArgs e)
         {
             Process.Start("https://sngforum.info/");
         }
-
-        private void UI_Shown(object sender, EventArgs e)
+        private void DarkboxBtn_Click(object sender, EventArgs e)
         {
-            UI.Shown -= UI_Shown;
-            // TODO: Compare this local build, against latest one in GitHub using Octokit
+            Process.Start("https://www.Darkbox.nl/");
         }
     }
 }
