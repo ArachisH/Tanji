@@ -29,6 +29,30 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            "furnidata.load.url",
+            ""}, -1);
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+            "productdata.load.url",
+            ""}, -1);
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+            "avatareditor.promohabbos",
+            ""}, -1);
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+            "external.texts.txt",
+            ""}, -1);
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
+            "external.variables.txt",
+            ""}, -1);
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
+            "external.figurepartlist.txt",
+            ""}, -1);
+            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
+            "external.override.texts.txt",
+            ""}, -1);
+            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
+            "external.override.variables.txt",
+            ""}, -1);
             this.CustomClientDlg = new System.Windows.Forms.OpenFileDialog();
             this.InstallModuleDlg = new System.Windows.Forms.OpenFileDialog();
             this.TanjiTabs = new Sulakore.Components.SKoreTabControl();
@@ -141,6 +165,7 @@
             this.MTVersionCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.MTStateCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.AboutTab = new System.Windows.Forms.TabPage();
+            this.HarbleDiscordBtn = new Sulakore.Components.SKoreButton();
             this.DonateBtn = new Sulakore.Components.SKoreButton();
             this.SpeaqerBtn = new Sulakore.Components.SKoreButton();
             this.SNGButton = new Sulakore.Components.SKoreButton();
@@ -381,6 +406,23 @@
             this.CoTVariablesVw.GridLines = true;
             this.CoTVariablesVw.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.CoTVariablesVw.HideSelection = false;
+            listViewItem1.StateImageIndex = 0;
+            listViewItem2.StateImageIndex = 0;
+            listViewItem3.StateImageIndex = 0;
+            listViewItem4.StateImageIndex = 0;
+            listViewItem5.StateImageIndex = 0;
+            listViewItem6.StateImageIndex = 0;
+            listViewItem7.StateImageIndex = 0;
+            listViewItem8.StateImageIndex = 0;
+            this.CoTVariablesVw.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem1,
+            listViewItem2,
+            listViewItem3,
+            listViewItem4,
+            listViewItem5,
+            listViewItem6,
+            listViewItem7,
+            listViewItem8});
             this.CoTVariablesVw.Location = new System.Drawing.Point(6, 6);
             this.CoTVariablesVw.MultiSelect = false;
             this.CoTVariablesVw.Name = "CoTVariablesVw";
@@ -1438,6 +1480,7 @@
             // 
             // AboutTab
             // 
+            this.AboutTab.Controls.Add(this.HarbleDiscordBtn);
             this.AboutTab.Controls.Add(this.DonateBtn);
             this.AboutTab.Controls.Add(this.SpeaqerBtn);
             this.AboutTab.Controls.Add(this.SNGButton);
@@ -1452,12 +1495,22 @@
             this.AboutTab.Text = "About";
             this.AboutTab.UseVisualStyleBackColor = true;
             // 
+            // HarbleDiscordBtn
+            // 
+            this.HarbleDiscordBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(137)))), ((int)(((byte)(218)))));
+            this.HarbleDiscordBtn.Location = new System.Drawing.Point(127, 185);
+            this.HarbleDiscordBtn.Name = "HarbleDiscordBtn";
+            this.HarbleDiscordBtn.Size = new System.Drawing.Size(223, 20);
+            this.HarbleDiscordBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(137)))), ((int)(((byte)(218)))));
+            this.HarbleDiscordBtn.TabIndex = 14;
+            this.HarbleDiscordBtn.Text = "Join our Discord! - Harble";
+            // 
             // DonateBtn
             // 
             this.DonateBtn.BackColor = System.Drawing.Color.Green;
-            this.DonateBtn.Location = new System.Drawing.Point(203, 120);
+            this.DonateBtn.Location = new System.Drawing.Point(233, 107);
             this.DonateBtn.Name = "DonateBtn";
-            this.DonateBtn.Size = new System.Drawing.Size(53, 20);
+            this.DonateBtn.Size = new System.Drawing.Size(117, 20);
             this.DonateBtn.Skin = System.Drawing.Color.Green;
             this.DonateBtn.TabIndex = 13;
             this.DonateBtn.Text = "Donate";
@@ -1465,7 +1518,7 @@
             // SpeaqerBtn
             // 
             this.SpeaqerBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
-            this.SpeaqerBtn.Location = new System.Drawing.Point(97, 172);
+            this.SpeaqerBtn.Location = new System.Drawing.Point(127, 159);
             this.SpeaqerBtn.Name = "SpeaqerBtn";
             this.SpeaqerBtn.Size = new System.Drawing.Size(100, 20);
             this.SpeaqerBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
@@ -1475,7 +1528,7 @@
             // SNGButton
             // 
             this.SNGButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.SNGButton.Location = new System.Drawing.Point(262, 172);
+            this.SNGButton.Location = new System.Drawing.Point(233, 159);
             this.SNGButton.Name = "SNGButton";
             this.SNGButton.Size = new System.Drawing.Size(117, 20);
             this.SNGButton.TabIndex = 6;
@@ -1484,7 +1537,7 @@
             // DarkboxBtn
             // 
             this.DarkboxBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.DarkboxBtn.Location = new System.Drawing.Point(262, 120);
+            this.DarkboxBtn.Location = new System.Drawing.Point(233, 133);
             this.DarkboxBtn.Name = "DarkboxBtn";
             this.DarkboxBtn.Size = new System.Drawing.Size(117, 20);
             this.DarkboxBtn.TabIndex = 5;
@@ -1493,7 +1546,7 @@
             // DarkStarBtn
             // 
             this.DarkStarBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
-            this.DarkStarBtn.Location = new System.Drawing.Point(97, 146);
+            this.DarkStarBtn.Location = new System.Drawing.Point(127, 133);
             this.DarkStarBtn.Name = "DarkStarBtn";
             this.DarkStarBtn.Size = new System.Drawing.Size(100, 20);
             this.DarkStarBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
@@ -1503,7 +1556,7 @@
             // ArachisBtn
             // 
             this.ArachisBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
-            this.ArachisBtn.Location = new System.Drawing.Point(97, 120);
+            this.ArachisBtn.Location = new System.Drawing.Point(127, 107);
             this.ArachisBtn.Name = "ArachisBtn";
             this.ArachisBtn.Size = new System.Drawing.Size(100, 20);
             this.ArachisBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
@@ -1560,7 +1613,7 @@
             this.TanjiInfoTxt.IsLink = true;
             this.TanjiInfoTxt.LinkColor = System.Drawing.SystemColors.HotTrack;
             this.TanjiInfoTxt.Name = "TanjiInfoTxt";
-            this.TanjiInfoTxt.Size = new System.Drawing.Size(176, 19);
+            this.TanjiInfoTxt.Size = new System.Drawing.Size(186, 19);
             this.TanjiInfoTxt.Spring = true;
             this.TanjiInfoTxt.Text = "Github - ArachisH/Tanji";
             this.TanjiInfoTxt.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
@@ -1757,5 +1810,6 @@
         private System.Windows.Forms.Label label1;
         private Sulakore.Components.SKoreLabel ProxyPortLbl;
         private System.Windows.Forms.Label label2;
+        internal Sulakore.Components.SKoreButton HarbleDiscordBtn;
     }
 }
