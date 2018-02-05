@@ -1324,6 +1324,7 @@ namespace Sulakore.Habbo
             }
             return null;
         }
+        public IReadOnlyList<ushort> GetMessageHeaders(string hash) => GetMessageIds(hash).ToList().AsReadOnly();
 
         private void LoadMessages()
         {
