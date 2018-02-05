@@ -32,9 +32,9 @@ namespace Sulakore.Modules
         public abstract HGame Game { get; }
         public abstract Incoming In { get; }
         public abstract Outgoing Out { get; }
-        public abstract HHotel Hotel { get; }
         public abstract HGameData GameData { get; }
         public abstract IHConnection Connection { get; }
+        public HHotel Hotel => GameData?.Hotel ?? HHotel.Unknown;
 
         static Contractor()
         {
