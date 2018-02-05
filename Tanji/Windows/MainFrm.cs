@@ -34,9 +34,10 @@ namespace Tanji.Windows
         private DateTime _latencyTestStart;
         private readonly List<IHaltable> _haltables;
         private readonly List<IReceiver> _receivers;
+        private readonly EventHandler _disconnected;
         private readonly Dictionary<Keys, Action> _actions;
-        private readonly EventHandler _connected, _disconnected;
         private readonly Dictionary<string, Bitmap> _avatarCache;
+        private readonly EventHandler<ConnectedEventArgs> _connected;
         private readonly Dictionary<HHotel, Dictionary<string, HProfile>> _profileCache;
 
         public KeyboardHook Hook { get; }
@@ -45,7 +46,6 @@ namespace Tanji.Windows
         public Outgoing Out { get; set; }
 
         public HGame Game { get; set; }
-        public HHotel Hotel { get; set; }
         public HGameData GameData { get; set; }
         public HConnection Connection { get; set; }
 
@@ -122,7 +122,9 @@ namespace Tanji.Windows
         private void Hook_HotkeyActivated(object sender, KeyEventArgs e)
         {
             if (_actions.ContainsKey(e.KeyData))
+            {
                 _actions[e.KeyData]();
+            }
         }
 
         public void AddQuickAction(Keys keyData, Action action)
@@ -170,7 +172,7 @@ namespace Tanji.Windows
             _haltables.ForEach(h => h.Halt());
         }
 
-        private void Connected(object sender, EventArgs e)
+        private void Connected(object sender, ConnectedEventArgs e)
         {
             if (InvokeRequired)
             {
@@ -178,8 +180,13 @@ namespace Tanji.Windows
                 return;
             }
 
+            HMessage endPointPkt = Connection.Local.ReceivePacketAsync().Result;
+            string host = endPointPkt.ReadString();
+            int port = int.Parse(endPointPkt.ReadString().Split(',')[0]);
+            e.HotelServer = ConnectionPg.HotelServer = HotelEndPoint.Parse(host, port);
+
             ConnectionPg.IsReceiving = true;
-            Text = $"Tanji ~ Connected[{Connection.Host}:{Connection.Port}]";
+            Text = $"Tanji ~ Connected[{e.HotelServer}]";
             TopMost = PacketLoggerUI.TopMost;
 
             PacketLoggerUI.RevisionTxt.Text = ("Revision: " + Game.Revision);
@@ -206,8 +213,7 @@ namespace Tanji.Windows
         }
         private void HandleData(object sender, DataInterceptedEventArgs e)
         {
-            bool isOutgoing = (e.Packet.Destination == HDestination.Server);
-            if (isOutgoing && e.Packet.Header == Out.LatencyTest)
+            if (e.IsOutgoing && e.Packet.Header == Out.LatencyTest)
             {
                 _latencyTestStart = e.Timestamp;
             }
@@ -218,7 +224,7 @@ namespace Tanji.Windows
             foreach (IReceiver receiver in _receivers)
             {
                 if (!receiver.IsReceiving) continue;
-                if (isOutgoing)
+                if (e.IsOutgoing)
                 {
                     receiver.HandleOutgoing(e);
                 }
