@@ -286,7 +286,7 @@ namespace Tangine
                         byte[] data = packet.ReadBytes(dataLength);
                         var interPacket = new HMessage(data, destination);
 
-                        var args = new DataInterceptedEventArgs(interPacket, step, null);
+                        var args = new DataInterceptedEventArgs(interPacket, step, (destination == HDestination.Server));
                         try
                         {
                             if (destination == HDestination.Server)

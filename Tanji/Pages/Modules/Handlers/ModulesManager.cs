@@ -26,7 +26,6 @@ namespace Tanji.Pages.Modules.Handlers
         public override HGame Game => UI.Game;
         public override Incoming In => UI.In;
         public override Outgoing Out => UI.Out;
-        public override HHotel Hotel => UI.Hotel;
         public override HGameData GameData => UI.GameData;
         public override IHConnection Connection => UI.Connection;
 
@@ -150,7 +149,7 @@ namespace Tanji.Pages.Modules.Handlers
                             byte[] data = packet.ReadBytes(dataLength);
                             var interPacket = new HMessage(data, destination);
 
-                            var args = new DataInterceptedEventArgs(interPacket, step, null);
+                            var args = new DataInterceptedEventArgs(interPacket, step, (destination == HDestination.Server));
                             args.IsBlocked = isBlocked;
 
                             DataAwaiters[stamp].SetResult(args);
