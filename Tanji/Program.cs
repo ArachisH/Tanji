@@ -21,10 +21,8 @@ namespace Tanji
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            bool isElevated = new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
-            if (isElevated)
+            if (new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
             {
-                MessageBox.Show("STOP RUNNING AS ADMINISTRATOR FOR THE LOVE OF GOD");
                 RunAsDesktopUser(Assembly.GetEntryAssembly().Location);
                 return;
             }
