@@ -24,6 +24,7 @@ namespace Tanji.Pages.Connection
 {
     public class ConnectionPage : TanjiPage, IReceiver
     {
+        private Uri _swfUri;
         private Guid _randomQuery;
         private Dictionary<string, string> _variableReplacements;
 
@@ -230,6 +231,11 @@ namespace Tanji.Pages.Connection
             }
             if (!File.Exists(clientPath))
             {
+                if (e.Request is HttpWebRequest httpRequest)
+                {
+                    e.Request = TrimQuery(httpRequest);
+                    _swfUri = e.Request.RequestUri;
+                }
                 Status = INTERCEPTING_CLIENT;
                 Eavesdropper.ResponseInterceptedAsync += InterceptGameClientAsync;
             }
@@ -293,7 +299,7 @@ namespace Tanji.Pages.Connection
         }
         private async Task InterceptGameClientAsync(object sender, ResponseInterceptedEventArgs e)
         {
-            if (!e.Uri.Query.StartsWith("?" + _randomQuery)) return;
+            if (e.Request.RequestUri != _swfUri) return;
             if (e.ContentType != "application/x-shockwave-flash") return;
             Eavesdropper.ResponseInterceptedAsync -= InterceptGameClientAsync;
 
@@ -432,12 +438,57 @@ namespace Tanji.Pages.Connection
             Status = INTERCEPTING_CLIENT_PAGE;
         }
 
-        protected void DisableReplacements()
+        private void DisableReplacements()
         {
             foreach (ListViewItem item in UI.CoTVariablesVw.Items)
             {
                 item.Checked = false;
             }
+        }
+        private WebRequest TrimQuery(HttpWebRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request.RequestUri.Query)) return request;
+
+            HttpWebRequest trimmedRequest = WebRequest.CreateHttp(request.RequestUri.GetLeftPart(UriPartial.Path));
+            trimmedRequest.ProtocolVersion = request.ProtocolVersion;
+            trimmedRequest.CookieContainer = request.CookieContainer;
+            trimmedRequest.AllowAutoRedirect = request.AllowAutoRedirect;
+            trimmedRequest.KeepAlive = request.KeepAlive;
+            trimmedRequest.Method = request.Method;
+            trimmedRequest.Proxy = request.Proxy;
+
+            trimmedRequest.Host = request.Host;
+            trimmedRequest.Accept = request.Accept;
+            trimmedRequest.Referer = request.Referer;
+            trimmedRequest.UserAgent = request.UserAgent;
+            trimmedRequest.ContentType = request.ContentType;
+            trimmedRequest.IfModifiedSince = request.IfModifiedSince;
+
+            if (request.ContentLength > 0)
+            {
+                trimmedRequest.ContentLength = request.ContentLength;
+            }
+            foreach (string header in request.Headers.Keys)
+            {
+                switch (header.ToLower())
+                {
+                    case "range":
+                    case "expect":
+                    case "host":
+                    case "accept":
+                    case "cookie":
+                    case "referer":
+                    case "keep-alive":
+                    case "connection":
+                    case "user-agent":
+                    case "content-type":
+                    case "content-length":
+                    case "proxy-connection":
+                    case "if-modified-since": break;
+                    default: trimmedRequest.Headers[header] = request.Headers[header]; break;
+                }
+            }
+            return trimmedRequest;
         }
         private int GetSWFStartIndex(string body, int index = 0)
         {
@@ -449,7 +500,7 @@ namespace Tanji.Pages.Connection
             }
             return swfStartIndex;
         }
-        protected void ToggleClearVariableButton(ListViewItem item)
+        private void ToggleClearVariableButton(ListViewItem item)
         {
             UI.CoTResetBtn.Enabled = (!string.IsNullOrWhiteSpace(item.SubItems[1].Text));
         }
