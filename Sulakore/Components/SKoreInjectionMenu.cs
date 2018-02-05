@@ -14,7 +14,7 @@ namespace Sulakore.Components
         [Browsable(false)]
         public TextBox InputBox
         {
-            get { return _inputBox; }
+            get => _inputBox;
             set
             {
                 if (value != null)

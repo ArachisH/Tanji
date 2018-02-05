@@ -48,7 +48,7 @@ namespace Sulakore.Components
         [DefaultValue(typeof(Color), "Black")]
         public Color VoidColor
         {
-            get { return _voidColor; }
+            get => _voidColor;
             set
             {
                 _voidColor = value;

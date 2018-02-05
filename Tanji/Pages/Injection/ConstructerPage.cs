@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 
-using Tanji.Manipulators;
-
 using Sulakore.Protocol;
 
 namespace Tanji.Pages.Injection
@@ -15,7 +13,7 @@ namespace Tanji.Pages.Injection
         private ushort _header = 0;
         public ushort Header
         {
-            get { return _header; }
+            get => _header;
             set
             {
                 _header = value;
@@ -28,7 +26,7 @@ namespace Tanji.Pages.Injection
         private ushort _amount = 1;
         public ushort Amount
         {
-            get { return _amount; }
+            get => _amount;
             set
             {
                 _amount = value;

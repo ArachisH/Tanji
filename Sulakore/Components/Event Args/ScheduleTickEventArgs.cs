@@ -13,13 +13,13 @@ namespace Sulakore.Components
 
         public double Interval
         {
-            get { return _schedule.Interval; }
-            set { _schedule.Interval = value; }
+            get => _schedule.Interval;
+            set => _schedule.Interval = value;
         }
         public HMessage Packet
         {
-            get { return _schedule.Packet; }
-            set { _schedule.Packet = value; }
+            get => _schedule.Packet;
+            set => _schedule.Packet = value;
         }
 
         public ScheduleTickEventArgs(SKoreScheduleView.HSchedule schedule, int currentCycle)

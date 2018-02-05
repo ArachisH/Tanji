@@ -16,32 +16,17 @@ namespace Tanji.Windows.Dialogs
         private readonly RichTextBox _logger;
         private readonly Point _topLeft, _bottomRight;
 
-        public int TopLine
-        {
-            get { return _logger.GetLineFromCharIndex(TopLeftCharIndex); }
-        }
-        public int BottomLine
-        {
-            get { return _logger.GetLineFromCharIndex(BottomRightCharIndex); }
-        }
-        public int CurrentLine
-        {
-            get { return _logger.GetLineFromCharIndex(_logger.GetFirstCharIndexOfCurrentLine()); }
-        }
-        public int TopLeftCharIndex
-        {
-            get { return _logger.GetCharIndexFromPosition(_topLeft); }
-        }
-        public int BottomRightCharIndex
-        {
-            get { return _logger.GetCharIndexFromPosition(_bottomRight); }
-        }
+        public int TopLine => _logger.GetLineFromCharIndex(TopLeftCharIndex);
+        public int BottomLine => _logger.GetLineFromCharIndex(BottomRightCharIndex);
+        public int CurrentLine => _logger.GetLineFromCharIndex(_logger.GetFirstCharIndexOfCurrentLine());
+        public int TopLeftCharIndex => _logger.GetCharIndexFromPosition(_topLeft);
+        public int BottomRightCharIndex => _logger.GetCharIndexFromPosition(_bottomRight);
         public int VisibleLines => (BottomLine - TopLine);
 
         private bool _matchCase = false;
         public bool MatchCase
         {
-            get { return _matchCase; }
+            get => _matchCase;
             set
             {
                 _matchCase = value;
@@ -53,7 +38,7 @@ namespace Tanji.Windows.Dialogs
         private bool _matchWord = false;
         public bool MatchWord
         {
-            get { return _matchWord; }
+            get => _matchWord;
             set
             {
                 _matchWord = value;
@@ -65,7 +50,7 @@ namespace Tanji.Windows.Dialogs
         private bool _isDirectionUp = false;
         public bool IsDirectionUp
         {
-            get { return _isDirectionUp; }
+            get => _isDirectionUp;
             set
             {
                 _isDirectionUp = value;
@@ -77,7 +62,7 @@ namespace Tanji.Windows.Dialogs
         private bool _wrapAround = true;
         public bool WrapAround
         {
-            get { return _wrapAround; }
+            get => _wrapAround;
             set
             {
                 _wrapAround = value;
@@ -88,7 +73,7 @@ namespace Tanji.Windows.Dialogs
         private bool _isNormalMode = true;
         public bool IsNormalMode
         {
-            get { return _isNormalMode; }
+            get => _isNormalMode;
             set
             {
                 _isNormalMode = value;
@@ -99,7 +84,7 @@ namespace Tanji.Windows.Dialogs
         private string _findWhat = string.Empty;
         public string FindWhat
         {
-            get { return _findWhat; }
+            get => _findWhat;
             set
             {
                 _findWhat = value;

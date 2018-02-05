@@ -25,7 +25,7 @@ namespace Tanji.Pages.Injection
         private ushort _header = 0;
         public ushort Header
         {
-            get { return _header; }
+            get => _header;
             set
             {
                 _header = value;
@@ -36,7 +36,7 @@ namespace Tanji.Pages.Injection
         private FilterAction _action = FilterAction.Block;
         public FilterAction Action
         {
-            get { return _action; }
+            get => _action;
             set
             {
                 _action = value;
@@ -47,7 +47,7 @@ namespace Tanji.Pages.Injection
         private HDestination _destination = HDestination.Server;
         public HDestination Destination
         {
-            get { return _destination; }
+            get => _destination;
             set
             {
                 _destination = value;

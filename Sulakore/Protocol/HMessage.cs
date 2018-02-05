@@ -18,14 +18,14 @@ namespace Sulakore.Protocol
         private int _position;
         public int Position
         {
-            get { return _position; }
-            set { _position = value; }
+            get => _position;
+            set => _position = value;
         }
 
         private ushort _header;
         public ushort Header
         {
-            get { return _header; }
+            get => _header;
             set
             {
                 if (!IsCorrupted && _header != value)
@@ -484,12 +484,11 @@ namespace Sulakore.Protocol
                     default:
                     case TypeCode.String:
                     {
-                        byte[] data = value as byte[];
-
-                        if (data == null)
-                            data = BigEndian.GetBytes(value.ToString());
-
-                        buffer.AddRange(data);
+                        if (value is byte[] data)
+                        {
+                            buffer.AddRange(data);
+                        }
+                        else buffer.AddRange(BigEndian.GetBytes(value.ToString()));
                         break;
                     }
                 }
