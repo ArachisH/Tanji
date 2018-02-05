@@ -21,7 +21,18 @@ namespace Sulakore.Components
         public override Color BackColor
         {
             get => Skin;
-            set => Skin = value;
+            set
+            {
+                if (value == Color.Transparent)
+                {
+                    Skin = Color.White;
+                }
+                else if (value.A != byte.MaxValue)
+                {
+                    Skin = Color.FromArgb(byte.MaxValue, value.R, value.G, value.B);
+                }
+                else Skin = value;
+            }
         }
 
         [Browsable(false)]
