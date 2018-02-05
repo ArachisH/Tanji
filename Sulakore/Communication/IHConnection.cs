@@ -5,7 +5,7 @@ using Sulakore.Protocol;
 
 namespace Sulakore.Communication
 {
-    public interface IHConnection
+    public interface IHConnection : IDisposable
     {
         [Obsolete]
         ushort Port { get; }
