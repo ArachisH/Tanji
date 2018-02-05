@@ -48,5 +48,17 @@ namespace Tangine
         {
             return SendToServerAsync(HMessage.Construct(header, values));
         }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Remote?.Dispose();
+            }
+        }
     }
 }
