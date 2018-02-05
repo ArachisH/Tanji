@@ -1,55 +1,72 @@
 ﻿using System;
 using System.Net;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
 using Sulakore.Protocol;
 using Sulakore.Communication;
 
 namespace Tanji.Network
 {
-    public class HConnection : IHConnection, IDisposable
+    public class HConnection : IHConnection
     {
         private bool _isIntercepting;
+        private int _inSteps, _outSteps;
+
         private readonly object _disconnectLock;
 
-        public event EventHandler<EventArgs> Connected;
-        protected virtual void OnConnected(EventArgs e)
+        private const string CROSS_DOMAIN_POLICY = "<cross-domain-policy><allow-access-from domain=\"*\" to-ports=\"*\"/></cross-domain-policy>";
+
+        /// <summary>
+        /// Occurs when the connection between the client, and server have been intercepted.
+        /// </summary>
+        public event EventHandler<ConnectedEventArgs> Connected;
+        protected virtual void OnConnected(ConnectedEventArgs e)
         {
             Connected?.Invoke(this, e);
         }
 
-        public event EventHandler<EventArgs> Disconnected;
+        /// <summary>
+        /// Occurs when either the game client, or server have disconnected.
+        /// </summary>
+        public event EventHandler Disconnected;
         protected virtual void OnDisconnected(EventArgs e)
         {
             Disconnected?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Occurs when the client's outgoing data has been intercepted.
+        /// </summary>
         public event EventHandler<DataInterceptedEventArgs> DataOutgoing;
         protected virtual void OnDataOutgoing(DataInterceptedEventArgs e)
         {
             DataOutgoing?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Occrus when the server's incoming data has been intercepted.
+        /// </summary>
         public event EventHandler<DataInterceptedEventArgs> DataIncoming;
         protected virtual void OnDataIncoming(DataInterceptedEventArgs e)
         {
             DataIncoming?.Invoke(this, e);
         }
 
-        public ushort Port { get; private set; }
-        public string Host { get; private set; }
-        public string Address { get; private set; }
+        public int TotalIncoming => _inSteps;
+        public int TotalOutgoing => _outSteps;
 
-        public int TotalOutgoing { get; private set; }
-        public int TotalIncoming { get; private set; }
+        public string Host => Remote?.EndPoint.Host;
+        public ushort Port => (ushort)(Remote?.EndPoint.Port ?? 0);
+        public string Address => Remote?.EndPoint.Address.ToString();
+
+        public int SocketSkip { get; set; } = 2;
+        public int ListenPort { get; set; } = 9567;
+        public bool IsConnected { get; private set; }
 
         public HNode Local { get; private set; }
         public HNode Remote { get; private set; }
-
-        public int SocketSkip { get; set; } = 2;
-        public bool IsConnected { get; private set; }
 
         public HConnection()
         {
@@ -66,16 +83,13 @@ namespace Tanji.Network
         }
         public async Task InterceptAsync(HotelEndPoint endpoint)
         {
-            Host = endpoint.Host;
-            Port = (ushort)endpoint.Port;
-
             _isIntercepting = true;
             int interceptCount = 0;
             while (!IsConnected && _isIntercepting)
             {
                 try
                 {
-                    Local = await HNode.AcceptAsync(endpoint.Port).ConfigureAwait(false);
+                    Local = await HNode.AcceptAsync(ListenPort).ConfigureAwait(false);
                     if (!_isIntercepting) break;
 
                     if (++interceptCount == SocketSkip)
@@ -93,27 +107,30 @@ namespace Tanji.Network
                         continue;
                     }
 
-                    Remote = await HNode.ConnectNewAsync(endpoint).ConfigureAwait(false);
-                    if (!_isIntercepting) break;
-
-                    if (BigEndian.ToUInt16(buffer, 4) != 4000)
+                    Remote = new HNode();
+                    if(BigEndian.ToUInt16(buffer, 4) != 4000)
                     {
                         buffer = await Local.ReceiveAsync(512).ConfigureAwait(false);
-                        await Remote.SendAsync(buffer).ConfigureAwait(false);
+                        if (!_isIntercepting) break;
 
-                        buffer = await Remote.ReceiveAsync(1024).ConfigureAwait(false);
-                        await Local.SendAsync(buffer).ConfigureAwait(false);
+                        if (Encoding.UTF8.GetString(buffer).ToLower().Contains("<policy-file-request/>"))
+                        {
+                            await Local.SendAsync(Encoding.UTF8.GetBytes(CROSS_DOMAIN_POLICY)).ConfigureAwait(false);
+                        }
+                        else throw new Exception("Expected cross-domain policy request");
                         continue;
                     }
-                    if (!_isIntercepting) break;
 
+                    var args = new ConnectedEventArgs(endpoint);
+                    OnConnected(args);
+
+                    if (!await Remote.ConnectAsync(args.HotelServer ?? endpoint).ConfigureAwait(false)) break;
                     IsConnected = true;
-                    OnConnected(EventArgs.Empty);
 
-                    TotalIncoming = 0;
-                    TotalOutgoing = 0;
-                    Task readOutgoingTask = ReadOutgoingAsync();
-                    Task readIncomingTask = ReadIncomingAsync();
+                    _inSteps = 0;
+                    _outSteps = 0;
+                    Task interceptOutgoingTask = InterceptOutgoingAsync();
+                    Task interceptIncomingTask = InterceptIncomingAsync();
                 }
                 finally
                 {
@@ -124,7 +141,7 @@ namespace Tanji.Network
                     }
                 }
             }
-            HNode.StopListeners(endpoint.Port);
+            HNode.StopListeners(ListenPort);
             _isIntercepting = false;
         }
 
@@ -134,11 +151,15 @@ namespace Tanji.Network
         }
         public Task<int> SendToServerAsync(HMessage packet)
         {
-            return SendToServerAsync(packet.ToBytes());
+            return Remote.SendPacketAsync(packet);
         }
-        public Task<int> SendToServerAsync(ushort header, params object[] chunks)
+        public Task<int> SendToServerAsync(string signature)
         {
-            return Remote.SendAsync(HMessage.Construct(header, chunks));
+            return Remote.SendPacketAsync(signature);
+        }
+        public Task<int> SendToServerAsync(ushort id, params object[] values)
+        {
+            return Remote.SendPacketAsync(id, values);
         }
 
         public Task<int> SendToClientAsync(byte[] data)
@@ -147,76 +168,68 @@ namespace Tanji.Network
         }
         public Task<int> SendToClientAsync(HMessage packet)
         {
-            return SendToClientAsync(packet.ToBytes());
+            return Local.SendPacketAsync(packet);
         }
-        public Task<int> SendToClientAsync(ushort header, params object[] chunks)
+        public Task<int> SendToClientAsync(string signature)
         {
-            return Local.SendAsync(HMessage.Construct(header, chunks));
+            return Local.SendPacketAsync(signature);
+        }
+        public Task<int> SendToClientAsync(ushort id, params object[] values)
+        {
+            return Local.SendPacketAsync(id, values);
         }
 
-        private async Task ReadOutgoingAsync()
+        private Task<int> ClientRelayer(DataInterceptedEventArgs relayedFrom)
+        {
+            return SendToClientAsync(relayedFrom.Packet);
+        }
+        private Task<int> ServerRelayer(DataInterceptedEventArgs relayedFrom)
+        {
+            return SendToServerAsync(relayedFrom.Packet);
+        }
+        private async Task InterceptOutgoingAsync(DataInterceptedEventArgs continuedFrom = null)
         {
             HMessage packet = await Local.ReceivePacketAsync().ConfigureAwait(false);
-            if (IsConnected && packet != null && !packet.IsCorrupted)
+            if (packet != null)
             {
                 packet.Destination = HDestination.Server;
-                try { HandleOutgoing(packet, ++TotalOutgoing); }
-                catch { Disconnect(); }
+                var args = new DataInterceptedEventArgs(packet, ++_outSteps, true, InterceptOutgoingAsync, ServerRelayer);
+
+                try { OnDataOutgoing(args); }
+                catch { args.Restore(); }
+
+                if (!args.IsBlocked && !args.WasRelayed)
+                {
+                    await SendToServerAsync(args.Packet).ConfigureAwait(false);
+                }
+                if (!args.HasContinued)
+                {
+                    args.Continue();
+                }
             }
             else Disconnect();
         }
-        private void HandleOutgoing(HMessage packet, int count)
-        {
-            HandleMessage(packet, count, ReadOutgoingAsync, Remote, OnDataOutgoing);
-        }
-
-        private async Task ReadIncomingAsync()
+        private async Task InterceptIncomingAsync(DataInterceptedEventArgs continuedFrom = null)
         {
             HMessage packet = await Remote.ReceivePacketAsync().ConfigureAwait(false);
-            if (IsConnected && packet != null && !packet.IsCorrupted)
+            if (packet != null)
             {
                 packet.Destination = HDestination.Client;
-                try { HandleIncoming(packet, ++TotalIncoming); }
-                catch { Disconnect(); }
+                var args = new DataInterceptedEventArgs(packet, ++_inSteps, false, InterceptIncomingAsync, ClientRelayer);
+
+                try { OnDataIncoming(args); }
+                catch { args.Restore(); }
+
+                if (!args.IsBlocked && !args.WasRelayed)
+                {
+                    await SendToClientAsync(args.Packet).ConfigureAwait(false);
+                }
+                if (!args.HasContinued)
+                {
+                    args.Continue();
+                }
             }
             else Disconnect();
-        }
-        private void HandleIncoming(HMessage packet, int count)
-        {
-            HandleMessage(packet, count, ReadIncomingAsync, Local, OnDataIncoming);
-        }
-
-        private void HandleExecutions(IList<HMessage> executions)
-        {
-            var executeTaskList = new List<Task<int>>(executions.Count);
-            for (int i = 0; i < executions.Count; i++)
-            {
-                byte[] executionData =
-                    executions[i].ToBytes();
-
-                HNode node = (executions[i].Destination ==
-                    HDestination.Server ? Remote : Local);
-
-                executeTaskList.Add(
-                    node.SendAsync(executionData));
-            }
-            Task.WhenAll(executeTaskList).Wait();
-        }
-        private void HandleMessage(HMessage packet, int count, Func<Task> continuation, HNode node, Action<DataInterceptedEventArgs> eventRaiser)
-        {
-            var args = new DataInterceptedEventArgs(packet, count, continuation);
-            eventRaiser(args);
-
-            if (!args.IsBlocked)
-            {
-                node.SendAsync(args.Packet.ToBytes()).Wait();
-                HandleExecutions(args.Executions);
-            }
-
-            if (!args.HasContinued)
-            {
-                args.Continue();
-            }
         }
 
         public void Disconnect()
@@ -236,8 +249,6 @@ namespace Tanji.Network
                         Remote.Dispose();
                         Remote = null;
                     }
-
-                    TotalOutgoing = TotalIncoming = 0;
                     if (IsConnected)
                     {
                         IsConnected = false;
