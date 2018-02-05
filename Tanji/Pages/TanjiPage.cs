@@ -12,10 +12,9 @@ namespace Tanji.Pages
         private readonly Action<PropertyChangedEventArgs> _onPropertyChanged;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void RaiseOnPropertyChanged(string propertyName)
+        protected void RaiseOnPropertyChanged([CallerMemberName]string propertyName = "")
         {
-            OnPropertyChanged(
-                new PropertyChangedEventArgs(propertyName));
+            OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
         }
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
