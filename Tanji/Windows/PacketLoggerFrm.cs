@@ -425,6 +425,7 @@ namespace Tanji.Windows
             }
             if (IsReceiving && Monitor.TryEnter(_processQueueLock))
             {
+                e.Continue(true);
                 try
                 {
                     while (IsReceiving && _intercepted.Count > 0)
