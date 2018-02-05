@@ -163,31 +163,19 @@ namespace Sulakore.Communication
 
         public async Task<HMessage> ReceivePacketAsync()
         {
-            byte[] lengthBlock = await ReceiveAsync(4).ConfigureAwait(false);
-            if (lengthBlock?.Length != 4)
+            byte[] lengthBlock = await AttemptReceiveAsync(4, 3).ConfigureAwait(false);
+            if (lengthBlock == null)
             {
                 Disconnect();
                 return null;
             }
 
-            int totalBytesRead = 0;
-            int nullBytesReadCount = 0;
-            var body = new byte[BigEndian.ToInt32(lengthBlock, 0)];
-            do
+            byte[] body = await AttemptReceiveAsync(BigEndian.ToInt32(lengthBlock, 0), 3).ConfigureAwait(false);
+            if (body == null)
             {
-                int bytesLeft = (body.Length - totalBytesRead);
-                int bytesRead = await ReceiveAsync(body, totalBytesRead, bytesLeft).ConfigureAwait(false);
-
-                if (!IsConnected || (bytesRead <= 0 && ++nullBytesReadCount >= 2))
-                {
-                    Disconnect();
-                    return null;
-                }
-
-                nullBytesReadCount = 0;
-                totalBytesRead += bytesRead;
+                Disconnect();
+                return null;
             }
-            while (totalBytesRead != body.Length);
 
             var data = new byte[4 + body.Length];
             Buffer.BlockCopy(lengthBlock, 0, data, 0, 4);
@@ -205,7 +193,7 @@ namespace Sulakore.Communication
         }
         public Task<int> SendPacketAsync(ushort id, params object[] values)
         {
-            return SendAsync(HMessage.Construct(id,values));
+            return SendAsync(HMessage.Construct(id, values));
         }
 
         public Task<int> SendAsync(byte[] buffer)
@@ -236,6 +224,29 @@ namespace Sulakore.Communication
         public Task<int> ReceiveAsync(byte[] buffer, int offset, int size)
         {
             return ReceiveAsync(buffer, offset, size, SocketFlags.None);
+        }
+        public async Task<byte[]> AttemptReceiveAsync(int size, int attempts)
+        {
+            int totalBytesRead = 0;
+            var data = new byte[size];
+            int nullBytesReadCount = 0;
+            do
+            {
+                int bytesLeft = (data.Length - totalBytesRead);
+                int bytesRead = await ReceiveAsync(data, totalBytesRead, bytesLeft).ConfigureAwait(false);
+
+                if (IsConnected && bytesRead > 0)
+                {
+                    nullBytesReadCount = 0;
+                    totalBytesRead += bytesRead;
+                }
+                else if (!IsConnected || ++nullBytesReadCount >= attempts)
+                {
+                    return null;
+                }
+            }
+            while (totalBytesRead != data.Length);
+            return data;
         }
 
         public Task<byte[]> PeekAsync(int size)
