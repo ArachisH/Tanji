@@ -1,6 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+
+using Sulakore.Communication;
 
 namespace Sulakore.Habbo.Web
 {
@@ -9,36 +12,32 @@ namespace Sulakore.Habbo.Web
     {
         private readonly Dictionary<string, string> _variables;
 
-        public string Source { get; set; }
+        private const string FLASH_VAR_PATTERN = "(\"|')+?(?<variable>.*?)(\"|')+?(:| :| : |: |,|, )+?(\"|')+?(?<value>.*?)(\"|')+(\\)|,|\\s|$)+";
 
-        public string InfoHost
+        private string _source;
+        public string Source
         {
-            get
+            get => _source;
+            set
             {
-                string infoHost = string.Empty;
-                _variables.TryGetValue("connection.info.host", out infoHost);
-                return infoHost;
-            }
-        }
-        public string InfoPort
-        {
-            get
-            {
-                string infoPort = string.Empty;
-                _variables.TryGetValue("connection.info.port", out infoPort);
-                return infoPort;
+                _source = value;
+                ExtractVariables();
             }
         }
 
-        public string this[string key]
+        public HHotel Hotel { get; private set; }
+
+        public string this[string variable]
         {
             get
             {
                 string value = string.Empty;
-                _variables.TryGetValue(key, out value);
+                _variables.TryGetValue(variable, out value);
                 return value;
             }
         }
+        public string InfoHost => this["connection.info.host"];
+        public string InfoPort => this["connection.info.port"];
 
         public HGameData()
         {
@@ -47,31 +46,41 @@ namespace Sulakore.Habbo.Web
         public HGameData(string source)
             : this()
         {
-            Update(source);
+            Source = source;
         }
 
-        public void Update()
+        public bool ContainsVariable(string variable)
+        {
+            return _variables.ContainsKey(variable);
+        }
+
+        private void ExtractVariables()
         {
             _variables.Clear();
-
-            MatchCollection matches = Regex.Matches(Source,
-                "\"(?<variable>.*)\"(:| :|: | : )\"(?<value>.*)\"", RegexOptions.Multiline);
-
+            MatchCollection matches = Regex.Matches(Source, FLASH_VAR_PATTERN, RegexOptions.Multiline);
             foreach (Match match in matches)
             {
-                string variable = match.Groups["variable"].Value;
                 string value = match.Groups["value"].Value;
-
+                string variable = match.Groups["variable"].Value;
                 if (value.Contains("\\/"))
+                {
                     value = value.Replace("\\/", "/");
-
+                }
                 _variables[variable] = value;
             }
+            Hotel = HotelEndPoint.GetHotel(InfoHost);
         }
+
+        [Obsolete]
+        public void Update()
+        {
+            ExtractVariables();
+        }
+        [Obsolete]
         public void Update(string source)
         {
-            Source = source;
-            Update();
+            _source = source;
+            ExtractVariables();
         }
     }
 }
