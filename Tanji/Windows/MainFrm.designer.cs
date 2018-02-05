@@ -150,6 +150,7 @@
             this.TTDecodeUShortBtn = new Sulakore.Components.SKoreButton();
             this.TTUShortInputTxt = new System.Windows.Forms.NumericUpDown();
             this.ModulesTab = new System.Windows.Forms.TabPage();
+            this.MTSeperator1 = new System.Windows.Forms.Label();
             this.sKoreLabelBox1 = new Sulakore.Components.SKoreLabelBox();
             this.MTResourceBtn = new Sulakore.Components.SKoreButton();
             this.MTHabboNameTxt = new System.Windows.Forms.TextBox();
@@ -1319,6 +1320,7 @@
             // ModulesTab
             // 
             this.ModulesTab.AllowDrop = true;
+            this.ModulesTab.Controls.Add(this.MTSeperator1);
             this.ModulesTab.Controls.Add(this.sKoreLabelBox1);
             this.ModulesTab.Controls.Add(this.MTResourceBtn);
             this.ModulesTab.Controls.Add(this.MTHabboNameTxt);
@@ -1337,12 +1339,19 @@
             this.ModulesTab.Text = "Modules";
             this.ModulesTab.UseVisualStyleBackColor = true;
             // 
+            // MTSeperator1
+            // 
+            this.MTSeperator1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.MTSeperator1.Location = new System.Drawing.Point(77, 264);
+            this.MTSeperator1.Name = "MTSeperator1";
+            this.MTSeperator1.Size = new System.Drawing.Size(393, 1);
+            this.MTSeperator1.TabIndex = 17;
+            // 
             // sKoreLabelBox1
             // 
             this.sKoreLabelBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.sKoreLabelBox1.IsReadOnly = true;
-            this.sKoreLabelBox1.Location = new System.Drawing.Point(77, 287);
-            this.sKoreLabelBox1.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
+            this.sKoreLabelBox1.Location = new System.Drawing.Point(77, 268);
             this.sKoreLabelBox1.Name = "sKoreLabelBox1";
             this.sKoreLabelBox1.Size = new System.Drawing.Size(127, 20);
             this.sKoreLabelBox1.TabIndex = 16;
@@ -1357,14 +1366,14 @@
             // 
             this.MTResourceBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.MTResourceBtn.Enabled = false;
-            this.MTResourceBtn.Location = new System.Drawing.Point(77, 254);
+            this.MTResourceBtn.Location = new System.Drawing.Point(343, 241);
             this.MTResourceBtn.Name = "MTResourceBtn";
             this.MTResourceBtn.Size = new System.Drawing.Size(127, 20);
             this.MTResourceBtn.TabIndex = 13;
             // 
             // MTHabboNameTxt
             // 
-            this.MTHabboNameTxt.Location = new System.Drawing.Point(210, 228);
+            this.MTHabboNameTxt.Location = new System.Drawing.Point(210, 241);
             this.MTHabboNameTxt.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
             this.MTHabboNameTxt.Name = "MTHabboNameTxt";
             this.MTHabboNameTxt.ReadOnly = true;
@@ -1375,7 +1384,7 @@
             // MTHabboNameLbl
             // 
             this.MTHabboNameLbl.AutoSize = true;
-            this.MTHabboNameLbl.Location = new System.Drawing.Point(207, 211);
+            this.MTHabboNameLbl.Location = new System.Drawing.Point(207, 224);
             this.MTHabboNameLbl.Name = "MTHabboNameLbl";
             this.MTHabboNameLbl.Size = new System.Drawing.Size(70, 13);
             this.MTHabboNameLbl.TabIndex = 8;
@@ -1384,7 +1393,7 @@
             // MTAuthorsLbl
             // 
             this.MTAuthorsLbl.AutoSize = true;
-            this.MTAuthorsLbl.Location = new System.Drawing.Point(74, 211);
+            this.MTAuthorsLbl.Location = new System.Drawing.Point(74, 224);
             this.MTAuthorsLbl.Name = "MTAuthorsLbl";
             this.MTAuthorsLbl.Size = new System.Drawing.Size(49, 13);
             this.MTAuthorsLbl.TabIndex = 7;
@@ -1395,7 +1404,7 @@
             this.MTAuthorsTxt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.MTAuthorsTxt.Enabled = false;
             this.MTAuthorsTxt.FormattingEnabled = true;
-            this.MTAuthorsTxt.Location = new System.Drawing.Point(77, 227);
+            this.MTAuthorsTxt.Location = new System.Drawing.Point(77, 240);
             this.MTAuthorsTxt.Name = "MTAuthorsTxt";
             this.MTAuthorsTxt.Size = new System.Drawing.Size(127, 21);
             this.MTAuthorsTxt.TabIndex = 6;
@@ -1404,8 +1413,7 @@
             // 
             this.MTUninstallModuleBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.MTUninstallModuleBtn.Enabled = false;
-            this.MTUninstallModuleBtn.Location = new System.Drawing.Point(210, 287);
-            this.MTUninstallModuleBtn.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
+            this.MTUninstallModuleBtn.Location = new System.Drawing.Point(210, 268);
             this.MTUninstallModuleBtn.Name = "MTUninstallModuleBtn";
             this.MTUninstallModuleBtn.Size = new System.Drawing.Size(127, 20);
             this.MTUninstallModuleBtn.TabIndex = 3;
@@ -1414,8 +1422,7 @@
             // MTInstallModuleBtn
             // 
             this.MTInstallModuleBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.MTInstallModuleBtn.Location = new System.Drawing.Point(343, 287);
-            this.MTInstallModuleBtn.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
+            this.MTInstallModuleBtn.Location = new System.Drawing.Point(343, 268);
             this.MTInstallModuleBtn.Name = "MTInstallModuleBtn";
             this.MTInstallModuleBtn.Size = new System.Drawing.Size(127, 20);
             this.MTInstallModuleBtn.TabIndex = 2;
@@ -1811,5 +1818,6 @@
         private Sulakore.Components.SKoreLabel ProxyPortLbl;
         private System.Windows.Forms.Label label2;
         internal Sulakore.Components.SKoreButton HarbleDiscordBtn;
+        private System.Windows.Forms.Label MTSeperator1;
     }
 }
