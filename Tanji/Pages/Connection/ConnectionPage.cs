@@ -44,8 +44,6 @@ namespace Tanji.Pages.Connection
         private const string DISASSEMBLING_CLIENT = "Disassembling Client...";
         #endregion
 
-        private const ushort PROXY_PORT = 8282;
-
         private string _customClientPath = null;
         public string CustomClientPath
         {
@@ -82,6 +80,7 @@ namespace Tanji.Pages.Connection
         public ConnectionPage(MainFrm ui, TabPage tab)
             : base(ui, tab)
         {
+            UI.CoTProxyPortLbl.Text = $"Proxy Port: {Program.Settings["EavesdropPort"]}";
             PropertyChanged += ConnectionPage_PropertyChanged;
 
             UI.CoTStatusTxt.DataBindings.Add("Text", this, nameof(Status), false, DataSourceUpdateMode.OnPropertyChanged);
@@ -159,7 +158,7 @@ namespace Tanji.Pages.Connection
             if (Eavesdropper.Certifier.CreateTrustedRootCertificate())
             {
                 Eavesdropper.ResponseInterceptedAsync += InterceptClientPageAsync;
-                Eavesdropper.Initiate(PROXY_PORT);
+                Eavesdropper.Initiate((int)Program.Settings["EavesdropPort"]);
                 Status = INTERCEPTING_CLIENT_PAGE;
             }
         }
@@ -220,11 +219,12 @@ namespace Tanji.Pages.Connection
 
         private Task InjectGameClientAsync(object sender, RequestInterceptedEventArgs e)
         {
-            if (!e.Uri.Query.StartsWith("?" + _randomQuery)) return null;
-            Eavesdropper.RequestInterceptedAsync -= InjectGameClientAsync;
-
             Uri remoteUrl = e.Request.RequestUri;
             string clientPath = Path.GetFullPath($"Modified Clients/{remoteUrl.Host}/{remoteUrl.LocalPath}");
+
+            if (!e.Uri.Query.StartsWith("?" + _randomQuery) && !File.Exists(clientPath)) return null;
+            Eavesdropper.RequestInterceptedAsync -= InjectGameClientAsync;
+
             if (!string.IsNullOrWhiteSpace(CustomClientPath))
             {
                 clientPath = CustomClientPath;
@@ -329,7 +329,7 @@ namespace Tanji.Pages.Connection
                 UI.Game.InjectKeyShouter(4001);
                 UI.Game.InjectEndPointShouter(4000);
             }
-            UI.Game.InjectEndPoint("127.0.0.1", UI.Connection.ListenPort);
+            UI.Game.InjectEndPoint("127.0.0.1", (int)Program.Settings["ConnectionListenPort"]);
 
             string hashesPath = Path.Combine(clientDirectory, "Hashes.ini");
             if (!File.Exists(hashesPath))
@@ -389,20 +389,22 @@ namespace Tanji.Pages.Connection
                 _variableReplacements[realValue] = fakeValue;
             }
 
-            do
+            if ((bool)Program.Settings["ForceSWFDecache"])
             {
-                if (body[swfStartIndex++] == ')') continue;
-                var embedSWFEnd = body.IndexOf(',', swfStartIndex);
+                do
+                {
+                    if (body[swfStartIndex++] == ')') continue;
+                    var embedSWFEnd = body.IndexOf(',', swfStartIndex);
 
-                if (embedSWFEnd == -1) break;
-                body = body.Insert(embedSWFEnd, $"+\"?{(_randomQuery = Guid.NewGuid())}\"");
+                    if (embedSWFEnd == -1) break;
+                    body = body.Insert(embedSWFEnd, $"+\"?{(_randomQuery = Guid.NewGuid())}\"");
+                }
+                while ((swfStartIndex = GetSWFStartIndex(body, swfStartIndex)) != -1);
+                byte[] payload = Encoding.UTF8.GetBytes(body);
+
+                e.Content = new ByteArrayContent(payload);
+                e.Headers[HttpResponseHeader.ContentLength] = payload.Length.ToString();
             }
-            while ((swfStartIndex = GetSWFStartIndex(body, swfStartIndex)) != -1);
-            byte[] payload = Encoding.UTF8.GetBytes(body);
-
-            e.Content = new ByteArrayContent(payload);
-            e.Headers[HttpResponseHeader.ContentLength] = payload.Length.ToString();
-
             Status = INJECTING_CLIENT;
             Eavesdropper.RequestInterceptedAsync += InjectGameClientAsync;
         }
@@ -439,14 +441,6 @@ namespace Tanji.Pages.Connection
                 UI.Game = null;
             }
             Status = STANDING_BY;
-        }
-
-        public void Connect()
-        {
-            Eavesdropper.Certifier.CreateTrustedRootCertificate();
-            Eavesdropper.ResponseInterceptedAsync += InterceptClientPageAsync;
-            Eavesdropper.Initiate(PROXY_PORT);
-            Status = INTERCEPTING_CLIENT_PAGE;
         }
 
         private void DisableReplacements()
