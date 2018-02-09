@@ -29,28 +29,28 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
             "furnidata.load.url",
             ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
             "productdata.load.url",
             ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
             "avatareditor.promohabbos",
             ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
             "external.texts.txt",
             ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem(new string[] {
             "external.variables.txt",
             ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem(new string[] {
             "external.figurepartlist.txt",
             ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem(new string[] {
             "external.override.texts.txt",
             ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem(new string[] {
             "external.override.variables.txt",
             ""}, -1);
             this.CustomClientDlg = new System.Windows.Forms.OpenFileDialog();
@@ -58,7 +58,7 @@
             this.TanjiTabs = new Sulakore.Components.SKoreTabControl();
             this.ConnectionTab = new System.Windows.Forms.TabPage();
             this.label2 = new System.Windows.Forms.Label();
-            this.ProxyPortLbl = new Sulakore.Components.SKoreLabel();
+            this.CoTProxyPortLbl = new Sulakore.Components.SKoreLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.CoTVariableTxt = new Sulakore.Components.SKoreLabelBox();
             this.CoTValueTxt = new Sulakore.Components.SKoreLabelBox();
@@ -239,7 +239,7 @@
             // ConnectionTab
             // 
             this.ConnectionTab.Controls.Add(this.label2);
-            this.ConnectionTab.Controls.Add(this.ProxyPortLbl);
+            this.ConnectionTab.Controls.Add(this.CoTProxyPortLbl);
             this.ConnectionTab.Controls.Add(this.label1);
             this.ConnectionTab.Controls.Add(this.CoTVariableTxt);
             this.ConnectionTab.Controls.Add(this.CoTValueTxt);
@@ -268,15 +268,15 @@
             this.label2.Size = new System.Drawing.Size(464, 1);
             this.label2.TabIndex = 111;
             // 
-            // ProxyPortLbl
+            // CoTProxyPortLbl
             // 
-            this.ProxyPortLbl.AnimationInterval = 0;
-            this.ProxyPortLbl.DisplayBoundary = true;
-            this.ProxyPortLbl.Location = new System.Drawing.Point(370, 234);
-            this.ProxyPortLbl.Name = "ProxyPortLbl";
-            this.ProxyPortLbl.Size = new System.Drawing.Size(100, 20);
-            this.ProxyPortLbl.TabIndex = 110;
-            this.ProxyPortLbl.Text = "Proxy Port: 8282";
+            this.CoTProxyPortLbl.AnimationInterval = 0;
+            this.CoTProxyPortLbl.DisplayBoundary = true;
+            this.CoTProxyPortLbl.Location = new System.Drawing.Point(370, 234);
+            this.CoTProxyPortLbl.Name = "CoTProxyPortLbl";
+            this.CoTProxyPortLbl.Size = new System.Drawing.Size(100, 20);
+            this.CoTProxyPortLbl.TabIndex = 110;
+            this.CoTProxyPortLbl.Text = "Proxy Port: 8282";
             // 
             // label1
             // 
@@ -407,23 +407,23 @@
             this.CoTVariablesVw.GridLines = true;
             this.CoTVariablesVw.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.CoTVariablesVw.HideSelection = false;
-            listViewItem1.StateImageIndex = 0;
-            listViewItem2.StateImageIndex = 0;
-            listViewItem3.StateImageIndex = 0;
-            listViewItem4.StateImageIndex = 0;
-            listViewItem5.StateImageIndex = 0;
-            listViewItem6.StateImageIndex = 0;
-            listViewItem7.StateImageIndex = 0;
-            listViewItem8.StateImageIndex = 0;
+            listViewItem9.StateImageIndex = 0;
+            listViewItem10.StateImageIndex = 0;
+            listViewItem11.StateImageIndex = 0;
+            listViewItem12.StateImageIndex = 0;
+            listViewItem13.StateImageIndex = 0;
+            listViewItem14.StateImageIndex = 0;
+            listViewItem15.StateImageIndex = 0;
+            listViewItem16.StateImageIndex = 0;
             this.CoTVariablesVw.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3,
-            listViewItem4,
-            listViewItem5,
-            listViewItem6,
-            listViewItem7,
-            listViewItem8});
+            listViewItem9,
+            listViewItem10,
+            listViewItem11,
+            listViewItem12,
+            listViewItem13,
+            listViewItem14,
+            listViewItem15,
+            listViewItem16});
             this.CoTVariablesVw.Location = new System.Drawing.Point(6, 6);
             this.CoTVariablesVw.MultiSelect = false;
             this.CoTVariablesVw.Name = "CoTVariablesVw";
@@ -1815,9 +1815,9 @@
         private System.Windows.Forms.ToolStripStatusLabel TanjiInfoTxt;
         private System.Windows.Forms.StatusStrip TanjiStrip;
         private System.Windows.Forms.Label label1;
-        private Sulakore.Components.SKoreLabel ProxyPortLbl;
         private System.Windows.Forms.Label label2;
         internal Sulakore.Components.SKoreButton HarbleDiscordBtn;
         private System.Windows.Forms.Label MTSeperator1;
+        internal Sulakore.Components.SKoreLabel CoTProxyPortLbl;
     }
 }

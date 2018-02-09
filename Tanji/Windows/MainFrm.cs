@@ -115,8 +115,7 @@ namespace Tanji.Windows
         }
         private void TanjiVersionTxt_Click(object sender, EventArgs e)
         {
-            // TODO
-            throw new NotImplementedException();
+            Process.Start(AboutPg.Latest?.HtmlUrl ?? "https://github.com/ArachisH/Tanji/releases/latest");
         }
 
         private void Hook_HotkeyActivated(object sender, KeyEventArgs e)
