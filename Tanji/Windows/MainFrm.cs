@@ -172,30 +172,6 @@ namespace Tanji.Windows
             _haltables.ForEach(h => h.Halt());
         }
 
-        private void Connected(object sender, ConnectedEventArgs e)
-        {
-            if (InvokeRequired)
-            {
-                Invoke(_connected, sender, e);
-                return;
-            }
-
-            HMessage endPointPkt = Connection.Local.ReceivePacketAsync().Result;
-            string host = endPointPkt.ReadString();
-            int port = int.Parse(endPointPkt.ReadString().Split(',')[0]);
-            e.HotelServer = ConnectionPg.HotelServer = HotelEndPoint.Parse(host, port);
-
-            ConnectionPg.IsReceiving = true;
-            Text = $"Tanji ~ Connected[{e.HotelServer}]";
-            TopMost = PacketLoggerUI.TopMost;
-
-            PacketLoggerUI.RevisionTxt.Text = ("Revision: " + Game.Revision);
-
-            PacketLoggerUI.Show();
-            PacketLoggerUI.WindowState = FormWindowState.Normal;
-
-            BringToFront();
-        }
         private void Disconnected(object sender, EventArgs e)
         {
             if (InvokeRequired)
@@ -210,6 +186,28 @@ namespace Tanji.Windows
 
             TopMost = true;
             Text = "Tanji ~ Disconnected";
+        }
+        private void Connected(object sender, ConnectedEventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(_connected, sender, e);
+                return;
+            }
+
+            HMessage remoteEndPointPkt = Connection.Local.ReceivePacketAsync().Result;
+            e.HotelServer = ConnectionPg.HotelServer = HotelEndPoint.Parse(remoteEndPointPkt.ReadString(), remoteEndPointPkt.ReadInteger());
+
+            ConnectionPg.IsReceiving = true;
+            Text = $"Tanji ~ Connected[{e.HotelServer}]";
+            TopMost = PacketLoggerUI.TopMost;
+
+            PacketLoggerUI.RevisionTxt.Text = ("Revision: " + Game.Revision);
+
+            PacketLoggerUI.Show();
+            PacketLoggerUI.WindowState = FormWindowState.Normal;
+
+            BringToFront();
         }
         private void HandleData(object sender, DataInterceptedEventArgs e)
         {
