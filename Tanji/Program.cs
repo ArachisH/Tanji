@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Security.Principal;
+using System.Collections.Generic;
 
 using Tanji.Windows;
 
@@ -14,6 +16,8 @@ namespace Tanji
 {
     public static class Program
     {
+        public static Dictionary<string, object> Settings { get; private set; }
+
         [STAThread]
         private static void Main()
         {
@@ -47,6 +51,7 @@ namespace Tanji
                 "*ggpht*"
             });
 
+            Settings = LoadSettings();
             Application.Run(new MainFrm());
         }
         private static void RunAsDesktopUser(string fileName)
@@ -139,6 +144,36 @@ namespace Tanji
                 CloseHandle(hShellProcess);
             }
 
+        }
+        private static Dictionary<string, object> LoadSettings()
+        {
+            var settings = new Dictionary<string, object>();
+            foreach (string line in File.ReadLines("Settings.ini"))
+            {
+                int splitIndex = line.IndexOf('=');
+                string name = line.Substring(0, splitIndex);
+                string value = line.Substring(splitIndex + 1, line.Length - (name.Length + 1));
+
+                object oValue = null;
+                if (int.TryParse(value, out int iValue))
+                {
+                    oValue = iValue;
+                }
+                else if (bool.TryParse(value, out bool bValue))
+                {
+                    oValue = bValue;
+                }
+                else if (value.StartsWith("#") && value.Length == 7)
+                {
+                    oValue = ColorTranslator.FromHtml(value.ToUpper());
+                }
+                else
+                {
+                    oValue = value;
+                }
+                settings.Add(name, oValue);
+            }
+            return settings;
         }
         private static void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
