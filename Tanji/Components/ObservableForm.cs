@@ -5,6 +5,8 @@ using System.Runtime.CompilerServices;
 
 using Tanji.Properties;
 
+using Sulakore.Components;
+
 namespace Tanji.Components
 {
     [ToolboxItem(false)]
@@ -16,6 +18,33 @@ namespace Tanji.Components
             BackColor = Color.White;
             Icon = Resources.Tanji_256;
             FormBorderStyle = FormBorderStyle.Fixed3D;
+        }
+
+        private void ApplyScheme(Control control, Color scheme)
+        {
+            if (control.Name == "AboutTab") return;
+            if (control is ISkinnable skinnable)
+            {
+                skinnable.Skin = scheme;
+            }
+            else if (control is Label && control.Height == 1)
+            {
+                control.BackColor = scheme;
+            }
+
+            foreach (Control childControl in control.Controls)
+            {
+                ApplyScheme(childControl, scheme);
+            }
+        }
+
+        protected override void OnControlAdded(ControlEventArgs e)
+        {
+            if (!DesignMode)
+            {
+                ApplyScheme(e.Control, (Color)Program.Settings["UIScheme"]);
+            }
+            base.OnControlAdded(e);
         }
 
         protected void Bind(IBindableComponent component, string propertyName, string dataMember)
