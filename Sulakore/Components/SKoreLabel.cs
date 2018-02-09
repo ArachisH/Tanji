@@ -6,7 +6,7 @@ using System.ComponentModel;
 namespace Sulakore.Components
 {
     [DesignerCategory("Code")]
-    public class SKoreLabel : Control
+    public class SKoreLabel : Control, ISkinnable
     {
         private int _borderWidth = 1;
         [DefaultValue(1)]

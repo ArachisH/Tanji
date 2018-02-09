@@ -9,7 +9,7 @@ using System.ComponentModel.Design;
 namespace Sulakore.Components
 {
     [DesignerCategory("Code")]
-    public class SKoreButton : Control, IButtonControl
+    public class SKoreButton : Control, IButtonControl, ISkinnable
     {
         private bool _isPressed;
         private Control _lastParent;

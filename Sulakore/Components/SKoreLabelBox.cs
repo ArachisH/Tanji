@@ -6,7 +6,7 @@ using System.ComponentModel;
 namespace Sulakore.Components
 {
     [DesignerCategory("Code")]
-    public class SKoreLabelBox : Control
+    public class SKoreLabelBox : Control, ISkinnable
     {
         private Rectangle _titleRect;
 
@@ -41,6 +41,18 @@ namespace Sulakore.Components
             {
                 _textPaddingWidth = value;
                 Title = Title;
+            }
+        }
+
+        private Color _skin = Color.FromArgb(243, 63, 63);
+        [DefaultValue(typeof(Color), "243, 63, 63")]
+        public Color Skin
+        {
+            get => _skin;
+            set
+            {
+                _skin = value;
+                Invalidate();
             }
         }
 
@@ -136,7 +148,7 @@ namespace Sulakore.Components
             if (!string.IsNullOrWhiteSpace(Title))
             {
                 TextRenderer.DrawText(e.Graphics, Title, Font, _titleRect, ForeColor, TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter);
-                using (var lineColor = new Pen(Color.FromArgb(243, 63, 63)))
+                using (var lineColor = new Pen(Skin))
                 {
                     e.Graphics.DrawLine(lineColor, _titleRect.Right, 0, _titleRect.Right, Height);
                 }

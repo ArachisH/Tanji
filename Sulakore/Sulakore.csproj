@@ -62,6 +62,7 @@
     <Compile Include="Communication\IHConnection.cs" />
     <Compile Include="Components\Event Args\ScheduleTickEventArgs.cs" />
     <Compile Include="Components\Event Args\TileEventArgs.cs" />
+    <Compile Include="Components\ISkinnable.cs" />
     <Compile Include="Components\SKoreButton.cs" />
     <Compile Include="Components\SKoreConstructView.cs" />
     <Compile Include="Components\SKoreInjectionMenu.cs" />

@@ -6,7 +6,7 @@ using System.ComponentModel;
 namespace Sulakore.Components
 {
     [DesignerCategory("Code")]
-    public class SKoreTabControl : TabControl
+    public class SKoreTabControl : TabControl, ISkinnable
     {
         private bool _isDisplayingBorder = false;
         [DefaultValue(false)]
