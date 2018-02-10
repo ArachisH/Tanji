@@ -98,6 +98,8 @@ namespace Tanji.Windows
             _receivers.Add(InjectionPg.FiltersPg);
             _receivers.Add(ConnectionPg);
             _receivers.Add(PacketLoggerUI);
+
+            Connection.ListenPort = (int)Program.Settings["ConnectionListenPort"];
         }
 
         private void MainFrm_Load(object sender, EventArgs e)
@@ -195,7 +197,7 @@ namespace Tanji.Windows
             }
 
             HMessage remoteEndPointPkt = Connection.Local.ReceivePacketAsync().Result;
-            e.HotelServer = ConnectionPg.HotelServer = HotelEndPoint.Parse(remoteEndPointPkt.ReadString(), remoteEndPointPkt.ReadInteger());
+            e.HotelServer = ConnectionPg.HotelServer = HotelEndPoint.Parse(remoteEndPointPkt.ReadString().Split('\0')[0], remoteEndPointPkt.ReadInteger());
 
             ConnectionPg.IsReceiving = true;
             Text = $"Tanji ~ Connected[{e.HotelServer}]";
