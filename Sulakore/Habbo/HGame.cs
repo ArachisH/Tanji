@@ -1378,64 +1378,41 @@ namespace Sulakore.Habbo
             ASMethod connectMethod = GetManagerConnectMethod();
             if (connectMethod == null) return false;
 
-            ASCode code = connectMethod.Body.ParseCode();
+            ASCode connectCode = connectMethod.Body.ParseCode();
+            int pushByteIndex = connectCode.IndexOf(OPCode.PushByte);
+
+            ASInstance habboCommunicationManager = abc.GetFirstInstance("HabboCommunicationManager");
+            if (habboCommunicationManager == null) return false;
+
+            ASTrait infoHostSlot = habboCommunicationManager.GetSlotTraits("String").FirstOrDefault();
+            if (infoHostSlot == null) return false;
+
             int getPropertyIndex = abc.Pool.GetMultinameIndex("getProperty");
-            int connectionInfoHostIndex = abc.Pool.AddConstant("connection.info.host");
-            for (int i = 0, findPropStrictCount = 0; i < code.Count; i++)
+            if ((connectCode[pushByteIndex - 3] is PushStringIns pushStringIns) && pushStringIns.Value == "connection.info.host") return true; // Already locked
+            connectCode.InsertRange(pushByteIndex, new ASInstruction[]
             {
-                ASInstruction instruction = code[i];
-                if (instruction.OP != OPCode.FindPropStrict || ++findPropStrictCount != 2) continue;
-                if ((code[i + 1] as FindPropStrictIns)?.PropertyNameIndex == getPropertyIndex) return true;
+                new GetLocal0Ins(),
+                new FindPropStrictIns(abc, getPropertyIndex),
+                new PushStringIns(abc, "connection.info.host"),
+                new CallPropertyIns(abc, getPropertyIndex, 1),
+                new InitPropertyIns(abc, infoHostSlot.QNameIndex)
+            });
 
-                for (int j = 0; i < code.Count; i++, j++)
-                {
-                    instruction = code[i];
-                    if (instruction.OP != OPCode.Add) continue;
+            // This portion prevents any suffix from being added to the host slot.
+            int magicInverseIndex = abc.Pool.AddConstant(65290);
+            for (int i = 0; i < connectCode.Count; i++)
+            {
+                ASInstruction instruction = connectCode[i];
+                if (instruction.OP != OPCode.PushInt) continue;
+                if (connectCode[i - 1].OP == OPCode.Add) continue;
 
-                    code.RemoveRange((i - j) + 1, j);
-                    code.InsertRange((i - j) + 1, new ASInstruction[]
-                    {
-                        new FindPropStrictIns(abc, getPropertyIndex),
-                        new PushStringIns(abc, connectionInfoHostIndex),
-                        new CallPropertyIns(abc, getPropertyIndex, 1),
-                        new CoerceSIns()
-                    });
-
-                    i -= (j - 5);
-                    break;
-                }
-
-                for (int j = 0, ifNeCount = 0; i < code.Count; i++, j++)
-                {
-                    instruction = code[i];
-                    if (instruction.OP == OPCode.IfNe)
-                    {
-                        ifNeCount++;
-                        continue;
-                    }
-                    if (instruction.OP != OPCode.GetProperty || ifNeCount != 2) continue;
-
-                    i++;
-                    for (int k = 0; i < code.Count; i++, k++)
-                    {
-                        instruction = code[i];
-                        if (instruction.OP != OPCode.Add) continue;
-
-                        code.RemoveRange(i - k, k + 1);
-                        code.InsertRange(i - k, new ASInstruction[]
-                        {
-                            new FindPropStrictIns(abc, getPropertyIndex),
-                            new PushStringIns(abc, connectionInfoHostIndex),
-                            new CallPropertyIns(abc, getPropertyIndex, 1),
-                            new CoerceSIns()
-                        });
-
-                        connectMethod.Body.Code = code.ToArray();
-                        return true;
-                    }
-                }
+                var pushIntIns = (PushIntIns)instruction;
+                pushIntIns.ValueIndex = magicInverseIndex;
             }
-            return false;
+
+            connectMethod.Body.MaxStack += 4;
+            connectMethod.Body.Code = connectCode.ToArray();
+            return true;
         }
         private ASMethod GetManagerConnectMethod()
         {
@@ -1474,24 +1451,30 @@ namespace Sulakore.Habbo
             ASMethod connectMethod = GetManagerConnectMethod();
             if (connectMethod == null) return false;
 
-            ASCode code = connectMethod.Body.ParseCode();
-            for (int i = 0; i < code.Count; i++)
+            ASCode connectCode = connectMethod.Body.ParseCode();
+            for (int i = 0, findPropStrictCount = 0; i < connectCode.Count; i++)
             {
-                ASInstruction instruction = code[i];
-                if (instruction.OP != OPCode.FindPropStrict) continue;
+                ASInstruction instruction = connectCode[i];
+                if (instruction.OP != OPCode.FindPropStrict || ++findPropStrictCount != 3) continue;
 
-                var findPropStrict = (FindPropStrictIns)instruction;
-                if (findPropStrict.PropertyName.Name != "getProperty") continue;
-
-                code.RemoveRange(i, 9);
-                code.InsertRange(i, new ASInstruction[]
+                i++;
+                var thirdFindPropStrictIns = (FindPropStrictIns)instruction;
+                for (int j = 0; i < connectCode.Count; i++, j++)
                 {
-                    new PushStringIns(abc, host),
-                    new PushIntIns(abc, port)
-                });
+                    instruction = connectCode[i];
+                    if (instruction.OP != OPCode.ConstructProp) continue;
+                    if (((ConstructPropIns)instruction).PropertyNameIndex != thirdFindPropStrictIns.PropertyNameIndex) continue;
 
-                connectMethod.Body.Code = code.ToArray();
-                return true;
+                    connectCode.RemoveRange(i - j, j);
+                    connectCode.InsertRange(i - j, new ASInstruction[]
+                    {
+                        new PushStringIns(abc, host),
+                        new PushIntIns(abc, port)
+                    });
+
+                    connectMethod.Body.Code = connectCode.ToArray();
+                    return true;
+                }
             }
             return false;
         }
