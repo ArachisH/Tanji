@@ -222,7 +222,7 @@ namespace Tanji.Pages.Connection
             Uri remoteUrl = e.Request.RequestUri;
             string clientPath = Path.GetFullPath($"Modified Clients/{remoteUrl.Host}/{remoteUrl.LocalPath}");
 
-            if (!e.Uri.Query.StartsWith("?" + _randomQuery) && !File.Exists(clientPath)) return null;
+            if (!e.Uri.Query.EndsWith("?" + _randomQuery) && !File.Exists(clientPath)) return null;
             Eavesdropper.RequestInterceptedAsync -= InjectGameClientAsync;
 
             if (!string.IsNullOrWhiteSpace(CustomClientPath))
