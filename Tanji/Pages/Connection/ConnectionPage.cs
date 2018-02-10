@@ -80,7 +80,7 @@ namespace Tanji.Pages.Connection
         public ConnectionPage(MainFrm ui, TabPage tab)
             : base(ui, tab)
         {
-            UI.CoTProxyPortLbl.Text = $"Proxy Port: {Program.Settings["EavesdropPort"]}";
+            UI.CoTProxyPortLbl.Text = $"Proxy Port: {Program.Settings["ProxyListenPort"]}";
             PropertyChanged += ConnectionPage_PropertyChanged;
 
             UI.CoTStatusTxt.DataBindings.Add("Text", this, nameof(Status), false, DataSourceUpdateMode.OnPropertyChanged);
@@ -158,7 +158,7 @@ namespace Tanji.Pages.Connection
             if (Eavesdropper.Certifier.CreateTrustedRootCertificate())
             {
                 Eavesdropper.ResponseInterceptedAsync += InterceptClientPageAsync;
-                Eavesdropper.Initiate((int)Program.Settings["EavesdropPort"]);
+                Eavesdropper.Initiate((int)Program.Settings["ProxyListenPort"]);
                 Status = INTERCEPTING_CLIENT_PAGE;
             }
         }
@@ -219,15 +219,16 @@ namespace Tanji.Pages.Connection
 
         private Task InjectGameClientAsync(object sender, RequestInterceptedEventArgs e)
         {
-            Uri remoteUrl = e.Request.RequestUri;
-            string clientPath = Path.GetFullPath($"Modified Clients/{remoteUrl.Host}/{remoteUrl.LocalPath}");
+            string clientName = Path.GetFileName(e.Uri.LocalPath);
+            string clientPath = Path.GetFullPath($"Modified Clients/{e.Uri.Host}{e.Uri.LocalPath}");
+            bool hasClientFileName = ((string)Program.Settings["PossibleClientFileNames"]).Split(',').Contains(clientName);
 
-            if (!e.Uri.Query.EndsWith("?" + _randomQuery) && !File.Exists(clientPath)) return null;
+            if (!e.Uri.Query.EndsWith("?" + _randomQuery) && !File.Exists(clientPath) && !hasClientFileName) return null;
             Eavesdropper.RequestInterceptedAsync -= InjectGameClientAsync;
 
             if (!string.IsNullOrWhiteSpace(CustomClientPath))
             {
-                clientPath = CustomClientPath;
+                clientPath = Path.GetFullPath(CustomClientPath);
             }
             if (!File.Exists(clientPath))
             {
@@ -310,7 +311,7 @@ namespace Tanji.Pages.Connection
             if (e.ContentType != "application/x-shockwave-flash") return;
             Eavesdropper.ResponseInterceptedAsync -= InterceptGameClientAsync;
 
-            string clientPath = Path.GetFullPath($"Modified Clients/{e.Uri.Host}/{e.Uri.LocalPath}");
+            string clientPath = Path.GetFullPath($"Modified Clients/{e.Uri.Host}{e.Uri.LocalPath}");
             string clientDirectory = Path.GetDirectoryName(clientPath);
             Directory.CreateDirectory(clientDirectory);
 
@@ -329,7 +330,7 @@ namespace Tanji.Pages.Connection
                 UI.Game.InjectKeyShouter(4001);
                 UI.Game.InjectEndPointShouter(4000);
             }
-            UI.Game.InjectEndPoint("127.0.0.1", (int)Program.Settings["ConnectionListenPort"]);
+            UI.Game.InjectEndPoint("127.0.0.1", UI.Connection.ListenPort);
 
             string hashesPath = Path.Combine(clientDirectory, "Hashes.ini");
             if (!File.Exists(hashesPath))
@@ -371,8 +372,21 @@ namespace Tanji.Pages.Connection
             string body = await e.Content.ReadAsStringAsync().ConfigureAwait(false);
             if (body.IndexOf("info.host", StringComparison.OrdinalIgnoreCase) + body.IndexOf("info.port", StringComparison.OrdinalIgnoreCase) < 0) return;
 
+            string[] blacklistedHosts = ((string)Program.Settings["ForceSWFDecacheBlacklist"]).Split(',');
+            bool isBlacklisted = blacklistedHosts.Contains(e.Uri.Host);
+
+            bool hasPossibleClientFileName = false;
+            foreach (string clientFileName in ((string)Program.Settings["PossibleClientFileNames"]).Split(','))
+            {
+                if (body.Contains(clientFileName))
+                {
+                    hasPossibleClientFileName = true;
+                    break;
+                }
+            }
+
             int swfStartIndex = GetSWFStartIndex(body);
-            if (swfStartIndex == -1) return;
+            if (swfStartIndex == -1 && !isBlacklisted && !hasPossibleClientFileName) return;
             Eavesdropper.ResponseInterceptedAsync -= InterceptClientPageAsync;
 
             UI.GameData.Source = body;
@@ -389,7 +403,7 @@ namespace Tanji.Pages.Connection
                 _variableReplacements[realValue] = fakeValue;
             }
 
-            if ((bool)Program.Settings["ForceSWFDecache"])
+            if (!isBlacklisted && swfStartIndex != -1)
             {
                 do
                 {
