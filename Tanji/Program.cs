@@ -51,24 +51,7 @@ namespace Tanji
             }
 
             Eavesdropper.Certifier = new CertificateManager("Tanji", "Tanji Certificate Authority");
-            Eavesdropper.Overrides.AddRange(new[]
-            {
-                "*google*",
-                "*discordapp*",
-                "*gstatic.com",
-                "*imgur.com",
-                "*github.com",
-                "*googleapis.com",
-                "*facebook.com",
-                "*cloudfront.net",
-                "*gvt1.com",
-                "*jquery.com",
-                "*akamai.net",
-                "*ultra-rv.com",
-                "*youtube*",
-                "*ytimg*",
-                "*ggpht*"
-            });
+            Eavesdropper.Overrides.AddRange(((string)Settings["ProxyOverrides"]).Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
 
             Application.Run(new MainFrm());
         }
