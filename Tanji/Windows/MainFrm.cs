@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Drawing.Imaging;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 using Tanji.Network;
 using Tanji.Utilities;
@@ -38,7 +40,7 @@ namespace Tanji.Windows
         private readonly Dictionary<Keys, Action> _actions;
         private readonly Dictionary<string, Bitmap> _avatarCache;
         private readonly EventHandler<ConnectedEventArgs> _connected;
-        private readonly Dictionary<HHotel, Dictionary<string, HProfile>> _profileCache;
+        private readonly Dictionary<HHotel, Dictionary<string, HUser>> _userCache;
 
         public KeyboardHook Hook { get; }
 
@@ -67,7 +69,7 @@ namespace Tanji.Windows
             _receivers = new List<IReceiver>();
             _actions = new Dictionary<Keys, Action>();
             _avatarCache = new Dictionary<string, Bitmap>();
-            _profileCache = new Dictionary<HHotel, Dictionary<string, HProfile>>();
+            _userCache = new Dictionary<HHotel, Dictionary<string, HUser>>();
 
             In = new Incoming();
             Out = new Outgoing();
@@ -136,41 +138,83 @@ namespace Tanji.Windows
                 Hook.RegisterHotkey(keyData);
             }
         }
+        public async Task<HUser> GetUserAsync(string name, HHotel hotel)
+        {
+            if (!_userCache.ContainsKey(hotel))
+            {
+                _userCache[hotel] = new Dictionary<string, HUser>();
+            }
+            if (!_userCache[hotel].ContainsKey(name))
+            {
+                HUser profile = await SKore.GetUserAsync(name, hotel).ConfigureAwait(false);
+                _userCache[hotel][name] = profile;
+            }
+            return _userCache[hotel][name];
+        }
         public async Task<Bitmap> GetAvatarAsync(string name, HHotel hotel)
         {
-            HProfile profile = await GetProfileAsync(
-                name, hotel).ConfigureAwait(false);
+            HUser user = await GetUserAsync(name, hotel).ConfigureAwait(false);
+            if (user == null) return Resources.Avatar;
 
-            if (profile == null)
-                return Resources.Avatar;
-
-            if (!_avatarCache.ContainsKey(profile.User.FigureId))
+            if (!_avatarCache.ContainsKey(user.FigureId))
             {
-                Bitmap avatar = await SKore.GetAvatarAsync(
-                    profile.User.FigureId, HSize.Medium).ConfigureAwait(false);
-
-                _avatarCache[profile.User.FigureId] = avatar;
+                using (Bitmap avatar = await SKore.GetAvatarAsync(user.FigureId, HSize.Medium).ConfigureAwait(false))
+                {
+                    _avatarCache[user.FigureId] = TrimAvatar(avatar);
+                }
             }
-            return _avatarCache[profile.User.FigureId];
-        }
-        public async Task<HProfile> GetProfileAsync(string name, HHotel hotel)
-        {
-            if (!_profileCache.ContainsKey(hotel))
-                _profileCache[hotel] = new Dictionary<string, HProfile>();
-
-            if (!_profileCache[hotel].ContainsKey(name))
-            {
-                HProfile profile = await SKore.GetProfileAsync(
-                    name, hotel).ConfigureAwait(false);
-
-                _profileCache[hotel][name] = profile;
-            }
-            return _profileCache[hotel][name];
+            return _avatarCache[user.FigureId];
         }
 
         private void Halt()
         {
             _haltables.ForEach(h => h.Halt());
+        }
+        private Bitmap TrimAvatar(Bitmap avatar)
+        {
+            BitmapData data = null;
+            var srcRect = default(Rectangle);
+            try
+            {
+                data = avatar.LockBits(new Rectangle(0, 0, avatar.Width, avatar.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+                byte[] buffer = new byte[data.Height * data.Stride];
+                Marshal.Copy(data.Scan0, buffer, 0, buffer.Length);
+                int xMin = int.MaxValue;
+                int xMax = 0;
+                int yMin = int.MaxValue;
+                int yMax = 0;
+                for (int y = 0; y < data.Height; y++)
+                {
+                    for (int x = 0; x < data.Width; x++)
+                    {
+                        byte alpha = buffer[y * data.Stride + 4 * x + 3];
+                        if (alpha != 0)
+                        {
+                            if (x < xMin) xMin = x;
+                            if (x > xMax) xMax = x;
+                            if (y < yMin) yMin = y;
+                            if (y > yMax) yMax = y;
+                        }
+                    }
+                }
+                if (xMax < xMin || yMax < yMin) return null;
+                srcRect = Rectangle.FromLTRB(xMin, yMin, xMax + 1, yMax + 1);
+            }
+            finally
+            {
+                if (data != null)
+                {
+                    avatar.UnlockBits(data);
+                }
+            }
+
+            var trimmedAvatar = new Bitmap(srcRect.Width, srcRect.Height);
+            var destRect = new Rectangle(0, 0, srcRect.Width, srcRect.Height);
+            using (var graphics = Graphics.FromImage(trimmedAvatar))
+            {
+                graphics.DrawImage(avatar, destRect, srcRect, GraphicsUnit.Pixel);
+            }
+            return trimmedAvatar;
         }
 
         private void Disconnected(object sender, EventArgs e)
