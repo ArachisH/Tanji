@@ -19,12 +19,10 @@ namespace Sulakore
         public const string PROFILE_API_FORMAT = "{0}/api/public/users/{1}/profile";
         public const string ChromeAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36";
 
-        private static readonly HRequest _hRequest;
         private static readonly IDictionary<HHotel, IDictionary<string, string>> _uniqueIds;
 
         static SKore()
         {
-            _hRequest = new HRequest();
             _uniqueIds = new Dictionary<HHotel, IDictionary<string, string>>();
         }
 
@@ -54,19 +52,35 @@ namespace Sulakore
         /// <param name="hotel">The hotel where the target user is from.</param>
         public static async Task<HUser> GetUserAsync(string name, HHotel hotel)
         {
-            string userJson = await _hRequest.DownloadStringAsync(
-                string.Format(USER_API_FORMAT, hotel.ToUrl(true), name)).ConfigureAwait(false);
+            using (var client = new WebClient())
+            {
+                client.Proxy = null;
+                client.Headers[HttpRequestHeader.UserAgent] = ChromeAgent;
+                client.Headers.Add(HttpRequestHeader.Cookie, "YPF8827340282Jdskjhfiw_928937459182JAX666=127.0.0.1");
 
-            if (userJson.StartsWith("{\"error"))
-                return null;
+                string userJson = null;
+                try
+                {
+                    userJson = await client.DownloadStringTaskAsync(string.Format(USER_API_FORMAT, hotel.ToUrl(true), name)).ConfigureAwait(false);
+                }
+                catch (WebException ex)
+                {
+                    using (WebResponse response = ex.Response)
+                    using (var responseReader = new StreamReader(response.GetResponseStream()))
+                    {
+                        userJson = await responseReader.ReadToEndAsync().ConfigureAwait(false);
+                    }
+                }
+                if (userJson.StartsWith("{\"error")) return null;
 
-            var user = HUser.Create(userJson);
-
-            if (!_uniqueIds.ContainsKey(hotel))
-                _uniqueIds[hotel] = new Dictionary<string, string>();
-
-            _uniqueIds[hotel][user.Name] = user.UniqueId;
-            return user;
+                var user = HUser.Create(userJson);
+                if (!_uniqueIds.ContainsKey(hotel))
+                {
+                    _uniqueIds[hotel] = new Dictionary<string, string>();
+                }
+                _uniqueIds[hotel][user.Name] = user.UniqueId;
+                return user;
+            }
         }
         /// <summary>
         /// Returns the user's unique identifier associated with the given name using the specified <see cref="HHotel"/> in an asynchronous operation.
@@ -103,13 +117,28 @@ namespace Sulakore
         /// <param name="hotel">The hotel where the target user is from.</param>
         public static async Task<HProfile> GetProfileByUniqueIdAsync(string uniqueId, HHotel hotel)
         {
-            string profileJson = await _hRequest.DownloadStringAsync(
-                string.Format(PROFILE_API_FORMAT, hotel.ToUrl(true), uniqueId)).ConfigureAwait(false);
+            using (var client = new WebClient())
+            {
+                client.Proxy = null;
+                client.Headers[HttpRequestHeader.UserAgent] = ChromeAgent;
+                client.Headers.Add(HttpRequestHeader.Cookie, "YPF8827340282Jdskjhfiw_928937459182JAX666=127.0.0.1");
 
-            if (profileJson.StartsWith("{\"error"))
-                return null;
-
-            return HProfile.Create(profileJson);
+                string profileJson = null;
+                try
+                {
+                    profileJson = await client.DownloadStringTaskAsync(string.Format(PROFILE_API_FORMAT, hotel.ToUrl(true), uniqueId)).ConfigureAwait(false);
+                }
+                catch (WebException ex)
+                {
+                    using (WebResponse response = ex.Response)
+                    using (var responseReader = new StreamReader(response.GetResponseStream()))
+                    {
+                        profileJson = await responseReader.ReadToEndAsync().ConfigureAwait(false);
+                    }
+                }
+                if (profileJson.StartsWith("{\"error")) return null;
+                return HProfile.Create(profileJson);
+            }
         }
 
         /// <summary>
@@ -147,7 +176,7 @@ namespace Sulakore
         public static string ToUrl(this HHotel hotel, bool isHttps)
         {
             string protocol = (isHttps ? "https" : "http");
-            return $"{protocol}://www.Habbo.{hotel.ToDomain()}";
+            return $"{protocol}://www.habbo.{hotel.ToDomain()}";
         }
 
         /// <summary>

@@ -104,7 +104,6 @@
     <Compile Include="Habbo\Web\HGameData.cs" />
     <Compile Include="Habbo\Web\HGroup.cs" />
     <Compile Include="Habbo\Web\HProfile.cs" />
-    <Compile Include="Habbo\Web\HRequest.cs" />
     <Compile Include="Habbo\Web\HRoom.cs" />
     <Compile Include="Habbo\Web\HUser.cs" />
     <Compile Include="Modules\Attributes\AuthorAttribute.cs" />
