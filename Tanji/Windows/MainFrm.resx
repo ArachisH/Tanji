@@ -123,6 +123,30 @@
   <metadata name="InstallModuleDlg.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>392, 16</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="MTAuthorPctbx.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAABUCAYAAADjyTUjAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wwAADsMBx2+oZAAAA/5JREFUaEPtl6FuFkEUhfsgWEhQGAwIikBgMTSQkEBQDZaQ1OEQqKqiSHAQBI4H
+        QCDgHQiKJ6CWnz3DnJuzd+/MzuwurelJvszuzL33nN3/b/J3r0O7Cv9VZrS/vz9BzzObKRo+oRJmsfyg
+        ZgphuqSNq1jyRkYNHKCDgqFVUO96qho1HhwcWLM39vdzoF56Qo2KuQIfRK/Z04r0TBQW0hxEb4RrD9Jj
+        GhUoLI6CYNWaBZiiQ4PGaq5onfY1khQdFFFz/xY0xJ9vJyO470iKDkLUQEPwmmfenPBcSIoOZql9HJE5
+        0RkDSX5zFjXrMQesyyT5zWa8OaiZ6vWASTe7aDX39wMj2YA1qImavXp6c3d6eprg3sBINiTi+7ujcJ94
+        UwXnMNbafD2RFSl+WOu57q0OoKs/I7j3r5r7DKB7A6F4aLBBGu1ewZ5/UsCPz9cOhLIBhA3SOBqmRAFA
+        dD9QlA0heIrSMMW/auLfQp5bFYsSGmApmKPXA7OyAECH9cB+/xYHmjQZ0PM2UBvV55nNshBofnP0sCuE
+        J89apN3vL8cJXEfDIxAW9ezJ110aDSD+XlFTrZP9Zu3ev7yUwLWagGivhA81MKvdjw+XLUAtxNx3Qs05
+        J1NUKvz16UoKgXUuBICRh2eAM+dCWCFpCaFBPOzj3J8f/83L5xNZoRKFALUgaqozGQDkWtOo0ONDAPR4
+        OMOvZHUAgDoP96NV2SQAmDMtzdosAGg19cCLa3LO6g6wFHhxTc5ZxQDYr533gllcYUwVDWpnS8A8rjCm
+        QhN9+q1CYB5XGFNNAbYIgXlcYUw1BfDnS8A8rjCmmgJsEQLzuMKYagrgz5eAeVxhTDUF2CIE5nGFMdUU
+        wJ8vAfO4wphqCrBFCMzjCmOqKYA/XwLmcYUx1RRgbQjMcpiaAvjzVjAD4J8brPLrydQUoDcEesHV2/fT
+        yh+riwP48xLoATAGNx68sD2Yy69mU1OAuRCoBWoM7hy+trPIHEqbfqAP4M8J+yNjwprMRPYFARzsA/gQ
+        rK8ZuwBF2W97+YJMApSMr997VjQmuaeoUYAoCMOAHmOSe4syQ6z4ojCEfjQ0Lr1q1Pg9kmcUNfkb1SC4
+        V/PIAKCudI6zgapSURQEa+vnvCYAlYrl73V37e7jMw0ApQaGOJcA+LyxwvzcAoCLABcB1gbAXqZLqwPg
+        Gjz//DXB+4EmLQ5AYPro+O1kzeez6g6AHsAnjsxJrq2qOQBqlVtPDhNqGJHrq0pFpQA81yfm4LkQqM/9
+        VaUhWAED8F6NNQBgrw/BHs4YqMqGaBAdyKF+D2h/rzGVBmkI4s1KYMYSY5UN6wmx9IlLSkM4vBZia2Ov
+        MMhZGHuNgpylsddK4729vxRgDUuE4ix7AAAAAElFTkSuQmCC
+</value>
+  </data>
   <metadata name="InjectionMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>118, 16</value>
   </metadata>

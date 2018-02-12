@@ -29,30 +29,31 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "furnidata.load.url",
             ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "productdata.load.url",
             ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
             "avatareditor.promohabbos",
             ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
             "external.texts.txt",
             ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
             "external.variables.txt",
             ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
             "external.figurepartlist.txt",
             ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
             "external.override.texts.txt",
             ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
             "external.override.variables.txt",
             ""}, -1);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainFrm));
             this.CustomClientDlg = new System.Windows.Forms.OpenFileDialog();
             this.InstallModuleDlg = new System.Windows.Forms.OpenFileDialog();
             this.TanjiTabs = new Sulakore.Components.SKoreTabControl();
@@ -407,23 +408,23 @@
             this.CoTVariablesVw.GridLines = true;
             this.CoTVariablesVw.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.CoTVariablesVw.HideSelection = false;
-            listViewItem9.StateImageIndex = 0;
-            listViewItem10.StateImageIndex = 0;
-            listViewItem11.StateImageIndex = 0;
-            listViewItem12.StateImageIndex = 0;
-            listViewItem13.StateImageIndex = 0;
-            listViewItem14.StateImageIndex = 0;
-            listViewItem15.StateImageIndex = 0;
-            listViewItem16.StateImageIndex = 0;
+            listViewItem1.StateImageIndex = 0;
+            listViewItem2.StateImageIndex = 0;
+            listViewItem3.StateImageIndex = 0;
+            listViewItem4.StateImageIndex = 0;
+            listViewItem5.StateImageIndex = 0;
+            listViewItem6.StateImageIndex = 0;
+            listViewItem7.StateImageIndex = 0;
+            listViewItem8.StateImageIndex = 0;
             this.CoTVariablesVw.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem9,
-            listViewItem10,
-            listViewItem11,
-            listViewItem12,
-            listViewItem13,
-            listViewItem14,
-            listViewItem15,
-            listViewItem16});
+            listViewItem1,
+            listViewItem2,
+            listViewItem3,
+            listViewItem4,
+            listViewItem5,
+            listViewItem6,
+            listViewItem7,
+            listViewItem8});
             this.CoTVariablesVw.Location = new System.Drawing.Point(6, 6);
             this.CoTVariablesVw.MultiSelect = false;
             this.CoTVariablesVw.Name = "CoTVariablesVw";
@@ -1435,12 +1436,12 @@
             this.MTAuthorPctbx.BackColor = System.Drawing.Color.Transparent;
             this.MTAuthorPctbx.Enabled = false;
             this.MTAuthorPctbx.ErrorImage = null;
-            this.MTAuthorPctbx.Image = global::Tanji.Properties.Resources.Avatar;
+            this.MTAuthorPctbx.Image = ((System.Drawing.Image)(resources.GetObject("MTAuthorPctbx.Image")));
             this.MTAuthorPctbx.InitialImage = null;
-            this.MTAuthorPctbx.Location = new System.Drawing.Point(6, 205);
+            this.MTAuthorPctbx.Location = new System.Drawing.Point(6, 208);
             this.MTAuthorPctbx.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.MTAuthorPctbx.Name = "MTAuthorPctbx";
-            this.MTAuthorPctbx.Size = new System.Drawing.Size(65, 108);
+            this.MTAuthorPctbx.Size = new System.Drawing.Size(65, 102);
             this.MTAuthorPctbx.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.MTAuthorPctbx.TabIndex = 1;
             this.MTAuthorPctbx.TabStop = false;
