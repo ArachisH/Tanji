@@ -169,9 +169,6 @@
     <None Include="Resources\Tanji_256.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Avatar.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Submodules\Eavesdrop\Eavesdrop\Eavesdrop.csproj">
       <Project>{29ab109a-8343-45a9-a91e-0f54211fdd45}</Project>
       <Name>Eavesdrop</Name>
@@ -188,6 +185,9 @@
       <Project>{9642f597-8b78-4603-9b21-530279da5131}</Project>
       <Name>Tangine</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Avatar.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Packaging.Tools.Trimming.1.1.0-preview1-25818-01\build\Microsoft.Packaging.Tools.Trimming.targets" Condition="Exists('..\packages\Microsoft.Packaging.Tools.Trimming.1.1.0-preview1-25818-01\build\Microsoft.Packaging.Tools.Trimming.targets')" />
