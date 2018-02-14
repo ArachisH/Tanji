@@ -71,12 +71,11 @@ namespace Tanji.Pages.Injection
             if (!AuthorizeInjection(packet)) return 0;
             packet.Destination = destination;
 
-            int length = await SendAsync(
-                packet).ConfigureAwait(false);
-
+            int length = await SendAsync(packet);
             if (length == (packet.Length + 4))
+            {
                 AddAutocomplete(packet.ToString());
-
+            }
             return length;
         }
 
