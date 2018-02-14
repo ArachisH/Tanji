@@ -369,8 +369,13 @@ namespace Tanji.Pages.Connection
             string contentType = e.ContentType.ToLower();
             if (!contentType.Contains("text") && !contentType.Contains("javascript")) return;
 
+            int triggerSumIndices = 0;
             string body = await e.Content.ReadAsStringAsync().ConfigureAwait(false);
-            if (body.IndexOf("info.host", StringComparison.OrdinalIgnoreCase) + body.IndexOf("info.port", StringComparison.OrdinalIgnoreCase) < 0) return;
+            foreach (string trigger in ((string)Program.Settings["ClientPageInterceptionTriggers"]).Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                triggerSumIndices += body.IndexOf(trigger, StringComparison.OrdinalIgnoreCase);
+            }
+            if (triggerSumIndices < 0) return;
 
             string[] blacklistedHosts = ((string)Program.Settings["ForceSWFDecacheBlacklist"]).Split(',');
             bool isBlacklisted = blacklistedHosts.Contains(e.Uri.Host);
