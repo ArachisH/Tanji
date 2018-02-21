@@ -242,6 +242,7 @@ namespace Tanji.Windows
 
             HMessage remoteEndPointPkt = Connection.Local.ReceivePacketAsync().Result;
             e.HotelServer = ConnectionPg.HotelServer = HotelEndPoint.Parse(remoteEndPointPkt.ReadString().Split('\0')[0], remoteEndPointPkt.ReadInteger());
+            e.IsFakingPolicyRequest = (e.HotelServer.Hotel == HHotel.Unknown);
 
             ConnectionPg.IsReceiving = true;
             Text = $"Tanji ~ Connected[{e.HotelServer}]";
