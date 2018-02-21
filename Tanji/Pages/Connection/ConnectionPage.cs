@@ -246,11 +246,8 @@ namespace Tanji.Pages.Connection
                 UI.Game = new HGame(clientPath);
                 UI.Game.Disassemble();
 
-                if (UI.Game.IsPostShuffle)
-                {
-                    Status = GENERATING_MESSAGE_HASHES;
-                    UI.Game.GenerateMessageHashes();
-                }
+                Status = GENERATING_MESSAGE_HASHES;
+                UI.Game.GenerateMessageHashes();
 
                 string hashesPath = Path.Combine(Path.GetDirectoryName(clientPath), "Hashes.ini");
                 if (!File.Exists(hashesPath))
@@ -320,16 +317,13 @@ namespace Tanji.Pages.Connection
             UI.Game.Location = clientPath;
             UI.Game.Disassemble();
 
-            if (UI.Game.IsPostShuffle)
-            {
-                Status = GENERATING_MESSAGE_HASHES;
-                UI.Game.GenerateMessageHashes();
+            Status = GENERATING_MESSAGE_HASHES;
+            UI.Game.GenerateMessageHashes();
 
-                Status = MODIFYING_CLIENT;
-                UI.Game.DisableHostChecks();
-                UI.Game.InjectKeyShouter(4001);
-                UI.Game.InjectEndPointShouter(4000);
-            }
+            Status = MODIFYING_CLIENT;
+            UI.Game.DisableHostChecks();
+            UI.Game.InjectKeyShouter(4001);
+            UI.Game.InjectEndPointShouter(4000);
             UI.Game.InjectEndPoint("127.0.0.1", UI.Connection.ListenPort);
 
             string hashesPath = Path.Combine(clientDirectory, "Hashes.ini");
