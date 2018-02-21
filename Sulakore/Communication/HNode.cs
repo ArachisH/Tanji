@@ -81,8 +81,7 @@ namespace Sulakore.Communication
                     {
                         index = 0;
                         payload = new byte[byte.MaxValue];
-
-                        payload[index++] = 0x05; // Version 5
+                        payload[index++] = 0x01;
 
                         // Username
                         payload[index++] = (byte)Username.Length;
@@ -96,7 +95,7 @@ namespace Sulakore.Communication
                         Buffer.BlockCopy(passwordData, 0, payload, index, passwordData.Length);
                         index += passwordData.Length;
 
-                        await SendAsync(payload, index - 1).ConfigureAwait(false);
+                        await SendAsync(payload, index).ConfigureAwait(false);
                         response = await ReceiveAsync(2).ConfigureAwait(false);
                         if (response?.Length != 2 || response[1] != 0x00) return (connected = false);
                     }
@@ -115,7 +114,7 @@ namespace Sulakore.Communication
                     Buffer.BlockCopy(addressBytes, 0, payload, index, addressBytes.Length);
                     index += (ushort)addressBytes.Length;
 
-                    byte[] portData = BitConverter.GetBytes(EndPoint.Port);
+                    byte[] portData = BitConverter.GetBytes((ushort)EndPoint.Port);
                     if (BitConverter.IsLittleEndian)
                     {
                         // Big-Endian Byte Order
