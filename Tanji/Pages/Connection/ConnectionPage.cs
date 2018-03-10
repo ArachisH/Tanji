@@ -249,14 +249,8 @@ namespace Tanji.Pages.Connection
                 Status = GENERATING_MESSAGE_HASHES;
                 UI.Game.GenerateMessageHashes();
 
-                string hashesPath = Path.Combine(Path.GetDirectoryName(clientPath), "Hashes.ini");
-                if (!File.Exists(hashesPath))
-                {
-                    File.Copy("Hashes.ini", hashesPath);
-                }
-
-                UI.In.Load(UI.Game, hashesPath);
-                UI.Out.Load(UI.Game, hashesPath);
+                UI.In.Load(UI.Game, "Hashes.ini");
+                UI.Out.Load(UI.Game, "Hashes.ini");
                 UI.ModulesPg.ModifyGame(UI.Game);
 
                 if (_variableReplacements.Count > 0)
@@ -326,13 +320,8 @@ namespace Tanji.Pages.Connection
             UI.Game.InjectEndPointShouter(4000);
             UI.Game.InjectEndPoint("127.0.0.1", UI.Connection.ListenPort);
 
-            string hashesPath = Path.Combine(clientDirectory, "Hashes.ini");
-            if (!File.Exists(hashesPath))
-            {
-                File.Copy("Hashes.ini", hashesPath);
-            }
-            UI.In.Load(UI.Game, hashesPath);
-            UI.Out.Load(UI.Game, hashesPath);
+            UI.In.Load(UI.Game, "Hashes.ini");
+            UI.Out.Load(UI.Game, "Hashes.ini");
             UI.ModulesPg.ModifyGame(UI.Game);
 
             CompressionKind compression = CompressionKind.ZLIB;
