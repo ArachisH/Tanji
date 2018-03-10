@@ -87,7 +87,6 @@ namespace Tanji.Pages.About
         private void DonateBtn_Click(object sender, EventArgs e)
         {
             Process.Start("https://beerpay.io/ArachisH/Tanji");
-            Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HMYZ4GB5N2PAU");
         }
         private void HarbleDiscordBtn_Click(object sender, EventArgs e)
         {
