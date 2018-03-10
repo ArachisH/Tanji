@@ -92,7 +92,10 @@ namespace Tanji.Pages.Modules.Handlers
                     case 1:
                     {
                         response.WriteString(Game?.Location);
-                        response.WriteString(Path.Combine(Game?.Location ?? "", "Hashes.ini"));
+                        if (!string.IsNullOrWhiteSpace(Game?.Location))
+                        {
+                            response.WriteString(Path.GetFullPath("Hashes.ini"));
+                        }
                         break;
                     }
                     case 2:
