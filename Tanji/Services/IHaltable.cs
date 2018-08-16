@@ -1,8 +1,12 @@
-﻿namespace Tanji.Manipulators
+﻿using System.ComponentModel;
+
+using Tanji.Network;
+
+namespace Tanji.Services
 {
-    public interface IHaltable
+    public interface IHaltable : ISynchronizeInvoke
     {
         void Halt();
-        void Restore();
+        void Restore(ConnectedEventArgs e);
     }
 }

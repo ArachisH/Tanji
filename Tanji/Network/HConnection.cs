@@ -4,8 +4,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Sulakore.Protocol;
-using Sulakore.Communication;
+using Sulakore.Network;
+using Sulakore.Network.Protocol;
 
 namespace Tanji.Network
 {
@@ -16,8 +16,7 @@ namespace Tanji.Network
 
         private readonly object _disconnectLock;
 
-        private const string CROSS_DOMAIN_POLICY_REQUEST = "<policy-file-request/>\0";
-        private const string CROSS_DOMAIN_POLICY_RESPONSE = "<cross-domain-policy><allow-access-from domain=\"*\" to-ports=\"*\"/></cross-domain-policy>\0";
+        private const string CROSS_DOMAIN_POLICY = "<cross-domain-policy><allow-access-from domain=\"*\" to-ports=\"*\"/></cross-domain-policy>";
 
         /// <summary>
         /// Occurs when the connection between the client, and server have been intercepted.
@@ -54,13 +53,6 @@ namespace Tanji.Network
         {
             DataIncoming?.Invoke(this, e);
         }
-
-        public int TotalIncoming => _inSteps;
-        public int TotalOutgoing => _outSteps;
-
-        public string Host => Remote?.EndPoint.Host;
-        public ushort Port => (ushort)(Remote?.EndPoint.Port ?? 0);
-        public string Address => Remote?.EndPoint.Address.ToString();
 
         public int SocketSkip { get; set; } = 2;
         public int ListenPort { get; set; } = 9567;
@@ -109,30 +101,38 @@ namespace Tanji.Network
                     }
 
                     Remote = new HNode();
-                    if (BigEndian.ToUInt16(buffer, 4) != 4000)
+                    if (HFormat.WedgieOut.GetId(buffer) == 206)
+                    {
+                        Local.InFormat = HFormat.WedgieOut;
+                        Local.OutFormat = HFormat.WedgieIn;
+
+                        Remote.InFormat = HFormat.WedgieIn;
+                        Remote.OutFormat = HFormat.WedgieOut;
+                    }
+                    else if (HFormat.EvaWire.GetId(buffer) == 4000)
+                    {
+                        Local.InFormat = HFormat.EvaWire;
+                        Local.OutFormat = HFormat.EvaWire;
+
+                        Remote.InFormat = HFormat.EvaWire;
+                        Remote.OutFormat = HFormat.EvaWire;
+                    }
+                    else
                     {
                         buffer = await Local.ReceiveAsync(512).ConfigureAwait(false);
                         if (!_isIntercepting) break;
 
-                        if (Encoding.UTF8.GetString(buffer) == CROSS_DOMAIN_POLICY_REQUEST)
+                        if (Encoding.UTF8.GetString(buffer).ToLower().Contains("<policy-file-request/>"))
                         {
-                            await Local.SendAsync(Encoding.UTF8.GetBytes(CROSS_DOMAIN_POLICY_RESPONSE)).ConfigureAwait(false);
+                            await Local.SendAsync(Encoding.UTF8.GetBytes(CROSS_DOMAIN_POLICY)).ConfigureAwait(false);
                         }
-                        else throw new Exception("Expected cross-domain policy request.");
+                        else throw new Exception("Expected cross-domain policy request");
                         continue;
                     }
 
                     var args = new ConnectedEventArgs(endpoint);
                     OnConnected(args);
-
-                    endpoint = (args.HotelServer ?? endpoint);
-                    if (args.IsFakingPolicyRequest)
-                    {
-                        using (var tempRemote = await HNode.ConnectNewAsync(endpoint).ConfigureAwait(false))
-                        {
-                            await tempRemote.SendAsync(Encoding.UTF8.GetBytes(CROSS_DOMAIN_POLICY_REQUEST)).ConfigureAwait(false);
-                        }
-                    }
+                    endpoint = args.HotelServer;
 
                     if (!await Remote.ConnectAsync(endpoint).ConfigureAwait(false)) break;
                     IsConnected = true;
@@ -159,7 +159,7 @@ namespace Tanji.Network
         {
             return Remote.SendAsync(data);
         }
-        public Task<int> SendToServerAsync(HMessage packet)
+        public Task<int> SendToServerAsync(HPacket packet)
         {
             return Remote.SendPacketAsync(packet);
         }
@@ -176,7 +176,7 @@ namespace Tanji.Network
         {
             return Local.SendAsync(data);
         }
-        public Task<int> SendToClientAsync(HMessage packet)
+        public Task<int> SendToClientAsync(HPacket packet)
         {
             return Local.SendPacketAsync(packet);
         }
@@ -199,11 +199,11 @@ namespace Tanji.Network
         }
         private async Task InterceptOutgoingAsync(DataInterceptedEventArgs continuedFrom = null)
         {
-            HMessage packet = await Local.ReceivePacketAsync().ConfigureAwait(false);
+            HPacket packet = await Local.ReceivePacketAsync().ConfigureAwait(false);
             if (packet != null)
             {
-                packet.Destination = HDestination.Server;
-                var args = new DataInterceptedEventArgs(packet, ++_outSteps, true, InterceptOutgoingAsync, ServerRelayer);
+                var args = new DataInterceptedEventArgs(packet, ++_outSteps, true,
+                    InterceptOutgoingAsync, ServerRelayer);
 
                 try { OnDataOutgoing(args); }
                 catch { args.Restore(); }
@@ -221,11 +221,11 @@ namespace Tanji.Network
         }
         private async Task InterceptIncomingAsync(DataInterceptedEventArgs continuedFrom = null)
         {
-            HMessage packet = await Remote.ReceivePacketAsync().ConfigureAwait(false);
+            HPacket packet = await Remote.ReceivePacketAsync().ConfigureAwait(false);
             if (packet != null)
             {
-                packet.Destination = HDestination.Client;
-                var args = new DataInterceptedEventArgs(packet, ++_inSteps, false, InterceptIncomingAsync, ClientRelayer);
+                var args = new DataInterceptedEventArgs(packet, ++_inSteps, false,
+                    InterceptIncomingAsync, ClientRelayer);
 
                 try { OnDataIncoming(args); }
                 catch { args.Restore(); }

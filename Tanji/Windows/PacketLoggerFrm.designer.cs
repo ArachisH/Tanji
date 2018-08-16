@@ -28,86 +28,53 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.LoggerTxt = new System.Windows.Forms.RichTextBox();
-            this.PacketLoggerContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.PLCMCopyBtn = new Tanji.Controls.BindableToolStripMenuItem();
-            this.PacketLoggerMenu = new System.Windows.Forms.MenuStrip();
-            this.FileBtn = new Tanji.Controls.BindableToolStripMenuItem();
-            this.FindBtn = new Tanji.Controls.BindableToolStripMenuItem();
-            this.FindMessageBtn = new Tanji.Controls.BindableToolStripMenuItem();
+            this.PacketLoggerMs = new System.Windows.Forms.MenuStrip();
+            this.FileBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.FindBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.FindMessageBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.FileSep1 = new System.Windows.Forms.ToolStripSeparator();
-            this.EmptyLogBtn = new Tanji.Controls.BindableToolStripMenuItem();
-            this.ViewBtn = new Tanji.Controls.BindableToolStripMenuItem();
-            this.DisplayFiltersBtn = new Tanji.Controls.BindableToolStripMenuItem();
+            this.EmptyLogBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.DisplayFiltersBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.BlockedBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.ReplacedBtn = new Tanji.Controls.BindableToolStripMenuItem();
-            this.DisplaySpecialsBtn = new Tanji.Controls.BindableToolStripMenuItem();
-            this.HashBtn = new Tanji.Controls.BindableToolStripMenuItem();
-            this.StructureBtn = new Tanji.Controls.BindableToolStripMenuItem();
+            this.DisplayDetailsBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.DismantledBtn = new Tanji.Controls.BindableToolStripMenuItem();
+            this.HashNameBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.HexadecimalBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.ParserNameBtn = new Tanji.Controls.BindableToolStripMenuItem();
-            this.MessageName = new Tanji.Controls.BindableToolStripMenuItem();
+            this.ClassNameBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.ViewSep1 = new System.Windows.Forms.ToolStripSeparator();
             this.ViewOutgoingBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.ViewIncomingBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.ViewSep2 = new System.Windows.Forms.ToolStripSeparator();
+            this.AutoScrollingBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.AlwaysOnTopBtn = new Tanji.Controls.BindableToolStripMenuItem();
-            this.ToolsBtn = new Tanji.Controls.BindableToolStripMenuItem();
-            this.IgnoreMessagesBtn = new Tanji.Controls.BindableToolStripMenuItem();
-            this.PacketLoggerStrip = new System.Windows.Forms.StatusStrip();
+            this.ToolsBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.IgnoreMessagesBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.LogTxt = new Tanji.Controls.RichLogBox();
             this.ViewOutgoingLbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.ViewIncomingLbl = new System.Windows.Forms.ToolStripStatusLabel();
-            this.RevisionTxt = new System.Windows.Forms.ToolStripStatusLabel();
             this.LatencyLbl = new System.Windows.Forms.ToolStripStatusLabel();
-            this.PacketLoggerContextMenu.SuspendLayout();
-            this.PacketLoggerMenu.SuspendLayout();
-            this.PacketLoggerStrip.SuspendLayout();
+            this.RevisionLbl = new System.Windows.Forms.ToolStripStatusLabel();
+            this.PacketLoggerSs = new System.Windows.Forms.StatusStrip();
+            this.LeftPaddingLbl = new System.Windows.Forms.ToolStripStatusLabel();
+            this.RightPaddingLbl = new System.Windows.Forms.ToolStripStatusLabel();
+            this.PacketLoggerMs.SuspendLayout();
+            this.PacketLoggerSs.SuspendLayout();
             this.SuspendLayout();
             // 
-            // LoggerTxt
+            // PacketLoggerMs
             // 
-            this.LoggerTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
-            this.LoggerTxt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.LoggerTxt.ContextMenuStrip = this.PacketLoggerContextMenu;
-            this.LoggerTxt.DetectUrls = false;
-            this.LoggerTxt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LoggerTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.LoggerTxt.ForeColor = System.Drawing.Color.White;
-            this.LoggerTxt.HideSelection = false;
-            this.LoggerTxt.Location = new System.Drawing.Point(0, 24);
-            this.LoggerTxt.Name = "LoggerTxt";
-            this.LoggerTxt.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.LoggerTxt.ShowSelectionMargin = true;
-            this.LoggerTxt.Size = new System.Drawing.Size(710, 473);
-            this.LoggerTxt.TabIndex = 0;
-            this.LoggerTxt.Text = "";
-            // 
-            // PacketLoggerContextMenu
-            // 
-            this.PacketLoggerContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.PLCMCopyBtn});
-            this.PacketLoggerContextMenu.Name = "ConstructMenu";
-            this.PacketLoggerContextMenu.Size = new System.Drawing.Size(145, 26);
-            // 
-            // PLCMCopyBtn
-            // 
-            this.PLCMCopyBtn.Name = "PLCMCopyBtn";
-            this.PLCMCopyBtn.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.PLCMCopyBtn.Size = new System.Drawing.Size(144, 22);
-            this.PLCMCopyBtn.Text = "Copy";
-            this.PLCMCopyBtn.Click += new System.EventHandler(this.CopyBtn_Click);
-            // 
-            // PacketLoggerMenu
-            // 
-            this.PacketLoggerMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.PacketLoggerMs.BackColor = System.Drawing.Color.White;
+            this.PacketLoggerMs.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileBtn,
             this.ViewBtn,
             this.ToolsBtn});
-            this.PacketLoggerMenu.Location = new System.Drawing.Point(0, 0);
-            this.PacketLoggerMenu.Name = "PacketLoggerMenu";
-            this.PacketLoggerMenu.Size = new System.Drawing.Size(710, 24);
-            this.PacketLoggerMenu.TabIndex = 7;
+            this.PacketLoggerMs.Location = new System.Drawing.Point(0, 0);
+            this.PacketLoggerMs.Name = "PacketLoggerMs";
+            this.PacketLoggerMs.Size = new System.Drawing.Size(834, 24);
+            this.PacketLoggerMs.TabIndex = 0;
             // 
             // FileBtn
             // 
@@ -134,10 +101,10 @@
             this.FindMessageBtn.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
             this.FindMessageBtn.Size = new System.Drawing.Size(191, 22);
             this.FindMessageBtn.Text = "Find Message";
-            this.FindMessageBtn.Click += new System.EventHandler(this.FindMessageBtn_Click);
             // 
             // FileSep1
             // 
+            this.FileSep1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FileSep1.Name = "FileSep1";
             this.FileSep1.Size = new System.Drawing.Size(188, 6);
             // 
@@ -153,11 +120,12 @@
             // 
             this.ViewBtn.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.DisplayFiltersBtn,
-            this.DisplaySpecialsBtn,
+            this.DisplayDetailsBtn,
             this.ViewSep1,
             this.ViewOutgoingBtn,
             this.ViewIncomingBtn,
             this.ViewSep2,
+            this.AutoScrollingBtn,
             this.AlwaysOnTopBtn});
             this.ViewBtn.Name = "ViewBtn";
             this.ViewBtn.Size = new System.Drawing.Size(44, 20);
@@ -190,41 +158,41 @@
             this.ReplacedBtn.Size = new System.Drawing.Size(122, 22);
             this.ReplacedBtn.Text = "Replaced";
             // 
-            // DisplaySpecialsBtn
+            // DisplayDetailsBtn
             // 
-            this.DisplaySpecialsBtn.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.HashBtn,
-            this.StructureBtn,
+            this.DisplayDetailsBtn.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.DismantledBtn,
+            this.HashNameBtn,
             this.HexadecimalBtn,
             this.ParserNameBtn,
-            this.MessageName});
-            this.DisplaySpecialsBtn.Name = "DisplaySpecialsBtn";
-            this.DisplaySpecialsBtn.Size = new System.Drawing.Size(196, 22);
-            this.DisplaySpecialsBtn.Text = "Display Details";
+            this.ClassNameBtn});
+            this.DisplayDetailsBtn.Name = "DisplayDetailsBtn";
+            this.DisplayDetailsBtn.Size = new System.Drawing.Size(196, 22);
+            this.DisplayDetailsBtn.Text = "Display Details";
             // 
-            // HashBtn
+            // DismantledBtn
             // 
-            this.HashBtn.Checked = true;
-            this.HashBtn.CheckOnClick = true;
-            this.HashBtn.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.HashBtn.Name = "HashBtn";
-            this.HashBtn.Size = new System.Drawing.Size(155, 22);
-            this.HashBtn.Text = "Hash";
+            this.DismantledBtn.Checked = true;
+            this.DismantledBtn.CheckOnClick = true;
+            this.DismantledBtn.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.DismantledBtn.Name = "DismantledBtn";
+            this.DismantledBtn.Size = new System.Drawing.Size(142, 22);
+            this.DismantledBtn.Text = "Dismantled";
             // 
-            // StructureBtn
+            // HashNameBtn
             // 
-            this.StructureBtn.Checked = true;
-            this.StructureBtn.CheckOnClick = true;
-            this.StructureBtn.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.StructureBtn.Name = "StructureBtn";
-            this.StructureBtn.Size = new System.Drawing.Size(155, 22);
-            this.StructureBtn.Text = "Structure";
+            this.HashNameBtn.Checked = true;
+            this.HashNameBtn.CheckOnClick = true;
+            this.HashNameBtn.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.HashNameBtn.Name = "HashNameBtn";
+            this.HashNameBtn.Size = new System.Drawing.Size(142, 22);
+            this.HashNameBtn.Text = "Hash/Name";
             // 
             // HexadecimalBtn
             // 
             this.HexadecimalBtn.CheckOnClick = true;
             this.HexadecimalBtn.Name = "HexadecimalBtn";
-            this.HexadecimalBtn.Size = new System.Drawing.Size(155, 22);
+            this.HexadecimalBtn.Size = new System.Drawing.Size(142, 22);
             this.HexadecimalBtn.Text = "Hexadecimal";
             // 
             // ParserNameBtn
@@ -233,17 +201,17 @@
             this.ParserNameBtn.CheckOnClick = true;
             this.ParserNameBtn.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ParserNameBtn.Name = "ParserNameBtn";
-            this.ParserNameBtn.Size = new System.Drawing.Size(155, 22);
+            this.ParserNameBtn.Size = new System.Drawing.Size(142, 22);
             this.ParserNameBtn.Text = "Parser Name";
             // 
-            // MessageName
+            // ClassNameBtn
             // 
-            this.MessageName.Checked = true;
-            this.MessageName.CheckOnClick = true;
-            this.MessageName.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.MessageName.Name = "MessageName";
-            this.MessageName.Size = new System.Drawing.Size(155, 22);
-            this.MessageName.Text = "Message Name";
+            this.ClassNameBtn.Checked = true;
+            this.ClassNameBtn.CheckOnClick = true;
+            this.ClassNameBtn.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ClassNameBtn.Name = "ClassNameBtn";
+            this.ClassNameBtn.Size = new System.Drawing.Size(142, 22);
+            this.ClassNameBtn.Text = "Class Name";
             // 
             // ViewSep1
             // 
@@ -275,6 +243,16 @@
             this.ViewSep2.Name = "ViewSep2";
             this.ViewSep2.Size = new System.Drawing.Size(193, 6);
             // 
+            // AutoScrollingBtn
+            // 
+            this.AutoScrollingBtn.Checked = true;
+            this.AutoScrollingBtn.CheckOnClick = true;
+            this.AutoScrollingBtn.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.AutoScrollingBtn.Name = "AutoScrollingBtn";
+            this.AutoScrollingBtn.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.AutoScrollingBtn.Size = new System.Drawing.Size(196, 22);
+            this.AutoScrollingBtn.Text = "Auto-Scrolling";
+            // 
             // AlwaysOnTopBtn
             // 
             this.AlwaysOnTopBtn.CheckOnClick = true;
@@ -296,23 +274,31 @@
             this.IgnoreMessagesBtn.Name = "IgnoreMessagesBtn";
             this.IgnoreMessagesBtn.Size = new System.Drawing.Size(162, 22);
             this.IgnoreMessagesBtn.Text = "Ignore Messages";
-            this.IgnoreMessagesBtn.Click += new System.EventHandler(this.IgnoreMessagesBtn_Click);
             // 
-            // PacketLoggerStrip
+            // LogTxt
             // 
-            this.PacketLoggerStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ViewOutgoingLbl,
-            this.ViewIncomingLbl,
-            this.LatencyLbl,
-            this.RevisionTxt});
-            this.PacketLoggerStrip.Location = new System.Drawing.Point(0, 497);
-            this.PacketLoggerStrip.Name = "PacketLoggerStrip";
-            this.PacketLoggerStrip.Size = new System.Drawing.Size(710, 24);
-            this.PacketLoggerStrip.TabIndex = 8;
+            this.LogTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
+            this.LogTxt.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.LogTxt.DetectUrls = false;
+            this.LogTxt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LogTxt.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LogTxt.HideSelection = false;
+            this.LogTxt.Location = new System.Drawing.Point(0, 24);
+            this.LogTxt.Name = "LogTxt";
+            this.LogTxt.ReadOnly = true;
+            this.LogTxt.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
+            this.LogTxt.ShowSelectionMargin = true;
+            this.LogTxt.Size = new System.Drawing.Size(834, 463);
+            this.LogTxt.TabIndex = 1;
+            this.LogTxt.TabStop = false;
+            this.LogTxt.Text = "";
             // 
             // ViewOutgoingLbl
             // 
             this.ViewOutgoingLbl.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.ViewOutgoingLbl.BorderStyle = System.Windows.Forms.Border3DStyle.RaisedOuter;
+            this.ViewOutgoingLbl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.ViewOutgoingLbl.ForeColor = System.Drawing.Color.White;
             this.ViewOutgoingLbl.Name = "ViewOutgoingLbl";
             this.ViewOutgoingLbl.Size = new System.Drawing.Size(119, 19);
             this.ViewOutgoingLbl.Text = "View Outgoing: True";
@@ -320,77 +306,114 @@
             // ViewIncomingLbl
             // 
             this.ViewIncomingLbl.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.ViewIncomingLbl.BorderStyle = System.Windows.Forms.Border3DStyle.RaisedOuter;
+            this.ViewIncomingLbl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.ViewIncomingLbl.ForeColor = System.Drawing.Color.White;
             this.ViewIncomingLbl.Name = "ViewIncomingLbl";
             this.ViewIncomingLbl.Size = new System.Drawing.Size(119, 19);
             this.ViewIncomingLbl.Text = "View Incoming: True";
             // 
-            // RevisionTxt
-            // 
-            this.RevisionTxt.Name = "RevisionTxt";
-            this.RevisionTxt.Size = new System.Drawing.Size(63, 19);
-            this.RevisionTxt.Text = "Revision: 0";
-            // 
             // LatencyLbl
             // 
             this.LatencyLbl.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.LatencyLbl.BorderStyle = System.Windows.Forms.Border3DStyle.RaisedOuter;
+            this.LatencyLbl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.LatencyLbl.ForeColor = System.Drawing.Color.White;
             this.LatencyLbl.Name = "LatencyLbl";
             this.LatencyLbl.Size = new System.Drawing.Size(80, 19);
             this.LatencyLbl.Text = "Latency: 0ms";
+            // 
+            // RevisionLbl
+            // 
+            this.RevisionLbl.BorderStyle = System.Windows.Forms.Border3DStyle.RaisedOuter;
+            this.RevisionLbl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.RevisionLbl.ForeColor = System.Drawing.Color.White;
+            this.RevisionLbl.Name = "RevisionLbl";
+            this.RevisionLbl.Size = new System.Drawing.Size(261, 19);
+            this.RevisionLbl.Text = "Revision: RODUCTION-000000000000-000000000";
+            // 
+            // PacketLoggerSs
+            // 
+            this.PacketLoggerSs.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
+            this.PacketLoggerSs.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.LeftPaddingLbl,
+            this.ViewOutgoingLbl,
+            this.ViewIncomingLbl,
+            this.LatencyLbl,
+            this.RevisionLbl,
+            this.RightPaddingLbl});
+            this.PacketLoggerSs.Location = new System.Drawing.Point(0, 487);
+            this.PacketLoggerSs.Name = "PacketLoggerSs";
+            this.PacketLoggerSs.Size = new System.Drawing.Size(834, 24);
+            this.PacketLoggerSs.SizingGrip = false;
+            this.PacketLoggerSs.TabIndex = 2;
+            // 
+            // LeftPaddingLbl
+            // 
+            this.LeftPaddingLbl.Name = "LeftPaddingLbl";
+            this.LeftPaddingLbl.Size = new System.Drawing.Size(120, 19);
+            this.LeftPaddingLbl.Spring = true;
+            // 
+            // RightPaddingLbl
+            // 
+            this.RightPaddingLbl.Name = "RightPaddingLbl";
+            this.RightPaddingLbl.Size = new System.Drawing.Size(120, 19);
+            this.RightPaddingLbl.Spring = true;
             // 
             // PacketLoggerFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(710, 521);
-            this.Controls.Add(this.LoggerTxt);
-            this.Controls.Add(this.PacketLoggerStrip);
-            this.Controls.Add(this.PacketLoggerMenu);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
+            this.ClientSize = new System.Drawing.Size(834, 511);
+            this.Controls.Add(this.LogTxt);
+            this.Controls.Add(this.PacketLoggerSs);
+            this.Controls.Add(this.PacketLoggerMs);
+            this.MainMenuStrip = this.PacketLoggerMs;
             this.Name = "PacketLoggerFrm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Tanji ~ Packet Logger";
-            this.PacketLoggerContextMenu.ResumeLayout(false);
-            this.PacketLoggerMenu.ResumeLayout(false);
-            this.PacketLoggerMenu.PerformLayout();
-            this.PacketLoggerStrip.ResumeLayout(false);
-            this.PacketLoggerStrip.PerformLayout();
+            this.Text = "Tanji - Packet Logger";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PacketLoggerFrm_FormClosing);
+            this.PacketLoggerMs.ResumeLayout(false);
+            this.PacketLoggerMs.PerformLayout();
+            this.PacketLoggerSs.ResumeLayout(false);
+            this.PacketLoggerSs.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.MenuStrip PacketLoggerMenu;
-        private Tanji.Controls.BindableToolStripMenuItem FileBtn;
-        private Tanji.Controls.BindableToolStripMenuItem EmptyLogBtn;
-        private Tanji.Controls.BindableToolStripMenuItem ViewBtn;
-        private Tanji.Controls.BindableToolStripMenuItem DisplayFiltersBtn;
-        private Tanji.Controls.BindableToolStripMenuItem BlockedBtn;
-        private Tanji.Controls.BindableToolStripMenuItem ReplacedBtn;
+
+        private System.Windows.Forms.MenuStrip PacketLoggerMs;
+        private System.Windows.Forms.ToolStripMenuItem FileBtn;
+        private System.Windows.Forms.ToolStripMenuItem ViewBtn;
+        private System.Windows.Forms.ToolStripMenuItem ToolsBtn;
+        private System.Windows.Forms.ToolStripMenuItem FindBtn;
+        private System.Windows.Forms.ToolStripMenuItem FindMessageBtn;
+        private System.Windows.Forms.ToolStripSeparator FileSep1;
+        private System.Windows.Forms.ToolStripMenuItem EmptyLogBtn;
+        private System.Windows.Forms.ToolStripMenuItem DisplayFiltersBtn;
+        private Controls.BindableToolStripMenuItem BlockedBtn;
+        private Controls.BindableToolStripMenuItem ReplacedBtn;
+        private System.Windows.Forms.ToolStripMenuItem DisplayDetailsBtn;
+        private Controls.BindableToolStripMenuItem HashNameBtn;
+        private Controls.BindableToolStripMenuItem DismantledBtn;
+        private Controls.BindableToolStripMenuItem HexadecimalBtn;
+        private Controls.BindableToolStripMenuItem ParserNameBtn;
+        private Controls.BindableToolStripMenuItem ClassNameBtn;
+        private System.Windows.Forms.ToolStripSeparator ViewSep1;
+        private Controls.BindableToolStripMenuItem ViewOutgoingBtn;
+        private Controls.BindableToolStripMenuItem ViewIncomingBtn;
         private System.Windows.Forms.ToolStripSeparator ViewSep2;
-        private Tanji.Controls.BindableToolStripMenuItem AlwaysOnTopBtn;
-        private System.Windows.Forms.StatusStrip PacketLoggerStrip;
+        private Controls.BindableToolStripMenuItem AlwaysOnTopBtn;
+        private System.Windows.Forms.ToolStripMenuItem IgnoreMessagesBtn;
+        private Controls.RichLogBox LogTxt;
         private System.Windows.Forms.ToolStripStatusLabel ViewOutgoingLbl;
         private System.Windows.Forms.ToolStripStatusLabel ViewIncomingLbl;
-        private System.Windows.Forms.ContextMenuStrip PacketLoggerContextMenu;
-        public Tanji.Controls.BindableToolStripMenuItem PLCMCopyBtn;
-        private Tanji.Controls.BindableToolStripMenuItem DisplaySpecialsBtn;
-        private Tanji.Controls.BindableToolStripMenuItem MessageName;
-        private Tanji.Controls.BindableToolStripMenuItem ParserNameBtn;
-        private Tanji.Controls.BindableToolStripMenuItem HashBtn;
-        private Tanji.Controls.BindableToolStripMenuItem FindMessageBtn;
-        private System.Windows.Forms.ToolStripSeparator FileSep1;
-        private Tanji.Controls.BindableToolStripMenuItem FindBtn;
-        internal System.Windows.Forms.RichTextBox LoggerTxt;
-        private Tanji.Controls.BindableToolStripMenuItem ViewOutgoingBtn;
-        private Tanji.Controls.BindableToolStripMenuItem ViewIncomingBtn;
-        private System.Windows.Forms.ToolStripSeparator ViewSep1;
-        internal System.Windows.Forms.ToolStripStatusLabel RevisionTxt;
-        private Tanji.Controls.BindableToolStripMenuItem ToolsBtn;
-        private Tanji.Controls.BindableToolStripMenuItem IgnoreMessagesBtn;
-        private Controls.BindableToolStripMenuItem StructureBtn;
-        private Controls.BindableToolStripMenuItem HexadecimalBtn;
         private System.Windows.Forms.ToolStripStatusLabel LatencyLbl;
+        private System.Windows.Forms.ToolStripStatusLabel RevisionLbl;
+        private System.Windows.Forms.StatusStrip PacketLoggerSs;
+        private System.Windows.Forms.ToolStripStatusLabel LeftPaddingLbl;
+        private System.Windows.Forms.ToolStripStatusLabel RightPaddingLbl;
+        private Controls.BindableToolStripMenuItem AutoScrollingBtn;
     }
 }

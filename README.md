@@ -11,3 +11,25 @@
 
 # Tanji
 Application built to sniff/manipulate the encrypted traffic between the Habbo client, and the server. Offers a variety of built-in tools for injecting, replacing, and blocking client/server packets. If you're looking to create a module for Tanji, then please proceed to the wiki for further information.
+
+## Origin
+I started working on this application a bit after NovoFatum got patched around late 2014(I think), and the original project name used was **Detro[4][2]**. It was only supposed to work on retros at the time(hence the name), since I had no idea how to get around Habbo's crypto after the recent patch. Although, since many retros do not immediately update to the newest revision, that means that they were still susceptible to the *0* exploit that Jose was using in NovoFatum.
+
+*`What is this zero exploit?`*  
+To execute this exploit, all you had to do was send a string value of *0* when the client would ask you for the server's public key(I think, I forgot). This would cause the client to generate the RC4 key with *0*, and since this is used for decrypting the server's data this means we can _re-encrypt_ the server's data with *0*.
+
+So cool, we can get this to work on **some** retros, but we want more right? I then begin working on another project currently called [Flazzy](https://github.com/ArachisH/Flazzy), but at the time it was Kroogle, then later changed to FlashInspect. The goal of this project was to allow us to modify the RSA keys in one of the xml files inside of the swf on the fly. If we could do this, then this would allow us to inject our own public RSA keys, and bingo bango MITM attack ez pz. It took me a good while to get Flazzy to the point where it could be able to disassemble, then re-assemble itself without any problems, but it was all worth it.
+
+When I started working on Flazzy I was only focused on bringing further retro support, but as time went on I saw that once I'm able get this working, I would be able to apply this to the original Habbo as a workaround for their recent crypto patch. Tanji now works on the original Habbo aswell, but with limited functionality because I'm too lazy to add anything else to it. I'm getting bored just writing this so I'm not even going to get into [Eavesdrop](https://github.com/ArachisH/Eavesdrop), but basically as time went on I kept improving the ways it would connect/modify. Up to the point where we can fully disassembly/deobfuscate the AVM2 instructions within the swf to have it tell Tanji what key it's using for encryption, and what server it's connecting to.
+
+## How It Works
+It just does.
+
+### C'mon, tell me
+Alright fine.
+1. Intercept the client page, and force it to return a non-cached version of the swf for interception.
+2. Intercept the .swf, disassemble, remove host checks, force it to connect to "127.0.0.1", inject key shouter, inject end point shouter, assemble it, and then replace response payload with modified version.
+3. Begin listening for the client, since it will try to connect to us, once it connects to us, then wait for it to send us the end point of where it wants us to connect to.
+4. We connect.
+5. ???
+7. Where is 6?

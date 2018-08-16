@@ -1,6 +1,6 @@
-﻿using Sulakore.Communication;
+﻿using Sulakore.Network;
 
-namespace Tanji.Manipulators
+namespace Tanji.Services
 {
     public interface IReceiver
     {

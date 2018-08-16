@@ -28,60 +28,114 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.FindNextBtn = new Sulakore.Components.SKoreButton();
-            this.MatchCaseChckbx = new System.Windows.Forms.CheckBox();
-            this.MatchWordChckbx = new System.Windows.Forms.CheckBox();
+            this.FindWhatTxt = new Tangine.Controls.TangineLabelBox();
+            this.FindBtn = new Tangine.Controls.TangineButton();
+            this.SearchModeGrbx = new System.Windows.Forms.GroupBox();
+            this.RegularExpressionRd = new System.Windows.Forms.RadioButton();
+            this.NormalRd = new System.Windows.Forms.RadioButton();
+            this.WrapAroundChbx = new System.Windows.Forms.CheckBox();
+            this.MatchWordChbx = new System.Windows.Forms.CheckBox();
+            this.MatchCaseChbx = new System.Windows.Forms.CheckBox();
             this.DirectionGrpbx = new System.Windows.Forms.GroupBox();
             this.DownRd = new System.Windows.Forms.RadioButton();
             this.UpRd = new System.Windows.Forms.RadioButton();
-            this.ModeGrpbx = new System.Windows.Forms.GroupBox();
-            this.RegExRd = new System.Windows.Forms.RadioButton();
-            this.NormalRd = new System.Windows.Forms.RadioButton();
-            this.WrapAroundChckbx = new System.Windows.Forms.CheckBox();
-            this.FindWhatTxt = new Sulakore.Components.SKoreLabelBox();
+            this.SearchModeGrbx.SuspendLayout();
             this.DirectionGrpbx.SuspendLayout();
-            this.ModeGrpbx.SuspendLayout();
             this.SuspendLayout();
             // 
-            // FindNextBtn
+            // FindWhatTxt
             // 
-            this.FindNextBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.FindNextBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.FindNextBtn.Location = new System.Drawing.Point(252, 12);
-            this.FindNextBtn.Name = "FindNextBtn";
-            this.FindNextBtn.Size = new System.Drawing.Size(77, 20);
-            this.FindNextBtn.TabIndex = 4;
-            this.FindNextBtn.Text = "Find Next";
-            this.FindNextBtn.Click += new System.EventHandler(this.FindNextBtn_Click);
+            this.FindWhatTxt.Location = new System.Drawing.Point(12, 12);
+            this.FindWhatTxt.Name = "FindWhatTxt";
+            this.FindWhatTxt.Size = new System.Drawing.Size(265, 20);
+            this.FindWhatTxt.TabIndex = 0;
+            this.FindWhatTxt.Text = "";
+            this.FindWhatTxt.TextPaddingWidth = 0;
+            this.FindWhatTxt.Title = "Find What";
+            this.FindWhatTxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FindWhatTxt_KeyDown);
             // 
-            // MatchCaseChckbx
+            // FindBtn
             // 
-            this.MatchCaseChckbx.AutoSize = true;
-            this.MatchCaseChckbx.Location = new System.Drawing.Point(8, 44);
-            this.MatchCaseChckbx.Name = "MatchCaseChckbx";
-            this.MatchCaseChckbx.Size = new System.Drawing.Size(83, 17);
-            this.MatchCaseChckbx.TabIndex = 5;
-            this.MatchCaseChckbx.Text = "Match Case";
-            this.MatchCaseChckbx.UseVisualStyleBackColor = false;
+            this.FindBtn.Location = new System.Drawing.Point(283, 12);
+            this.FindBtn.Name = "FindBtn";
+            this.FindBtn.Size = new System.Drawing.Size(69, 20);
+            this.FindBtn.TabIndex = 2;
+            this.FindBtn.Text = "Find";
+            this.FindBtn.Click += new System.EventHandler(this.FindBtn_Click);
             // 
-            // MatchWordChckbx
+            // SearchModeGrbx
             // 
-            this.MatchWordChckbx.AutoSize = true;
-            this.MatchWordChckbx.Location = new System.Drawing.Point(8, 63);
-            this.MatchWordChckbx.Name = "MatchWordChckbx";
-            this.MatchWordChckbx.Size = new System.Drawing.Size(85, 17);
-            this.MatchWordChckbx.TabIndex = 6;
-            this.MatchWordChckbx.Text = "Match Word";
-            this.MatchWordChckbx.UseVisualStyleBackColor = true;
+            this.SearchModeGrbx.Controls.Add(this.RegularExpressionRd);
+            this.SearchModeGrbx.Controls.Add(this.NormalRd);
+            this.SearchModeGrbx.Location = new System.Drawing.Point(107, 43);
+            this.SearchModeGrbx.Name = "SearchModeGrbx";
+            this.SearchModeGrbx.Size = new System.Drawing.Size(170, 61);
+            this.SearchModeGrbx.TabIndex = 13;
+            this.SearchModeGrbx.TabStop = false;
+            this.SearchModeGrbx.Text = "Search Mode";
+            // 
+            // RegularExpressionRd
+            // 
+            this.RegularExpressionRd.AutoSize = true;
+            this.RegularExpressionRd.Location = new System.Drawing.Point(6, 38);
+            this.RegularExpressionRd.Name = "RegularExpressionRd";
+            this.RegularExpressionRd.Size = new System.Drawing.Size(116, 17);
+            this.RegularExpressionRd.TabIndex = 1;
+            this.RegularExpressionRd.Text = "Regular Expression";
+            this.RegularExpressionRd.UseVisualStyleBackColor = true;
+            // 
+            // NormalRd
+            // 
+            this.NormalRd.AutoSize = true;
+            this.NormalRd.Checked = true;
+            this.NormalRd.Location = new System.Drawing.Point(6, 19);
+            this.NormalRd.Name = "NormalRd";
+            this.NormalRd.Size = new System.Drawing.Size(58, 17);
+            this.NormalRd.TabIndex = 0;
+            this.NormalRd.TabStop = true;
+            this.NormalRd.Text = "Normal";
+            this.NormalRd.UseVisualStyleBackColor = true;
+            // 
+            // WrapAroundChbx
+            // 
+            this.WrapAroundChbx.AutoSize = true;
+            this.WrapAroundChbx.Checked = true;
+            this.WrapAroundChbx.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.WrapAroundChbx.Location = new System.Drawing.Point(12, 86);
+            this.WrapAroundChbx.Name = "WrapAroundChbx";
+            this.WrapAroundChbx.Size = new System.Drawing.Size(89, 17);
+            this.WrapAroundChbx.TabIndex = 16;
+            this.WrapAroundChbx.Text = "Wrap Around";
+            this.WrapAroundChbx.UseVisualStyleBackColor = true;
+            // 
+            // MatchWordChbx
+            // 
+            this.MatchWordChbx.AutoSize = true;
+            this.MatchWordChbx.Location = new System.Drawing.Point(12, 67);
+            this.MatchWordChbx.Name = "MatchWordChbx";
+            this.MatchWordChbx.Size = new System.Drawing.Size(85, 17);
+            this.MatchWordChbx.TabIndex = 15;
+            this.MatchWordChbx.Text = "Match Word";
+            this.MatchWordChbx.UseVisualStyleBackColor = true;
+            // 
+            // MatchCaseChbx
+            // 
+            this.MatchCaseChbx.AutoSize = true;
+            this.MatchCaseChbx.Location = new System.Drawing.Point(12, 48);
+            this.MatchCaseChbx.Name = "MatchCaseChbx";
+            this.MatchCaseChbx.Size = new System.Drawing.Size(83, 17);
+            this.MatchCaseChbx.TabIndex = 14;
+            this.MatchCaseChbx.Text = "Match Case";
+            this.MatchCaseChbx.UseVisualStyleBackColor = false;
             // 
             // DirectionGrpbx
             // 
             this.DirectionGrpbx.Controls.Add(this.DownRd);
             this.DirectionGrpbx.Controls.Add(this.UpRd);
-            this.DirectionGrpbx.Location = new System.Drawing.Point(252, 38);
+            this.DirectionGrpbx.Location = new System.Drawing.Point(283, 43);
             this.DirectionGrpbx.Name = "DirectionGrpbx";
-            this.DirectionGrpbx.Size = new System.Drawing.Size(77, 61);
-            this.DirectionGrpbx.TabIndex = 8;
+            this.DirectionGrpbx.Size = new System.Drawing.Size(69, 61);
+            this.DirectionGrpbx.TabIndex = 17;
             this.DirectionGrpbx.TabStop = false;
             this.DirectionGrpbx.Text = "Direction";
             // 
@@ -107,87 +161,27 @@
             this.UpRd.Text = "Up";
             this.UpRd.UseVisualStyleBackColor = true;
             // 
-            // ModeGrpbx
-            // 
-            this.ModeGrpbx.Controls.Add(this.RegExRd);
-            this.ModeGrpbx.Controls.Add(this.NormalRd);
-            this.ModeGrpbx.Location = new System.Drawing.Point(103, 38);
-            this.ModeGrpbx.Name = "ModeGrpbx";
-            this.ModeGrpbx.Size = new System.Drawing.Size(143, 61);
-            this.ModeGrpbx.TabIndex = 9;
-            this.ModeGrpbx.TabStop = false;
-            this.ModeGrpbx.Text = "Search Mode";
-            // 
-            // RegExRd
-            // 
-            this.RegExRd.AutoSize = true;
-            this.RegExRd.Location = new System.Drawing.Point(6, 38);
-            this.RegExRd.Name = "RegExRd";
-            this.RegExRd.Size = new System.Drawing.Size(116, 17);
-            this.RegExRd.TabIndex = 1;
-            this.RegExRd.Text = "Regular Expression";
-            this.RegExRd.UseVisualStyleBackColor = true;
-            // 
-            // NormalRd
-            // 
-            this.NormalRd.AutoSize = true;
-            this.NormalRd.Checked = true;
-            this.NormalRd.Location = new System.Drawing.Point(6, 19);
-            this.NormalRd.Name = "NormalRd";
-            this.NormalRd.Size = new System.Drawing.Size(58, 17);
-            this.NormalRd.TabIndex = 0;
-            this.NormalRd.TabStop = true;
-            this.NormalRd.Text = "Normal";
-            this.NormalRd.UseVisualStyleBackColor = true;
-            // 
-            // WrapAroundChckbx
-            // 
-            this.WrapAroundChckbx.AutoSize = true;
-            this.WrapAroundChckbx.Checked = true;
-            this.WrapAroundChckbx.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.WrapAroundChckbx.Location = new System.Drawing.Point(8, 82);
-            this.WrapAroundChckbx.Name = "WrapAroundChckbx";
-            this.WrapAroundChckbx.Size = new System.Drawing.Size(89, 17);
-            this.WrapAroundChckbx.TabIndex = 10;
-            this.WrapAroundChckbx.Text = "Wrap Around";
-            this.WrapAroundChckbx.UseVisualStyleBackColor = true;
-            // 
-            // FindWhatTxt
-            // 
-            this.FindWhatTxt.Location = new System.Drawing.Point(12, 12);
-            this.FindWhatTxt.Name = "FindWhatTxt";
-            this.FindWhatTxt.Size = new System.Drawing.Size(234, 20);
-            this.FindWhatTxt.TabIndex = 11;
-            this.FindWhatTxt.Text = "";
-            this.FindWhatTxt.Title = "Find What";
-            this.FindWhatTxt.Value = "";
-            this.FindWhatTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.FindWhatTxt.ValueReadOnly = false;
-            this.FindWhatTxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FindWhatTxt_KeyDown);
-            // 
             // FindDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(341, 111);
-            this.Controls.Add(this.FindWhatTxt);
-            this.Controls.Add(this.WrapAroundChckbx);
-            this.Controls.Add(this.ModeGrpbx);
+            this.ClientSize = new System.Drawing.Size(364, 116);
             this.Controls.Add(this.DirectionGrpbx);
-            this.Controls.Add(this.MatchWordChckbx);
-            this.Controls.Add(this.MatchCaseChckbx);
-            this.Controls.Add(this.FindNextBtn);
-            this.KeyPreview = true;
+            this.Controls.Add(this.WrapAroundChbx);
+            this.Controls.Add(this.MatchWordChbx);
+            this.Controls.Add(this.MatchCaseChbx);
+            this.Controls.Add(this.SearchModeGrbx);
+            this.Controls.Add(this.FindBtn);
+            this.Controls.Add(this.FindWhatTxt);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FindDialog";
-            this.ShowInTaskbar = false;
-            this.Text = "Tanji ~ Find";
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FindWhatTxt_KeyDown);
+            this.Text = "Tanji - Find";
+            this.SearchModeGrbx.ResumeLayout(false);
+            this.SearchModeGrbx.PerformLayout();
             this.DirectionGrpbx.ResumeLayout(false);
             this.DirectionGrpbx.PerformLayout();
-            this.ModeGrpbx.ResumeLayout(false);
-            this.ModeGrpbx.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -195,16 +189,16 @@
 
         #endregion
 
-        private Sulakore.Components.SKoreButton FindNextBtn;
-        private System.Windows.Forms.CheckBox MatchCaseChckbx;
-        private System.Windows.Forms.CheckBox MatchWordChckbx;
+        private Tangine.Controls.TangineLabelBox FindWhatTxt;
+        private Tangine.Controls.TangineButton FindBtn;
+        private System.Windows.Forms.GroupBox SearchModeGrbx;
+        private System.Windows.Forms.RadioButton RegularExpressionRd;
+        private System.Windows.Forms.RadioButton NormalRd;
+        private System.Windows.Forms.CheckBox WrapAroundChbx;
+        private System.Windows.Forms.CheckBox MatchWordChbx;
+        private System.Windows.Forms.CheckBox MatchCaseChbx;
         private System.Windows.Forms.GroupBox DirectionGrpbx;
         private System.Windows.Forms.RadioButton DownRd;
         private System.Windows.Forms.RadioButton UpRd;
-        private System.Windows.Forms.GroupBox ModeGrpbx;
-        private System.Windows.Forms.RadioButton RegExRd;
-        private System.Windows.Forms.RadioButton NormalRd;
-        private System.Windows.Forms.CheckBox WrapAroundChckbx;
-        private Sulakore.Components.SKoreLabelBox FindWhatTxt;
     }
 }

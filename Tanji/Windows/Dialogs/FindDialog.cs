@@ -4,46 +4,42 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 
-using Tanji.Components;
+using Tanji.Controls;
 
 namespace Tanji.Windows.Dialogs
 {
     [DesignerCategory("Form")]
     public partial class FindDialog : ObservableForm
     {
-        private RichTextBoxFinds _findOptions;
+        private RegexOptions _regexFlags;
+        private RichTextBoxFinds _findFlags;
 
-        private readonly RichTextBox _logger;
+        private readonly RichLogBox _log;
         private readonly Point _topLeft, _bottomRight;
 
-        public int TopLine => _logger.GetLineFromCharIndex(TopLeftCharIndex);
-        public int BottomLine => _logger.GetLineFromCharIndex(BottomRightCharIndex);
-        public int CurrentLine => _logger.GetLineFromCharIndex(_logger.GetFirstCharIndexOfCurrentLine());
-        public int TopLeftCharIndex => _logger.GetCharIndexFromPosition(_topLeft);
-        public int BottomRightCharIndex => _logger.GetCharIndexFromPosition(_bottomRight);
-        public int VisibleLines => (BottomLine - TopLine);
-
-        private bool _matchCase = false;
-        public bool MatchCase
+        #region Bindable Properties
+        private bool _isMatchingCase = false;
+        public bool IsMatchingCase
         {
-            get => _matchCase;
+            get => _isMatchingCase;
             set
             {
-                _matchCase = value;
-                RaiseOnPropertyChanged(nameof(MatchCase));
-                ModifyOptions(value, RichTextBoxFinds.MatchCase);
+                _isMatchingCase = value;
+                RaiseOnPropertyChanged();
+                UpdateFlags(ref _regexFlags, RegexOptions.IgnoreCase, !value);
+                UpdateFlags(ref _findFlags, RichTextBoxFinds.MatchCase, value);
             }
         }
 
-        private bool _matchWord = false;
-        public bool MatchWord
+        private bool _isMatchingWord = false;
+        public bool IsMatchingWord
         {
-            get => _matchWord;
+            get => _isMatchingWord;
             set
             {
-                _matchWord = value;
-                RaiseOnPropertyChanged(nameof(MatchWord));
-                ModifyOptions(value, RichTextBoxFinds.WholeWord);
+                _isMatchingWord = value;
+                RaiseOnPropertyChanged();
+                UpdateFlags(ref _findFlags, RichTextBoxFinds.WholeWord, value);
             }
         }
 
@@ -54,149 +50,147 @@ namespace Tanji.Windows.Dialogs
             set
             {
                 _isDirectionUp = value;
-                RaiseOnPropertyChanged(nameof(IsDirectionUp));
-                ModifyOptions(value, RichTextBoxFinds.Reverse);
+                RaiseOnPropertyChanged();
+                UpdateFlags(ref _findFlags, RichTextBoxFinds.Reverse, value);
+                UpdateFlags(ref _regexFlags, RegexOptions.RightToLeft, value);
             }
         }
 
-        private bool _wrapAround = true;
-        public bool WrapAround
+        private bool _isWrappingAround = true;
+        public bool IsWrappingAround
         {
-            get => _wrapAround;
+            get => _isWrappingAround;
             set
             {
-                _wrapAround = value;
-                RaiseOnPropertyChanged(nameof(WrapAround));
+                _isWrappingAround = value;
+                RaiseOnPropertyChanged();
             }
         }
 
-        private bool _isNormalMode = true;
-        public bool IsNormalMode
+        private bool _isNormalSearchMode = true;
+        public bool IsNormalSearchMode
         {
-            get => _isNormalMode;
+            get => _isNormalSearchMode;
             set
             {
-                _isNormalMode = value;
-                RaiseOnPropertyChanged(nameof(IsNormalMode));
+                _isNormalSearchMode = value;
+                RaiseOnPropertyChanged();
             }
         }
 
-        private string _findWhat = string.Empty;
-        public string FindWhat
+        private string _input = null;
+        public string Input
         {
-            get => _findWhat;
+            get => _input;
             set
             {
-                _findWhat = value;
-                RaiseOnPropertyChanged(nameof(FindWhat));
+                _input = value;
+                RaiseOnPropertyChanged();
             }
         }
+        #endregion
 
-        public FindDialog(RichTextBox richTextBox)
+        public int VisibleLines => (BottomLine - TopLine);
+        public int TopLine => _log.GetLineFromCharIndex(TopLeftCharIndex);
+        public int TopLeftCharIndex => _log.GetCharIndexFromPosition(_topLeft);
+        public int BottomLine => _log.GetLineFromCharIndex(BottomRightCharIndex);
+        public int BottomRightCharIndex => _log.GetCharIndexFromPosition(_bottomRight);
+        public int CurrentLine => _log.GetLineFromCharIndex(_log.GetFirstCharIndexOfCurrentLine());
+
+        public FindDialog(RichLogBox log)
         {
-            _logger = richTextBox;
+            _log = log;
             _topLeft = new Point(1, 1);
-            _findOptions = RichTextBoxFinds.NoHighlight;
-            _bottomRight = new Point(1, _logger.Height - 1);
+            _regexFlags = RegexOptions.Singleline;
+            _findFlags = RichTextBoxFinds.NoHighlight;
+            _bottomRight = new Point(1, log.Height - 1);
 
             InitializeComponent();
 
-            FindWhatTxt.DataBindings.Add("Text", this,
-                nameof(FindWhat), false, DataSourceUpdateMode.OnPropertyChanged);
-
-            NormalRd.DataBindings.Add("Checked", this,
-                nameof(IsNormalMode), false, DataSourceUpdateMode.OnPropertyChanged);
-
-            WrapAroundChckbx.DataBindings.Add("Checked", this,
-                nameof(WrapAround), false, DataSourceUpdateMode.OnPropertyChanged);
-
-            MatchCaseChckbx.DataBindings.Add("Checked", this,
-                nameof(MatchCase), false, DataSourceUpdateMode.OnPropertyChanged);
-
-            MatchWordChckbx.DataBindings.Add("Checked", this,
-                nameof(MatchWord), false, DataSourceUpdateMode.OnPropertyChanged);
-
-            UpRd.DataBindings.Add("Checked", this,
-                nameof(IsDirectionUp), false, DataSourceUpdateMode.OnPropertyChanged);
+            Bind(FindWhatTxt, "Text", nameof(Input));
+            Bind(UpRd, "Checked", nameof(IsDirectionUp));
+            Bind(NormalRd, "Checked", nameof(IsNormalSearchMode));
+            Bind(MatchCaseChbx, "Checked", nameof(IsMatchingCase));
+            Bind(MatchWordChbx, "Checked", nameof(IsMatchingWord));
+            Bind(WrapAroundChbx, "Checked", nameof(IsWrappingAround));
         }
 
-        private void FindNextBtn_Click(object sender, EventArgs e)
+        private void FindBtn_Click(object sender, EventArgs e)
         {
-            string value = FindWhat;
+            string value = Input;
             int foundIndex = Find(ref value);
             if (foundIndex == -1)
             {
                 MessageBox.Show($"Unable to find \"{value}\".",
                     "Tanji ~ Alert!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
-            else if (foundIndex != _logger.SelectionStart)
+            else if (foundIndex != _log.SelectionStart)
             {
                 int middleOffset = (VisibleLines / 2);
-                int foundOnLine = _logger.GetLineFromCharIndex(foundIndex);
+                int foundOnLine = _log.GetLineFromCharIndex(foundIndex);
                 if (foundOnLine >= BottomLine || foundOnLine <= TopLine)
                 {
                     if (IsDirectionUp)
+                    {
                         middleOffset *= -1;
-
+                    }
                     int newBottomLine = (foundOnLine + middleOffset);
                     if (newBottomLine < 0) newBottomLine = 0;
 
-                    int borderLineIndex = _logger.GetFirstCharIndexFromLine(newBottomLine);
+                    int borderLineIndex = _log.GetFirstCharIndexFromLine(newBottomLine);
                     if (borderLineIndex != -1)
                     {
-                        _logger.SelectionStart = borderLineIndex;
-                        _logger.SelectionLength = 0;
+                        _log.SelectionStart = borderLineIndex;
+                        _log.SelectionLength = 0;
                     }
                 }
-                _logger.SelectionStart = foundIndex;
+                _log.SelectionStart = foundIndex;
             }
-
-            if (_logger.SelectionLength != value.Length)
+            if (_log.SelectionLength != value.Length)
             {
-                _logger.SelectionLength = value.Length;
+                _log.SelectionLength = value.Length;
             }
         }
         private void FindWhatTxt_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
-            {
-                e.SuppressKeyPress = true;
-                FindNextBtn_Click(sender, e);
-            }
+            if (e.KeyCode != Keys.Enter) return;
+
+            e.SuppressKeyPress = true;
+            FindBtn_Click(sender, e);
         }
 
-        public int Find(ref string value)
+        private int Find(ref string value)
         {
-            int end = _logger.TextLength;
-            int start = (_logger.SelectionStart);
-            if (!IsDirectionUp) start += _logger.SelectionLength;
-            else if (IsNormalMode)
+            int end = _log.TextLength;
+            int start = (_log.SelectionStart);
+            if (!IsDirectionUp) start += _log.SelectionLength;
+            else if (IsNormalSearchMode)
             {
                 end = start;
                 start = 0;
             }
 
             int index = Find(ref value, start, end);
-            if (index == -1 && WrapAround)
+            if (index == -1 && IsWrappingAround)
             {
-                start = (!IsNormalMode && IsDirectionUp ? _logger.TextLength : 0);
-                end = (IsDirectionUp ? 0 : _logger.TextLength);
+                start = (!IsNormalSearchMode && IsDirectionUp ? _log.TextLength : 0);
+                end = (IsDirectionUp ? 0 : _log.TextLength);
                 index = Find(ref value, start, end);
             }
             return index;
         }
-        protected int Find(ref string value, int start, int end)
+        private int Find(ref string value, int start, int end)
         {
-            if (!WrapAround && start == 0 && end == 0)
+            if (!IsWrappingAround && start == 0 && end == 0)
             {
                 return -1;
             }
-            if (!IsNormalMode)
+            if (!IsNormalSearchMode)
             {
                 try
                 {
-                    var expression = new Regex(value, GetRegExOptions());
-                    Match match = expression.Match(_logger.Text, start);
+                    var expression = new Regex(value, _regexFlags);
+                    Match match = expression.Match(_log.Text, start);
                     if (match.Success)
                     {
                         value = match.Value;
@@ -206,41 +200,18 @@ namespace Tanji.Windows.Dialogs
                 }
                 catch { return -1; }
             }
-            return _logger.Find(value, start, end, _findOptions);
+            return _log.Find(value, start, end, _findFlags);
         }
-
-        private RegexOptions GetRegExOptions()
+        private void UpdateFlags<T>(ref T flags, T flag, bool isPresent) where T : struct, IConvertible
         {
-            var options = RegexOptions.None;
-            if (!MatchCase)
+            int iFlags = flags.ToInt32(null);
+            if (isPresent)
             {
-                options |= RegexOptions.IgnoreCase;
+                iFlags |= flag.ToInt32(null);
             }
-            if (IsDirectionUp)
-            {
-                options |= RegexOptions.RightToLeft;
-            }
-            options |= RegexOptions.Singleline;
-            return options;
-        }
-        private void ModifyOptions(bool isFlagPresent, RichTextBoxFinds option)
-        {
-            if (isFlagPresent)
-            {
-                _findOptions |= option;
-            }
-            else
-            {
-                _findOptions &= ~option;
-            }
-        }
+            else iFlags &= ~flag.ToInt32(null);
 
-        protected override void OnLoad(EventArgs e)
-        {
-            CenterToParent();
-            FindWhatTxt.Focus();
-
-            base.OnLoad(e);
+            flags = (T)Enum.ToObject(typeof(T), iFlags);
         }
     }
 }
