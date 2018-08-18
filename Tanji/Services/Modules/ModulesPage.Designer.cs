@@ -1,4 +1,4 @@
-﻿namespace Tanji.Services
+﻿namespace Tanji.Services.Modules
 {
     partial class ModulesPage
     {
@@ -28,10 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.InstallModuleDlg = new System.Windows.Forms.OpenFileDialog();
+            this.SuspendLayout();
+            // 
+            // InstallModuleDlg
+            // 
+            this.InstallModuleDlg.Filter = ".NET Assembly (*.dll, *.exe)|*.dll; *.exe|Dynamic Link Library (*.dll)|*.dll|Exec" +
+    "utable (*.exe)|*.exe";
+            this.InstallModuleDlg.Title = "Tanji - Install Module";
+            // 
+            // ModulesPage
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Name = "ModulesPage";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.OpenFileDialog InstallModuleDlg;
     }
 }

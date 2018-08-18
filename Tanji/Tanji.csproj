@@ -53,6 +53,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -60,11 +61,11 @@
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\BindableToolStripMenuItem.cs" />
+    <Compile Include="Controls\ObservableObject.cs" />
     <Compile Include="Controls\RichLogBox.cs" />
     <Compile Include="Controls\ObservableForm.cs" />
     <Compile Include="Controls\ObservablePage.cs" />
@@ -108,10 +109,11 @@
       <DependentUpon>SchedulerPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\IReceiver.cs" />
-    <Compile Include="Services\ModulesPage.cs">
+    <Compile Include="Services\Modules\ModuleInfo.cs" />
+    <Compile Include="Services\Modules\ModulesPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Services\ModulesPage.Designer.cs">
+    <Compile Include="Services\Modules\ModulesPage.Designer.cs">
       <DependentUpon>ModulesPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\Options\AboutPage.cs">
@@ -169,6 +171,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Services\Injection\SchedulerPage.resx">
       <DependentUpon>SchedulerPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\Modules\ModulesPage.resx">
+      <DependentUpon>ModulesPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Services\Options\AboutPage.resx">
       <DependentUpon>AboutPage.cs</DependentUpon>

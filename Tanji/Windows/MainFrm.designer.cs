@@ -51,7 +51,7 @@
             this.filtersPage1 = new Tanji.Services.Injection.FiltersPage();
             this.ToolboxTab = new System.Windows.Forms.TabPage();
             this.ModulesTab = new System.Windows.Forms.TabPage();
-            this.ModulesPg = new Tanji.Services.ModulesPage();
+            this.ModulesPg = new Tanji.Services.Modules.ModulesPage();
             this.OptionsTab = new System.Windows.Forms.TabPage();
             this.OptionsTabs = new Tangine.Controls.TangineTabControl();
             this.SettingsTab = new System.Windows.Forms.TabPage();
@@ -458,6 +458,6 @@
         private System.Windows.Forms.ComboBox PacketTxt;
         private Tangine.Controls.TangineButton SendToClientBtn;
         private Tangine.Controls.TangineButton SendToServerBtn;
-        private Services.ModulesPage ModulesPg;
+        private Services.Modules.ModulesPage ModulesPg;
     }
 }

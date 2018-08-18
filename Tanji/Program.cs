@@ -7,6 +7,7 @@ using Tanji.Network;
 using Tanji.Windows;
 using Tanji.Services;
 using Tanji.Utilities;
+using Tanji.Services.Modules;
 using Tanji.Services.Injection;
 
 using Sulakore.Habbo;
@@ -185,6 +186,16 @@ namespace Tanji
             {
                 action();
             }
+        }
+
+        public static void Display(Exception exception, string header = null)
+        {
+            string messsage = header;
+            if (!string.IsNullOrWhiteSpace(messsage) && exception != null)
+            {
+                messsage += "\r\n\r\nException: ";
+            }
+            MessageBox.Show((messsage + (exception?.ToString())), "Tanji - Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }
