@@ -324,6 +324,7 @@
             this.ModulesPg.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ModulesPg.Location = new System.Drawing.Point(0, 0);
             this.ModulesPg.Name = "ModulesPg";
+            this.ModulesPg.SelectedModule = null;
             this.ModulesPg.Size = new System.Drawing.Size(504, 314);
             this.ModulesPg.TabIndex = 0;
             this.ModulesPg.TabStop = false;
@@ -379,7 +380,7 @@
             this.AboutTab.Controls.Add(this.aboutPage1);
             this.AboutTab.Location = new System.Drawing.Point(4, 4);
             this.AboutTab.Name = "AboutTab";
-            this.AboutTab.Size = new System.Drawing.Size(449, 307);
+            this.AboutTab.Size = new System.Drawing.Size(449, 306);
             this.AboutTab.TabIndex = 1;
             this.AboutTab.Text = "About";
             this.AboutTab.UseVisualStyleBackColor = true;
@@ -390,7 +391,7 @@
             this.aboutPage1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.aboutPage1.Location = new System.Drawing.Point(0, 0);
             this.aboutPage1.Name = "aboutPage1";
-            this.aboutPage1.Size = new System.Drawing.Size(449, 307);
+            this.aboutPage1.Size = new System.Drawing.Size(449, 306);
             this.aboutPage1.TabIndex = 0;
             this.aboutPage1.TabStop = false;
             // 
@@ -436,11 +437,9 @@
         private System.Windows.Forms.TabPage ModulesTab;
         private System.Windows.Forms.TabPage OptionsTab;
         private Tangine.Controls.TangineTabControl InjectionTabs;
-        private System.Windows.Forms.TabPage ConstructerTab;
         private System.Windows.Forms.TabPage SchedulerTab;
         private System.Windows.Forms.TabPage InspectorTab;
         private System.Windows.Forms.TabPage FiltersTab;
-        private Services.Injection.ConstructerPage ConstructerPg;
         private Services.Injection.SchedulerPage SchedulerPg;
         private Services.Injection.InspectorPage inspectorPage1;
         private Services.Injection.FiltersPage filtersPage1;
@@ -459,5 +458,7 @@
         private Tangine.Controls.TangineButton SendToClientBtn;
         private Tangine.Controls.TangineButton SendToServerBtn;
         private Services.Modules.ModulesPage ModulesPg;
+        private System.Windows.Forms.TabPage ConstructerTab;
+        private Services.Injection.ConstructerPage ConstructerPg;
     }
 }

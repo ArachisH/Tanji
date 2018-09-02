@@ -1,21 +1,23 @@
-﻿using Sulakore.Modules;
-using Sulakore.Network;
-using Sulakore.Network.Protocol;
-using System;
+﻿using System;
+using System.IO;
+using System.Net;
+using System.Linq;
+using System.Reflection;
+using System.Net.Sockets;
+using System.Windows.Forms;
+using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Reflection;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Tanji.Controls;
+
 using Tanji.Network;
+using Tanji.Controls;
+
+using Sulakore.Modules;
+using Sulakore.Network;
+using Sulakore.Network.Protocol;
 
 namespace Tanji.Services.Modules
 {
@@ -24,6 +26,7 @@ namespace Tanji.Services.Modules
     public partial class ModulesPage : ObservablePage, IHaltable, IReceiver
     {
         private ModuleInfo[] _safeModules;
+        private bool _isInitialModuleLoading = true;
 
         private readonly List<string> _hashBlacklist;
         private static readonly Dictionary<string, ModuleInfo> _moduleCache;
@@ -38,8 +41,22 @@ namespace Tanji.Services.Modules
             get => _selectedModule;
             set
             {
-                _selectedModule = value;
-                RaiseOnPropertyChanged();
+                if (value == null)
+                {
+                    ModulesLv.SelectedIndices.Clear();
+                }
+                else
+                {
+                    foreach (ListViewItem item in ModulesLv.Items)
+                    {
+                        if ((ModuleInfo)item.Tag != value) continue;
+                        item.Focused = true;
+                        item.Selected = true;
+                    }
+
+                    _selectedModule = value;
+                    RaiseOnPropertyChanged();
+                }
             }
         }
 
@@ -53,6 +70,8 @@ namespace Tanji.Services.Modules
 
             _safeModules = new ModuleInfo[0];
             _hashBlacklist = new List<string>();
+
+            AppDomain.CurrentDomain.AssemblyResolve += Assembly_Resolve;
 
             Modules = new ObservableCollection<ModuleInfo>();
             Modules.CollectionChanged += Modules_CollectionChanged;
@@ -71,8 +90,139 @@ namespace Tanji.Services.Modules
                 }
                 catch { Program.Display(null, $"Failed to start module listener on port '{TService.REMOTE_MODULE_PORT}'."); }
             }
+        }
 
-            //?AppDomain.CurrentDomain.AssemblyResolve += Assembly_Resolve;
+        private void InstallModuleBtn_Click(object sender, EventArgs e)
+        {
+            InstallModuleDlg.FileName = string.Empty;
+            if (InstallModuleDlg.ShowDialog() != DialogResult.Cancel)
+            {
+                Install(InstallModuleDlg.FileName);
+            }
+        }
+        private void UninstallModuleBtn_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(SelectedModule.Path))
+            {
+                File.Delete(SelectedModule.Path);
+            }
+
+            SelectedModule.Dispose();
+            Modules.Remove(SelectedModule);
+
+            SelectedModule = null;
+        }
+
+        private void Module_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(ModuleInfo.Instance):
+                {
+                    IsReceiving = (GetInitializedModules().Count() > 0);
+                    break;
+                }
+            }
+        }
+        private void Modules_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                var module = (ModuleInfo)e.NewItems[0];
+                ListViewItem item = ModulesLv.AddItem(module.Name, module.Description, module.Version, module.CurrentState);
+                item.Tag = module;
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+            }
+
+            _safeModules = Modules.ToArray();
+        }
+
+        private Assembly Assembly_Resolve(object sender, ResolveEventArgs args)
+        {
+            FileSystemInfo dependencyFile = GetDependencyFile(DependenciesDirectory, args.Name);
+            if (dependencyFile != null)
+            {
+                return Assembly.Load(File.ReadAllBytes(dependencyFile.FullName));
+            }
+            return null;
+        }
+
+        public void Install(string modulePath)
+        {
+            // Check if the file was blacklisted based on its MD5 hash, if so, do not attempt to install.
+            string hash = GetFileHash(modulePath);
+            if (_hashBlacklist.Contains(hash)) return;
+
+            // Check if this module is already installed.
+            ModuleInfo module = GetModule(hash);
+            if (module != null)
+            {
+                SelectedModule = module;
+                module.FormUI?.BringToFront();
+                return;
+            }
+
+            // Do not remove from, or empty the module cache.
+            // There may be a case where a previously uninstalled module will be be reinstalled in the same session.
+            if (!_moduleCache.TryGetValue(hash, out module))
+            {
+                // Load it through memory, do not feed a local file path/stream(don't want to lock the file).
+                module = new ModuleInfo();
+                module.Assembly = Assembly.Load(File.ReadAllBytes(modulePath));
+
+                module.Hash = hash;
+                module.PropertyChanged += Module_PropertyChanged;
+
+                // Copy the required dependencies, since utilizing 'ExportedTypes' will attempt to load them when enumerating.
+                CopyDependencies(modulePath, module.Assembly);
+                try
+                {
+                    foreach (Type type in module.Assembly.ExportedTypes)
+                    {
+                        if (!typeof(IModule).IsAssignableFrom(type)) continue;
+
+                        var moduleAtt = type.GetCustomAttribute<ModuleAttribute>();
+                        if (moduleAtt == null) continue;
+
+                        module.Type = type;
+                        module.Name = moduleAtt.Name;
+                        module.EntryType = moduleAtt.EntryType;
+                        module.Description = moduleAtt.Description;
+                        module.PropertyName = moduleAtt.PropertyName;
+                        module.Version = module.Assembly.GetName().Version;
+
+                        var authorAtts = type.GetCustomAttributes<AuthorAttribute>();
+                        module.Authors.AddRange(authorAtts);
+
+                        // Only add it to the cache if this is a valid module.
+                        _moduleCache.Add(hash, module);
+                        break;
+                    }
+                    if (module.Type == null) return;
+                }
+                finally
+                {
+                    if (module.Type == null)
+                    {
+                        _hashBlacklist.Add(module.Hash);
+                    }
+                }
+            }
+
+            string installPath = CopyFile(modulePath, hash);
+            module.Path = installPath; // This property already might have been set from a previous installation, but it wouldn't hurt to re-set the value.
+            Modules.Add(module);
+        }
+
+        public ModuleInfo GetModule(string hash)
+        {
+            return Modules.SingleOrDefault(m => m.Hash == hash);
+        }
+        public IEnumerable<ModuleInfo> GetInitializedModules()
+        {
+            return Modules.Where(m => m.IsInitialized);
         }
 
         private async Task HandleModuleDataAsync(ModuleInfo module)
@@ -149,15 +299,6 @@ namespace Tanji.Services.Modules
             finally { Task captureModulesAsync = CaptureModulesAsync(listener); }
         }
 
-        public ModuleInfo GetModule(string hash)
-        {
-            return Modules.SingleOrDefault(m => m.Hash == hash);
-        }
-        public IEnumerable<ModuleInfo> GetInitializedModules()
-        {
-            return Modules.Where(m => m.IsInitialized);
-        }
-
         private void LoadModules()
         {
             foreach (FileSystemInfo fileSysInfo in ModulesDirectory.EnumerateFiles("*.*"))
@@ -167,7 +308,7 @@ namespace Tanji.Services.Modules
                 {
                     try
                     {
-                        //?Install(fileSysInfo.FullName);
+                        Install(fileSysInfo.FullName);
                     }
                     catch (Exception ex)
                     {
@@ -175,6 +316,7 @@ namespace Tanji.Services.Modules
                     }
                 }
             }
+            _isInitialModuleLoading = false;
         }
         private string GetFileHash(string path)
         {
@@ -227,9 +369,7 @@ namespace Tanji.Services.Modules
                     dependencyFile = GetDependencyFile(sourceDirectory, assemblyName);
                     if (dependencyFile != null)
                     {
-                        string installDependencyPath = Path.Combine(
-                           DependenciesDirectory.FullName, dependencyFile.Name);
-
+                        string installDependencyPath = Path.Combine(DependenciesDirectory.FullName, dependencyFile.Name);
                         File.Copy(dependencyFile.FullName, installDependencyPath, true);
                     }
                 }
@@ -249,31 +389,6 @@ namespace Tanji.Services.Modules
             return null;
         }
 
-        private void Module_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case nameof(ModuleInfo.Instance):
-                {
-                    IsReceiving = (GetInitializedModules().Count() > 0);
-                    break;
-                }
-            }
-        }
-        private Assembly Assembly_Resolve(object sender, ResolveEventArgs args)
-        {
-            FileSystemInfo dependencyFile = GetDependencyFile(DependenciesDirectory, args.Name);
-            if (dependencyFile != null)
-            {
-                return Assembly.Load(File.ReadAllBytes(dependencyFile.FullName));
-            }
-            return null;
-        }
-        private void Modules_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            _safeModules = Modules.ToArray();
-        }
-
         #region IHaltable Implementation
         public void Halt()
         { }
@@ -281,7 +396,7 @@ namespace Tanji.Services.Modules
         { }
         #endregion
         #region IReceiver Implementation
-        public bool IsReceiving { get; set; }
+        public bool IsReceiving { get; private set; }
         public void HandleData(DataInterceptedEventArgs e)
         {
             foreach (ModuleInfo module in _safeModules)

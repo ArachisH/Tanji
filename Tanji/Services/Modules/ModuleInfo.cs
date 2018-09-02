@@ -66,8 +66,6 @@ namespace Tanji.Services.Modules
             }
         }
 
-        //?public Command ToggleStateCommand { get; }
-
         static ModuleInfo()
         {
             _loadedStyles = new List<Assembly>();
@@ -75,7 +73,6 @@ namespace Tanji.Services.Modules
         public ModuleInfo()
         {
             Authors = new List<AuthorAttribute>();
-            //?ToggleStateCommand = new Command(ToggleState);
             DataAwaiters = new Dictionary<string, TaskCompletionSource<HPacket>>();
         }
         public ModuleInfo(HNode node)
