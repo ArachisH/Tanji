@@ -330,7 +330,7 @@
             this.RevisionLbl.ForeColor = System.Drawing.Color.White;
             this.RevisionLbl.Name = "RevisionLbl";
             this.RevisionLbl.Size = new System.Drawing.Size(261, 19);
-            this.RevisionLbl.Text = "Revision: RODUCTION-000000000000-000000000";
+            this.RevisionLbl.Text = "Revision: PRODUCTION-000000000000-000000000";
             // 
             // PacketLoggerSs
             // 
