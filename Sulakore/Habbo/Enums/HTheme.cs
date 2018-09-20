@@ -1,12 +1,12 @@
 ﻿namespace Sulakore.Habbo
 {
     /// <summary>
-    /// Specifies the different types of speech bubble themes found in-game.
+    /// Specifies speech bubble themes that can be used on messages in the client.
     /// </summary>
     public enum HTheme
     {
         /// <summary>
-        /// Represents the default(white) speech bubble.
+        /// Represents the white speech bubble.
         /// </summary>
         White = 0,
         /// <summary>
@@ -20,7 +20,6 @@
         /// <summary>
         /// Represents the yellow speech bubble.
         /// </summary>
-        /// 
         Yellow = 5,
         /// <summary>
         /// Represents the green speech bubble.
@@ -31,7 +30,7 @@
         /// </summary>
         Black = 7,
         /// <summary>
-        /// Represents the light-blue(ice) speech bubble.
+        /// Represents the ice speech bubble.
         /// </summary>
         Ice = 11,
         /// <summary>

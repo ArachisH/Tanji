@@ -1,7 +1,7 @@
 ﻿namespace Sulakore.Habbo
 {
     /// <summary>
-    /// Specifies the different types of room models you can create in-game.
+    /// Specifies room models you can create in the client.
     /// </summary>
     public enum HModel
     {

@@ -1,7 +1,7 @@
 ﻿namespace Sulakore.Habbo
 {
     /// <summary>
-    /// Specifies a set of actions a player can perform in-game
+    /// Specifies actions a user can perform in the client.
     /// </summary>
     public enum HAction
     {
@@ -22,7 +22,7 @@
         /// </summary>
         Lay = 3,
         /// <summary>
-        /// Represents a player holding up a <see cref="HSign"/>.
+        /// Represents a player holding up a sign.
         /// </summary>
         Sign = 4
     }

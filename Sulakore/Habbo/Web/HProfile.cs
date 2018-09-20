@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Text;
 using System.Diagnostics;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 
@@ -11,29 +10,46 @@ namespace Sulakore.Habbo.Web
     [DebuggerDisplay("Name: {User?.Name}")]
     public class HProfile
     {
-        private static readonly DataContractJsonSerializer _deserializer =
-            new DataContractJsonSerializer(typeof(HProfile));
+        private static readonly DataContractJsonSerializer _serializer;
 
-        [DataMember(Name = "user")]
+        [DataMember(Name = "user", IsRequired = true, Order = 1)]
         public HUser User { get; set; }
 
-        [DataMember(Name = "friends")]
-        public IList<HFriend> Friends { get; set; }
+        [DataMember(Name = "groups", IsRequired = true, Order = 2)]
+        public HGroup[] Groups { get; set; }
 
-        [DataMember(Name = "groups")]
-        public IList<HGroup> Groups { get; set; }
+        [DataMember(Name = "badges", IsRequired = true, Order = 3)]
+        public HBadge[] Badges { get; set; }
 
-        [DataMember(Name = "rooms")]
-        public IList<HRoom> Rooms { get; set; }
+        [DataMember(Name = "friends", IsRequired = true, Order = 4)]
+        public HFriend[] Friends { get; set; }
 
-        [DataMember(Name = "badges")]
-        public IList<HBadge> Badges { get; set; }
+        [DataMember(Name = "rooms", IsRequired = true, Order = 5)]
+        public HRoom[] Rooms { get; set; }
+
+        static HProfile()
+        {
+            _serializer = new DataContractJsonSerializer(typeof(HProfile), new DataContractJsonSerializerSettings
+            {
+                DateTimeFormat = new DateTimeFormat("yyyy-MM-dd'T'HH:mm:ss.fff+0000")
+            });
+        }
+
+        public override string ToString()
+        {
+            using (var jsonStream = new MemoryStream())
+            {
+                _serializer.WriteObject(jsonStream, this);
+                return Encoding.UTF8.GetString(jsonStream.ToArray());
+            }
+        }
 
         public static HProfile Create(string profileJson)
         {
-            byte[] rawJson = Encoding.UTF8.GetBytes(profileJson);
-            using (var jsonStream = new MemoryStream(rawJson))
-                return (HProfile)_deserializer.ReadObject(jsonStream);
+            using (var jsonStream = new MemoryStream(Encoding.UTF8.GetBytes(profileJson)))
+            {
+                return (HProfile)_serializer.ReadObject(jsonStream);
+            }
         }
     }
 }

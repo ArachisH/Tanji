@@ -225,7 +225,7 @@ namespace Tanji.Windows
                 return;
             }
 
-            Halt();
+            // TODO: Remove after debug Halt();
             Game.Dispose();
             Game = null;
 

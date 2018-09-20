@@ -1,7 +1,7 @@
 ﻿namespace Sulakore.Habbo
 {
     /// <summary>
-    /// Specifies the different gender types in-game.
+    /// Specifies user genders available in the client.
     /// </summary>
     public enum HGender
     {

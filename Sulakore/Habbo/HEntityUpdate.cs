@@ -5,7 +5,7 @@ using Sulakore.Protocol;
 
 namespace Sulakore.Habbo
 {
-    public class HEntityUpdate : HData
+    public class HEntityUpdate
     {
         public int Index { get; set; }
         public bool IsController { get; set; }
@@ -29,8 +29,10 @@ namespace Sulakore.Habbo
             HeadFacing = (HDirection)packet.ReadInteger();
             BodyFacing = (HDirection)packet.ReadInteger();
 
-            string[] actionData = packet.ReadString()
-                .Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+            string action = packet.ReadString();
+
+            string[] actionData = action.Split(
+                new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (string actionInfo in actionData)
             {
@@ -78,7 +80,7 @@ namespace Sulakore.Habbo
                 }
             }
         }
-
+        
         public static HEntityUpdate[] Parse(HMessage packet)
         {
             var updates = new HEntityUpdate[packet.ReadInteger()];

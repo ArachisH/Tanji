@@ -1,20 +1,20 @@
 ﻿namespace Sulakore.Habbo
 {
     /// <summary>
-    /// Specifies the different types of bans found in-game.
+    /// Specifies the types of bans possible.
     /// </summary>
     public enum HBan
     {
         /// <summary>
-        /// The original value for the packet is RWUAM_BAN_USER_HOUR.
+        /// Represents a ban time of one hour.
         /// </summary>
         Hour = 0,
         /// <summary>
-        /// The original value for the packet is RWUAM_BAN_USER_DAY.
+        /// Represents a ban time of one day.
         /// </summary>
         Day = 1,
         /// <summary>
-        /// The original value for the packet is RWUAM_BAN_USER_PERM.
+        /// Represents a permanent ban time.
         /// </summary>
         Permanent = 2
     }

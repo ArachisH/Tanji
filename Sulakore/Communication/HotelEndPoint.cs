@@ -35,53 +35,59 @@ namespace Sulakore.Communication
             Host = host;
         }
 
-        public static HHotel GetHotel(string host)
+        public static HHotel GetHotel(string value)
         {
-            if (string.IsNullOrWhiteSpace(host))
-            {
-                return HHotel.Unknown;
-            }
+            if (string.IsNullOrWhiteSpace(value) || value.Length < 2) return HHotel.Unknown;
+            if (value.StartsWith("hh")) value = value.Substring(2, 2);
+            if (value.StartsWith("game-")) value = value.Substring(5, 2);
 
-            var hotel = HHotel.Unknown;
-            if (!Enum.TryParse(host, true, out hotel))
+            switch (value)
             {
-                int regionStart = host.IndexOf("game-");
-                if (regionStart != -1)
+                case "us": return HHotel.Com;
+                case "br": return HHotel.ComBr;
+                case "tr": return HHotel.ComTr;
+                default:
                 {
-                    string region = host.Substring(regionStart + 5, 2);
-                    switch (region)
+                    if (value.Length != 2 && value.Length != 5)
                     {
-                        case "us": return HHotel.Com;
-                        case "br": return HHotel.ComBr;
-                        case "tr": return HHotel.ComTr;
-
-                        default:
-                        Enum.TryParse(region, true, out hotel);
-                        break;
-                    }
-                }
-                else
-                {
-                    if (host[0] == '.')
-                    {
-                        host = host.Substring(1);
-                    }
-                    int domainStart = host.IndexOf("habbo.");
-                    if (domainStart != -1)
-                    {
-                        domainStart += 6;
-                        int domainEnd = host.IndexOf('/', domainStart);
-                        if (domainEnd != -1)
+                        int hostIndex = value.LastIndexOf("habbo");
+                        if (hostIndex != -1)
                         {
-                            string region = host.Substring(domainStart, ((domainEnd - domainStart) - 1));
-                            region = region.Replace(".", string.Empty);
-                            return GetHotel(region);
+                            value = value.Substring(hostIndex + 5);
                         }
+
+                        int comDotIndex = value.IndexOf("com.");
+                        if (comDotIndex != -1)
+                        {
+                            value = value.Remove(comDotIndex + 3, 1);
+                        }
+
+                        if (value[0] == '.') value = value.Substring(1);
+                        value = value.Substring(0, (value.StartsWith("com") ? 5 : 2));
                     }
+                    if (Enum.TryParse(value, true, out HHotel hotel)) return hotel;
+                    break;
                 }
             }
-            return hotel;
+            return HHotel.Unknown;
         }
+        public static string GetRegion(HHotel hotel)
+        {
+            switch (hotel)
+            {
+                case HHotel.Com: return "us";
+                case HHotel.ComBr: return "br";
+                case HHotel.ComTr: return "tr";
+                default: return hotel.ToString().ToLower();
+            }
+        }
+        public static HotelEndPoint GetEndPoint(HHotel hotel)
+        {
+            int port = (hotel == HHotel.Com ? 38101 : 30000);
+            string host = $"game-{GetRegion(hotel)}.habbo.com";
+            return Parse(host, port);
+        }
+
         public static HotelEndPoint Parse(string host, int port)
         {
             IPAddress[] ips = Dns.GetHostAddresses(host);
@@ -105,9 +111,9 @@ namespace Sulakore.Communication
         {
             if (!string.IsNullOrWhiteSpace(Host))
             {
-                return (Host + ":" + Port);
+                return ($"{Hotel}:{Host}:{Port}");
             }
-            return base.ToString();
+            return (Hotel + ":" + base.ToString());
         }
     }
 }

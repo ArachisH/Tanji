@@ -2,7 +2,6 @@
 
 namespace Sulakore.Habbo
 {
-
     public class HMap
     {
         private readonly string[] _rows;

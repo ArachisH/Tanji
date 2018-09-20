@@ -527,6 +527,7 @@ namespace Tanji.Pages.Connection
 
         #region IReceiver Implementation
         public bool IsReceiving { get; set; }
+        public bool IsIncomingEncrypted { get; private set; }
         public void HandleOutgoing(DataInterceptedEventArgs e)
         {
             if (e.Packet.Header == 4001)
@@ -544,6 +545,12 @@ namespace Tanji.Pages.Connection
                 UI.Connection.Remote.Encrypter = new RC4(sharedKey);
                 UI.Connection.Remote.IsEncrypting = true;
 
+                if (IsIncomingEncrypted)
+                {
+                    UI.Connection.Remote.Decrypter = new RC4(sharedKey);
+                    UI.Connection.Remote.IsDecrypting = true;
+                }
+
                 e.IsBlocked = true;
                 IsReceiving = false;
             }
@@ -553,7 +560,13 @@ namespace Tanji.Pages.Connection
             }
         }
         public void HandleIncoming(DataInterceptedEventArgs e)
-        { }
+        {
+            if (e.Packet.Header == UI.In.GenerateSecretKey)
+            {
+                e.Packet.ReadString();
+                IsIncomingEncrypted = e.Packet.ReadBoolean();
+            }
+        }
         #endregion
     }
 }

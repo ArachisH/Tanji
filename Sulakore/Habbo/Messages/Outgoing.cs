@@ -318,5 +318,11 @@
         public ushort YoutubeRequestNextVideo { get; set; }
         public ushort YoutubeRequestPlayList { get; set; }
         public ushort YoutubeRequestVideoData { get; set; }
+
+        public Outgoing()
+        { }
+        public Outgoing(HGame game, string identifiersPath)
+            : base(game, identifiersPath)
+        { }
     }
 }

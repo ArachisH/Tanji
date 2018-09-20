@@ -1,12 +1,12 @@
 ﻿namespace Sulakore.Habbo
 {
     /// <summary>
-    /// Specifies a set of gestures a player can perform in-game.
+    /// Specifies gestures a user can perform in the client.
     /// </summary>
     public enum HGesture
     {
         /// <summary>
-        /// Represents a player without any gesture.
+        /// Represents a player without a gesture.
         /// </summary>
         None = 0,
         /// <summary>
@@ -30,7 +30,7 @@
         /// </summary>
         PogoHop = 6,
         /// <summary>
-        /// Represents a player raising a thumbs up.
+        /// Represents a player with raising a thumb up.
         /// </summary>
         ThumbsUp = 7
     }

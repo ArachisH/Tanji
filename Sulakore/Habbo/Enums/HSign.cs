@@ -1,7 +1,7 @@
 ﻿namespace Sulakore.Habbo
 {
     /// <summary>
-    /// Specifies the different types of signs found in-game.
+    /// Specifies signs that can be raised by a user in the client.
     /// </summary>
     public enum HSign
     {
@@ -78,7 +78,7 @@
         /// </summary>
         Yellowcard = 17,
         /// <summary>
-        /// Represents a an empty invisible sign with no image.
+        /// Represents an empty invisible sign.
         /// </summary>
         Invisible = 18
     }

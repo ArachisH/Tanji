@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text;
 using System.Collections.Generic;
 
 namespace Sulakore.Habbo.Messages
@@ -16,6 +17,11 @@ namespace Sulakore.Habbo.Messages
             _namesById = new Dictionary<ushort, string>();
             _idsByName = new Dictionary<string, ushort>();
             _namesByHash = new Dictionary<string, string>();
+        }
+        public Identifiers(HGame game, string identifiersPath)
+            : this()
+        {
+            Load(game, identifiersPath);
         }
 
         public ushort this[string name]
@@ -63,12 +69,12 @@ namespace Sulakore.Habbo.Messages
                 output.WriteLine($"{name}={_idsByName[name]}");
             }
         }
-        public void Load(HGame game, string path)
+        public void Load(HGame game, string identifiersPath)
         {
             _namesById.Clear();
             _idsByName.Clear();
             _namesByHash.Clear();
-            using (var input = new StreamReader(path))
+            using (var input = new StreamReader(identifiersPath))
             {
                 bool isInSection = false;
                 while (!input.EndOfStream)
@@ -102,6 +108,28 @@ namespace Sulakore.Habbo.Messages
                         GetType().GetProperty(name)?.SetValue(this, id);
                     }
                 }
+            }
+        }
+
+        public override string ToString()
+        {
+            return ToString(false);
+        }
+        public string ToString(bool isFormatting)
+        {
+            if (!isFormatting)
+            {
+                return base.ToString();
+            }
+            else
+            {
+                var builder = new StringBuilder();
+                builder.AppendLine($"[{_section}]");
+                foreach (string name in _idsByName.Keys)
+                {
+                    builder.AppendLine($"{name}={_idsByName[name]}");
+                }
+                return builder.ToString().Trim();
             }
         }
     }

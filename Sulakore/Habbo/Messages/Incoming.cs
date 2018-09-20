@@ -407,5 +407,11 @@
         public ushort YoutubeDisplayList { get; set; }
         public ushort YoutubeMessageComposer2 { get; set; }
         public ushort YoutubeMessageComposer3 { get; set; }
+        
+        public Incoming()
+        { }
+        public Incoming(HGame game, string identifiersPath)
+            : base(game, identifiersPath)
+        { }
     }
 }

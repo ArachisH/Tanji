@@ -1,7 +1,7 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 
 using Sulakore.Protocol;
-using System;
 
 namespace Sulakore.Habbo
 {
@@ -13,6 +13,7 @@ namespace Sulakore.Habbo
         public string Name { get; set; }
         public string Motto { get; set; }
         public HGender Gender { get; set; }
+        public int EntityType { get; set; }
         public string FigureId { get; set; }
         public string FavoriteGroup { get; set; }
         public HEntityUpdate LastUpdate { get; private set; }
@@ -29,19 +30,19 @@ namespace Sulakore.Habbo
                 double.Parse(packet.ReadString(), CultureInfo.InvariantCulture));
 
             packet.ReadInteger();
-            int type = packet.ReadInteger();
-            switch (type)
+            EntityType = packet.ReadInteger();
+
+            switch (EntityType)
             {
                 case 1:
                 {
-                    Gender = SKore.ToGender(packet.ReadString());
+                    Gender = (HGender)packet.ReadString().ToLower()[0];
                     packet.ReadInteger();
                     packet.ReadInteger();
                     FavoriteGroup = packet.ReadString();
                     packet.ReadString();
                     packet.ReadInteger();
                     packet.ReadBoolean();
-
                     break;
                 }
                 case 2:
@@ -89,7 +90,7 @@ namespace Sulakore.Habbo
             LastUpdate = update;
             return true;
         }
-
+        
         public static HEntity[] Parse(HMessage packet)
         {
             var entities = new HEntity[packet.ReadInteger()];

@@ -9,12 +9,15 @@ namespace Sulakore.Habbo
         public int RoomId { get; set; }
         public int Category { get; set; }
         public string SlotId { get; set; }
+        public object[] Stuff { get; set; }
+        public bool IsGroupable { get; set; }
         public int SecondsToExpiration { get; set; }
         public bool HasRentPeriodStarted { get; set; }
 
         public HItem(HMessage packet)
         {
             packet.ReadInteger();
+
             string unknown1 = packet.ReadString();
 
             Id = packet.ReadInteger();
@@ -22,9 +25,9 @@ namespace Sulakore.Habbo
             packet.ReadInteger();
 
             Category = packet.ReadInteger();
-            ReadData(packet, Category);
+            Stuff = ReadData(packet, Category);
 
-            packet.ReadBoolean();
+            IsGroupable = packet.ReadBoolean();
             packet.ReadBoolean();
             packet.ReadBoolean();
             packet.ReadBoolean();
@@ -39,7 +42,6 @@ namespace Sulakore.Habbo
                 packet.ReadInteger();
             }
         }
-
         public static HItem[] Parse(HMessage packet)
         {
             int loc1 = packet.ReadInteger();

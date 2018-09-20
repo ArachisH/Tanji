@@ -11,7 +11,7 @@ namespace Sulakore.Habbo
             var values = new List<object>();
             switch (category & 0xFF)
             {
-                case 0:
+                case 0: /* LegacyStuffData */
                 {
                     values.Add(packet.ReadString());
                     break;
@@ -39,8 +39,8 @@ namespace Sulakore.Habbo
                     }
                     break;
                 }
-                case 3:
-                {
+                case 3: /* VoteResultStuffData */
+                    {
                     values.Add(packet.ReadString());
                     values.Add(packet.ReadInteger());
                     break;
@@ -80,7 +80,7 @@ namespace Sulakore.Habbo
                     }
                     break;
                 }
-                case 7:
+                case 7: /* CrackableStuffData */
                 {
                     values.Add(packet.ReadString());
                     values.Add(packet.ReadInteger());

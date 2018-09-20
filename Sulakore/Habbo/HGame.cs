@@ -1314,6 +1314,34 @@ namespace Sulakore.Habbo
         {
             ABCFile abc = ABCFiles.Last();
 
+            ASInstance habboCommDemoInstance = abc.GetInstance("HabboCommunicationDemo");
+            if (habboCommDemoInstance == null) return false;
+
+            // TODO: Implement a more "dynamic" approach(scan each method for a pattern).
+            ASMethod pubKeyVerifyMethod = habboCommDemoInstance.GetMethods(null, "void", 1)
+                .Where(m => m.Body.MaxStack == 4 &&
+                            m.Body.LocalCount == 10 &&
+                            m.Body.MaxScopeDepth == 6 &&
+                            m.Body.InitialScopeDepth == 5)
+                .FirstOrDefault();
+            if (pubKeyVerifyMethod == null) return false;
+            ASCode pubKeyVerifyCode = pubKeyVerifyMethod.Body.ParseCode();
+
+            for (int i = 0; i < pubKeyVerifyCode.Count; i++)
+            {
+                ASInstruction instruction = pubKeyVerifyCode[i];
+                if (!Local.IsGetLocal(instruction.OP)) continue;
+                if (((Local)instruction).Register != 3) continue;
+
+                if (pubKeyVerifyCode[i + 1].OP != OPCode.GetProperty) continue;
+                if (pubKeyVerifyCode[i + 2].OP != OPCode.IfFalse) continue;
+
+                pubKeyVerifyCode.RemoveRange(i, 2);
+                pubKeyVerifyCode.Insert(i, new PushFalseIns());
+                pubKeyVerifyMethod.Body.Code = pubKeyVerifyCode.ToArray();
+                break;
+            }
+
             ASInstance socketConnInstance = abc.GetInstance("SocketConnection");
             if (socketConnInstance == null) return false;
 
@@ -1543,11 +1571,24 @@ namespace Sulakore.Habbo
             return false;
         }
 
+        public void Disassemble(bool isGeneratingHashes)
+        {
+            Disassemble(null, isGeneratingHashes);
+        }
         public override void Disassemble(Action<TagItem> callback)
         {
             base.Disassemble(callback);
             LoadMessages();
         }
+        public void Disassemble(Action<TagItem> callback, bool isGeneratingHashes)
+        {
+            Disassemble(callback);
+            if (isGeneratingHashes)
+            {
+                GenerateMessageHashes();
+            }
+        }
+
         protected override void WriteTag(TagItem tag, FlashWriter output)
         {
             if (tag.Kind == TagKind.DoABC)
@@ -1751,7 +1792,7 @@ namespace Sulakore.Habbo
             WriteSorted(_bytes, base.Write);
             WriteSorted(_strings, base.Write);
         }
-        public string GenerateMD5Hash()
+        public string GenerateHash()
         {
             Flush();
             using (var md5 = MD5.Create())
@@ -1857,7 +1898,7 @@ namespace Sulakore.Habbo
                     }
                 }
                 else output.Write(Class.QName.Name);
-                return (Hash = output.GenerateMD5Hash());
+                return (Hash = output.GenerateHash());
             }
         }
         public bool HasMethodReference(ASMethod method)
