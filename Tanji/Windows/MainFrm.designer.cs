@@ -167,6 +167,7 @@
             this.MTVersionCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.MTStateCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.AboutTab = new System.Windows.Forms.TabPage();
+            this.SelloutBtn = new Sulakore.Components.SKoreButton();
             this.HarbleDiscordBtn = new Sulakore.Components.SKoreButton();
             this.DonateBtn = new Sulakore.Components.SKoreButton();
             this.SpeaqerBtn = new Sulakore.Components.SKoreButton();
@@ -277,7 +278,7 @@
             this.CoTProxyPortLbl.Name = "CoTProxyPortLbl";
             this.CoTProxyPortLbl.Size = new System.Drawing.Size(100, 20);
             this.CoTProxyPortLbl.TabIndex = 110;
-            this.CoTProxyPortLbl.Text = "Proxy Port: 8282";
+            this.CoTProxyPortLbl.Text = "Proxy Port: 0";
             // 
             // label1
             // 
@@ -1488,6 +1489,7 @@
             // 
             // AboutTab
             // 
+            this.AboutTab.Controls.Add(this.SelloutBtn);
             this.AboutTab.Controls.Add(this.HarbleDiscordBtn);
             this.AboutTab.Controls.Add(this.DonateBtn);
             this.AboutTab.Controls.Add(this.SpeaqerBtn);
@@ -1503,10 +1505,19 @@
             this.AboutTab.Text = "About";
             this.AboutTab.UseVisualStyleBackColor = true;
             // 
+            // SelloutBtn
+            // 
+            this.SelloutBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.SelloutBtn.Location = new System.Drawing.Point(95, 198);
+            this.SelloutBtn.Name = "SelloutBtn";
+            this.SelloutBtn.Size = new System.Drawing.Size(286, 20);
+            this.SelloutBtn.TabIndex = 15;
+            this.SelloutBtn.Text = "G-Earth | Cross-Platform Packet Logger by sirjonasxx";
+            // 
             // HarbleDiscordBtn
             // 
             this.HarbleDiscordBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(137)))), ((int)(((byte)(218)))));
-            this.HarbleDiscordBtn.Location = new System.Drawing.Point(127, 185);
+            this.HarbleDiscordBtn.Location = new System.Drawing.Point(127, 172);
             this.HarbleDiscordBtn.Name = "HarbleDiscordBtn";
             this.HarbleDiscordBtn.Size = new System.Drawing.Size(223, 20);
             this.HarbleDiscordBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(137)))), ((int)(((byte)(218)))));
@@ -1516,7 +1527,7 @@
             // DonateBtn
             // 
             this.DonateBtn.BackColor = System.Drawing.Color.Green;
-            this.DonateBtn.Location = new System.Drawing.Point(233, 107);
+            this.DonateBtn.Location = new System.Drawing.Point(233, 94);
             this.DonateBtn.Name = "DonateBtn";
             this.DonateBtn.Size = new System.Drawing.Size(117, 20);
             this.DonateBtn.Skin = System.Drawing.Color.Green;
@@ -1526,7 +1537,7 @@
             // SpeaqerBtn
             // 
             this.SpeaqerBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
-            this.SpeaqerBtn.Location = new System.Drawing.Point(127, 159);
+            this.SpeaqerBtn.Location = new System.Drawing.Point(127, 146);
             this.SpeaqerBtn.Name = "SpeaqerBtn";
             this.SpeaqerBtn.Size = new System.Drawing.Size(100, 20);
             this.SpeaqerBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
@@ -1536,7 +1547,7 @@
             // SNGButton
             // 
             this.SNGButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.SNGButton.Location = new System.Drawing.Point(233, 159);
+            this.SNGButton.Location = new System.Drawing.Point(233, 146);
             this.SNGButton.Name = "SNGButton";
             this.SNGButton.Size = new System.Drawing.Size(117, 20);
             this.SNGButton.TabIndex = 6;
@@ -1545,7 +1556,7 @@
             // DarkboxBtn
             // 
             this.DarkboxBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.DarkboxBtn.Location = new System.Drawing.Point(233, 133);
+            this.DarkboxBtn.Location = new System.Drawing.Point(233, 120);
             this.DarkboxBtn.Name = "DarkboxBtn";
             this.DarkboxBtn.Size = new System.Drawing.Size(117, 20);
             this.DarkboxBtn.TabIndex = 5;
@@ -1554,7 +1565,7 @@
             // DarkStarBtn
             // 
             this.DarkStarBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
-            this.DarkStarBtn.Location = new System.Drawing.Point(127, 133);
+            this.DarkStarBtn.Location = new System.Drawing.Point(127, 120);
             this.DarkStarBtn.Name = "DarkStarBtn";
             this.DarkStarBtn.Size = new System.Drawing.Size(100, 20);
             this.DarkStarBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
@@ -1564,7 +1575,7 @@
             // ArachisBtn
             // 
             this.ArachisBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
-            this.ArachisBtn.Location = new System.Drawing.Point(127, 107);
+            this.ArachisBtn.Location = new System.Drawing.Point(127, 94);
             this.ArachisBtn.Name = "ArachisBtn";
             this.ArachisBtn.Size = new System.Drawing.Size(100, 20);
             this.ArachisBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
@@ -1820,5 +1831,6 @@
         internal Sulakore.Components.SKoreButton HarbleDiscordBtn;
         private System.Windows.Forms.Label MTSeperator1;
         internal Sulakore.Components.SKoreLabel CoTProxyPortLbl;
+        internal Sulakore.Components.SKoreButton SelloutBtn;
     }
 }
