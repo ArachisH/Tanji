@@ -225,14 +225,14 @@ namespace Tanji.Windows
                 return;
             }
 
-            // TODO: Remove after debug Halt();
+            Halt();
             Game.Dispose();
             Game = null;
 
             TopMost = true;
             Text = "Tanji ~ Disconnected";
         }
-        private void Connected(object sender, ConnectedEventArgs e)
+        private async void Connected(object sender, ConnectedEventArgs e)
         {
             if (InvokeRequired)
             {
@@ -240,9 +240,11 @@ namespace Tanji.Windows
                 return;
             }
 
-            HMessage remoteEndPointPkt = Connection.Local.ReceivePacketAsync().Result;
+            HMessage remoteEndPointPkt = await Connection.Local.ReceivePacketAsync();
+
             e.HotelServer = ConnectionPg.HotelServer = HotelEndPoint.Parse(remoteEndPointPkt.ReadString().Split('\0')[0], remoteEndPointPkt.ReadInteger());
             e.IsFakingPolicyRequest = (e.HotelServer.Hotel == HHotel.Unknown);
+            e.HotelServerSource.SetResult(e.HotelServer);
 
             ConnectionPg.IsReceiving = true;
             Text = $"Tanji ~ Connected[{e.HotelServer}]";
