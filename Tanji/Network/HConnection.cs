@@ -126,6 +126,11 @@ namespace Tanji.Network
                     OnConnected(args);
 
                     endpoint = (args.HotelServer ?? endpoint);
+                    if (endpoint == null)
+                    {
+                        endpoint = await args.HotelServerSource.Task.ConfigureAwait(false);
+                    }
+
                     if (args.IsFakingPolicyRequest)
                     {
                         using (var tempRemote = await HNode.ConnectNewAsync(endpoint).ConfigureAwait(false))
