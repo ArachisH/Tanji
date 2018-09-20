@@ -38,6 +38,7 @@ namespace Tanji.Pages.About
 
             UI.SNGButton.Click += SNGButton_Click;
             UI.DarkboxBtn.Click += DarkboxBtn_Click;
+            UI.SelloutBtn.Click += SelloutBtn_Click;
         }
 
         private void GrabbedReleases(Task<IReadOnlyList<Release>> getAllReleasesTask)
@@ -91,6 +92,10 @@ namespace Tanji.Pages.About
         private void HarbleDiscordBtn_Click(object sender, EventArgs e)
         {
             Process.Start("https://discord.gg/Vyc2gFC");
+        }
+        private void SelloutBtn_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://github.com/sirjonasxx/G-Earth");
         }
 
         private void SNGButton_Click(object sender, EventArgs e)
