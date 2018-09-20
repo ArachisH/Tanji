@@ -1314,34 +1314,6 @@ namespace Sulakore.Habbo
         {
             ABCFile abc = ABCFiles.Last();
 
-            ASInstance habboCommDemoInstance = abc.GetInstance("HabboCommunicationDemo");
-            if (habboCommDemoInstance == null) return false;
-
-            // TODO: Implement a more "dynamic" approach(scan each method for a pattern).
-            ASMethod pubKeyVerifyMethod = habboCommDemoInstance.GetMethods(null, "void", 1)
-                .Where(m => m.Body.MaxStack == 4 &&
-                            m.Body.LocalCount == 10 &&
-                            m.Body.MaxScopeDepth == 6 &&
-                            m.Body.InitialScopeDepth == 5)
-                .FirstOrDefault();
-            if (pubKeyVerifyMethod == null) return false;
-            ASCode pubKeyVerifyCode = pubKeyVerifyMethod.Body.ParseCode();
-
-            for (int i = 0; i < pubKeyVerifyCode.Count; i++)
-            {
-                ASInstruction instruction = pubKeyVerifyCode[i];
-                if (!Local.IsGetLocal(instruction.OP)) continue;
-                if (((Local)instruction).Register != 3) continue;
-
-                if (pubKeyVerifyCode[i + 1].OP != OPCode.GetProperty) continue;
-                if (pubKeyVerifyCode[i + 2].OP != OPCode.IfFalse) continue;
-
-                pubKeyVerifyCode.RemoveRange(i, 2);
-                pubKeyVerifyCode.Insert(i, new PushFalseIns());
-                pubKeyVerifyMethod.Body.Code = pubKeyVerifyCode.ToArray();
-                break;
-            }
-
             ASInstance socketConnInstance = abc.GetInstance("SocketConnection");
             if (socketConnInstance == null) return false;
 

@@ -565,6 +565,7 @@ namespace Tanji.Pages.Connection
             {
                 e.Packet.ReadString();
                 IsIncomingEncrypted = e.Packet.ReadBoolean();
+                e.Packet.ReplaceBoolean(false, e.Packet.Position - 1);
             }
         }
         #endregion
