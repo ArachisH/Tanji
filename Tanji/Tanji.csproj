@@ -220,7 +220,7 @@
       <Name>Flazzy</Name>
     </ProjectReference>
     <ProjectReference Include="..\Submodules\Sulakore\Sulakore\Sulakore.csproj">
-      <Project>{5ccc7cb4-8517-4bf7-8a84-9954aaaba8c1}</Project>
+      <Project>{3eb650bf-1f7e-4c89-a404-5653ce982c63}</Project>
       <Name>Sulakore</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tangine\Tangine.csproj">

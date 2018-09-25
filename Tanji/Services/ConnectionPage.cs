@@ -335,6 +335,10 @@ namespace Tanji.Services
         #region IReceiver Implementation
         [Browsable(false)]
         public bool IsReceiving { get; set; }
+
+        [Browsable(false)]
+        public bool IsIncomingEncrypted { get; private set; }
+
         public void HandleOutgoing(DataInterceptedEventArgs e)
         {
             if (e.Packet.Id == 4001)
@@ -352,6 +356,12 @@ namespace Tanji.Services
                 Master.Connection.Remote.Encrypter = new RC4(sharedKey);
                 Master.Connection.Remote.IsEncrypting = true;
 
+                if (IsIncomingEncrypted)
+                {
+                    Master.Connection.Remote.Decrypter = new RC4(sharedKey);
+                    Master.Connection.Remote.IsDecrypting = true;
+                }
+
                 e.IsBlocked = true;
                 IsReceiving = false;
             }
@@ -361,7 +371,14 @@ namespace Tanji.Services
             }
         }
         public void HandleIncoming(DataInterceptedEventArgs e)
-        { }
+        {
+            if (e.Step == 2)
+            {
+                e.Packet.ReadUTF8();
+                IsIncomingEncrypted = e.Packet.ReadBoolean();
+                e.Packet.Replace(false, e.Packet.Position - 1);
+            }
+        }
         #endregion
     }
 }
