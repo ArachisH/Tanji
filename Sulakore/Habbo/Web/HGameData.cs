@@ -1,18 +1,18 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 using Sulakore.Communication;
 
-namespace Sulakore.Habbo
+namespace Sulakore.Habbo.Web
 {
     [DebuggerDisplay("Host: {InfoHost}, Port(s): {InfoPort}")]
     public class HGameData
     {
         private readonly Dictionary<string, string> _variables;
 
-        private const string FLASH_VAR_PATTERN =
-            "(\"|')+?(?<variable>.*?)(\"|')+?(:| :| : |: |,|, )+?(\"|')+?(?<value>.*?)(\"|')+(\\)|,|\\s|$)+";
+        private const string FLASH_VAR_PATTERN = "(\"|')+?(?<variable>.*?)(\"|')+?(:| :| : |: |,|, )+?(\"|')+?(?<value>.*?)(\"|')+(\\)|,|\\s|$)+";
 
         private string _source;
         public string Source
@@ -69,6 +69,18 @@ namespace Sulakore.Habbo
                 _variables[variable] = value;
             }
             Hotel = HotelEndPoint.GetHotel(InfoHost);
+        }
+
+        [Obsolete]
+        public void Update()
+        {
+            ExtractVariables();
+        }
+        [Obsolete]
+        public void Update(string source)
+        {
+            _source = source;
+            ExtractVariables();
         }
     }
 }

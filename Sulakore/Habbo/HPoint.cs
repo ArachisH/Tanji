@@ -1,64 +1,65 @@
-﻿using System;
-using System.Drawing;
-using System.Diagnostics;
-
-namespace Sulakore.Habbo
+﻿namespace Sulakore.Habbo
 {
-    [DebuggerDisplay(@"\{X = {X} Y = {Y} Z = {Z}\}")]
-    public struct HPoint : IEquatable<HPoint>
+    /// <summary>
+    /// Represents a floor object's in-game position relative to the map's three-dimensional plane.
+    /// </summary>
+    public class HPoint
     {
+        /// <summary>
+        /// Gets or sets the x-coordinate of the <see cref="HPoint"/>.
+        /// </summary>
         public int X { get; set; }
+        /// <summary>
+        /// Gets or sets the y-coordinate of the <see cref="HPoint"/>.
+        /// </summary>
         public int Y { get; set; }
+        /// <summary>
+        /// Gets or sets the z-coordinate of the <see cref="HPoint"/>.
+        /// </summary>
         public double Z { get; set; }
-        public bool IsEmpty => (Equals(Empty));
 
-        public static readonly HPoint Empty;
-
-        public static implicit operator HPoint((int x, int y) point) => new HPoint(point.x, point.y);
-        public static implicit operator HPoint((int x, int y, double z) point) => new HPoint(point.x, point.y, point.z);
-
-        public static implicit operator (int x, int y) (HPoint point) => (point.X, point.Y);
-        public static implicit operator (int x, int y, double z) (HPoint point) => (point.X, point.Y, point.Z);
-
-        public static implicit operator Point(HPoint point) => new Point(point.X, point.Y);
-        public static implicit operator HPoint(Point point) => new HPoint(point.X, point.Y);
-
-        public static bool operator !=(HPoint left, HPoint right) => !(left == right);
-        public static bool operator ==(HPoint left, HPoint right) => left.Equals(right);
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HPoint"/> class with the specified floor object coordinates.
+        /// </summary>
+        /// <param name="x">The horizontal position of the floor object.</param>
+        /// <param name="y">The vertical position of the floor object.</param>
         public HPoint(int x, int y)
-            : this(x, y, 0)
+            : this(x, y, 0.0)
         { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HPoint"/> class with the specified floor object coordinates.
+        /// </summary>
+        /// <param name="x">The horizontal position of the floor object.</param>
+        /// <param name="y">The vertical position of the floor object.</param>
+        /// <param name="z">The elevated position of the floor object.</param>
         public HPoint(int x, int y, double z)
         {
             X = x;
             Y = y;
             Z = z;
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HPoint"/> class with the specified floor object coordinates.
+        /// </summary>
+        /// <param name="x">The horizontal position of the floor object.</param>
+        /// <param name="y">The vertical position of the floor object.</param>
+        /// <param name="level">The UTF-16 character that represent a floor level in the room map.</param>
         public HPoint(int x, int y, char level)
             : this(x, y, ToZ(level))
         { }
 
-        public override int GetHashCode()
+        public static double ToZ(char level)
         {
-            int hashCode = 1861411795;
-            hashCode = (hashCode * -1521134295 + base.GetHashCode());
-            hashCode = (hashCode * -1521134295 + X.GetHashCode());
-            hashCode = (hashCode * -1521134295 + Y.GetHashCode());
-            return hashCode;
-        }
-        public override string ToString() => $"{{X={X},Y={Y},Z={Z}}}";
-
-        public override bool Equals(object obj)
-        {
-            if (obj is HPoint point)
+            if (level >= '0' && level <= '9')
             {
-                return Equals(point);
+                return (level - 48);
             }
-            return false;
+            else if (level >= 'a' && level <= 't')
+            {
+                return (level - 87);
+            }
+            return 0;
         }
-        public bool Equals(HPoint point) => (X == point.X && Y == point.Y);
-
         public static char ToLevel(double z)
         {
             char level = 'x';
@@ -72,17 +73,12 @@ namespace Sulakore.Habbo
             }
             return level;
         }
-        public static double ToZ(char level)
-        {
-            if (level >= '0' && level <= '9')
-            {
-                return (level - 48);
-            }
-            else if (level >= 'a' && level <= 't')
-            {
-                return (level - 87);
-            }
-            return 0;
-        }
+
+        /// <summary>
+        /// Converts the <see cref="HPoint"/> to a human-readable string.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString() =>
+            $"X: {X}, Y: {Y}, Z: {Z}";
     }
 }
