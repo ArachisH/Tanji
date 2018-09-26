@@ -159,7 +159,7 @@ namespace Sulakore.Communication
         {
             return ConnectAsync(new HotelEndPoint(addresses[0], port));
         }
-        
+
         public async Task<HMessage> ReceivePacketAsync()
         {
             byte[] lengthBlock = await AttemptReceiveAsync(4, 3).ConfigureAwait(false);
@@ -168,7 +168,7 @@ namespace Sulakore.Communication
                 Disconnect();
                 return null;
             }
-            
+
             byte[] body = await AttemptReceiveAsync(BigEndian.ToInt32(lengthBlock, 0), 3).ConfigureAwait(false);
             if (body == null)
             {
@@ -245,11 +245,6 @@ namespace Sulakore.Communication
                 }
             }
             while (totalBytesRead != data.Length);
-
-            if (IsDecrypting && Decrypter != null)
-            {
-                data = Decrypter.Parse(data);
-            }
             return data;
         }
 
@@ -313,7 +308,12 @@ namespace Sulakore.Communication
                 IAsyncResult result = Client.BeginReceive(buffer, offset, size, socketFlags, null, null);
                 read = await Task.Factory.FromAsync(result, Client.EndReceive).ConfigureAwait(false);
             }
-            catch { return -1; }
+            catch { read = -1; }
+
+            if (read > 0 && IsDecrypting && Decrypter != null)
+            {
+                Decrypter.RefParse(buffer, offset, read, socketFlags.HasFlag(SocketFlags.Peek));
+            }
             return read;
         }
 
