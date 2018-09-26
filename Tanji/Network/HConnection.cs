@@ -12,8 +12,6 @@ namespace Tanji.Network
     public class HConnection : IHConnection
     {
         private bool _isIntercepting;
-        private int _inSteps, _outSteps;
-
         private readonly object _disconnectLock;
 
         private const string CROSS_DOMAIN_POLICY_REQUEST = "<policy-file-request/>\0";
@@ -55,8 +53,8 @@ namespace Tanji.Network
             DataIncoming?.Invoke(this, e);
         }
 
-        public int TotalIncoming => _inSteps;
-        public int TotalOutgoing => _outSteps;
+        public int TotalIncoming { get; private set; }
+        public int TotalOutgoing { get; private set; }
 
         public string Host => Remote?.EndPoint.Host;
         public ushort Port => (ushort)(Remote?.EndPoint.Port ?? 0);
@@ -142,8 +140,8 @@ namespace Tanji.Network
                     if (!await Remote.ConnectAsync(endpoint).ConfigureAwait(false)) break;
                     IsConnected = true;
 
-                    _inSteps = 0;
-                    _outSteps = 0;
+                    TotalIncoming = 0;
+                    TotalOutgoing = 0;
                     Task interceptOutgoingTask = InterceptOutgoingAsync();
                     Task interceptIncomingTask = InterceptIncomingAsync();
                 }
@@ -208,7 +206,7 @@ namespace Tanji.Network
             if (packet != null)
             {
                 packet.Destination = HDestination.Server;
-                var args = new DataInterceptedEventArgs(packet, ++_outSteps, true, InterceptOutgoingAsync, ServerRelayer);
+                var args = new DataInterceptedEventArgs(packet, ++TotalOutgoing, true, InterceptOutgoingAsync, ServerRelayer);
 
                 try { OnDataOutgoing(args); }
                 catch { args.Restore(); }
@@ -230,7 +228,7 @@ namespace Tanji.Network
             if (packet != null)
             {
                 packet.Destination = HDestination.Client;
-                var args = new DataInterceptedEventArgs(packet, ++_inSteps, false, InterceptIncomingAsync, ClientRelayer);
+                var args = new DataInterceptedEventArgs(packet, ++TotalIncoming, false, InterceptIncomingAsync, ClientRelayer);
 
                 try { OnDataIncoming(args); }
                 catch { args.Restore(); }
