@@ -561,7 +561,7 @@ namespace Tanji.Pages.Connection
         }
         public void HandleIncoming(DataInterceptedEventArgs e)
         {
-            if (e.Packet.Header == UI.In.GenerateSecretKey)
+            if (e.Step == 2)
             {
                 e.Packet.ReadString();
                 IsIncomingEncrypted = e.Packet.ReadBoolean();
