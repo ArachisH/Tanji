@@ -17,6 +17,9 @@ using Sulakore.Crypto;
 using Sulakore.Communication;
 
 using Flazzy;
+using Flazzy.ABC;
+using Flazzy.ABC.AVM2;
+using Flazzy.ABC.AVM2.Instructions;
 
 using Eavesdrop;
 
@@ -422,7 +425,7 @@ namespace Tanji.Pages.Connection
         private async Task InterceptConnectionAsync()
         {
             Status = INTERCEPTING_CONNECTION;
-            UI.Connection.SocketSkip = (int)Program.Settings["PostShuffleSocketSkip"];
+            UI.Connection.SocketSkip = (HasPingInstructions() ? 2 : 0);
 
             await UI.Connection.InterceptAsync(HotelServer).ConfigureAwait(false);
             if (UI.Connection.IsConnected)
@@ -445,6 +448,24 @@ namespace Tanji.Pages.Connection
             Status = STANDING_BY;
         }
 
+        private bool HasPingInstructions()
+        {
+            ABCFile abc = UI.Game.ABCFiles.Last();
+
+            ASMethod connectMethod = UI.Game.GetManagerConnectMethod();
+            if (connectMethod == null) return false;
+
+            ASCode connectCode = connectMethod.Body.ParseCode();
+            for (int i = 0, findPropStrictCount = 0; i < connectCode.Count; i++)
+            {
+                ASInstruction instruction = connectCode[i];
+                if (instruction.OP != OPCode.FindPropStrict || ++findPropStrictCount != 3) continue;
+
+                return true;
+            }
+
+            return false;
+        }
         private void DisableReplacements()
         {
             foreach (ListViewItem item in UI.CoTVariablesVw.Items)
@@ -511,6 +532,7 @@ namespace Tanji.Pages.Connection
         {
             UI.CoTResetBtn.Enabled = (!string.IsNullOrWhiteSpace(item.SubItems[1].Text));
         }
+
         protected override void OnTabSelecting(TabControlCancelEventArgs e)
         {
             if (!UI.Connection.IsConnected)
@@ -564,8 +586,11 @@ namespace Tanji.Pages.Connection
             if (e.Step == 2)
             {
                 e.Packet.ReadString();
-                IsIncomingEncrypted = e.Packet.ReadBoolean();
-                e.Packet.ReplaceBoolean(false, e.Packet.Position - 1);
+                if (e.Packet.Readable > 0)
+                {
+                    IsIncomingEncrypted = e.Packet.ReadBoolean();
+                    e.Packet.ReplaceBoolean(false, e.Packet.Position - 1);
+                }
             }
         }
         #endregion
