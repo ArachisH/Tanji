@@ -60,7 +60,7 @@ namespace Tanji.Network
         public ushort Port => (ushort)(Remote?.EndPoint.Port ?? 0);
         public string Address => Remote?.EndPoint.Address.ToString();
 
-        public int SocketSkip { get; set; } = 2;
+        public int SocketSkip { get; set; } = 0;
         public int ListenPort { get; set; } = 9567;
         public bool IsConnected { get; private set; }
 
