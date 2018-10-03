@@ -422,7 +422,7 @@ namespace Tanji.Pages.Connection
         private async Task InterceptConnectionAsync()
         {
             Status = INTERCEPTING_CONNECTION;
-            UI.Connection.SocketSkip = (UI.Game.IsPostShuffle ? 2 : 0);
+            UI.Connection.SocketSkip = (UI.Game.IsPostShuffle ? 0 : 0);
 
             await UI.Connection.InterceptAsync(HotelServer).ConfigureAwait(false);
             if (UI.Connection.IsConnected)
