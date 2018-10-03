@@ -1404,7 +1404,7 @@ namespace Sulakore.Habbo
             connectMethod.Body.Code = connectCode.ToArray();
             return true;
         }
-        private ASMethod GetManagerConnectMethod()
+        public ASMethod GetManagerConnectMethod()
         {
             if (_managerConnectMethod != null) return _managerConnectMethod;
             ABCFile abc = ABCFiles.Last();
