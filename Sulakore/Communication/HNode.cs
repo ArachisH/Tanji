@@ -368,7 +368,7 @@ namespace Sulakore.Communication
             TcpListener listener = null;
             if (!_listeners.TryGetValue(port, out listener))
             {
-                listener = new TcpListener(IPAddress.Parse("127.0.0.1"), port);
+                listener = new TcpListener(IPAddress.Any, port);
                 _listeners.Add(port, listener);
             }
 
