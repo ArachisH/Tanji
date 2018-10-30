@@ -69,8 +69,13 @@ namespace Tanji.Pages.Modules.Handlers
                 HMessage packet = await RemoteModule.ReceivePacketAsync().ConfigureAwait(false);
                 if (packet == null)
                 {
-                    DataAwaiters.Values.ToList()
-                        .ForEach(awaiter => awaiter.SetResult(null));
+                    DataAwaiters.Values.ToList().ForEach(awaiter =>
+                    {
+                        if (awaiter != null)
+                        {
+                            awaiter.SetResult(null);
+                        }
+                    });
 
                     RemoteModule = null;
                     Task grabRemoteModuleTask =
