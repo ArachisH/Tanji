@@ -17,6 +17,7 @@ namespace Tangine
 {
     public class ExtensionForm : Form, IModule
     {
+        private bool _shown;
         private int _initStep;
         private readonly IModule _module;
         private readonly HNode _remoteContractor;
@@ -200,13 +201,12 @@ namespace Tangine
         }
         private void HandleData(IDictionary<ushort, List<DataCaptureAttribute>> callbacks, DataInterceptedEventArgs e)
         {
-            if (callbacks.TryGetValue(e.Packet.Header, out List<DataCaptureAttribute> attributes))
+            if (!_shown) return;
+            if (!callbacks.TryGetValue(e.Packet.Header, out List<DataCaptureAttribute> attributes)) return;
+            foreach (DataCaptureAttribute attribute in attributes)
             {
-                foreach (DataCaptureAttribute attribute in attributes)
-                {
-                    e.Packet.Position = 0;
-                    attribute.Invoke(e);
-                }
+                e.Packet.Position = 0;
+                attribute.Invoke(e);
             }
         }
 
@@ -373,6 +373,12 @@ namespace Tangine
                 type = type.BaseType; ;
             }
             return excavated;
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            _shown = true;
         }
     }
 }
