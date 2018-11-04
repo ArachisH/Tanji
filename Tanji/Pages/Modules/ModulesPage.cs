@@ -88,7 +88,7 @@ namespace Tanji.Pages.Modules
             }
 
             UI.MTHabboNameTxt.Text = author.HabboName;
-            UI.MTHabboNameLbl.Text = $"Habbo Name({author.Hotel})";
+            UI.MTHabboNameLbl.Text = $"Habbo Name ({author.Hotel})";
 
             if (author.Hotel != HHotel.Unknown)
             {
