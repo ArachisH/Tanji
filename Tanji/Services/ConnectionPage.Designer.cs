@@ -89,7 +89,7 @@
             // 
             this.ResetBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.ResetBtn.Enabled = false;
-            this.ResetBtn.Location = new System.Drawing.Point(411, 213);
+            this.ResetBtn.Location = new System.Drawing.Point(413, 213);
             this.ResetBtn.Name = "ResetBtn";
             this.ResetBtn.Size = new System.Drawing.Size(90, 20);
             this.ResetBtn.TabIndex = 15;
@@ -101,7 +101,7 @@
             // 
             this.UpdateBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.UpdateBtn.Enabled = false;
-            this.UpdateBtn.Location = new System.Drawing.Point(411, 187);
+            this.UpdateBtn.Location = new System.Drawing.Point(413, 187);
             this.UpdateBtn.Name = "UpdateBtn";
             this.UpdateBtn.Size = new System.Drawing.Size(90, 20);
             this.UpdateBtn.TabIndex = 14;
@@ -114,9 +114,9 @@
             this.VariableTxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.VariableTxt.IsReadOnly = true;
-            this.VariableTxt.Location = new System.Drawing.Point(3, 212);
+            this.VariableTxt.Location = new System.Drawing.Point(3, 213);
             this.VariableTxt.Name = "VariableTxt";
-            this.VariableTxt.Size = new System.Drawing.Size(402, 20);
+            this.VariableTxt.Size = new System.Drawing.Size(404, 20);
             this.VariableTxt.TabIndex = 0;
             this.VariableTxt.TabStop = false;
             this.VariableTxt.Text = "";
@@ -129,7 +129,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ValueTxt.Location = new System.Drawing.Point(3, 187);
             this.ValueTxt.Name = "ValueTxt";
-            this.ValueTxt.Size = new System.Drawing.Size(402, 20);
+            this.ValueTxt.Size = new System.Drawing.Size(404, 20);
             this.ValueTxt.TabIndex = 0;
             this.ValueTxt.Text = "";
             this.ValueTxt.TextPaddingWidth = 11;
@@ -139,7 +139,7 @@
             // ProxyPortLbl
             // 
             this.ProxyPortLbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ProxyPortLbl.Location = new System.Drawing.Point(411, 238);
+            this.ProxyPortLbl.Location = new System.Drawing.Point(413, 239);
             this.ProxyPortLbl.Name = "ProxyPortLbl";
             this.ProxyPortLbl.Size = new System.Drawing.Size(90, 20);
             this.ProxyPortLbl.TabIndex = 12;
@@ -149,7 +149,7 @@
             // DestroyCertificatesBtn
             // 
             this.DestroyCertificatesBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.DestroyCertificatesBtn.Location = new System.Drawing.Point(207, 238);
+            this.DestroyCertificatesBtn.Location = new System.Drawing.Point(209, 239);
             this.DestroyCertificatesBtn.Name = "DestroyCertificatesBtn";
             this.DestroyCertificatesBtn.Size = new System.Drawing.Size(198, 20);
             this.DestroyCertificatesBtn.TabIndex = 11;
@@ -161,9 +161,9 @@
             // 
             this.ExportCertificateAuthorityBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ExportCertificateAuthorityBtn.Location = new System.Drawing.Point(3, 238);
+            this.ExportCertificateAuthorityBtn.Location = new System.Drawing.Point(3, 239);
             this.ExportCertificateAuthorityBtn.Name = "ExportCertificateAuthorityBtn";
-            this.ExportCertificateAuthorityBtn.Size = new System.Drawing.Size(198, 20);
+            this.ExportCertificateAuthorityBtn.Size = new System.Drawing.Size(200, 20);
             this.ExportCertificateAuthorityBtn.TabIndex = 10;
             this.ExportCertificateAuthorityBtn.TabStop = false;
             this.ExportCertificateAuthorityBtn.Text = "Export Certificate Authority";
@@ -172,7 +172,7 @@
             // BrowseBtn
             // 
             this.BrowseBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.BrowseBtn.Location = new System.Drawing.Point(411, 265);
+            this.BrowseBtn.Location = new System.Drawing.Point(413, 265);
             this.BrowseBtn.Name = "BrowseBtn";
             this.BrowseBtn.Size = new System.Drawing.Size(90, 20);
             this.BrowseBtn.TabIndex = 0;
@@ -184,9 +184,9 @@
             // 
             this.CustomClientTxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.CustomClientTxt.Location = new System.Drawing.Point(3, 264);
+            this.CustomClientTxt.Location = new System.Drawing.Point(3, 265);
             this.CustomClientTxt.Name = "CustomClientTxt";
-            this.CustomClientTxt.Size = new System.Drawing.Size(402, 20);
+            this.CustomClientTxt.Size = new System.Drawing.Size(404, 20);
             this.CustomClientTxt.TabIndex = 0;
             this.CustomClientTxt.TabStop = false;
             this.CustomClientTxt.Text = "";
@@ -196,7 +196,7 @@
             // ConnectBtn
             // 
             this.ConnectBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ConnectBtn.Location = new System.Drawing.Point(411, 291);
+            this.ConnectBtn.Location = new System.Drawing.Point(413, 291);
             this.ConnectBtn.Name = "ConnectBtn";
             this.ConnectBtn.Size = new System.Drawing.Size(90, 20);
             this.ConnectBtn.TabIndex = 0;
@@ -208,9 +208,9 @@
             // 
             this.StatusTxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.StatusTxt.Location = new System.Drawing.Point(3, 290);
+            this.StatusTxt.Location = new System.Drawing.Point(3, 291);
             this.StatusTxt.Name = "StatusTxt";
-            this.StatusTxt.Size = new System.Drawing.Size(402, 21);
+            this.StatusTxt.Size = new System.Drawing.Size(404, 21);
             this.StatusTxt.TabIndex = 4;
             this.StatusTxt.TabStop = false;
             this.StatusTxt.Text = "Standing By...";
@@ -249,7 +249,7 @@
             this.VariablesLv.MultiSelect = false;
             this.VariablesLv.Name = "VariablesLv";
             this.VariablesLv.ShowItemToolTips = true;
-            this.VariablesLv.Size = new System.Drawing.Size(504, 181);
+            this.VariablesLv.Size = new System.Drawing.Size(506, 181);
             this.VariablesLv.TabIndex = 3;
             this.VariablesLv.TabStop = false;
             this.VariablesLv.UseCompatibleStateImageBehavior = false;

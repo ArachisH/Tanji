@@ -1,8 +1,8 @@
 ﻿using System.Windows.Forms;
 
-using Sulakore.Habbo;
 using Sulakore.Modules;
 using Sulakore.Network;
+using Sulakore.Habbo.Web;
 using Sulakore.Habbo.Messages;
 
 namespace Tangine.Modules

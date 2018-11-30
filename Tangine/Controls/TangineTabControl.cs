@@ -7,14 +7,14 @@ namespace Tangine.Controls
     [DesignerCategory("Code")]
     public class TangineTabControl : TabControl
     {
-        private bool _displayBoundary = false;
+        private bool _isDisplayingBorder = false;
         [DefaultValue(false)]
-        public bool DisplayBoundary
+        public bool IsDisplayingBorder
         {
-            get => _displayBoundary;
+            get => _isDisplayingBorder;
             set
             {
-                _displayBoundary = value;
+                _isDisplayingBorder = value;
                 Invalidate();
             }
         }
@@ -97,10 +97,10 @@ namespace Tangine.Controls
             var titleRegion = new Rectangle();
             bool isFirstTab = (tabIndex == 0);
 
-            titleRegion.X = (tabRegion.X + 2 + tabIndex);
+            titleRegion.X = (tabRegion.X + (isFirstTab ? 2 : 0));
             titleRegion.Y = (tabRegion.Y + 2);
 
-            titleRegion.Width = tabRegion.Width;
+            titleRegion.Width = (tabRegion.Width - (isFirstTab ? 4 : 2));
             titleRegion.Height = (tabRegion.Height + heightOffset);
 
             return titleRegion;
@@ -121,7 +121,7 @@ namespace Tangine.Controls
         protected override void OnPaint(PaintEventArgs e)
         {
             e.Graphics.Clear(Backcolor);
-            if (DisplayBoundary)
+            if (IsDisplayingBorder)
             {
                 using (var pen = new Pen(Skin))
                 {

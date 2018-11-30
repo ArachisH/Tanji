@@ -10,8 +10,8 @@ using Tanji.Controls;
 using Tanji.Services;
 using Tanji.Windows.Dialogs;
 
-using Sulakore.Habbo;
 using Sulakore.Network;
+using Sulakore.Habbo.Web;
 using Sulakore.Habbo.Messages;
 using Sulakore.Network.Protocol;
 

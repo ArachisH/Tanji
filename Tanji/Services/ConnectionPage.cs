@@ -11,13 +11,16 @@ using System.Collections.Generic;
 using Tanji.Network;
 using Tanji.Controls;
 
-using Sulakore.Habbo;
 using Sulakore.Crypto;
 using Sulakore.Network;
+using Sulakore.Habbo.Web;
 
 using Eavesdrop;
 
 using Flazzy;
+using Flazzy.ABC;
+using Flazzy.ABC.AVM2;
+using Flazzy.ABC.AVM2.Instructions;
 
 namespace Tanji.Services
 {
@@ -315,10 +318,31 @@ namespace Tanji.Services
             Eavesdropper.ResponseInterceptedAsync -= InterceptClientPageAsync;
             Eavesdropper.ResponseInterceptedAsync -= InterceptGameClientAsync;
         }
+        private bool HasPingInstructions()
+        {
+            ABCFile abc = Master.Game.ABCFiles.Last();
+
+            ASMethod connectMethod = Master.Game.GetManagerConnectMethod();
+            if (connectMethod == null) return false;
+
+            ASCode connectCode = connectMethod.Body.ParseCode();
+            for (int i = 0, findPropStrictCount = 0; i < connectCode.Count; i++)
+            {
+                ASInstruction instruction = connectCode[i];
+                if (instruction.OP != OPCode.FindPropStrict || ++findPropStrictCount != 3) continue;
+
+                return true;
+            }
+
+            return false;
+        }
         private async Task InterceptConnectionAsync()
         {
             Status = INTERCEPTING_CONNECTION;
-            Master.Connection.SocketSkip = (Master.Game.IsPostShuffle ? 2 : 0);
+            if (Master.Game.IsPostShuffle && HasPingInstructions())
+            {
+                Master.Connection.SocketSkip = 2;
+            }
 
             await Master.Connection.InterceptAsync(HotelServer).ConfigureAwait(false);
             Status = STANDING_BY;

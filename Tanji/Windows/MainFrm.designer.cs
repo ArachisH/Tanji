@@ -82,9 +82,9 @@
             this.toolStripStatusLabel2,
             this.toolStripStatusLabel4,
             this.toolStripStatusLabel1});
-            this.TanjiStatusStrip.Location = new System.Drawing.Point(0, 346);
+            this.TanjiStatusStrip.Location = new System.Drawing.Point(0, 347);
             this.TanjiStatusStrip.Name = "TanjiStatusStrip";
-            this.TanjiStatusStrip.Size = new System.Drawing.Size(512, 24);
+            this.TanjiStatusStrip.Size = new System.Drawing.Size(514, 24);
             this.TanjiStatusStrip.SizingGrip = false;
             this.TanjiStatusStrip.TabIndex = 1;
             // 
@@ -127,14 +127,14 @@
             this.TanjiTabs.Controls.Add(this.ToolboxTab);
             this.TanjiTabs.Controls.Add(this.ModulesTab);
             this.TanjiTabs.Controls.Add(this.OptionsTab);
-            this.TanjiTabs.DisplayBoundary = true;
             this.TanjiTabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TanjiTabs.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
-            this.TanjiTabs.ItemSize = new System.Drawing.Size(100, 24);
+            this.TanjiTabs.IsDisplayingBorder = true;
+            this.TanjiTabs.ItemSize = new System.Drawing.Size(102, 24);
             this.TanjiTabs.Location = new System.Drawing.Point(0, 0);
             this.TanjiTabs.Name = "TanjiTabs";
             this.TanjiTabs.SelectedIndex = 0;
-            this.TanjiTabs.Size = new System.Drawing.Size(512, 346);
+            this.TanjiTabs.Size = new System.Drawing.Size(514, 347);
             this.TanjiTabs.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.TanjiTabs.TabIndex = 0;
             // 
@@ -143,7 +143,7 @@
             this.ConnectionTab.Controls.Add(this.ConnectionPg);
             this.ConnectionTab.Location = new System.Drawing.Point(4, 28);
             this.ConnectionTab.Name = "ConnectionTab";
-            this.ConnectionTab.Size = new System.Drawing.Size(504, 314);
+            this.ConnectionTab.Size = new System.Drawing.Size(506, 315);
             this.ConnectionTab.TabIndex = 0;
             this.ConnectionTab.Text = "Connection";
             this.ConnectionTab.UseVisualStyleBackColor = true;
@@ -155,7 +155,7 @@
             this.ConnectionPg.IsReceiving = false;
             this.ConnectionPg.Location = new System.Drawing.Point(0, 0);
             this.ConnectionPg.Name = "ConnectionPg";
-            this.ConnectionPg.Size = new System.Drawing.Size(504, 314);
+            this.ConnectionPg.Size = new System.Drawing.Size(506, 315);
             this.ConnectionPg.TabIndex = 0;
             this.ConnectionPg.TabStop = false;
             // 
@@ -167,7 +167,7 @@
             this.InjectionTab.Controls.Add(this.InjectionTabs);
             this.InjectionTab.Location = new System.Drawing.Point(4, 28);
             this.InjectionTab.Name = "InjectionTab";
-            this.InjectionTab.Size = new System.Drawing.Size(504, 314);
+            this.InjectionTab.Size = new System.Drawing.Size(506, 315);
             this.InjectionTab.TabIndex = 1;
             this.InjectionTab.Text = "Injection";
             this.InjectionTab.UseVisualStyleBackColor = true;
@@ -206,15 +206,15 @@
             this.InjectionTabs.Controls.Add(this.SchedulerTab);
             this.InjectionTabs.Controls.Add(this.InspectorTab);
             this.InjectionTabs.Controls.Add(this.FiltersTab);
-            this.InjectionTabs.DisplayBoundary = true;
             this.InjectionTabs.Dock = System.Windows.Forms.DockStyle.Top;
             this.InjectionTabs.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
+            this.InjectionTabs.IsDisplayingBorder = true;
             this.InjectionTabs.ItemSize = new System.Drawing.Size(25, 65);
             this.InjectionTabs.Location = new System.Drawing.Point(0, 0);
             this.InjectionTabs.Multiline = true;
             this.InjectionTabs.Name = "InjectionTabs";
             this.InjectionTabs.SelectedIndex = 0;
-            this.InjectionTabs.Size = new System.Drawing.Size(504, 290);
+            this.InjectionTabs.Size = new System.Drawing.Size(506, 290);
             this.InjectionTabs.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.InjectionTabs.TabIndex = 0;
             // 
@@ -224,7 +224,7 @@
             this.ConstructerTab.Location = new System.Drawing.Point(4, 4);
             this.ConstructerTab.Name = "ConstructerTab";
             this.ConstructerTab.Padding = new System.Windows.Forms.Padding(0, 0, 6, 0);
-            this.ConstructerTab.Size = new System.Drawing.Size(431, 282);
+            this.ConstructerTab.Size = new System.Drawing.Size(433, 282);
             this.ConstructerTab.TabIndex = 0;
             this.ConstructerTab.Text = "Constructer";
             this.ConstructerTab.UseVisualStyleBackColor = true;
@@ -235,7 +235,7 @@
             this.ConstructerPg.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ConstructerPg.Location = new System.Drawing.Point(0, 0);
             this.ConstructerPg.Name = "ConstructerPg";
-            this.ConstructerPg.Size = new System.Drawing.Size(425, 282);
+            this.ConstructerPg.Size = new System.Drawing.Size(427, 282);
             this.ConstructerPg.TabIndex = 0;
             this.ConstructerPg.TabStop = false;
             // 
@@ -303,7 +303,7 @@
             // 
             this.ToolboxTab.Location = new System.Drawing.Point(4, 28);
             this.ToolboxTab.Name = "ToolboxTab";
-            this.ToolboxTab.Size = new System.Drawing.Size(504, 314);
+            this.ToolboxTab.Size = new System.Drawing.Size(506, 315);
             this.ToolboxTab.TabIndex = 2;
             this.ToolboxTab.Text = "Toolbox";
             this.ToolboxTab.UseVisualStyleBackColor = true;
@@ -313,7 +313,7 @@
             this.ModulesTab.Controls.Add(this.ModulesPg);
             this.ModulesTab.Location = new System.Drawing.Point(4, 28);
             this.ModulesTab.Name = "ModulesTab";
-            this.ModulesTab.Size = new System.Drawing.Size(504, 314);
+            this.ModulesTab.Size = new System.Drawing.Size(506, 315);
             this.ModulesTab.TabIndex = 3;
             this.ModulesTab.Text = "Modules";
             this.ModulesTab.UseVisualStyleBackColor = true;
@@ -325,7 +325,7 @@
             this.ModulesPg.Location = new System.Drawing.Point(0, 0);
             this.ModulesPg.Name = "ModulesPg";
             this.ModulesPg.SelectedModule = null;
-            this.ModulesPg.Size = new System.Drawing.Size(504, 314);
+            this.ModulesPg.Size = new System.Drawing.Size(506, 315);
             this.ModulesPg.TabIndex = 0;
             this.ModulesPg.TabStop = false;
             // 
@@ -334,7 +334,7 @@
             this.OptionsTab.Controls.Add(this.OptionsTabs);
             this.OptionsTab.Location = new System.Drawing.Point(4, 28);
             this.OptionsTab.Name = "OptionsTab";
-            this.OptionsTab.Size = new System.Drawing.Size(504, 314);
+            this.OptionsTab.Size = new System.Drawing.Size(506, 315);
             this.OptionsTab.TabIndex = 4;
             this.OptionsTab.Text = "Options";
             this.OptionsTab.UseVisualStyleBackColor = true;
@@ -351,7 +351,7 @@
             this.OptionsTabs.Multiline = true;
             this.OptionsTabs.Name = "OptionsTabs";
             this.OptionsTabs.SelectedIndex = 0;
-            this.OptionsTabs.Size = new System.Drawing.Size(504, 314);
+            this.OptionsTabs.Size = new System.Drawing.Size(506, 315);
             this.OptionsTabs.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.OptionsTabs.TabIndex = 0;
             // 
@@ -360,7 +360,7 @@
             this.SettingsTab.Controls.Add(this.settingsPage1);
             this.SettingsTab.Location = new System.Drawing.Point(4, 4);
             this.SettingsTab.Name = "SettingsTab";
-            this.SettingsTab.Size = new System.Drawing.Size(449, 306);
+            this.SettingsTab.Size = new System.Drawing.Size(451, 307);
             this.SettingsTab.TabIndex = 0;
             this.SettingsTab.Text = "Settings";
             this.SettingsTab.UseVisualStyleBackColor = true;
@@ -371,7 +371,7 @@
             this.settingsPage1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.settingsPage1.Location = new System.Drawing.Point(0, 0);
             this.settingsPage1.Name = "settingsPage1";
-            this.settingsPage1.Size = new System.Drawing.Size(449, 306);
+            this.settingsPage1.Size = new System.Drawing.Size(451, 307);
             this.settingsPage1.TabIndex = 0;
             this.settingsPage1.TabStop = false;
             // 
@@ -400,7 +400,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(512, 370);
+            this.ClientSize = new System.Drawing.Size(514, 371);
             this.Controls.Add(this.TanjiTabs);
             this.Controls.Add(this.TanjiStatusStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
