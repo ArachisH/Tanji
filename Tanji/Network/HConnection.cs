@@ -16,7 +16,8 @@ namespace Tanji.Network
 
         private readonly object _disconnectLock;
 
-        private const string CROSS_DOMAIN_POLICY = "<cross-domain-policy><allow-access-from domain=\"*\" to-ports=\"*\"/></cross-domain-policy>";
+        private const string CROSS_DOMAIN_POLICY_REQUEST = "<policy-file-request/>\0";
+        private const string CROSS_DOMAIN_POLICY_RESPONSE = "<cross-domain-policy><allow-access-from domain=\"*\" to-ports=\"*\"/></cross-domain-policy>\0";
 
         /// <summary>
         /// Occurs when the connection between the client, and server have been intercepted.
@@ -122,17 +123,30 @@ namespace Tanji.Network
                         buffer = await Local.ReceiveAsync(512).ConfigureAwait(false);
                         if (!_isIntercepting) break;
 
-                        if (Encoding.UTF8.GetString(buffer).ToLower().Contains("<policy-file-request/>"))
+                        if (Encoding.UTF8.GetString(buffer).ToLower() == CROSS_DOMAIN_POLICY_REQUEST)
                         {
-                            await Local.SendAsync(Encoding.UTF8.GetBytes(CROSS_DOMAIN_POLICY)).ConfigureAwait(false);
+                            await Local.SendAsync(Encoding.UTF8.GetBytes(CROSS_DOMAIN_POLICY_RESPONSE)).ConfigureAwait(false);
                         }
-                        else throw new Exception("Expected cross-domain policy request");
+                        else throw new Exception("Expected cross-domain policy request.");
                         continue;
                     }
 
                     var args = new ConnectedEventArgs(endpoint);
                     OnConnected(args);
-                    endpoint = args.HotelServer;
+
+                    endpoint = (args.HotelServer ?? endpoint);
+                    if (endpoint == null)
+                    {
+                        endpoint = await args.HotelServerSource.Task.ConfigureAwait(false);
+                    }
+
+                    if (args.IsFakingPolicyRequest)
+                    {
+                        using (var tempRemote = await HNode.ConnectNewAsync(endpoint).ConfigureAwait(false))
+                        {
+                            await tempRemote.SendAsync(Encoding.UTF8.GetBytes(CROSS_DOMAIN_POLICY_REQUEST)).ConfigureAwait(false);
+                        }
+                    }
 
                     if (!await Remote.ConnectAsync(endpoint).ConfigureAwait(false)) break;
                     IsConnected = true;

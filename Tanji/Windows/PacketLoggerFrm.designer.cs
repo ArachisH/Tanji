@@ -58,15 +58,13 @@
             this.LatencyLbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.RevisionLbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.PacketLoggerSs = new System.Windows.Forms.StatusStrip();
-            this.LeftPaddingLbl = new System.Windows.Forms.ToolStripStatusLabel();
-            this.RightPaddingLbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.PacketLoggerMs.SuspendLayout();
             this.PacketLoggerSs.SuspendLayout();
             this.SuspendLayout();
             // 
             // PacketLoggerMs
             // 
-            this.PacketLoggerMs.BackColor = System.Drawing.Color.White;
+            this.PacketLoggerMs.BackColor = System.Drawing.SystemColors.Control;
             this.PacketLoggerMs.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileBtn,
             this.ViewBtn,
@@ -298,7 +296,7 @@
             this.ViewOutgoingLbl.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.ViewOutgoingLbl.BorderStyle = System.Windows.Forms.Border3DStyle.RaisedOuter;
             this.ViewOutgoingLbl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.ViewOutgoingLbl.ForeColor = System.Drawing.Color.White;
+            this.ViewOutgoingLbl.ForeColor = System.Drawing.Color.Black;
             this.ViewOutgoingLbl.Name = "ViewOutgoingLbl";
             this.ViewOutgoingLbl.Size = new System.Drawing.Size(119, 19);
             this.ViewOutgoingLbl.Text = "View Outgoing: True";
@@ -308,7 +306,7 @@
             this.ViewIncomingLbl.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.ViewIncomingLbl.BorderStyle = System.Windows.Forms.Border3DStyle.RaisedOuter;
             this.ViewIncomingLbl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.ViewIncomingLbl.ForeColor = System.Drawing.Color.White;
+            this.ViewIncomingLbl.ForeColor = System.Drawing.Color.Black;
             this.ViewIncomingLbl.Name = "ViewIncomingLbl";
             this.ViewIncomingLbl.Size = new System.Drawing.Size(119, 19);
             this.ViewIncomingLbl.Text = "View Incoming: True";
@@ -318,7 +316,7 @@
             this.LatencyLbl.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.LatencyLbl.BorderStyle = System.Windows.Forms.Border3DStyle.RaisedOuter;
             this.LatencyLbl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.LatencyLbl.ForeColor = System.Drawing.Color.White;
+            this.LatencyLbl.ForeColor = System.Drawing.Color.Black;
             this.LatencyLbl.Name = "LatencyLbl";
             this.LatencyLbl.Size = new System.Drawing.Size(80, 19);
             this.LatencyLbl.Text = "Latency: 0ms";
@@ -327,38 +325,24 @@
             // 
             this.RevisionLbl.BorderStyle = System.Windows.Forms.Border3DStyle.RaisedOuter;
             this.RevisionLbl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.RevisionLbl.ForeColor = System.Drawing.Color.White;
+            this.RevisionLbl.ForeColor = System.Drawing.Color.Black;
             this.RevisionLbl.Name = "RevisionLbl";
-            this.RevisionLbl.Size = new System.Drawing.Size(261, 19);
+            this.RevisionLbl.Size = new System.Drawing.Size(268, 19);
             this.RevisionLbl.Text = "Revision: PRODUCTION-000000000000-000000000";
             // 
             // PacketLoggerSs
             // 
-            this.PacketLoggerSs.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
+            this.PacketLoggerSs.BackColor = System.Drawing.SystemColors.Control;
             this.PacketLoggerSs.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.LeftPaddingLbl,
             this.ViewOutgoingLbl,
             this.ViewIncomingLbl,
             this.LatencyLbl,
-            this.RevisionLbl,
-            this.RightPaddingLbl});
+            this.RevisionLbl});
             this.PacketLoggerSs.Location = new System.Drawing.Point(0, 487);
             this.PacketLoggerSs.Name = "PacketLoggerSs";
             this.PacketLoggerSs.Size = new System.Drawing.Size(834, 24);
             this.PacketLoggerSs.SizingGrip = false;
             this.PacketLoggerSs.TabIndex = 2;
-            // 
-            // LeftPaddingLbl
-            // 
-            this.LeftPaddingLbl.Name = "LeftPaddingLbl";
-            this.LeftPaddingLbl.Size = new System.Drawing.Size(120, 19);
-            this.LeftPaddingLbl.Spring = true;
-            // 
-            // RightPaddingLbl
-            // 
-            this.RightPaddingLbl.Name = "RightPaddingLbl";
-            this.RightPaddingLbl.Size = new System.Drawing.Size(120, 19);
-            this.RightPaddingLbl.Spring = true;
             // 
             // PacketLoggerFrm
             // 
@@ -412,8 +396,6 @@
         private System.Windows.Forms.ToolStripStatusLabel LatencyLbl;
         private System.Windows.Forms.ToolStripStatusLabel RevisionLbl;
         private System.Windows.Forms.StatusStrip PacketLoggerSs;
-        private System.Windows.Forms.ToolStripStatusLabel LeftPaddingLbl;
-        private System.Windows.Forms.ToolStripStatusLabel RightPaddingLbl;
         private Controls.BindableToolStripMenuItem AutoScrollingBtn;
     }
 }

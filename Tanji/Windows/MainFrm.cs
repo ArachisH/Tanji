@@ -5,6 +5,7 @@ using Tanji.Network;
 using Tanji.Controls;
 using Tanji.Services;
 
+using Sulakore.Habbo;
 using Sulakore.Network;
 using Sulakore.Network.Protocol;
 
@@ -55,7 +56,9 @@ namespace Tanji.Windows
         public void Restore(ConnectedEventArgs e)
         {
             HPacket endPointPkt = Master.Connection.Local.ReceivePacketAsync().Result;
-            e.HotelServer = ConnectionPg.HotelServer = HotelEndPoint.Parse(endPointPkt.ReadUTF8(), endPointPkt.ReadInt32());
+            e.HotelServer = ConnectionPg.HotelServer = HotelEndPoint.Parse(endPointPkt.ReadUTF8().Split('\0')[0], endPointPkt.ReadInt32());
+            e.IsFakingPolicyRequest = e.HotelServer.Hotel == HHotel.Unknown;
+            e.HotelServerSource.SetResult(e.HotelServer);
 
             Text = $"Tanji - Connected[{e.HotelServer}]";
             TopMost = _packetLogger.TopMost;
