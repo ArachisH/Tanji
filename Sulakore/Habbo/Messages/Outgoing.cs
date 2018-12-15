@@ -22,8 +22,8 @@
         public ushort CameraRoomPicture { get; set; }
         public ushort CameraRoomThumbnail { get; set; }
         public ushort CancelPoll { get; set; }
-        public ushort CatalogBuyItemAsGift { get; set; }
         public ushort CatalogBuyItem { get; set; }
+        public ushort CatalogBuyItemAsGift { get; set; }
         public ushort CatalogSearchedItem { get; set; }
         public ushort ChangeNameCheckUsername { get; set; }
         public ushort ChangeRelation { get; set; }
@@ -84,17 +84,17 @@
         public ushort HorseRide { get; set; }
         public ushort HorseRideSettings { get; set; }
         public ushort HorseUseItem { get; set; }
+        public ushort HotelView { get; set; }
         public ushort HotelViewClaimBadge { get; set; }
         public ushort HotelViewClaimBadgeReward { get; set; }
         public ushort HotelViewConcurrentUsersButton { get; set; }
         public ushort HotelViewData { get; set; }
-        public ushort HotelView { get; set; }
         public ushort HotelViewRequestBadgeReward { get; set; }
         public ushort HotelViewRequestBonusRare { get; set; }
         public ushort HotelViewRequestCommunityGoal { get; set; }
         public ushort HotelViewRequestConcurrentUsers { get; set; }
-        public ushort InitCrypto { get; set; }
         public ushort IgnoreRoomUser { get; set; }
+        public ushort InitCrypto { get; set; }
         public ushort InviteFriends { get; set; }
         public ushort JukeBoxAddSoundTrack { get; set; }
         public ushort JukeBoxEventOne { get; set; }
@@ -153,10 +153,10 @@
         public ushort ReleaseVersion { get; set; }
         public ushort ReloadRecycler { get; set; }
         public ushort RemoveFriend { get; set; }
-        public ushort RentSpaceCancel { get; set; }
         public ushort RentSpace { get; set; }
-        public ushort ReportBully { get; set; }
+        public ushort RentSpaceCancel { get; set; }
         public ushort Report { get; set; }
+        public ushort ReportBully { get; set; }
         public ushort RequestAchievementConfiguration { get; set; }
         public ushort RequestAchievements { get; set; }
         public ushort RequestCameraConfiguration { get; set; }
@@ -165,8 +165,8 @@
         public ushort RequestCatalogMode { get; set; }
         public ushort RequestCatalogPage { get; set; }
         public ushort RequestClubGifts { get; set; }
-        public ushort RequestCraftingRecipesAvailable { get; set; }
         public ushort RequestCraftingRecipes { get; set; }
+        public ushort RequestCraftingRecipesAvailable { get; set; }
         public ushort RequestCreateRoom { get; set; }
         public ushort RequestCredits { get; set; }
         public ushort RequestDeleteRoom { get; set; }
@@ -203,7 +203,7 @@
         public ushort RequestOwnGuilds { get; set; }
         public ushort RequestOwnItems { get; set; }
         public ushort RequestPetBreeds { get; set; }
-        public ushort RequestPetInformation { get; set; }
+        public ushort RequestPetInfo { get; set; }
         public ushort RequestPetTrainingPanel { get; set; }
         public ushort RequestPopularRooms { get; set; }
         public ushort RequestProfileFriends { get; set; }
@@ -237,6 +237,7 @@
         public ushort RoomFavorite { get; set; }
         public ushort RoomMute { get; set; }
         public ushort RoomPickupItem { get; set; }
+        public ushort RoomPlaceBuildersClubItem { get; set; }
         public ushort RoomPlaceItem { get; set; }
         public ushort RoomPlacePaint { get; set; }
         public ushort RoomRemoveAllRights { get; set; }
@@ -266,6 +267,7 @@
         public ushort RoomVote { get; set; }
         public ushort RoomWordFilterModify { get; set; }
         public ushort RotateMoveItem { get; set; }
+        public ushort SSOTicket { get; set; }
         public ushort SaveBlockCameraFollow { get; set; }
         public ushort SaveIgnoreRoomInvites { get; set; }
         public ushort SaveMotto { get; set; }
@@ -275,8 +277,8 @@
         public ushort SaveWardrobe { get; set; }
         public ushort SaveWindowSettings { get; set; }
         public ushort ScratchPet { get; set; }
-        public ushort SearchRoomsByTag { get; set; }
         public ushort SearchRooms { get; set; }
+        public ushort SearchRoomsByTag { get; set; }
         public ushort SearchRoomsFriendsNow { get; set; }
         public ushort SearchRoomsFriendsOwn { get; set; }
         public ushort SearchRoomsInGroup { get; set; }
@@ -287,7 +289,6 @@
         public ushort SellItem { get; set; }
         public ushort SetHomeRoom { get; set; }
         public ushort SetStackHelperHeight { get; set; }
-        public ushort SSOTicket { get; set; }
         public ushort StalkFriend { get; set; }
         public ushort TakeBackItem { get; set; }
         public ushort TestInventory { get; set; }
