@@ -7,11 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tanji", "Tanji\Tanji.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eavesdrop", "Submodules\Eavesdrop\Eavesdrop\Eavesdrop.csproj", "{29AB109A-8343-45A9-A91E-0F54211FDD45}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flazzy", "Submodules\Flazzy\Flazzy\Flazzy.csproj", "{EDFB1120-B718-4F56-917F-1A3AAA469028}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tangine", "Tangine\Tangine.csproj", "{8450DB77-1453-4542-9E44-29A91732BF70}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sulakore", "Submodules\Sulakore\Sulakore\Sulakore.csproj", "{3EB650BF-1F7E-4C89-A404-5653CE982C63}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flazzy", "Submodules\Sulakore\Submodules\Flazzy\Flazzy\Flazzy.csproj", "{170D0173-6933-4FCF-8F0F-86BFEAC44F70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,10 +27,6 @@ Global
 		{29AB109A-8343-45A9-A91E-0F54211FDD45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29AB109A-8343-45A9-A91E-0F54211FDD45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29AB109A-8343-45A9-A91E-0F54211FDD45}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EDFB1120-B718-4F56-917F-1A3AAA469028}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EDFB1120-B718-4F56-917F-1A3AAA469028}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EDFB1120-B718-4F56-917F-1A3AAA469028}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EDFB1120-B718-4F56-917F-1A3AAA469028}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8450DB77-1453-4542-9E44-29A91732BF70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8450DB77-1453-4542-9E44-29A91732BF70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8450DB77-1453-4542-9E44-29A91732BF70}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,10 @@ Global
 		{3EB650BF-1F7E-4C89-A404-5653CE982C63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EB650BF-1F7E-4C89-A404-5653CE982C63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EB650BF-1F7E-4C89-A404-5653CE982C63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{170D0173-6933-4FCF-8F0F-86BFEAC44F70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{170D0173-6933-4FCF-8F0F-86BFEAC44F70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{170D0173-6933-4FCF-8F0F-86BFEAC44F70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{170D0173-6933-4FCF-8F0F-86BFEAC44F70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

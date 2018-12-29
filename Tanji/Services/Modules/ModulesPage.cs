@@ -83,12 +83,12 @@ namespace Tanji.Services.Modules
                 LoadModules();
                 try
                 {
-                    var listener = new TcpListener(IPAddress.Any, TService.REMOTE_MODULE_PORT);
+                    var listener = new TcpListener(IPAddress.Any, TService.DefaultModuleServer.Port);
                     listener.Start();
 
                     Task captureModulesTask = CaptureModulesAsync(listener);
                 }
-                catch { Program.Display(null, $"Failed to start module listener on port '{TService.REMOTE_MODULE_PORT}'."); }
+                catch { Program.Display(null, $"Failed to start module listener on port '{TService.DefaultModuleServer.Port}'."); }
             }
         }
 

@@ -215,8 +215,8 @@
       <Project>{29ab109a-8343-45a9-a91e-0f54211fdd45}</Project>
       <Name>Eavesdrop</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Submodules\Flazzy\Flazzy\Flazzy.csproj">
-      <Project>{edfb1120-b718-4f56-917f-1a3aaa469028}</Project>
+    <ProjectReference Include="..\Submodules\Sulakore\Submodules\Flazzy\Flazzy\Flazzy.csproj">
+      <Project>{170d0173-6933-4fcf-8f0f-86bfeac44f70}</Project>
       <Name>Flazzy</Name>
     </ProjectReference>
     <ProjectReference Include="..\Submodules\Sulakore\Sulakore\Sulakore.csproj">
