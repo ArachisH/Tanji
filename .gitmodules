@@ -1,9 +1,6 @@
 [submodule "Submodules/Eavesdrop"]
 	path = Submodules/Eavesdrop
 	url = https://github.com/ArachisH/Eavesdrop.git
-[submodule "Submodules/Flazzy"]
-	path = Submodules/Flazzy
-	url = https://github.com/ArachisH/Flazzy.git
 [submodule "Submodules/Sulakore"]
 	path = Submodules/Sulakore
 	url = https://github.com/ArachisH/Sulakore.git
