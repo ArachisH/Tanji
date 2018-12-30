@@ -28,95 +28,291 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
             "String",
-            "Testing testing 123"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Int32");
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("Boolean");
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("Byte");
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("UInt16");
-            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("");
-            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem("");
-            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem("");
-            this.tangineListView1 = new Tangine.Controls.TangineListView();
+            "Huuhaa",
+            "[0][6]Huuhaa"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem("Int32");
+            System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem("Boolean");
+            System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem("Byte");
+            System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem("UInt16");
+            System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem("");
+            System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem("");
+            System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem("");
+            this.IdentifierLbl = new Tangine.Controls.TangineLabel();
+            this.WriteIntegerBtn = new Tangine.Controls.TangineButton();
+            this.ValueTxt = new Tangine.Controls.TangineLabelBox();
+            this.ValuesVw = new Tangine.Controls.TangineListView();
             this.TypeCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ValueCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ValueTxt = new Tangine.Controls.TangineLabelBox();
+            this.EncodedCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.IdentifierTxt = new System.Windows.Forms.NumericUpDown();
+            this.AmountTxt = new System.Windows.Forms.NumericUpDown();
+            this.AmountLbl = new Tangine.Controls.TangineLabel();
+            this.WriteStringBtn = new Tangine.Controls.TangineButton();
+            this.WriteBooleanBtn = new Tangine.Controls.TangineButton();
+            this.ValueCountLbl = new Tangine.Controls.TangineLabel();
+            this.StructureTxt = new System.Windows.Forms.TextBox();
+            this.TransferBelowBtn = new Tangine.Controls.TangineButton();
+            this.ClearBtn = new Tangine.Controls.TangineButton();
+            this.MoveUpBtn = new Tangine.Controls.TangineButton();
+            this.MoveDownBtn = new Tangine.Controls.TangineButton();
+            this.RemoveBtn = new Tangine.Controls.TangineButton();
+            ((System.ComponentModel.ISupportInitialize)(this.IdentifierTxt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AmountTxt)).BeginInit();
             this.SuspendLayout();
             // 
-            // tangineListView1
+            // IdentifierLbl
             // 
-            this.tangineListView1.CheckBoxes = true;
-            this.tangineListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.TypeCol,
-            this.ValueCol});
-            this.tangineListView1.FullRowSelect = true;
-            this.tangineListView1.GridLines = true;
-            this.tangineListView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.tangineListView1.HideSelection = false;
-            listViewItem1.StateImageIndex = 0;
-            listViewItem2.StateImageIndex = 0;
-            listViewItem3.StateImageIndex = 0;
-            listViewItem4.StateImageIndex = 0;
-            listViewItem5.StateImageIndex = 0;
-            listViewItem6.StateImageIndex = 0;
-            listViewItem7.StateImageIndex = 0;
-            listViewItem8.StateImageIndex = 0;
-            this.tangineListView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3,
-            listViewItem4,
-            listViewItem5,
-            listViewItem6,
-            listViewItem7,
-            listViewItem8});
-            this.tangineListView1.Location = new System.Drawing.Point(0, 0);
-            this.tangineListView1.MultiSelect = false;
-            this.tangineListView1.Name = "tangineListView1";
-            this.tangineListView1.ShowItemToolTips = true;
-            this.tangineListView1.Size = new System.Drawing.Size(407, 115);
-            this.tangineListView1.TabIndex = 0;
-            this.tangineListView1.UseCompatibleStateImageBehavior = false;
-            this.tangineListView1.View = System.Windows.Forms.View.Details;
+            this.IdentifierLbl.BorderMode = Tangine.Controls.TangineLabel.LabelBorderMode.Right;
+            this.IdentifierLbl.Location = new System.Drawing.Point(-1, 0);
+            this.IdentifierLbl.Name = "IdentifierLbl";
+            this.IdentifierLbl.Size = new System.Drawing.Size(22, 21);
+            this.IdentifierLbl.TabIndex = 4;
+            this.IdentifierLbl.Text = "ID";
             // 
-            // TypeCol
+            // WriteIntegerBtn
             // 
-            this.TypeCol.Text = "Type";
-            this.TypeCol.Width = 80;
-            // 
-            // ValueCol
-            // 
-            this.ValueCol.Text = "Value";
-            this.ValueCol.Width = 306;
+            this.WriteIntegerBtn.Location = new System.Drawing.Point(83, 26);
+            this.WriteIntegerBtn.Name = "WriteIntegerBtn";
+            this.WriteIntegerBtn.Size = new System.Drawing.Size(110, 20);
+            this.WriteIntegerBtn.TabIndex = 2;
+            this.WriteIntegerBtn.Text = "Write Integer";
             // 
             // ValueTxt
             // 
-            this.ValueTxt.Location = new System.Drawing.Point(0, 121);
+            this.ValueTxt.Location = new System.Drawing.Point(82, 0);
             this.ValueTxt.Name = "ValueTxt";
-            this.ValueTxt.Size = new System.Drawing.Size(200, 20);
+            this.ValueTxt.Size = new System.Drawing.Size(228, 20);
             this.ValueTxt.TabIndex = 1;
             this.ValueTxt.Text = "";
             this.ValueTxt.TextPaddingWidth = 0;
             this.ValueTxt.Title = "Value";
             // 
+            // ValuesVw
+            // 
+            this.ValuesVw.CheckBoxes = true;
+            this.ValuesVw.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.TypeCol,
+            this.ValueCol,
+            this.EncodedCol});
+            this.ValuesVw.FullRowSelect = true;
+            this.ValuesVw.GridLines = true;
+            this.ValuesVw.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.ValuesVw.HideSelection = false;
+            listViewItem9.StateImageIndex = 0;
+            listViewItem10.StateImageIndex = 0;
+            listViewItem11.StateImageIndex = 0;
+            listViewItem12.StateImageIndex = 0;
+            listViewItem13.StateImageIndex = 0;
+            listViewItem14.StateImageIndex = 0;
+            listViewItem15.StateImageIndex = 0;
+            listViewItem16.StateImageIndex = 0;
+            this.ValuesVw.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem9,
+            listViewItem10,
+            listViewItem11,
+            listViewItem12,
+            listViewItem13,
+            listViewItem14,
+            listViewItem15,
+            listViewItem16});
+            this.ValuesVw.Location = new System.Drawing.Point(0, 52);
+            this.ValuesVw.MultiSelect = false;
+            this.ValuesVw.Name = "ValuesVw";
+            this.ValuesVw.ShowItemToolTips = true;
+            this.ValuesVw.Size = new System.Drawing.Size(427, 177);
+            this.ValuesVw.TabIndex = 0;
+            this.ValuesVw.UseCompatibleStateImageBehavior = false;
+            this.ValuesVw.View = System.Windows.Forms.View.Details;
+            this.ValuesVw.ItemActivate += new System.EventHandler(this.ValuesVw_ItemActivate);
+            // 
+            // TypeCol
+            // 
+            this.TypeCol.Text = "Type";
+            this.TypeCol.Width = 86;
+            // 
+            // ValueCol
+            // 
+            this.ValueCol.Text = "Value";
+            this.ValueCol.Width = 165;
+            // 
+            // EncodedCol
+            // 
+            this.EncodedCol.Text = "Encoded";
+            this.EncodedCol.Width = 139;
+            // 
+            // IdentifierTxt
+            // 
+            this.IdentifierTxt.Location = new System.Drawing.Point(27, 0);
+            this.IdentifierTxt.Maximum = new decimal(new int[] {
+            4000,
+            0,
+            0,
+            0});
+            this.IdentifierTxt.Name = "IdentifierTxt";
+            this.IdentifierTxt.Size = new System.Drawing.Size(49, 20);
+            this.IdentifierTxt.TabIndex = 5;
+            this.IdentifierTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.IdentifierTxt.Value = new decimal(new int[] {
+            4000,
+            0,
+            0,
+            0});
+            // 
+            // AmountTxt
+            // 
+            this.AmountTxt.Location = new System.Drawing.Point(378, 0);
+            this.AmountTxt.Maximum = new decimal(new int[] {
+            424224,
+            0,
+            0,
+            0});
+            this.AmountTxt.Name = "AmountTxt";
+            this.AmountTxt.Size = new System.Drawing.Size(49, 20);
+            this.AmountTxt.TabIndex = 7;
+            this.AmountTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.AmountTxt.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // AmountLbl
+            // 
+            this.AmountLbl.BorderMode = Tangine.Controls.TangineLabel.LabelBorderMode.Right;
+            this.AmountLbl.Location = new System.Drawing.Point(317, 0);
+            this.AmountLbl.Name = "AmountLbl";
+            this.AmountLbl.Size = new System.Drawing.Size(56, 20);
+            this.AmountLbl.TabIndex = 6;
+            this.AmountLbl.Text = "Amount";
+            // 
+            // WriteStringBtn
+            // 
+            this.WriteStringBtn.Location = new System.Drawing.Point(200, 26);
+            this.WriteStringBtn.Name = "WriteStringBtn";
+            this.WriteStringBtn.Size = new System.Drawing.Size(110, 20);
+            this.WriteStringBtn.TabIndex = 8;
+            this.WriteStringBtn.Text = "Write String";
+            // 
+            // WriteBooleanBtn
+            // 
+            this.WriteBooleanBtn.Location = new System.Drawing.Point(317, 26);
+            this.WriteBooleanBtn.Name = "WriteBooleanBtn";
+            this.WriteBooleanBtn.Size = new System.Drawing.Size(110, 20);
+            this.WriteBooleanBtn.TabIndex = 9;
+            this.WriteBooleanBtn.Text = "Write Boolean";
+            // 
+            // ValueCountLbl
+            // 
+            this.ValueCountLbl.Location = new System.Drawing.Point(329, 235);
+            this.ValueCountLbl.Name = "ValueCountLbl";
+            this.ValueCountLbl.Size = new System.Drawing.Size(98, 21);
+            this.ValueCountLbl.TabIndex = 10;
+            this.ValueCountLbl.Text = "Value Count: 0";
+            // 
+            // StructureTxt
+            // 
+            this.StructureTxt.Location = new System.Drawing.Point(0, 235);
+            this.StructureTxt.Name = "StructureTxt";
+            this.StructureTxt.ReadOnly = true;
+            this.StructureTxt.Size = new System.Drawing.Size(323, 20);
+            this.StructureTxt.TabIndex = 11;
+            this.StructureTxt.Text = "{l}{id:0}";
+            this.StructureTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // TransferBelowBtn
+            // 
+            this.TransferBelowBtn.Location = new System.Drawing.Point(0, 262);
+            this.TransferBelowBtn.Name = "TransferBelowBtn";
+            this.TransferBelowBtn.Size = new System.Drawing.Size(111, 20);
+            this.TransferBelowBtn.TabIndex = 12;
+            this.TransferBelowBtn.Text = "Transfer Below";
+            // 
+            // ClearBtn
+            // 
+            this.ClearBtn.Location = new System.Drawing.Point(0, 26);
+            this.ClearBtn.Name = "ClearBtn";
+            this.ClearBtn.Size = new System.Drawing.Size(76, 20);
+            this.ClearBtn.TabIndex = 13;
+            this.ClearBtn.Text = "Clear";
+            // 
+            // MoveUpBtn
+            // 
+            this.MoveUpBtn.Enabled = false;
+            this.MoveUpBtn.Location = new System.Drawing.Point(225, 262);
+            this.MoveUpBtn.Name = "MoveUpBtn";
+            this.MoveUpBtn.Size = new System.Drawing.Size(98, 20);
+            this.MoveUpBtn.TabIndex = 16;
+            this.MoveUpBtn.Text = "Move Up";
+            // 
+            // MoveDownBtn
+            // 
+            this.MoveDownBtn.Enabled = false;
+            this.MoveDownBtn.Location = new System.Drawing.Point(329, 262);
+            this.MoveDownBtn.Name = "MoveDownBtn";
+            this.MoveDownBtn.Size = new System.Drawing.Size(98, 20);
+            this.MoveDownBtn.TabIndex = 17;
+            this.MoveDownBtn.Text = "Move Down";
+            // 
+            // RemoveBtn
+            // 
+            this.RemoveBtn.Enabled = false;
+            this.RemoveBtn.Location = new System.Drawing.Point(117, 262);
+            this.RemoveBtn.Name = "RemoveBtn";
+            this.RemoveBtn.Size = new System.Drawing.Size(102, 20);
+            this.RemoveBtn.TabIndex = 15;
+            this.RemoveBtn.Text = "Remove";
+            // 
             // ConstructerPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.MoveDownBtn);
+            this.Controls.Add(this.MoveUpBtn);
+            this.Controls.Add(this.RemoveBtn);
+            this.Controls.Add(this.ClearBtn);
+            this.Controls.Add(this.TransferBelowBtn);
+            this.Controls.Add(this.StructureTxt);
+            this.Controls.Add(this.ValueCountLbl);
+            this.Controls.Add(this.WriteBooleanBtn);
+            this.Controls.Add(this.WriteStringBtn);
+            this.Controls.Add(this.AmountTxt);
+            this.Controls.Add(this.AmountLbl);
+            this.Controls.Add(this.IdentifierTxt);
+            this.Controls.Add(this.IdentifierLbl);
+            this.Controls.Add(this.WriteIntegerBtn);
             this.Controls.Add(this.ValueTxt);
-            this.Controls.Add(this.tangineListView1);
+            this.Controls.Add(this.ValuesVw);
             this.Name = "ConstructerPage";
-            this.Size = new System.Drawing.Size(407, 282);
+            this.Size = new System.Drawing.Size(427, 282);
+            ((System.ComponentModel.ISupportInitialize)(this.IdentifierTxt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AmountTxt)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private Tangine.Controls.TangineListView tangineListView1;
+        private Tangine.Controls.TangineListView ValuesVw;
         private System.Windows.Forms.ColumnHeader TypeCol;
         private System.Windows.Forms.ColumnHeader ValueCol;
         private Tangine.Controls.TangineLabelBox ValueTxt;
+        private Tangine.Controls.TangineButton WriteIntegerBtn;
+        private Tangine.Controls.TangineLabel IdentifierLbl;
+        private System.Windows.Forms.NumericUpDown IdentifierTxt;
+        private System.Windows.Forms.NumericUpDown AmountTxt;
+        private Tangine.Controls.TangineLabel AmountLbl;
+        private System.Windows.Forms.ColumnHeader EncodedCol;
+        private Tangine.Controls.TangineButton WriteStringBtn;
+        private Tangine.Controls.TangineButton WriteBooleanBtn;
+        private Tangine.Controls.TangineLabel ValueCountLbl;
+        private System.Windows.Forms.TextBox StructureTxt;
+        private Tangine.Controls.TangineButton TransferBelowBtn;
+        private Tangine.Controls.TangineButton ClearBtn;
+        private Tangine.Controls.TangineButton MoveUpBtn;
+        private Tangine.Controls.TangineButton MoveDownBtn;
+        private Tangine.Controls.TangineButton RemoveBtn;
     }
 }
