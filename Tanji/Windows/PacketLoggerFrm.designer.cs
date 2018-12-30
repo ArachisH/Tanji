@@ -355,6 +355,7 @@
             this.MainMenuStrip = this.PacketLoggerMs;
             this.Name = "PacketLoggerFrm";
             this.Text = "Tanji - Packet Logger";
+            this.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(this.PacketLoggerFrm_PropertyChanged);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PacketLoggerFrm_FormClosing);
             this.PacketLoggerMs.ResumeLayout(false);
             this.PacketLoggerMs.PerformLayout();
@@ -394,8 +395,8 @@
         private System.Windows.Forms.ToolStripStatusLabel ViewOutgoingLbl;
         private System.Windows.Forms.ToolStripStatusLabel ViewIncomingLbl;
         private System.Windows.Forms.ToolStripStatusLabel LatencyLbl;
-        private System.Windows.Forms.ToolStripStatusLabel RevisionLbl;
         private System.Windows.Forms.StatusStrip PacketLoggerSs;
         private Controls.BindableToolStripMenuItem AutoScrollingBtn;
+        public System.Windows.Forms.ToolStripStatusLabel RevisionLbl;
     }
 }

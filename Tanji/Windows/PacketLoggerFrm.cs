@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Threading;
+using System.Configuration;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
@@ -22,12 +23,14 @@ namespace Tanji.Windows
     {
         private int _streak = 1;
         private FindDialog _findDialog;
+        private DateTime _latencyTestStart;
         private DataInterceptedEventArgs _lastIntercepted;
 
         private readonly object _queueWriteLock;
         private readonly object _queueProcessLock;
         private readonly Queue<DataInterceptedEventArgs> _intercepted;
         private readonly Action<List<(string, Color)>> _displayEntries;
+        private readonly IDictionary<string, string[]> _outStructureOverrides, _inStructureOverrides;
 
         #region Bindable Properties
         private bool _isDisplayingBlocked = true;
@@ -144,6 +147,17 @@ namespace Tanji.Windows
             }
         }
 
+        private double _latency = 0;
+        public double Latency
+        {
+            get => _latency;
+            set
+            {
+                _latency = value;
+                RaiseOnPropertyChanged();
+            }
+        }
+
         public new bool TopMost
         {
             get => base.TopMost;
@@ -175,6 +189,8 @@ namespace Tanji.Windows
             _queueProcessLock = new object();
             _displayEntries = DisplayEntries;
             _intercepted = new Queue<DataInterceptedEventArgs>();
+            _inStructureOverrides = PopulateStructureOverrides(ConfigurationManager.AppSettings["InStructureOverrides"]);
+            _outStructureOverrides = PopulateStructureOverrides(ConfigurationManager.AppSettings["OutStructureOverrides"]);
 
             InitializeComponent();
 
@@ -210,6 +226,17 @@ namespace Tanji.Windows
         {
             e.Cancel = true;
             WindowState = FormWindowState.Minimized;
+        }
+        private void PacketLoggerFrm_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(Latency):
+                {
+                    LatencyLbl.Text = $"Latency: {Latency:0.##}ms";
+                    break;
+                }
+            }
         }
 
         private void ProcessQueue()
@@ -309,36 +336,19 @@ namespace Tanji.Windows
                 entries.Add(($" {arrow} ", DefaultHighlight));
                 entries.Add(($"{intercepted.Packet}\r\n", entryHighlight));
 
-                if (IsDisplayingDismantled && message?.Structure?.Length >= 0)
+                string[] structure = message?.Structure;
+                if ((intercepted.IsOutgoing ? _outStructureOverrides : _inStructureOverrides).TryGetValue(message?.Hash, out string[] structureOverride))
                 {
+                    structure = structureOverride;
+                }
+
+                if (IsDisplayingDismantled && structure?.Length >= 0)
+                {
+                    int index = 0;
                     int position = 0;
                     HPacket packet = intercepted.Packet;
-                    string dismantled = $"{{id:{packet.Id}}}";
-                    foreach (string valueType in message.Structure)
-                    {
-                        switch (valueType.ToLower())
-                        {
-                            case "int":
-                            dismantled += ("{i:" + packet.ReadInt32(ref position) + "}");
-                            break;
+                    string dismantled = $"{{id:{packet.Id}}}{LoopDismantle(packet, ref position, structure, ref index, 1)}";
 
-                            case "string":
-                            dismantled += ("{s:" + packet.ReadUTF8(ref position) + "}");
-                            break;
-
-                            case "double":
-                            dismantled += ("{s:" + packet.ReadDouble(ref position) + "}");
-                            break;
-
-                            case "byte":
-                            dismantled += ("{b:" + packet.ReadByte(ref position) + "}");
-                            break;
-
-                            case "boolean":
-                            dismantled += ("{b:" + packet.ReadBoolean(ref position) + "}");
-                            break;
-                        }
-                    }
                     if (packet.GetReadableBytes(position) == 0)
                     {
                         entries.Add((dismantled + "\r\n", DismantledHighlight));
@@ -354,6 +364,7 @@ namespace Tanji.Windows
         }
         private void PushToQueue(DataInterceptedEventArgs e)
         {
+            CalculateLatency(e);
             lock (_queueWriteLock)
             {
                 if (IsLoggingAuthorized(e))
@@ -380,6 +391,17 @@ namespace Tanji.Windows
             }
         }
 
+        private void CalculateLatency(DataInterceptedEventArgs e)
+        {
+            if (e.IsOutgoing && e.Packet.Id == Master.Out.LatencyTest)
+            {
+                _latencyTestStart = e.Timestamp;
+            }
+            else if (e.Packet.Id == Master.In.LatencyResponse)
+            {
+                Latency = (e.Timestamp - _latencyTestStart).TotalMilliseconds;
+            }
+        }
         private void DisplayEntries(List<(string, Color)> entries)
         {
             IDisposable suspender = (!IsAutoScrolling ? LogTxt.GetSuspender() : null);
@@ -444,6 +466,88 @@ namespace Tanji.Windows
             //}
             return true;
         }
+        public static IDictionary<string, string[]> PopulateStructureOverrides(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value)) return null;
+
+            var structureOverrides = new Dictionary<string, string[]>();
+            string[] sections = value.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string section in sections)
+            {
+                string[] pieces = section.Split('_');
+                string hash = pieces[0];
+
+                var structure = new List<string>();
+                for (int i = 0; i < pieces[1].Length; i++)
+                {
+                    char token = pieces[1][i];
+                    switch (token)
+                    {
+                        case '[': structure.Add("+"); break;
+                        case ']': structure.Add("-"); break;
+                        default: structure.Add(token.ToString()); break;
+                    }
+                }
+                structureOverrides.Add(hash, structure.ToArray());
+            }
+            return structureOverrides;
+        }
+        public static string LoopDismantle(HPacket packet, ref int position, string[] structure, ref int index, int loops)
+        {
+            int previousInt = 0;
+            string dismantled = "";
+            int previousIndex = index;
+            for (int j = 0; j < loops; j++)
+            {
+                for (; index < structure.Length; index++)
+                {
+                    string valueType = structure[index];
+                    if (valueType == "-")
+                    {
+                        if (j + 1 < loops)
+                        {
+                            index = previousIndex;
+                        }
+                        break;
+                    }
+
+                    switch (valueType.ToLower())
+                    {
+                        case "+":
+                        index++;
+                        dismantled += LoopDismantle(packet, ref position, structure, ref index, previousInt);
+                        break;
+
+                        case "i":
+                        case "int":
+                        previousInt = packet.ReadInt32(ref position);
+                        dismantled += ("{i:" + previousInt + "}");
+                        break;
+
+                        case "s":
+                        case "string":
+                        dismantled += ("{s:" + packet.ReadUTF8(ref position) + "}");
+                        break;
+
+                        case "d":
+                        case "double":
+                        dismantled += ("{s:" + packet.ReadDouble(ref position) + "}");
+                        break;
+
+                        case "b":
+                        case "byte":
+                        dismantled += ("{b:" + packet.ReadByte(ref position) + "}");
+                        break;
+
+                        case "B":
+                        case "boolean":
+                        dismantled += ("{b:" + packet.ReadBoolean(ref position) + "}");
+                        break;
+                    }
+                }
+            }
+            return dismantled;
+        }
 
         #region IHaltable Implementation
         public void Halt()
@@ -453,6 +557,7 @@ namespace Tanji.Windows
         public void Restore(ConnectedEventArgs e)
         {
             WindowState = FormWindowState.Normal;
+            RevisionLbl.Text = "Revision: " + Master.Game.Revision;
         }
         #endregion
         #region IReceiver Implementation
