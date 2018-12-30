@@ -69,9 +69,6 @@
     <Compile Include="Controls\RichLogBox.cs" />
     <Compile Include="Controls\ObservableForm.cs" />
     <Compile Include="Controls\ObservablePage.cs" />
-    <Compile Include="Helpers\Converters\HotelEndPointConverter.cs" />
-    <Compile Include="Helpers\CustomBinding.cs" />
-    <Compile Include="Helpers\IValueConverter.cs" />
     <Compile Include="Internals\NativeMethods.cs" />
     <Compile Include="Network\ConnectedEventArgs.cs" />
     <Compile Include="Network\HConnection.cs" />

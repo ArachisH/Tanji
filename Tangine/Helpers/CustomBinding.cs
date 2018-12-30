@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Forms;
 
-namespace Tanji.Helpers
+namespace Tangine.Helpers
 {
     public class CustomBinding : Binding
     {

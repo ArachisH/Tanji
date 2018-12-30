@@ -3,7 +3,7 @@ using System.Globalization;
 
 using Sulakore.Network;
 
-namespace Tanji.Helpers.Converters
+namespace Tangine.Helpers.Converters
 {
     public class HotelEndPointConverter : IValueConverter
     {
