@@ -4,7 +4,8 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-using Tanji.Helpers;
+using Tangine.Helpers;
+
 using Tanji.Services;
 
 namespace Tanji.Controls

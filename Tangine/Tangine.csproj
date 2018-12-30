@@ -55,6 +55,9 @@
     <Compile Include="Controls\TangineLabelBox.cs" />
     <Compile Include="Controls\TangineListView.cs" />
     <Compile Include="Controls\TangineTabControl.cs" />
+    <Compile Include="Helpers\Converters\HotelEndPointConverter.cs" />
+    <Compile Include="Helpers\CustomBinding.cs" />
+    <Compile Include="Helpers\IValueConverter.cs" />
     <Compile Include="Modules\ExtensionForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Tanji.Helpers
+namespace Tangine.Helpers
 {
     public interface IValueConverter
     {
