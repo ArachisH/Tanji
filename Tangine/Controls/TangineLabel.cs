@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
+using System;
 
 namespace Tangine.Controls
 {
@@ -27,6 +28,18 @@ namespace Tangine.Controls
             set
             {
                 _isBorderVisible = value;
+                Invalidate();
+            }
+        }
+
+        private LabelBorderMode _borderMode = LabelBorderMode.Both;
+        [DefaultValue(LabelBorderMode.Both)]
+        public LabelBorderMode BorderMode
+        {
+            get => _borderMode;
+            set
+            {
+                _borderMode = value;
                 Invalidate();
             }
         }
@@ -84,12 +97,23 @@ namespace Tangine.Controls
             {
                 using (var brush = new SolidBrush(Skin))
                 {
-                    e.Graphics.FillRectangle(brush, 0, 0, BorderWidth, Height);
-                    e.Graphics.FillRectangle(brush, Width - BorderWidth, 0, BorderWidth, Height);
+                    if (BorderMode.HasFlag(LabelBorderMode.Left))
+                        e.Graphics.FillRectangle(brush, 0, 0, BorderWidth, Height);
+
+                    if (BorderMode.HasFlag(LabelBorderMode.Right))
+                        e.Graphics.FillRectangle(brush, Width - BorderWidth, 0, BorderWidth, Height);
                 }
             }
             TextRenderer.DrawText(e.Graphics, Text, Font, ClientRectangle, ForeColor);
             base.OnPaint(e);
+        }
+
+        [Flags]
+        public enum LabelBorderMode
+        {
+            Left = 1,
+            Right,
+            Both
         }
     }
 }
