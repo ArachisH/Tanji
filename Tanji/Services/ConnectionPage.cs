@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Linq;
 using System.Net.Http;
+using System.Configuration;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -29,6 +30,7 @@ namespace Tanji.Services
     public partial class ConnectionPage : ObservablePage, IHaltable, IReceiver
     {
         private Guid _randomQuery;
+        private bool _wasBlacklisted;
         private Dictionary<string, string> _variableReplacements;
 
         #region Status Constants
@@ -37,6 +39,7 @@ namespace Tanji.Services
         private const string INTERCEPTING_CLIENT = "Intercepting Client...";
         private const string INTERCEPTING_CONNECTION = "Intercepting Connection...";
         private const string INTERCEPTING_CLIENT_PAGE = "Intercepting Client Page...";
+        private const string INTERCEPTING_CLIENT_REQUEST_RESPONSE = "Intercepting Client Request/Response";
 
         private const string MODIFYING_CLIENT = "Modifying Client...";
         private const string INJECTING_CLIENT = "Injecting Client...";
@@ -96,15 +99,17 @@ namespace Tanji.Services
 
         private Task InjectGameClientAsync(object sender, RequestInterceptedEventArgs e)
         {
-            if (!e.Uri.Query.StartsWith("?" + _randomQuery)) return null;
-            Eavesdropper.RequestInterceptedAsync -= InjectGameClientAsync;
+            if (!_wasBlacklisted && !e.Uri.Query.StartsWith("?" + _randomQuery)) return null;
 
-            Uri remoteUrl = e.Request.RequestUri;
-            string clientPath = Path.GetFullPath($"Modified Clients/{remoteUrl.Host}/{remoteUrl.LocalPath}");
+            string clientPath = Path.GetFullPath($"Modified Clients/{e.Uri.Host}/{e.Uri.LocalPath}");
+            if (_wasBlacklisted && !File.Exists(clientPath)) return null;
+
+            Eavesdropper.RequestInterceptedAsync -= InjectGameClientAsync;
             if (!string.IsNullOrWhiteSpace(CustomClientPath))
             {
                 clientPath = CustomClientPath;
             }
+
             if (!File.Exists(clientPath))
             {
                 Status = INTERCEPTING_CLIENT;
@@ -112,6 +117,11 @@ namespace Tanji.Services
             }
             else
             {
+                if (_wasBlacklisted)
+                {
+                    Eavesdropper.ResponseInterceptedAsync -= InterceptGameClientAsync;
+                }
+
                 Status = DISASSEMBLING_CLIENT;
                 Master.Game = new HGame(clientPath);
                 Master.Game.Disassemble();
@@ -132,32 +142,43 @@ namespace Tanji.Services
         }
         private async Task InterceptGameClientAsync(object sender, ResponseInterceptedEventArgs e)
         {
-            if (!e.Uri.Query.StartsWith("?" + _randomQuery)) return;
             if (e.ContentType != "application/x-shockwave-flash") return;
+            if (!_wasBlacklisted && !e.Uri.Query.StartsWith("?" + _randomQuery)) return;
+
+            byte[] payload = await e.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+
+            HGame game = null;
+            if (_wasBlacklisted && !IsGameClient(payload, out game)) return;
             Eavesdropper.ResponseInterceptedAsync -= InterceptGameClientAsync;
 
             string clientPath = Path.GetFullPath($"Modified Clients/{e.Uri.Host}/{e.Uri.LocalPath}");
             string clientDirectory = Path.GetDirectoryName(clientPath);
             Directory.CreateDirectory(clientDirectory);
 
-            Status = DISASSEMBLING_CLIENT;
-            Master.Game = new HGame(await e.Content.ReadAsStreamAsync().ConfigureAwait(false));
-            Master.Game.Location = clientPath;
-            Master.Game.Disassemble();
-
-            if (Master.Game.IsPostShuffle)
+            if (!_wasBlacklisted)
             {
-                Status = GENERATING_MESSAGE_HASHES;
-                Master.Game.GenerateMessageHashes();
+                Status = DISASSEMBLING_CLIENT;
+                game = new HGame(payload);
+                game.Location = clientPath;
+                game.Disassemble();
 
-                Status = MODIFYING_CLIENT;
-                Master.Game.DisableHostChecks();
-                Master.Game.InjectKeyShouter(4001);
-                Master.Game.InjectEndPointShouter(4000);
+                if (game.IsPostShuffle)
+                {
+                    Status = GENERATING_MESSAGE_HASHES;
+                    game.GenerateMessageHashes();
+
+                    Status = MODIFYING_CLIENT;
+                    game.DisableHostChecks();
+                    game.InjectKeyShouter(4001);
+                    game.InjectEndPointShouter(4000);
+                }
+                game.InjectEndPoint("127.0.0.1", int.Parse(ConfigurationManager.AppSettings["GameListenPort"]));
             }
+
+            Master.Game = game;
+            Master.Game.Location = clientPath;
             Program.Master.In.Load(Master.Game, "Hashes.ini");
             Program.Master.Out.Load(Master.Game, "Hashes.ini");
-            Master.Game.InjectEndPoint("127.0.0.1", Master.Connection.ListenPort);
 
             CompressionKind compression = CompressionKind.ZLIB;
 #if DEBUG
@@ -165,13 +186,13 @@ namespace Tanji.Services
 #endif
             Status = ASSEMBLING_CLIENT;
 
-            byte[] payload = Master.Game.ToArray(compression);
-            e.Headers[HttpResponseHeader.ContentLength] = payload.Length.ToString();
+            byte[] assembled = Master.Game.ToArray(compression);
+            e.Headers[HttpResponseHeader.ContentLength] = assembled.Length.ToString();
 
-            e.Content = new ByteArrayContent(payload);
+            e.Content = new ByteArrayContent(assembled);
             using (var clientStream = File.Open(clientPath, FileMode.Create, FileAccess.Write))
             {
-                clientStream.Write(payload, 0, payload.Length);
+                clientStream.Write(assembled, 0, assembled.Length);
             }
 
             TerminateProxy();
@@ -180,19 +201,51 @@ namespace Tanji.Services
         private async Task InterceptClientPageAsync(object sender, ResponseInterceptedEventArgs e)
         {
             if (e.Content == null) return;
-            if (!e.ContentType.Contains("text")) return;
+
+            string contentType = e.ContentType.ToLower();
+            if (!contentType.Contains("text") && !contentType.Contains("javascript")) return;
+
+            int interceptionTriggersFound = -1;
+            string[] interceptionTriggers = ConfigurationManager.AppSettings["InterceptionTriggers"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             string body = await e.Content.ReadAsStringAsync().ConfigureAwait(false);
-            if (!body.Contains("info.host") && !body.Contains("info.port")) return;
+            foreach (string interceptionTrigger in interceptionTriggers)
+            {
+                interceptionTriggersFound += Convert.ToInt32(body.IndexOf(interceptionTrigger, StringComparison.OrdinalIgnoreCase) != -1);
+            }
+            if (interceptionTriggersFound < 2) return;
 
-            Eavesdropper.ResponseInterceptedAsync -= InterceptClientPageAsync;
+            string[] cacheBlacklist = ConfigurationManager.AppSettings["CacheBlacklist"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            bool isBlacklisted = _wasBlacklisted = cacheBlacklist.Contains(e.Uri.Host);
+
+            int swfStartIndex = GetSWFStartIndex(body);
+            if (swfStartIndex == -1 && !isBlacklisted) return;
+
             Master.GameData.Source = body;
+            Eavesdropper.ResponseInterceptedAsync -= InterceptClientPageAsync;
 
-            body = body.Replace(".swf", $".swf?{_randomQuery = Guid.NewGuid()}");
-            e.Content = new StringContent(body);
+            if (!isBlacklisted)
+            {
+                do
+                {
+                    if (body[swfStartIndex++] == ')') continue;
+                    var embedSWFEnd = body.IndexOf(',', swfStartIndex);
 
-            Status = INJECTING_CLIENT;
-            Eavesdropper.RequestInterceptedAsync += InjectGameClientAsync;
+                    if (embedSWFEnd == -1) break;
+                    body = body.Insert(embedSWFEnd, $"+\"?{_randomQuery = Guid.NewGuid()}\"");
+                }
+                while ((swfStartIndex = GetSWFStartIndex(body, swfStartIndex)) != -1);
+                e.Content = new StringContent(body);
+
+                Status = INJECTING_CLIENT;
+                Eavesdropper.RequestInterceptedAsync += InjectGameClientAsync;
+            }
+            else
+            {
+                Status = INTERCEPTING_CLIENT_REQUEST_RESPONSE;
+                Eavesdropper.RequestInterceptedAsync += InjectGameClientAsync;
+                Eavesdropper.ResponseInterceptedAsync += InterceptGameClientAsync;
+            }
         }
 
         private void BrowseBtn_Click(object sender, EventArgs e)
@@ -346,6 +399,44 @@ namespace Tanji.Services
 
             await Master.Connection.InterceptAsync(HotelServer).ConfigureAwait(false);
             Status = STANDING_BY;
+        }
+        private bool IsGameClient(byte[] data, out HGame game)
+        {
+            HGame possibleGame = null;
+            try
+            {
+                possibleGame = new HGame(data);
+                possibleGame.Disassemble();
+
+                if (possibleGame.IsPostShuffle)
+                {
+                    possibleGame.GenerateMessageHashes();
+                    if (!possibleGame.DisableHostChecks()) return false;
+                    if (!possibleGame.InjectKeyShouter(4001)) return false;
+                    if (!possibleGame.InjectEndPointShouter(4000)) return false;
+                }
+                possibleGame.InjectEndPoint("127.0.0.1", int.Parse(ConfigurationManager.AppSettings["GameListenPort"])); // Does not matter if this returns true/false.
+            }
+            catch
+            {
+                possibleGame?.Dispose();
+                possibleGame = null;
+            }
+            finally
+            {
+                game = possibleGame;
+            }
+            return (game != null);
+        }
+        private int GetSWFStartIndex(string body, int index = 0)
+        {
+            int swfStartIndex = (body.IndexOf("embedswf(", index, StringComparison.OrdinalIgnoreCase) + 9);
+            if (swfStartIndex == 8)
+            {
+                swfStartIndex = (body.IndexOf("swfobject(", index, StringComparison.OrdinalIgnoreCase) + 10);
+                if (swfStartIndex == 9) return -1;
+            }
+            return swfStartIndex;
         }
 
         #region IHaltable Implementation
