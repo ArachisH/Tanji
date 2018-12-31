@@ -58,6 +58,7 @@
             this.LatencyLbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.RevisionLbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.PacketLoggerSs = new System.Windows.Forms.StatusStrip();
+            this.StructureBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.PacketLoggerMs.SuspendLayout();
             this.PacketLoggerSs.SuspendLayout();
             this.SuspendLayout();
@@ -144,7 +145,7 @@
             this.BlockedBtn.CheckOnClick = true;
             this.BlockedBtn.CheckState = System.Windows.Forms.CheckState.Checked;
             this.BlockedBtn.Name = "BlockedBtn";
-            this.BlockedBtn.Size = new System.Drawing.Size(122, 22);
+            this.BlockedBtn.Size = new System.Drawing.Size(180, 22);
             this.BlockedBtn.Text = "Blocked";
             // 
             // ReplacedBtn
@@ -153,12 +154,13 @@
             this.ReplacedBtn.CheckOnClick = true;
             this.ReplacedBtn.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ReplacedBtn.Name = "ReplacedBtn";
-            this.ReplacedBtn.Size = new System.Drawing.Size(122, 22);
+            this.ReplacedBtn.Size = new System.Drawing.Size(180, 22);
             this.ReplacedBtn.Text = "Replaced";
             // 
             // DisplayDetailsBtn
             // 
             this.DisplayDetailsBtn.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.StructureBtn,
             this.DismantledBtn,
             this.HashNameBtn,
             this.HexadecimalBtn,
@@ -174,7 +176,7 @@
             this.DismantledBtn.CheckOnClick = true;
             this.DismantledBtn.CheckState = System.Windows.Forms.CheckState.Checked;
             this.DismantledBtn.Name = "DismantledBtn";
-            this.DismantledBtn.Size = new System.Drawing.Size(142, 22);
+            this.DismantledBtn.Size = new System.Drawing.Size(180, 22);
             this.DismantledBtn.Text = "Dismantled";
             // 
             // HashNameBtn
@@ -183,14 +185,14 @@
             this.HashNameBtn.CheckOnClick = true;
             this.HashNameBtn.CheckState = System.Windows.Forms.CheckState.Checked;
             this.HashNameBtn.Name = "HashNameBtn";
-            this.HashNameBtn.Size = new System.Drawing.Size(142, 22);
+            this.HashNameBtn.Size = new System.Drawing.Size(180, 22);
             this.HashNameBtn.Text = "Hash/Name";
             // 
             // HexadecimalBtn
             // 
             this.HexadecimalBtn.CheckOnClick = true;
             this.HexadecimalBtn.Name = "HexadecimalBtn";
-            this.HexadecimalBtn.Size = new System.Drawing.Size(142, 22);
+            this.HexadecimalBtn.Size = new System.Drawing.Size(180, 22);
             this.HexadecimalBtn.Text = "Hexadecimal";
             // 
             // ParserNameBtn
@@ -199,7 +201,7 @@
             this.ParserNameBtn.CheckOnClick = true;
             this.ParserNameBtn.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ParserNameBtn.Name = "ParserNameBtn";
-            this.ParserNameBtn.Size = new System.Drawing.Size(142, 22);
+            this.ParserNameBtn.Size = new System.Drawing.Size(180, 22);
             this.ParserNameBtn.Text = "Parser Name";
             // 
             // ClassNameBtn
@@ -208,7 +210,7 @@
             this.ClassNameBtn.CheckOnClick = true;
             this.ClassNameBtn.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ClassNameBtn.Name = "ClassNameBtn";
-            this.ClassNameBtn.Size = new System.Drawing.Size(142, 22);
+            this.ClassNameBtn.Size = new System.Drawing.Size(180, 22);
             this.ClassNameBtn.Text = "Class Name";
             // 
             // ViewSep1
@@ -270,7 +272,7 @@
             // IgnoreMessagesBtn
             // 
             this.IgnoreMessagesBtn.Name = "IgnoreMessagesBtn";
-            this.IgnoreMessagesBtn.Size = new System.Drawing.Size(162, 22);
+            this.IgnoreMessagesBtn.Size = new System.Drawing.Size(180, 22);
             this.IgnoreMessagesBtn.Text = "Ignore Messages";
             // 
             // LogTxt
@@ -344,6 +346,14 @@
             this.PacketLoggerSs.SizingGrip = false;
             this.PacketLoggerSs.TabIndex = 2;
             // 
+            // StructureBtn
+            // 
+            this.StructureBtn.Checked = true;
+            this.StructureBtn.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.StructureBtn.Name = "StructureBtn";
+            this.StructureBtn.Size = new System.Drawing.Size(180, 22);
+            this.StructureBtn.Text = "Structure";
+            // 
             // PacketLoggerFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -398,5 +408,6 @@
         private System.Windows.Forms.StatusStrip PacketLoggerSs;
         private Controls.BindableToolStripMenuItem AutoScrollingBtn;
         public System.Windows.Forms.ToolStripStatusLabel RevisionLbl;
+        private Tanji.Controls.BindableToolStripMenuItem StructureBtn;
     }
 }

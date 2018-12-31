@@ -30,7 +30,7 @@ namespace Tanji.Windows
         private readonly object _queueProcessLock;
         private readonly Queue<DataInterceptedEventArgs> _intercepted;
         private readonly Action<List<(string, Color)>> _displayEntries;
-        private readonly IDictionary<string, string[]> _outStructureOverrides, _inStructureOverrides;
+        private readonly IDictionary<string, string> _outStructureOverrides, _inStructureOverrides;
 
         #region Bindable Properties
         private bool _isDisplayingBlocked = true;
@@ -51,6 +51,17 @@ namespace Tanji.Windows
             set
             {
                 _isDisplayingReplaced = value;
+                RaiseOnPropertyChanged();
+            }
+        }
+
+        private bool _isDisplayingStructure = true;
+        public bool IsDisplayingStructure
+        {
+            get => _isDisplayingStructure;
+            set
+            {
+                _isDisplayingStructure = value;
                 RaiseOnPropertyChanged();
             }
         }
@@ -119,7 +130,7 @@ namespace Tanji.Windows
                 _isViewingOutgoing = value;
                 RaiseOnPropertyChanged();
 
-                ViewOutgoingLbl.Text = ($"View Outgoing: " + value);
+                ViewOutgoingLbl.Text = $"View Outgoing: " + value;
             }
         }
 
@@ -132,7 +143,7 @@ namespace Tanji.Windows
                 _isViewingIncoming = value;
                 RaiseOnPropertyChanged();
 
-                ViewIncomingLbl.Text = ($"View Incoming: " + value);
+                ViewIncomingLbl.Text = $"View Incoming: " + value;
             }
         }
 
@@ -175,12 +186,13 @@ namespace Tanji.Windows
         }
         #endregion
 
-        public bool IsFindDialogOpened => (!(_findDialog?.IsDisposed ?? true));
+        public bool IsFindDialogOpened => !(_findDialog?.IsDisposed ?? true);
 
         public Color DetailHighlight { get; set; } = Color.Cyan;
         public Color DefaultHighlight { get; set; } = Color.White;
         public Color IncomingHighlight { get; set; } = Color.FromArgb(178, 34, 34);
         public Color OutgoingHighlight { get; set; } = Color.FromArgb(0, 102, 204);
+        public Color StructureHighlight { get; set; } = Color.FromArgb(170, 244, 66);
         public Color DismantledHighlight { get; set; } = Color.FromArgb(0, 204, 136);
 
         public PacketLoggerFrm()
@@ -202,6 +214,7 @@ namespace Tanji.Windows
             Bind(ViewOutgoingBtn, "Checked", nameof(IsViewingOutgoing));
             Bind(ViewIncomingBtn, "Checked", nameof(IsViewingIncoming));
             Bind(ClassNameBtn, "Checked", nameof(IsDisplayingClassName));
+            Bind(StructureBtn, "Checked", nameof(IsDisplayingStructure));
             Bind(ParserNameBtn, "Checked", nameof(IsDisplayingParserName));
             Bind(DismantledBtn, "Checked", nameof(IsDisplayingDismantled));
             Bind(HexadecimalBtn, "Checked", nameof(IsDisplayingHexadecimal));
@@ -252,7 +265,7 @@ namespace Tanji.Windows
                     if (_lastIntercepted.Packet.Equals(intercepted.Packet))
                     {
                         entries.Add(("RL--------------------", DefaultHighlight));
-                        entries.Add((" < +" + (_streak++) + " > ", Color.MediumPurple));
+                        entries.Add((" < +" + _streak++ + " > ", Color.MediumPurple));
                         if (IsReceiving)
                         {
                             Invoke(_displayEntries, entries);
@@ -284,7 +297,7 @@ namespace Tanji.Windows
                 MessageItem message = GetMessage(intercepted);
                 if (IsDisplayingHashName && !string.IsNullOrWhiteSpace(message?.Hash))
                 {
-                    var identifiers = (intercepted.IsOutgoing ? (Identifiers)Program.Master.Out : Program.Master.In);
+                    var identifiers = intercepted.IsOutgoing ? (Identifiers)Program.Master.Out : Program.Master.In;
 
                     string name = identifiers.GetName(message.Hash);
                     if (!string.IsNullOrWhiteSpace(name))
@@ -303,6 +316,19 @@ namespace Tanji.Windows
                     string hex = BitConverter.ToString(intercepted.Packet.ToBytes());
                     entries.Add(("[", DefaultHighlight));
                     entries.Add((hex.Replace("-", string.Empty), DetailHighlight));
+                    entries.Add(("]\r\n", DefaultHighlight));
+                }
+
+                string structure = message?.Structure;
+                if (!string.IsNullOrWhiteSpace(message?.Hash) && (intercepted.IsOutgoing ? _outStructureOverrides : _inStructureOverrides).TryGetValue(message.Hash, out string structureOverride))
+                {
+                    structure = structureOverride;
+                }
+
+                if (IsDisplayingStructure && structure != null)
+                {
+                    entries.Add(("[", DefaultHighlight));
+                    entries.Add((string.Join(",", structure), StructureHighlight));
                     entries.Add(("]\r\n", DefaultHighlight));
                 }
 
@@ -335,12 +361,6 @@ namespace Tanji.Windows
                 entries.Add(("]", entryHighlight));
                 entries.Add(($" {arrow} ", DefaultHighlight));
                 entries.Add(($"{intercepted.Packet}\r\n", entryHighlight));
-
-                string[] structure = message?.Structure;
-                if ((intercepted.IsOutgoing ? _outStructureOverrides : _inStructureOverrides).TryGetValue(message?.Hash, out string[] structureOverride))
-                {
-                    structure = structureOverride;
-                }
 
                 if (IsDisplayingDismantled && structure?.Length >= 0)
                 {
@@ -404,14 +424,14 @@ namespace Tanji.Windows
         }
         private void DisplayEntries(List<(string, Color)> entries)
         {
-            IDisposable suspender = (!IsAutoScrolling ? LogTxt.GetSuspender() : null);
+            IDisposable suspender = !IsAutoScrolling ? LogTxt.GetSuspender() : null;
             try
             {
                 foreach ((string message, Color highlight) in entries)
                 {
                     if (message.StartsWith("RL")) // Replace Line
                     {
-                        int currentLineIndex = (LogTxt.Lines.Length - 1);
+                        int currentLineIndex = LogTxt.Lines.Length - 1;
                         string currentLine = LogTxt.Lines[currentLineIndex];
                         int currentLineFirstCharIndex = LogTxt.Find(currentLine, RichTextBoxFinds.Reverse | RichTextBoxFinds.NoHighlight);
 
@@ -435,8 +455,8 @@ namespace Tanji.Windows
         }
         private MessageItem GetMessage(DataInterceptedEventArgs e)
         {
-            IDictionary<ushort, MessageItem> messages = (e.IsOutgoing ?
-                Program.Master.Game.OutMessages : Program.Master.Game.InMessages);
+            IDictionary<ushort, MessageItem> messages = e.IsOutgoing ?
+                Program.Master.Game.OutMessages : Program.Master.Game.InMessages;
 
             MessageItem message = null;
             messages.TryGetValue(e.Packet.Id, out message);
@@ -466,33 +486,18 @@ namespace Tanji.Windows
             //}
             return true;
         }
-        public static IDictionary<string, string[]> PopulateStructureOverrides(string value)
+        public static IDictionary<string, string> PopulateStructureOverrides(string value)
         {
-            if (string.IsNullOrWhiteSpace(value)) return null;
-
-            var structureOverrides = new Dictionary<string, string[]>();
-            string[] sections = value.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+            var structureOverrides = new Dictionary<string, string>();
+            string[] sections = value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string section in sections)
             {
                 string[] pieces = section.Split('_');
-                string hash = pieces[0];
-
-                var structure = new List<string>();
-                for (int i = 0; i < pieces[1].Length; i++)
-                {
-                    char token = pieces[1][i];
-                    switch (token)
-                    {
-                        case '[': structure.Add("+"); break;
-                        case ']': structure.Add("-"); break;
-                        default: structure.Add(token.ToString()); break;
-                    }
-                }
-                structureOverrides.Add(hash, structure.ToArray());
+                structureOverrides.Add(pieces[0], pieces[1]);
             }
             return structureOverrides;
         }
-        public static string LoopDismantle(HPacket packet, ref int position, string[] structure, ref int index, int loops)
+        public static string LoopDismantle(HPacket packet, ref int position, string structure, ref int index, int loops)
         {
             int previousInt = 0;
             string dismantled = "";
@@ -501,8 +506,8 @@ namespace Tanji.Windows
             {
                 for (; index < structure.Length; index++)
                 {
-                    string valueType = structure[index];
-                    if (valueType == "-")
+                    char piece = structure[index];
+                    if (piece == ')')
                     {
                         if (j + 1 < loops)
                         {
@@ -511,37 +516,32 @@ namespace Tanji.Windows
                         break;
                     }
 
-                    switch (valueType.ToLower())
+                    switch (piece)
                     {
-                        case "+":
+                        case '(':
                         index++;
                         dismantled += LoopDismantle(packet, ref position, structure, ref index, previousInt);
                         break;
 
-                        case "i":
-                        case "int":
+                        case 'i':
                         previousInt = packet.ReadInt32(ref position);
-                        dismantled += ("{i:" + previousInt + "}");
+                        dismantled += "{i:" + previousInt + "}";
                         break;
 
-                        case "s":
-                        case "string":
-                        dismantled += ("{s:" + packet.ReadUTF8(ref position) + "}");
+                        case 's':
+                        dismantled += "{s:" + packet.ReadUTF8(ref position) + "}";
                         break;
 
-                        case "d":
-                        case "double":
-                        dismantled += ("{s:" + packet.ReadDouble(ref position) + "}");
+                        case 'd':
+                        dismantled += "{s:" + packet.ReadDouble(ref position) + "}";
                         break;
 
-                        case "b":
-                        case "byte":
-                        dismantled += ("{b:" + packet.ReadByte(ref position) + "}");
+                        case 'b':
+                        dismantled += "{b:" + packet.ReadByte(ref position) + "}";
                         break;
 
-                        case "B":
-                        case "boolean":
-                        dismantled += ("{b:" + packet.ReadBoolean(ref position) + "}");
+                        case 'B':
+                        dismantled += "{b:" + packet.ReadBoolean(ref position) + "}";
                         break;
                     }
                 }
@@ -562,7 +562,7 @@ namespace Tanji.Windows
         #endregion
         #region IReceiver Implementation
         private bool _isReceiving = true;
-        public bool IsReceiving => (_isReceiving && (IsViewingOutgoing || IsViewingIncoming));
+        public bool IsReceiving => _isReceiving && (IsViewingOutgoing || IsViewingIncoming);
 
         public void HandleOutgoing(DataInterceptedEventArgs e) => PushToQueue(e);
         public void HandleIncoming(DataInterceptedEventArgs e) => PushToQueue(e);
