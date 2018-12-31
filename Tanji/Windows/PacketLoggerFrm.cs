@@ -279,7 +279,22 @@ namespace Tanji.Windows
                         entries.Add(("\r\n", DefaultHighlight));
                     }
                 }
+
                 _lastIntercepted = intercepted;
+                MessageItem message = GetMessage(intercepted);
+
+                string structure = message?.Structure;
+                if (!string.IsNullOrWhiteSpace(message?.Hash) && (intercepted.IsOutgoing ? _outStructureOverrides : _inStructureOverrides).TryGetValue(message.Hash, out string structureOverride))
+                {
+                    structure = structureOverride;
+                }
+
+                if (IsDisplayingStructure && structure != null)
+                {
+                    entries.Add(("[", DefaultHighlight));
+                    entries.Add((string.Join(",", structure), StructureHighlight));
+                    entries.Add(("]\r\n", DefaultHighlight));
+                }
 
                 if (intercepted.IsBlocked)
                 {
@@ -294,7 +309,6 @@ namespace Tanji.Windows
                     entries.Add(("]\r\n", DefaultHighlight));
                 }
 
-                MessageItem message = GetMessage(intercepted);
                 if (IsDisplayingHashName && !string.IsNullOrWhiteSpace(message?.Hash))
                 {
                     var identifiers = intercepted.IsOutgoing ? (Identifiers)Program.Master.Out : Program.Master.In;
@@ -316,19 +330,6 @@ namespace Tanji.Windows
                     string hex = BitConverter.ToString(intercepted.Packet.ToBytes());
                     entries.Add(("[", DefaultHighlight));
                     entries.Add((hex.Replace("-", string.Empty), DetailHighlight));
-                    entries.Add(("]\r\n", DefaultHighlight));
-                }
-
-                string structure = message?.Structure;
-                if (!string.IsNullOrWhiteSpace(message?.Hash) && (intercepted.IsOutgoing ? _outStructureOverrides : _inStructureOverrides).TryGetValue(message.Hash, out string structureOverride))
-                {
-                    structure = structureOverride;
-                }
-
-                if (IsDisplayingStructure && structure != null)
-                {
-                    entries.Add(("[", DefaultHighlight));
-                    entries.Add((string.Join(",", structure), StructureHighlight));
                     entries.Add(("]\r\n", DefaultHighlight));
                 }
 
