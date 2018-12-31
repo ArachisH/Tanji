@@ -45,9 +45,11 @@ namespace Tanji
         public static void Main()
         {
             AppDomain.CurrentDomain.UnhandledException += UnhandledException;
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            Eavesdropper.Terminate();
             Eavesdropper.Certifier = new CertificateManager("Tanji", "Tanji Certificate Authority");
             Eavesdropper.Overrides.AddRange(new[]
             {
@@ -195,7 +197,7 @@ namespace Tanji
             {
                 messsage += "\r\n\r\nException: ";
             }
-            MessageBox.Show((messsage + (exception?.ToString())), "Tanji - Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(messsage + exception?.ToString(), "Tanji - Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }
