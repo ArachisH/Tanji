@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
@@ -10,7 +11,6 @@ using Tanji.Controls;
 
 using Sulakore.Modules;
 using Sulakore.Network;
-using Sulakore.Habbo.Web;
 using Sulakore.Network.Protocol;
 
 namespace Tanji.Services.Modules
@@ -22,6 +22,7 @@ namespace Tanji.Services.Modules
         private const string DISPOSED_STATE = "Disposed";
         private const string INITIALIZED_STATE = "Initialized";
 
+        public ListViewItem PhysicalObject { get; set; }
         public Dictionary<string, TaskCompletionSource<HPacket>> DataAwaiters { get; }
 
         public Type Type { get; set; }
@@ -40,7 +41,6 @@ namespace Tanji.Services.Modules
         public string Hash { get; set; }
 
         public Form FormUI { get; set; }
-        //?public Window WindowUI { get; set; }
         public bool IsInitialized => Instance != null;
 
         private string _currentState = DISPOSED_STATE;
@@ -88,12 +88,6 @@ namespace Tanji.Services.Modules
                 FormUI.Close();
                 FormUI = null;
             }
-            //?else if (WindowUI != null)
-            //{
-            //    WindowUI.Closed -= UserInterface_Closed;
-            //    WindowUI.Close();
-            //    WindowUI = null;
-            //}
             else if (Instance != null)
             {
                 Instance.Dispose();
@@ -114,7 +108,6 @@ namespace Tanji.Services.Modules
         {
             if (Instance != null)
             {
-                //?WindowUI?.Activate();
                 FormUI?.BringToFront();
                 return;
             }
@@ -124,7 +117,6 @@ namespace Tanji.Services.Modules
                 bool isUninitialized = false;
                 if (EntryType != null)
                 {
-                    //?LoadStyles();
                     uiInstance = Activator.CreateInstance(EntryType);
 
                     PropertyInfo property = EntryType.GetProperty(PropertyName);
@@ -143,8 +135,6 @@ namespace Tanji.Services.Modules
                 else Instance = new DummyModule(this);
 
                 FormUI = uiInstance as Form;
-                //?WindowUI = (uiInstance as Window);
-
                 Instance.Installer = Master;
                 if (isUninitialized)
                 {
@@ -154,17 +144,9 @@ namespace Tanji.Services.Modules
 
                 if (Master.Connection.IsConnected)
                 {
-                    Instance.Synchronize(Master.Game);
-                    Instance.Synchronize(Master.GameData);
+                    Instance.OnConnected();
                 }
 
-                //if (WindowUI != null)
-                //{
-                //    WindowUI.Topmost = true;
-                //    WindowUI.Closed += UserInterface_Closed;
-                //    WindowUI.Show();
-                //}
-                //else 
                 if (FormUI != null)
                 {
                     FormUI.TopMost = true;
@@ -202,44 +184,6 @@ namespace Tanji.Services.Modules
             }
         }
 
-        //private void LoadStyles()
-        //{
-        //    if (_loadedStyles.Contains(Assembly)) return;
-
-        //    foreach (Stream resourceStream in Assembly.GetManifestResourceNames()
-        //        .Select(n => Assembly.GetManifestResourceStream(n)))
-        //    {
-        //        using (resourceStream)
-        //        using (var reader = new ResourceReader(resourceStream))
-        //        {
-        //            foreach (DictionaryEntry entry in reader)
-        //            {
-        //                try
-        //                {
-        //                    if (!(entry.Key as string).Equals("styles.baml")) continue;
-
-        //                    var bamlStream = (entry.Value as Stream);
-        //                    if (bamlStream == null) continue;
-
-        //                    var resource = LoadBaml<ResourceDictionary>(bamlStream);
-        //                    System.Windows.Application.Current.Resources.MergedDictionaries.Add(resource);
-        //                }
-        //                catch { }
-        //            }
-        //        }
-        //    }
-        //    _loadedStyles.Add(Assembly);
-        //}
-        //private T LoadBaml<T>(Stream stream)
-        //{
-        //    var reader = new Baml2006Reader(stream);
-        //    var writer = new XamlObjectWriter(reader.SchemaContext);
-        //    while (reader.Read())
-        //    {
-        //        writer.WriteNode(reader);
-        //    }
-        //    return (T)writer.Result;
-        //}
         private void UserInterface_Closed(object sender, EventArgs e)
         {
             if (FormUI != null)
@@ -247,11 +191,6 @@ namespace Tanji.Services.Modules
                 FormUI.FormClosed -= UserInterface_Closed;
                 FormUI = null;
             }
-            //?if (WindowUI != null)
-            //{
-            //    WindowUI.Closed -= UserInterface_Closed;
-            //    WindowUI = null;
-            //}
             Dispose();
         }
 
@@ -330,14 +269,21 @@ namespace Tanji.Services.Modules
             public void HandleOutgoing(DataInterceptedEventArgs e) => HandleData(e);
             public void HandleIncoming(DataInterceptedEventArgs e) => HandleData(e);
 
-            public void Synchronize(HGame game)
+            public void OnConnected()
             {
-                string hashesPath = System.IO.Path.GetFullPath("Hashes.ini");
-                _module.Node.SendPacketAsync(3, game.Location, hashesPath);
-            }
-            public void Synchronize(HGameData gameData)
-            {
-                _module.Node.SendPacketAsync(4, gameData.Source);
+                var onConnectedPacket = new EvaWirePacket(2);
+                onConnectedPacket.Write(Installer.GameData.Source);
+
+                byte[] gameData = File.ReadAllBytes(Installer.Game.Location);
+                onConnectedPacket.Write(gameData.Length);
+                onConnectedPacket.Write(gameData);
+                onConnectedPacket.Write(Installer.Game.Location);
+
+                byte[] hashesData = File.ReadAllBytes("Hashes.ini");
+                onConnectedPacket.Write(hashesData.Length);
+                onConnectedPacket.Write(hashesData);
+
+                _module.Node.SendPacketAsync(onConnectedPacket);
             }
 
             public void Dispose()

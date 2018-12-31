@@ -39,20 +39,12 @@ namespace Tangine.Modules
             _service = new TService(this, moduleServer);
         }
 
-        void IModule.Synchronize(HGame game)
+        void IModule.OnConnected()
         {
-            Synchronize(game);
-            _service.Synchronize(game);
+            OnConnected();
+            _service.OnConnected();
         }
-        public virtual void Synchronize(HGame game)
-        { }
-
-        void IModule.Synchronize(HGameData gameData)
-        {
-            Synchronize(gameData);
-            _service.Synchronize(gameData);
-        }
-        public virtual void Synchronize(HGameData gameData)
+        public virtual void OnConnected()
         { }
 
         void IModule.HandleOutgoing(DataInterceptedEventArgs e)

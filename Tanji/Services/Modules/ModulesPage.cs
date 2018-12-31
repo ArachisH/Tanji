@@ -26,7 +26,6 @@ namespace Tanji.Services.Modules
     public partial class ModulesPage : ObservablePage, IHaltable, IReceiver
     {
         private ModuleInfo[] _safeModules;
-        private bool _isInitialModuleLoading = true;
 
         private readonly List<string> _hashBlacklist;
         private static readonly Dictionary<string, ModuleInfo> _moduleCache;
@@ -129,13 +128,19 @@ namespace Tanji.Services.Modules
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 var module = (ModuleInfo)e.NewItems[0];
+
                 ListViewItem item = ModulesLv.AddItem(module.Name, module.Description, module.Version, module.CurrentState);
+                module.PhysicalObject = item;
+
                 item.Tag = module;
             }
             else if (e.Action == NotifyCollectionChangedAction.Remove)
             {
-            }
+                var module = (ModuleInfo)e.OldItems[0];
 
+                module.Dispose();
+                ModulesLv.RemoveItem(module.PhysicalObject);
+            }
             _safeModules = Modules.ToArray();
         }
 
@@ -232,6 +237,8 @@ namespace Tanji.Services.Modules
                 while (module.Node.IsConnected)
                 {
                     HPacket packet = await module.Node.ReceivePacketAsync().ConfigureAwait(false);
+                    if (packet == null) break;
+
                     switch (packet.Id)
                     {
                         case 1:
@@ -260,14 +267,7 @@ namespace Tanji.Services.Modules
                     }
                 }
             }
-            finally
-            {
-                Invoke(new MethodInvoker(() =>
-                {
-                    module.Dispose();
-                    Modules.Remove(module);
-                }));
-            }
+            finally { Invoke(new MethodInvoker(() => Modules.Remove(module))); }
         }
         private async Task CaptureModulesAsync(TcpListener listener)
         {
@@ -277,7 +277,9 @@ namespace Tanji.Services.Modules
 
                 moduleNode.InFormat = HFormat.EvaWire;
                 moduleNode.OutFormat = HFormat.EvaWire;
+
                 HPacket infoPacket = await moduleNode.ReceivePacketAsync();
+                if (infoPacket == null) return; // Module aborted connection
 
                 var module = new ModuleInfo(moduleNode);
                 module.PropertyChanged += Module_PropertyChanged;
@@ -316,7 +318,6 @@ namespace Tanji.Services.Modules
                     }
                 }
             }
-            _isInitialModuleLoading = false;
         }
         private string GetFileHash(string path)
         {
@@ -325,6 +326,15 @@ namespace Tanji.Services.Modules
             {
                 return BitConverter.ToString(md5.ComputeHash(fileStream))
                     .Replace("-", string.Empty).ToLower();
+            }
+        }
+        private void InvokeModules(Action<IModule> action)
+        {
+            foreach (ModuleInfo module in _safeModules)
+            {
+                IModule instance = module.Instance;
+                if (instance == null) continue;
+                action(instance);
             }
         }
         private string CopyFile(string path, string uniqueId)
@@ -393,30 +403,30 @@ namespace Tanji.Services.Modules
         public void Halt()
         { }
         public void Restore(ConnectedEventArgs e)
-        { }
+        {
+            InvokeModules(m => m.OnConnected());
+        }
         #endregion
         #region IReceiver Implementation
         public bool IsReceiving { get; private set; }
         public void HandleData(DataInterceptedEventArgs e)
         {
-            foreach (ModuleInfo module in _safeModules)
+            InvokeModules(m =>
             {
-                IModule instance = module.Instance;
-                if (instance == null) continue;
                 try
                 {
                     if (e.IsOutgoing)
                     {
-                        instance.HandleOutgoing(e);
+                        m.HandleOutgoing(e);
                     }
-                    else instance.HandleIncoming(e);
+                    else m.HandleIncoming(e);
                 }
                 catch (Exception ex)
                 {
                     e.Restore();
                     Task.Factory.StartNew(() => Program.Display(ex));
                 }
-            }
+            });
         }
         public void HandleOutgoing(DataInterceptedEventArgs e) => HandleData(e);
         public void HandleIncoming(DataInterceptedEventArgs e) => HandleData(e);
