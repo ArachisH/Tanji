@@ -45,10 +45,10 @@ namespace Tanji.Controls
 
             private const int WM_USER = 0x400;
             private const int WM_SETREDRAW = 0x000B;
-            private const int EM_GETEVENTMASK = (WM_USER + 59);
-            private const int EM_SETEVENTMASK = (WM_USER + 69);
-            private const int EM_GETSCROLLPOS = (WM_USER + 221);
-            private const int EM_SETSCROLLPOS = (WM_USER + 222);
+            private const int EM_GETEVENTMASK = WM_USER + 59;
+            private const int EM_SETEVENTMASK = WM_USER + 69;
+            private const int EM_GETSCROLLPOS = WM_USER + 221;
+            private const int EM_SETSCROLLPOS = WM_USER + 222;
 
             public RichLogBoxPaintSuspender(RichLogBox logBox)
             {

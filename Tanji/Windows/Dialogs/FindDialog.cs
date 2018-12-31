@@ -90,7 +90,7 @@ namespace Tanji.Windows.Dialogs
         }
         #endregion
 
-        public int VisibleLines => (BottomLine - TopLine);
+        public int VisibleLines => BottomLine - TopLine;
         public int TopLine => _log.GetLineFromCharIndex(TopLeftCharIndex);
         public int TopLeftCharIndex => _log.GetCharIndexFromPosition(_topLeft);
         public int BottomLine => _log.GetLineFromCharIndex(BottomRightCharIndex);
@@ -126,7 +126,7 @@ namespace Tanji.Windows.Dialogs
             }
             else if (foundIndex != _log.SelectionStart)
             {
-                int middleOffset = (VisibleLines / 2);
+                int middleOffset = VisibleLines / 2;
                 int foundOnLine = _log.GetLineFromCharIndex(foundIndex);
                 if (foundOnLine >= BottomLine || foundOnLine <= TopLine)
                 {
@@ -134,7 +134,7 @@ namespace Tanji.Windows.Dialogs
                     {
                         middleOffset *= -1;
                     }
-                    int newBottomLine = (foundOnLine + middleOffset);
+                    int newBottomLine = foundOnLine + middleOffset;
                     if (newBottomLine < 0) newBottomLine = 0;
 
                     int borderLineIndex = _log.GetFirstCharIndexFromLine(newBottomLine);
@@ -162,7 +162,7 @@ namespace Tanji.Windows.Dialogs
         private int Find(ref string value)
         {
             int end = _log.TextLength;
-            int start = (_log.SelectionStart);
+            int start = _log.SelectionStart;
             if (!IsDirectionUp) start += _log.SelectionLength;
             else if (IsNormalSearchMode)
             {
@@ -173,8 +173,8 @@ namespace Tanji.Windows.Dialogs
             int index = Find(ref value, start, end);
             if (index == -1 && IsWrappingAround)
             {
-                start = (!IsNormalSearchMode && IsDirectionUp ? _log.TextLength : 0);
-                end = (IsDirectionUp ? 0 : _log.TextLength);
+                start = !IsNormalSearchMode && IsDirectionUp ? _log.TextLength : 0;
+                end = IsDirectionUp ? 0 : _log.TextLength;
                 index = Find(ref value, start, end);
             }
             return index;

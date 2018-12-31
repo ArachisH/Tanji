@@ -41,7 +41,7 @@ namespace Tanji.Services.Modules
 
         public Form FormUI { get; set; }
         //?public Window WindowUI { get; set; }
-        public bool IsInitialized => (Instance != null);
+        public bool IsInitialized => Instance != null;
 
         private string _currentState = DISPOSED_STATE;
         public string CurrentState
@@ -142,7 +142,7 @@ namespace Tanji.Services.Modules
                 }
                 else Instance = new DummyModule(this);
 
-                FormUI = (uiInstance as Form);
+                FormUI = uiInstance as Form;
                 //?WindowUI = (uiInstance as Window);
 
                 Instance.Installer = Master;

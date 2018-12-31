@@ -98,8 +98,8 @@ namespace Tanji.Utilities
         }
         private Modifiers GetModifiers(Keys keyData, out Keys keyCode)
         {
-            Keys keyModifiers = (keyData & Keys.Modifiers);
-            keyCode = (keyData & ~keyModifiers);
+            Keys keyModifiers = keyData & Keys.Modifiers;
+            keyCode = keyData & ~keyModifiers;
 
             var modifiers = Modifiers.None;
             foreach (Keys modifier in _keyModifiers)
@@ -133,7 +133,7 @@ namespace Tanji.Utilities
                 var param = (int)m.LParam;
                 var modifier = (Modifiers)(param & 0xFFFF);
 
-                Keys keyData = (GetModifierKeys(modifier) | (Keys)((param >> 16) & 0xFFFF));
+                Keys keyData = GetModifierKeys(modifier) | (Keys)((param >> 16) & 0xFFFF);
                 OnHotkeyPressed(new KeyEventArgs(keyData));
             }
             base.WndProc(ref m);

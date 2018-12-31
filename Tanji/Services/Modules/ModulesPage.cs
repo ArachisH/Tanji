@@ -119,7 +119,7 @@ namespace Tanji.Services.Modules
             {
                 case nameof(ModuleInfo.Instance):
                 {
-                    IsReceiving = (GetInitializedModules().Count() > 0);
+                    IsReceiving = GetInitializedModules().Count() > 0;
                     break;
                 }
             }

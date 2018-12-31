@@ -298,6 +298,13 @@ namespace Tanji.Services
 
             if (Eavesdropper.Certifier.CreateTrustedRootCertificate())
             {
+#if DEBUG
+                foreach (Form form in Application.OpenForms)
+                {
+                    form.WindowState = FormWindowState.Minimized;
+                }
+#endif
+
                 Eavesdropper.ResponseInterceptedAsync += InterceptClientPageAsync;
                 Eavesdropper.Initiate(PROXY_PORT);
                 Status = INTERCEPTING_CLIENT_PAGE;
@@ -353,8 +360,8 @@ namespace Tanji.Services
             {
                 case nameof(Status):
                 {
-                    bool isBusy = (Status != STANDING_BY);
-                    ConnectBtn.Text = (isBusy ? "Cancel" : "Connect");
+                    bool isBusy = Status != STANDING_BY;
+                    ConnectBtn.Text = isBusy ? "Cancel" : "Connect";
 
                     BrowseBtn.Enabled = !isBusy;
                     CustomClientTxt.IsReadOnly = isBusy;
@@ -426,14 +433,14 @@ namespace Tanji.Services
             {
                 game = possibleGame;
             }
-            return (game != null);
+            return game != null;
         }
         private int GetSWFStartIndex(string body, int index = 0)
         {
-            int swfStartIndex = (body.IndexOf("embedswf(", index, StringComparison.OrdinalIgnoreCase) + 9);
+            int swfStartIndex = body.IndexOf("embedswf(", index, StringComparison.OrdinalIgnoreCase) + 9;
             if (swfStartIndex == 8)
             {
-                swfStartIndex = (body.IndexOf("swfobject(", index, StringComparison.OrdinalIgnoreCase) + 10);
+                swfStartIndex = body.IndexOf("swfobject(", index, StringComparison.OrdinalIgnoreCase) + 10;
                 if (swfStartIndex == 9) return -1;
             }
             return swfStartIndex;
@@ -461,7 +468,7 @@ namespace Tanji.Services
                 string sharedKeyHex = e.Packet.ReadUTF8();
                 if (sharedKeyHex.Length % 2 != 0)
                 {
-                    sharedKeyHex = ("0" + sharedKeyHex);
+                    sharedKeyHex = "0" + sharedKeyHex;
                 }
 
                 byte[] sharedKey = Enumerable.Range(0, sharedKeyHex.Length / 2)
