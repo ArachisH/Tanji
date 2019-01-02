@@ -39,8 +39,9 @@
             this.BlockedBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.ReplacedBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.DisplayDetailsBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.StructureBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.DismantledBtn = new Tanji.Controls.BindableToolStripMenuItem();
-            this.HashNameBtn = new Tanji.Controls.BindableToolStripMenuItem();
+            this.HashBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.HexadecimalBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.ParserNameBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.ClassNameBtn = new Tanji.Controls.BindableToolStripMenuItem();
@@ -58,7 +59,6 @@
             this.LatencyLbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.RevisionLbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.PacketLoggerSs = new System.Windows.Forms.StatusStrip();
-            this.StructureBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.PacketLoggerMs.SuspendLayout();
             this.PacketLoggerSs.SuspendLayout();
             this.SuspendLayout();
@@ -145,7 +145,7 @@
             this.BlockedBtn.CheckOnClick = true;
             this.BlockedBtn.CheckState = System.Windows.Forms.CheckState.Checked;
             this.BlockedBtn.Name = "BlockedBtn";
-            this.BlockedBtn.Size = new System.Drawing.Size(180, 22);
+            this.BlockedBtn.Size = new System.Drawing.Size(122, 22);
             this.BlockedBtn.Text = "Blocked";
             // 
             // ReplacedBtn
@@ -154,21 +154,29 @@
             this.ReplacedBtn.CheckOnClick = true;
             this.ReplacedBtn.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ReplacedBtn.Name = "ReplacedBtn";
-            this.ReplacedBtn.Size = new System.Drawing.Size(180, 22);
+            this.ReplacedBtn.Size = new System.Drawing.Size(122, 22);
             this.ReplacedBtn.Text = "Replaced";
             // 
             // DisplayDetailsBtn
             // 
             this.DisplayDetailsBtn.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.HashBtn,
             this.StructureBtn,
             this.DismantledBtn,
-            this.HashNameBtn,
             this.HexadecimalBtn,
             this.ParserNameBtn,
             this.ClassNameBtn});
             this.DisplayDetailsBtn.Name = "DisplayDetailsBtn";
             this.DisplayDetailsBtn.Size = new System.Drawing.Size(196, 22);
             this.DisplayDetailsBtn.Text = "Display Details";
+            // 
+            // StructureBtn
+            // 
+            this.StructureBtn.Checked = true;
+            this.StructureBtn.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.StructureBtn.Name = "StructureBtn";
+            this.StructureBtn.Size = new System.Drawing.Size(180, 22);
+            this.StructureBtn.Text = "Structure";
             // 
             // DismantledBtn
             // 
@@ -179,14 +187,14 @@
             this.DismantledBtn.Size = new System.Drawing.Size(180, 22);
             this.DismantledBtn.Text = "Dismantled";
             // 
-            // HashNameBtn
+            // HashBtn
             // 
-            this.HashNameBtn.Checked = true;
-            this.HashNameBtn.CheckOnClick = true;
-            this.HashNameBtn.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.HashNameBtn.Name = "HashNameBtn";
-            this.HashNameBtn.Size = new System.Drawing.Size(180, 22);
-            this.HashNameBtn.Text = "Hash/Name";
+            this.HashBtn.Checked = true;
+            this.HashBtn.CheckOnClick = true;
+            this.HashBtn.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.HashBtn.Name = "HashBtn";
+            this.HashBtn.Size = new System.Drawing.Size(180, 22);
+            this.HashBtn.Text = "Hash";
             // 
             // HexadecimalBtn
             // 
@@ -272,7 +280,7 @@
             // IgnoreMessagesBtn
             // 
             this.IgnoreMessagesBtn.Name = "IgnoreMessagesBtn";
-            this.IgnoreMessagesBtn.Size = new System.Drawing.Size(180, 22);
+            this.IgnoreMessagesBtn.Size = new System.Drawing.Size(162, 22);
             this.IgnoreMessagesBtn.Text = "Ignore Messages";
             // 
             // LogTxt
@@ -346,14 +354,6 @@
             this.PacketLoggerSs.SizingGrip = false;
             this.PacketLoggerSs.TabIndex = 2;
             // 
-            // StructureBtn
-            // 
-            this.StructureBtn.Checked = true;
-            this.StructureBtn.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.StructureBtn.Name = "StructureBtn";
-            this.StructureBtn.Size = new System.Drawing.Size(180, 22);
-            this.StructureBtn.Text = "Structure";
-            // 
             // PacketLoggerFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -390,7 +390,7 @@
         private Controls.BindableToolStripMenuItem BlockedBtn;
         private Controls.BindableToolStripMenuItem ReplacedBtn;
         private System.Windows.Forms.ToolStripMenuItem DisplayDetailsBtn;
-        private Controls.BindableToolStripMenuItem HashNameBtn;
+        private Controls.BindableToolStripMenuItem HashBtn;
         private Controls.BindableToolStripMenuItem DismantledBtn;
         private Controls.BindableToolStripMenuItem HexadecimalBtn;
         private Controls.BindableToolStripMenuItem ParserNameBtn;
