@@ -46,12 +46,8 @@ namespace Tanji.Services.Modules
                 }
                 else
                 {
-                    foreach (ListViewItem item in ModulesLv.Items)
-                    {
-                        if ((ModuleInfo)item.Tag != value) continue;
-                        item.Focused = true;
-                        item.Selected = true;
-                    }
+                    value.PhysicalItem.Focused = true;
+                    value.PhysicalItem.Selected = true;
 
                     _selectedModule = value;
                     RaiseOnPropertyChanged();
@@ -91,6 +87,21 @@ namespace Tanji.Services.Modules
             }
         }
 
+        private void ModulesLv_ItemActivate(object sender, EventArgs e)
+        {
+            SelectedModule.Initialize();
+        }
+        private void ModulesLv_ItemSelectionStateChanged(object sender, EventArgs e)
+        {
+            _selectedModule = (ModuleInfo)ModulesLv.SelectedItem?.Tag;
+            UninstallModuleBtn.Enabled = _selectedModule != null;
+
+            if (_selectedModule != null)
+            {
+                RaiseOnPropertyChanged(nameof(SelectedModule));
+            }
+        }
+
         private void InstallModuleBtn_Click(object sender, EventArgs e)
         {
             InstallModuleDlg.FileName = string.Empty;
@@ -114,11 +125,17 @@ namespace Tanji.Services.Modules
 
         private void Module_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            var module = (ModuleInfo)sender;
             switch (e.PropertyName)
             {
                 case nameof(ModuleInfo.Instance):
                 {
                     IsReceiving = GetInitializedModules().Count() > 0;
+                    break;
+                }
+                case nameof(ModuleInfo.CurrentState):
+                {
+                    module.PhysicalItem.SubItems[3].Text = module.CurrentState;
                     break;
                 }
             }
@@ -130,7 +147,7 @@ namespace Tanji.Services.Modules
                 var module = (ModuleInfo)e.NewItems[0];
 
                 ListViewItem item = ModulesLv.AddItem(module.Name, module.Description, module.Version, module.CurrentState);
-                module.PhysicalObject = item;
+                module.PhysicalItem = item;
 
                 item.Tag = module;
             }
@@ -139,7 +156,7 @@ namespace Tanji.Services.Modules
                 var module = (ModuleInfo)e.OldItems[0];
 
                 module.Dispose();
-                ModulesLv.RemoveItem(module.PhysicalObject);
+                ModulesLv.RemoveItem(module.PhysicalItem);
             }
             _safeModules = Modules.ToArray();
         }
@@ -332,9 +349,8 @@ namespace Tanji.Services.Modules
         {
             foreach (ModuleInfo module in _safeModules)
             {
-                IModule instance = module.Instance;
-                if (instance == null) continue;
-                action(instance);
+                if (module.Instance == null) continue;
+                action(module.Instance);
             }
         }
         private string CopyFile(string path, string uniqueId)

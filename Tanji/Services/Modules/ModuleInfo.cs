@@ -17,12 +17,10 @@ namespace Tanji.Services.Modules
 {
     public class ModuleInfo : ObservableObject
     {
-        private static readonly List<Assembly> _loadedStyles;
-
         private const string DISPOSED_STATE = "Disposed";
         private const string INITIALIZED_STATE = "Initialized";
 
-        public ListViewItem PhysicalObject { get; set; }
+        public ListViewItem PhysicalItem { get; set; }
         public Dictionary<string, TaskCompletionSource<HPacket>> DataAwaiters { get; }
 
         public Type Type { get; set; }
@@ -65,10 +63,6 @@ namespace Tanji.Services.Modules
             }
         }
 
-        static ModuleInfo()
-        {
-            _loadedStyles = new List<Assembly>();
-        }
         public ModuleInfo()
         {
             Authors = new List<AuthorAttribute>();
@@ -113,6 +107,7 @@ namespace Tanji.Services.Modules
             }
             try
             {
+                IModule instance = null; // Make the initialization of the property 'Instance' thread-safe.
                 object uiInstance = null;
                 bool isUninitialized = false;
                 if (EntryType != null)
@@ -124,27 +119,28 @@ namespace Tanji.Services.Modules
                     {
                         throw new MissingMemberException(EntryType.Name, PropertyName);
                     }
-                    Instance = (IModule)property.GetValue(uiInstance);
+                    instance = (IModule)property.GetValue(uiInstance);
                 }
                 else if (Type != null)
                 {
                     isUninitialized = true;
-                    Instance = (IModule)FormatterServices.GetUninitializedObject(Type);
-                    uiInstance = Instance;
+                    instance = (IModule)FormatterServices.GetUninitializedObject(Type);
+                    uiInstance = instance;
                 }
-                else Instance = new DummyModule(this);
+                else instance = new DummyModule(this);
 
                 FormUI = uiInstance as Form;
-                Instance.Installer = Master;
+                instance.Installer = Master;
                 if (isUninitialized)
                 {
                     ConstructorInfo moduleConstructor = Type.GetConstructor(Type.EmptyTypes);
-                    moduleConstructor.Invoke(Instance, null);
+                    moduleConstructor.Invoke(instance, null);
                 }
+                Instance = instance; // At this point, the IModule instance should have been fully initialized.
 
                 if (Master.Connection.IsConnected)
                 {
-                    Instance.OnConnected();
+                    instance.OnConnected();
                 }
 
                 if (FormUI != null)
