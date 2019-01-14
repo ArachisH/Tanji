@@ -4,10 +4,12 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 
 using Tangine.Helpers;
 
+using Sulakore.Habbo;
 using Sulakore.Modules;
 using Sulakore.Network;
 using Sulakore.Habbo.Web;
@@ -29,6 +31,10 @@ namespace Tangine.Modules
         public HGame Game => Installer.Game;
         public HGameData GameData => Installer.GameData;
         public IHConnection Connection => Installer.Connection;
+
+        public ReadOnlyDictionary<int, HEntity> Entities => _service.Entities;
+        public ReadOnlyDictionary<int, HWallItem> WallItems => _service.WallItems;
+        public ReadOnlyDictionary<int, HFloorItem> FloorItems => _service.FloorItems;
 
         public ExtensionForm()
             : this(null)
