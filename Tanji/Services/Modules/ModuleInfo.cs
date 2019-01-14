@@ -136,12 +136,6 @@ namespace Tanji.Services.Modules
                     ConstructorInfo moduleConstructor = Type.GetConstructor(Type.EmptyTypes);
                     moduleConstructor.Invoke(instance, null);
                 }
-                Instance = instance; // At this point, the IModule instance should have been fully initialized.
-
-                if (Master.Connection.IsConnected)
-                {
-                    instance.OnConnected();
-                }
 
                 if (FormUI != null)
                 {
@@ -149,6 +143,8 @@ namespace Tanji.Services.Modules
                     FormUI.FormClosed += UserInterface_Closed;
                     FormUI.Show();
                 }
+
+                Instance = instance; // At this point, the IModule instance should have been fully initialized.
             }
             catch (Exception ex)
             {
@@ -280,6 +276,7 @@ namespace Tanji.Services.Modules
                 onConnectedPacket.Write(hashesData);
 
                 _module.Node.SendPacketAsync(onConnectedPacket);
+                // TODO: Create a special "DataAwaiter" for this message, as it should return AFTER the module is finished with it.
             }
 
             public void Dispose()
