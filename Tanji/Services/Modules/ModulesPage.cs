@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
@@ -26,8 +27,8 @@ namespace Tanji.Services.Modules
     public partial class ModulesPage : ObservablePage, IHaltable, IReceiver
     {
         private ModuleInfo[] _safeModules;
-
         private readonly List<string> _hashBlacklist;
+        private ConcurrentQueue<DataInterceptedEventArgs> _packetQueue;
         private static readonly Dictionary<string, ModuleInfo> _moduleCache;
 
         public DirectoryInfo ModulesDirectory { get; }
@@ -65,6 +66,7 @@ namespace Tanji.Services.Modules
 
             _safeModules = new ModuleInfo[0];
             _hashBlacklist = new List<string>();
+            _packetQueue = new ConcurrentQueue<DataInterceptedEventArgs>();
 
             AppDomain.CurrentDomain.AssemblyResolve += Assembly_Resolve;
 
@@ -130,7 +132,33 @@ namespace Tanji.Services.Modules
             {
                 case nameof(ModuleInfo.Instance):
                 {
-                    IsReceiving = GetInitializedModules().Count() > 0;
+                    _isReceiving = GetInitializedModules().Count() > 0;
+                    if (Master.IsConnected && module.Instance != null)
+                    {
+                        module.Instance.OnConnected();
+                        if (Master.Config.IsQueuingModulePackets)
+                        {
+                            Task.Factory.StartNew(() =>
+                              {
+                                  foreach (DataInterceptedEventArgs data in _packetQueue)
+                                  {
+                                      if (module.Instance == null) return; // Ensure the module has not been disposed from a different thread.
+                                        try
+                                      {
+                                          if (data.IsOutgoing)
+                                          {
+                                              module.Instance.HandleOutgoing(data);
+                                          }
+                                          else module.Instance.HandleIncoming(data);
+                                      }
+                                      catch (Exception ex)
+                                      {
+                                          Task.Factory.StartNew(() => Program.Display(ex));
+                                      }
+                                  }
+                              }, TaskCreationOptions.LongRunning);
+                        }
+                    }
                     break;
                 }
                 case nameof(ModuleInfo.CurrentState):
@@ -371,6 +399,28 @@ namespace Tanji.Services.Modules
             }
             return copiedFilePath;
         }
+        private void QueueImportantPackets(DataInterceptedEventArgs e)
+        {
+            if (e.IsOutgoing) return;
+            switch (Master.In.GetName(e.Packet.Id))
+            {
+                case nameof(Master.In.RoomHeightMap):
+                _packetQueue = new ConcurrentQueue<DataInterceptedEventArgs>();
+                break;
+
+                case nameof(Master.In.RoomUsers):
+                _packetQueue.Enqueue(e);
+                break;
+
+                case nameof(Master.In.RoomWallItems):
+                _packetQueue.Enqueue(e);
+                break;
+
+                case nameof(Master.In.RoomFloorItems):
+                _packetQueue.Enqueue(e);
+                break;
+            }
+        }
         private void CopyDependencies(string path, Assembly assembly)
         {
             AssemblyName[] references = assembly.GetReferencedAssemblies();
@@ -424,9 +474,15 @@ namespace Tanji.Services.Modules
         }
         #endregion
         #region IReceiver Implementation
-        public bool IsReceiving { get; private set; }
+        private bool _isReceiving;
+        public bool IsReceiving => _isReceiving || Master.Config.IsQueuingModulePackets;
+
         public void HandleData(DataInterceptedEventArgs e)
         {
+            if (Master.Config.IsQueuingModulePackets)
+            {
+                QueueImportantPackets(e);
+            }
             InvokeModules(m =>
             {
                 try
