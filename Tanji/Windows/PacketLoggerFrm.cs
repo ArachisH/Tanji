@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Threading;
-using System.Configuration;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
@@ -30,7 +29,6 @@ namespace Tanji.Windows
         private readonly object _queueProcessLock;
         private readonly Queue<DataInterceptedEventArgs> _intercepted;
         private readonly Action<List<(string, Color)>> _displayEntries;
-        private readonly IDictionary<string, string> _outStructureOverrides, _inStructureOverrides;
 
         #region Bindable Properties
         private bool _isDisplayingBlocked = true;
@@ -204,8 +202,6 @@ namespace Tanji.Windows
             _queueProcessLock = new object();
             _displayEntries = DisplayEntries;
             _intercepted = new Queue<DataInterceptedEventArgs>();
-            _inStructureOverrides = PopulateStructureOverrides(ConfigurationManager.AppSettings["InStructureOverrides"]);
-            _outStructureOverrides = PopulateStructureOverrides(ConfigurationManager.AppSettings["OutStructureOverrides"]);
 
             InitializeComponent();
 
@@ -406,7 +402,7 @@ namespace Tanji.Windows
         private string GetStructure(MessageItem message)
         {
             if (string.IsNullOrWhiteSpace(message?.Hash)) return null;
-            IDictionary<string, string> structureOverrides = message.IsOutgoing ? _outStructureOverrides : _inStructureOverrides;
+            IDictionary<string, string> structureOverrides = message.IsOutgoing ? Master.Config.OutStructureOverrides : Master.Config.InStructureOverrides;
 
             string structure = message.Structure;
             if (structureOverrides.TryGetValue(message.Hash, out string structureOverride))
@@ -492,17 +488,6 @@ namespace Tanji.Windows
             return true;
         }
 
-        private IDictionary<string, string> PopulateStructureOverrides(string value)
-        {
-            var structureOverrides = new Dictionary<string, string>();
-            string[] sections = value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (string section in sections)
-            {
-                string[] pieces = section.Split('_');
-                structureOverrides.Add(pieces[0], pieces[1]);
-            }
-            return structureOverrides;
-        }
         private string LoopDismantle(HPacket packet, ref int position, string structure, ref int index, int loops)
         {
             int previousInt = 0;

@@ -31,6 +31,8 @@ namespace Tanji
         public Outgoing Out { get; }
         public KeyboardHook Hook { get; }
         public HGameData GameData { get; }
+
+        public TConfiguration Config { get; }
         public bool IsConnected => Connection.IsConnected;
 
         public HGame Game { get; set; }
@@ -48,28 +50,7 @@ namespace Tanji
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            Eavesdropper.Terminate();
-            Eavesdropper.Certifier = new CertificateManager("Tanji", "Tanji Certificate Authority");
-            Eavesdropper.Overrides.AddRange(new[]
-            {
-                "*google*",
-                "*discordapp*",
-                "*gstatic.com",
-                "*imgur.com",
-                "*github.com",
-                "*googleapis.com",
-                "*facebook.com",
-                "*cloudfront.net",
-                "*gvt1.com",
-                "*jquery.com",
-                "*akamai.net",
-                "*ultra-rv.com",
-                "*youtube*",
-                "*ytimg*",
-                "*ggpht*"
-            });
-
+            
             Master = new Program();
             Application.Run(new MainFrm());
         }
@@ -105,6 +86,12 @@ namespace Tanji
 
             Hook = new KeyboardHook();
             Hook.HotkeyPressed += HotkeyPressed;
+
+            Config = new TConfiguration();
+
+            Eavesdropper.Terminate();
+            Eavesdropper.Certifier = new CertificateManager("Tanji", "Tanji Certificate Authority");
+            Eavesdropper.Overrides.AddRange(Config.ProxyOverrides);
         }
 
         public void AddHaltable(IHaltable haltable)

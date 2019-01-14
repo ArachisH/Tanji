@@ -3,7 +3,6 @@ using System.IO;
 using System.Net;
 using System.Linq;
 using System.Net.Http;
-using System.Configuration;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -48,8 +47,6 @@ namespace Tanji.Services
         private const string ASSEMBLING_CLIENT = "Assembling Client...";
         private const string DISASSEMBLING_CLIENT = "Disassembling Client...";
         #endregion
-
-        private const ushort PROXY_PORT = 8282;
 
         private string _customClientPath = null;
         [DefaultValue(null)]
@@ -172,7 +169,7 @@ namespace Tanji.Services
                     game.InjectKeyShouter(4001);
                     game.InjectEndPointShouter(4000);
                 }
-                game.InjectEndPoint("127.0.0.1", int.Parse(ConfigurationManager.AppSettings["GameListenPort"]));
+                game.InjectEndPoint("127.0.0.1", Master.Config.GameListenPort);
             }
 
             Master.Game = game;
@@ -206,19 +203,15 @@ namespace Tanji.Services
             if (!contentType.Contains("text") && !contentType.Contains("javascript")) return;
 
             int interceptionTriggersFound = -1;
-            string[] interceptionTriggers = ConfigurationManager.AppSettings["InterceptionTriggers"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
             string body = await e.Content.ReadAsStringAsync().ConfigureAwait(false);
-            foreach (string interceptionTrigger in interceptionTriggers)
+            foreach (string interceptionTrigger in Master.Config.InterceptionTriggers)
             {
                 interceptionTriggersFound += Convert.ToInt32(body.IndexOf(interceptionTrigger, StringComparison.OrdinalIgnoreCase) != -1);
             }
             if (interceptionTriggersFound < 2) return;
 
-            string[] cacheBlacklist = ConfigurationManager.AppSettings["CacheBlacklist"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            bool isBlacklisted = _wasBlacklisted = cacheBlacklist.Contains(e.Uri.Host);
-
             int swfStartIndex = GetSWFStartIndex(body);
+            bool isBlacklisted = _wasBlacklisted = Master.Config.CacheBlacklist.Contains(e.Uri.Host);
             if (swfStartIndex == -1 && !isBlacklisted) return;
 
             Master.GameData.Source = body;
@@ -299,14 +292,10 @@ namespace Tanji.Services
             if (Eavesdropper.Certifier.CreateTrustedRootCertificate())
             {
 #if DEBUG
-                foreach (Form form in Application.OpenForms)
-                {
-                    form.WindowState = FormWindowState.Minimized;
-                }
+                FindForm().WindowState = FormWindowState.Minimized;
 #endif
-
                 Eavesdropper.ResponseInterceptedAsync += InterceptClientPageAsync;
-                Eavesdropper.Initiate(PROXY_PORT);
+                Eavesdropper.Initiate(Master.Config.ProxyListenPort);
                 Status = INTERCEPTING_CLIENT_PAGE;
             }
         }
@@ -422,7 +411,7 @@ namespace Tanji.Services
                     if (!possibleGame.InjectKeyShouter(4001)) return false;
                     if (!possibleGame.InjectEndPointShouter(4000)) return false;
                 }
-                possibleGame.InjectEndPoint("127.0.0.1", int.Parse(ConfigurationManager.AppSettings["GameListenPort"])); // Does not matter if this returns true/false.
+                possibleGame.InjectEndPoint("127.0.0.1", Master.Config.GameListenPort); // Does not matter if this returns true/false.
             }
             catch
             {

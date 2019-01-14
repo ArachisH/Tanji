@@ -61,7 +61,6 @@
             this.UpdateBtn = new Tangine.Controls.TangineButton();
             this.VariableTxt = new Tangine.Controls.TangineLabelBox();
             this.ValueTxt = new Tangine.Controls.TangineLabelBox();
-            this.ProxyPortLbl = new Tangine.Controls.TangineLabel();
             this.DestroyCertificatesBtn = new Tangine.Controls.TangineButton();
             this.ExportCertificateAuthorityBtn = new Tangine.Controls.TangineButton();
             this.BrowseBtn = new Tangine.Controls.TangineButton();
@@ -136,22 +135,12 @@
             this.ValueTxt.Title = "Value";
             this.ValueTxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ValueTxt_KeyDown);
             // 
-            // ProxyPortLbl
-            // 
-            this.ProxyPortLbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ProxyPortLbl.Location = new System.Drawing.Point(413, 239);
-            this.ProxyPortLbl.Name = "ProxyPortLbl";
-            this.ProxyPortLbl.Size = new System.Drawing.Size(90, 20);
-            this.ProxyPortLbl.TabIndex = 12;
-            this.ProxyPortLbl.TabStop = false;
-            this.ProxyPortLbl.Text = "Proxy Port: 8282";
-            // 
             // DestroyCertificatesBtn
             // 
             this.DestroyCertificatesBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.DestroyCertificatesBtn.Location = new System.Drawing.Point(209, 239);
+            this.DestroyCertificatesBtn.Location = new System.Drawing.Point(256, 239);
             this.DestroyCertificatesBtn.Name = "DestroyCertificatesBtn";
-            this.DestroyCertificatesBtn.Size = new System.Drawing.Size(198, 20);
+            this.DestroyCertificatesBtn.Size = new System.Drawing.Size(247, 20);
             this.DestroyCertificatesBtn.TabIndex = 11;
             this.DestroyCertificatesBtn.TabStop = false;
             this.DestroyCertificatesBtn.Text = "Destroy Certificates";
@@ -163,7 +152,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ExportCertificateAuthorityBtn.Location = new System.Drawing.Point(3, 239);
             this.ExportCertificateAuthorityBtn.Name = "ExportCertificateAuthorityBtn";
-            this.ExportCertificateAuthorityBtn.Size = new System.Drawing.Size(200, 20);
+            this.ExportCertificateAuthorityBtn.Size = new System.Drawing.Size(247, 20);
             this.ExportCertificateAuthorityBtn.TabIndex = 10;
             this.ExportCertificateAuthorityBtn.TabStop = false;
             this.ExportCertificateAuthorityBtn.Text = "Export Certificate Authority";
@@ -275,7 +264,6 @@
             this.Controls.Add(this.UpdateBtn);
             this.Controls.Add(this.VariableTxt);
             this.Controls.Add(this.ValueTxt);
-            this.Controls.Add(this.ProxyPortLbl);
             this.Controls.Add(this.DestroyCertificatesBtn);
             this.Controls.Add(this.ExportCertificateAuthorityBtn);
             this.Controls.Add(this.BrowseBtn);
@@ -297,7 +285,6 @@
         private Tangine.Controls.TangineButton BrowseBtn;
         private Tangine.Controls.TangineButton ExportCertificateAuthorityBtn;
         private Tangine.Controls.TangineButton DestroyCertificatesBtn;
-        private Tangine.Controls.TangineLabel ProxyPortLbl;
         private Tangine.Controls.TangineLabelBox ValueTxt;
         private Tangine.Controls.TangineLabelBox VariableTxt;
         private System.Windows.Forms.ColumnHeader VariableCol;
