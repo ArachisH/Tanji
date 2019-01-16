@@ -3,31 +3,20 @@ using System.Linq;
 using System.Reflection;
 using System.Diagnostics;
 using System.Windows.Forms;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 
 using Tanji.Windows;
-
-using Octokit;
 
 namespace Tanji.Pages.About
 {
     public class AboutPage : TanjiPage
     {
-        private readonly GitHubClient _git;
-
         public Version LocalVersion { get; }
-        public Release Latest { get; private set; }
-        public Release Current { get; private set; }
 
         public AboutPage(MainFrm ui, TabPage tab)
             : base(ui, tab)
         {
             LocalVersion = new Version(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion);
             UI.TanjiVersionTxt.Text = ("v" + LocalVersion.ToString(3));
-
-            _git = new GitHubClient(new ProductHeaderValue("Tanji", LocalVersion.ToString()));
-            _git.Repository.Release.GetAll("ArachisH", "Tanji").ContinueWith(GrabbedReleases, TaskScheduler.FromCurrentSynchronizationContext());
 
             UI.ArachisBtn.Click += ArachisBtn_Click;
             UI.SpeaqerBtn.Click += SpeaqerBtn_Click;
@@ -39,37 +28,6 @@ namespace Tanji.Pages.About
             UI.SNGButton.Click += SNGButton_Click;
             UI.DarkboxBtn.Click += DarkboxBtn_Click;
             UI.SelloutBtn.Click += SelloutBtn_Click;
-        }
-
-        private void GrabbedReleases(Task<IReadOnlyList<Release>> getAllReleasesTask)
-        {
-            IReadOnlyList<Release> releases = getAllReleasesTask.Result;
-            Latest = releases.FirstOrDefault();
-
-            foreach (Release release in releases)
-            {
-                string version = release.TagName.Substring(1);
-                if (version == LocalVersion.ToString())
-                {
-                    Current = release;
-                    break;
-                }
-            }
-            if (Current == null)
-            {
-                Current = Latest;
-            }
-            if (!Latest.Prerelease && new Version(Latest.TagName.Substring(1)) > LocalVersion)
-            {
-                if ((bool)Program.Settings["PromptUpdateNotification"])
-                {
-                    if (MessageBox.Show("An update has been found, would you like to be taken to the download page?",
-                        "Tanji - Alert!", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
-                    {
-                        Process.Start(Latest.HtmlUrl);
-                    }
-                }
-            }
         }
 
         private void ArachisBtn_Click(object sender, EventArgs e)

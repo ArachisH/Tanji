@@ -117,10 +117,6 @@ namespace Tanji.Windows
         {
             Process.Start("https://GitHub.com/ArachisH/Tanji");
         }
-        private void TanjiVersionTxt_Click(object sender, EventArgs e)
-        {
-            Process.Start(AboutPg.Latest?.HtmlUrl ?? "https://github.com/ArachisH/Tanji/releases/latest");
-        }
 
         private void Hook_HotkeyActivated(object sender, KeyEventArgs e)
         {

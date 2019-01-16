@@ -1604,7 +1604,6 @@
             this.TanjiVersionTxt.Size = new System.Drawing.Size(51, 19);
             this.TanjiVersionTxt.Text = "v0.0.0";
             this.TanjiVersionTxt.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.TanjiVersionTxt.Click += new System.EventHandler(this.TanjiVersionTxt_Click);
             // 
             // SchedulesTxt
             // 
