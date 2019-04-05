@@ -379,7 +379,6 @@ namespace Tanji.Services
             {
                 ASInstruction instruction = connectCode[i];
                 if (instruction.OP != OPCode.FindPropStrict || ++findPropStrictCount != 3) continue;
-
                 return true;
             }
 

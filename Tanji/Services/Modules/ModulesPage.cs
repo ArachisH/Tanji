@@ -26,7 +26,7 @@ namespace Tanji.Services.Modules
     [DesignerCategory("UserControl")]
     public partial class ModulesPage : ObservablePage, IHaltable, IReceiver
     {
-        private ModuleInfo[] _safeModules;
+        private ModuleInfo[] _initializedModules;
         private readonly List<string> _hashBlacklist;
         private ConcurrentQueue<DataInterceptedEventArgs> _packetQueue;
         private static readonly Dictionary<string, ModuleInfo> _moduleCache;
@@ -64,7 +64,7 @@ namespace Tanji.Services.Modules
         {
             InitializeComponent();
 
-            _safeModules = new ModuleInfo[0];
+            _initializedModules = new ModuleInfo[0];
             _hashBlacklist = new List<string>();
             _packetQueue = new ConcurrentQueue<DataInterceptedEventArgs>();
 
@@ -128,45 +128,31 @@ namespace Tanji.Services.Modules
         private void Module_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             var module = (ModuleInfo)sender;
-            switch (e.PropertyName)
-            {
-                case nameof(ModuleInfo.Instance):
-                {
-                    _isReceiving = GetInitializedModules().Count() > 0;
-                    if (Master.IsConnected && module.Instance != null)
-                    {
-                        module.Instance.OnConnected();
-                        if (Master.Config.IsQueuingModulePackets)
-                        {
-                            Task.Factory.StartNew(() =>
-                              {
-                                  foreach (DataInterceptedEventArgs data in _packetQueue)
-                                  {
-                                      if (module.Instance == null) return; // Ensure the module has not been disposed from a different thread.
-                                        try
-                                      {
-                                          if (data.IsOutgoing)
-                                          {
-                                              module.Instance.HandleOutgoing(data);
-                                          }
-                                          else module.Instance.HandleIncoming(data);
-                                      }
-                                      catch (Exception ex)
-                                      {
-                                          Task.Factory.StartNew(() => Program.Display(ex));
-                                      }
-                                  }
-                              }, TaskCreationOptions.LongRunning);
-                        }
-                    }
-                    break;
-                }
-                case nameof(ModuleInfo.CurrentState):
-                {
-                    module.PhysicalItem.SubItems[3].Text = module.CurrentState;
-                    break;
-                }
-            }
+            module.PhysicalItem.SubItems[3].Text = module.CurrentState;
+            _initializedModules = Modules.Where(m => m.IsInitialized).ToArray();
+
+            if (!Master.Config.IsQueuingModulePackets || !Master.IsConnected || module.Instance == null) return;
+
+            //Task handleDataTask = Task.Factory.StartNew(() => // Simulate all intercepted data being received concurrently as if Continue() was called on each one.
+            //{
+            //    foreach (DataInterceptedEventArgs data in _packetQueue)
+            //    {
+
+            //        if (module.Instance == null) return; // Ensure the module has not been disposed from a different thread.
+            //        try
+            //        {
+            //            if (data.IsOutgoing)
+            //            {
+            //                module.Instance.HandleOutgoing(data);
+            //            }
+            //            else module.Instance.HandleIncoming(data);
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            Program.Display(ex);
+            //        }
+            //    }
+            //}, TaskCreationOptions.LongRunning);
         }
         private void Modules_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -186,17 +172,14 @@ namespace Tanji.Services.Modules
                 module.Dispose();
                 ModulesLv.RemoveItem(module.PhysicalItem);
             }
-            _safeModules = Modules.ToArray();
         }
 
         private Assembly Assembly_Resolve(object sender, ResolveEventArgs args)
         {
             FileSystemInfo dependencyFile = GetDependencyFile(DependenciesDirectory, args.Name);
-            if (dependencyFile != null)
-            {
-                return Assembly.Load(File.ReadAllBytes(dependencyFile.FullName));
-            }
-            return null;
+            if (dependencyFile == null) return null;
+
+            return Assembly.Load(File.ReadAllBytes(dependencyFile.FullName));
         }
 
         public void Install(string modulePath)
@@ -238,9 +221,7 @@ namespace Tanji.Services.Modules
 
                         module.Type = type;
                         module.Name = moduleAtt.Name;
-                        module.EntryType = moduleAtt.EntryType;
                         module.Description = moduleAtt.Description;
-                        module.PropertyName = moduleAtt.PropertyName;
                         module.Version = module.Assembly.GetName().Version;
 
                         var authorAtts = type.GetCustomAttributes<AuthorAttribute>();
@@ -265,14 +246,9 @@ namespace Tanji.Services.Modules
             module.Path = installPath; // This property already might have been set from a previous installation, but it wouldn't hurt to re-set the value.
             Modules.Add(module);
         }
-
         public ModuleInfo GetModule(string hash)
         {
             return Modules.SingleOrDefault(m => m.Hash == hash);
-        }
-        public IEnumerable<ModuleInfo> GetInitializedModules()
-        {
-            return Modules.Where(m => m.IsInitialized);
         }
 
         private async Task HandleModuleDataAsync(ModuleInfo module)
@@ -289,8 +265,7 @@ namespace Tanji.Services.Modules
                         case 1:
                         {
                             string identifier = packet.ReadUTF8();
-                            TaskCompletionSource<HPacket> handledDataSource = null;
-                            if (module.DataAwaiters.TryGetValue(identifier, out handledDataSource))
+                            if (module.DataAwaiters.TryGetValue(identifier, out TaskCompletionSource<HPacket> handledDataSource))
                             {
                                 handledDataSource.SetResult(packet);
                             }
@@ -318,12 +293,9 @@ namespace Tanji.Services.Modules
         {
             try
             {
-                var moduleNode = new HNode(await listener.AcceptSocketAsync());
+                var moduleNode = new HNode(await listener.AcceptSocketAsync().ConfigureAwait(false));
 
-                moduleNode.InFormat = HFormat.EvaWire;
-                moduleNode.OutFormat = HFormat.EvaWire;
-
-                HPacket infoPacket = await moduleNode.ReceivePacketAsync();
+                HPacket infoPacket = await moduleNode.ReceivePacketAsync().ConfigureAwait(false);
                 if (infoPacket == null) return; // Module aborted connection
 
                 var module = new ModuleInfo(moduleNode);
@@ -338,9 +310,10 @@ namespace Tanji.Services.Modules
                 {
                     module.Authors.Add(new AuthorAttribute(infoPacket.ReadUTF8()));
                 }
-                Modules.Add(module);
 
+                Invoke(new MethodInvoker(() => Modules.Add(module))); // Module must be added to collection before calling Initialize()
                 module.Initialize();
+
                 Task handleModuleDataTask = HandleModuleDataAsync(module);
             }
             finally { Task captureModulesAsync = CaptureModulesAsync(listener); }
@@ -375,7 +348,7 @@ namespace Tanji.Services.Modules
         }
         private void InvokeModules(Action<IModule> action)
         {
-            foreach (ModuleInfo module in _safeModules)
+            foreach (ModuleInfo module in _initializedModules)
             {
                 if (module.Instance == null) continue;
                 action(module.Instance);
@@ -474,8 +447,7 @@ namespace Tanji.Services.Modules
         }
         #endregion
         #region IReceiver Implementation
-        private bool _isReceiving;
-        public bool IsReceiving => _isReceiving || Master.Config.IsQueuingModulePackets;
+        public bool IsReceiving => _initializedModules.Length > 0 || Master.Config.IsQueuingModulePackets;
 
         public void HandleData(DataInterceptedEventArgs e)
         {

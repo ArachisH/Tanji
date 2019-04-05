@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Collections.Concurrent;
 
 using Tanji.Controls;
 
@@ -17,18 +17,15 @@ namespace Tanji.Services.Modules
 {
     public class ModuleInfo : ObservableObject
     {
-        private const string DISPOSED_STATE = "Disposed";
-        private const string INITIALIZED_STATE = "Initialized";
+        public const string DISPOSED_STATE = "Disposed";
+        public const string INITIALIZED_STATE = "Initialized";
 
         public ListViewItem PhysicalItem { get; set; }
-        public Dictionary<string, TaskCompletionSource<HPacket>> DataAwaiters { get; }
+        public ConcurrentDictionary<string, TaskCompletionSource<HPacket>> DataAwaiters { get; }
 
         public Type Type { get; set; }
         public Assembly Assembly { get; set; }
         public Version Version { get; set; } = new Version(0, 0);
-
-        public Type EntryType { get; set; }
-        public string PropertyName { get; set; }
 
         public string Name { get; set; }
         public string Description { get; set; }
@@ -66,7 +63,7 @@ namespace Tanji.Services.Modules
         public ModuleInfo()
         {
             Authors = new List<AuthorAttribute>();
-            DataAwaiters = new Dictionary<string, TaskCompletionSource<HPacket>>();
+            DataAwaiters = new ConcurrentDictionary<string, TaskCompletionSource<HPacket>>();
         }
         public ModuleInfo(HNode node)
             : this()
@@ -87,12 +84,9 @@ namespace Tanji.Services.Modules
                 Instance.Dispose();
             }
 
-            lock (DataAwaiters)
+            foreach (TaskCompletionSource<HPacket> source in DataAwaiters.Values)
             {
-                foreach (TaskCompletionSource<HPacket> handledDataSource in DataAwaiters.Values.ToArray())
-                {
-                    handledDataSource.SetResult(null);
-                }
+                source.TrySetResult(null);
             }
 
             Instance = null;
@@ -108,28 +102,16 @@ namespace Tanji.Services.Modules
             try
             {
                 IModule instance = null; // Make the initialization of the property 'Instance' thread-safe.
-                object uiInstance = null;
                 bool isUninitialized = false;
-                if (EntryType != null)
+                if (Type != null)
                 {
-                    uiInstance = Activator.CreateInstance(EntryType);
-
-                    PropertyInfo property = EntryType.GetProperty(PropertyName);
-                    if (property == null)
-                    {
-                        throw new MissingMemberException(EntryType.Name, PropertyName);
-                    }
-                    instance = (IModule)property.GetValue(uiInstance);
-                }
-                else if (Type != null)
-                {
-                    isUninitialized = true;
                     instance = (IModule)FormatterServices.GetUninitializedObject(Type);
-                    uiInstance = instance;
+
+                    isUninitialized = true;
+                    FormUI = instance as Form;
                 }
                 else instance = new DummyModule(this);
 
-                FormUI = uiInstance as Form;
                 instance.Installer = Master;
                 if (isUninitialized)
                 {
@@ -144,7 +126,8 @@ namespace Tanji.Services.Modules
                     FormUI.Show();
                 }
 
-                Instance = instance; // At this point, the IModule instance should have been fully initialized.
+                instance.OnConnected();
+                Instance = instance;
             }
             catch (Exception ex)
             {
@@ -156,22 +139,6 @@ namespace Tanji.Services.Modules
                 if (Instance != null)
                 {
                     CurrentState = INITIALIZED_STATE;
-                }
-            }
-        }
-        public void ToggleState(object obj)
-        {
-            switch (CurrentState)
-            {
-                case INITIALIZED_STATE:
-                {
-                    Dispose();
-                    break;
-                }
-                case DISPOSED_STATE:
-                {
-                    Initialize();
-                    break;
                 }
             }
         }
@@ -200,9 +167,7 @@ namespace Tanji.Services.Modules
 
             private void HandleData(DataInterceptedEventArgs e)
             {
-                string identifier = e.Timestamp.Ticks.ToString();
-                identifier += e.IsOutgoing;
-                identifier += e.Step;
+                string identifier = e.Step + e.IsOutgoing.ToString();
                 try
                 {
                     var interceptedData = new EvaWirePacket(1);
@@ -225,13 +190,11 @@ namespace Tanji.Services.Modules
                     }
 
                     var dataAwaiterSource = new TaskCompletionSource<HPacket>();
-                    lock (_module.DataAwaiters)
-                    {
-                        _module.DataAwaiters.Add(identifier, dataAwaiterSource);
-                    }
+                    if (!_module.DataAwaiters.TryAdd(identifier, dataAwaiterSource))
+                    { }
                     _module.Node.SendPacketAsync(interceptedData);
 
-                    HPacket handledDataPacket = dataAwaiterSource.Task.Result;
+                    HPacket handledDataPacket = dataAwaiterSource.Task.GetAwaiter().GetResult();
                     if (handledDataPacket == null) return;
                     // This packet contains the identifier at the start, although we do not read it here.
 
@@ -239,14 +202,17 @@ namespace Tanji.Services.Modules
                     if (isContinuing)
                     {
                         dataAwaiterSource = new TaskCompletionSource<HPacket>();
-                        _module.DataAwaiters[identifier] = dataAwaiterSource;
+
+                        _module.DataAwaiters.TryRemove(identifier, out TaskCompletionSource<HPacket> oldSource);
+                        if (!_module.DataAwaiters.TryAdd(identifier, dataAwaiterSource))
+                        { }
 
                         bool wasRelayed = handledDataPacket.ReadBoolean();
                         e.Continue(wasRelayed);
 
                         if (wasRelayed) return; // We have nothing else to do here, packet has already been sent/relayed.
 
-                        handledDataPacket = dataAwaiterSource.Task.Result;
+                        handledDataPacket = dataAwaiterSource.Task.GetAwaiter().GetResult();
                         isContinuing = handledDataPacket.ReadBoolean(); // We can ignore this one.
                     }
 
@@ -256,7 +222,7 @@ namespace Tanji.Services.Modules
                     e.Packet = e.Packet.Format.CreatePacket(newPacketData);
                     e.IsBlocked = handledDataPacket.ReadBoolean();
                 }
-                finally { _module.DataAwaiters.Remove(identifier); }
+                finally { _module.DataAwaiters.TryRemove(identifier, out TaskCompletionSource<HPacket> oldSource); }
             }
             public void HandleOutgoing(DataInterceptedEventArgs e) => HandleData(e);
             public void HandleIncoming(DataInterceptedEventArgs e) => HandleData(e);
@@ -275,8 +241,10 @@ namespace Tanji.Services.Modules
                 onConnectedPacket.Write(hashesData.Length);
                 onConnectedPacket.Write(hashesData);
 
+                string identifier = DateTime.Now.Ticks.ToString();
+                onConnectedPacket.Write(identifier);
+
                 _module.Node.SendPacketAsync(onConnectedPacket);
-                // TODO: Create a special "DataAwaiter" for this message, as it should return AFTER the module is finished with it.
             }
 
             public void Dispose()
