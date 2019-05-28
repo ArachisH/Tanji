@@ -280,12 +280,11 @@ namespace Tanji.Windows
                 }
 
                 _lastIntercepted = intercepted;
-                MessageItem message = GetMessage(intercepted);
+                HMessage message = GetMessage(intercepted);
 
-                string structure = GetStructure(message);
-                if (IsDisplayingStructure && structure != null)
+                if (IsDisplayingStructure && !string.IsNullOrWhiteSpace(message?.Structure))
                 {
-                    AddEntryLine(entries, structure, StructureHighlight);
+                    AddEntryLine(entries, message.Structure, StructureHighlight);
                 }
 
                 if (intercepted.IsBlocked)
@@ -299,10 +298,9 @@ namespace Tanji.Windows
 
                 if (IsDisplayingHash && !string.IsNullOrWhiteSpace(message?.Hash))
                 {
-                    string hashName = GetHashName(message);
-                    if (!string.IsNullOrWhiteSpace(hashName))
+                    if (!string.IsNullOrWhiteSpace(message.Name))
                     {
-                        AddEntry(entries, hashName, DetailHighlight, right: ", ");
+                        AddEntry(entries, message.Name, DetailHighlight, right: ", ");
                     }
                     else AddEntry(entries, null, DefaultHighlight, right: null);
                     AddEntryLine(entries, message.Hash, DetailHighlight, left: null);
@@ -338,12 +336,12 @@ namespace Tanji.Windows
                 AddEntry(entries, "]", entryHighlight, null, $" {arrow} ");
                 entries.Add(($"{intercepted.Packet}\r\n", entryHighlight));
 
-                if (IsDisplayingDismantled && !string.IsNullOrWhiteSpace(structure))
+                if (IsDisplayingDismantled && !string.IsNullOrWhiteSpace(message?.Structure))
                 {
                     int index = 0;
                     int position = 0;
                     HPacket packet = intercepted.Packet;
-                    string dismantled = $"{{id:{packet.Id}}}{LoopDismantle(packet, ref position, structure, ref index, 1)}";
+                    string dismantled = $"{{id:{packet.Id}}}{LoopDismantle(packet, ref position, message.Structure, ref index, 1)}";
 
                     if (packet.GetReadableBytes(position) == 0)
                     {
@@ -387,41 +385,14 @@ namespace Tanji.Windows
             }
         }
 
-        private string GetHashName(MessageItem message)
+        private HMessage GetMessage(DataInterceptedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(message?.Hash)) return null;
-
-            Identifiers identifiers = Program.Master.Out;
-            if (!message.IsOutgoing)
-            {
-                identifiers = Program.Master.In;
-            }
-
-            return identifiers.GetName(message.Hash);
-        }
-        private string GetStructure(MessageItem message)
-        {
-            if (string.IsNullOrWhiteSpace(message?.Hash)) return null;
-            IDictionary<string, string> structureOverrides = message.IsOutgoing ? Master.Config.OutStructureOverrides : Master.Config.InStructureOverrides;
-
-            string structure = message.Structure;
-            if (structureOverrides.TryGetValue(message.Hash, out string structureOverride))
-            {
-                structure = structureOverride;
-            }
-            return structure;
-        }
-        private MessageItem GetMessage(DataInterceptedEventArgs e)
-        {
-            IDictionary<ushort, MessageItem> messages = e.IsOutgoing ?
+            IDictionary<ushort, HMessage> messages = e.IsOutgoing ?
                 Program.Master.Game.OutMessages : Program.Master.Game.InMessages;
 
-            MessageItem message = null;
-            messages.TryGetValue(e.Packet.Id, out message);
-
+            messages.TryGetValue(e.Packet.Id, out HMessage message);
             return message;
         }
-
         private void CalculateLatency(DataInterceptedEventArgs e)
         {
             if (e.IsOutgoing && e.Packet.Id == Master.Out.LatencyTest)
@@ -563,10 +534,12 @@ namespace Tanji.Windows
         #region IHaltable Implementation
         public void Halt()
         {
+            _isReceiving = false;
             Close();
         }
         public void Restore(ConnectedEventArgs e)
         {
+            _isReceiving = true;
             WindowState = FormWindowState.Normal;
             RevisionLbl.Text = "Revision: " + Master.Game.Revision;
         }

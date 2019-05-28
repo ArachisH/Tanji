@@ -128,8 +128,8 @@ namespace Tanji.Services
                     Status = GENERATING_MESSAGE_HASHES;
                     Master.Game.GenerateMessageHashes();
                 }
-                Program.Master.In.Load(Master.Game, "Hashes.ini");
-                Program.Master.Out.Load(Master.Game, "Hashes.ini");
+                //Program.Master.In.Load(Master.Game, "Hashes.ini");
+                //Program.Master.Out.Load(Master.Game, "Hashes.ini");
 
                 TerminateProxy();
                 Task interceptConnectionTask = InterceptConnectionAsync();
@@ -174,8 +174,8 @@ namespace Tanji.Services
 
             Master.Game = game;
             Master.Game.Location = clientPath;
-            Program.Master.In.Load(Master.Game, "Hashes.ini");
-            Program.Master.Out.Load(Master.Game, "Hashes.ini");
+            //Program.Master.In.Load(Master.Game, "Hashes.ini");
+            //Program.Master.Out.Load(Master.Game, "Hashes.ini");
 
             CompressionKind compression = CompressionKind.ZLIB;
 #if DEBUG
