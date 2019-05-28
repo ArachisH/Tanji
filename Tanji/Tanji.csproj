@@ -2,26 +2,16 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <TrimUnusedDependencies>true</TrimUnusedDependencies>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4ABAC680-EB9F-440C-B63F-113B00371934}</ProjectGuid>
+    <ProjectGuid>{9D874CD4-C321-4B30-82B6-B1DBB048D3F8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Tanji</RootNamespace>
     <AssemblyName>Tanji</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <ShouldCreateLogs>False</ShouldCreateLogs>
-    <AdvancedSettingsExpanded>False</AdvancedSettingsExpanded>
-    <UpdateAssemblyVersion>True</UpdateAssemblyVersion>
-    <UpdateAssemblyFileVersion>True</UpdateAssemblyFileVersion>
-    <UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
-    <AssemblyVersionSettings>None.IncrementOnDemandWithReset.None.None</AssemblyVersionSettings>
-    <AssemblyFileVersionSettings>None.IncrementOnDemandWithReset.None.None</AssemblyFileVersionSettings>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -49,13 +39,9 @@
     <ApplicationIcon>Resources\Tanji_256.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Octokit, Version=0.28.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Octokit.0.28.0\lib\net45\Octokit.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -63,14 +49,15 @@
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\BindableToolStripMenuItem.cs" />
-    <Compile Include="Controls\ObservableObject.cs" />
-    <Compile Include="Controls\RichLogBox.cs" />
     <Compile Include="Controls\ObservableForm.cs" />
+    <Compile Include="Controls\ObservableObject.cs" />
     <Compile Include="Controls\ObservablePage.cs" />
+    <Compile Include="Controls\RichLogBox.cs" />
     <Compile Include="Internals\NativeMethods.cs" />
     <Compile Include="Network\ConnectedEventArgs.cs" />
     <Compile Include="Network\HConnection.cs" />
@@ -79,32 +66,32 @@
     <Compile Include="Services\ConnectionPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Services\ConnectionPage.Designer.cs">
+    <Compile Include="Services\ConnectionPage.designer.cs">
       <DependentUpon>ConnectionPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\IHaltable.cs" />
     <Compile Include="Services\Injection\ConstructerPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Services\Injection\ConstructerPage.Designer.cs">
+    <Compile Include="Services\Injection\ConstructerPage.designer.cs">
       <DependentUpon>ConstructerPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\Injection\FiltersPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Services\Injection\FiltersPage.Designer.cs">
+    <Compile Include="Services\Injection\FiltersPage.designer.cs">
       <DependentUpon>FiltersPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\Injection\InspectorPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Services\Injection\InspectorPage.Designer.cs">
+    <Compile Include="Services\Injection\InspectorPage.designer.cs">
       <DependentUpon>InspectorPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\Injection\SchedulerPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Services\Injection\SchedulerPage.Designer.cs">
+    <Compile Include="Services\Injection\SchedulerPage.designer.cs">
       <DependentUpon>SchedulerPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\IReceiver.cs" />
@@ -112,19 +99,19 @@
     <Compile Include="Services\Modules\ModulesPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Services\Modules\ModulesPage.Designer.cs">
+    <Compile Include="Services\Modules\ModulesPage.designer.cs">
       <DependentUpon>ModulesPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\Options\AboutPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Services\Options\AboutPage.Designer.cs">
+    <Compile Include="Services\Options\AboutPage.designer.cs">
       <DependentUpon>AboutPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\Options\SettingsPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Services\Options\SettingsPage.Designer.cs">
+    <Compile Include="Services\Options\SettingsPage.designer.cs">
       <DependentUpon>SettingsPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilities\KeyboardHook.cs" />
@@ -132,19 +119,19 @@
     <Compile Include="Windows\Dialogs\FindDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Windows\Dialogs\FindDialog.Designer.cs">
+    <Compile Include="Windows\Dialogs\FindDialog.designer.cs">
       <DependentUpon>FindDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\MainFrm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Windows\MainFrm.Designer.cs">
+    <Compile Include="Windows\MainFrm.designer.cs">
       <DependentUpon>MainFrm.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\PacketLoggerFrm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Windows\PacketLoggerFrm.Designer.cs">
+    <Compile Include="Windows\PacketLoggerFrm.designer.cs">
       <DependentUpon>PacketLoggerFrm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -193,7 +180,6 @@
     <None Include="Hashes.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -205,12 +191,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Tanji_256.ico" />
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Submodules\Eavesdrop\Eavesdrop\Eavesdrop.csproj">
@@ -218,27 +199,24 @@
       <Name>Eavesdrop</Name>
     </ProjectReference>
     <ProjectReference Include="..\Submodules\Sulakore\Submodules\Flazzy\Flazzy\Flazzy.csproj">
-      <Project>{170d0173-6933-4fcf-8f0f-86bfeac44f70}</Project>
+      <Project>{e14791e1-e8ce-455f-835c-84f31c1dfb36}</Project>
       <Name>Flazzy</Name>
     </ProjectReference>
     <ProjectReference Include="..\Submodules\Sulakore\Sulakore\Sulakore.csproj">
-      <Project>{3eb650bf-1f7e-4c89-a404-5653ce982c63}</Project>
+      <Project>{14fe55d8-e809-4eba-9b90-d4cfb4912ee0}</Project>
       <Name>Sulakore</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tangine\Tangine.csproj">
-      <Project>{8450db77-1453-4542-9e44-29a91732bf70}</Project>
+      <Project>{173d7025-7662-4e53-8189-28fdb7f02aad}</Project>
       <Name>Tangine</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\Avatar.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tanji_256.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Microsoft.Packaging.Tools.Trimming.1.1.0-preview1-25818-01\build\Microsoft.Packaging.Tools.Trimming.targets" Condition="Exists('..\packages\Microsoft.Packaging.Tools.Trimming.1.1.0-preview1-25818-01\build\Microsoft.Packaging.Tools.Trimming.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Packaging.Tools.Trimming.1.1.0-preview1-25818-01\build\Microsoft.Packaging.Tools.Trimming.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Packaging.Tools.Trimming.1.1.0-preview1-25818-01\build\Microsoft.Packaging.Tools.Trimming.targets'))" />
-  </Target>
 </Project>
