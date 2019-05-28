@@ -4,21 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8450DB77-1453-4542-9E44-29A91732BF70}</ProjectGuid>
+    <ProjectGuid>{173D7025-7662-4E53-8189-28FDB7F02AAD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Tangine</RootNamespace>
     <AssemblyName>Tangine</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ShouldCreateLogs>False</ShouldCreateLogs>
-    <AdvancedSettingsExpanded>False</AdvancedSettingsExpanded>
-    <UpdateAssemblyVersion>True</UpdateAssemblyVersion>
-    <UpdateAssemblyFileVersion>True</UpdateAssemblyFileVersion>
-    <UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
-    <AssemblyVersionSettings>None.IncrementOnDemandWithReset.None.None</AssemblyVersionSettings>
-    <AssemblyFileVersionSettings>None.IncrementOnDemandWithReset.None.None</AssemblyFileVersionSettings>
-    <TargetFrameworkProfile />
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -66,13 +59,14 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Submodules\Sulakore\Submodules\Flazzy\Flazzy\Flazzy.csproj">
-      <Project>{170d0173-6933-4fcf-8f0f-86bfeac44f70}</Project>
+      <Project>{e14791e1-e8ce-455f-835c-84f31c1dfb36}</Project>
       <Name>Flazzy</Name>
     </ProjectReference>
     <ProjectReference Include="..\Submodules\Sulakore\Sulakore\Sulakore.csproj">
-      <Project>{3eb650bf-1f7e-4c89-a404-5653ce982c63}</Project>
+      <Project>{14fe55d8-e809-4eba-9b90-d4cfb4912ee0}</Project>
       <Name>Sulakore</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
