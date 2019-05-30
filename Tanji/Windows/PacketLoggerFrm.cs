@@ -326,11 +326,11 @@ namespace Tanji.Windows
                 {
                     if (IsDisplayingClassName)
                     {
-                        AddEntry(entries, ", ", entryHighlight, null, message.Class.QName.Name);
+                        AddEntry(entries, ", ", entryHighlight, null, message.ClassName);
                     }
-                    if (IsDisplayingParserName && message.Parser != null)
+                    if (IsDisplayingParserName && !string.IsNullOrWhiteSpace(message.ParserName))
                     {
-                        AddEntry(entries, ", ", entryHighlight, null, message.Parser.QName.Name);
+                        AddEntry(entries, ", ", entryHighlight, null, message.ParserName);
                     }
                 }
                 AddEntry(entries, "]", entryHighlight, null, $" {arrow} ");
@@ -387,11 +387,8 @@ namespace Tanji.Windows
 
         private HMessage GetMessage(DataInterceptedEventArgs e)
         {
-            IDictionary<ushort, HMessage> messages = e.IsOutgoing ?
-                Program.Master.Game.OutMessages : Program.Master.Game.InMessages;
-
-            messages.TryGetValue(e.Packet.Id, out HMessage message);
-            return message;
+            HMessages messages = e.IsOutgoing ? Program.Master.Out : (HMessages)Program.Master.In;
+            return messages.GetMessage(e.Packet.Id);
         }
         private void CalculateLatency(DataInterceptedEventArgs e)
         {

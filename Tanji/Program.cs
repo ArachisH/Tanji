@@ -27,8 +27,8 @@ namespace Tanji
         private readonly SortedList<int, IReceiver> _receivers;
         private readonly Dictionary<Keys, Action> _hotkeyActions;
 
-        public Incoming In { get; }
-        public Outgoing Out { get; }
+        public Incoming In => Game.In;
+        public Outgoing Out => Game.Out;
         public KeyboardHook Hook { get; }
         public HGameData GameData { get; }
 
@@ -74,8 +74,6 @@ namespace Tanji
             _receivers = new SortedList<int, IReceiver>();
             _hotkeyActions = new Dictionary<Keys, Action>();
 
-            In = new Incoming();
-            Out = new Outgoing();
             GameData = new HGameData();
 
             Connection = new HConnection();

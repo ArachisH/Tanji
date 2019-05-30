@@ -14,6 +14,7 @@ using Tanji.Controls;
 using Sulakore.Crypto;
 using Sulakore.Network;
 using Sulakore.Habbo.Web;
+using Sulakore.Habbo.Messages;
 
 using Eavesdrop;
 
@@ -126,10 +127,8 @@ namespace Tanji.Services
                 if (Master.Game.IsPostShuffle)
                 {
                     Status = GENERATING_MESSAGE_HASHES;
-                    Master.Game.GenerateMessageHashes();
+                    Master.Game.GenerateMessageHashes("Hashes.ini");
                 }
-                //Program.Master.In.Load(Master.Game, "Hashes.ini");
-                //Program.Master.Out.Load(Master.Game, "Hashes.ini");
 
                 TerminateProxy();
                 Task interceptConnectionTask = InterceptConnectionAsync();
@@ -162,7 +161,7 @@ namespace Tanji.Services
                 if (game.IsPostShuffle)
                 {
                     Status = GENERATING_MESSAGE_HASHES;
-                    game.GenerateMessageHashes();
+                    game.GenerateMessageHashes("Hashes.ini");
 
                     Status = MODIFYING_CLIENT;
                     game.DisableHostChecks();
@@ -174,8 +173,6 @@ namespace Tanji.Services
 
             Master.Game = game;
             Master.Game.Location = clientPath;
-            //Program.Master.In.Load(Master.Game, "Hashes.ini");
-            //Program.Master.Out.Load(Master.Game, "Hashes.ini");
 
             CompressionKind compression = CompressionKind.ZLIB;
 #if DEBUG
@@ -369,8 +366,6 @@ namespace Tanji.Services
         }
         private bool HasPingInstructions()
         {
-            ABCFile abc = Master.Game.ABCFiles.Last();
-
             ASMethod connectMethod = Master.Game.GetManagerConnectMethod();
             if (connectMethod == null) return false;
 
@@ -391,6 +386,15 @@ namespace Tanji.Services
             {
                 Master.Connection.SocketSkip = 2;
             }
+
+            Master.Game.Dispose();
+            foreach (HMessage message in Master.Out.Concat(Master.In))
+            {
+                message.Class = null;
+                message.Parser = null;
+                message.References.Clear();
+            }
+            GC.Collect();
 
             await Master.Connection.InterceptAsync(HotelServer).ConfigureAwait(false);
             Status = STANDING_BY;
