@@ -19,8 +19,6 @@ namespace Sulakore.Communication
         public int Step { get; }
         public bool IsOutgoing { get; }
         public DateTime Timestamp { get; }
-
-        [Obsolete]
         public List<HMessage> Executions { get; }
 
         public bool IsOriginal => Packet.ToString().Equals(_ogString);

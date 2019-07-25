@@ -93,7 +93,6 @@ namespace Sulakore.Components
             base.OnPaint(e);
         }
 
-        [Obsolete]
         [Browsable(false)]
         public bool DisplayBoundary
         {
@@ -101,16 +100,13 @@ namespace Sulakore.Components
             set => IsBorderVisible = value;
         }
 
-        [Obsolete]
         [Browsable(false)]
         public int AnimationInterval { get; set; }
 
-        [Obsolete]
         public void SetDotAnimation(string format, params object[] args)
         {
             SetDotAnimation(string.Format(format, args));
         }
-        [Obsolete]
         public void StopDotAnimation(string format, params object[] args)
         {
             StopDotAnimation(string.Format(format, args));

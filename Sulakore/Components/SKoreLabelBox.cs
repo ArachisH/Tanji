@@ -82,11 +82,9 @@ namespace Sulakore.Components
             set => Box.TabStop = value;
         }
 
-        [Obsolete]
         [Browsable(false)]
         public HorizontalAlignment ValueAlign { get; set; }
 
-        [Obsolete]
         [Browsable(false)]
         public string Value
         {
@@ -94,7 +92,6 @@ namespace Sulakore.Components
             set => Text = value;
         }
 
-        [Obsolete]
         [Browsable(false)]
         public bool ValueReadOnly
         {

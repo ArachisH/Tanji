@@ -31,7 +31,7 @@ namespace Sulakore.Habbo.Web
         {
             get
             {
-                string value = string.Empty;
+                string value;
                 _variables.TryGetValue(variable, out value);
                 return value;
             }
@@ -71,12 +71,10 @@ namespace Sulakore.Habbo.Web
             Hotel = HotelEndPoint.GetHotel(InfoHost);
         }
 
-        [Obsolete]
         public void Update()
         {
             ExtractVariables();
         }
-        [Obsolete]
         public void Update(string source)
         {
             _source = source;

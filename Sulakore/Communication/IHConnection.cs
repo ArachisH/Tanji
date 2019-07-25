@@ -7,16 +7,11 @@ namespace Sulakore.Communication
 {
     public interface IHConnection : IDisposable
     {
-        [Obsolete]
         ushort Port { get; }
-        [Obsolete]
         string Host { get; }
-        [Obsolete]
         string Address { get; }
 
-        [Obsolete]
         int TotalOutgoing { get; }
-        [Obsolete]
         int TotalIncoming { get; }
 
         HNode Local { get; }
