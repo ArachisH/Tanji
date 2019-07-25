@@ -269,7 +269,7 @@ namespace Sulakore.Habbo
 
                 MessageItem message = null;
                 if (!_messages.TryGetValue(messageClass, out message)) continue;
-                if (message.HasMethodReference(fromMethod)) continue;
+                if (message.References.Any(r => r.FromMethod == fromMethod)) continue;
 
                 var reference = new MessageReference();
                 message.References.Add(reference);
@@ -1517,10 +1517,6 @@ namespace Sulakore.Habbo
                 else output.Write(Class.QName.Name);
                 return (Hash = output.GenerateHash());
             }
-        }
-        public bool HasMethodReference(ASMethod method)
-        {
-            return References.Any(r => r.FromMethod == method);
         }
 
         public int GetMatchDeviation(MessageItem message)
