@@ -356,12 +356,12 @@ namespace Tanji.Windows
                     if (IsDisplayingMessageName)
                     {
                         entry.Add(Tuple.Create(", ", entryHighlight));
-                        entry.Add(Tuple.Create(message.Class.QName.Name, DefaultHighlight));
+                        entry.Add(Tuple.Create(message.ClassName, DefaultHighlight));
                     }
                     if (IsDisplayingParserName && message.Parser != null)
                     {
                         entry.Add(Tuple.Create(", ", entryHighlight));
-                        entry.Add(Tuple.Create(message.Parser.QName.Name, DefaultHighlight));
+                        entry.Add(Tuple.Create(message.ParserName, DefaultHighlight));
                     }
                 }
                 entry.Add(Tuple.Create("]", entryHighlight));

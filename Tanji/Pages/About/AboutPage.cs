@@ -32,7 +32,7 @@ namespace Tanji.Pages.About
 
         private void ArachisBtn_Click(object sender, EventArgs e)
         {
-            Process.Start("https://twitter.com/ArachisH");
+            Process.Start("https://github.com/ArachisH");
         }
         private void SpeaqerBtn_Click(object sender, EventArgs e)
         {
@@ -46,10 +46,11 @@ namespace Tanji.Pages.About
         private void DonateBtn_Click(object sender, EventArgs e)
         {
             Process.Start("https://beerpay.io/ArachisH/Tanji");
+            Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TDKPVTSNXJHYY&source=Tanji");
         }
         private void HarbleDiscordBtn_Click(object sender, EventArgs e)
         {
-            Process.Start("https://discord.gg/Vyc2gFC");
+            Process.Start("https://discord.gg/wpfcBQF");
         }
         private void SelloutBtn_Click(object sender, EventArgs e)
         {

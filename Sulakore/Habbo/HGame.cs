@@ -91,6 +91,30 @@ namespace Sulakore.Habbo
 
         public void GenerateMessageHashes()
         {
+            GenerateMessageHashes(null);
+        }
+        public void GenerateMessageHashes(string hashNamesPath)
+        {
+            Dictionary<string, string> hashNames = null;
+            if (File.Exists(hashNamesPath))
+            {
+                hashNames = new Dictionary<string, string>();
+                string[] lines = File.ReadAllLines(hashNamesPath);
+                foreach (string line in lines)
+                {
+                    if (string.IsNullOrWhiteSpace(line)) continue;
+
+                    string[] values = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (values.Length != 3) continue;
+
+                    string name = values[0];
+                    string hash = values[2];
+
+                    if (hash == "-1") continue;
+                    hashNames.Add(hash, name);
+                }
+            }
+
             FindMessagesReferences();
             foreach (MessageItem message in OutMessages.Values.Concat(InMessages.Values))
             {
@@ -316,7 +340,6 @@ namespace Sulakore.Habbo
             ASInstance habboCommDemoInstance = GetHabboCommunicationDemo();
             if (habboCommDemoInstance == null) return false;
 
-            int firstCoerceIndex = 0;
             ASCode initCryptoCode = null;
             int asInterfaceQNameIndex = 0;
             ASMethod initCryptoMethod = null;
@@ -330,7 +353,7 @@ namespace Sulakore.Habbo
                     initCryptoMethod = method;
                     initCryptoCode = method.Body.ParseCode();
 
-                    firstCoerceIndex = initCryptoCode.IndexOf(OPCode.Coerce);
+                    int firstCoerceIndex = initCryptoCode.IndexOf(OPCode.Coerce);
                     asInterfaceQNameIndex = ((CoerceIns)initCryptoCode[firstCoerceIndex]).TypeNameIndex;
                 }
                 else if (parameter.TypeIndex == asInterfaceQNameIndex)
@@ -682,8 +705,7 @@ namespace Sulakore.Habbo
             ASMethod initMethod = socketConnInstance.GetMethod("init", "Boolean", 2);
             if (initMethod == null) return false;
 
-            ASTrait remoteHostTrait, remotePortTrait;
-            if (!InjectEndPointSaver(out remoteHostTrait, out remotePortTrait)) return false;
+            if (!InjectEndPointSaver(out _, out _)) return false;
 
             ASCode code = initMethod.Body.ParseCode();
             for (int i = 0; i < code.Count; i++)
@@ -778,7 +800,6 @@ namespace Sulakore.Habbo
             }
             return null;
         }
-        [Obsolete]
         public IReadOnlyList<ushort> GetMessageHeaders(string hash) => GetMessageIds(hash).ToList().AsReadOnly();
 
         private void LoadMessages()
@@ -836,7 +857,8 @@ namespace Sulakore.Habbo
 
                 if (_messages.ContainsKey(messageClass))
                 {
-                    _messages[messageClass].SharedIds.Add(id);
+                    // TODO: What to do if message is also identified with different ID?
+                    // _messages[messageClass].SharedIds.Add(id);
                 }
                 else _messages.Add(messageClass, message);
 
@@ -1200,7 +1222,7 @@ namespace Sulakore.Habbo
         public void Disassemble(Action<TagItem> callback, bool isGeneratingHashes)
         {
             Disassemble(callback);
-            if (isGeneratingHashes)
+            if (IsPostShuffle && isGeneratingHashes)
             {
                 GenerateMessageHashes();
             }
@@ -1244,8 +1266,22 @@ namespace Sulakore.Habbo
                 return false;
             }
 
-            return !value.Contains("_-") &&
-                !_reservedNames.Contains(value.Trim());
+            return !value.Contains("_-") && !_reservedNames.Contains(value.Trim());
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            if (disposing)
+            {
+                _messages.Clear();
+                _abcFileTags.Clear();
+                foreach (ABCFile abc in ABCFiles)
+                {
+                    abc.Dispose();
+                }
+                ABCFiles.Clear();
+            }
         }
     }
 
@@ -1452,26 +1488,30 @@ namespace Sulakore.Habbo
         public string Hash { get; set; }
         public bool IsOutgoing { get; set; }
 
-        public ASClass Class { get; }
-        public ASClass Parser { get; }
+        public ASClass Class { get; set; }
+        public string ClassName { get; }
+
+        public ASClass Parser { get; set; }
+        public string ParserName { get; }
+
         public string[] Structure { get; }
-        public List<ushort> SharedIds { get; }
         public List<MessageReference> References { get; }
 
         public MessageItem(ASClass messageClass, bool isOutgoing, ushort id)
         {
             Id = id;
-            Class = messageClass;
             IsOutgoing = isOutgoing;
-
-            SharedIds = new List<ushort>();
             References = new List<MessageReference>();
+
+            Class = messageClass;
+            ClassName = messageClass.QName.Name;
 
             if (!IsOutgoing)
             {
                 Parser = GetMessageParser();
                 if (Parser != null)
                 {
+                    ParserName = Parser.QName.Name;
                     Structure = GetIncomingStructure(Parser);
                 }
             }

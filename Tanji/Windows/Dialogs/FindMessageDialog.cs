@@ -99,13 +99,13 @@ namespace Tanji.Windows.Dialogs
             {
                 lastItem = DisplayMessage(message);
             }
-            return true;
+            return lastItem != null;
         }
         private ListViewItem DisplayMessage(MessageItem message)
         {
             string type = (message.IsOutgoing ? "Outgoing" : "Incoming");
             var identifiers = (message.IsOutgoing ? _mainUI.Out : (Identifiers)_mainUI.In);
-            ListViewItem item = HeadersVw.AddItem(type, message.Id, "<Unknown>", message.Class.QName.Name);
+            ListViewItem item = HeadersVw.AddItem(type, message.Id, "<Unknown>", message.ClassName);
 
             string name = identifiers.GetName(message.Hash);
             if (!string.IsNullOrWhiteSpace(name))
@@ -115,7 +115,7 @@ namespace Tanji.Windows.Dialogs
 
             if (!message.IsOutgoing)
             {
-                item.SubItems.Add(message.Parser.QName.Name);
+                item.SubItems.Add(message.ParserName);
             }
             return item;
         }

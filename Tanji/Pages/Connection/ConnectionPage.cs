@@ -428,6 +428,16 @@ namespace Tanji.Pages.Connection
             UI.Connection.SocketSkip = (HasPingInstructions() ? 2 : 0);
 
             await UI.Connection.InterceptAsync(HotelServer).ConfigureAwait(false);
+
+            UI.Game.Dispose();
+            foreach (MessageItem message in UI.Game.OutMessages.Values.Concat(UI.Game.InMessages.Values))
+            {
+                message.Class = null;
+                message.Parser = null;
+                message.References.Clear();
+            }
+            GC.Collect();
+             
             if (UI.Connection.IsConnected)
             {
                 if (_variableReplacements.Count > 0)
@@ -442,9 +452,9 @@ namespace Tanji.Pages.Connection
                 DisableReplacements();
                 UI.Connection.Disconnect();
 
-                UI.Game?.Dispose();
                 UI.Game = null;
             }
+
             Status = STANDING_BY;
         }
 
