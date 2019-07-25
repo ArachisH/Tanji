@@ -436,8 +436,7 @@ namespace Tanji.Pages.Connection
                 message.Parser = null;
                 message.References.Clear();
             }
-            GC.Collect();
-             
+
             if (UI.Connection.IsConnected)
             {
                 if (_variableReplacements.Count > 0)
@@ -456,6 +455,9 @@ namespace Tanji.Pages.Connection
             }
 
             Status = STANDING_BY;
+
+            GC.Collect();
+            await Task.Delay(1000).ContinueWith(t => GC.Collect()).ConfigureAwait(false);
         }
 
         private bool HasPingInstructions()
