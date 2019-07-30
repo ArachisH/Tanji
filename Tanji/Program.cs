@@ -152,6 +152,7 @@ namespace Tanji
                 }
                 else haltable.Restore(e);
             }
+            GC.Collect();
         }
         private void HandleData(object sender, DataInterceptedEventArgs e)
         {

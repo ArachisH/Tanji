@@ -394,7 +394,6 @@ namespace Tanji.Services
                 message.Parser = null;
                 message.References.Clear();
             }
-            GC.Collect();
 
             await Master.Connection.InterceptAsync(HotelServer).ConfigureAwait(false);
             Status = STANDING_BY;
