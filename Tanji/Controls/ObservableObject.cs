@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace Tanji.Controls
 {
+    // TODO: When default interface implementations become possible, turn this into one.
     public class ObservableObject : INotifyPropertyChanged
     {
         protected Program Master => Program.Master;
