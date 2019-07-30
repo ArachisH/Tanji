@@ -35,7 +35,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Name = "SchedulerPage";
-            this.Size = new System.Drawing.Size(407, 282);
+            this.Size = new System.Drawing.Size(433, 282);
             this.ResumeLayout(false);
 
         }

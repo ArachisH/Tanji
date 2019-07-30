@@ -28,17 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
-            "String",
-            "Huuhaa",
-            "[0][6]Huuhaa"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem("Int32");
-            System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem("Boolean");
-            System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem("Byte");
-            System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem("UInt16");
-            System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem("");
-            System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem("");
-            System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem("");
             this.IdentifierLbl = new Tangine.Controls.TangineLabel();
             this.WriteIntegerBtn = new Tangine.Controls.TangineButton();
             this.ValueTxt = new Tangine.Controls.TangineLabelBox();
@@ -100,23 +89,6 @@
             this.ValuesVw.GridLines = true;
             this.ValuesVw.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.ValuesVw.HideSelection = false;
-            listViewItem9.StateImageIndex = 0;
-            listViewItem10.StateImageIndex = 0;
-            listViewItem11.StateImageIndex = 0;
-            listViewItem12.StateImageIndex = 0;
-            listViewItem13.StateImageIndex = 0;
-            listViewItem14.StateImageIndex = 0;
-            listViewItem15.StateImageIndex = 0;
-            listViewItem16.StateImageIndex = 0;
-            this.ValuesVw.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem9,
-            listViewItem10,
-            listViewItem11,
-            listViewItem12,
-            listViewItem13,
-            listViewItem14,
-            listViewItem15,
-            listViewItem16});
             this.ValuesVw.Location = new System.Drawing.Point(0, 52);
             this.ValuesVw.MultiSelect = false;
             this.ValuesVw.Name = "ValuesVw";
@@ -285,7 +257,7 @@
             this.Controls.Add(this.ValueTxt);
             this.Controls.Add(this.ValuesVw);
             this.Name = "ConstructerPage";
-            this.Size = new System.Drawing.Size(427, 282);
+            this.Size = new System.Drawing.Size(433, 282);
             ((System.ComponentModel.ISupportInitialize)(this.IdentifierTxt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AmountTxt)).EndInit();
             this.ResumeLayout(false);
