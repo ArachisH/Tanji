@@ -31,7 +31,6 @@ namespace Tanji.Services
     {
         private Guid _randomQuery;
         private bool _wasBlacklisted;
-        private Dictionary<string, string> _variableReplacements;
 
         #region Status Constants
         private const string STANDING_BY = "Standing By...";
@@ -281,11 +280,6 @@ namespace Tanji.Services
                 else return;
             }
 
-            _variableReplacements = VariablesLv.CheckedItems
-                .Cast<ListViewItem>()
-                .Where(i => !string.IsNullOrWhiteSpace(i.SubItems[1].Text))
-                .ToDictionary(i => i.Text, i => i.SubItems[1].Text);
-
             if (Eavesdropper.Certifier.CreateTrustedRootCertificate())
             {
 #if DEBUG
@@ -294,49 +288,6 @@ namespace Tanji.Services
                 Eavesdropper.ResponseInterceptedAsync += InterceptClientPageAsync;
                 Eavesdropper.Initiate(Master.Config.ProxyListenPort);
                 Status = INTERCEPTING_CLIENT_PAGE;
-            }
-        }
-
-        private void ResetBtn_Click(object sender, EventArgs e)
-        {
-            ValueTxt.Text = string.Empty;
-            VariablesLv.SelectedItem.Checked = false;
-            VariablesLv.SelectedItem.SubItems[1].Text = string.Empty;
-        }
-        private void UpdateBtn_Click(object sender, EventArgs e)
-        {
-            VariablesLv.SelectedItem.SubItems[1].Text = ValueTxt.Text;
-            if (!string.IsNullOrWhiteSpace(ValueTxt.Text))
-            {
-                VariablesLv.SelectedItem.Checked = true;
-            }
-        }
-        private void ValueTxt_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                e.SuppressKeyPress = true;
-                if (UpdateBtn.Enabled)
-                {
-                    UpdateBtn_Click(sender, e);
-                }
-            }
-        }
-
-        private void VariablesLv_ItemSelected(object sender, EventArgs e)
-        {
-            VariableTxt.Text = VariablesLv.SelectedItem.Text;
-            if (ValueTxt.Text == VariablesLv.SelectedItem.SubItems[1].Text)
-            {
-                ValueTxt.Text = VariablesLv.SelectedItem.SubItems[1].Text;
-            }
-        }
-        private void VariablesLv_ItemSelectionStateChanged(object sender, EventArgs e)
-        {
-            UpdateBtn.Enabled = ResetBtn.Enabled = VariablesLv.HasSelectedItem;
-            if (!VariablesLv.HasSelectedItem)
-            {
-                VariableTxt.Text = ValueTxt.Text = string.Empty;
             }
         }
 
