@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.TanjiStatusStrip = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.VersionLbl = new System.Windows.Forms.ToolStripStatusLabel();
+            this.SchedulesLbl = new System.Windows.Forms.ToolStripStatusLabel();
+            this.FiltersLbl = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ModulesLbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.TanjiTabs = new Tangine.Controls.TangineTabControl();
             this.ConnectionTab = new System.Windows.Forms.TabPage();
             this.ConnectionPg = new Tanji.Services.ConnectionPage();
@@ -46,18 +46,18 @@
             this.SchedulerTab = new System.Windows.Forms.TabPage();
             this.SchedulerPg = new Tanji.Services.Injection.SchedulerPage();
             this.InspectorTab = new System.Windows.Forms.TabPage();
-            this.inspectorPage1 = new Tanji.Services.Injection.InspectorPage();
+            this.InspectorPg = new Tanji.Services.Injection.InspectorPage();
             this.FiltersTab = new System.Windows.Forms.TabPage();
-            this.filtersPage1 = new Tanji.Services.Injection.FiltersPage();
+            this.FiltersPg = new Tanji.Services.Injection.FiltersPage();
             this.ToolboxTab = new System.Windows.Forms.TabPage();
             this.ModulesTab = new System.Windows.Forms.TabPage();
             this.ModulesPg = new Tanji.Services.Modules.ModulesPage();
             this.OptionsTab = new System.Windows.Forms.TabPage();
             this.OptionsTabs = new Tangine.Controls.TangineTabControl();
             this.SettingsTab = new System.Windows.Forms.TabPage();
-            this.settingsPage1 = new Tanji.Services.Options.SettingsPage();
+            this.SettingsPg = new Tanji.Services.Options.SettingsPage();
             this.AboutTab = new System.Windows.Forms.TabPage();
-            this.aboutPage1 = new Tanji.Services.Options.AboutPage();
+            this.AboutPg = new Tanji.Services.Options.AboutPage();
             this.TanjiStatusStrip.SuspendLayout();
             this.TanjiTabs.SuspendLayout();
             this.ConnectionTab.SuspendLayout();
@@ -78,47 +78,47 @@
             // 
             this.TanjiStatusStrip.BackColor = System.Drawing.Color.White;
             this.TanjiStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel3,
-            this.toolStripStatusLabel2,
-            this.toolStripStatusLabel4,
-            this.toolStripStatusLabel1});
+            this.VersionLbl,
+            this.SchedulesLbl,
+            this.FiltersLbl,
+            this.ModulesLbl});
             this.TanjiStatusStrip.Location = new System.Drawing.Point(0, 347);
             this.TanjiStatusStrip.Name = "TanjiStatusStrip";
             this.TanjiStatusStrip.Size = new System.Drawing.Size(514, 24);
             this.TanjiStatusStrip.SizingGrip = false;
             this.TanjiStatusStrip.TabIndex = 1;
             // 
-            // toolStripStatusLabel3
+            // VersionLbl
             // 
-            this.toolStripStatusLabel3.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.toolStripStatusLabel3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(50, 19);
-            this.toolStripStatusLabel3.Text = "v1.5.0.0";
+            this.VersionLbl.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.VersionLbl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.VersionLbl.Name = "VersionLbl";
+            this.VersionLbl.Size = new System.Drawing.Size(50, 19);
+            this.VersionLbl.Text = "v1.5.0.0";
             // 
-            // toolStripStatusLabel2
+            // SchedulesLbl
             // 
-            this.toolStripStatusLabel2.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.toolStripStatusLabel2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(87, 19);
-            this.toolStripStatusLabel2.Text = "Schedules: 0/0";
+            this.SchedulesLbl.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.SchedulesLbl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.SchedulesLbl.Name = "SchedulesLbl";
+            this.SchedulesLbl.Size = new System.Drawing.Size(87, 19);
+            this.SchedulesLbl.Text = "Schedules: 0/0";
             // 
-            // toolStripStatusLabel4
+            // FiltersLbl
             // 
-            this.toolStripStatusLabel4.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.toolStripStatusLabel4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-            this.toolStripStatusLabel4.Size = new System.Drawing.Size(65, 19);
-            this.toolStripStatusLabel4.Text = "Filters: 0/0";
+            this.FiltersLbl.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.FiltersLbl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.FiltersLbl.Name = "FiltersLbl";
+            this.FiltersLbl.Size = new System.Drawing.Size(65, 19);
+            this.FiltersLbl.Text = "Filters: 0/0";
             // 
-            // toolStripStatusLabel1
+            // ModulesLbl
             // 
-            this.toolStripStatusLabel1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.toolStripStatusLabel1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(80, 19);
-            this.toolStripStatusLabel1.Text = "Modules: 0/0";
+            this.ModulesLbl.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.ModulesLbl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.ModulesLbl.Name = "ModulesLbl";
+            this.ModulesLbl.Size = new System.Drawing.Size(80, 19);
+            this.ModulesLbl.Text = "Modules: 0/0";
             // 
             // TanjiTabs
             // 
@@ -223,7 +223,6 @@
             this.ConstructerTab.Controls.Add(this.ConstructerPg);
             this.ConstructerTab.Location = new System.Drawing.Point(4, 4);
             this.ConstructerTab.Name = "ConstructerTab";
-            this.ConstructerTab.Padding = new System.Windows.Forms.Padding(0, 0, 6, 0);
             this.ConstructerTab.Size = new System.Drawing.Size(433, 282);
             this.ConstructerTab.TabIndex = 0;
             this.ConstructerTab.Text = "Constructer";
@@ -231,11 +230,13 @@
             // 
             // ConstructerPg
             // 
+            this.ConstructerPg.Amount = ((ushort)(1));
             this.ConstructerPg.BackColor = System.Drawing.Color.White;
             this.ConstructerPg.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ConstructerPg.Header = ((ushort)(0));
             this.ConstructerPg.Location = new System.Drawing.Point(0, 0);
             this.ConstructerPg.Name = "ConstructerPg";
-            this.ConstructerPg.Size = new System.Drawing.Size(427, 282);
+            this.ConstructerPg.Size = new System.Drawing.Size(433, 282);
             this.ConstructerPg.TabIndex = 0;
             this.ConstructerPg.TabStop = false;
             // 
@@ -244,7 +245,7 @@
             this.SchedulerTab.Controls.Add(this.SchedulerPg);
             this.SchedulerTab.Location = new System.Drawing.Point(4, 4);
             this.SchedulerTab.Name = "SchedulerTab";
-            this.SchedulerTab.Size = new System.Drawing.Size(431, 282);
+            this.SchedulerTab.Size = new System.Drawing.Size(433, 282);
             this.SchedulerTab.TabIndex = 1;
             this.SchedulerTab.Text = "Scheduler";
             this.SchedulerTab.UseVisualStyleBackColor = true;
@@ -255,49 +256,49 @@
             this.SchedulerPg.Dock = System.Windows.Forms.DockStyle.Fill;
             this.SchedulerPg.Location = new System.Drawing.Point(0, 0);
             this.SchedulerPg.Name = "SchedulerPg";
-            this.SchedulerPg.Size = new System.Drawing.Size(431, 282);
+            this.SchedulerPg.Size = new System.Drawing.Size(433, 282);
             this.SchedulerPg.TabIndex = 0;
             this.SchedulerPg.TabStop = false;
             // 
             // InspectorTab
             // 
-            this.InspectorTab.Controls.Add(this.inspectorPage1);
+            this.InspectorTab.Controls.Add(this.InspectorPg);
             this.InspectorTab.Location = new System.Drawing.Point(4, 4);
             this.InspectorTab.Name = "InspectorTab";
-            this.InspectorTab.Size = new System.Drawing.Size(431, 282);
+            this.InspectorTab.Size = new System.Drawing.Size(433, 282);
             this.InspectorTab.TabIndex = 2;
             this.InspectorTab.Text = "Inspector";
             this.InspectorTab.UseVisualStyleBackColor = true;
             // 
-            // inspectorPage1
+            // InspectorPg
             // 
-            this.inspectorPage1.BackColor = System.Drawing.Color.White;
-            this.inspectorPage1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.inspectorPage1.Location = new System.Drawing.Point(0, 0);
-            this.inspectorPage1.Name = "inspectorPage1";
-            this.inspectorPage1.Size = new System.Drawing.Size(431, 282);
-            this.inspectorPage1.TabIndex = 0;
-            this.inspectorPage1.TabStop = false;
+            this.InspectorPg.BackColor = System.Drawing.Color.White;
+            this.InspectorPg.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.InspectorPg.Location = new System.Drawing.Point(0, 0);
+            this.InspectorPg.Name = "InspectorPg";
+            this.InspectorPg.Size = new System.Drawing.Size(433, 282);
+            this.InspectorPg.TabIndex = 0;
+            this.InspectorPg.TabStop = false;
             // 
             // FiltersTab
             // 
-            this.FiltersTab.Controls.Add(this.filtersPage1);
+            this.FiltersTab.Controls.Add(this.FiltersPg);
             this.FiltersTab.Location = new System.Drawing.Point(4, 4);
             this.FiltersTab.Name = "FiltersTab";
-            this.FiltersTab.Size = new System.Drawing.Size(431, 282);
+            this.FiltersTab.Size = new System.Drawing.Size(433, 282);
             this.FiltersTab.TabIndex = 3;
             this.FiltersTab.Text = "Filters";
             this.FiltersTab.UseVisualStyleBackColor = true;
             // 
-            // filtersPage1
+            // FiltersPg
             // 
-            this.filtersPage1.BackColor = System.Drawing.Color.White;
-            this.filtersPage1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.filtersPage1.Location = new System.Drawing.Point(0, 0);
-            this.filtersPage1.Name = "filtersPage1";
-            this.filtersPage1.Size = new System.Drawing.Size(431, 282);
-            this.filtersPage1.TabIndex = 0;
-            this.filtersPage1.TabStop = false;
+            this.FiltersPg.BackColor = System.Drawing.Color.White;
+            this.FiltersPg.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FiltersPg.Location = new System.Drawing.Point(0, 0);
+            this.FiltersPg.Name = "FiltersPg";
+            this.FiltersPg.Size = new System.Drawing.Size(433, 282);
+            this.FiltersPg.TabIndex = 0;
+            this.FiltersPg.TabStop = false;
             // 
             // ToolboxTab
             // 
@@ -357,7 +358,7 @@
             // 
             // SettingsTab
             // 
-            this.SettingsTab.Controls.Add(this.settingsPage1);
+            this.SettingsTab.Controls.Add(this.SettingsPg);
             this.SettingsTab.Location = new System.Drawing.Point(4, 4);
             this.SettingsTab.Name = "SettingsTab";
             this.SettingsTab.Size = new System.Drawing.Size(451, 307);
@@ -365,35 +366,35 @@
             this.SettingsTab.Text = "Settings";
             this.SettingsTab.UseVisualStyleBackColor = true;
             // 
-            // settingsPage1
+            // SettingsPg
             // 
-            this.settingsPage1.BackColor = System.Drawing.Color.White;
-            this.settingsPage1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.settingsPage1.Location = new System.Drawing.Point(0, 0);
-            this.settingsPage1.Name = "settingsPage1";
-            this.settingsPage1.Size = new System.Drawing.Size(451, 307);
-            this.settingsPage1.TabIndex = 0;
-            this.settingsPage1.TabStop = false;
+            this.SettingsPg.BackColor = System.Drawing.Color.White;
+            this.SettingsPg.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SettingsPg.Location = new System.Drawing.Point(0, 0);
+            this.SettingsPg.Name = "SettingsPg";
+            this.SettingsPg.Size = new System.Drawing.Size(451, 307);
+            this.SettingsPg.TabIndex = 0;
+            this.SettingsPg.TabStop = false;
             // 
             // AboutTab
             // 
-            this.AboutTab.Controls.Add(this.aboutPage1);
+            this.AboutTab.Controls.Add(this.AboutPg);
             this.AboutTab.Location = new System.Drawing.Point(4, 4);
             this.AboutTab.Name = "AboutTab";
-            this.AboutTab.Size = new System.Drawing.Size(449, 306);
+            this.AboutTab.Size = new System.Drawing.Size(451, 307);
             this.AboutTab.TabIndex = 1;
             this.AboutTab.Text = "About";
             this.AboutTab.UseVisualStyleBackColor = true;
             // 
-            // aboutPage1
+            // AboutPg
             // 
-            this.aboutPage1.BackColor = System.Drawing.Color.White;
-            this.aboutPage1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.aboutPage1.Location = new System.Drawing.Point(0, 0);
-            this.aboutPage1.Name = "aboutPage1";
-            this.aboutPage1.Size = new System.Drawing.Size(449, 306);
-            this.aboutPage1.TabIndex = 0;
-            this.aboutPage1.TabStop = false;
+            this.AboutPg.BackColor = System.Drawing.Color.White;
+            this.AboutPg.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.AboutPg.Location = new System.Drawing.Point(0, 0);
+            this.AboutPg.Name = "AboutPg";
+            this.AboutPg.Size = new System.Drawing.Size(451, 307);
+            this.AboutPg.TabIndex = 0;
+            this.AboutPg.TabStop = false;
             // 
             // MainFrm
             // 
@@ -441,19 +442,19 @@
         private System.Windows.Forms.TabPage InspectorTab;
         private System.Windows.Forms.TabPage FiltersTab;
         private Services.Injection.SchedulerPage SchedulerPg;
-        private Services.Injection.InspectorPage inspectorPage1;
-        private Services.Injection.FiltersPage filtersPage1;
+        private Services.Injection.InspectorPage InspectorPg;
+        private Services.Injection.FiltersPage FiltersPg;
         private Services.ConnectionPage ConnectionPg;
         private Tangine.Controls.TangineTabControl OptionsTabs;
         private System.Windows.Forms.TabPage SettingsTab;
-        private Services.Options.SettingsPage settingsPage1;
+        private Services.Options.SettingsPage SettingsPg;
         private System.Windows.Forms.TabPage AboutTab;
-        private Services.Options.AboutPage aboutPage1;
+        private Services.Options.AboutPage AboutPg;
         private System.Windows.Forms.StatusStrip TanjiStatusStrip;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel VersionLbl;
+        private System.Windows.Forms.ToolStripStatusLabel SchedulesLbl;
+        private System.Windows.Forms.ToolStripStatusLabel FiltersLbl;
+        private System.Windows.Forms.ToolStripStatusLabel ModulesLbl;
         private System.Windows.Forms.ComboBox PacketTxt;
         private Tangine.Controls.TangineButton SendToClientBtn;
         private Tangine.Controls.TangineButton SendToServerBtn;

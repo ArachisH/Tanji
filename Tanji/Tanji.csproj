@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9D874CD4-C321-4B30-82B6-B1DBB048D3F8}</ProjectGuid>
+    <ProjectGuid>{19F71BF4-4FDC-45D0-B412-E2CFE019D441}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Tanji</RootNamespace>
     <AssemblyName>Tanji</AssemblyName>
@@ -22,7 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>true</Prefer32Bit>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,7 +36,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\Tanji_256.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Tanji_128.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -194,29 +194,31 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Services\Toolbox\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Avatar.png" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Submodules\Eavesdrop\Eavesdrop\Eavesdrop.csproj">
       <Project>{29ab109a-8343-45a9-a91e-0f54211fdd45}</Project>
       <Name>Eavesdrop</Name>
     </ProjectReference>
     <ProjectReference Include="..\Submodules\Sulakore\Submodules\Flazzy\Flazzy\Flazzy.csproj">
-      <Project>{e14791e1-e8ce-455f-835c-84f31c1dfb36}</Project>
+      <Project>{dc3ad8f9-dc54-4eaf-b760-41a6e7bac981}</Project>
       <Name>Flazzy</Name>
     </ProjectReference>
     <ProjectReference Include="..\Submodules\Sulakore\Sulakore\Sulakore.csproj">
-      <Project>{14fe55d8-e809-4eba-9b90-d4cfb4912ee0}</Project>
+      <Project>{4f96c396-6f59-4aeb-9db4-d1e4716fb4d4}</Project>
       <Name>Sulakore</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tangine\Tangine.csproj">
-      <Project>{173d7025-7662-4e53-8189-28fdb7f02aad}</Project>
+      <Project>{cbfbad3c-bb4b-4baf-8f8f-e8795bd9113d}</Project>
       <Name>Tangine</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <None Include="Resources\Avatar.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Tanji_256.ico" />
+    <None Include="Resources\Tanji_128.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

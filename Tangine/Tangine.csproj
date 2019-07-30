@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{173D7025-7662-4E53-8189-28FDB7F02AAD}</ProjectGuid>
+    <ProjectGuid>{CBFBAD3C-BB4B-4BAF-8F8F-E8795BD9113D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Tangine</RootNamespace>
@@ -26,7 +26,8 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -59,14 +60,13 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Submodules\Sulakore\Submodules\Flazzy\Flazzy\Flazzy.csproj">
-      <Project>{e14791e1-e8ce-455f-835c-84f31c1dfb36}</Project>
+      <Project>{dc3ad8f9-dc54-4eaf-b760-41a6e7bac981}</Project>
       <Name>Flazzy</Name>
     </ProjectReference>
     <ProjectReference Include="..\Submodules\Sulakore\Sulakore\Sulakore.csproj">
-      <Project>{14fe55d8-e809-4eba-9b90-d4cfb4912ee0}</Project>
+      <Project>{4f96c396-6f59-4aeb-9db4-d1e4716fb4d4}</Project>
       <Name>Sulakore</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

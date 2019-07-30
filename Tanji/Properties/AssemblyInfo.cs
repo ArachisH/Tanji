@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Tanji")]
-[assembly: AssemblyCopyright("Copyright © ArachisH 2015")]
+[assembly: AssemblyCopyright("Copyright © ArachisH 2019")]
 [assembly: AssemblyTrademark("The Old Nut Man")]
 [assembly: AssemblyCulture("")]
 
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("9d874cd4-c321-4b30-82b6-b1dbb048d3f8")]
+[assembly: Guid("19f71bf4-4fdc-45d0-b412-e2cfe019d441")]
 
 // Version information for an assembly consists of the following four values:
 //
