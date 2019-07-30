@@ -25,7 +25,7 @@ namespace Tanji.Controls
             _bindings = new Dictionary<string, Binding>();
 
             BackColor = Color.White;
-            Icon = Resources.Tanji_256;
+            Icon = Resources.Tanji_128;
             StartPosition = FormStartPosition.CenterScreen;
 
             if (Program.Master != null && !DesignMode)
