@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
 using Tanji.Network;
 using Tanji.Controls;
