@@ -392,11 +392,11 @@ namespace Tanji.Windows
         }
         private void CalculateLatency(DataInterceptedEventArgs e)
         {
-            if (e.IsOutgoing && e.Packet.Id == Master.Out.LatencyTest)
+            if (e.IsOutgoing && e.Packet.Id == Master.Out.LatencyPingRequest)
             {
                 _latencyTestStart = e.Timestamp;
             }
-            else if (e.Packet.Id == Master.In.LatencyResponse)
+            else if (e.Packet.Id == Master.In.LatencyPingResponse)
             {
                 Latency = (e.Timestamp - _latencyTestStart).TotalMilliseconds;
             }
