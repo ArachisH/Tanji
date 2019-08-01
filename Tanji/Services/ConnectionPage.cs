@@ -164,8 +164,8 @@ namespace Tanji.Services
                     Status = MODIFYING_CLIENT;
                     game.DisableHostChecks();
                     game.InjectKeyShouter(4001);
-                    game.InjectEndPointShouter(4000);
                 }
+                game.InjectEndPointShouter(game.IsPostShuffle ? 4000 : 206);
                 game.InjectEndPoint("127.0.0.1", Master.Config.GameListenPort);
             }
 
@@ -344,12 +344,6 @@ namespace Tanji.Services
                 message.References.Clear();
             }
 
-            // TODO: Remove this once EndPointShouter supports pre-shuffle hotels.
-            if (!Master.Game.IsPostShuffle)
-            {
-                HotelServer = HotelEndPoint.Parse(Master.GameData.InfoHost, int.Parse(Master.GameData.InfoPort));
-            }
-
             await Master.Connection.InterceptAsync(HotelServer).ConfigureAwait(false);
             Status = STANDING_BY;
         }
@@ -366,8 +360,8 @@ namespace Tanji.Services
                     possibleGame.GenerateMessageHashes();
                     if (!possibleGame.DisableHostChecks()) return false;
                     if (!possibleGame.InjectKeyShouter(4001)) return false;
-                    if (!possibleGame.InjectEndPointShouter(4000)) return false;
                 }
+                if (!possibleGame.InjectEndPointShouter(possibleGame.IsPostShuffle ? 4000 : 206)) return false;
                 possibleGame.InjectEndPoint("127.0.0.1", Master.Config.GameListenPort);
             }
             catch
@@ -440,7 +434,7 @@ namespace Tanji.Services
         }
         public void HandleIncoming(DataInterceptedEventArgs e)
         {
-            if (e.Step == 2&& Master.Game.IsPostShuffle)
+            if (e.Step == 2 && Master.Game.IsPostShuffle)
             {
                 e.Packet.ReadUTF8();
                 IsIncomingEncrypted = e.Packet.ReadBoolean();
