@@ -197,7 +197,7 @@ namespace Tanji.Services
             string contentType = e.ContentType.ToLower();
             if (!contentType.Contains("text") && !contentType.Contains("javascript")) return;
 
-            int interceptionTriggersFound = -1;
+            int interceptionTriggersFound = 0;
             string body = await e.Content.ReadAsStringAsync().ConfigureAwait(false);
             foreach (string interceptionTrigger in Master.Config.InterceptionTriggers)
             {
@@ -209,8 +209,8 @@ namespace Tanji.Services
             bool isBlacklisted = _wasBlacklisted = Master.Config.CacheBlacklist.Contains(e.Uri.Host);
             if (swfStartIndex == -1 && !isBlacklisted) return;
 
-            Master.GameData.Source = body;
             Eavesdropper.ResponseInterceptedAsync -= InterceptClientPageAsync;
+            Master.GameData.Source = body;
 
             if (!isBlacklisted)
             {
@@ -289,7 +289,6 @@ namespace Tanji.Services
                 Status = INTERCEPTING_CLIENT_PAGE;
             }
         }
-
         private void ConnectionPage_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -345,6 +344,12 @@ namespace Tanji.Services
                 message.References.Clear();
             }
 
+            // TODO: Remove this once EndPointShouter supports pre-shuffle hotels.
+            if (!Master.Game.IsPostShuffle)
+            {
+                HotelServer = HotelEndPoint.Parse(Master.GameData.InfoHost, int.Parse(Master.GameData.InfoPort));
+            }
+
             await Master.Connection.InterceptAsync(HotelServer).ConfigureAwait(false);
             Status = STANDING_BY;
         }
@@ -363,7 +368,7 @@ namespace Tanji.Services
                     if (!possibleGame.InjectKeyShouter(4001)) return false;
                     if (!possibleGame.InjectEndPointShouter(4000)) return false;
                 }
-                possibleGame.InjectEndPoint("127.0.0.1", Master.Config.GameListenPort); // Does not matter if this returns true/false.
+                possibleGame.InjectEndPoint("127.0.0.1", Master.Config.GameListenPort);
             }
             catch
             {
@@ -404,7 +409,7 @@ namespace Tanji.Services
 
         public void HandleOutgoing(DataInterceptedEventArgs e)
         {
-            if (e.Packet.Id == 4001)
+            if (e.Packet.Id == 4001 && Master.Game.IsPostShuffle)
             {
                 string sharedKeyHex = e.Packet.ReadUTF8();
                 if (sharedKeyHex.Length % 2 != 0)
@@ -435,7 +440,7 @@ namespace Tanji.Services
         }
         public void HandleIncoming(DataInterceptedEventArgs e)
         {
-            if (e.Step == 2)
+            if (e.Step == 2&& Master.Game.IsPostShuffle)
             {
                 e.Packet.ReadUTF8();
                 IsIncomingEncrypted = e.Packet.ReadBoolean();
