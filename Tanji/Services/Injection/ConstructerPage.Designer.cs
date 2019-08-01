@@ -177,7 +177,7 @@
             // 
             // ValueCountLbl
             // 
-            this.ValueCountLbl.Location = new System.Drawing.Point(329, 235);
+            this.ValueCountLbl.Location = new System.Drawing.Point(328, 152);
             this.ValueCountLbl.Name = "ValueCountLbl";
             this.ValueCountLbl.Size = new System.Drawing.Size(98, 21);
             this.ValueCountLbl.TabIndex = 10;
@@ -185,17 +185,17 @@
             // 
             // StructureTxt
             // 
-            this.StructureTxt.Location = new System.Drawing.Point(0, 235);
+            this.StructureTxt.Location = new System.Drawing.Point(-1, 153);
             this.StructureTxt.Name = "StructureTxt";
             this.StructureTxt.ReadOnly = true;
             this.StructureTxt.Size = new System.Drawing.Size(323, 20);
             this.StructureTxt.TabIndex = 11;
-            this.StructureTxt.Text = "{l}{id:0}";
+            this.StructureTxt.Text = "{id:0}";
             this.StructureTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // TransferBelowBtn
             // 
-            this.TransferBelowBtn.Location = new System.Drawing.Point(0, 262);
+            this.TransferBelowBtn.Location = new System.Drawing.Point(3, 259);
             this.TransferBelowBtn.Name = "TransferBelowBtn";
             this.TransferBelowBtn.Size = new System.Drawing.Size(111, 20);
             this.TransferBelowBtn.TabIndex = 12;
@@ -212,7 +212,7 @@
             // MoveUpBtn
             // 
             this.MoveUpBtn.Enabled = false;
-            this.MoveUpBtn.Location = new System.Drawing.Point(225, 262);
+            this.MoveUpBtn.Location = new System.Drawing.Point(228, 259);
             this.MoveUpBtn.Name = "MoveUpBtn";
             this.MoveUpBtn.Size = new System.Drawing.Size(98, 20);
             this.MoveUpBtn.TabIndex = 16;
@@ -221,7 +221,7 @@
             // MoveDownBtn
             // 
             this.MoveDownBtn.Enabled = false;
-            this.MoveDownBtn.Location = new System.Drawing.Point(329, 262);
+            this.MoveDownBtn.Location = new System.Drawing.Point(332, 259);
             this.MoveDownBtn.Name = "MoveDownBtn";
             this.MoveDownBtn.Size = new System.Drawing.Size(98, 20);
             this.MoveDownBtn.TabIndex = 17;
@@ -230,7 +230,7 @@
             // RemoveBtn
             // 
             this.RemoveBtn.Enabled = false;
-            this.RemoveBtn.Location = new System.Drawing.Point(117, 262);
+            this.RemoveBtn.Location = new System.Drawing.Point(120, 259);
             this.RemoveBtn.Name = "RemoveBtn";
             this.RemoveBtn.Size = new System.Drawing.Size(102, 20);
             this.RemoveBtn.TabIndex = 15;
