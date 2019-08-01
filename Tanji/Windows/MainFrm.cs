@@ -55,8 +55,13 @@ namespace Tanji.Windows
         }
         public void Restore(ConnectedEventArgs e)
         {
-            HPacket endPointPkt = Master.Connection.Local.ReceivePacketAsync().Result;
-            e.HotelServer = ConnectionPg.HotelServer = HotelEndPoint.Parse(endPointPkt.ReadUTF8().Split('\0')[0], endPointPkt.ReadInt32());
+            // TODO: Implement EndPointShouter for pre-shuffle hotels.
+            if (Master.Game.IsPostShuffle)
+            {
+                HPacket endPointPkt = Master.Connection.Local.ReceivePacketAsync().Result;
+                e.HotelServer = ConnectionPg.HotelServer = HotelEndPoint.Parse(endPointPkt.ReadUTF8().Split('\0')[0], endPointPkt.ReadInt32());
+            }
+
             e.IsFakingPolicyRequest = e.HotelServer.Hotel == HHotel.Unknown;
             e.HotelServerSource.SetResult(e.HotelServer);
 
