@@ -6,16 +6,10 @@ namespace Sulakore.Crypto
     {
         private int _i, _j;
         private readonly int[] _table;
-        private readonly object _parseLock;
-
-        public byte[] Key { get; }
 
         public RC4(byte[] key)
         {
             _table = new int[256];
-            _parseLock = new object();
-
-            Key = key;
 
             for (int i = 0; i < 256; i++)
             {
@@ -32,24 +26,21 @@ namespace Sulakore.Crypto
 
         public byte[] Parse(byte[] data)
         {
-            lock (_parseLock)
+            var parsed = new byte[data.Length];
+            for (int k = 0; k < data.Length; k++)
             {
-                var parsed = new byte[data.Length];
-                for (int k = 0; k < data.Length; k++)
-                {
-                    _i++;
-                    _i %= _table.Length;
-                    _j += _table[_i];
-                    _j %= _table.Length;
-                    Swap(_i, _j);
+                _i++;
+                _i %= _table.Length;
+                _j += _table[_i];
+                _j %= _table.Length;
+                Swap(_i, _j);
 
-                    int rightXOR = (_table[_i] + _table[_j]);
-                    rightXOR = _table[rightXOR % _table.Length];
+                int rightXOR = (_table[_i] + _table[_j]);
+                rightXOR = _table[rightXOR % _table.Length];
 
-                    parsed[k] = (byte)(data[k] ^ rightXOR);
-                }
-                return parsed;
+                parsed[k] = (byte)(data[k] ^ rightXOR);
             }
+            return parsed;
         }
         public void RefParse(byte[] data)
         {
@@ -65,35 +56,32 @@ namespace Sulakore.Crypto
         }
         public void RefParse(byte[] data, int offset, int length, bool isPeeking)
         {
-            lock (_parseLock)
+            int i = _i;
+            int j = _j;
+            int[] pool = null;
+            if (isPeeking)
             {
-                int i = _i;
-                int j = _j;
-                int[] pool = null;
-                if (isPeeking)
-                {
-                    pool = new int[_table.Length];
-                    Array.Copy(_table, pool, pool.Length);
-                }
-                for (int k = offset, l = 0; l < length; k++, l++)
-                {
-                    _i++;
-                    _i %= _table.Length;
-                    _j += _table[_i];
-                    _j %= _table.Length;
-                    Swap(_i, _j);
+                pool = new int[_table.Length];
+                Array.Copy(_table, pool, pool.Length);
+            }
+            for (int k = offset, l = 0; l < length; k++, l++)
+            {
+                _i++;
+                _i %= _table.Length;
+                _j += _table[_i];
+                _j %= _table.Length;
+                Swap(_i, _j);
 
-                    int rightXOR = (_table[_i] + _table[_j]);
-                    rightXOR = _table[rightXOR % _table.Length];
+                int rightXOR = (_table[_i] + _table[_j]);
+                rightXOR = _table[rightXOR % _table.Length];
 
-                    data[k] ^= (byte)rightXOR;
-                }
-                if (isPeeking)
-                {
-                    _i = i;
-                    _j = j;
-                    Array.Copy(pool, _table, _table.Length);
-                }
+                data[k] ^= (byte)rightXOR;
+            }
+            if (isPeeking)
+            {
+                _i = i;
+                _j = j;
+                Array.Copy(pool, _table, _table.Length);
             }
         }
 
