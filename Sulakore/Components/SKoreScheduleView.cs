@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Timers;
+using System.Threading;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
@@ -35,6 +36,11 @@ namespace Sulakore.Components
             finally
             {
                 schedule.IsRunning = !e.Cancel;
+                if (e.Cancel)
+                {
+                    schedule.CancellationSource.Cancel();
+                    schedule.CancellationSource = new CancellationTokenSource();
+                }
 
                 if (isDirty || e.Cancel)
                     Invoke(_updateItem, schedule);
@@ -65,8 +71,7 @@ namespace Sulakore.Components
 
         public ListViewItem AddSchedule(HMessage packet, int interval, int cycles, bool autoStart)
         {
-            ListViewItem item = AddFocusedItem(
-                packet, packet.Destination, interval, cycles);
+            ListViewItem item = AddFocusedItem(packet, packet.Destination, interval, cycles);
 
             var schedule = new HSchedule(packet, interval, cycles);
             schedule.ScheduleTick += OnScheduleTick;
@@ -98,6 +103,11 @@ namespace Sulakore.Components
             {
                 bool isRunning = e.Item.Checked;
                 schedule.IsRunning = isRunning;
+                if (!isRunning)
+                {
+                    schedule.CancellationSource.Cancel();
+                    schedule.CancellationSource = new CancellationTokenSource();
+                }
             }
             base.OnItemChecked(e);
         }
@@ -156,11 +166,11 @@ namespace Sulakore.Components
                 get => _ticker.Enabled;
                 set
                 {
-                    if (_ticker.Enabled != value)
-                    {
-                        _currentCycle = 0;
-                        _ticker.Enabled = value;
-                    }
+                    // The same value is being set, ignore operation
+                    if (_ticker.Enabled == value) return;
+
+                    _currentCycle = 0;
+                    _ticker.Enabled = value;
                 }
             }
             public double Interval
@@ -180,6 +190,7 @@ namespace Sulakore.Components
 
             public HMessage Packet { get; set; }
             public bool IsDisposed { get; private set; }
+            public CancellationTokenSource CancellationSource { get; set; }
 
             public HSchedule(HMessage packet, int interval, int cycles)
             {
@@ -188,6 +199,7 @@ namespace Sulakore.Components
 
                 Packet = packet;
                 Cycles = cycles;
+                CancellationSource = new CancellationTokenSource();
             }
 
             private void Elapsed(object sender, ElapsedEventArgs e)

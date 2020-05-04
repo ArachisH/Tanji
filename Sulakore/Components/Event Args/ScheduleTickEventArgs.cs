@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Threading;
+using System.ComponentModel;
 
 using Sulakore.Protocol;
 
@@ -21,6 +22,7 @@ namespace Sulakore.Components
             get => _schedule.Packet;
             set => _schedule.Packet = value;
         }
+        public CancellationToken Cancellation => _schedule.CancellationSource.Token;
 
         public ScheduleTickEventArgs(SKoreScheduleView.HSchedule schedule, int currentCycle)
         {
