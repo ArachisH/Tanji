@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace Sulakore.Communication
 {
     public class HNode : IDisposable
     {
+        private readonly SemaphoreSlim _sendSlim, _receiveSlim;
         private static readonly Dictionary<int, TcpListener> _listeners;
 
         public bool IsConnected => Client.Connected;
@@ -38,6 +40,9 @@ namespace Sulakore.Communication
         { }
         public HNode(Socket client)
         {
+            _sendSlim = new SemaphoreSlim(1, 1);
+            _receiveSlim = new SemaphoreSlim(1, 1);
+
             if (client == null)
             {
                 throw new ArgumentNullException(nameof(client));
@@ -182,10 +187,16 @@ namespace Sulakore.Communication
 
             return new HMessage(data);
         }
+
         public Task<int> SendPacketAsync(HMessage packet)
         {
-            return SendAsync(packet.ToBytes());
+            return SendPacketAsync(packet, CancellationToken.None);
         }
+        public Task<int> SendPacketAsync(HMessage packet, CancellationToken cancellationToken)
+        {
+            return SendAsync(packet.ToBytes(), cancellationToken);
+        }
+
         public Task<int> SendPacketAsync(string signature)
         {
             return SendAsync(HMessage.ToBytes(signature));
@@ -197,15 +208,29 @@ namespace Sulakore.Communication
 
         public Task<int> SendAsync(byte[] buffer)
         {
-            return SendAsync(buffer, buffer.Length);
+            return SendAsync(buffer, CancellationToken.None);
         }
+        public Task<int> SendAsync(byte[] buffer, CancellationToken cancellationToken)
+        {
+            return SendAsync(buffer, buffer.Length, cancellationToken);
+        }
+
         public Task<int> SendAsync(byte[] buffer, int size)
         {
-            return SendAsync(buffer, 0, size);
+            return SendAsync(buffer, size, CancellationToken.None);
         }
+        public Task<int> SendAsync(byte[] buffer, int size, CancellationToken cancellationToken)
+        {
+            return SendAsync(buffer, 0, size, cancellationToken);
+        }
+
         public Task<int> SendAsync(byte[] buffer, int offset, int size)
         {
-            return SendAsync(buffer, offset, size, SocketFlags.None);
+            return SendAsync(buffer, offset, size, CancellationToken.None);
+        }
+        public Task<int> SendAsync(byte[] buffer, int offset, int size, CancellationToken cancellationToken)
+        {
+            return SendAsync(buffer, offset, size, SocketFlags.None, cancellationToken);
         }
 
         public Task<byte[]> ReceiveAsync(int size)
@@ -276,23 +301,6 @@ namespace Sulakore.Communication
 
             return trimmedBuffer;
         }
-        protected async Task<int> SendAsync(byte[] buffer, int offset, int size, SocketFlags socketFlags)
-        {
-            if (!IsConnected) return -1;
-            if (IsEncrypting && Encrypter != null)
-            {
-                buffer = Encrypter.Parse(buffer);
-            }
-
-            int sent = -1;
-            try
-            {
-                IAsyncResult result = Client.BeginSend(buffer, offset, size, socketFlags, null, null);
-                sent = await Task.Factory.FromAsync(result, Client.EndSend).ConfigureAwait(false);
-            }
-            catch { sent = -1; }
-            return sent;
-        }
         protected async Task<int> ReceiveAsync(byte[] buffer, int offset, int size, SocketFlags socketFlags)
         {
             if (!IsConnected) return -1;
@@ -312,10 +320,52 @@ namespace Sulakore.Communication
 
             if (read > 0 && IsDecrypting && Decrypter != null)
             {
-                Decrypter.RefParse(buffer, offset, read, socketFlags.HasFlag(SocketFlags.Peek));
+                lock (_receiveSlim)
+                {
+                    Decrypter.RefParse(buffer, offset, read, socketFlags.HasFlag(SocketFlags.Peek));
+                }
             }
             return read;
         }
+
+        protected async Task<int> SendAsync(byte[] buffer, int offset, int size, SocketFlags socketFlags, CancellationToken cancellationToken)
+        {
+            if (!IsConnected) return -1;
+
+            int sent = -1;
+            IAsyncResult result;
+            bool wasReleased = false;
+            try
+            {
+                await _sendSlim.WaitAsync(cancellationToken).ConfigureAwait(false);
+                if (cancellationToken.IsCancellationRequested) return -1;
+
+                if (IsEncrypting && Encrypter != null)
+                {
+                    lock (_sendSlim)
+                    {
+                        buffer = Encrypter.Parse(buffer);
+                    }
+                }
+
+                result = Client.BeginSend(buffer, offset, size, socketFlags, null, null);
+
+                _sendSlim.Release(); // Do not wait for send completion
+                wasReleased = true;
+
+                sent = await Task.Factory.FromAsync(result, Client.EndSend).ConfigureAwait(false);
+            }
+            catch { sent = -1; }
+            finally
+            {
+                if (!wasReleased && _sendSlim.CurrentCount == 0)
+                {
+                    _sendSlim.Release();
+                }
+            }
+            return sent;
+        }
+        protected Task<int> SendAsync(byte[] buffer, int offset, int size, SocketFlags socketFlags) => SendAsync(buffer, offset, size, socketFlags, CancellationToken.None);
 
         public void Disconnect()
         {
