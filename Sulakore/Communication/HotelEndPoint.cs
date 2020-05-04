@@ -47,27 +47,27 @@ namespace Sulakore.Communication
                 case "br": return HHotel.ComBr;
                 case "tr": return HHotel.ComTr;
                 default:
-                {
-                    if (value.Length != 2 && value.Length != 5)
                     {
-                        int hostIndex = value.LastIndexOf("habbo");
-                        if (hostIndex != -1)
+                        if (value.Length != 2 && value.Length != 5)
                         {
-                            value = value.Substring(hostIndex + 5);
-                        }
+                            int hostIndex = value.LastIndexOf("habbo");
+                            if (hostIndex != -1)
+                            {
+                                value = value.Substring(hostIndex + 5);
+                            }
 
-                        int comDotIndex = value.IndexOf("com.");
-                        if (comDotIndex != -1)
-                        {
-                            value = value.Remove(comDotIndex + 3, 1);
-                        }
+                            int comDotIndex = value.IndexOf("com.");
+                            if (comDotIndex != -1)
+                            {
+                                value = value.Remove(comDotIndex + 3, 1);
+                            }
 
-                        if (value[0] == '.') value = value.Substring(1);
-                        value = value.Substring(0, (value.StartsWith("com") ? 5 : 2));
+                            if (value[0] == '.') value = value.Substring(1);
+                            value = value.Substring(0, value.StartsWith("com") ? 5 : 2);
+                        }
+                        if (Enum.TryParse(value, true, out HHotel hotel) && Enum.IsDefined(typeof(HHotel), hotel)) return hotel;
+                        break;
                     }
-                    if (Enum.TryParse(value, true, out HHotel hotel)) return hotel;
-                    break;
-                }
             }
             return HHotel.Unknown;
         }
@@ -83,7 +83,7 @@ namespace Sulakore.Communication
         }
         public static HotelEndPoint GetEndPoint(HHotel hotel)
         {
-            int port = (hotel == HHotel.Com ? 38101 : 30000);
+            int port = hotel == HHotel.Com ? 38101 : 30000;
             string host = $"game-{GetRegion(hotel)}.habbo.com";
             return Parse(host, port);
         }
@@ -109,11 +109,7 @@ namespace Sulakore.Communication
 
         public override string ToString()
         {
-            if (!string.IsNullOrWhiteSpace(Host))
-            {
-                return ($"{Hotel}:{Host}:{Port}");
-            }
-            return (Hotel + ":" + base.ToString());
+            return $"{(string.IsNullOrWhiteSpace(Host) ? Address.ToString() : Host)}:{Port}";
         }
     }
 }
