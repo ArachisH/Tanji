@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
@@ -6,6 +7,8 @@ using Tanji.Manipulators;
 
 using Sulakore.Protocol;
 using Sulakore.Components;
+
+using static Sulakore.Components.SKoreScheduleView;
 
 namespace Tanji.Pages.Injection
 {
@@ -59,7 +62,7 @@ namespace Tanji.Pages.Injection
             }
         }
 
-        public Keys Hotkey { get; private set; }
+        public Keys HotKey { get; private set; }
         public string HotkeyValue { get; private set; }
 
         public SchedulerPage(InjectionPage parent, TabPage tab)
@@ -92,6 +95,8 @@ namespace Tanji.Pages.Injection
             UI.STSchedulerVw.ItemChecked += STSchedulerVw_ItemChecked;
             UI.STSchedulerVw.ScheduleTick += STSchedulerVw_ScheduleTick;
             UI.STSchedulerVw.ItemSelectionStateChanged += STSchedulerVw_ItemSelectionStateChanged;
+
+            LoadState();
         }
 
         private void STClearBtn_Click(object sender, EventArgs e)
@@ -104,6 +109,7 @@ namespace Tanji.Pages.Injection
 
             UI.STSchedulerVw.ClearItems();
             UpdateUI();
+            SaveState();
         }
         private void STRemoveBtn_Click(object sender, EventArgs e)
         {
@@ -118,26 +124,28 @@ namespace Tanji.Pages.Injection
             }
             UI.STSchedulerVw.RemoveSelectedItem();
             UpdateUI();
+            SaveState();
         }
         private void STCreateBtn_Click(object sender, EventArgs e)
         {
             HMessage packet = GetPacket();
-            if (Parent.AuthorizeInjection(packet))
+            if (!Parent.AuthorizeInjection(packet)) return;
+
+            ListViewItem item = UI.STSchedulerVw.AddSchedule(packet, Interval, Cycles, AutoStart);
+
+            if (HotKey != Keys.None)
             {
-                ListViewItem item = UI.STSchedulerVw
-                    .AddSchedule(packet, Interval, Cycles, AutoStart);
-
                 item.SubItems.Add(HotkeyValue);
-                if (Hotkey != Keys.None)
-                {
-                    UI.Hook.RegisterHotkey(Hotkey);
-                    _hotkeys[item] = Hotkey;
-                    _items[Hotkey] = item;
-                }
+                UI.Hook.RegisterHotkey(HotKey);
 
-                Hotkey = Keys.NoName;
-                UI.STHotkeyTxt.Text = string.Empty;
+                _hotkeys[item] = HotKey;
+                _items[HotKey] = item;
             }
+
+            HotKey = Keys.None;
+            UI.STHotkeyTxt.Text = string.Empty;
+
+            SaveState();
         }
 
         private void Hook_HotkeyActivated(object sender, KeyEventArgs e)
@@ -152,9 +160,11 @@ namespace Tanji.Pages.Injection
         {
             HotkeyValue = string.Empty;
             if (e.Modifiers != Keys.None)
+            {
                 HotkeyValue = (e.Modifiers + " + ");
+            }
 
-            Hotkey = e.KeyData;
+            HotKey = e.KeyData;
             UI.STHotkeyTxt.Text = (HotkeyValue += e.KeyCode);
 
             e.Handled = true;
@@ -167,8 +177,10 @@ namespace Tanji.Pages.Injection
         }
         private void STSchedulerVw_ScheduleTick(object sender, ScheduleTickEventArgs e)
         {
-            if (Parent.SendAsync(e.Packet).Result < 6)
+            if (Parent.SendAsync(e.Packet, e.Cancellation).Result < 6)
+            {
                 e.Cancel = true;
+            }
         }
         private void STSchedulerVw_ItemSelectionStateChanged(object sender, EventArgs e)
         {
@@ -183,7 +195,71 @@ namespace Tanji.Pages.Injection
         }
         private HMessage GetPacket()
         {
+            if (UI.STPacketTxt.Text.StartsWith("{l}{u:"))
+            {
+                UI.STPacketTxt.Text = UI.STPacketTxt.Text.Trim();
+            }
             return new HMessage(UI.STPacketTxt.Text, Destination);
+        }
+
+        private void SaveState()
+        {
+            var schedulerState = new HMessage('S');
+            schedulerState.WriteInteger(UI.STSchedulerVw.Items.Count);
+            for (int i = 0; i < UI.STSchedulerVw.Items.Count; i++)
+            {
+                ListViewItem item = UI.STSchedulerVw.Items[i];
+                var schedule = (HSchedule)item.Tag;
+
+                schedulerState.WriteInteger(schedule.Packet.Length + 4);
+                schedulerState.WriteBytes(schedule.Packet.ToBytes());
+                schedulerState.WriteInteger((int)schedule.Packet.Destination);
+                schedulerState.WriteShort((ushort)schedule.Interval);
+                schedulerState.WriteInteger(Cycles);
+
+                bool hasHotKey = _hotkeys.TryGetValue(item, out Keys hotKey);
+                schedulerState.WriteBoolean(hasHotKey);
+
+                if (hasHotKey)
+                {
+                    schedulerState.WriteInteger((int)hotKey);
+                    schedulerState.WriteString(item.SubItems[4].Text);
+                }
+            }
+
+            File.WriteAllBytes("Schedules.pkt", schedulerState.ToBytes());
+        }
+        private void LoadState()
+        {
+            if (!File.Exists("Schedules.pkt")) return;
+
+            var schedulerState = new HMessage(File.ReadAllBytes("Schedules.pkt"));
+
+            int count = schedulerState.ReadInteger();
+            for (int i = 0; i < count; i++)
+            {
+                var packet = new HMessage(schedulerState.ReadBytes(schedulerState.ReadInteger()))
+                {
+                    Destination = (HDestination)schedulerState.ReadInteger()
+                };
+
+                int interval = schedulerState.ReadShort();
+                int cycles = schedulerState.ReadInteger();
+
+                ListViewItem item = UI.STSchedulerVw.AddSchedule(packet, interval, cycles, false);
+                if (schedulerState.ReadBoolean())
+                {
+                    var hotKey = (Keys)schedulerState.ReadInteger();
+                    item.SubItems.Add(schedulerState.ReadString());
+
+                    if (hotKey != Keys.None)
+                    {
+                        UI.Hook.RegisterHotkey(hotKey);
+                        _hotkeys[item] = hotKey;
+                        _items[HotKey] = item;
+                    }
+                }
+            }
         }
 
         protected override void OnTabSelecting(TabControlCancelEventArgs e)
