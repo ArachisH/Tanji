@@ -39,6 +39,7 @@ namespace Tanji.Pages.About
             UI.SNGButton.Click += SNGButton_Click;
             UI.DarkboxBtn.Click += DarkboxBtn_Click;
             UI.SelloutBtn.Click += SelloutBtn_Click;
+            UI.Sellout2Btn.Click += Sellout2Btn_Click;
         }
 
         private void GrabbedReleases(Task<IReadOnlyList<Release>> getAllReleasesTask)
@@ -94,9 +95,14 @@ namespace Tanji.Pages.About
         {
             Process.Start("https://discord.gg/wpfcBQF");
         }
+
         private void SelloutBtn_Click(object sender, EventArgs e)
         {
             Process.Start("https://github.com/sirjonasxx/G-Earth");
+        }
+        private void Sellout2Btn_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://github.com/Niewiarowski/HabboInterceptor");
         }
 
         private void SNGButton_Click(object sender, EventArgs e)

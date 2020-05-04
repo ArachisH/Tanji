@@ -29,28 +29,28 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "furnidata.load.url",
             ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "productdata.load.url",
             ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
             "avatareditor.promohabbos",
             ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
             "external.texts.txt",
             ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
             "external.variables.txt",
             ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
             "external.figurepartlist.txt",
             ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
             "external.override.texts.txt",
             ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
             "external.override.variables.txt",
             ""}, -1);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainFrm));
@@ -167,6 +167,7 @@
             this.MTVersionCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.MTStateCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.AboutTab = new System.Windows.Forms.TabPage();
+            this.Sellout2Btn = new Sulakore.Components.SKoreButton();
             this.SelloutBtn = new Sulakore.Components.SKoreButton();
             this.HarbleDiscordBtn = new Sulakore.Components.SKoreButton();
             this.DonateBtn = new Sulakore.Components.SKoreButton();
@@ -409,23 +410,23 @@
             this.CoTVariablesVw.GridLines = true;
             this.CoTVariablesVw.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.CoTVariablesVw.HideSelection = false;
-            listViewItem9.StateImageIndex = 0;
-            listViewItem10.StateImageIndex = 0;
-            listViewItem11.StateImageIndex = 0;
-            listViewItem12.StateImageIndex = 0;
-            listViewItem13.StateImageIndex = 0;
-            listViewItem14.StateImageIndex = 0;
-            listViewItem15.StateImageIndex = 0;
-            listViewItem16.StateImageIndex = 0;
+            listViewItem1.StateImageIndex = 0;
+            listViewItem2.StateImageIndex = 0;
+            listViewItem3.StateImageIndex = 0;
+            listViewItem4.StateImageIndex = 0;
+            listViewItem5.StateImageIndex = 0;
+            listViewItem6.StateImageIndex = 0;
+            listViewItem7.StateImageIndex = 0;
+            listViewItem8.StateImageIndex = 0;
             this.CoTVariablesVw.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem9,
-            listViewItem10,
-            listViewItem11,
-            listViewItem12,
-            listViewItem13,
-            listViewItem14,
-            listViewItem15,
-            listViewItem16});
+            listViewItem1,
+            listViewItem2,
+            listViewItem3,
+            listViewItem4,
+            listViewItem5,
+            listViewItem6,
+            listViewItem7,
+            listViewItem8});
             this.CoTVariablesVw.Location = new System.Drawing.Point(6, 6);
             this.CoTVariablesVw.MultiSelect = false;
             this.CoTVariablesVw.Name = "CoTVariablesVw";
@@ -1489,6 +1490,7 @@
             // 
             // AboutTab
             // 
+            this.AboutTab.Controls.Add(this.Sellout2Btn);
             this.AboutTab.Controls.Add(this.SelloutBtn);
             this.AboutTab.Controls.Add(this.HarbleDiscordBtn);
             this.AboutTab.Controls.Add(this.DonateBtn);
@@ -1505,10 +1507,19 @@
             this.AboutTab.Text = "About";
             this.AboutTab.UseVisualStyleBackColor = true;
             // 
+            // Sellout2Btn
+            // 
+            this.Sellout2Btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.Sellout2Btn.Location = new System.Drawing.Point(95, 211);
+            this.Sellout2Btn.Name = "Sellout2Btn";
+            this.Sellout2Btn.Size = new System.Drawing.Size(286, 20);
+            this.Sellout2Btn.TabIndex = 16;
+            this.Sellout2Btn.Text = "HabboInterceptor | Niewiarowski\'s Packet Logger";
+            // 
             // SelloutBtn
             // 
             this.SelloutBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.SelloutBtn.Location = new System.Drawing.Point(95, 198);
+            this.SelloutBtn.Location = new System.Drawing.Point(95, 185);
             this.SelloutBtn.Name = "SelloutBtn";
             this.SelloutBtn.Size = new System.Drawing.Size(286, 20);
             this.SelloutBtn.TabIndex = 15;
@@ -1517,7 +1528,7 @@
             // HarbleDiscordBtn
             // 
             this.HarbleDiscordBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(137)))), ((int)(((byte)(218)))));
-            this.HarbleDiscordBtn.Location = new System.Drawing.Point(127, 172);
+            this.HarbleDiscordBtn.Location = new System.Drawing.Point(127, 159);
             this.HarbleDiscordBtn.Name = "HarbleDiscordBtn";
             this.HarbleDiscordBtn.Size = new System.Drawing.Size(223, 20);
             this.HarbleDiscordBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(137)))), ((int)(((byte)(218)))));
@@ -1527,7 +1538,7 @@
             // DonateBtn
             // 
             this.DonateBtn.BackColor = System.Drawing.Color.Green;
-            this.DonateBtn.Location = new System.Drawing.Point(233, 94);
+            this.DonateBtn.Location = new System.Drawing.Point(233, 81);
             this.DonateBtn.Name = "DonateBtn";
             this.DonateBtn.Size = new System.Drawing.Size(117, 20);
             this.DonateBtn.Skin = System.Drawing.Color.Green;
@@ -1537,7 +1548,7 @@
             // SpeaqerBtn
             // 
             this.SpeaqerBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
-            this.SpeaqerBtn.Location = new System.Drawing.Point(127, 146);
+            this.SpeaqerBtn.Location = new System.Drawing.Point(127, 133);
             this.SpeaqerBtn.Name = "SpeaqerBtn";
             this.SpeaqerBtn.Size = new System.Drawing.Size(100, 20);
             this.SpeaqerBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
@@ -1547,7 +1558,7 @@
             // SNGButton
             // 
             this.SNGButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.SNGButton.Location = new System.Drawing.Point(233, 146);
+            this.SNGButton.Location = new System.Drawing.Point(233, 133);
             this.SNGButton.Name = "SNGButton";
             this.SNGButton.Size = new System.Drawing.Size(117, 20);
             this.SNGButton.TabIndex = 6;
@@ -1556,7 +1567,7 @@
             // DarkboxBtn
             // 
             this.DarkboxBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.DarkboxBtn.Location = new System.Drawing.Point(233, 120);
+            this.DarkboxBtn.Location = new System.Drawing.Point(233, 107);
             this.DarkboxBtn.Name = "DarkboxBtn";
             this.DarkboxBtn.Size = new System.Drawing.Size(117, 20);
             this.DarkboxBtn.TabIndex = 5;
@@ -1565,7 +1576,7 @@
             // DarkStarBtn
             // 
             this.DarkStarBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
-            this.DarkStarBtn.Location = new System.Drawing.Point(127, 120);
+            this.DarkStarBtn.Location = new System.Drawing.Point(127, 107);
             this.DarkStarBtn.Name = "DarkStarBtn";
             this.DarkStarBtn.Size = new System.Drawing.Size(100, 20);
             this.DarkStarBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
@@ -1575,7 +1586,7 @@
             // ArachisBtn
             // 
             this.ArachisBtn.BackColor = System.Drawing.Color.Purple;
-            this.ArachisBtn.Location = new System.Drawing.Point(127, 94);
+            this.ArachisBtn.Location = new System.Drawing.Point(127, 81);
             this.ArachisBtn.Name = "ArachisBtn";
             this.ArachisBtn.Size = new System.Drawing.Size(100, 20);
             this.ArachisBtn.Skin = System.Drawing.Color.Purple;
@@ -1831,5 +1842,6 @@
         private System.Windows.Forms.Label MTSeperator1;
         internal Sulakore.Components.SKoreLabel CoTProxyPortLbl;
         internal Sulakore.Components.SKoreButton SelloutBtn;
+        internal Sulakore.Components.SKoreButton Sellout2Btn;
     }
 }

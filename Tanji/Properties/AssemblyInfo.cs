@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Tanji")]
-[assembly: AssemblyCopyright("Copyright © ArachisH 2015 - 2019")]
+[assembly: AssemblyCopyright("Copyright © ArachisH 2020")]
 [assembly: AssemblyTrademark("The Old Nut Man")]
 [assembly: AssemblyCulture("")]
 
@@ -32,4 +32,4 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.4.0.0")]
-[assembly: AssemblyFileVersion("1.4.1251.0")]
+[assembly: AssemblyFileVersion("1.4.1342.0")]
