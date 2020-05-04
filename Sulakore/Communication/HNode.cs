@@ -342,10 +342,7 @@ namespace Sulakore.Communication
 
                 if (IsEncrypting && Encrypter != null)
                 {
-                    lock (_sendSlim)
-                    {
-                        buffer = Encrypter.Parse(buffer);
-                    }
+                    buffer = Encrypter.Parse(buffer);
                 }
 
                 result = Client.BeginSend(buffer, offset, size, socketFlags, null, null);
