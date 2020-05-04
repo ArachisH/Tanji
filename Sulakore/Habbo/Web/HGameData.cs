@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -12,7 +11,7 @@ namespace Sulakore.Habbo.Web
     {
         private readonly Dictionary<string, string> _variables;
 
-        private const string FLASH_VAR_PATTERN = "(\"|')+?(?<variable>.*?)(\"|')+?(:| :| : |: |,|, )+?(\"|')+?(?<value>.*?)(\"|')+(\\)|,|\\s|$)+";
+        private const string FLASH_VAR_PATTERN = "('|\")(?<var>.*?)\\1(?>\\s+)?:(?>\\s+)?('|\")(?<value>.*?)\\3";
 
         private string _source;
         public string Source
@@ -31,8 +30,7 @@ namespace Sulakore.Habbo.Web
         {
             get
             {
-                string value;
-                _variables.TryGetValue(variable, out value);
+                _variables.TryGetValue(variable, out string value);
                 return value;
             }
         }
@@ -57,28 +55,15 @@ namespace Sulakore.Habbo.Web
         private void ExtractVariables()
         {
             _variables.Clear();
-            MatchCollection matches = Regex.Matches(Source, FLASH_VAR_PATTERN, RegexOptions.Multiline);
+            MatchCollection matches = Regex.Matches(Source, FLASH_VAR_PATTERN, RegexOptions.Multiline | RegexOptions.Compiled);
             foreach (Match match in matches)
             {
+                string variable = match.Groups["var"].Value;
                 string value = match.Groups["value"].Value;
-                string variable = match.Groups["variable"].Value;
-                if (value.Contains("\\/"))
-                {
-                    value = value.Replace("\\/", "/");
-                }
-                _variables[variable] = value;
+
+                _variables[variable] = value.Replace("\\/", "/");
             }
             Hotel = HotelEndPoint.GetHotel(InfoHost);
-        }
-
-        public void Update()
-        {
-            ExtractVariables();
-        }
-        public void Update(string source)
-        {
-            _source = source;
-            ExtractVariables();
         }
     }
 }
