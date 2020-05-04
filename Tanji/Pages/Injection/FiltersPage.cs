@@ -164,7 +164,7 @@ namespace Tanji.Pages.Injection
             UI.FTRemoveBtn.Enabled =
                 UI.FTFiltersVw.HasSelectedItem;
         }
-        
+
         public void Refresh()
         {
             if (!_suppressUIUpdating)
@@ -175,6 +175,10 @@ namespace Tanji.Pages.Injection
         }
         public HMessage GetPacket()
         {
+            if (UI.FTReplacementTxt.Text.StartsWith("{l}{u:"))
+            {
+                UI.FTReplacementTxt.Text = UI.FTReplacementTxt.Text.Trim();
+            }
             return new HMessage(UI.FTReplacementTxt.Text, Destination);
         }
         public bool AuthorizeFilter(ushort key, HDestination destination, FilterAction action)

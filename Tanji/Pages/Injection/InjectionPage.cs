@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Threading;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 
 using Tanji.Windows;
-using Tanji.Manipulators;
 
 using Sulakore.Protocol;
 using Sulakore.Communication;
@@ -51,20 +51,24 @@ namespace Tanji.Pages.Injection
 
         public HMessage GetPacket()
         {
+            if (UI.ITPacketTxt.Text.StartsWith("{l}{u:"))
+            {
+                UI.ITPacketTxt.Text = UI.ITPacketTxt.Text.Trim();
+            }
             return new HMessage(UI.ITPacketTxt.Text);
         }
-        public async Task<int> SendAsync(HMessage packet)
+
+        public Task<int> SendAsync(HMessage packet) => SendAsync(packet, CancellationToken.None);
+        public async Task<int> SendAsync(HMessage packet, CancellationToken cancellationToken)
         {
-            if (packet.IsCorrupted) return 0;
+            if (packet.IsCorrupted) return -1;
 
-            bool toServer =
-                (packet.Destination == HDestination.Server);
+            bool toServer = (packet.Destination == HDestination.Server);
+            HNode node = (toServer ? UI.Connection.Remote : UI.Connection.Local);
 
-            HNode node = (toServer ?
-                UI.Connection.Remote : UI.Connection.Local);
-
-            return await node.SendPacketAsync(packet).ConfigureAwait(false);
+            return await node.SendPacketAsync(packet, cancellationToken).ConfigureAwait(false);
         }
+
         public async Task<int> InjectInputAsync(HDestination destination)
         {
             HMessage packet = GetPacket();
