@@ -11,7 +11,7 @@ namespace Sulakore.Habbo.Web
     {
         private readonly Dictionary<string, string> _variables;
 
-        private const string FLASH_VAR_PATTERN = "('|\")(?<var>.*?)\\1(?>\\s+)?:(?>\\s+)?('|\")(?<value>.*?)\\3";
+        private const string FLASH_VAR_PATTERN = "(\"|')+?(?<var>.*?)(\"|')+?(:| :| : |: |,|, )+?(\"|')+?(?<value>.*?)(\"|')+(\\)|,|\\s|$)+";
 
         private string _source;
         public string Source
@@ -55,7 +55,14 @@ namespace Sulakore.Habbo.Web
         private void ExtractVariables()
         {
             _variables.Clear();
-            MatchCollection matches = Regex.Matches(Source, FLASH_VAR_PATTERN, RegexOptions.Multiline | RegexOptions.Compiled);
+
+            MatchCollection matches = Regex.Matches(Source, FLASH_VAR_PATTERN,
+                RegexOptions.Multiline
+#if !DEBUG
+                | RegexOptions.Compiled
+#endif
+                );
+
             foreach (Match match in matches)
             {
                 string variable = match.Groups["var"].Value;
