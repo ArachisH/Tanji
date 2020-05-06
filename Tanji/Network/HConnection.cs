@@ -142,10 +142,8 @@ namespace Tanji.Network
 
                     if (args.IsFakingPolicyRequest)
                     {
-                        using (var tempRemote = await HNode.ConnectNewAsync(endpoint).ConfigureAwait(false))
-                        {
-                            await tempRemote.SendAsync(Encoding.UTF8.GetBytes(CROSS_DOMAIN_POLICY_REQUEST)).ConfigureAwait(false);
-                        }
+                        using var tempRemote = await HNode.ConnectNewAsync(endpoint).ConfigureAwait(false);
+                        await tempRemote.SendAsync(Encoding.UTF8.GetBytes(CROSS_DOMAIN_POLICY_REQUEST)).ConfigureAwait(false);
                     }
 
                     if (!await Remote.ConnectAsync(endpoint).ConfigureAwait(false)) break;

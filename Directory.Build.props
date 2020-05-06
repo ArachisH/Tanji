@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+    <Authors>ArachisH</Authors>
+    <Copyright>Copyright © ArachisH 2020</Copyright>
+
+    <Version>1.5.0</Version>
+    <FileVersion>1.5.0</FileVersion>
+    <AssemblyVersion>1.5.0</AssemblyVersion>
+  </PropertyGroup>
+</Project>

@@ -34,7 +34,7 @@ namespace Tangine.Modules
 
         public ReadOnlyDictionary<int, HEntity> Entities => _service.Entities;
         public ReadOnlyDictionary<int, HWallItem> WallItems => _service.WallItems;
-        public ReadOnlyDictionary<int, HFloorItem> FloorItems => _service.FloorItems;
+        public ReadOnlyDictionary<int, HFloorObject> FloorObjects => _service.FloorObjects;
 
         public ExtensionForm()
             : this(null)

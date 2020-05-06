@@ -76,23 +76,14 @@ namespace Tanji.Utilities
             foreach (Modifiers modifier in _modifiers)
             {
                 if (!modifiers.HasFlag(modifier)) continue;
-                switch (modifier)
+                modifierKeys |= modifier switch
                 {
-                    case Modifiers.Alt:
-                    modifierKeys |= Keys.Alt;
-                    break;
-
-                    case Modifiers.Shift:
-                    modifierKeys |= Keys.Shift;
-                    break;
-
-                    case Modifiers.Control:
-                    modifierKeys |= Keys.Control;
-                    break;
-
-                    default:
-                    throw new ArgumentException("Invalid Modifier(s): " + modifiers);
-                }
+                    Modifiers.Alt => Keys.Alt,
+                    Modifiers.Shift => Keys.Shift,
+                    Modifiers.Control => Keys.Control,
+                    
+                    _ => throw new ArgumentException("Invalid Modifier(s): " + modifiers),
+                };
             }
             return modifierKeys;
         }
@@ -105,23 +96,14 @@ namespace Tanji.Utilities
             foreach (Keys modifier in _keyModifiers)
             {
                 if (!keyModifiers.HasFlag(modifier)) continue;
-                switch (modifier)
+                modifiers |= modifier switch
                 {
-                    case Keys.Alt:
-                    modifiers |= Modifiers.Alt;
-                    break;
+                    Keys.Alt => Modifiers.Alt,
+                    Keys.Shift => Modifiers.Shift,
+                    Keys.Control => Modifiers.Control,
 
-                    case Keys.Shift:
-                    modifiers |= Modifiers.Shift;
-                    break;
-
-                    case Keys.Control:
-                    modifiers |= Modifiers.Control;
-                    break;
-
-                    default:
-                    throw new ArgumentException("Invalid Modifier(s): " + keyModifiers);
-                }
+                    _ => throw new ArgumentException("Invalid Modifier(s): " + keyModifiers),
+                };
             }
             return modifiers;
         }

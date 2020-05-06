@@ -20,10 +20,7 @@ namespace Tanji.Controls
             }
         }
 
-        public IDisposable GetSuspender()
-        {
-            return new RichLogBoxPaintSuspender(this);
-        }
+        public IDisposable GetSuspender() => new RichLogBoxPaintSuspender(this);
 
         protected override void WndProc(ref Message m)
         {

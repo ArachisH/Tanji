@@ -54,7 +54,6 @@
             // 
             this.AvatarPct.Dock = System.Windows.Forms.DockStyle.Left;
             this.AvatarPct.ErrorImage = null;
-            this.AvatarPct.Image = global::Tanji.Properties.Resources.Avatar;
             this.AvatarPct.InitialImage = null;
             this.AvatarPct.Location = new System.Drawing.Point(0, 212);
             this.AvatarPct.Name = "AvatarPct";

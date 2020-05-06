@@ -108,16 +108,14 @@ namespace Tanji
              */
 
             int rank = -1;
-            switch (receiver.GetType().Name)
+            rank = receiver.GetType().Name switch
             {
-                case nameof(ModulesPage): rank = 0; break;
-                case nameof(FiltersPage): rank = 1; break;
-                case nameof(ConnectionPage): rank = 2; break;
-                case nameof(PacketLoggerFrm): rank = 3; break;
-
-                default:
-                throw new ArgumentException("Unrecognized receiver: " + receiver, nameof(receiver));
-            }
+                nameof(ModulesPage) => 0,
+                nameof(FiltersPage) => 1,
+                nameof(ConnectionPage) => 2,
+                nameof(PacketLoggerFrm) => 3,
+                _ => throw new ArgumentException("Unrecognized receiver: " + receiver, nameof(receiver)),
+            };
 
             if (_receivers.ContainsKey(rank))
             {
