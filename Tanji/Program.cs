@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -21,6 +22,8 @@ namespace Tanji
 {
     public class Program : IInstaller
     {
+        public static Font DefaultFont { get; } = new Font("Microsoft Sans Serif", 8f);
+
         private Action<ConnectedEventArgs> _restore;
 
         private readonly List<IHaltable> _haltables;
@@ -50,6 +53,7 @@ namespace Tanji
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            // TODO: .NET 5 - Application.SetDefaultFont(DefaultFont);
             
             Master = new Program();
             Application.Run(new MainFrm());

@@ -38,6 +38,10 @@
             this.ConnectionTab = new System.Windows.Forms.TabPage();
             this.ConnectionPg = new Tanji.Services.ConnectionPage();
             this.InjectionTab = new System.Windows.Forms.TabPage();
+            this.ConstructerTab = new System.Windows.Forms.TabPage();
+            this.SchedulerTab = new System.Windows.Forms.TabPage();
+            this.InspectorTab = new System.Windows.Forms.TabPage();
+            this.FiltersTab = new System.Windows.Forms.TabPage();
             this.ToolboxTab = new System.Windows.Forms.TabPage();
             this.ModulesTab = new System.Windows.Forms.TabPage();
             this.ModulesPg = new Tanji.Services.Modules.ModulesPage();
@@ -51,10 +55,6 @@
             this.SendToServerBtn = new Tangine.Controls.TangineButton();
             this.PacketTxt = new System.Windows.Forms.ComboBox();
             this.InjectionTabs = new Tangine.Controls.TangineTabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.TanjiStatusStrip.SuspendLayout();
             this.TanjiTabs.SuspendLayout();
             this.ConnectionTab.SuspendLayout();
@@ -305,10 +305,10 @@
             // InjectionTabs
             // 
             this.InjectionTabs.Alignment = System.Windows.Forms.TabAlignment.Right;
-            this.InjectionTabs.Controls.Add(this.tabPage1);
-            this.InjectionTabs.Controls.Add(this.tabPage2);
-            this.InjectionTabs.Controls.Add(this.tabPage3);
-            this.InjectionTabs.Controls.Add(this.tabPage4);
+            this.InjectionTabs.Controls.Add(this.ConstructerTab);
+            this.InjectionTabs.Controls.Add(this.SchedulerTab);
+            this.InjectionTabs.Controls.Add(this.InspectorTab);
+            this.InjectionTabs.Controls.Add(this.FiltersTab);
             this.InjectionTabs.Dock = System.Windows.Forms.DockStyle.Top;
             this.InjectionTabs.ItemSize = new System.Drawing.Size(25, 65);
             this.InjectionTabs.Location = new System.Drawing.Point(0, 0);
@@ -319,48 +319,52 @@
             this.InjectionTabs.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.InjectionTabs.TabIndex = 4;
             // 
-            // tabPage1
+            // ConstructerTab
             // 
-            this.tabPage1.Location = new System.Drawing.Point(4, 4);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(433, 278);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.ConstructerTab.Location = new System.Drawing.Point(4, 4);
+            this.ConstructerTab.Name = "ConstructerTab";
+            this.ConstructerTab.Size = new System.Drawing.Size(433, 278);
+            this.ConstructerTab.TabIndex = 0;
+            this.ConstructerTab.Text = "Constructer";
+            this.ConstructerTab.UseVisualStyleBackColor = true;
+            this.ConstructerTab.Controls.Add(new Tanji.Services.Injection.ConstructerPage());
             // 
-            // tabPage2
+            // SchedulerTab
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 4);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(474, 278);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.SchedulerTab.Location = new System.Drawing.Point(4, 4);
+            this.SchedulerTab.Name = "SchedulerTab";
+            this.SchedulerTab.Padding = new System.Windows.Forms.Padding(3);
+            this.SchedulerTab.Size = new System.Drawing.Size(433, 278);
+            this.SchedulerTab.TabIndex = 1;
+            this.SchedulerTab.Text = "Scheduler";
+            this.SchedulerTab.UseVisualStyleBackColor = true;
+            this.SchedulerTab.Controls.Add(new Tanji.Services.Injection.SchedulerPage());
             // 
-            // tabPage3
+            // InspectorTab
             // 
-            this.tabPage3.Location = new System.Drawing.Point(4, 4);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(433, 278);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "tabPage3";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.InspectorTab.Location = new System.Drawing.Point(4, 4);
+            this.InspectorTab.Name = "InspectorTab";
+            this.InspectorTab.Padding = new System.Windows.Forms.Padding(3);
+            this.InspectorTab.Size = new System.Drawing.Size(433, 278);
+            this.InspectorTab.TabIndex = 2;
+            this.InspectorTab.Text = "Inspector";
+            this.InspectorTab.UseVisualStyleBackColor = true;
+            this.InspectorTab.Controls.Add(new Tanji.Services.Injection.InspectorPage());
             // 
-            // tabPage4
+            // FiltersTab
             // 
-            this.tabPage4.Location = new System.Drawing.Point(4, 4);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(433, 278);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "tabPage4";
-            this.tabPage4.UseVisualStyleBackColor = true;
+            this.FiltersTab.Location = new System.Drawing.Point(4, 4);
+            this.FiltersTab.Name = "FiltersTab";
+            this.FiltersTab.Padding = new System.Windows.Forms.Padding(3);
+            this.FiltersTab.Size = new System.Drawing.Size(433, 278);
+            this.FiltersTab.TabIndex = 3;
+            this.FiltersTab.Text = "Filters";
+            this.FiltersTab.UseVisualStyleBackColor = true;
+            this.FiltersTab.Controls.Add(new Tanji.Services.Injection.FiltersPage());
             // 
             // MainFrm
             // 
+            this.Font = Program.DefaultFont;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
@@ -413,9 +417,9 @@
         private Tangine.Controls.TangineButton SendToServerBtn;
         private Tangine.Controls.TangineButton SendToClientBtn;
         private Tangine.Controls.TangineTabControl InjectionTabs;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TabPage ConstructerTab;
+        private System.Windows.Forms.TabPage SchedulerTab;
+        private System.Windows.Forms.TabPage InspectorTab;
+        private System.Windows.Forms.TabPage FiltersTab;
     }
 }
