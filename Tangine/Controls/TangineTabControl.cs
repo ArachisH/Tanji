@@ -67,55 +67,53 @@ namespace Tangine.Controls
         protected Rectangle GetHorizontalTitleRegion(int tabIndex, int xOffset)
         {
             Rectangle tabRegion = GetTabRect(tabIndex);
-            var titleRegion = new Rectangle();
             bool isFirstTab = (tabIndex == 0);
 
-            titleRegion.X = (tabRegion.X + xOffset);
-            titleRegion.Y = (tabRegion.Y + (isFirstTab ? 2 : 0));
+            return new Rectangle
+            {
+                X = tabRegion.X + xOffset,
+                Y = tabRegion.Y + (isFirstTab ? 2 : 0),
 
-            titleRegion.Width = (tabRegion.Width - 2);
-            titleRegion.Height = (tabRegion.Height - (isFirstTab ? 4 : 2));
-
-            return titleRegion;
+                Width = tabRegion.Width - 2,
+                Height = tabRegion.Height - (isFirstTab ? 4 : 2)
+            };
         }
         protected Rectangle GetHorizontalGlowRegion(Rectangle tabRegion, Rectangle titleRegion, int x)
         {
-            var glowRegion = new Rectangle();
+            return new Rectangle
+            {
+                X = x,
+                Y = titleRegion.Y,
 
-            glowRegion.X = x;
-            glowRegion.Y = titleRegion.Y;
-
-            glowRegion.Width = 1;
-            glowRegion.Height = titleRegion.Height;
-
-            return glowRegion;
+                Width = 1,
+                Height = titleRegion.Height
+            };
         }
 
         protected Rectangle GetVerticalTitleRegion(int tabIndex, int heightOffset)
         {
             Rectangle tabRegion = GetTabRect(tabIndex);
-            var titleRegion = new Rectangle();
             bool isFirstTab = (tabIndex == 0);
 
-            titleRegion.X = (tabRegion.X + (isFirstTab ? 2 : 0));
-            titleRegion.Y = (tabRegion.Y + 2);
+            return new Rectangle
+            {
+                X = tabRegion.X + (isFirstTab ? 2 : 0),
+                Y = tabRegion.Y + 2,
 
-            titleRegion.Width = (tabRegion.Width - (isFirstTab ? 4 : 2));
-            titleRegion.Height = (tabRegion.Height + heightOffset);
-
-            return titleRegion;
+                Width = tabRegion.Width - (isFirstTab ? 4 : 2),
+                Height = tabRegion.Height + heightOffset
+            };
         }
         protected Rectangle GetVerticalGlowRegion(Rectangle tabRegion, Rectangle titleRegion, int yOffset)
         {
-            var glowRegion = new Rectangle();
+            return new Rectangle
+            {
+                X = titleRegion.X,
+                Y = tabRegion.Y + yOffset,
 
-            glowRegion.X = titleRegion.X;
-            glowRegion.Y = (tabRegion.Y + yOffset);
-
-            glowRegion.Width = titleRegion.Width;
-            glowRegion.Height = 1;
-
-            return glowRegion;
+                Width = titleRegion.Width,
+                Height = 1
+            };
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -123,57 +121,55 @@ namespace Tangine.Controls
             e.Graphics.Clear(Backcolor);
             if (IsDisplayingBorder)
             {
-                using (var pen = new Pen(Skin))
-                {
-                    e.Graphics.DrawLine(pen, 0, Height - 1, Width - 1, Height - 1);
-                }
+                using var pen = new Pen(Skin);
+                e.Graphics.DrawLine(pen, 0, Height - 1, Width - 1, Height - 1);
             }
             if (TabPages.Count > 0)
             {
                 Rectangle tabRegion, titleRegion, glowRegion;
-                using (var skinBrush = new SolidBrush(Skin))
-                {
-                    var format = TextFormatFlags.VerticalCenter;
-                    for (int i = 0; i < TabPages.Count; i++)
-                    {
-                        tabRegion = GetTabRect(i);
-                        bool isSelected = (SelectedIndex == i);
+                var format = TextFormatFlags.VerticalCenter;
 
-                        switch (Alignment)
-                        {
-                            default:
-                            case TabAlignment.Top:
+                using var skinBrush = new SolidBrush(Skin);
+                
+                for (int i = 0; i < TabPages.Count; i++)
+                {
+                    tabRegion = GetTabRect(i);
+                    bool isSelected = (SelectedIndex == i);
+
+                    switch (Alignment)
+                    {
+                        default:
+                        case TabAlignment.Top:
                             {
                                 format |= TextFormatFlags.HorizontalCenter;
                                 titleRegion = GetVerticalTitleRegion(i, -4);
                                 glowRegion = GetVerticalGlowRegion(tabRegion, titleRegion, tabRegion.Height - 2);
                                 break;
                             }
-                            case TabAlignment.Bottom:
+                        case TabAlignment.Bottom:
                             {
                                 format |= TextFormatFlags.HorizontalCenter;
                                 titleRegion = GetVerticalTitleRegion(i, 0);
                                 glowRegion = GetVerticalGlowRegion(tabRegion, titleRegion, 0);
                                 break;
                             }
-                            case TabAlignment.Left:
+                        case TabAlignment.Left:
                             {
                                 format |= TextFormatFlags.Right;
                                 titleRegion = GetHorizontalTitleRegion(i, -2);
                                 glowRegion = GetHorizontalGlowRegion(tabRegion, titleRegion, (titleRegion.X + tabRegion.Width));
                                 break;
                             }
-                            case TabAlignment.Right:
+                        case TabAlignment.Right:
                             {
                                 format |= TextFormatFlags.Left;
                                 titleRegion = GetHorizontalTitleRegion(i, 4);
                                 glowRegion = GetHorizontalGlowRegion(tabRegion, titleRegion, tabRegion.X);
                                 break;
                             }
-                        }
-                        e.Graphics.FillRectangle((isSelected ? skinBrush : Brushes.Silver), glowRegion);
-                        TextRenderer.DrawText(e.Graphics, TabPages[i].Text, Font, titleRegion, TitleColor, format);
                     }
+                    e.Graphics.FillRectangle((isSelected ? skinBrush : Brushes.Silver), glowRegion);
+                    TextRenderer.DrawText(e.Graphics, TabPages[i].Text, Font, titleRegion, TitleColor, format);
                 }
             }
             base.OnPaint(e);

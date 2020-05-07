@@ -1,224 +1,28 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{19F71BF4-4FDC-45D0-B412-E2CFE019D441}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Tanji</RootNamespace>
-    <AssemblyName>Tanji</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
+    <UseWindowsForms>true</UseWindowsForms>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>
-    </DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
+
   <PropertyGroup>
-    <ApplicationIcon>Resources\Tanji_128.ico</ApplicationIcon>
+    <Product>Tanji</Product>
+    <Description>Habbo Hotel Packet Sniffer</Description>
   </PropertyGroup>
+  
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\Tangine\Tangine.csproj" />
+    <ProjectReference Include="..\Submodules\Sulakore\Sulakore\Sulakore.csproj" />
+    <ProjectReference Include="..\Submodules\Eavesdrop\Eavesdrop\Eavesdrop.csproj" />
+    <ProjectReference Include="..\Submodules\Sulakore\Submodules\Flazzy\Flazzy\Flazzy.csproj" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Controls\BindableToolStripMenuItem.cs" />
-    <Compile Include="Controls\ObservableForm.cs" />
-    <Compile Include="Controls\ObservableObject.cs" />
-    <Compile Include="Controls\ObservablePage.cs" />
-    <Compile Include="Controls\RichLogBox.cs" />
-    <Compile Include="Internals\NativeMethods.cs" />
-    <Compile Include="Network\ConnectedEventArgs.cs" />
-    <Compile Include="Network\HConnection.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ConnectionPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Services\ConnectionPage.designer.cs">
-      <DependentUpon>ConnectionPage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Services\IHaltable.cs" />
-    <Compile Include="Services\Injection\ConstructerPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Services\Injection\ConstructerPage.designer.cs">
-      <DependentUpon>ConstructerPage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Services\Injection\FiltersPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Services\Injection\FiltersPage.designer.cs">
-      <DependentUpon>FiltersPage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Services\Injection\InspectorPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Services\Injection\InspectorPage.designer.cs">
-      <DependentUpon>InspectorPage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Services\Injection\SchedulerPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Services\Injection\SchedulerPage.designer.cs">
-      <DependentUpon>SchedulerPage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Services\IReceiver.cs" />
-    <Compile Include="Services\Modules\ModuleInfo.cs" />
-    <Compile Include="Services\Modules\ModulesPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Services\Modules\ModulesPage.designer.cs">
-      <DependentUpon>ModulesPage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Services\Options\AboutPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Services\Options\AboutPage.designer.cs">
-      <DependentUpon>AboutPage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Services\Options\SettingsPage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Services\Options\SettingsPage.designer.cs">
-      <DependentUpon>SettingsPage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Utilities\KeyboardHook.cs" />
-    <Compile Include="Utilities\TConfiguration.cs" />
-    <Compile Include="Windows\Dialogs\FindDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Windows\Dialogs\FindDialog.designer.cs">
-      <DependentUpon>FindDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\MainFrm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Windows\MainFrm.designer.cs">
-      <DependentUpon>MainFrm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\PacketLoggerFrm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Windows\PacketLoggerFrm.designer.cs">
-      <DependentUpon>PacketLoggerFrm.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <EmbeddedResource Include="Services\ConnectionPage.resx">
-      <DependentUpon>ConnectionPage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Services\Injection\ConstructerPage.resx">
-      <DependentUpon>ConstructerPage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Services\Injection\FiltersPage.resx">
-      <DependentUpon>FiltersPage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Services\Injection\InspectorPage.resx">
-      <DependentUpon>InspectorPage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Services\Injection\SchedulerPage.resx">
-      <DependentUpon>SchedulerPage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Services\Modules\ModulesPage.resx">
-      <DependentUpon>ModulesPage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Services\Options\AboutPage.resx">
-      <DependentUpon>AboutPage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Services\Options\SettingsPage.resx">
-      <DependentUpon>SettingsPage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Windows\Dialogs\FindDialog.resx">
-      <DependentUpon>FindDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Windows\MainFrm.resx">
-      <DependentUpon>MainFrm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Windows\PacketLoggerFrm.resx">
-      <DependentUpon>PacketLoggerFrm.cs</DependentUpon>
-    </EmbeddedResource>
-    <None Include="Hashes.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-  </ItemGroup>
+    <Content Remove="Resources\Avatar.png" />
+    <Content Remove="Resources\Tanji_128.ico" />
+  </ItemGroup>  
   <ItemGroup>
-    <None Include="App.config" />
+    <EmbeddedResource Include="Resources\Avatar.png" />
+    <EmbeddedResource Include="Resources\Tanji_128.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\Toolbox\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Avatar.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Submodules\Eavesdrop\Eavesdrop\Eavesdrop.csproj">
-      <Project>{29ab109a-8343-45a9-a91e-0f54211fdd45}</Project>
-      <Name>Eavesdrop</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Submodules\Sulakore\Submodules\Flazzy\Flazzy\Flazzy.csproj">
-      <Project>{dc3ad8f9-dc54-4eaf-b760-41a6e7bac981}</Project>
-      <Name>Flazzy</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Submodules\Sulakore\Sulakore\Sulakore.csproj">
-      <Project>{4f96c396-6f59-4aeb-9db4-d1e4716fb4d4}</Project>
-      <Name>Sulakore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tangine\Tangine.csproj">
-      <Project>{cbfbad3c-bb4b-4baf-8f8f-e8795bd9113d}</Project>
-      <Name>Tangine</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Tanji_128.ico" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

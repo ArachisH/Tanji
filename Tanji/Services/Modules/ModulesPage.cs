@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Linq;
+using System.Drawing;
 using System.Reflection;
 using System.Net.Sockets;
 using System.Windows.Forms;
@@ -15,6 +16,7 @@ using System.Collections.Specialized;
 
 using Tanji.Network;
 using Tanji.Controls;
+using Tanji.Utilities;
 
 using Sulakore.Modules;
 using Sulakore.Network;
@@ -63,6 +65,8 @@ namespace Tanji.Services.Modules
         public ModulesPage()
         {
             InitializeComponent();
+
+            AvatarPct.Image = Image.FromStream(TResources.GetEmbedResourceStream("Avatar.png"));
 
             _initializedModules = new ModuleInfo[0];
             _hashBlacklist = new List<string>();
@@ -377,19 +381,13 @@ namespace Tanji.Services.Modules
             if (e.IsOutgoing) return;
             switch (Master.In[e.Packet.Id]?.Name)
             {
-                case nameof(Master.In.RoomHeightMap):
+                case nameof(Master.In.HeightMap):
                 _packetQueue = new ConcurrentQueue<DataInterceptedEventArgs>();
                 break;
 
-                case nameof(Master.In.RoomUsers):
-                _packetQueue.Enqueue(e);
-                break;
-
-                case nameof(Master.In.RoomWallItems):
-                _packetQueue.Enqueue(e);
-                break;
-
-                case nameof(Master.In.RoomFloorItems):
+                case nameof(Master.In.Users):
+                case nameof(Master.In.Items):
+                case nameof(Master.In.Objects):
                 _packetQueue.Enqueue(e);
                 break;
             }

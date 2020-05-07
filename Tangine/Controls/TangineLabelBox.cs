@@ -32,7 +32,7 @@ namespace Tangine.Controls
             set => Box.Text = value;
         }
 
-        private int _textPaddingWidth = 0;
+        private int _textPaddingWidth = 10;
         [DefaultValue(10)]
         public int TextPaddingWidth
         {
@@ -116,10 +116,9 @@ namespace Tangine.Controls
             if (!string.IsNullOrWhiteSpace(Title))
             {
                 TextRenderer.DrawText(e.Graphics, Title, Font, _titleRect, ForeColor, TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter);
-                using (var lineColor = new Pen(Color.FromArgb(243, 63, 63)))
-                {
-                    e.Graphics.DrawLine(lineColor, _titleRect.Right, 0, _titleRect.Right, Height);
-                }
+                
+                using var lineColor = new Pen(Color.FromArgb(243, 63, 63));
+                e.Graphics.DrawLine(lineColor, _titleRect.Right, 0, _titleRect.Right, Height);
             }
             base.OnPaint(e);
         }

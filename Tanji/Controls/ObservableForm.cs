@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 using Tangine.Helpers;
 
 using Tanji.Services;
-using Tanji.Properties;
+using Tanji.Utilities;
 
 namespace Tanji.Controls
 {
@@ -25,8 +25,8 @@ namespace Tanji.Controls
             _bindings = new Dictionary<string, Binding>();
 
             BackColor = Color.White;
-            Icon = Resources.Tanji_128;
             StartPosition = FormStartPosition.CenterScreen;
+            Icon = new Icon(TResources.GetEmbedResourceStream("Tanji_128.ico"));
 
             if (Program.Master != null && !DesignMode)
             {

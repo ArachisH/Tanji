@@ -95,14 +95,13 @@ namespace Tangine.Controls
             e.Graphics.Clear(BackColor);
             if (IsBorderVisible)
             {
-                using (var brush = new SolidBrush(Skin))
-                {
-                    if (BorderMode.HasFlag(LabelBorderMode.Left))
-                        e.Graphics.FillRectangle(brush, 0, 0, BorderWidth, Height);
+                using var brush = new SolidBrush(Skin);
+                
+                if (BorderMode.HasFlag(LabelBorderMode.Left))
+                    e.Graphics.FillRectangle(brush, 0, 0, BorderWidth, Height);
 
-                    if (BorderMode.HasFlag(LabelBorderMode.Right))
-                        e.Graphics.FillRectangle(brush, Width - BorderWidth, 0, BorderWidth, Height);
-                }
+                if (BorderMode.HasFlag(LabelBorderMode.Right))
+                    e.Graphics.FillRectangle(brush, Width - BorderWidth, 0, BorderWidth, Height);
             }
             TextRenderer.DrawText(e.Graphics, Text, Font, ClientRectangle, ForeColor);
             base.OnPaint(e);
