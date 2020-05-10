@@ -170,7 +170,7 @@
     <None Include="Resources\Tanji_256.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Submodules\Eavesdrop\Eavesdrop\Eavesdrop.csproj">
+    <ProjectReference Include="..\Eavesdrop\Eavesdrop.csproj">
       <Project>{29ab109a-8343-45a9-a91e-0f54211fdd45}</Project>
       <Name>Eavesdrop</Name>
     </ProjectReference>
