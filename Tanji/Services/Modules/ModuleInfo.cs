@@ -1,13 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.ComponentModel;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Collections.Concurrent;
-
-using Tanji.Controls;
+using System.Runtime.CompilerServices;
 
 using Sulakore.Modules;
 using Sulakore.Network;
@@ -15,7 +15,7 @@ using Sulakore.Network.Protocol;
 
 namespace Tanji.Services.Modules
 {
-    public class ModuleInfo : ObservableObject
+    public class ModuleInfo : INotifyPropertyChanged
     {
         public const string DISPOSED_STATE = "Disposed";
         public const string INITIALIZED_STATE = "Initialized";
@@ -112,7 +112,7 @@ namespace Tanji.Services.Modules
                 }
                 else instance = new DummyModule(this);
 
-                instance.Installer = Master;
+                instance.Installer = Program.Master;
                 if (isUninitialized)
                 {
                     ConstructorInfo moduleConstructor = Type.GetConstructor(Type.EmptyTypes);
@@ -152,6 +152,18 @@ namespace Tanji.Services.Modules
             }
             Dispose();
         }
+
+        #region INotifyPropertyChanged Implementation
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            PropertyChanged?.Invoke(this, e);
+        }
+        protected void RaiseOnPropertyChanged([CallerMemberName]string propertyName = "")
+        {
+            OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion
 
         private class DummyModule : IModule
         {
@@ -203,6 +215,7 @@ namespace Tanji.Services.Modules
                     {
                         dataAwaiterSource = new TaskCompletionSource<HPacket>();
 
+                        // TODO: Finish this
                         _module.DataAwaiters.TryRemove(identifier, out TaskCompletionSource<HPacket> oldSource);
                         if (!_module.DataAwaiters.TryAdd(identifier, dataAwaiterSource))
                         { }
