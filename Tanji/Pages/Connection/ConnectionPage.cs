@@ -164,6 +164,7 @@ namespace Tanji.Pages.Connection
                 Eavesdropper.Initiate((int)Program.Settings["ProxyListenPort"]);
                 Status = INTERCEPTING_CLIENT_PAGE;
             }
+            else MessageBox.Show("Eavesdrop was unable to create/install the root CA to the store, perhaps try running the application with administrative privileges.");
         }
 
         private void CoTResetBtn_Click(object sender, EventArgs e)
@@ -194,9 +195,9 @@ namespace Tanji.Pages.Connection
             string fileName = Eavesdropper.Certifier.RootCertificateName.Replace(" ", "_") + ".cer";
             string filePath = Path.GetFullPath(fileName);
 
-            string message = (Eavesdropper.Certifier.ExportTrustedRootCertificate(filePath)
-                ? $"Successfully exported '{fileName}' to:\r\n\r\n{filePath}"
-                : "Failed to export the certificate authority.");
+            bool wasExported = Eavesdropper.Certifier.ExportTrustedRootCertificate(filePath);
+            string message = wasExported ? $"Successfully exported '{fileName}' to:\r\n\r\n{filePath}"
+                : "Unable to export root CA, perhaps try running the application with administrative privileges.";
 
             MessageBox.Show(message, "Tanji ~ Alert!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
