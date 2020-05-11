@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 
 using Tanji.Windows;
 
@@ -14,8 +15,6 @@ namespace Tanji.Pages.About
 {
     public class AboutPage : TanjiPage
     {
-        private readonly GitHubClient _git;
-
         public Version LocalVersion { get; }
         public Release Latest { get; private set; }
         public Release Current { get; private set; }
@@ -26,8 +25,11 @@ namespace Tanji.Pages.About
             LocalVersion = new Version(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion);
             UI.TanjiVersionTxt.Text = ("v" + LocalVersion.ToString(3));
 
-            _git = new GitHubClient(new ProductHeaderValue("Tanji", LocalVersion.ToString()));
-            _git.Repository.Release.GetAll("ArachisH", "Tanji").ContinueWith(GrabbedReleases, TaskScheduler.FromCurrentSynchronizationContext());
+#if !DEBUG
+            var git = new GitHubClient(new ProductHeaderValue("Tanji"));
+            git.Repository.Release.GetAll("ArachisH", "Tanji").ContinueWith(GrabbedReleases, TaskScheduler.FromCurrentSynchronizationContext());
+            //git.Repository.Content.GetAllContents("ArachisH", "Tanji", "Tanji/Hashes.ini").ContinueWith(GrabbedHashes, TaskScheduler.FromCurrentSynchronizationContext());
+#endif
 
             UI.ArachisBtn.Click += ArachisBtn_Click;
             UI.SpeaqerBtn.Click += SpeaqerBtn_Click;
@@ -42,9 +44,9 @@ namespace Tanji.Pages.About
             UI.Sellout2Btn.Click += Sellout2Btn_Click;
         }
 
-        private void GrabbedReleases(Task<IReadOnlyList<Release>> getAllReleasesTask)
+        private void GrabbedReleases(Task<IReadOnlyList<Release>> getReleasesTask)
         {
-            IReadOnlyList<Release> releases = getAllReleasesTask.Result;
+            IReadOnlyList<Release> releases = getReleasesTask.Result;
             Latest = releases.FirstOrDefault();
 
             foreach (Release release in releases)
@@ -72,6 +74,14 @@ namespace Tanji.Pages.About
                 }
             }
         }
+        private void GrabbedHashes(Task<IReadOnlyList<RepositoryContent>> getHashFileTask)
+        {
+            RepositoryContent file = getHashFileTask.Result.FirstOrDefault();
+            using (var sha1 = new SHA1Managed())
+            {
+                // TODO: How would local hash changes be handled when attempting to look for 'latest' changes
+            }
+        }
 
         private void ArachisBtn_Click(object sender, EventArgs e)
         {
@@ -79,16 +89,15 @@ namespace Tanji.Pages.About
         }
         private void SpeaqerBtn_Click(object sender, EventArgs e)
         {
-            Process.Start("https://twitter.com/SpeaqerDev");
+            Process.Start("https://github.com/Speaqer");
         }
         private void DarkStarBtn_Click(object sender, EventArgs e)
         {
-            Process.Start("https://twitter.com/DarkStar851");
+            Process.Start("https://github.com/scottstamp");
         }
 
         private void DonateBtn_Click(object sender, EventArgs e)
         {
-            Process.Start("https://beerpay.io/ArachisH/Tanji");
             Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TDKPVTSNXJHYY&source=Tanji");
         }
         private void HarbleDiscordBtn_Click(object sender, EventArgs e)
