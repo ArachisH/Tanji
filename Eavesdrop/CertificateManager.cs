@@ -238,10 +238,9 @@ namespace Eavesdrop
             }
         }
 
-        public void DestroyCertificates()
+        public bool DestroyCertificates()
         {
-            DestroyCertificates(MyStore);
-            DestroyCertificates(RootStore);
+            return DestroyCertificates(MyStore) && DestroyCertificates(RootStore);
         }
         public bool DestroyCertificates(X509Store store)
         {
