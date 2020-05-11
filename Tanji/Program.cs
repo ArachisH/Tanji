@@ -7,12 +7,12 @@ using System.Collections.Generic;
 
 using Tanji.Windows;
 
+using Eavesdrop;
+
 using Sulakore.Habbo;
 
 using Flazzy;
 using Flazzy.IO;
-
-using Eavesdrop;
 
 namespace Tanji
 {
@@ -24,24 +24,12 @@ namespace Tanji
         private static void Main(string[] args)
         {
             Settings = LoadSettings();
-            if (args.Length > 0 && args[0].EndsWith(".swf"))
+            if (args.Length > 0)
             {
-                var clientInfo = new FileInfo(Path.GetFullPath(args[0]));
-                using (var game = new HGame(clientInfo.FullName))
+                switch (args[0].Substring(args[0].Length - 3))
                 {
-                    game.Disassemble();
-                    game.DisableHostChecks();
-                    game.InjectKeyShouter(4001);
-                    game.InjectEndPointShouter(4000);
-                    game.InjectEndPoint("127.0.0.1", (int)Settings["ConnectionListenPort"]);
-
-                    string moddedClientPath = Path.Combine(clientInfo.DirectoryName, "MOD_" + clientInfo.Name);
-                    using (var fileOutput = File.Open(moddedClientPath, FileMode.Create))
-                    using (var output = new FlashWriter(fileOutput))
-                    {
-                        game.Assemble(output, CompressionKind.ZLIB);
-                    }
-                    MessageBox.Show($"File has been modified/re-assembled successfully at '{moddedClientPath}'.", "Tanji - Alert!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    case "swf": PatchClient(new FileInfo(Path.GetFullPath(args[0]))); break;
+                    case "aca": AdminCAInstall(); break;
                 }
                 return;
             }
@@ -56,6 +44,33 @@ namespace Tanji
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainFrm());
         }
+
+        private static void AdminCAInstall()
+        {
+            var tanjiCertificateManager = new CertificateManager("Tanji", "Tanji Certificate Authority");
+            bool installedRootCA= tanjiCertificateManager.CreateTrustedRootCertificate();
+            Console.WriteLine("Tanji Certificate Authority Installed: " + installedRootCA);
+        }
+        private static void PatchClient(FileInfo clientInfo)
+        {
+            using (var game = new HGame(clientInfo.FullName))
+            {
+                game.Disassemble();
+                game.DisableHostChecks();
+                game.InjectKeyShouter(4001);
+                game.InjectEndPointShouter(4000);
+                game.InjectEndPoint("127.0.0.1", (int)Settings["ConnectionListenPort"]);
+
+                string moddedClientPath = Path.Combine(clientInfo.DirectoryName, "MOD_" + clientInfo.Name);
+                using (var fileOutput = File.Open(moddedClientPath, FileMode.Create))
+                using (var output = new FlashWriter(fileOutput))
+                {
+                    game.Assemble(output, CompressionKind.ZLIB);
+                }
+                MessageBox.Show($"File has been modified/re-assembled successfully at '{moddedClientPath}'.", "Tanji - Alert!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+        }
+
         private static Dictionary<string, object> LoadSettings()
         {
             var settings = new Dictionary<string, object>();
