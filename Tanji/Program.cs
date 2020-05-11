@@ -29,7 +29,8 @@ namespace Tanji
                 switch (args[0].Substring(args[0].Length - 3))
                 {
                     case "swf": PatchClient(new FileInfo(Path.GetFullPath(args[0]))); break;
-                    case "aca": AdminCAInstall(); break;
+                    case "ica": InstallCertificateAuthority(); break;
+                    case "dcs": DestroyCertificates(); break;
                 }
                 return;
             }
@@ -45,10 +46,16 @@ namespace Tanji
             Application.Run(new MainFrm());
         }
 
-        private static void AdminCAInstall()
+        private static void DestroyCertificates()
         {
             var tanjiCertificateManager = new CertificateManager("Tanji", "Tanji Certificate Authority");
-            bool installedRootCA= tanjiCertificateManager.CreateTrustedRootCertificate();
+            bool destroyedCertificates = tanjiCertificateManager.DestroyCertificates();
+            Console.WriteLine("Tanji Generated Certificates Destroyed: " + destroyedCertificates);
+        }
+        private static void InstallCertificateAuthority()
+        {
+            var tanjiCertificateManager = new CertificateManager("Tanji", "Tanji Certificate Authority");
+            bool installedRootCA = tanjiCertificateManager.CreateTrustedRootCertificate();
             Console.WriteLine("Tanji Certificate Authority Installed: " + installedRootCA);
         }
         private static void PatchClient(FileInfo clientInfo)
