@@ -23,10 +23,6 @@ namespace Tanji
         [STAThread]
         private static void Main(string[] args)
         {
-            AppDomain.CurrentDomain.UnhandledException += UnhandledException;
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
             Settings = LoadSettings();
             if (args.Length > 0 && args[0].EndsWith(".swf"))
             {
@@ -52,7 +48,12 @@ namespace Tanji
 
             Eavesdropper.Certifier = new CertificateManager("Tanji", "Tanji Certificate Authority");
             Eavesdropper.Overrides.AddRange(((string)Settings["ProxyOverrides"]).Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+            Eavesdropper.Terminate();
 
+            AppDomain.CurrentDomain.UnhandledException += UnhandledException;
+
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainFrm());
         }
         private static Dictionary<string, object> LoadSettings()
