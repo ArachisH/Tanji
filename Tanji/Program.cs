@@ -2,7 +2,10 @@
 using System.IO;
 using System.Drawing;
 using System.Reflection;
+using System.Diagnostics;
 using System.Windows.Forms;
+using System.ServiceProcess;
+using System.Security.Principal;
 using System.Collections.Generic;
 
 using Tanji.Windows;
@@ -14,36 +17,49 @@ using Sulakore.Habbo;
 using Flazzy;
 using Flazzy.IO;
 
+using Microsoft.Win32;
+
 namespace Tanji
 {
     public static class Program
     {
+        public static bool HasAdminPrivilages { get; private set; }
         public static Dictionary<string, object> Settings { get; private set; }
 
         [STAThread]
-        private static void Main(string[] args)
+        private static int Main(string[] args)
         {
+            using (var identity = WindowsIdentity.GetCurrent())
+            {
+                HasAdminPrivilages = new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator);
+            }
+
             Settings = LoadSettings();
             if (args.Length > 0)
             {
                 switch (args[0].Substring(args[0].Length - 3))
                 {
-                    case "swf": PatchClient(new FileInfo(Path.GetFullPath(args[0]))); break;
-                    case "ica": InstallCertificateAuthority(); break;
                     case "dcs": DestroyCertificates(); break;
+                    case "ica": InstallCertificateAuthority(); break;
+                    case "ems": return (int)EnsureManualWinHttpAutoProxySvcStartup();
+                    case "swf": PatchClient(new FileInfo(Path.GetFullPath(args[0]))); break;
                 }
-                return;
+                return 0;
             }
 
-            Eavesdropper.Certifier = new CertificateManager("Tanji", "Tanji Certificate Authority");
-            Eavesdropper.Overrides.AddRange(((string)Settings["ProxyOverrides"]).Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
-            Eavesdropper.Terminate();
+            if (EnsureManualWinHttpAutoProxySvcStartup() == ServiceControllerStatus.Running)
+            {
+                Eavesdropper.Certifier = new CertificateManager("Tanji", "Tanji Certificate Authority");
+                Eavesdropper.Overrides.AddRange(((string)Settings["ProxyOverrides"]).Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+                Eavesdropper.Terminate();
 
-            AppDomain.CurrentDomain.UnhandledException += UnhandledException;
+                AppDomain.CurrentDomain.UnhandledException += UnhandledException;
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainFrm());
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new MainFrm());
+            }
+            return 1;
         }
 
         private static void DestroyCertificates()
@@ -78,6 +94,20 @@ namespace Tanji
             }
         }
 
+        public static int RunTanjiAsAdmin(string argument)
+        {
+            using (var proc = new Process())
+            {
+                proc.StartInfo.FileName = Path.GetFullPath("Tanji.exe");
+                proc.StartInfo.UseShellExecute = true;
+                proc.StartInfo.Verb = "runas";
+                proc.StartInfo.Arguments = argument;
+
+                proc.Start();
+                proc.WaitForExit();
+                return proc.ExitCode;
+            }
+        }
         private static Dictionary<string, object> LoadSettings()
         {
             var settings = new Dictionary<string, object>();
@@ -107,6 +137,31 @@ namespace Tanji
                 settings.Add(name, oValue);
             }
             return settings;
+        }
+
+        private static ServiceControllerStatus EnsureManualWinHttpAutoProxySvcStartup()
+        {
+            using (var controller = new ServiceController("WinHttpAutoProxySvc"))
+            {
+                ServiceControllerStatus status = controller.Status;
+                if (controller.StartType == ServiceStartMode.Disabled)
+                {
+                    if (HasAdminPrivilages)
+                    {
+                        RegistryKey winHttpAutoProxySvcKey = Registry.LocalMachine.OpenSubKey(@"System\CurrentControlSet\Services\WinHttpAutoProxySvc", true);
+                        winHttpAutoProxySvcKey.SetValue("Start", ServiceStartMode.Manual, RegistryValueKind.DWord);
+                        winHttpAutoProxySvcKey.Flush();
+
+                    }
+                    else status = (ServiceControllerStatus)RunTanjiAsAdmin("ems");
+                }
+                if (status != ServiceControllerStatus.Running && !HasAdminPrivilages)
+                {
+                    // Tanji was opened again, but having already set the registry value, and not having done a full restart(smh)
+                    MessageBox.Show("Changes have been made regarding the 'WinHttpAutoProxy' service, please restart your computer for them to take effect.", "Tanji - Alert! ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                }
+                return status;
+            }
         }
         private static void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
