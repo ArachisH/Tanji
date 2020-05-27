@@ -1,10 +1,11 @@
-﻿using Eavesdrop.Network;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+
+using Eavesdrop.Network;
 
 namespace Eavesdrop
 {
@@ -70,7 +71,7 @@ namespace Eavesdrop
         }
         public static void Initiate(int port, Interceptors interceptors)
         {
-            Initiate(port, Interceptors.Default, true);
+            Initiate(port, interceptors, true);
         }
         public static void Initiate(int port, Interceptors interceptors, bool setSystemProxy)
         {
