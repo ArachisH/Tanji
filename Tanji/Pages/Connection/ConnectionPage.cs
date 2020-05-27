@@ -461,17 +461,6 @@ namespace Tanji.Pages.Connection
             await Task.Delay(1000).ContinueWith(t => GC.Collect()).ConfigureAwait(false);
         }
 
-        private void RunTanjiAsAdmin(string argument)
-        {
-            using (var proc = new Process())
-            {
-                proc.StartInfo.FileName = Path.GetFullPath("Tanji.exe");
-                proc.StartInfo.UseShellExecute = true;
-                proc.StartInfo.Verb = "runas";
-                proc.StartInfo.Arguments = argument;
-                proc.Start();
-            }
-        }
         private bool HasPingInstructions()
         {
             ABCFile abc = UI.Game.ABCFiles.Last();
@@ -501,7 +490,7 @@ namespace Tanji.Pages.Connection
         {
             if (!Eavesdropper.Certifier.CreateTrustedRootCertificate())
             {
-                RunTanjiAsAdmin("ica");
+                Program.RunTanjiAsAdmin("ica");
                 // Will return true if the external process succeeded in installing certifcate with admin privileges.
                 return Eavesdropper.Certifier.CreateTrustedRootCertificate();
             }
@@ -511,7 +500,7 @@ namespace Tanji.Pages.Connection
         {
             if (!Eavesdropper.Certifier.DestroyCertificates())
             {
-                RunTanjiAsAdmin("dcs");
+                Program.RunTanjiAsAdmin("dcs");
                 // Will return true if the external process succeeded in destroying the certifcates with admin privileges.
                 return Eavesdropper.Certifier.DestroyCertificates();
             }
