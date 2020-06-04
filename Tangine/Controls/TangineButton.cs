@@ -154,10 +154,10 @@ namespace Tangine.Controls
                     var shadow = Color.FromArgb(20, Color.Black);
                     var topShadowRect = new Rectangle(0, 0, Width, 10);
                     var bottomShadowRect = new Rectangle(0, Height - 10, Width, 10);
-                    
+
                     using var topShadowGradient = new LinearGradientBrush(topShadowRect, shadow, Color.Transparent, LinearGradientMode.Vertical);
                     using var bottomShadowGradient = new LinearGradientBrush(bottomShadowRect, Color.Transparent, shadow, LinearGradientMode.Vertical);
-                    
+
                     e.Graphics.FillRectangle(topShadowGradient, topShadowRect);
                     e.Graphics.FillRectangle(bottomShadowGradient, bottomShadowRect);
                 }

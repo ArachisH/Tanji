@@ -7,10 +7,7 @@ namespace Tangine.Helpers.Converters
 {
     public class HotelEndPointConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return ((value as HotelEndPoint)?.ToString() ?? "*:*");
-        }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => (value as HotelEndPoint)?.ToString() ?? "*:*";
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string address = value.ToString();
