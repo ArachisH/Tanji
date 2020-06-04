@@ -15,7 +15,7 @@ using Sulakore.Network;
 using Sulakore.Habbo.Web;
 using Sulakore.Habbo.Messages;
 
-namespace Tangine.Modules
+namespace Tangine
 {
     public class ExtensionForm : Form, IModule, INotifyPropertyChanged
     {
@@ -104,7 +104,7 @@ namespace Tangine.Modules
                 _bindings[e.PropertyName].ReadValue();
             }
         }
-        protected void RaiseOnPropertyChanged([CallerMemberName]string propertyName = "")
+        protected void RaiseOnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
         }
