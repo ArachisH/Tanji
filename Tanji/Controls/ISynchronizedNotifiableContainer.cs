@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Tanji.Controls
 {
-    public interface ISynchronizedNotifiableContainer : INotifyPropertyChanged
+    public interface ISynchronizedNotifiableContainer : ISynchronizeInvoke, INotifyPropertyChanged
     {
         bool IsInDesignMode { get; }
         ContainerControl Container { get; }
@@ -17,13 +17,13 @@ namespace Tanji.Controls
 
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-           // findfo
+            // findfo
             //PropertyChangedEventHandler handler = PropertyChanged;
             Container.FindForm().Invoke(GetPropertyChangedEventHandler(), this, e);
             // PropertyChanged(this, e);
             //PropertyChanged?.Invoke(this, e);
         }
-        protected void RaiseOnPropertyChanged([CallerMemberName]string propertyName = "")
+        protected void RaiseOnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
         }

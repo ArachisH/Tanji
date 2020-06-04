@@ -1,33 +1,30 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-using Tangine.Helpers;
-
 using Tanji.Services;
-using Tanji.Utilities;
+
+using Tangine.Helpers;
 
 namespace Tanji.Controls
 {
     [ToolboxItem(false)]
     [DesignerCategory("Code")]
-    public class ObservableForm : Form, INotifyPropertyChanged
+    public class NotifiablePage : UserControl, INotifyPropertyChanged
     {
         private readonly Dictionary<string, Binding> _bindings;
 
         protected Program Master => Program.Master;
+        protected override Size DefaultSize => new Size(506, 315);
 
-        public ObservableForm()
+        public NotifiablePage()
         {
             _bindings = new Dictionary<string, Binding>();
 
+            TabStop = false;
             BackColor = Color.White;
-            StartPosition = FormStartPosition.CenterScreen;
-            Icon = new Icon(TResources.GetEmbedResourceStream("Tanji_128.ico"));
-
             if (Program.Master != null && !DesignMode)
             {
                 if (this is IHaltable haltable)
@@ -52,14 +49,14 @@ namespace Tanji.Controls
             _bindings[dataMember] = binding;
         }
 
-        protected override void OnShown(EventArgs e)
+        protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnShown(e);
-            if (Owner != null)
+            if (Controls.Count == 0)
             {
-                StartPosition = FormStartPosition.Manual;
-                Location = new Point(Owner.Location.X + Owner.Width / 2 - Width / 2, Owner.Location.Y + Owner.Height / 2 - Height / 2);
+                // Useful when debugging, so that we can see the region it occupies in the parent container.
+                e.Graphics.Clear(Color.FromArgb(243, 63, 63));
             }
+            base.OnPaint(e);
         }
 
         #region INotifyPropertyChanged Implementation
