@@ -215,7 +215,7 @@ namespace Tanji.Pages.Injection
                 schedulerState.WriteBytes(schedule.Packet.ToBytes());
                 schedulerState.WriteInteger((int)schedule.Packet.Destination);
                 schedulerState.WriteShort((ushort)schedule.Interval);
-                schedulerState.WriteInteger(Cycles);
+                schedulerState.WriteInteger(schedule.Cycles);
 
                 bool hasHotKey = _hotkeys.TryGetValue(item, out Keys hotKey);
                 schedulerState.WriteBoolean(hasHotKey);
@@ -256,7 +256,7 @@ namespace Tanji.Pages.Injection
                     {
                         UI.Hook.RegisterHotkey(hotKey);
                         _hotkeys[item] = hotKey;
-                        _items[HotKey] = item;
+                        _items[hotKey] = item;
                     }
                 }
             }
