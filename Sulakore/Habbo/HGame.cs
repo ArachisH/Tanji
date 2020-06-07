@@ -16,8 +16,8 @@ namespace Sulakore.Habbo
 {
     public class HGame : ShockwaveFlash
     {
-        private ASMethod _managerConnectMethod;
-        private ASInstance _habboCommunicationDemo;
+        private ASMethod _habboCommManagerConnect;
+        private ASInstance _habboCommDemo, _habboCommManager;
 
         private readonly Dictionary<DoABCTag, ABCFile> _abcFileTags;
         private readonly Dictionary<ASClass, MessageItem> _messages;
@@ -62,6 +62,7 @@ namespace Sulakore.Habbo
         }
 
         public string Location { get; set; }
+        public bool HasPingInstructions { get; private set; }
 
         public HGame(string path)
             : this(File.OpenRead(path))
@@ -385,7 +386,7 @@ namespace Sulakore.Habbo
 
             localHostCheckMethod.Body.Code[0] = remoteHostCheckMethod.Body.Code[0] = (byte)OPCode.PushTrue;
             localHostCheckMethod.Body.Code[1] = remoteHostCheckMethod.Body.Code[1] = (byte)OPCode.ReturnValue;
-            return LockInfoHostProperty();
+            return LockInfoHostProperty(out _);
         }
         public bool EnableGameCenterIcon()
         {
@@ -722,7 +723,9 @@ namespace Sulakore.Habbo
                 }
             }
             initMethod.Body.Code = code.ToArray();
-            return LockEndPointPing(host, port);
+
+            HasPingInstructions = GetConnectionInitiationCount() > 1;
+            return true;
         }
         public bool InjectRSAKeys(string exponent, string modulus)
         {
@@ -762,35 +765,6 @@ namespace Sulakore.Habbo
             return false;
         }
 
-        public ASMethod GetManagerConnectMethod()
-        {
-            if (_managerConnectMethod != null) return _managerConnectMethod;
-            ABCFile abc = ABCFiles.Last();
-
-            ASInstance habboCommunicationManager = abc.GetInstance("HabboCommunicationManager");
-            if (habboCommunicationManager == null) return null;
-
-            ASTrait hostTrait = habboCommunicationManager.GetSlotTraits("String").FirstOrDefault();
-            if (hostTrait == null) return null;
-
-            ASMethod initComponent = habboCommunicationManager.GetMethod("initComponent", "void", 0);
-            if (initComponent == null) return null;
-
-            string connectMethodName = null;
-            ASCode initComponentCode = initComponent.Body.ParseCode();
-            for (int i = initComponentCode.Count - 1; i >= 0; i--)
-            {
-                ASInstruction instruction = initComponentCode[i];
-                if (instruction.OP != OPCode.CallPropVoid) continue;
-
-                var callPropVoidIns = (CallPropVoidIns)instruction;
-                connectMethodName = callPropVoidIns.PropertyName.Name;
-                break;
-            }
-
-            if (string.IsNullOrWhiteSpace(connectMethodName)) return null;
-            return _managerConnectMethod = habboCommunicationManager.GetMethod(connectMethodName, "void", 0);
-        }
         public ushort[] GetMessageIds(string hash)
         {
             List<MessageItem> messages = null;
@@ -1039,8 +1013,49 @@ namespace Sulakore.Habbo
             sendMethod.Body.Code = sendCode.ToArray();
             return true;
         }
-        private bool LockInfoHostProperty()
+        private int GetConnectionInitiationCount()
         {
+            int initiationCount = 0;
+            if (!LockInfoHostProperty(out ASTrait infoHostSlot)) return initiationCount;
+
+            ASMethod connectMethod = GetManagerConnectMethod();
+            if (connectMethod == null) return initiationCount;
+
+            ASCode connectCode = connectMethod.Body.ParseCode();
+            for (int i = 0; i < connectCode.Count; i++)
+            {
+                ASInstruction instruction = connectCode[i];
+
+                if (instruction.OP != OPCode.GetProperty) continue;
+                var getPropertyIns = (GetPropertyIns)instruction;
+
+                if (getPropertyIns.PropertyName != infoHostSlot.QName) continue;
+                initiationCount++;
+            }
+            return initiationCount;
+        }
+        private void ShiftRegistersBy(ASCode code, int offset)
+        {
+            for (int i = 0; i < code.Count; i++)
+            {
+                ASInstruction instruction = code[i];
+                if (!Local.IsValid(instruction.OP)) continue;
+                if (instruction.OP == OPCode.GetLocal_0) continue;
+
+                var local = (Local)instruction;
+                if (Local.IsGetLocal(instruction.OP))
+                {
+                    code[i] = Local.CreateGet(local.Register + offset);
+                }
+                else if (Local.IsSetLocal(instruction.OP))
+                {
+                    code[i] = Local.CreateSet(local.Register + offset);
+                }
+            }
+        }
+        private bool LockInfoHostProperty(out ASTrait infoHostSlot)
+        {
+            infoHostSlot = null;
             ABCFile abc = ABCFiles.Last();
 
             ASMethod connectMethod = GetManagerConnectMethod();
@@ -1049,10 +1064,10 @@ namespace Sulakore.Habbo
             ASCode connectCode = connectMethod.Body.ParseCode();
             int pushByteIndex = connectCode.IndexOf(OPCode.PushByte);
 
-            ASInstance habboCommunicationManager = abc.GetInstance("HabboCommunicationManager");
+            ASInstance habboCommunicationManager = GetHabboCommunicationManager();
             if (habboCommunicationManager == null) return false;
 
-            ASTrait infoHostSlot = habboCommunicationManager.GetSlotTraits("String").FirstOrDefault();
+            infoHostSlot = habboCommunicationManager.GetSlotTraits("String").FirstOrDefault();
             if (infoHostSlot == null) return false;
 
             int getPropertyIndex = abc.Pool.GetMultinameIndex("getProperty");
@@ -1081,60 +1096,6 @@ namespace Sulakore.Habbo
             connectMethod.Body.MaxStack += 4;
             connectMethod.Body.Code = connectCode.ToArray();
             return true;
-        }
-        private bool LockEndPointPing(string host, int port)
-        {
-            ABCFile abc = ABCFiles.Last();
-            if (!LockInfoHostProperty()) return false;
-
-            ASMethod connectMethod = GetManagerConnectMethod();
-            if (connectMethod == null) return false;
-
-            ASCode connectCode = connectMethod.Body.ParseCode();
-            for (int i = 0, findPropStrictCount = 0; i < connectCode.Count; i++)
-            {
-                ASInstruction instruction = connectCode[i];
-                if (instruction.OP != OPCode.FindPropStrict || ++findPropStrictCount != 3) continue;
-
-                i++;
-                var thirdFindPropStrictIns = (FindPropStrictIns)instruction;
-                for (int j = 0; i < connectCode.Count; i++, j++)
-                {
-                    instruction = connectCode[i];
-                    if (instruction.OP != OPCode.ConstructProp) continue;
-                    if (((ConstructPropIns)instruction).PropertyNameIndex != thirdFindPropStrictIns.PropertyNameIndex) continue;
-
-                    connectCode.RemoveRange(i - j, j);
-                    connectCode.InsertRange(i - j, new ASInstruction[]
-                    {
-                        new PushStringIns(abc, host),
-                        new PushIntIns(abc, port)
-                    });
-
-                    connectMethod.Body.Code = connectCode.ToArray();
-                    return true;
-                }
-            }
-            return false;
-        }
-        private void ShiftRegistersBy(ASCode code, int offset)
-        {
-            for (int i = 0; i < code.Count; i++)
-            {
-                ASInstruction instruction = code[i];
-                if (!Local.IsValid(instruction.OP)) continue;
-                if (instruction.OP == OPCode.GetLocal_0) continue;
-
-                var local = (Local)instruction;
-                if (Local.IsGetLocal(instruction.OP))
-                {
-                    code[i] = Local.CreateGet(local.Register + offset);
-                }
-                else if (Local.IsSetLocal(instruction.OP))
-                {
-                    code[i] = Local.CreateSet(local.Register + offset);
-                }
-            }
         }
         private bool InjectEndPointSaver(out ASTrait hostTrait, out ASTrait portTrait)
         {
@@ -1192,22 +1153,78 @@ namespace Sulakore.Habbo
             return false;
         }
 
+        private ASMethod GetManagerConnectMethod()
+        {
+            if (_habboCommManagerConnect != null) return _habboCommManagerConnect;
+
+            ASInstance habboCommunicationManager = GetHabboCommunicationManager();
+            if (habboCommunicationManager == null) return null;
+
+            ASTrait hostTrait = habboCommunicationManager.GetSlotTraits("String").FirstOrDefault();
+            if (hostTrait == null) return null;
+
+            ASMethod initComponent = habboCommunicationManager.GetMethod("initComponent", "void", 0);
+            if (initComponent == null) return null;
+
+            string connectMethodName = null;
+            ASCode initComponentCode = initComponent.Body.ParseCode();
+            for (int i = initComponentCode.Count - 1; i >= 0; i--)
+            {
+                ASInstruction instruction = initComponentCode[i];
+                if (instruction.OP != OPCode.CallPropVoid) continue;
+
+                var callPropVoidIns = (CallPropVoidIns)instruction;
+                connectMethodName = callPropVoidIns.PropertyName.Name;
+                break;
+            }
+
+            if (string.IsNullOrWhiteSpace(connectMethodName)) return null;
+            return _habboCommManagerConnect = habboCommunicationManager.GetMethod(connectMethodName, "void", 0);
+        }
         private ASInstance GetHabboCommunicationDemo()
         {
-            if (_habboCommunicationDemo == null)
+            if (_habboCommDemo == null)
             {
+                _habboCommDemo = ABCFiles.Last().GetInstance("HabboCommunicationDemo");
+                if (_habboCommDemo != null) return _habboCommDemo;
+
                 foreach (ASInstance instance in ABCFiles.Last().Instances)
                 {
-                    if (instance.IsInterface) continue;
+                    if (instance.Super == null) continue;
+                    if (!instance.Super.Name.ToLower().Equals("element") && !instance.Super.Name.ToLower().Equals("component")) continue;
+
+                    if (instance.IsStatic) continue;
                     if (instance.InterfaceIndices.Count > 0) continue;
                     if (instance.Constructor.Parameters.Count != 3) continue;
-                    if (!instance.Super.Name.Equals("Component", StringComparison.OrdinalIgnoreCase)) continue;
+                    if (instance.Traits.Count < 35 || instance.Traits.Count >= 50) continue;
 
-                    _habboCommunicationDemo = instance;
+                    _habboCommDemo = instance;
                     break;
                 }
             }
-            return _habboCommunicationDemo;
+            return _habboCommDemo;
+        }
+        private ASInstance GetHabboCommunicationManager()
+        {
+            if (_habboCommManager == null)
+            {
+                _habboCommManager = ABCFiles.Last().GetInstance("HabboCommunicationManager");
+                if (_habboCommManager != null) return _habboCommManager;
+
+                foreach (ASInstance instance in ABCFiles.Last().Instances)
+                {
+                    if (instance.Super == null) continue;
+                    if (!instance.Super.Name.ToLower().Equals("element") && !instance.Super.Name.ToLower().Equals("component")) continue;
+
+                    if (instance.InterfaceIndices.Count != 2) continue;
+                    if (instance.Constructor.Parameters.Count != 3) continue;
+                    if (instance.Traits.Count < 35 || instance.Traits.Count >= 50) continue;
+
+                    _habboCommManager = instance;
+                    break;
+                }
+            }
+            return _habboCommManager;
         }
 
         public void Disassemble(bool isGeneratingHashes)
