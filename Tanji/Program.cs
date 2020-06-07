@@ -29,14 +29,14 @@ namespace Tanji
         [STAThread]
         private static int Main(string[] args)
         {
-            AppDomain.CurrentDomain.UnhandledException += UnhandledException;
-
             using (var identity = WindowsIdentity.GetCurrent())
             {
                 HasAdminPrivilages = new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator);
             }
 
             Settings = LoadSettings();
+            AppDomain.CurrentDomain.UnhandledException += UnhandledException;
+
             if (args.Length > 0)
             {
                 switch (args[0].Substring(args[0].Length - 3))
@@ -74,15 +74,15 @@ namespace Tanji
             bool installedRootCA = tanjiCertificateManager.CreateTrustedRootCertificate();
             Console.WriteLine("Tanji Certificate Authority Installed: " + installedRootCA);
         }
-        private static void PatchClient(FileInfo clientInfo)
+        private static bool PatchClient(FileInfo clientInfo)
         {
             using (var game = new HGame(clientInfo.FullName))
             {
                 game.Disassemble();
-                game.DisableHostChecks();
-                game.InjectKeyShouter(4001);
-                game.InjectEndPointShouter(4000);
-                game.InjectEndPoint("127.0.0.1", (int)Settings["ConnectionListenPort"]);
+                bool disabledHostChecks = game.DisableHostChecks();
+                bool injectedKeyShouter = game.InjectKeyShouter(4001);
+                bool injectedEndPointShouter = game.InjectEndPointShouter(4000);
+                bool injectedEndPoint = game.InjectEndPoint("127.0.0.1", (int)Settings["ConnectionListenPort"]);
 
                 string moddedClientPath = Path.Combine(clientInfo.DirectoryName, "MOD_" + clientInfo.Name);
                 using (var fileOutput = File.Open(moddedClientPath, FileMode.Create))
@@ -91,6 +91,7 @@ namespace Tanji
                     game.Assemble(output, CompressionKind.ZLIB);
                 }
                 MessageBox.Show($"File has been modified/re-assembled successfully at '{moddedClientPath}'.", "Tanji - Alert!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                return disabledHostChecks && injectedKeyShouter && injectedEndPointShouter && injectedEndPoint;
             }
         }
 
