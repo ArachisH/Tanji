@@ -29,6 +29,8 @@ namespace Tanji
         [STAThread]
         private static int Main(string[] args)
         {
+            AppDomain.CurrentDomain.UnhandledException += UnhandledException;
+
             using (var identity = WindowsIdentity.GetCurrent())
             {
                 HasAdminPrivilages = new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator);
@@ -52,8 +54,6 @@ namespace Tanji
                 Eavesdropper.Certifier = new CertificateManager("Tanji", "Tanji Certificate Authority");
                 Eavesdropper.Overrides.AddRange(((string)Settings["ProxyOverrides"]).Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
                 Eavesdropper.Terminate();
-
-                AppDomain.CurrentDomain.UnhandledException += UnhandledException;
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
