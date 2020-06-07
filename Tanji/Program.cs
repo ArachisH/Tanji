@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Drawing;
 using System.Reflection;
 using System.Diagnostics;
@@ -7,6 +8,8 @@ using System.Windows.Forms;
 using System.ServiceProcess;
 using System.Security.Principal;
 using System.Collections.Generic;
+
+using Microsoft.Win32;
 
 using Tanji.Windows;
 
@@ -17,12 +20,11 @@ using Sulakore.Habbo;
 using Flazzy;
 using Flazzy.IO;
 
-using Microsoft.Win32;
-
 namespace Tanji
 {
     public static class Program
     {
+        public static bool IsParentProcess { get; private set; }
         public static bool HasAdminPrivilages { get; private set; }
         public static Dictionary<string, object> Settings { get; private set; }
 
@@ -49,6 +51,7 @@ namespace Tanji
                 return 0;
             }
 
+            IsParentProcess = true;
             if (EnsureManualWinHttpAutoProxySvcStartup() == ServiceControllerStatus.Running)
             {
                 Eavesdropper.Certifier = new CertificateManager("Tanji", "Tanji Certificate Authority");
@@ -142,24 +145,50 @@ namespace Tanji
 
         private static ServiceControllerStatus EnsureManualWinHttpAutoProxySvcStartup()
         {
-            using (var controller = new ServiceController("WinHttpAutoProxySvc"))
+            using (var controller = ServiceController.GetServices().FirstOrDefault(sc => sc.ServiceName == "WinHttpAutoProxySvc"))
             {
-                ServiceControllerStatus status = controller.Status;
-                if (controller.StartType == ServiceStartMode.Disabled)
-                {
-                    if (HasAdminPrivilages)
-                    {
-                        RegistryKey winHttpAutoProxySvcKey = Registry.LocalMachine.OpenSubKey(@"System\CurrentControlSet\Services\WinHttpAutoProxySvc", true);
-                        winHttpAutoProxySvcKey.SetValue("Start", ServiceStartMode.Manual, RegistryValueKind.DWord);
-                        winHttpAutoProxySvcKey.Flush();
+                ServiceControllerStatus status = controller?.Status ?? ServiceControllerStatus.Stopped;
+                if (status == ServiceControllerStatus.Running) return status;
 
-                    }
-                    else status = (ServiceControllerStatus)RunTanjiAsAdmin("ems");
-                }
-                if (status != ServiceControllerStatus.Running && !HasAdminPrivilages)
+                if (HasAdminPrivilages)
                 {
-                    // Tanji was opened again, but having already set the registry value, and not having done a full restart(smh)
-                    MessageBox.Show("Changes have been made regarding the 'WinHttpAutoProxy' service, please restart your computer for them to take effect.", "Tanji - Alert! ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    using (RegistryKey winHttpAutoProxySvcKey = Registry.LocalMachine.CreateSubKey(@"System\CurrentControlSet\Services\WinHttpAutoProxySvc", true))
+                    {
+                        if (winHttpAutoProxySvcKey.GetValue("Start") == null && controller == null)
+                        {
+                            winHttpAutoProxySvcKey.SetValue("DependOnService", new string[] { "Dhcp" }, RegistryValueKind.MultiString);
+                            winHttpAutoProxySvcKey.SetValue("Description", @"@%SystemRoot%\system32\winhttp.dll,-101", RegistryValueKind.String);
+                            winHttpAutoProxySvcKey.SetValue("DisplayName", @"@%SystemRoot%\system32\winhttp.dll,-100", RegistryValueKind.String);
+                            winHttpAutoProxySvcKey.SetValue("ErrorControl", 1, RegistryValueKind.DWord);
+                            winHttpAutoProxySvcKey.SetValue("FailureActions", new byte[] { 0, 92, 38, 5, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 20, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, RegistryValueKind.Binary);
+                            winHttpAutoProxySvcKey.SetValue("ImagePath", @"%SystemRoot%\system32\svchost.exe -k LocalService", RegistryValueKind.ExpandString);
+                            winHttpAutoProxySvcKey.SetValue("ObjectName", @"NT AUTHORITY\LocalService", RegistryValueKind.String);
+                            winHttpAutoProxySvcKey.SetValue("RequiredPrivileges", new string[] { "SeChangeNotifyPrivilege", "SeCreateGlobalPrivilege", "SeImpersonatePrivilege" }, RegistryValueKind.MultiString);
+                            winHttpAutoProxySvcKey.SetValue("ServiceSidType", 1, RegistryValueKind.DWord);
+                            winHttpAutoProxySvcKey.SetValue("Type", 32, RegistryValueKind.DWord);
+
+                            using (RegistryKey parameters = winHttpAutoProxySvcKey.CreateSubKey("Parameters"))
+                            {
+                                parameters.SetValue("ProxyDllFile", @"%SystemRoot%\system32\jsproxy.dll", RegistryValueKind.ExpandString);
+                                parameters.SetValue("ServiceDll", @"%SystemRoot%\system32\winhttp.dll", RegistryValueKind.ExpandString);
+                                parameters.SetValue("ServiceDllUnloadOnStop", 1, RegistryValueKind.DWord);
+                                parameters.SetValue("ServiceMain", "WinHttpAutoProxySvcMain", RegistryValueKind.String);
+                            }
+                            using (RegistryKey security = winHttpAutoProxySvcKey.CreateSubKey("Security"))
+                            {
+                                security.SetValue("Security", new byte[] { 1, 0, 20, 128, 184, 0, 0, 0, 196, 0, 0, 0, 20, 0, 0, 0, 48, 0, 0, 0, 2, 0, 28, 0, 1, 0, 0, 0, 2, 128, 20, 0, 255, 1, 15, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0, 136, 0, 6, 0, 0, 0, 0, 0, 20, 0, 255, 1, 15, 0, 1, 1, 0, 0, 0, 0, 0, 5, 18, 0, 0, 0, 0, 0, 24, 0, 255, 1, 15, 0, 1, 2, 0, 0, 0, 0, 0, 5, 32, 0, 0, 0, 32, 2, 0, 0, 0, 0, 20, 0, 157, 1, 2, 0, 1, 1, 0, 0, 0, 0, 0, 5, 11, 0, 0, 0, 0, 0, 20, 0, 157, 1, 2, 0, 1, 1, 0, 0, 0, 0, 0, 5, 4, 0, 0, 0, 0, 0, 20, 0, 157, 1, 2, 0, 1, 1, 0, 0, 0, 0, 0, 5, 6, 0, 0, 0, 0, 0, 24, 0, 148, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0, 15, 2, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 5, 18, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 5, 18, 0, 0, 0 }, RegistryValueKind.Binary);
+                            }
+                        }
+                        winHttpAutoProxySvcKey.SetValue("Start", ServiceStartMode.Manual, RegistryValueKind.DWord);
+                    }
+                }
+                else status = (ServiceControllerStatus)RunTanjiAsAdmin("ems");
+
+                if (status != ServiceControllerStatus.Running && (!HasAdminPrivilages || IsParentProcess))
+                {
+                    // Changes made to the registry relating to services requires a full OS reboot.
+                    MessageBox.Show("Changes have been made to the registry regarding the 'WinHttpAutoProxy' service, please reboot your computer for the changes to take effect.",
+                        "Tanji - Alert! ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
                 return status;
             }
