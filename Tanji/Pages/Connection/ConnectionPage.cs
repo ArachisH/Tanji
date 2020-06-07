@@ -18,9 +18,6 @@ using Sulakore.Crypto;
 using Sulakore.Communication;
 
 using Flazzy;
-using Flazzy.ABC;
-using Flazzy.ABC.AVM2;
-using Flazzy.ABC.AVM2.Instructions;
 
 using Eavesdrop;
 
