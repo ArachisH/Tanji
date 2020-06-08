@@ -39,9 +39,9 @@
             this.BlockedBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.ReplacedBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.DisplayDetailsBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.HashBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.StructureBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.DismantledBtn = new Tanji.Controls.BindableToolStripMenuItem();
-            this.HashBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.HexadecimalBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.ParserNameBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.ClassNameBtn = new Tanji.Controls.BindableToolStripMenuItem();
@@ -72,7 +72,8 @@
             this.ToolsBtn});
             this.PacketLoggerMs.Location = new System.Drawing.Point(0, 0);
             this.PacketLoggerMs.Name = "PacketLoggerMs";
-            this.PacketLoggerMs.Size = new System.Drawing.Size(834, 24);
+            this.PacketLoggerMs.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
+            this.PacketLoggerMs.Size = new System.Drawing.Size(973, 24);
             this.PacketLoggerMs.TabIndex = 0;
             // 
             // FileBtn
@@ -170,12 +171,21 @@
             this.DisplayDetailsBtn.Size = new System.Drawing.Size(196, 22);
             this.DisplayDetailsBtn.Text = "Display Details";
             // 
+            // HashBtn
+            // 
+            this.HashBtn.Checked = true;
+            this.HashBtn.CheckOnClick = true;
+            this.HashBtn.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.HashBtn.Name = "HashBtn";
+            this.HashBtn.Size = new System.Drawing.Size(143, 22);
+            this.HashBtn.Text = "Hash";
+            // 
             // StructureBtn
             // 
             this.StructureBtn.Checked = true;
             this.StructureBtn.CheckState = System.Windows.Forms.CheckState.Checked;
             this.StructureBtn.Name = "StructureBtn";
-            this.StructureBtn.Size = new System.Drawing.Size(180, 22);
+            this.StructureBtn.Size = new System.Drawing.Size(143, 22);
             this.StructureBtn.Text = "Structure";
             // 
             // DismantledBtn
@@ -184,23 +194,14 @@
             this.DismantledBtn.CheckOnClick = true;
             this.DismantledBtn.CheckState = System.Windows.Forms.CheckState.Checked;
             this.DismantledBtn.Name = "DismantledBtn";
-            this.DismantledBtn.Size = new System.Drawing.Size(180, 22);
+            this.DismantledBtn.Size = new System.Drawing.Size(143, 22);
             this.DismantledBtn.Text = "Dismantled";
-            // 
-            // HashBtn
-            // 
-            this.HashBtn.Checked = true;
-            this.HashBtn.CheckOnClick = true;
-            this.HashBtn.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.HashBtn.Name = "HashBtn";
-            this.HashBtn.Size = new System.Drawing.Size(180, 22);
-            this.HashBtn.Text = "Hash";
             // 
             // HexadecimalBtn
             // 
             this.HexadecimalBtn.CheckOnClick = true;
             this.HexadecimalBtn.Name = "HexadecimalBtn";
-            this.HexadecimalBtn.Size = new System.Drawing.Size(180, 22);
+            this.HexadecimalBtn.Size = new System.Drawing.Size(143, 22);
             this.HexadecimalBtn.Text = "Hexadecimal";
             // 
             // ParserNameBtn
@@ -209,7 +210,7 @@
             this.ParserNameBtn.CheckOnClick = true;
             this.ParserNameBtn.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ParserNameBtn.Name = "ParserNameBtn";
-            this.ParserNameBtn.Size = new System.Drawing.Size(180, 22);
+            this.ParserNameBtn.Size = new System.Drawing.Size(143, 22);
             this.ParserNameBtn.Text = "Parser Name";
             // 
             // ClassNameBtn
@@ -218,7 +219,7 @@
             this.ClassNameBtn.CheckOnClick = true;
             this.ClassNameBtn.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ClassNameBtn.Name = "ClassNameBtn";
-            this.ClassNameBtn.Size = new System.Drawing.Size(180, 22);
+            this.ClassNameBtn.Size = new System.Drawing.Size(143, 22);
             this.ClassNameBtn.Text = "Class Name";
             // 
             // ViewSep1
@@ -274,7 +275,7 @@
             this.ToolsBtn.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.IgnoreMessagesBtn});
             this.ToolsBtn.Name = "ToolsBtn";
-            this.ToolsBtn.Size = new System.Drawing.Size(47, 20);
+            this.ToolsBtn.Size = new System.Drawing.Size(46, 20);
             this.ToolsBtn.Text = "Tools";
             // 
             // IgnoreMessagesBtn
@@ -289,14 +290,15 @@
             this.LogTxt.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.LogTxt.DetectUrls = false;
             this.LogTxt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LogTxt.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LogTxt.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.LogTxt.HideSelection = false;
             this.LogTxt.Location = new System.Drawing.Point(0, 24);
+            this.LogTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.LogTxt.Name = "LogTxt";
             this.LogTxt.ReadOnly = true;
             this.LogTxt.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
             this.LogTxt.ShowSelectionMargin = true;
-            this.LogTxt.Size = new System.Drawing.Size(834, 463);
+            this.LogTxt.Size = new System.Drawing.Size(973, 542);
             this.LogTxt.TabIndex = 1;
             this.LogTxt.TabStop = false;
             this.LogTxt.Text = "";
@@ -308,7 +310,7 @@
             this.ViewOutgoingLbl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.ViewOutgoingLbl.ForeColor = System.Drawing.Color.Black;
             this.ViewOutgoingLbl.Name = "ViewOutgoingLbl";
-            this.ViewOutgoingLbl.Size = new System.Drawing.Size(119, 19);
+            this.ViewOutgoingLbl.Size = new System.Drawing.Size(118, 19);
             this.ViewOutgoingLbl.Text = "View Outgoing: True";
             // 
             // ViewIncomingLbl
@@ -318,7 +320,7 @@
             this.ViewIncomingLbl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.ViewIncomingLbl.ForeColor = System.Drawing.Color.Black;
             this.ViewIncomingLbl.Name = "ViewIncomingLbl";
-            this.ViewIncomingLbl.Size = new System.Drawing.Size(119, 19);
+            this.ViewIncomingLbl.Size = new System.Drawing.Size(118, 19);
             this.ViewIncomingLbl.Text = "View Incoming: True";
             // 
             // LatencyLbl
@@ -337,7 +339,7 @@
             this.RevisionLbl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.RevisionLbl.ForeColor = System.Drawing.Color.Black;
             this.RevisionLbl.Name = "RevisionLbl";
-            this.RevisionLbl.Size = new System.Drawing.Size(268, 19);
+            this.RevisionLbl.Size = new System.Drawing.Size(267, 19);
             this.RevisionLbl.Text = "Revision: PRODUCTION-000000000000-000000000";
             // 
             // PacketLoggerSs
@@ -348,21 +350,23 @@
             this.ViewIncomingLbl,
             this.LatencyLbl,
             this.RevisionLbl});
-            this.PacketLoggerSs.Location = new System.Drawing.Point(0, 487);
+            this.PacketLoggerSs.Location = new System.Drawing.Point(0, 566);
             this.PacketLoggerSs.Name = "PacketLoggerSs";
-            this.PacketLoggerSs.Size = new System.Drawing.Size(834, 24);
+            this.PacketLoggerSs.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
+            this.PacketLoggerSs.Size = new System.Drawing.Size(973, 24);
             this.PacketLoggerSs.SizingGrip = false;
             this.PacketLoggerSs.TabIndex = 2;
             // 
             // PacketLoggerFrm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(834, 511);
+            this.ClientSize = new System.Drawing.Size(973, 590);
             this.Controls.Add(this.LogTxt);
             this.Controls.Add(this.PacketLoggerSs);
             this.Controls.Add(this.PacketLoggerMs);
             this.MainMenuStrip = this.PacketLoggerMs;
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "PacketLoggerFrm";
             this.Text = "Tanji - Packet Logger";
             this.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(this.PacketLoggerFrm_PropertyChanged);
