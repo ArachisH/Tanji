@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -22,8 +21,6 @@ namespace Tanji
 {
     public class Program : IInstaller
     {
-        public static Font DefaultFont { get; } = new Font("Microsoft Sans Serif", 8f);
-
         private Action<ConnectedEventArgs> _restore;
 
         private readonly List<IHaltable> _haltables;
@@ -51,10 +48,10 @@ namespace Tanji
         {
             AppDomain.CurrentDomain.UnhandledException += UnhandledException;
 
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            // TODO: .NET 5 - Application.SetDefaultFont(DefaultFont);
-            
+
             Master = new Program();
             Application.Run(new MainFrm());
         }
@@ -117,7 +114,7 @@ namespace Tanji
                 nameof(ModulesPage) => 0,
                 nameof(FiltersPage) => 1,
                 nameof(ConnectionPage) => 2,
-                nameof(PacketLoggerFrm) => 3,
+                nameof(LoggerFrm) => 3,
                 _ => throw new ArgumentException("Unrecognized receiver: " + receiver, nameof(receiver)),
             };
 

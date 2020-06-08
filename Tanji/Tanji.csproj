@@ -1,15 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <UseWindowsForms>true</UseWindowsForms>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup>
     <Product>Tanji</Product>
     <Description>Habbo Hotel Packet Sniffer</Description>
+    <ApplicationIcon>Resources\Tanji_256.ico</ApplicationIcon>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\Tangine\Tangine.csproj" />
     <ProjectReference Include="..\Submodules\Sulakore\Sulakore\Sulakore.csproj" />
@@ -19,10 +21,9 @@
 
   <ItemGroup>
     <Content Remove="Resources\Avatar.png" />
-    <Content Remove="Resources\Tanji_128.ico" />
-  </ItemGroup>  
-  <ItemGroup>
+    <Content Remove="Resources\Tanji_256.ico" />
     <EmbeddedResource Include="Resources\Avatar.png" />
-    <EmbeddedResource Include="Resources\Tanji_128.ico" />
+    <EmbeddedResource Include="Resources\Tanji_256.ico" />
   </ItemGroup>
+
 </Project>
