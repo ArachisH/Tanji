@@ -12,9 +12,9 @@ using Sulakore.Network.Protocol;
 namespace Tanji.Windows
 {
     [DesignerCategory("Form")]
-    public partial class MainFrm : ObservableForm, IHaltable
+    public partial class MainFrm : NotifiableForm, IHaltable
     {
-        private readonly PacketLoggerFrm _packetLogger;
+        private readonly PacketLoggerFrm _loggerUI;
 
         public new bool TopMost
         {
@@ -24,17 +24,17 @@ namespace Tanji.Windows
                 base.TopMost = value;
                 RaiseOnPropertyChanged();
 
-                _packetLogger.BringToFront();
+                _loggerUI.BringToFront();
             }
         }
 
         public MainFrm()
         {
-            _packetLogger = new PacketLoggerFrm();
+            _loggerUI = new PacketLoggerFrm();
 
             InitializeComponent();
 
-            Bind(_packetLogger, "TopMost", "TopMost");
+            Bind(_loggerUI, "TopMost", "TopMost");
         }
 
         private void PacketTxt_KeyDown(object sender, KeyEventArgs e)
@@ -51,7 +51,7 @@ namespace Tanji.Windows
             Text = "Tanji - Disconnected";
             TopMost = true;
 
-            _packetLogger.Hide();
+            _loggerUI.Hide();
         }
         public void Restore(ConnectedEventArgs e)
         {
@@ -62,9 +62,9 @@ namespace Tanji.Windows
             e.HotelServerSource.SetResult(e.HotelServer);
 
             Text = $"Tanji - Connected[{e.HotelServer}]";
-            TopMost = _packetLogger.TopMost;
+            TopMost = _loggerUI.TopMost;
 
-            _packetLogger.Show();
+            _loggerUI.Show();
         }
         #endregion
     }
