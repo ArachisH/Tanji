@@ -18,7 +18,7 @@ using Sulakore.Network.Protocol;
 namespace Tanji.Windows
 {
     [DesignerCategory("Form")]
-    public partial class PacketLoggerFrm : ObservableForm, IHaltable, IReceiver
+    public partial class PacketLoggerFrm : NotifiableForm, IHaltable, IReceiver
     {
         private int _streak = 1;
         private FindDialog _findDialog;
