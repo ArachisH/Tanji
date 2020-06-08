@@ -6,7 +6,7 @@ namespace Tanji.Services.Options
 {
     [ToolboxItem(true)]
     [DesignerCategory("UserControl")]
-    public partial class SettingsPage : ObservablePage
+    public partial class SettingsPage : NotifiablePage
     {
         public SettingsPage()
         {

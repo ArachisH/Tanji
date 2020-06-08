@@ -53,7 +53,7 @@
             // DestroyCertificatesBtn
             // 
             this.DestroyCertificatesBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.DestroyCertificatesBtn.Location = new System.Drawing.Point(256, 239);
+            this.DestroyCertificatesBtn.Location = new System.Drawing.Point(256, 240);
             this.DestroyCertificatesBtn.Name = "DestroyCertificatesBtn";
             this.DestroyCertificatesBtn.Size = new System.Drawing.Size(247, 20);
             this.DestroyCertificatesBtn.TabIndex = 11;
@@ -65,7 +65,7 @@
             // 
             this.ExportCertificateAuthorityBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ExportCertificateAuthorityBtn.Location = new System.Drawing.Point(3, 239);
+            this.ExportCertificateAuthorityBtn.Location = new System.Drawing.Point(3, 240);
             this.ExportCertificateAuthorityBtn.Name = "ExportCertificateAuthorityBtn";
             this.ExportCertificateAuthorityBtn.Size = new System.Drawing.Size(247, 20);
             this.ExportCertificateAuthorityBtn.TabIndex = 10;
@@ -76,7 +76,7 @@
             // BrowseBtn
             // 
             this.BrowseBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.BrowseBtn.Location = new System.Drawing.Point(413, 265);
+            this.BrowseBtn.Location = new System.Drawing.Point(413, 266);
             this.BrowseBtn.Name = "BrowseBtn";
             this.BrowseBtn.Size = new System.Drawing.Size(90, 20);
             this.BrowseBtn.TabIndex = 0;
@@ -88,19 +88,18 @@
             // 
             this.CustomClientTxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.CustomClientTxt.Location = new System.Drawing.Point(3, 265);
+            this.CustomClientTxt.Location = new System.Drawing.Point(3, 266);
             this.CustomClientTxt.Name = "CustomClientTxt";
             this.CustomClientTxt.Size = new System.Drawing.Size(404, 20);
             this.CustomClientTxt.TabIndex = 0;
             this.CustomClientTxt.TabStop = false;
             this.CustomClientTxt.Text = "";
-            this.CustomClientTxt.TextPaddingWidth = 0;
             this.CustomClientTxt.Title = "Custom Client";
             // 
             // ConnectBtn
             // 
             this.ConnectBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ConnectBtn.Location = new System.Drawing.Point(413, 291);
+            this.ConnectBtn.Location = new System.Drawing.Point(413, 292);
             this.ConnectBtn.Name = "ConnectBtn";
             this.ConnectBtn.Size = new System.Drawing.Size(90, 20);
             this.ConnectBtn.TabIndex = 0;
@@ -121,8 +120,7 @@
             // 
             // ConnectionPage
             // 
-            this.Font = Program.DefaultFont;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.DestroyCertificatesBtn);
             this.Controls.Add(this.ExportCertificateAuthorityBtn);

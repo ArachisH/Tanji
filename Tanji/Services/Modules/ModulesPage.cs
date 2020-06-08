@@ -2,7 +2,6 @@
 using System.IO;
 using System.Net;
 using System.Linq;
-using System.Drawing;
 using System.Reflection;
 using System.Net.Sockets;
 using System.Windows.Forms;
@@ -26,7 +25,7 @@ namespace Tanji.Services.Modules
 {
     [ToolboxItem(true)]
     [DesignerCategory("UserControl")]
-    public partial class ModulesPage : ObservablePage, IHaltable, IReceiver
+    public partial class ModulesPage : NotifiablePage, IHaltable, IReceiver
     {
         private ModuleInfo[] _initializedModules;
         private readonly List<string> _hashBlacklist;
@@ -66,7 +65,7 @@ namespace Tanji.Services.Modules
         {
             InitializeComponent();
 
-            AvatarPct.Image = Image.FromStream(TResources.GetEmbedResourceStream("Avatar.png"));
+            AvatarPct.Image = TResources.Avatar;
 
             _initializedModules = new ModuleInfo[0];
             _hashBlacklist = new List<string>();
@@ -206,10 +205,11 @@ namespace Tanji.Services.Modules
             if (!_moduleCache.TryGetValue(hash, out module))
             {
                 // Load it through memory, do not feed a local file path/stream(don't want to lock the file).
-                module = new ModuleInfo();
-                module.Assembly = Assembly.Load(File.ReadAllBytes(modulePath));
-
-                module.Hash = hash;
+                module = new ModuleInfo
+                {
+                    Hash = hash,
+                    Assembly = Assembly.Load(File.ReadAllBytes(modulePath))
+                };
                 module.PropertyChanged += Module_PropertyChanged;
 
                 // Copy the required dependencies, since utilizing 'ExportedTypes' will attempt to load them when enumerating.

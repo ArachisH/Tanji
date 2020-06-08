@@ -32,11 +32,10 @@
             // 
             // SettingsPage
             // 
-            this.Font = Program.DefaultFont;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Name = "SettingsPage";
-            this.Size = new System.Drawing.Size(431, 340);
+            this.Size = new System.Drawing.Size(438, 307);
             this.ResumeLayout(false);
 
         }

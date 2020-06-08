@@ -2,13 +2,13 @@
 
 using Tanji.Controls;
 
-namespace Tanji.Services.Options
+namespace Tanji.Services.Toolbox
 {
     [ToolboxItem(true)]
     [DesignerCategory("UserControl")]
-    public partial class AboutPage : NotifiablePage
+    public partial class ToolboxPage : NotifiablePage
     {
-        public AboutPage()
+        public ToolboxPage()
         {
             InitializeComponent();
         }

@@ -26,7 +26,7 @@ namespace Tanji.Services
 {
     [ToolboxItem(true)]
     [DesignerCategory("UserControl")]
-    public partial class ConnectionPage : ObservablePage, IHaltable, IReceiver
+    public partial class ConnectionPage : NotifiablePage, IHaltable, IReceiver
     {
         private Guid _randomQuery;
         private bool _wasBlacklisted;
@@ -152,8 +152,7 @@ namespace Tanji.Services
             if (!_wasBlacklisted)
             {
                 Status = DISASSEMBLING_CLIENT;
-                game = new HGame(payload);
-                game.Location = clientPath;
+                game = new HGame(payload) { Location = clientPath };
                 game.Disassemble();
 
                 if (game.IsPostShuffle)

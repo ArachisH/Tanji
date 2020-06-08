@@ -1,6 +1,6 @@
-﻿namespace Tanji.Services.Options
+﻿namespace Tanji.Services.Toolbox
 {
-    partial class AboutPage
+    partial class ToolboxPage
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,16 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // AboutPage
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "AboutPage";
-            this.Size = new System.Drawing.Size(438, 307);
-            this.ResumeLayout(false);
-
         }
 
         #endregion
