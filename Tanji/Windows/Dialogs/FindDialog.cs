@@ -9,7 +9,7 @@ using Tanji.Controls;
 namespace Tanji.Windows.Dialogs
 {
     [DesignerCategory("Form")]
-    public partial class FindDialog : ObservableForm
+    public partial class FindDialog : NotifiableForm
     {
         private RegexOptions _regexFlags;
         private RichTextBoxFinds _findFlags;
