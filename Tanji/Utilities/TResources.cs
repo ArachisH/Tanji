@@ -1,13 +1,23 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Drawing;
 using System.Reflection;
 
 namespace Tanji.Utilities
 {
     public static class TResources
     {
-        public static Stream GetEmbedResourceStream(string embeddedFileName)
+        public static Image Avatar { get; }
+        public static Icon Tanji_256 { get; }
+
+        static TResources()
+        {
+            Tanji_256 = new Icon(GetEmbedResourceStream("Tanji_256.ico"));
+            Avatar = Image.FromStream(GetEmbedResourceStream("Avatar.png"));
+        }
+
+        private static Stream GetEmbedResourceStream(string embeddedFileName)
         {
             var assembly = Assembly.GetExecutingAssembly();
             string resourceName = assembly.GetManifestResourceNames()
