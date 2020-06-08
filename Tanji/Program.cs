@@ -114,7 +114,7 @@ namespace Tanji
                 nameof(ModulesPage) => 0,
                 nameof(FiltersPage) => 1,
                 nameof(ConnectionPage) => 2,
-                nameof(LoggerFrm) => 3,
+                nameof(PacketLoggerFrm) => 3,
                 _ => throw new ArgumentException("Unrecognized receiver: " + receiver, nameof(receiver)),
             };
 
