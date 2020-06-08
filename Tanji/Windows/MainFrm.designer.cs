@@ -150,7 +150,7 @@
             this.TanjiTabs.ItemSize = new System.Drawing.Size(102, 24);
             this.TanjiTabs.Location = new System.Drawing.Point(0, 0);
             this.TanjiTabs.Name = "TanjiTabs";
-            this.TanjiTabs.SelectedIndex = 2;
+            this.TanjiTabs.SelectedIndex = 1;
             this.TanjiTabs.Size = new System.Drawing.Size(514, 347);
             this.TanjiTabs.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.TanjiTabs.TabIndex = 0;

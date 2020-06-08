@@ -443,16 +443,6 @@ namespace Tanji.Windows
 
             if (!IsViewingOutgoing && e.IsOutgoing) return false;
             if (!IsViewingIncoming && !e.IsOutgoing) return false;
-
-            //if (_ignoredMessages.Count > 0)
-            //{
-            //    int container = e.Packet.Header;
-            //    if (isOutgoing)
-            //    {
-            //        container += ushort.MaxValue;
-            //    }
-            //    if (_ignoredMessages.TryGetValue(container, out bool isIgnoring) && isIgnoring) return false;
-            //}
             return true;
         }
 

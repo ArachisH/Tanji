@@ -312,25 +312,10 @@ namespace Tanji.Services
             Eavesdropper.ResponseInterceptedAsync -= InterceptClientPageAsync;
             Eavesdropper.ResponseInterceptedAsync -= InterceptGameClientAsync;
         }
-        private bool HasPingInstructions()
-        {
-            ASMethod connectMethod = Master.Game.GetManagerConnectMethod();
-            if (connectMethod == null) return false;
-
-            ASCode connectCode = connectMethod.Body.ParseCode();
-            for (int i = 0, findPropStrictCount = 0; i < connectCode.Count; i++)
-            {
-                ASInstruction instruction = connectCode[i];
-                if (instruction.OP != OPCode.FindPropStrict || ++findPropStrictCount != 3) continue;
-                return true;
-            }
-
-            return false;
-        }
         private async Task InterceptConnectionAsync()
         {
             Status = INTERCEPTING_CONNECTION;
-            if (Master.Game.IsPostShuffle && HasPingInstructions())
+            if (Master.Game.IsPostShuffle && Master.Game.HasPingInstructions)
             {
                 Master.Connection.SocketSkip = 2;
             }

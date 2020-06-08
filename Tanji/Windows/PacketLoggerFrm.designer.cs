@@ -51,8 +51,6 @@
             this.ViewSep2 = new System.Windows.Forms.ToolStripSeparator();
             this.AutoScrollingBtn = new Tanji.Controls.BindableToolStripMenuItem();
             this.AlwaysOnTopBtn = new Tanji.Controls.BindableToolStripMenuItem();
-            this.ToolsBtn = new System.Windows.Forms.ToolStripMenuItem();
-            this.IgnoreMessagesBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.LogTxt = new Tanji.Controls.RichLogBox();
             this.ViewOutgoingLbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.ViewIncomingLbl = new System.Windows.Forms.ToolStripStatusLabel();
@@ -68,8 +66,7 @@
             this.PacketLoggerMs.BackColor = System.Drawing.SystemColors.Control;
             this.PacketLoggerMs.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileBtn,
-            this.ViewBtn,
-            this.ToolsBtn});
+            this.ViewBtn});
             this.PacketLoggerMs.Location = new System.Drawing.Point(0, 0);
             this.PacketLoggerMs.Name = "PacketLoggerMs";
             this.PacketLoggerMs.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
@@ -270,20 +267,6 @@
             this.AlwaysOnTopBtn.Size = new System.Drawing.Size(196, 22);
             this.AlwaysOnTopBtn.Text = "Always On Top";
             // 
-            // ToolsBtn
-            // 
-            this.ToolsBtn.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.IgnoreMessagesBtn});
-            this.ToolsBtn.Name = "ToolsBtn";
-            this.ToolsBtn.Size = new System.Drawing.Size(46, 20);
-            this.ToolsBtn.Text = "Tools";
-            // 
-            // IgnoreMessagesBtn
-            // 
-            this.IgnoreMessagesBtn.Name = "IgnoreMessagesBtn";
-            this.IgnoreMessagesBtn.Size = new System.Drawing.Size(162, 22);
-            this.IgnoreMessagesBtn.Text = "Ignore Messages";
-            // 
             // LogTxt
             // 
             this.LogTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
@@ -385,7 +368,6 @@
         private System.Windows.Forms.MenuStrip PacketLoggerMs;
         private System.Windows.Forms.ToolStripMenuItem FileBtn;
         private System.Windows.Forms.ToolStripMenuItem ViewBtn;
-        private System.Windows.Forms.ToolStripMenuItem ToolsBtn;
         private System.Windows.Forms.ToolStripMenuItem FindBtn;
         private System.Windows.Forms.ToolStripMenuItem FindMessageBtn;
         private System.Windows.Forms.ToolStripSeparator FileSep1;
@@ -404,7 +386,6 @@
         private Controls.BindableToolStripMenuItem ViewIncomingBtn;
         private System.Windows.Forms.ToolStripSeparator ViewSep2;
         private Controls.BindableToolStripMenuItem AlwaysOnTopBtn;
-        private System.Windows.Forms.ToolStripMenuItem IgnoreMessagesBtn;
         private Controls.RichLogBox LogTxt;
         private System.Windows.Forms.ToolStripStatusLabel ViewOutgoingLbl;
         private System.Windows.Forms.ToolStripStatusLabel ViewIncomingLbl;
