@@ -21,7 +21,7 @@ namespace Tangine.Controls
             set
             {
                 _isReadOnly = value;
-                Box.ForeColor = (value ? Color.FromArgb(150, 150, 150) : Color.Black);
+                Box.ForeColor = value ? Color.FromArgb(150, 150, 150) : Color.Black;
             }
         }
 
@@ -81,6 +81,7 @@ namespace Tangine.Controls
             Box = new TextBox
             {
                 TabStop = true,
+                AutoSize = false,
                 Dock = DockStyle.Right,
                 ForeColor = Color.Black,
                 BackColor = Color.White,
@@ -116,7 +117,7 @@ namespace Tangine.Controls
             if (!string.IsNullOrWhiteSpace(Title))
             {
                 TextRenderer.DrawText(e.Graphics, Title, Font, _titleRect, ForeColor, TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter);
-                
+
                 using var lineColor = new Pen(Color.FromArgb(243, 63, 63));
                 e.Graphics.DrawLine(lineColor, _titleRect.Right, 0, _titleRect.Right, Height);
             }
