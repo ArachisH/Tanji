@@ -32,15 +32,13 @@
             this.AvatarPct = new System.Windows.Forms.PictureBox();
             this.AuthorsLbl = new System.Windows.Forms.Label();
             this.AuthorsCmb = new System.Windows.Forms.ComboBox();
-            this.Seperator1 = new System.Windows.Forms.Label();
             this.UninstallModuleBtn = new Tangine.Controls.TangineButton();
             this.InstallModuleBtn = new Tangine.Controls.TangineButton();
-            this.ModuleServerPortTxt = new Tangine.Controls.TangineLabelBox();
             this.ModulesLv = new Tangine.Controls.TangineListView();
-            this.NameCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.DescriptionCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.VersionCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.StateCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.NameCol = new System.Windows.Forms.ColumnHeader();
+            this.DescriptionCol = new System.Windows.Forms.ColumnHeader();
+            this.VersionCol = new System.Windows.Forms.ColumnHeader();
+            this.StateCol = new System.Windows.Forms.ColumnHeader();
             ((System.ComponentModel.ISupportInitialize)(this.AvatarPct)).BeginInit();
             this.SuspendLayout();
             // 
@@ -55,9 +53,9 @@
             this.AvatarPct.Dock = System.Windows.Forms.DockStyle.Left;
             this.AvatarPct.ErrorImage = null;
             this.AvatarPct.InitialImage = null;
-            this.AvatarPct.Location = new System.Drawing.Point(0, 212);
+            this.AvatarPct.Location = new System.Drawing.Point(0, 199);
             this.AvatarPct.Name = "AvatarPct";
-            this.AvatarPct.Size = new System.Drawing.Size(65, 103);
+            this.AvatarPct.Size = new System.Drawing.Size(65, 116);
             this.AvatarPct.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.AvatarPct.TabIndex = 1;
             this.AvatarPct.TabStop = false;
@@ -65,9 +63,9 @@
             // AuthorsLbl
             // 
             this.AuthorsLbl.AutoSize = true;
-            this.AuthorsLbl.Location = new System.Drawing.Point(68, 232);
+            this.AuthorsLbl.Location = new System.Drawing.Point(330, 209);
             this.AuthorsLbl.Name = "AuthorsLbl";
-            this.AuthorsLbl.Size = new System.Drawing.Size(49, 13);
+            this.AuthorsLbl.Size = new System.Drawing.Size(57, 15);
             this.AuthorsLbl.TabIndex = 9;
             this.AuthorsLbl.Text = "Author(s)";
             // 
@@ -76,48 +74,30 @@
             this.AuthorsCmb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.AuthorsCmb.Enabled = false;
             this.AuthorsCmb.FormattingEnabled = true;
-            this.AuthorsCmb.Location = new System.Drawing.Point(71, 248);
+            this.AuthorsCmb.ItemHeight = 15;
+            this.AuthorsCmb.Location = new System.Drawing.Point(330, 227);
             this.AuthorsCmb.Name = "AuthorsCmb";
-            this.AuthorsCmb.Size = new System.Drawing.Size(127, 21);
+            this.AuthorsCmb.Size = new System.Drawing.Size(173, 23);
             this.AuthorsCmb.TabIndex = 8;
-            // 
-            // Seperator1
-            // 
-            this.Seperator1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.Seperator1.Location = new System.Drawing.Point(71, 287);
-            this.Seperator1.Name = "Seperator1";
-            this.Seperator1.Size = new System.Drawing.Size(430, 1);
-            this.Seperator1.TabIndex = 18;
             // 
             // UninstallModuleBtn
             // 
             this.UninstallModuleBtn.Enabled = false;
-            this.UninstallModuleBtn.Location = new System.Drawing.Point(241, 291);
+            this.UninstallModuleBtn.Location = new System.Drawing.Point(330, 261);
             this.UninstallModuleBtn.Name = "UninstallModuleBtn";
-            this.UninstallModuleBtn.Size = new System.Drawing.Size(127, 20);
+            this.UninstallModuleBtn.Size = new System.Drawing.Size(173, 20);
             this.UninstallModuleBtn.TabIndex = 4;
             this.UninstallModuleBtn.Text = "Uninstall Module";
             this.UninstallModuleBtn.Click += new System.EventHandler(this.UninstallModuleBtn_Click);
             // 
             // InstallModuleBtn
             // 
-            this.InstallModuleBtn.Location = new System.Drawing.Point(374, 291);
+            this.InstallModuleBtn.Location = new System.Drawing.Point(330, 287);
             this.InstallModuleBtn.Name = "InstallModuleBtn";
-            this.InstallModuleBtn.Size = new System.Drawing.Size(127, 20);
+            this.InstallModuleBtn.Size = new System.Drawing.Size(173, 20);
             this.InstallModuleBtn.TabIndex = 3;
             this.InstallModuleBtn.Text = "Install Module";
             this.InstallModuleBtn.Click += new System.EventHandler(this.InstallModuleBtn_Click);
-            // 
-            // ModuleServerPortTxt
-            // 
-            this.ModuleServerPortTxt.IsReadOnly = true;
-            this.ModuleServerPortTxt.Location = new System.Drawing.Point(71, 291);
-            this.ModuleServerPortTxt.Name = "ModuleServerPortTxt";
-            this.ModuleServerPortTxt.Size = new System.Drawing.Size(164, 20);
-            this.ModuleServerPortTxt.TabIndex = 2;
-            this.ModuleServerPortTxt.Text = "8055";
-            this.ModuleServerPortTxt.TextPaddingWidth = 0;
-            this.ModuleServerPortTxt.Title = "Module Server Port";
             // 
             // ModulesLv
             // 
@@ -135,7 +115,7 @@
             this.ModulesLv.MultiSelect = false;
             this.ModulesLv.Name = "ModulesLv";
             this.ModulesLv.ShowItemToolTips = true;
-            this.ModulesLv.Size = new System.Drawing.Size(506, 212);
+            this.ModulesLv.Size = new System.Drawing.Size(506, 199);
             this.ModulesLv.TabIndex = 0;
             this.ModulesLv.UseCompatibleStateImageBehavior = false;
             this.ModulesLv.View = System.Windows.Forms.View.Details;
@@ -144,35 +124,35 @@
             // 
             // NameCol
             // 
+            this.NameCol.Name = "NameCol";
             this.NameCol.Text = "Name";
             this.NameCol.Width = 100;
             // 
             // DescriptionCol
             // 
+            this.DescriptionCol.Name = "DescriptionCol";
             this.DescriptionCol.Text = "Description";
             this.DescriptionCol.Width = 243;
             // 
             // VersionCol
             // 
+            this.VersionCol.Name = "VersionCol";
             this.VersionCol.Text = "Version";
             this.VersionCol.Width = 70;
             // 
             // StateCol
             // 
+            this.StateCol.Name = "StateCol";
             this.StateCol.Text = "State";
             this.StateCol.Width = 70;
             // 
             // ModulesPage
             // 
-            this.Font = Program.DefaultFont;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.Seperator1);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.AuthorsLbl);
             this.Controls.Add(this.AuthorsCmb);
             this.Controls.Add(this.UninstallModuleBtn);
             this.Controls.Add(this.InstallModuleBtn);
-            this.Controls.Add(this.ModuleServerPortTxt);
             this.Controls.Add(this.AvatarPct);
             this.Controls.Add(this.ModulesLv);
             this.Name = "ModulesPage";
@@ -191,11 +171,9 @@
         private System.Windows.Forms.ColumnHeader VersionCol;
         private System.Windows.Forms.ColumnHeader StateCol;
         private System.Windows.Forms.PictureBox AvatarPct;
-        private Tangine.Controls.TangineLabelBox ModuleServerPortTxt;
         private Tangine.Controls.TangineButton InstallModuleBtn;
         private Tangine.Controls.TangineButton UninstallModuleBtn;
         private System.Windows.Forms.Label AuthorsLbl;
         internal System.Windows.Forms.ComboBox AuthorsCmb;
-        private System.Windows.Forms.Label Seperator1;
     }
 }

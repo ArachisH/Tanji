@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using System.ComponentModel;
 
 using Tanji.Controls;
@@ -7,7 +8,7 @@ namespace Tanji.Services.Injection
 {
     [ToolboxItem(true)]
     [DesignerCategory("UserControl")]
-    public partial class ConstructerPage : ObservablePage
+    public partial class ConstructerPage : NotifiablePage
     {
         private ushort _identifier = 0;
         public ushort Identifier
@@ -52,9 +53,9 @@ namespace Tanji.Services.Injection
         {
             InitializeComponent();
 
-            Bind(IdentifierTxt, "Value", nameof(Identifier));
-            Bind(StructureTxt, "Text", nameof(Structure));
-            Bind(AmountTxt, "Value", nameof(Amount));
+            Bind(IDTxt, "Text", nameof(Identifier));
+            Bind(DismantledTxt, "Text", nameof(Structure));
+            Bind(AmountTxt, "Text", nameof(Amount));
         }
 
         private void ValueTxt_KeyDown(object sender, KeyEventArgs e)
@@ -67,17 +68,17 @@ namespace Tanji.Services.Injection
             
             Refresh();
         }
-        private void ValuesVw_ItemActivate(object sender, System.EventArgs e)
+        private void ValuesVw_ItemActivate(object sender, EventArgs e)
         {
             ValueTxt.Text = ValuesVw.SelectedItem.SubItems[1].Text;
             ValueTxt.Focus();
         }
 
-        private void WriteIntegerBtn_Click(object sender, System.EventArgs e)
+        private void WriteIntegerBtn_Click(object sender, EventArgs e)
         { }
-        private void WriteStringBtn_Click(object sender, System.EventArgs e)
+        private void WriteStringBtn_Click(object sender, EventArgs e)
         { }
-        private void WriteBooleanBtn_Click(object sender, System.EventArgs e)
+        private void WriteBooleanBtn_Click(object sender, EventArgs e)
         { }
     }
 }

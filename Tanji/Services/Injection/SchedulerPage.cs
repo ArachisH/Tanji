@@ -7,7 +7,7 @@ namespace Tanji.Services.Injection
 {
     [ToolboxItem(true)]
     [DesignerCategory("UserControl")]
-    public partial class SchedulerPage : ObservablePage, IHaltable
+    public partial class SchedulerPage : NotifiablePage, IHaltable
     {
         public SchedulerPage()
         {

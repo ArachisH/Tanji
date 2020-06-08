@@ -6,7 +6,7 @@ namespace Tanji.Services.Injection
 {
     [ToolboxItem(true)]
     [DesignerCategory("UserControl")]
-    public partial class InspectorPage : ObservablePage
+    public partial class InspectorPage : NotifiablePage
     {
         public InspectorPage()
         {

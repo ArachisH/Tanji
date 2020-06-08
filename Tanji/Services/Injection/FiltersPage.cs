@@ -2,14 +2,13 @@
 
 using Tanji.Network;
 using Tanji.Controls;
-
 using Sulakore.Network;
 
 namespace Tanji.Services.Injection
 {
     [ToolboxItem(true)]
     [DesignerCategory("UserControl")]
-    public partial class FiltersPage : ObservablePage, IHaltable, IReceiver
+    public partial class FiltersPage : NotifiablePage, IHaltable, IReceiver
     {
         public FiltersPage()
         {

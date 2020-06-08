@@ -32,11 +32,10 @@
             // 
             // InspectorPage
             // 
-            this.Font = Program.DefaultFont;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Name = "InspectorPage";
-            this.Size = new System.Drawing.Size(433, 278);
+            this.Size = new System.Drawing.Size(425, 278);
             this.ResumeLayout(false);
 
         }
