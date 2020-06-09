@@ -95,7 +95,7 @@ namespace Tanji.Services
 
         private Task InjectGameClientAsync(object sender, RequestInterceptedEventArgs e)
         {
-            if (!_wasBlacklisted && !e.Uri.Query.StartsWith("?" + _randomQuery)) return null;
+            if (!_wasBlacklisted && !e.Uri.Query.EndsWith("?" + _randomQuery)) return null;
 
             string clientPath = Path.GetFullPath($"Modified Clients/{e.Uri.Host}/{e.Uri.LocalPath}");
             if (_wasBlacklisted && !File.Exists(clientPath)) return null;
@@ -137,7 +137,7 @@ namespace Tanji.Services
         private async Task InterceptGameClientAsync(object sender, ResponseInterceptedEventArgs e)
         {
             if (e.ContentType != "application/x-shockwave-flash") return;
-            if (!_wasBlacklisted && !e.Uri.Query.StartsWith("?" + _randomQuery)) return;
+            if (!_wasBlacklisted && !e.Uri.Query.EndsWith("?" + _randomQuery)) return;
 
             byte[] payload = await e.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
 
@@ -418,11 +418,14 @@ namespace Tanji.Services
         }
         public void HandleIncoming(DataInterceptedEventArgs e)
         {
-            if (e.Step == 2 && Master.Game.IsPostShuffle)
+            if ((e.Step == 2 || e.Packet.Id == Master.In.CompleteDiffieHandshake) && Master.Game.IsPostShuffle)
             {
                 e.Packet.ReadUTF8();
-                IsIncomingEncrypted = e.Packet.ReadBoolean();
-                e.Packet.Replace(false, e.Packet.Position - 1);
+                if (e.Packet.ReadableBytes > 0)
+                {
+                    IsIncomingEncrypted = e.Packet.ReadBoolean();
+                    e.Packet.Replace(false, e.Packet.Position - 1);
+                }
             }
         }
         #endregion
