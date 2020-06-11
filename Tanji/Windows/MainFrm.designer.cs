@@ -222,11 +222,10 @@
             this.ConstructerPg.Amount = ((ushort)(1));
             this.ConstructerPg.BackColor = System.Drawing.Color.White;
             this.ConstructerPg.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ConstructerPg.Identifier = ((ushort)(0));
+            this.ConstructerPg.Id = ((ushort)(1));
             this.ConstructerPg.Location = new System.Drawing.Point(0, 0);
             this.ConstructerPg.Name = "ConstructerPg";
             this.ConstructerPg.Size = new System.Drawing.Size(425, 278);
-            this.ConstructerPg.Structure = "{id:0}";
             this.ConstructerPg.TabIndex = 0;
             this.ConstructerPg.TabStop = false;
             // 
