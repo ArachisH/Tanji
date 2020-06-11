@@ -25,11 +25,21 @@ namespace Tangine.Controls
             }
         }
 
+        [DefaultValue(false)]
+        public bool IsNumbersOnly { get; set; }
+
         [DefaultValue(null)]
         public override string Text
         {
             get => Box.Text;
             set => Box.Text = value;
+        }
+
+        [DefaultValue(32767)]
+        public int MaxLength
+        {
+            get => Box.MaxLength;
+            set => Box.MaxLength = value;
         }
 
         private int _textPaddingWidth = 10;
@@ -88,6 +98,7 @@ namespace Tangine.Controls
                 TextAlign = HorizontalAlignment.Center
             };
             Box.KeyDown += Box_KeyDown;
+            Box.KeyPress += Box_KeyPress;
             Box.TextChanged += Box_TextChanged;
             Controls.Add(Box);
         }
@@ -104,6 +115,13 @@ namespace Tangine.Controls
         private void Box_TextChanged(object sender, EventArgs e)
         {
             OnTextChanged(e);
+        }
+        private void Box_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (IsNumbersOnly)
+            {
+                e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
+            }
         }
 
         protected override void OnGotFocus(EventArgs e)
@@ -142,6 +160,7 @@ namespace Tangine.Controls
             if (disposing)
             {
                 Box.KeyDown -= Box_KeyDown;
+                Box.KeyPress -= Box_KeyPress;
                 Box.TextChanged -= Box_TextChanged;
                 Box.Dispose();
             }
