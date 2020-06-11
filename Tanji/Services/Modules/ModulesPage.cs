@@ -163,7 +163,7 @@ namespace Tanji.Services.Modules
             {
                 var module = (ModuleInfo)e.NewItems[0];
 
-                ListViewItem item = ModulesLv.AddItem(module.Name, module.Description, module.Version, module.CurrentState);
+                ListViewItem item = ModulesLv.AddItem(module.Name, module.Description, module.Version.ToString(), module.CurrentState);
                 module.PhysicalItem = item;
 
                 item.Tag = module;
