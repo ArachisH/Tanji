@@ -48,7 +48,7 @@ namespace Tangine.Controls
         public bool LockColumnWidth { get; set; }
 
         [Browsable(false)]
-        public bool HasSelectedItem => (SelectedItems.Count > 0);
+        public bool HasSelectedItem => SelectedItems.Count > 0;
 
         [Browsable(false)]
         public ListViewItem SelectedItem =>
@@ -179,15 +179,15 @@ namespace Tangine.Controls
             EnsureVisible(index + 4 >= Items.Count ? Items.Count - 1 : index + 4);
         }
 
-        public void AddFocusedItem(ListViewItem item)
+        public void AddSelectedItem(ListViewItem item)
         {
             AddItem(item);
             item.Selected = true;
             OnItemSelectionStateChanged(EventArgs.Empty);
         }
-        public ListViewItem AddFocusedItem(params object[] items)
+        public ListViewItem AddSelectedItem(params string[] subItems)
         {
-            ListViewItem item = AddItem(items);
+            ListViewItem item = AddItem(subItems);
             item.Selected = true;
 
             OnItemSelectionStateChanged(EventArgs.Empty);
@@ -196,18 +196,13 @@ namespace Tangine.Controls
 
         public void AddItem(ListViewItem item)
         {
-            Focus();
             Items.Add(item);
             item.EnsureVisible();
         }
-        public ListViewItem AddItem(params object[] items)
+        public ListViewItem AddItem(params string[] subItems)
         {
-            string[] stringItems = items
-                .Select(i => i.ToString()).ToArray();
-
-            var item = new ListViewItem(stringItems);
+            var item = new ListViewItem(subItems);
             AddItem(item);
-
             return item;
         }
 
@@ -223,7 +218,6 @@ namespace Tangine.Controls
             }
             base.OnKeyDown(e);
         }
-
         protected override void OnMouseDown(MouseEventArgs e)
         {
             _expectedSelection = GetItemAt(e.X, e.Y);
