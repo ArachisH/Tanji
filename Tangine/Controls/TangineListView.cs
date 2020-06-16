@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
@@ -74,10 +74,35 @@ namespace Tangine.Controls
             }
         }
 
+        private int _fillColumnIndex = -1;
+        [DefaultValue(-1)]
+        public int FillColumnIndex
+        {
+            get => _fillColumnIndex;
+            set
+            {
+                _fillColumnIndex = value;
+                Invalidate();
+            }
+        }
+
+        private bool _isAutoResizingColumns = true;
+        [DefaultValue(true)]
+        public bool IsAutoResizingColumns
+        {
+            get => _isAutoResizingColumns;
+            set
+            {
+                _isAutoResizingColumns = value;
+                Invalidate();
+            }
+        }
+
         public TangineListView()
         {
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 
+            OwnerDraw = true;
             GridLines = true;
             View = View.Details;
             MultiSelect = false;
@@ -101,24 +126,32 @@ namespace Tangine.Controls
             {
                 BeginUpdate();
                 foreach (ListViewItem item in items)
-                    RemoveItem(item, false);
+                {
+                    RemoveItem(item, false, false);
+                }
             }
-            finally { EndUpdate(); }
+            finally
+            {
+                EndUpdate();
+                AutoResizeColumn();
+            }
         }
 
         public void RemoveSelectedItem()
         {
             if (HasSelectedItem)
+            {
                 RemoveItem(SelectedItem, true);
+            }
         }
         public void RemoveItem(ListViewItem item)
         {
             RemoveItem(item, true);
         }
-        protected virtual void RemoveItem(ListViewItem item, bool selectNext)
+        protected virtual void RemoveItem(ListViewItem item, bool selectNext, bool resizeColumns = true)
         {
             int index = item.Index;
-            selectNext = (Items.Count - 1 > 0 && selectNext);
+            selectNext = Items.Count - 1 > 0 && selectNext;
 
             Items.RemoveAt(index);
             if (selectNext)
@@ -130,13 +163,20 @@ namespace Tangine.Controls
                 item.Selected = true;
                 EnsureVisible(item.Index);
             }
+
+            if (resizeColumns)
+            {
+                AutoResizeColumn();
+            }
             OnItemSelectionStateChanged(EventArgs.Empty);
         }
 
         public void MoveSelectedItemUp()
         {
             if (HasSelectedItem)
+            {
                 MoveItemUp(SelectedItem);
+            }
         }
         protected virtual void MoveItemUp(ListViewItem item)
         {
@@ -198,6 +238,7 @@ namespace Tangine.Controls
         {
             Items.Add(item);
             item.EnsureVisible();
+            AutoResizeColumn();
         }
         public ListViewItem AddItem(params string[] subItems)
         {
@@ -206,6 +247,25 @@ namespace Tangine.Controls
             return item;
         }
 
+        private void AutoResizeColumn()
+        {
+            if (DesignMode || !IsAutoResizingColumns || Columns.Count == 0) return;
+
+            int totalWidth = 0;
+            for (int i = 0; i < Columns.Count; i++)
+            {
+                totalWidth += Columns[i].Width;
+            }
+
+            int difference = ClientSize.Width - totalWidth;
+            Columns[FillColumnIndex == -1 ? ^1 : FillColumnIndex].Width += difference;
+        }
+
+        protected override void OnCreateControl()
+        {
+            AutoResizeColumn();
+            base.OnCreateControl();
+        }
         protected override void OnKeyDown(KeyEventArgs e)
         {
             if (SelectedItem != null)
@@ -239,6 +299,39 @@ namespace Tangine.Controls
                 e.NewWidth = Columns[e.ColumnIndex].Width;
             }
             base.OnColumnWidthChanging(e);
+        }
+
+        protected override void OnDrawItem(DrawListViewItemEventArgs e)
+        {
+            e.DrawDefault = true;
+            base.OnDrawItem(e);
+        }
+        protected override void OnDrawSubItem(DrawListViewSubItemEventArgs e)
+        {
+            e.DrawDefault = true;
+            base.OnDrawSubItem(e);
+        }
+        protected override void OnDrawColumnHeader(DrawListViewColumnHeaderEventArgs e)
+        {
+            e.Graphics.FillRectangle(Brushes.White, e.Bounds);
+            e.Graphics.DrawLine(SystemPens.GradientInactiveCaption, e.Bounds.X, e.Bounds.Bottom - 1, e.Bounds.Right, e.Bounds.Bottom - 1);
+
+            if (e.ColumnIndex > 0)
+            {
+                e.Graphics.DrawLine(SystemPens.GradientInactiveCaption, e.Bounds.X, 0, e.Bounds.X, e.Bounds.Bottom);
+            }
+
+            TextFormatFlags format = Columns[e.ColumnIndex].TextAlign switch
+            {
+                HorizontalAlignment.Left => TextFormatFlags.Left,
+                HorizontalAlignment.Right => TextFormatFlags.Right,
+                HorizontalAlignment.Center => TextFormatFlags.HorizontalCenter,
+                _ => TextFormatFlags.Default
+            };
+            format |= TextFormatFlags.VerticalCenter;
+
+            TextRenderer.DrawText(e.Graphics, e.Header.Text, Font, e.Bounds, Color.Black, format);
+            base.OnDrawColumnHeader(e);
         }
     }
 }
