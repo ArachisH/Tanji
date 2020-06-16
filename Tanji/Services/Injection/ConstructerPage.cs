@@ -3,7 +3,6 @@ using System.Windows.Forms;
 using System.ComponentModel;
 
 using Tanji.Controls;
-using System.DirectoryServices.ActiveDirectory;
 
 namespace Tanji.Services.Injection
 {
@@ -60,7 +59,7 @@ namespace Tanji.Services.Injection
 
         private void ClearBtn_Click(object sender, EventArgs e)
         {
-            ValuesVw.Items.Clear();
+            ValuesVw.ClearItems();
             Dismantle();
         }
         private void WriteIntegerBtn_Click(object sender, EventArgs e)
@@ -83,7 +82,7 @@ namespace Tanji.Services.Injection
         }
         private void RemoveBtn_Click(object sender, EventArgs e)
         {
-            ValuesVw.SelectedItem.Remove();
+            ValuesVw.RemoveSelectedItem();
             Dismantle();
         }
         private void MoveUpBtn_Click(object sender, EventArgs e)
