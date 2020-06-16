@@ -107,6 +107,7 @@
             this.VersionCol,
             this.StateCol});
             this.ModulesLv.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ModulesLv.FillColumnIndex = 1;
             this.ModulesLv.FullRowSelect = true;
             this.ModulesLv.GridLines = true;
             this.ModulesLv.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
@@ -114,6 +115,7 @@
             this.ModulesLv.Location = new System.Drawing.Point(0, 0);
             this.ModulesLv.MultiSelect = false;
             this.ModulesLv.Name = "ModulesLv";
+            this.ModulesLv.OwnerDraw = true;
             this.ModulesLv.ShowItemToolTips = true;
             this.ModulesLv.Size = new System.Drawing.Size(506, 199);
             this.ModulesLv.TabIndex = 0;
@@ -126,25 +128,25 @@
             // 
             this.NameCol.Name = "NameCol";
             this.NameCol.Text = "Name";
-            this.NameCol.Width = 100;
+            this.NameCol.Width = 200;
             // 
             // DescriptionCol
             // 
             this.DescriptionCol.Name = "DescriptionCol";
             this.DescriptionCol.Text = "Description";
-            this.DescriptionCol.Width = 243;
+            this.DescriptionCol.Width = 171;
             // 
             // VersionCol
             // 
             this.VersionCol.Name = "VersionCol";
             this.VersionCol.Text = "Version";
-            this.VersionCol.Width = 70;
+            this.VersionCol.Width = 66;
             // 
             // StateCol
             // 
             this.StateCol.Name = "StateCol";
             this.StateCol.Text = "State";
-            this.StateCol.Width = 70;
+            this.StateCol.Width = 65;
             // 
             // ModulesPage
             // 
