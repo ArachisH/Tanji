@@ -228,6 +228,7 @@
             this.ConstructerPg.Size = new System.Drawing.Size(425, 278);
             this.ConstructerPg.TabIndex = 0;
             this.ConstructerPg.TabStop = false;
+            this.ConstructerPg.Value = "";
             // 
             // SchedulerTab
             // 
@@ -242,12 +243,17 @@
             // SchedulerPg
             // 
             this.SchedulerPg.BackColor = System.Drawing.Color.White;
+            this.SchedulerPg.Cycles = 1;
             this.SchedulerPg.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SchedulerPg.HotkeyText = "";
+            this.SchedulerPg.Interval = 250;
             this.SchedulerPg.Location = new System.Drawing.Point(0, 0);
             this.SchedulerPg.Name = "SchedulerPg";
+            this.SchedulerPg.PacketText = "";
             this.SchedulerPg.Size = new System.Drawing.Size(425, 278);
-            this.SchedulerPg.TabIndex = 0;
+            this.SchedulerPg.TabIndex = 1;
             this.SchedulerPg.TabStop = false;
+            this.SchedulerPg.ToServer = true;
             // 
             // InspectorTab
             // 
