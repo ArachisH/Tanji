@@ -152,6 +152,7 @@
             this.ValuesVw.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.ValuesVw.MultiSelect = false;
             this.ValuesVw.Name = "ValuesVw";
+            this.ValuesVw.OwnerDraw = true;
             this.ValuesVw.ShowItemToolTips = true;
             this.ValuesVw.Size = new System.Drawing.Size(419, 169);
             this.ValuesVw.TabIndex = 0;
@@ -165,13 +166,13 @@
             // 
             this.TypeCol.Name = "TypeCol";
             this.TypeCol.Text = "Type";
-            this.TypeCol.Width = 199;
+            this.TypeCol.Width = 82;
             // 
             // ValueCol
             // 
             this.ValueCol.Name = "ValueCol";
             this.ValueCol.Text = "Value";
-            this.ValueCol.Width = 199;
+            this.ValueCol.Width = 333;
             // 
             // DismantledTxt
             // 
