@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Threading;
 using System.Windows.Forms;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 using Tanji.Network;
 using Tanji.Controls;
+
+using Sulakore.Network.Protocol;
 
 namespace Tanji.Services.Injection
 {
@@ -44,17 +48,6 @@ namespace Tanji.Services.Injection
             }
         }
 
-        private string _hotkeyText = string.Empty;
-        public string HotkeyText
-        {
-            get => _hotkeyText;
-            set
-            {
-                _hotkeyText = value;
-                RaiseOnPropertyChanged();
-            }
-        }
-
         private int _cycles = 1;
         public int Cycles
         {
@@ -66,6 +59,20 @@ namespace Tanji.Services.Injection
             }
         }
 
+        private string _hotkeysText = string.Empty;
+        public string HotkeysText
+        {
+            get => _hotkeysText;
+            set
+            {
+                _hotkeysText = value;
+                RaiseOnPropertyChanged();
+            }
+        }
+
+        [Browsable(false)]
+        public Keys Hotkeys { get; private set; }
+
         public SchedulerPage()
         {
             InitializeComponent();
@@ -73,7 +80,7 @@ namespace Tanji.Services.Injection
             Bind(PacketTxt, "Text", nameof(PacketText));
             Bind(IntervalTxt, "Text", nameof(Interval));
             Bind(ToServerChbx, "Checked", nameof(ToServer));
-            Bind(HotkeyTxt, "Text", nameof(HotkeyText));
+            Bind(HotkeyTxt, "Text", nameof(HotkeysText));
             Bind(CyclesTxt, "Text", nameof(Cycles));
 
             if (Master != null)
@@ -84,13 +91,14 @@ namespace Tanji.Services.Injection
 
         private void HotkeyTxt_KeyDown(object sender, KeyEventArgs e)
         {
-            _hotkeyText = string.Empty;
+            _hotkeysText = string.Empty;
             if (e.Modifiers != Keys.None)
             {
-                _hotkeyText = e.Modifiers + "+";
+                _hotkeysText = e.Modifiers + "+";
             }
 
-            HotkeyText = _hotkeyText += e.KeyCode;
+            Hotkeys = e.KeyData;
+            HotkeysText = _hotkeysText += e.KeyCode;
 
             e.Handled = true;
             e.SuppressKeyPress = true;
@@ -102,10 +110,36 @@ namespace Tanji.Services.Injection
         {
             SchedulesVw.ClearItems();
         }
-        private void CreateBtn_Click(object sender, EventArgs e)
-        { }
         private void RemoveBtn_Click(object sender, EventArgs e)
         { }
+        private void CreateBtn_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(PacketText)) return;
+
+            HPacket packet = Master.ConvertToPacket(PacketText, ToServer);
+            if (packet == null || Master.NotifyIfCorrupt(packet)) return;
+
+            ListViewItem item = SchedulesVw.AddItem(packet.ToString(), ToServer ? "Server" : "Client", Interval.ToString(), Cycles.ToString(), HotkeysText);
+            item.Tag = new HSchedule(packet, ToServer, Interval, Cycles, Hotkeys);
+        }
+
+        private void SchedulesVw_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            // Item has been toggled internally, do not handle this event.
+            if (Monitor.IsEntered(e.Item)) return;
+
+            GetSchedule(e.Item)?.ToggleAsync(e.Item.Checked)
+                .ContinueWith(t =>
+                {
+                    if (t == Task.CompletedTask) return;
+                    lock (e.Item)
+                    {
+                        e.Item.Checked = false;
+                    } 
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+        private HSchedule GetSchedule(ListViewItem item) => (HSchedule)item?.Tag;
 
         #region IHaltable Implementation
         public void Halt()

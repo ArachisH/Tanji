@@ -59,13 +59,13 @@
             // CyclesTxt
             // 
             this.CyclesTxt.IsNumbersOnly = true;
-            this.CyclesTxt.Location = new System.Drawing.Point(158, 255);
-            this.CyclesTxt.MaxLength = 5;
+            this.CyclesTxt.Location = new System.Drawing.Point(3, 255);
+            this.CyclesTxt.MaxLength = 2;
             this.CyclesTxt.Name = "CyclesTxt";
             this.CyclesTxt.Size = new System.Drawing.Size(72, 20);
             this.CyclesTxt.TabIndex = 0;
-            this.CyclesTxt.Text = "1";
-            this.CyclesTxt.TextPaddingWidth = 0;
+            this.CyclesTxt.Text = "0";
+            this.CyclesTxt.TextPaddingWidth = 1;
             this.CyclesTxt.Title = "Cycles";
             // 
             // PacketTxt
@@ -75,18 +75,18 @@
             this.PacketTxt.Size = new System.Drawing.Size(241, 20);
             this.PacketTxt.TabIndex = 1;
             this.PacketTxt.Text = "";
-            this.PacketTxt.TextPaddingWidth = 3;
+            this.PacketTxt.TextPaddingWidth = 0;
             this.PacketTxt.Title = "Packet";
             // 
             // HotkeyTxt
             // 
-            this.HotkeyTxt.Location = new System.Drawing.Point(3, 255);
+            this.HotkeyTxt.Location = new System.Drawing.Point(81, 255);
             this.HotkeyTxt.Name = "HotkeyTxt";
             this.HotkeyTxt.Size = new System.Drawing.Size(149, 20);
             this.HotkeyTxt.TabIndex = 1;
-            this.HotkeyTxt.Text = "Shift, Control+A";
+            this.HotkeyTxt.Text = "";
             this.HotkeyTxt.TextPaddingWidth = 0;
-            this.HotkeyTxt.Title = "Hotkey";
+            this.HotkeyTxt.Title = "Hotkeys";
             this.HotkeyTxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HotkeyTxt_KeyDown);
             // 
             // ToServerChbx
@@ -149,6 +149,7 @@
             this.SchedulesVw.TabIndex = 5;
             this.SchedulesVw.UseCompatibleStateImageBehavior = false;
             this.SchedulesVw.View = System.Windows.Forms.View.Details;
+            this.SchedulesVw.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.SchedulesVw_ItemChecked);
             // 
             // PacketCol
             // 
@@ -184,7 +185,6 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.SchedulesVw);
             this.Controls.Add(this.ClearBtn);
             this.Controls.Add(this.RemoveBtn);
             this.Controls.Add(this.CreateBtn);
@@ -193,6 +193,7 @@
             this.Controls.Add(this.CyclesTxt);
             this.Controls.Add(this.IntervalTxt);
             this.Controls.Add(this.ToServerChbx);
+            this.Controls.Add(this.SchedulesVw);
             this.Name = "SchedulerPage";
             this.Size = new System.Drawing.Size(425, 278);
             this.ResumeLayout(false);
