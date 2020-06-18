@@ -243,9 +243,9 @@
             // SchedulerPg
             // 
             this.SchedulerPg.BackColor = System.Drawing.Color.White;
-            this.SchedulerPg.Cycles = 1;
+            this.SchedulerPg.Cycles = 0;
             this.SchedulerPg.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SchedulerPg.HotkeyText = "";
+            this.SchedulerPg.HotkeysText = "";
             this.SchedulerPg.Interval = 250;
             this.SchedulerPg.Location = new System.Drawing.Point(0, 0);
             this.SchedulerPg.Name = "SchedulerPg";

@@ -14,6 +14,7 @@ using Sulakore.Modules;
 using Sulakore.Network;
 using Sulakore.Habbo.Web;
 using Sulakore.Habbo.Messages;
+using Sulakore.Network.Protocol;
 
 using Eavesdrop;
 
@@ -76,6 +77,7 @@ namespace Tanji
             _hotkeyActions = new Dictionary<Keys, Action>();
 
             GameData = new HGameData();
+            Config = new TConfiguration();
 
             Connection = new HConnection();
             Connection.Connected += Connected;
@@ -85,8 +87,6 @@ namespace Tanji
 
             Hook = new KeyboardHook();
             Hook.HotkeyPressed += HotkeyPressed;
-
-            Config = new TConfiguration();
 
             Eavesdropper.Terminate();
             Eavesdropper.Certifier = new CertificateManager("Tanji", "Tanji Certificate Authority");
@@ -127,6 +127,45 @@ namespace Tanji
                 throw new ArgumentException("This receiver has already been added: " + receiver);
             }
             else _receivers.Add(rank, receiver);
+        }
+
+        public bool NotifyIfCorrupt(HPacket packet)
+        {
+            // Pre-shuffle currently not supported for corruption checking
+            if (packet.Format.Name.StartsWith("WEDGIE")) return false;
+
+            byte[] data = packet.ToBytes();
+            string alertMsg = "The packet's head contains an invalid length value that does not match the actual size of the data present.";
+
+            if (data.Length < 6)
+            {
+                alertMsg += $"\r\n\r\nYou're missing {6 - data.Length:#,##0} byte(s).";
+            }
+            else
+            {
+                int length = data.Length > 0 ?
+                    HFormat.EvaWire.ReadInt32(data, 0) : 0;
+
+                int expectedLength = data.Length - 4;
+                bool bytesMissing = length > expectedLength;
+                int difference = Math.Abs(expectedLength - length);
+                if (difference == 0) return false;
+
+                alertMsg += $"\r\n\r\nYou're {difference:#,##0} byte(s) too {(bytesMissing ? "short" : "big")}.";
+            }
+            MessageBox.Show(alertMsg, "Tanji - Alert!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            return true;
+        }
+        public HPacket ConvertToPacket(string signature, bool toServer)
+        {
+            HFormat format = HFormat.EvaWire;
+            if (IsConnected)
+            {
+                format = toServer ? Connection.Remote.OutFormat : Connection.Local.OutFormat;
+            }
+
+            byte[] data = HPacket.ToBytes(format, signature);
+            return format.CreatePacket(data);
         }
 
         private void Disconnected(object sender, EventArgs e)
