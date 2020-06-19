@@ -10,7 +10,16 @@ namespace Tangine.Controls
     public class TangineListView : ListView
     {
         private bool _lastSelectionState;
-        private ListViewItem _previouslySelectedItem, _expectedSelection;
+        private ListViewItem _previouslySelectedItem, _expectedSelection, _grabbedItem;
+
+        /// <summary>
+        /// Occurs when the user finishes dragging an item.
+        /// </summary>
+        public event EventHandler ItemDragged;
+        protected virtual void OnItemDragged(EventArgs e)
+        {
+            ItemDragged?.Invoke(this, e);
+        }
 
         /// <summary>
         /// Occurs when an item's selection state differs from the previous state.
@@ -260,11 +269,59 @@ namespace Tangine.Controls
             int difference = ClientSize.Width - totalWidth;
             Columns[FillColumnIndex == -1 ? ^1 : FillColumnIndex].Width += difference;
         }
+        private void RemoveFocusRectangles()
+        {
+            var msg = Message.Create(Handle, 0x127, new IntPtr(0x10001), new IntPtr(0));
+            WndProc(ref msg);
+        }
+
+        protected override void OnMouseLeave(EventArgs e)
+        {
+            if (!ClientRectangle.Contains(PointToClient(MousePosition)))
+            {
+                _grabbedItem = null;
+            }
+            base.OnMouseLeave(e);
+        }
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            if (_grabbedItem != null)
+            {
+                ListViewItem pushedItem = GetItemAt(e.X, e.Y);
+                if (pushedItem != null)
+                {
+                    int newIndex = pushedItem.Index;
+
+                    BeginUpdate();
+                    Items.Remove(_grabbedItem);
+                    Items.Insert(newIndex, _grabbedItem);
+                    EndUpdate();
+
+                    _grabbedItem.Selected = true;
+                    OnItemSelectionStateChanged(EventArgs.Empty);
+                    _grabbedItem = null;
+
+                    EnsureVisible(newIndex);
+                    OnItemDragged(EventArgs.Empty);
+                }
+            }
+            base.OnMouseUp(e);
+        }
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            _expectedSelection = GetItemAt(e.X, e.Y);
+            base.OnMouseDown(e);
+        }
 
         protected override void OnCreateControl()
         {
             AutoResizeColumn();
             base.OnCreateControl();
+        }
+        protected override void OnEnter(EventArgs e)
+        {
+            base.OnEnter(e);
+            RemoveFocusRectangles();
         }
         protected override void OnKeyDown(KeyEventArgs e)
         {
@@ -278,11 +335,6 @@ namespace Tangine.Controls
             }
             base.OnKeyDown(e);
         }
-        protected override void OnMouseDown(MouseEventArgs e)
-        {
-            _expectedSelection = GetItemAt(e.X, e.Y);
-            base.OnMouseDown(e);
-        }
         protected override void OnSelectedIndexChanged(EventArgs e)
         {
             if (_expectedSelection == SelectedItem || SelectedItem != null)
@@ -290,6 +342,7 @@ namespace Tangine.Controls
                 OnItemSelectionStateChanged(EventArgs.Empty);
             }
             base.OnSelectedIndexChanged(e);
+            RemoveFocusRectangles();
         }
         protected override void OnColumnWidthChanging(ColumnWidthChangingEventArgs e)
         {
@@ -301,6 +354,25 @@ namespace Tangine.Controls
             base.OnColumnWidthChanging(e);
         }
 
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            if (_grabbedItem != null)
+            {
+                ListViewItem itemToPush = HitTest(e.Location).Item;
+                if (itemToPush != null)
+                {
+                    InsertionMark.Index = itemToPush.Index;
+                    InsertionMark.Color = Color.FromArgb(243, 63, 63);
+                }
+            }
+            base.OnMouseMove(e);
+        }
+
+        protected override void OnItemDrag(ItemDragEventArgs e)
+        {
+            _grabbedItem = (ListViewItem)e.Item;
+            base.OnItemDrag(e);
+        }
         protected override void OnDrawItem(DrawListViewItemEventArgs e)
         {
             e.DrawDefault = true;
