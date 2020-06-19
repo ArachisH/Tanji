@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using Tanji.Network;
@@ -155,6 +156,11 @@ namespace Tanji
             }
             MessageBox.Show(alertMsg, "Tanji - Alert!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             return true;
+        }
+        public Task<int> SendAsync(HPacket packet, bool toServer)
+        {
+            HNode node = toServer ? Connection.Remote : Connection.Local;
+            return node.SendPacketAsync(packet);
         }
         public HPacket ConvertToPacket(string signature, bool toServer)
         {
