@@ -128,6 +128,15 @@ namespace Tanji.Services.Injection
             // Item has been toggled internally, do not handle this event.
             if (Monitor.IsEntered(e.Item)) return;
 
+            if (e.Item.Checked && !Program.Master.IsConnected)
+            {
+                lock (e.Item)
+                {
+                    e.Item.Checked = false;
+                }
+                return;
+            }
+
             GetSchedule(e.Item)?.ToggleAsync(e.Item.Checked)
                 .ContinueWith(t =>
                 {
@@ -135,7 +144,7 @@ namespace Tanji.Services.Injection
                     lock (e.Item)
                     {
                         e.Item.Checked = false;
-                    } 
+                    }
                 }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
@@ -143,7 +152,13 @@ namespace Tanji.Services.Injection
 
         #region IHaltable Implementation
         public void Halt()
-        { }
+        {
+            foreach (ListViewItem item in SchedulesVw.Items)
+            {
+                HSchedule schedule = GetSchedule(item);
+                schedule.ToggleAsync(false);
+            }
+        }
         public void Restore(ConnectedEventArgs e)
         { }
         #endregion
