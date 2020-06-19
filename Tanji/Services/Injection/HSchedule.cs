@@ -47,11 +47,13 @@ namespace Tanji.Services.Injection
             {
                 try
                 {
+                    await Program.Master.SendAsync(Packet, ToServer).ConfigureAwait(false);
+                    if (--cycles == 0) break;
                     await Task.Delay(Interval, cancelSource.Token).ConfigureAwait(false);
                 }
                 catch (TaskCanceledException) { /* Schedule was cancelled.  */ }
             }
-            while ((Cycles == 0 || --cycles > 0) && !cancelSource.IsCancellationRequested);
+            while ((Cycles == 0 || cycles > 0) && !cancelSource.IsCancellationRequested);
         }
     }
 }
