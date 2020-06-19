@@ -109,6 +109,8 @@ namespace Tanji.Services.Injection
             Value = ValuesVw.SelectedItem.SubItems[1].Text;
             ValueTxt.Focus();
         }
+        private void ValuesVw_ItemDragged(object sender, EventArgs e) => Dismantle();
+        private void ValuesVw_ItemChecked(object sender, ItemCheckedEventArgs e) => Dismantle();
         private void ValuesVw_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             RemoveBtn.Enabled = ValuesVw.HasSelectedItem;
@@ -123,6 +125,7 @@ namespace Tanji.Services.Injection
             {
                 foreach (ListViewItem item in ValuesVw.Items)
                 {
+                    if (!item.Checked) continue;
                     dismantled += $"{{{char.ToLower(item.Text[0])}:{item.Tag}}}";
                 }
             }
@@ -141,12 +144,21 @@ namespace Tanji.Services.Injection
                 var items = new ListViewItem[Amount];
                 for (int i = 0; i < Amount; i++)
                 {
-                    items[i] = new ListViewItem(subItems) { Tag = value };
+                    items[i] = new ListViewItem(subItems)
+                    {
+                        Tag = value,
+                        Checked = true
+                    };
                 }
                 ValuesVw.Items.AddRange(items);
                 ValuesVw.EnsureVisible(ValuesVw.Items.Count - 1);
             }
-            else ValuesVw.AddItem(typeName, value.ToString()).Tag = value;
+            else
+            {
+                ListViewItem item = ValuesVw.AddItem(typeName, value.ToString());
+                item.Tag = value;
+                item.Checked = true;
+            }
 
             Dismantle();
             ValueTxt.Box.AutoCompleteCustomSource.Add(value.ToString());
