@@ -121,6 +121,7 @@ namespace Tangine.Controls
             ShowItemToolTips = true;
             UseCompatibleStateImageBehavior = false;
             HeaderStyle = ColumnHeaderStyle.Nonclickable;
+            InsertionMark.Color = Color.FromArgb(243, 63, 63);
         }
 
         public void ClearItems()
@@ -280,6 +281,7 @@ namespace Tangine.Controls
             if (!ClientRectangle.Contains(PointToClient(MousePosition)))
             {
                 _grabbedItem = null;
+                InsertionMark.Index = -1;
             }
             base.OnMouseLeave(e);
         }
@@ -311,6 +313,14 @@ namespace Tangine.Controls
         {
             _expectedSelection = GetItemAt(e.X, e.Y);
             base.OnMouseDown(e);
+        }
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            if (_grabbedItem != null)
+            {
+                InsertionMark.Index = InsertionMark.NearestIndex(e.Location);
+            }
+            base.OnMouseMove(e);
         }
 
         protected override void OnCreateControl()
@@ -352,20 +362,6 @@ namespace Tangine.Controls
                 e.NewWidth = Columns[e.ColumnIndex].Width;
             }
             base.OnColumnWidthChanging(e);
-        }
-
-        protected override void OnMouseMove(MouseEventArgs e)
-        {
-            if (_grabbedItem != null)
-            {
-                ListViewItem itemToPush = HitTest(e.Location).Item;
-                if (itemToPush != null)
-                {
-                    InsertionMark.Index = itemToPush.Index;
-                    InsertionMark.Color = Color.FromArgb(243, 63, 63);
-                }
-            }
-            base.OnMouseMove(e);
         }
 
         protected override void OnItemDrag(ItemDragEventArgs e)
