@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using System.ComponentModel;
@@ -83,10 +84,46 @@ namespace Tanji.Services.Injection
             Bind(HotkeyTxt, "Text", nameof(HotkeysText));
             Bind(CyclesTxt, "Text", nameof(Cycles));
 
+            ChainToPreviousChbx.CheckedChanged += ChainToPreviousChbx_CheckedChanged;
+
             if (Master != null)
             {
                 Master.Hook.HotkeyPressed += Hook_HotkeyPressed;
             }
+        }
+
+        private void SchedulerCxm_Opening(object sender, CancelEventArgs e)
+        {
+            lock (ChainToPreviousChbx)
+            {
+                ChainToPreviousChbx.Enabled = SchedulesVw.HasSelectedItem && SchedulesVw.SelectedItem.Index != 0;
+                ChainToPreviousChbx.Checked = GetSchedule(SchedulesVw.SelectedItem)?.IsChainLink ?? false;
+            }
+        }
+        private void ChainToPreviousChbx_CheckedChanged(object sender, EventArgs e)
+        {
+            if (Monitor.IsEntered(ChainToPreviousChbx)) return;
+
+            HSchedule schedule = GetSchedule(SchedulesVw.SelectedItem);
+            for (int i = SchedulesVw.SelectedItem.Index - 1; i >= 0; i--)
+            {
+                HSchedule previousSchedule = GetSchedule(SchedulesVw.Items[i]);
+                if (previousSchedule.IsChainLink) continue;
+
+                // If 'IsChainLink' is true, the 'Checked' event will only change the 'IsLinkActivated' property, and will not run independently of parent link.
+                if (ChainToPreviousChbx.Checked)
+                {
+                    previousSchedule.AddToChain(schedule);
+                    SchedulesVw.SelectedItem.Checked = true;
+                }
+                else
+                {
+                    SchedulesVw.SelectedItem.Checked = false;
+                    previousSchedule.RemoveFromChain(schedule);
+                }
+                break;
+            }
+            SchedulesVw.SelectedItem.ForeColor = schedule.IsChainLink ? Color.FromArgb(243, 63, 63) : Color.Black;
         }
 
         private void HotkeyTxt_KeyDown(object sender, KeyEventArgs e)
@@ -123,11 +160,26 @@ namespace Tanji.Services.Injection
             item.Tag = new HSchedule(packet, ToServer, Interval, Cycles, Hotkeys);
         }
 
+        private void SchedulesVw_ItemDragged(object sender, EventArgs e)
+        {
+            // TODO: Moved schedule within the chain if need be.
+        }
         private void SchedulesVw_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
             // Item has been toggled internally, do not handle this event.
             if (Monitor.IsEntered(e.Item)) return;
 
+            HSchedule schedule = GetSchedule(e.Item);
+            if (schedule == null) return;
+
+            // This schedule is part of a chain, only signify that this schedule is allowed to be ran internally by the parent.
+            if (schedule.IsChainLink)
+            {
+                schedule.IsLinkActivated = e.Item.Checked;
+                return;
+            }
+
+            // Schedule has been toggled/checked, undo it if there is currently no established connection.
             if (e.Item.Checked && !Program.Master.IsConnected)
             {
                 lock (e.Item)
@@ -137,7 +189,8 @@ namespace Tanji.Services.Injection
                 return;
             }
 
-            GetSchedule(e.Item)?.ToggleAsync(e.Item.Checked)
+            // This schedule will run, and toggle the item's checkbox based on its' state.
+            schedule?.ToggleAsync(e.Item.Checked)
                 .ContinueWith(t =>
                 {
                     if (t == Task.CompletedTask) return;
