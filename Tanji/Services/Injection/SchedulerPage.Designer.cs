@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.IntervalTxt = new Tangine.Controls.TangineLabelBox();
             this.CyclesTxt = new Tangine.Controls.TangineLabelBox();
             this.PacketTxt = new Tangine.Controls.TangineLabelBox();
@@ -42,6 +43,9 @@
             this.IntervalCol = new System.Windows.Forms.ColumnHeader();
             this.CyclesCol = new System.Windows.Forms.ColumnHeader();
             this.HotkeyCol = new System.Windows.Forms.ColumnHeader();
+            this.SchedulerCxm = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ChainToPreviousChbx = new System.Windows.Forms.ToolStripMenuItem();
+            this.SchedulerCxm.SuspendLayout();
             this.SuspendLayout();
             // 
             // IntervalTxt
@@ -135,6 +139,7 @@
             this.IntervalCol,
             this.CyclesCol,
             this.HotkeyCol});
+            this.SchedulesVw.ContextMenuStrip = this.SchedulerCxm;
             this.SchedulesVw.FillColumnIndex = 0;
             this.SchedulesVw.FullRowSelect = true;
             this.SchedulesVw.GridLines = true;
@@ -149,6 +154,7 @@
             this.SchedulesVw.TabIndex = 5;
             this.SchedulesVw.UseCompatibleStateImageBehavior = false;
             this.SchedulesVw.View = System.Windows.Forms.View.Details;
+            this.SchedulesVw.ItemDragged += new System.EventHandler(this.SchedulesVw_ItemDragged);
             this.SchedulesVw.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.SchedulesVw_ItemChecked);
             // 
             // PacketCol
@@ -181,6 +187,21 @@
             this.HotkeyCol.Text = "Hotkey";
             this.HotkeyCol.Width = 101;
             // 
+            // SchedulerCxm
+            // 
+            this.SchedulerCxm.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ChainToPreviousChbx});
+            this.SchedulerCxm.Name = "SchedulerCxm";
+            this.SchedulerCxm.Size = new System.Drawing.Size(169, 26);
+            this.SchedulerCxm.Opening += new System.ComponentModel.CancelEventHandler(this.SchedulerCxm_Opening);
+            // 
+            // ChainToPreviousChbx
+            // 
+            this.ChainToPreviousChbx.CheckOnClick = true;
+            this.ChainToPreviousChbx.Name = "ChainToPreviousChbx";
+            this.ChainToPreviousChbx.Size = new System.Drawing.Size(168, 22);
+            this.ChainToPreviousChbx.Text = "Chain To Previous";
+            // 
             // SchedulerPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -196,6 +217,7 @@
             this.Controls.Add(this.SchedulesVw);
             this.Name = "SchedulerPage";
             this.Size = new System.Drawing.Size(425, 278);
+            this.SchedulerCxm.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -217,5 +239,7 @@
         private System.Windows.Forms.ColumnHeader IntervalCol;
         private System.Windows.Forms.ColumnHeader CyclesCol;
         private System.Windows.Forms.ColumnHeader HotkeyCol;
+        private System.Windows.Forms.ContextMenuStrip SchedulerCxm;
+        private System.Windows.Forms.ToolStripMenuItem ChainToPreviousChbx;
     }
 }
