@@ -9,6 +9,7 @@ namespace Tanji.Services.Injection
 {
     public class HSchedule
     {
+        private readonly List<HSchedule> _chain;
         private CancellationTokenSource _cancelSource;
 
         public int Cycles { get; }
@@ -17,8 +18,6 @@ namespace Tanji.Services.Injection
         public bool ToServer { get; }
         public HPacket Packet { get; }
 
-        private List<HSchedule> Chain { get; }
-        public bool HasLinks => Chain.Count > 0;
         public bool IsLinkActivated { get; set; }
         public bool IsChainLink { get; private set; }
 
@@ -29,7 +28,7 @@ namespace Tanji.Services.Injection
             Hotkeys = hotkeys;
             ToServer = toServer;
             Interval = interval;
-            Chain = new List<HSchedule>();
+            _chain = new List<HSchedule>();
         }
 
         public Task ToggleAsync(bool enable)
@@ -50,12 +49,12 @@ namespace Tanji.Services.Injection
         public void AddToChain(HSchedule schedule)
         {
             schedule.IsChainLink = true;
-            Chain.Add(schedule);
+            _chain.Add(schedule);
         }
         public void RemoveFromChain(HSchedule schedule)
         {
             schedule.IsChainLink = false;
-            Chain.Remove(schedule);
+            _chain.Remove(schedule);
         }
 
         private async Task ScheduleAndForgetAsync(int cycles, CancellationTokenSource cancelSource)
@@ -65,7 +64,7 @@ namespace Tanji.Services.Injection
                 try
                 {
                     await Program.Master.SendAsync(Packet, ToServer).ConfigureAwait(false);
-                    foreach (HSchedule chainedSchedule in Chain)
+                    foreach (HSchedule chainedSchedule in _chain)
                     {
                         if (!chainedSchedule.IsLinkActivated) continue;
                         await Task.Delay(chainedSchedule.Interval, cancelSource.Token).ConfigureAwait(false);
