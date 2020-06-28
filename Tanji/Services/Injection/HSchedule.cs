@@ -63,7 +63,12 @@ namespace Tanji.Services.Injection
             {
                 try
                 {
+#if INTERFACEDEBUG
+                    System.Diagnostics.Debug.WriteLine($"Schedule Triggered: +{Interval}ms");
+#else
                     await Program.Master.SendAsync(Packet, ToServer).ConfigureAwait(false);
+#endif
+
                     foreach (HSchedule chainedSchedule in _chain)
                     {
                         if (!chainedSchedule.IsLinkActivated) continue;

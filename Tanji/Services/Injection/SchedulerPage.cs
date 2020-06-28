@@ -180,6 +180,7 @@ namespace Tanji.Services.Injection
             }
 
             // Schedule has been toggled/checked, undo it if there is currently no established connection.
+#if !INTERFACEDEBUG
             if (e.Item.Checked && !Program.Master.IsConnected)
             {
                 lock (e.Item)
@@ -188,6 +189,7 @@ namespace Tanji.Services.Injection
                 }
                 return;
             }
+#endif
 
             // This schedule will run, and toggle the item's checkbox based on its' state.
             schedule?.ToggleAsync(e.Item.Checked)
