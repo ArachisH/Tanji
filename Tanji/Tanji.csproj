@@ -1,29 +1,44 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <UseWindowsForms>true</UseWindowsForms>
-    <TargetFramework>net5.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<UseWindowsForms>true</UseWindowsForms>
+		<TargetFramework>net5.0</TargetFramework>
+		<Configurations>Debug;InterfaceDebug;Release</Configurations>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <Product>Tanji</Product>
-    <Description>Habbo Hotel Packet Sniffer</Description>
-    <ApplicationIcon>Resources\Tanji_256.ico</ApplicationIcon>
-  </PropertyGroup>
+	<PropertyGroup>
+		<Product>Tanji</Product>
+		<Description>Habbo Hotel Packet Sniffer</Description>
+		<ApplicationIcon>Resources\Tanji_256.ico</ApplicationIcon>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Tangine\Tangine.csproj" />
-    <ProjectReference Include="..\Submodules\Sulakore\Sulakore\Sulakore.csproj" />
-    <ProjectReference Include="..\Submodules\Eavesdrop\Eavesdrop\Eavesdrop.csproj" />
-    <ProjectReference Include="..\Submodules\Sulakore\Submodules\Flazzy\Flazzy\Flazzy.csproj" />
-  </ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Content Remove="Resources\Avatar.png" />
-    <Content Remove="Resources\Tanji_256.ico" />
-    <EmbeddedResource Include="Resources\Avatar.png" />
-    <EmbeddedResource Include="Resources\Tanji_256.ico" />
-  </ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='InterfaceDebug|AnyCPU'">
+		<DefineConstants>DEBUG;INTERFACEDEBUG;TRACE</DefineConstants>
+		<Optimize>false</Optimize>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DefineConstants>RELEASE</DefineConstants>
+		<Optimize>true</Optimize>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Tangine\Tangine.csproj" />
+		<ProjectReference Include="..\Submodules\Sulakore\Sulakore\Sulakore.csproj" />
+		<ProjectReference Include="..\Submodules\Eavesdrop\Eavesdrop\Eavesdrop.csproj" />
+		<ProjectReference Include="..\Submodules\Sulakore\Submodules\Flazzy\Flazzy\Flazzy.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Remove="Resources\Avatar.png" />
+		<Content Remove="Resources\Tanji_256.ico" />
+		<EmbeddedResource Include="Resources\Avatar.png" />
+		<EmbeddedResource Include="Resources\Tanji_256.ico" />
+	</ItemGroup>
 
 </Project>
