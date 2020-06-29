@@ -55,6 +55,13 @@ namespace Tanji.Services.Injection
             Bind(IDTxt, "Text", nameof(Id));
             Bind(ValueTxt, "Text", nameof(Value));
             Bind(AmountTxt, "Text", nameof(Amount));
+
+#if INTERFACEDEBUG
+            for (int i = 0; i < 7; i++)
+            {
+                WriteObject("String", Guid.NewGuid().ToString()[..8]);
+            }
+#endif
         }
 
         private void ClearBtn_Click(object sender, EventArgs e)
@@ -109,7 +116,7 @@ namespace Tanji.Services.Injection
             Value = ValuesVw.SelectedItem.SubItems[1].Text;
             ValueTxt.Focus();
         }
-        private void ValuesVw_ItemDragged(object sender, EventArgs e) => Dismantle();
+        private void ValuesVw_ItemDragged(object sender, ItemDragEventArgs e) => Dismantle();
         private void ValuesVw_ItemChecked(object sender, ItemCheckedEventArgs e) => Dismantle();
         private void ValuesVw_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
