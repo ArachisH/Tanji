@@ -9,6 +9,7 @@ namespace Tanji.Services.Injection
 {
     public class HSchedule
     {
+        private int _callsToAlign;
         private readonly List<HSchedule> _chain;
         private CancellationTokenSource _cancelSource;
 
@@ -38,40 +39,68 @@ namespace Tanji.Services.Injection
                 _cancelSource ??= new CancellationTokenSource();
                 return ScheduleAndForgetAsync(Cycles, _cancelSource);
             }
-            else
+            else if (_cancelSource != null)
             {
                 _cancelSource.Cancel(false);
                 _cancelSource = null;
             }
             return Task.CompletedTask;
         }
-
         public void AddToChain(HSchedule schedule)
         {
             schedule.IsChainLink = true;
             _chain.Add(schedule);
+            AlignChainedSchedule(schedule, 0);
         }
         public void RemoveFromChain(HSchedule schedule)
         {
             schedule.IsChainLink = false;
             _chain.Remove(schedule);
+            AlignChainedSchedule(schedule, 0);
+        }
+        public void AlignChainedSchedule(HSchedule schedule, int deviation)
+        {
+
+            int currentIndex = _chain.IndexOf(schedule);
+            _chain.RemoveAt(currentIndex);
+            _chain.Insert(currentIndex + deviation, schedule);
+            _callsToAlign++;
         }
 
         private async Task ScheduleAndForgetAsync(int cycles, CancellationTokenSource cancelSource)
         {
+            HSchedule[] chain = _chain.ToArray();
             do
             {
                 try
                 {
-#if INTERFACEDEBUG
+#if DEBUG
                     System.Diagnostics.Debug.WriteLine($"Schedule Triggered: +{Interval}ms");
-#else
+#endif
+#if !INTERFACEDEBUG
                     await Program.Master.SendAsync(Packet, ToServer).ConfigureAwait(false);
 #endif
-
-                    foreach (HSchedule chainedSchedule in _chain)
+                    for (int i = 0; i < chain.Length || _callsToAlign > 0; i++)
                     {
+                        if (_callsToAlign > 0)
+                        {
+                            i--;
+                            int currentCallsToAlign = _callsToAlign;
+                            chain = _chain.ToArray();
+
+                            _callsToAlign -= currentCallsToAlign; // Big brain synchronized thread-safe schedule alignment.
+#if DEBUG
+                            if (_callsToAlign > 0) // This is fine, but let me know when it happens, I'm curious.
+                            {
+                                System.Diagnostics.Debugger.Break();
+                            }
+#endif
+                            continue;
+                        }
+
+                        HSchedule chainedSchedule = chain[i];
                         if (!chainedSchedule.IsLinkActivated) continue;
+
                         await Task.Delay(chainedSchedule.Interval, cancelSource.Token).ConfigureAwait(false);
                         await chainedSchedule.ScheduleAndForgetAsync(chainedSchedule.Cycles == 0 ? 1 : chainedSchedule.Cycles, cancelSource).ConfigureAwait(false);
                     }
