@@ -15,10 +15,13 @@ namespace Tangine.Controls
         /// <summary>
         /// Occurs when the user finishes dragging an item.
         /// </summary>
-        public event EventHandler ItemDragged;
-        protected virtual void OnItemDragged(EventArgs e)
+        public event ItemDragEventHandler ItemDragged;
+        protected virtual void OnItemDragged(ItemDragEventArgs e)
         {
-            ItemDragged?.Invoke(this, e);
+            if (e.Button == MouseButtons.Left)
+            {
+                ItemDragged?.Invoke(this, e);
+            }
         }
 
         /// <summary>
@@ -287,26 +290,26 @@ namespace Tangine.Controls
         }
         protected override void OnMouseUp(MouseEventArgs e)
         {
-            if (_grabbedItem != null)
+            if (_grabbedItem == null) return;
+
+            ListViewItem pushedItem = GetItemAt(e.X, e.Y);
+            if (pushedItem != null)
             {
-                ListViewItem pushedItem = GetItemAt(e.X, e.Y);
-                if (pushedItem != null)
-                {
-                    int newIndex = pushedItem.Index;
+                int newIndex = pushedItem.Index;
 
-                    BeginUpdate();
-                    Items.Remove(_grabbedItem);
-                    Items.Insert(newIndex, _grabbedItem);
-                    EndUpdate();
+                BeginUpdate();
+                Items.Remove(_grabbedItem);
+                Items.Insert(newIndex, _grabbedItem);
+                EndUpdate();
 
-                    _grabbedItem.Selected = true;
-                    OnItemSelectionStateChanged(EventArgs.Empty);
-                    _grabbedItem = null;
+                _grabbedItem.Selected = true;
+                OnItemSelectionStateChanged(EventArgs.Empty);
 
-                    EnsureVisible(newIndex);
-                    OnItemDragged(EventArgs.Empty);
-                }
+                EnsureVisible(newIndex);
+                OnItemDragged(new ItemDragEventArgs(e.Button, _grabbedItem));
+                _grabbedItem = null;
             }
+
             base.OnMouseUp(e);
         }
         protected override void OnMouseDown(MouseEventArgs e)
@@ -366,8 +369,11 @@ namespace Tangine.Controls
 
         protected override void OnItemDrag(ItemDragEventArgs e)
         {
-            _grabbedItem = (ListViewItem)e.Item;
-            base.OnItemDrag(e);
+            if (e.Button == MouseButtons.Left)
+            {
+                _grabbedItem = (ListViewItem)e.Item;
+                base.OnItemDrag(e);
+            }
         }
         protected override void OnDrawItem(DrawListViewItemEventArgs e)
         {
