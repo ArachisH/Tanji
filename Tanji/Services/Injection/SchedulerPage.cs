@@ -16,6 +16,8 @@ namespace Tanji.Services.Injection
     [DesignerCategory("UserControl")]
     public partial class SchedulerPage : NotifiablePage, IHaltable
     {
+        private int _previousDraggedItemIndex;
+
         private string _packetText = string.Empty;
         public string PacketText
         {
@@ -84,25 +86,40 @@ namespace Tanji.Services.Injection
             Bind(HotkeyTxt, "Text", nameof(HotkeysText));
             Bind(CyclesTxt, "Text", nameof(Cycles));
 
-            ChainToPreviousChbx.CheckedChanged += ChainToPreviousChbx_CheckedChanged;
+            ChainedToPreviousChbx.CheckedChanged += ChainToPreviousChbx_CheckedChanged;
 
             if (Master != null)
             {
                 Master.Hook.HotkeyPressed += Hook_HotkeyPressed;
             }
+
+#if INTERFACEDEBUG
+            HSchedule previousSchedule = null;
+            for (int i = 0; i < 10; i++)
+            {
+                var packet = new EvaWirePacket(4000, Guid.NewGuid().ToString()[..8]);
+                HSchedule schedule = AddSchedule(packet, true, 10 * 10 * (i + 1), 0, Keys.None, string.Empty);
+                if (i >= 6)
+                {
+                    previousSchedule.AddToChain(schedule);
+                }
+                else previousSchedule = schedule;
+                SchedulesVw.Items[i].ForeColor = schedule.IsChainLink ? Color.FromArgb(243, 63, 63) : Color.Black;
+            }
+#endif
         }
 
         private void SchedulerCxm_Opening(object sender, CancelEventArgs e)
         {
-            lock (ChainToPreviousChbx)
+            lock (ChainedToPreviousChbx)
             {
-                ChainToPreviousChbx.Enabled = SchedulesVw.HasSelectedItem && SchedulesVw.SelectedItem.Index != 0;
-                ChainToPreviousChbx.Checked = GetSchedule(SchedulesVw.SelectedItem)?.IsChainLink ?? false;
+                ChainedToPreviousChbx.Enabled = SchedulesVw.HasSelectedItem && SchedulesVw.SelectedItem.Index != 0;
+                ChainedToPreviousChbx.Checked = GetSchedule(SchedulesVw.SelectedItem)?.IsChainLink ?? false;
             }
         }
         private void ChainToPreviousChbx_CheckedChanged(object sender, EventArgs e)
         {
-            if (Monitor.IsEntered(ChainToPreviousChbx)) return;
+            if (Monitor.IsEntered(ChainedToPreviousChbx)) return;
 
             HSchedule schedule = GetSchedule(SchedulesVw.SelectedItem);
             for (int i = SchedulesVw.SelectedItem.Index - 1; i >= 0; i--)
@@ -110,8 +127,7 @@ namespace Tanji.Services.Injection
                 HSchedule previousSchedule = GetSchedule(SchedulesVw.Items[i]);
                 if (previousSchedule.IsChainLink) continue;
 
-                // If 'IsChainLink' is true, the 'Checked' event will only change the 'IsLinkActivated' property, and will not run independently of parent link.
-                if (ChainToPreviousChbx.Checked)
+                if (ChainedToPreviousChbx.Checked)
                 {
                     previousSchedule.AddToChain(schedule);
                     SchedulesVw.SelectedItem.Checked = true;
@@ -156,13 +172,26 @@ namespace Tanji.Services.Injection
             HPacket packet = Master.ConvertToPacket(PacketText, ToServer);
             if (packet == null || Master.NotifyIfCorrupt(packet)) return;
 
-            ListViewItem item = SchedulesVw.AddItem(packet.ToString(), ToServer ? "Server" : "Client", Interval.ToString(), Cycles.ToString(), HotkeysText);
-            item.Tag = new HSchedule(packet, ToServer, Interval, Cycles, Hotkeys);
+            AddSchedule(packet, ToServer, Interval, Cycles, Hotkeys, HotkeysText);
         }
 
-        private void SchedulesVw_ItemDragged(object sender, EventArgs e)
+        private void SchedulesVw_ItemDrag(object sender, ItemDragEventArgs e)
         {
-            // TODO: Moved schedule within the chain if need be.
+            _previousDraggedItemIndex = ((ListViewItem)e.Item).Index;
+        }
+        private void SchedulesVw_ItemDragged(object sender, ItemDragEventArgs e)
+        {
+            // TODO: This here
+            var item = (ListViewItem)e.Item;
+            HSchedule schedule = GetSchedule(item);
+            if (item.Index < _previousDraggedItemIndex) // Moved Up
+            {
+
+            }
+            else if (item.Index > _previousDraggedItemIndex) // Moved Down
+            {
+
+            }
         }
         private void SchedulesVw_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
@@ -204,6 +233,14 @@ namespace Tanji.Services.Injection
         }
 
         private HSchedule GetSchedule(ListViewItem item) => (HSchedule)item?.Tag;
+        private HSchedule AddSchedule(HPacket packet, bool toServer, int interval, int cycles, Keys hotkeys, string hotkeysText)
+        {
+            ListViewItem item = SchedulesVw.AddItem(packet.ToString(), toServer ? "Server" : "Client", interval.ToString(), cycles.ToString(), hotkeysText);
+            var schedule = new HSchedule(packet, toServer, interval, cycles, hotkeys);
+
+            item.Tag = schedule;
+            return schedule;
+        }
 
         #region IHaltable Implementation
         public void Halt()
