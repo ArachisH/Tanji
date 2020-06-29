@@ -44,7 +44,7 @@
             this.CyclesCol = new System.Windows.Forms.ColumnHeader();
             this.HotkeyCol = new System.Windows.Forms.ColumnHeader();
             this.SchedulerCxm = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ChainToPreviousChbx = new System.Windows.Forms.ToolStripMenuItem();
+            this.ChainedToPreviousChbx = new System.Windows.Forms.ToolStripMenuItem();
             this.SchedulerCxm.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -154,8 +154,9 @@
             this.SchedulesVw.TabIndex = 5;
             this.SchedulesVw.UseCompatibleStateImageBehavior = false;
             this.SchedulesVw.View = System.Windows.Forms.View.Details;
-            this.SchedulesVw.ItemDragged += new System.EventHandler(this.SchedulesVw_ItemDragged);
+            this.SchedulesVw.ItemDragged += new System.Windows.Forms.ItemDragEventHandler(this.SchedulesVw_ItemDragged);
             this.SchedulesVw.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.SchedulesVw_ItemChecked);
+            this.SchedulesVw.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.SchedulesVw_ItemDrag);
             // 
             // PacketCol
             // 
@@ -190,17 +191,17 @@
             // SchedulerCxm
             // 
             this.SchedulerCxm.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ChainToPreviousChbx});
+            this.ChainedToPreviousChbx});
             this.SchedulerCxm.Name = "SchedulerCxm";
-            this.SchedulerCxm.Size = new System.Drawing.Size(169, 26);
+            this.SchedulerCxm.Size = new System.Drawing.Size(182, 26);
             this.SchedulerCxm.Opening += new System.ComponentModel.CancelEventHandler(this.SchedulerCxm_Opening);
             // 
-            // ChainToPreviousChbx
+            // ChainedToPreviousChbx
             // 
-            this.ChainToPreviousChbx.CheckOnClick = true;
-            this.ChainToPreviousChbx.Name = "ChainToPreviousChbx";
-            this.ChainToPreviousChbx.Size = new System.Drawing.Size(168, 22);
-            this.ChainToPreviousChbx.Text = "Chain To Previous";
+            this.ChainedToPreviousChbx.CheckOnClick = true;
+            this.ChainedToPreviousChbx.Name = "ChainedToPreviousChbx";
+            this.ChainedToPreviousChbx.Size = new System.Drawing.Size(181, 22);
+            this.ChainedToPreviousChbx.Text = "Chained To Previous";
             // 
             // SchedulerPage
             // 
@@ -240,6 +241,6 @@
         private System.Windows.Forms.ColumnHeader CyclesCol;
         private System.Windows.Forms.ColumnHeader HotkeyCol;
         private System.Windows.Forms.ContextMenuStrip SchedulerCxm;
-        private System.Windows.Forms.ToolStripMenuItem ChainToPreviousChbx;
+        private System.Windows.Forms.ToolStripMenuItem ChainedToPreviousChbx;
     }
 }
