@@ -159,7 +159,7 @@
             this.ValuesVw.TabStop = false;
             this.ValuesVw.UseCompatibleStateImageBehavior = false;
             this.ValuesVw.View = System.Windows.Forms.View.Details;
-            this.ValuesVw.ItemDragged += new System.EventHandler(this.ValuesVw_ItemDragged);
+            this.ValuesVw.ItemDragged += new System.Windows.Forms.ItemDragEventHandler(this.ValuesVw_ItemDragged);
             this.ValuesVw.ItemActivate += new System.EventHandler(this.ValuesVw_ItemActivate);
             this.ValuesVw.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.ValuesVw_ItemChecked);
             this.ValuesVw.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.ValuesVw_ItemSelectionChanged);
