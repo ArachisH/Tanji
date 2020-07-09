@@ -15,7 +15,7 @@ namespace Tanji
     {
         private int _frCount;
         private readonly MainFrm _ui;
-        private string[] _lol = new[] { "thunk", "sirjonasxx-ii", "sirjonasxx-vii" };
+        private string[] _lol = new[] { "thunk", "sirjonasxx-ii", "sirjonasxx-vii", "fellower" };
 
         public bool IsReceiving { get; } = true;
         private Dictionary<int, HEntity> Entities { get; }
@@ -25,6 +25,7 @@ namespace Tanji
             _ui = ui;
 
             Entities = new Dictionary<int, HEntity>();
+            IsReceiving = ui.GameData.Hotel == HHotel.Nl || ui.GameData.Hotel == HHotel.Com;
         }
 
         public void HandleOutgoing(DataInterceptedEventArgs e)
