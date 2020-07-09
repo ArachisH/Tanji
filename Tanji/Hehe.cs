@@ -8,6 +8,7 @@ using Tanji.Manipulators;
 
 using Sulakore.Habbo;
 using Sulakore.Communication;
+using System.Data.SqlTypes;
 
 namespace Tanji
 {
@@ -37,6 +38,10 @@ namespace Tanji
                 case nameof(_ui.In.UpdateUserLook): UpdateUserLook(e); break;
 
                 case nameof(_ui.In.RoomUserStatus): RoomUserStatus(e); break;
+
+                case nameof(_ui.In.FriendRequestError):
+                e.IsBlocked = true;
+                break;
 
                 case nameof(_ui.In.RoomUserTalk):
                 case nameof(_ui.In.RoomUserWhisper):
@@ -100,6 +105,7 @@ namespace Tanji
             {
                 switch (command)
                 {
+                    case "dance": _ui.Connection.SendToServerAsync(_ui.Out.RoomUserDance, 1); break;
                     case "face": _ui.Connection.SendToServerAsync(_ui.Out.RoomUserLookAtPoint, entity.Tile.X, entity.Tile.Y, 0); break;
                     case "respect": _ui.Connection.SendToServerAsync(_ui.Out.RoomUserGiveRespect, entity.Id); break;
                     case "laser": _ui.Connection.SendToServerAsync(_ui.Out.RoomUserTalk, ":yyxxabxa", 0, -1); break;
