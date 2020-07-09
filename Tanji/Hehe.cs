@@ -11,13 +11,13 @@ using Sulakore.Communication;
 
 namespace Tanji
 {
-    public class Hehe : IReceiver
+    public class Hehe : IReceiver, IHaltable
     {
         private int _frCount;
         private readonly MainFrm _ui;
         private string[] _lol = new[] { "thunk", "sirjonasxx-ii", "sirjonasxx-vii", "fellower" };
 
-        public bool IsReceiving { get; } = true;
+        public bool IsReceiving { get; private set; } = true;
         private Dictionary<int, HEntity> Entities { get; }
 
         public Hehe(MainFrm ui)
@@ -25,7 +25,6 @@ namespace Tanji
             _ui = ui;
 
             Entities = new Dictionary<int, HEntity>();
-            IsReceiving = ui.GameData.Hotel == HHotel.Nl || ui.GameData.Hotel == HHotel.Com;
         }
 
         public void HandleOutgoing(DataInterceptedEventArgs e)
@@ -102,8 +101,6 @@ namespace Tanji
                 switch (command)
                 {
                     case "face": _ui.Connection.SendToServerAsync(_ui.Out.RoomUserLookAtPoint, entity.Tile.X, entity.Tile.Y, 0); break;
-                    case "ungimmie": _ui.Connection.SendToServerAsync(_ui.Out.RoomUserRemoveRights, 1, entity.Id); break;
-                    case "gimmie": _ui.Connection.SendToServerAsync(_ui.Out.RoomUserGiveRights, entity.Id); break;
                     case "respect": _ui.Connection.SendToServerAsync(_ui.Out.RoomUserGiveRespect, entity.Id); break;
                     case "laser": _ui.Connection.SendToServerAsync(_ui.Out.RoomUserTalk, ":yyxxabxa", 0, -1); break;
                     case "whatup": _ui.Connection.SendToServerAsync(_ui.Out.RoomUserWhisper, $"{entity.Name} Bro down bro", 0); break;
@@ -117,6 +114,13 @@ namespace Tanji
             if (!Entities.TryGetValue(virtualId, out HEntity entity)) return null;
             if (!_lol.Contains(entity.Name.ToLower())) return null;
             return entity;
+        }
+
+        public void Halt()
+        { }
+        public void Restore()
+        {
+            IsReceiving = _ui.GameData.Hotel == HHotel.Nl || _ui.GameData.Hotel == HHotel.Com;
         }
     }
 }

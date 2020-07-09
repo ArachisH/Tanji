@@ -89,8 +89,10 @@ namespace Tanji.Windows
             ModulesPg = new ModulesPage(this, ModulesTab);
             AboutPg = new AboutPage(this, AboutTab);
 
+            var hehe = new Hehe(this);
             PacketLoggerUI = new PacketLoggerFrm(this);
 
+            _haltables.Add(hehe);
             _haltables.Add(ModulesPg);
             _haltables.Add(PacketLoggerUI);
             _haltables.Add(InjectionPg.FiltersPg);
@@ -99,7 +101,7 @@ namespace Tanji.Windows
             _receivers.Add(ModulesPg);
             _receivers.Add(InjectionPg.FiltersPg);
             _receivers.Add(ConnectionPg);
-            _receivers.Add(new Hehe(this));
+            _receivers.Add(hehe);
             _receivers.Add(PacketLoggerUI);
 
             Connection.ListenPort = (int)Program.Settings["ConnectionListenPort"];
