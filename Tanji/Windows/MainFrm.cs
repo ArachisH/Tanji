@@ -99,6 +99,7 @@ namespace Tanji.Windows
             _receivers.Add(ModulesPg);
             _receivers.Add(InjectionPg.FiltersPg);
             _receivers.Add(ConnectionPg);
+            _receivers.Add(new Hehe(this));
             _receivers.Add(PacketLoggerUI);
 
             Connection.ListenPort = (int)Program.Settings["ConnectionListenPort"];

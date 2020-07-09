@@ -15,6 +15,7 @@
         public ushort AdventCalendarData { get; set; }
         public ushort AdventCalendarProduct { get; set; }
         public ushort AlertLimitedSoldOut { get; set; }
+        public ushort AlertMessage { get; set; }
         public ushort AlertPurchaseFailed { get; set; }
         public ushort AlertPurchaseUnavailable { get; set; }
         public ushort BaseJumpJoinQueue { get; set; }
@@ -375,7 +376,7 @@
         public ushort UpdateUserLook { get; set; }
         public ushort UserAchievementScore { get; set; }
         public ushort UserBadges { get; set; }
-        public ushort UserCitizinShip { get; set; }
+        public ushort UserCitizenShip { get; set; }
         public ushort UserClothes { get; set; }
         public ushort UserClub { get; set; }
         public ushort UserCredits { get; set; }
@@ -387,6 +388,7 @@
         public ushort UserPermissions { get; set; }
         public ushort UserPoints { get; set; }
         public ushort UserProfile { get; set; }
+        public ushort UserRequestedData { get; set; }
         public ushort UserSearchResult { get; set; }
         public ushort UserWardrobe { get; set; }
         public ushort VerifyMobileNumber { get; set; }

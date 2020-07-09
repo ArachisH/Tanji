@@ -96,6 +96,7 @@
         public ushort IgnoreRoomUser { get; set; }
         public ushort InitCrypto { get; set; }
         public ushort InviteFriends { get; set; }
+        public ushort JoinGroup { get; set; }
         public ushort JukeBoxAddSoundTrack { get; set; }
         public ushort JukeBoxEventOne { get; set; }
         public ushort JukeBoxEventThree { get; set; }
@@ -188,6 +189,7 @@
         public ushort RequestHeightmap { get; set; }
         public ushort RequestHighestScoreRooms { get; set; }
         public ushort RequestInitFriends { get; set; }
+        public ushort RequestInventoryAchievements { get; set; }
         public ushort RequestInventoryBadges { get; set; }
         public ushort RequestInventoryBots { get; set; }
         public ushort RequestInventoryItems { get; set; }
@@ -225,7 +227,7 @@
         public ushort RequestTags { get; set; }
         public ushort RequestTalenTrack { get; set; }
         public ushort RequestTargetOffer { get; set; }
-        public ushort RequestUserCitizinShip { get; set; }
+        public ushort RequestUserCitizenShip { get; set; }
         public ushort RequestUserClub { get; set; }
         public ushort RequestUserCredits { get; set; }
         public ushort RequestUserData { get; set; }
@@ -268,6 +270,7 @@
         public ushort RoomWordFilterModify { get; set; }
         public ushort RotateMoveItem { get; set; }
         public ushort SSOTicket { get; set; }
+        public ushort SafetyQuiz { get; set; }
         public ushort SaveBlockCameraFollow { get; set; }
         public ushort SaveIgnoreRoomInvites { get; set; }
         public ushort SaveMotto { get; set; }
@@ -295,6 +298,7 @@
         public ushort ToggleFloorItem { get; set; }
         public ushort ToggleMonsterplantBreedable { get; set; }
         public ushort ToggleWallItem { get; set; }
+        public ushort TrackingData { get; set; }
         public ushort TradeAccept { get; set; }
         public ushort TradeCancelOfferItem { get; set; }
         public ushort TradeClose { get; set; }
