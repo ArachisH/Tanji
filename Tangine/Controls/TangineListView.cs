@@ -290,26 +290,27 @@ namespace Tangine.Controls
         }
         protected override void OnMouseUp(MouseEventArgs e)
         {
-            if (_grabbedItem == null) return;
-
-            ListViewItem pushedItem = GetItemAt(e.X, e.Y);
-            if (pushedItem != null)
+            if (_grabbedItem != null)
             {
-                int newIndex = pushedItem.Index;
+                ListViewItem pushedItem = GetItemAt(e.X, e.Y);
+                if (pushedItem != null && _grabbedItem.Index != pushedItem.Index)
+                {
+                    int newIndex = pushedItem.Index;
 
-                BeginUpdate();
-                Items.Remove(_grabbedItem);
-                Items.Insert(newIndex, _grabbedItem);
-                EndUpdate();
+                    BeginUpdate();
+                    Items.Remove(_grabbedItem);
+                    Items.Insert(newIndex, _grabbedItem);
+                    EndUpdate();
 
-                _grabbedItem.Selected = true;
-                OnItemSelectionStateChanged(EventArgs.Empty);
+                    _grabbedItem.Selected = true;
+                    OnItemSelectionStateChanged(EventArgs.Empty);
 
-                EnsureVisible(newIndex);
-                OnItemDragged(new ItemDragEventArgs(e.Button, _grabbedItem));
+                    EnsureVisible(newIndex);
+                    OnItemDragged(new ItemDragEventArgs(e.Button, _grabbedItem));
+                }
                 _grabbedItem = null;
+                InsertionMark.Index = -1;
             }
-
             base.OnMouseUp(e);
         }
         protected override void OnMouseDown(MouseEventArgs e)
@@ -322,6 +323,7 @@ namespace Tangine.Controls
             if (_grabbedItem != null)
             {
                 InsertionMark.Index = InsertionMark.NearestIndex(e.Location);
+                InsertionMark.AppearsAfterItem = InsertionMark.Index > _grabbedItem.Index;
             }
             base.OnMouseMove(e);
         }
