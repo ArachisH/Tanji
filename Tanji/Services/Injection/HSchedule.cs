@@ -19,17 +19,23 @@ namespace Tanji.Services.Injection
         public bool ToServer { get; }
         public HPacket Packet { get; }
 
+        public ListViewItem PhysicalItem { get; }
         public bool IsLinkActivated { get; set; }
         public bool IsChainLink { get; private set; }
+        public HSchedule Parent { get; private set; }
+        public IReadOnlyList<HSchedule> Chain { get; }
 
-        public HSchedule(HPacket packet, bool toServer, int interval, int cycles, Keys hotkeys)
+        public HSchedule(HPacket packet, bool toServer, int interval, int cycles, Keys hotkeys, ListViewItem item)
         {
             Packet = packet;
             Cycles = cycles;
             Hotkeys = hotkeys;
             ToServer = toServer;
             Interval = interval;
+            PhysicalItem = item;
+
             _chain = new List<HSchedule>();
+            Chain = _chain.AsReadOnly();
         }
 
         public Task ToggleAsync(bool enable)
@@ -46,24 +52,34 @@ namespace Tanji.Services.Injection
             }
             return Task.CompletedTask;
         }
+
         public void AddToChain(HSchedule schedule)
         {
-            schedule.IsChainLink = true;
-            _chain.Add(schedule);
-            AlignChainedSchedule(schedule, 0);
+            AddToChain(schedule, _chain.Count);
         }
+        public void AddToChain(HSchedule schedule, int index)
+        {
+            schedule.Parent = this;
+            schedule.IsChainLink = true;
+
+            _chain.Insert(index, schedule);
+            _callsToAlign++;
+        }
+
+        public int GetChainedScheduleIndex(HSchedule schedule) => _chain.IndexOf(schedule);
+
         public void RemoveFromChain(HSchedule schedule)
         {
+            schedule.Parent = null;
             schedule.IsChainLink = false;
-            _chain.Remove(schedule);
-            AlignChainedSchedule(schedule, 0);
-        }
-        public void AlignChainedSchedule(HSchedule schedule, int deviation)
-        {
 
-            int currentIndex = _chain.IndexOf(schedule);
-            _chain.RemoveAt(currentIndex);
-            _chain.Insert(currentIndex + deviation, schedule);
+            _chain.Remove(schedule);
+            _callsToAlign++;
+        }
+        public void MoveChainedSchedule(HSchedule schedule, int index)
+        {
+            _chain.Remove(schedule);
+            _chain.Insert(index, schedule);
             _callsToAlign++;
         }
 
@@ -75,7 +91,7 @@ namespace Tanji.Services.Injection
                 try
                 {
 #if DEBUG
-                    System.Diagnostics.Debug.WriteLine($"Schedule Triggered: +{Interval}ms");
+                    System.Diagnostics.Debug.WriteLine("Packet Sent...");
 #endif
 #if !INTERFACEDEBUG
                     await Program.Master.SendAsync(Packet, ToServer).ConfigureAwait(false);
@@ -100,12 +116,22 @@ namespace Tanji.Services.Injection
 
                         HSchedule chainedSchedule = chain[i];
                         if (!chainedSchedule.IsLinkActivated) continue;
-
+#if DEBUG
+                        System.Diagnostics.Debug.WriteLine($"[Chain:{i}]Waiting {chainedSchedule.Interval}ms... ");
+#endif
                         await Task.Delay(chainedSchedule.Interval, cancelSource.Token).ConfigureAwait(false);
-                        await chainedSchedule.ScheduleAndForgetAsync(chainedSchedule.Cycles == 0 ? 1 : chainedSchedule.Cycles, cancelSource).ConfigureAwait(false);
+#if DEBUG
+                        System.Diagnostics.Debug.WriteLine($"[Chain: {i}]Packet Sent...");
+#endif
+#if !INTERFACEDEBUG
+                        await Program.Master.SendAsync(chainedSchedule.Packet, chainedSchedule.ToServer).ConfigureAwait(false);
+#endif
                     }
 
-                    if ((Cycles > 0 || IsChainLink) && --cycles == 0) break;
+                    if (Cycles > 0 && --cycles == 0) break;
+#if DEBUG
+                    System.Diagnostics.Debug.WriteLine($"Waiting {Interval}ms... ");
+#endif
                     await Task.Delay(Interval, cancelSource.Token).ConfigureAwait(false);
                 }
                 catch (TaskCanceledException) { /* Schedule was cancelled.  */ }
