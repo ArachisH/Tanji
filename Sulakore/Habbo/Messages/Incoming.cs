@@ -154,6 +154,7 @@
         public ushort HotelViewNextLTDAvailable { get; set; }
         public ushort HotelWillCloseInMinutes { get; set; }
         public ushort HotelWillCloseInMinutesAndBackIn { get; set; }
+        public ushort InitFriends { get; set; }
         public ushort InventoryAchievements { get; set; }
         public ushort InventoryAddEffect { get; set; }
         public ushort InventoryBadges { get; set; }
