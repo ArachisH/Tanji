@@ -82,8 +82,10 @@
         public ushort FriendFindingRoom { get; set; }
         public ushort FriendRequest { get; set; }
         public ushort FriendRequestError { get; set; }
+        public ushort FriendRequests { get; set; }
         public ushort FriendToolbarNotification { get; set; }
         public ushort Friends { get; set; }
+        public ushort FriendsInterface { get; set; }
         public ushort Game2WeeklyLeaderboard { get; set; }
         public ushort Game2WeeklySmallLeaderboard { get; set; }
         public ushort GameAchievementsList { get; set; }
@@ -176,7 +178,6 @@
         public ushort JukeBoxTrackData { get; set; }
         public ushort LatencyResponse { get; set; }
         public ushort LeprechaunStarterBundle { get; set; }
-        public ushort LoadFriendRequests { get; set; }
         public ushort LoveLockFurniFinished { get; set; }
         public ushort LoveLockFurniFriendConfirmed { get; set; }
         public ushort LoveLockFurniStart { get; set; }
