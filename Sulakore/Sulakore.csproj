@@ -96,11 +96,13 @@
     <Compile Include="Habbo\HData.cs" />
     <Compile Include="Habbo\HExtensions.cs" />
     <Compile Include="Habbo\HFloorItem.cs" />
-    <Compile Include="Habbo\HFriendData.cs" />
+    <Compile Include="Habbo\HFriends.cs" />
+    <Compile Include="Habbo\HFriendRequests.cs" />
     <Compile Include="Habbo\HGame.cs" />
     <Compile Include="Habbo\HEntity.cs" />
     <Compile Include="Habbo\HEntityUpdate.cs" />
     <Compile Include="Habbo\HFurniture.cs" />
+    <Compile Include="Habbo\HFriendsInterface.cs" />
     <Compile Include="Habbo\Web\HGameData.cs" />
     <Compile Include="Habbo\HGroupEntry.cs" />
     <Compile Include="Habbo\HItem.cs" />
