@@ -172,8 +172,9 @@
         public ushort RequestCredits { get; set; }
         public ushort RequestDeleteRoom { get; set; }
         public ushort RequestDiscount { get; set; }
-        public ushort RequestFriendRequest { get; set; }
+        public ushort RequestFriendRequests { get; set; }
         public ushort RequestFriends { get; set; }
+        public ushort RequestFriendsOLD { get; set; }
         public ushort RequestGameConfigurations { get; set; }
         public ushort RequestGiftConfiguration { get; set; }
         public ushort RequestGuideAssistance { get; set; }
@@ -188,7 +189,6 @@
         public ushort RequestGuildParts { get; set; }
         public ushort RequestHeightmap { get; set; }
         public ushort RequestHighestScoreRooms { get; set; }
-        public ushort RequestInitFriends { get; set; }
         public ushort RequestInventoryAchievements { get; set; }
         public ushort RequestInventoryBadges { get; set; }
         public ushort RequestInventoryBots { get; set; }
