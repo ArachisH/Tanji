@@ -67,7 +67,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Hehe.cs" />
     <Compile Include="Network\ConnectedEventArgs.cs" />
     <Compile Include="Network\HConnection.cs" />
     <Compile Include="Windows\Dialogs\FindDialog.cs">
