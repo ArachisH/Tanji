@@ -717,8 +717,13 @@ namespace Sulakore.Habbo
                 var callPropVoid = (CallPropVoidIns)instruction;
                 if (callPropVoid.PropertyName.Name == "connect" && callPropVoid.ArgCount == 2)
                 {
-                    code[i - 2] = new PushStringIns(abc, host);
-                    code[i - 1] = new PushIntIns(abc, port);
+                    code.InsertRange(i, new ASInstruction[]
+                    {
+                        new PopIns(),
+                        new PopIns(),
+                        new PushStringIns(abc, host),
+                        new PushIntIns(abc, port)
+                    });
                     break;
                 }
             }
