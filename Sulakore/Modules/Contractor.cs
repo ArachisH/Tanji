@@ -176,6 +176,7 @@ namespace Sulakore.Modules
                     DisposeModule(type);
                     module = null;
                 }
+                throw;
             }
             finally
             {
