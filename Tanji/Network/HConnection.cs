@@ -138,7 +138,11 @@ namespace Tanji.Network
 
                     Remote = await HNode.ConnectAsync(endpoint).ConfigureAwait(false);
                     Remote.ReflectFormats(Local);
-                    IsConnected = true;
+                    if (Local.IsWebSocket)
+                    {
+                        IsConnected = await Remote.UpgradeWebSocketAsClientAsync().ConfigureAwait(false);
+                    }
+                    else IsConnected = true;
 
                     _inSteps = 0;
                     _outSteps = 0;
