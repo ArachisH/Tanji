@@ -261,7 +261,7 @@ namespace Tanji.Services.Modules
             {
                 while (module.Node.IsConnected)
                 {
-                    HPacket packet = await module.Node.ReceivePacketAsync().ConfigureAwait(false);
+                    HPacket packet = await module.Node.ReceiveAsync().ConfigureAwait(false);
                     if (packet == null) break;
 
                     switch (packet.Id)
@@ -299,7 +299,7 @@ namespace Tanji.Services.Modules
             {
                 var moduleNode = new HNode(await listener.AcceptSocketAsync().ConfigureAwait(false));
 
-                HPacket infoPacket = await moduleNode.ReceivePacketAsync().ConfigureAwait(false);
+                HPacket infoPacket = await moduleNode.ReceiveAsync().ConfigureAwait(false);
                 if (infoPacket == null) return; // Module aborted connection
 
                 var module = new ModuleInfo(moduleNode);

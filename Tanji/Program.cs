@@ -157,17 +157,17 @@ namespace Tanji
             MessageBox.Show(alertMsg, "Tanji - Alert!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             return true;
         }
-        public Task<int> SendAsync(HPacket packet, bool toServer)
+        public ValueTask<int> SendAsync(HPacket packet, bool toServer)
         {
             HNode node = toServer ? Connection.Remote : Connection.Local;
-            return node.SendPacketAsync(packet);
+            return node.SendAsync(packet);
         }
         public HPacket ConvertToPacket(string signature, bool toServer)
         {
             HFormat format = HFormat.EvaWire;
             if (IsConnected)
             {
-                format = toServer ? Connection.Remote.OutFormat : Connection.Local.OutFormat;
+                format = toServer ? Connection.Remote.SendFormat : Connection.Local.SendFormat;
             }
 
             byte[] data = HPacket.ToBytes(format, signature);

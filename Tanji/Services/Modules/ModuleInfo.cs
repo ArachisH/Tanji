@@ -201,10 +201,11 @@ namespace Tanji.Services.Modules
                         interceptedData.Write(curPacketData);
                     }
 
+                    // TODO: wow never finished this
                     var dataAwaiterSource = new TaskCompletionSource<HPacket>();
                     if (!_module.DataAwaiters.TryAdd(identifier, dataAwaiterSource))
                     { }
-                    _module.Node.SendPacketAsync(interceptedData);
+                    _module.Node.SendAsync(interceptedData);
 
                     HPacket handledDataPacket = dataAwaiterSource.Task.GetAwaiter().GetResult();
                     if (handledDataPacket == null) return;
@@ -257,7 +258,7 @@ namespace Tanji.Services.Modules
                 string identifier = DateTime.Now.Ticks.ToString();
                 onConnectedPacket.Write(identifier);
 
-                _module.Node.SendPacketAsync(onConnectedPacket);
+                _module.Node.SendAsync(onConnectedPacket);
             }
 
             public void Dispose()

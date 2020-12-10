@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Buffers;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,13 +13,12 @@ namespace Tanji.Network
 {
     public class HConnection : IHConnection
     {
-        private bool _isIntercepting;
-        private int _inSteps, _outSteps;
+        private static readonly byte[] _crossDomainPolicyRequestBytes, _crossDomainPolicyResponseBytes;
 
         private readonly object _disconnectLock;
 
-        private const string CROSS_DOMAIN_POLICY_REQUEST = "<policy-file-request/>\0";
-        private const string CROSS_DOMAIN_POLICY_RESPONSE = "<cross-domain-policy><allow-access-from domain=\"*\" to-ports=\"*\"/></cross-domain-policy>\0";
+        private bool _isIntercepting;
+        private int _inSteps, _outSteps;
 
         /// <summary>
         /// Occurs when the connection between the client, and server have been intercepted.
@@ -61,7 +62,13 @@ namespace Tanji.Network
 
         public HNode Local { get; private set; }
         public HNode Remote { get; private set; }
+        public X509Certificate Certificate { get; set; }
 
+        static HConnection()
+        {
+            _crossDomainPolicyRequestBytes = Encoding.UTF8.GetBytes("<policy-file-request/>\0");
+            _crossDomainPolicyResponseBytes = Encoding.UTF8.GetBytes("<cross-domain-policy><allow-access-from domain=\"*\" to-ports=\"*\"/></cross-domain-policy>\0");
+        }
         public HConnection()
         {
             _disconnectLock = new object();
@@ -77,6 +84,7 @@ namespace Tanji.Network
         }
         public async Task InterceptAsync(HotelEndPoint endpoint)
         {
+            // TODO: Implement the usage of a CancellationToken instead of constantly checking the _isIntercepting field.
             _isIntercepting = true;
             int interceptCount = 0;
             while (!IsConnected && _isIntercepting)
@@ -92,40 +100,22 @@ namespace Tanji.Network
                         continue;
                     }
 
-                    byte[] buffer = await Local.PeekAsync(6).ConfigureAwait(false);
+                    bool wasDetermined = await Local.DetermineFormatsAsync().ConfigureAwait(false);
                     if (!_isIntercepting) break;
 
-                    if (buffer.Length == 0)
+                    if (Local.IsWebSocket)
                     {
-                        interceptCount--;
-                        continue;
+                        await Local.UpgradeWebSocketAsServerAsync(Certificate).ConfigureAwait(false);
                     }
-
-                    Remote = new HNode();
-                    if (HFormat.WedgieOut.GetId(buffer) == 206)
+                    else if (!wasDetermined)
                     {
-                        Local.InFormat = HFormat.WedgieOut;
-                        Local.OutFormat = HFormat.WedgieIn;
-
-                        Remote.InFormat = HFormat.WedgieIn;
-                        Remote.OutFormat = HFormat.WedgieOut;
-                    }
-                    else if (HFormat.EvaWire.GetId(buffer) == 4000)
-                    {
-                        Local.InFormat = HFormat.EvaWire;
-                        Local.OutFormat = HFormat.EvaWire;
-
-                        Remote.InFormat = HFormat.EvaWire;
-                        Remote.OutFormat = HFormat.EvaWire;
-                    }
-                    else
-                    {
-                        buffer = await Local.ReceiveAsync(512).ConfigureAwait(false);
+                        using IMemoryOwner<byte> receiveBufferOwner = MemoryPool<byte>.Shared.Rent(512);
+                        int received = await Local.ReceiveAsync(receiveBufferOwner.Memory).ConfigureAwait(false);
                         if (!_isIntercepting) break;
 
-                        if (Encoding.UTF8.GetString(buffer).ToLower() == CROSS_DOMAIN_POLICY_REQUEST)
+                        if (receiveBufferOwner.Memory.Slice(0, received).Span.SequenceEqual(_crossDomainPolicyRequestBytes))
                         {
-                            await Local.SendAsync(Encoding.UTF8.GetBytes(CROSS_DOMAIN_POLICY_RESPONSE)).ConfigureAwait(false);
+                            await Local.SendAsync(_crossDomainPolicyResponseBytes).ConfigureAwait(false);
                         }
                         else throw new Exception("Expected cross-domain policy request.");
                         continue;
@@ -142,11 +132,12 @@ namespace Tanji.Network
 
                     if (args.IsFakingPolicyRequest)
                     {
-                        using var tempRemote = await HNode.ConnectNewAsync(endpoint).ConfigureAwait(false);
-                        await tempRemote.SendAsync(Encoding.UTF8.GetBytes(CROSS_DOMAIN_POLICY_REQUEST)).ConfigureAwait(false);
+                        using var tempRemote = await HNode.ConnectAsync(endpoint).ConfigureAwait(false);
+                        await tempRemote.SendAsync(_crossDomainPolicyRequestBytes).ConfigureAwait(false);
                     }
 
-                    if (!await Remote.ConnectAsync(endpoint).ConfigureAwait(false)) break;
+                    Remote = await HNode.ConnectAsync(endpoint).ConfigureAwait(false);
+                    Remote.ReflectFormats(Local);
                     IsConnected = true;
 
                     _inSteps = 0;
@@ -163,60 +154,53 @@ namespace Tanji.Network
                     }
                 }
             }
-            HNode.StopListeners(ListenPort);
             _isIntercepting = false;
         }
 
-        public Task<int> SendToServerAsync(byte[] data)
+        public ValueTask<int> SendToServerAsync(byte[] data)
         {
             return Remote.SendAsync(data);
         }
-        public Task<int> SendToServerAsync(HPacket packet)
+        public ValueTask<int> SendToServerAsync(HPacket packet)
         {
-            return Remote.SendPacketAsync(packet);
+            return Remote.SendAsync(packet);
         }
-        public Task<int> SendToServerAsync(string signature)
+        public ValueTask<int> SendToServerAsync(ushort id, params object[] values)
         {
-            return Remote.SendPacketAsync(signature);
-        }
-        public Task<int> SendToServerAsync(ushort id, params object[] values)
-        {
-            return Remote.SendPacketAsync(id, values);
+            return Remote.SendAsync(id, values);
         }
 
-        public Task<int> SendToClientAsync(byte[] data)
+        public ValueTask<int> SendToClientAsync(byte[] data)
         {
             return Local.SendAsync(data);
         }
-        public Task<int> SendToClientAsync(HPacket packet)
+        public ValueTask<int> SendToClientAsync(HPacket packet)
         {
-            return Local.SendPacketAsync(packet);
+            return Local.SendAsync(packet);
         }
-        public Task<int> SendToClientAsync(string signature)
+        public ValueTask<int> SendToClientAsync(string signature)
         {
-            return Local.SendPacketAsync(signature);
+            return Local.SendAsync(signature);
         }
-        public Task<int> SendToClientAsync(ushort id, params object[] values)
+        public ValueTask<int> SendToClientAsync(ushort id, params object[] values)
         {
-            return Local.SendPacketAsync(id, values);
+            return Local.SendAsync(id, values);
         }
 
-        private Task<int> ClientRelayer(DataInterceptedEventArgs relayedFrom)
+        private ValueTask<int> ClientRelayer(DataInterceptedEventArgs relayedFrom)
         {
             return SendToClientAsync(relayedFrom.Packet);
         }
-        private Task<int> ServerRelayer(DataInterceptedEventArgs relayedFrom)
+        private ValueTask<int> ServerRelayer(DataInterceptedEventArgs relayedFrom)
         {
             return SendToServerAsync(relayedFrom.Packet);
         }
         private async Task InterceptOutgoingAsync(DataInterceptedEventArgs continuedFrom = null)
         {
-            HPacket packet = await Local.ReceivePacketAsync().ConfigureAwait(false);
+            HPacket packet = await Local.ReceiveAsync().ConfigureAwait(false);
             if (packet != null)
             {
-                var args = new DataInterceptedEventArgs(packet, ++_outSteps, true,
-                    InterceptOutgoingAsync, ServerRelayer);
-
+                var args = new DataInterceptedEventArgs(packet, ++_outSteps, true, InterceptOutgoingAsync, ServerRelayer);
                 try { OnDataOutgoing(args); }
                 catch { args.Restore(); }
 
@@ -233,12 +217,10 @@ namespace Tanji.Network
         }
         private async Task InterceptIncomingAsync(DataInterceptedEventArgs continuedFrom = null)
         {
-            HPacket packet = await Remote.ReceivePacketAsync().ConfigureAwait(false);
+            HPacket packet = await Remote.ReceiveAsync().ConfigureAwait(false);
             if (packet != null)
             {
-                var args = new DataInterceptedEventArgs(packet, ++_inSteps, false,
-                    InterceptIncomingAsync, ClientRelayer);
-
+                var args = new DataInterceptedEventArgs(packet, ++_inSteps, false, InterceptIncomingAsync, ClientRelayer);
                 try { OnDataIncoming(args); }
                 catch { args.Restore(); }
 

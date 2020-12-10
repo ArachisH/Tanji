@@ -10,17 +10,14 @@ using System.Threading.Tasks;
 using Tanji.Network;
 using Tanji.Controls;
 
-using Sulakore.Crypto;
 using Sulakore.Network;
 using Sulakore.Habbo.Web;
 using Sulakore.Habbo.Messages;
+using Sulakore.Cryptography.Ciphers;
 
 using Eavesdrop;
 
 using Flazzy;
-using Flazzy.ABC;
-using Flazzy.ABC.AVM2;
-using Flazzy.ABC.AVM2.Instructions;
 
 namespace Tanji.Services
 {
@@ -400,12 +397,9 @@ namespace Tanji.Services
                     .ToArray();
 
                 Master.Connection.Remote.Encrypter = new RC4(sharedKey);
-                Master.Connection.Remote.IsEncrypting = true;
-
                 if (IsIncomingEncrypted)
                 {
                     Master.Connection.Remote.Decrypter = new RC4(sharedKey);
-                    Master.Connection.Remote.IsDecrypting = true;
                 }
 
                 e.IsBlocked = true;
