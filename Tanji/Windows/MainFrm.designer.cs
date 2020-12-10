@@ -135,7 +135,7 @@
             this.GitHubLinkLbl.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
             this.GitHubLinkLbl.Size = new System.Drawing.Size(157, 19);
             this.GitHubLinkLbl.Spring = true;
-            this.GitHubLinkLbl.Text = "GitHub - ArachisH/Tanji";
+            this.GitHubLinkLbl.Text = "GitHub - Elbrah/Tanji";
             // 
             // TanjiTabs
             // 
