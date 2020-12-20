@@ -182,10 +182,6 @@ namespace Tanji.Network
         {
             return Local.SendAsync(packet);
         }
-        public ValueTask<int> SendToClientAsync(string signature)
-        {
-            return Local.SendAsync(signature);
-        }
         public ValueTask<int> SendToClientAsync(ushort id, params object[] values)
         {
             return Local.SendAsync(id, values);
