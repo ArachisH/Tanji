@@ -29,10 +29,10 @@ namespace Tanji
         private readonly SortedList<int, IReceiver> _receivers;
         private readonly Dictionary<Keys, Action> _hotkeyActions;
 
-        public Incoming In => Game.In;
-        public Outgoing Out => Game.Out;
+        public Incoming In => Game?.In;
+        public Outgoing Out => Game?.Out;
         public KeyboardHook Hook { get; }
-        public HGameData GameData { get; }
+        public HGameData GameData { get; set; }
 
         public TConfiguration Config { get; }
         public bool IsConnected => Connection.IsConnected;
