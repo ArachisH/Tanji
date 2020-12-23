@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sulakore", "Submodules\Sula
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tangine", "Tangine\Tangine.csproj", "{6EAFB4B1-9470-46BE-98DB-0D91F4EE3663}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wazzy", "Submodules\Wazzy\Wazzy\Wazzy.csproj", "{0A7A9071-316A-43C9-9B44-BDC352D12F62}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,12 @@ Global
 		{6EAFB4B1-9470-46BE-98DB-0D91F4EE3663}.InterfaceDebug|Any CPU.Build.0 = Debug|Any CPU
 		{6EAFB4B1-9470-46BE-98DB-0D91F4EE3663}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EAFB4B1-9470-46BE-98DB-0D91F4EE3663}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A7A9071-316A-43C9-9B44-BDC352D12F62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A7A9071-316A-43C9-9B44-BDC352D12F62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A7A9071-316A-43C9-9B44-BDC352D12F62}.InterfaceDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A7A9071-316A-43C9-9B44-BDC352D12F62}.InterfaceDebug|Any CPU.Build.0 = Debug|Any CPU
+		{0A7A9071-316A-43C9-9B44-BDC352D12F62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A7A9071-316A-43C9-9B44-BDC352D12F62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -29,6 +29,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Tangine\Tangine.csproj" />
+		<ProjectReference Include="..\Submodules\Wazzy\Wazzy\Wazzy.csproj" />
 		<ProjectReference Include="..\Submodules\Sulakore\Sulakore\Sulakore.csproj" />
 		<ProjectReference Include="..\Submodules\Eavesdrop\Eavesdrop\Eavesdrop.csproj" />
 		<ProjectReference Include="..\Submodules\Sulakore\Submodules\Flazzy\Flazzy\Flazzy.csproj" />
