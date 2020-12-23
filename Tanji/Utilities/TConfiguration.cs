@@ -19,7 +19,9 @@ namespace Tanji.Utilities
 
         public IList<string> ProxyOverrides { get; }
         public IList<string> CacheBlacklist { get; }
-        public IList<string> InterceptionTriggers { get; }
+        public IList<string> UserInterceptionTriggers { get; }
+        public IList<string> WASMInterceptionTriggers { get; }
+        public IList<string> FlashInterceptionTriggers { get; }
 
         public IDictionary<string, string> InStructureOverrides { get; }
         public IDictionary<string, string> OutStructureOverrides { get; }
@@ -37,13 +39,15 @@ namespace Tanji.Utilities
 
             ProxyOverrides = this[nameof(ProxyOverrides)].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
             CacheBlacklist = this[nameof(CacheBlacklist)].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-            InterceptionTriggers = this[nameof(InterceptionTriggers)].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            UserInterceptionTriggers = this[nameof(UserInterceptionTriggers)].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            WASMInterceptionTriggers = this[nameof(WASMInterceptionTriggers)].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            FlashInterceptionTriggers = this[nameof(FlashInterceptionTriggers)].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
             InStructureOverrides = PopulateStructureOverrides(this[nameof(InStructureOverrides)]);
             OutStructureOverrides = PopulateStructureOverrides(this[nameof(OutStructureOverrides)]);
         }
 
-        private IDictionary<string, string> PopulateStructureOverrides(string value)
+        private static IDictionary<string, string> PopulateStructureOverrides(string value)
         {
             var structureOverrides = new Dictionary<string, string>();
             string[] sections = value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
