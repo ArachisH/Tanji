@@ -11,7 +11,6 @@ using Tanji.Services;
 using Tanji.Windows.Dialogs;
 
 using Sulakore.Network;
-using Sulakore.Habbo.Web;
 using Sulakore.Habbo.Messages;
 using Sulakore.Network.Protocol;
 
@@ -369,7 +368,10 @@ namespace Tanji.Windows
             }
             if (IsReceiving && Monitor.TryEnter(_queueProcessLock))
             {
-                e.Continue(true);
+                if (e.WaitUntil == null)
+                {
+                    e.Continue(!e.WasRelayed);
+                }
                 try
                 {
                     while (!IsHandleCreated)
@@ -388,15 +390,15 @@ namespace Tanji.Windows
         private HMessage GetMessage(DataInterceptedEventArgs e)
         {
             HMessages messages = e.IsOutgoing ? Program.Master.Out : (HMessages)Program.Master.In;
-            return messages.GetMessage(e.Packet.Id);
+            return messages?.GetMessage(e.Packet.Id);
         }
         private void CalculateLatency(DataInterceptedEventArgs e)
         {
-            if (e.IsOutgoing && e.Packet.Id == Master.Out.LatencyPingRequest)
+            if (e.IsOutgoing && e.Packet.Id == Master.Out?.LatencyPingRequest)
             {
                 _latencyTestStart = e.Timestamp;
             }
-            else if (e.Packet.Id == Master.In.LatencyPingResponse)
+            else if (e.Packet.Id == Master.In?.LatencyPingResponse)
             {
                 Latency = (e.Timestamp - _latencyTestStart).TotalMilliseconds;
             }
@@ -528,7 +530,7 @@ namespace Tanji.Windows
         {
             _isReceiving = true;
             WindowState = FormWindowState.Normal;
-            RevisionLbl.Text = "Revision: " + Master.Game.Revision;
+            //RevisionLbl.Text = "Revision: " + Master.Game.Revision;
         }
         #endregion
         #region IReceiver Implementation
