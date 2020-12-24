@@ -42,4 +42,10 @@
 		<EmbeddedResource Include="Resources\Tanji_256.ico" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Update="game.habbo.server.pfx">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
 </Project>

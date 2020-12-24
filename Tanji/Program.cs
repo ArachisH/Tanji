@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 
 using Tanji.Network;
 using Tanji.Windows;
@@ -85,6 +86,7 @@ namespace Tanji
             Connection.DataOutgoing += HandleData;
             Connection.DataIncoming += HandleData;
             Connection.Disconnected += Disconnected;
+            Connection.Certificate = new X509Certificate2("game.habbo.server.pfx");
 
             Hook = new KeyboardHook();
             Hook.HotkeyPressed += HotkeyPressed;
