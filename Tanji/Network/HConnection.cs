@@ -210,6 +210,10 @@ namespace Tanji.Network
                 }
                 if (!args.HasContinued)
                 {
+                    if (args.WaitUntil != null)
+                    {
+                        await args.WaitUntil.ConfigureAwait(false);
+                    }
                     args.Continue();
                 }
             }
