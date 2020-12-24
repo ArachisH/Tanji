@@ -165,6 +165,7 @@ namespace Tanji.Services
 
             string clientPath = Path.GetFullPath($"Cache/{e.Uri.Host}/{e.Uri.LocalPath}");
             string clientDirectory = Path.GetDirectoryName(clientPath);
+            Directory.CreateDirectory(clientDirectory);
 
             if (IsH2020)
             {
@@ -210,7 +211,6 @@ namespace Tanji.Services
 
                 HGame game = null;
                 if (_wasBlacklisted && !IsGameClient(payload, out game)) return;
-                Directory.CreateDirectory(clientDirectory);
 
                 if (!_wasBlacklisted)
                 {
