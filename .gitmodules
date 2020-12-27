@@ -7,3 +7,6 @@
 [submodule "Submodules/Wazzy"]
 	path = Submodules/Wazzy
 	url = https://github.com/ArachisH/Wazzy.git
+[submodule "Submodules/Flazzy"]
+	path = Submodules/Flazzy
+	url = https://github.com/ArachisH/Flazzy.git
