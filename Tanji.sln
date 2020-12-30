@@ -7,13 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tanji", "Tanji\Tanji.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eavesdrop", "Submodules\Eavesdrop\Eavesdrop\Eavesdrop.csproj", "{B6A04C97-E4FA-4059-BDC1-A3732EFC4160}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flazzy", "Submodules\Sulakore\Submodules\Flazzy\Flazzy\Flazzy.csproj", "{FE06D6E0-3DE4-44B7-B7DD-962AA116D8F0}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sulakore", "Submodules\Sulakore\Sulakore\Sulakore.csproj", "{D808AC03-4531-4701-B3B8-B76ED766BCA5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tangine", "Tangine\Tangine.csproj", "{6EAFB4B1-9470-46BE-98DB-0D91F4EE3663}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wazzy", "Submodules\Wazzy\Wazzy\Wazzy.csproj", "{0A7A9071-316A-43C9-9B44-BDC352D12F62}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flazzy", "Submodules\Flazzy\Flazzy\Flazzy.csproj", "{C9047732-9F23-4AF4-8FE6-289594C30EE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,12 +34,6 @@ Global
 		{B6A04C97-E4FA-4059-BDC1-A3732EFC4160}.InterfaceDebug|Any CPU.Build.0 = Debug|Any CPU
 		{B6A04C97-E4FA-4059-BDC1-A3732EFC4160}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6A04C97-E4FA-4059-BDC1-A3732EFC4160}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FE06D6E0-3DE4-44B7-B7DD-962AA116D8F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FE06D6E0-3DE4-44B7-B7DD-962AA116D8F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FE06D6E0-3DE4-44B7-B7DD-962AA116D8F0}.InterfaceDebug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FE06D6E0-3DE4-44B7-B7DD-962AA116D8F0}.InterfaceDebug|Any CPU.Build.0 = Debug|Any CPU
-		{FE06D6E0-3DE4-44B7-B7DD-962AA116D8F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FE06D6E0-3DE4-44B7-B7DD-962AA116D8F0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D808AC03-4531-4701-B3B8-B76ED766BCA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D808AC03-4531-4701-B3B8-B76ED766BCA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D808AC03-4531-4701-B3B8-B76ED766BCA5}.InterfaceDebug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -58,6 +52,12 @@ Global
 		{0A7A9071-316A-43C9-9B44-BDC352D12F62}.InterfaceDebug|Any CPU.Build.0 = Debug|Any CPU
 		{0A7A9071-316A-43C9-9B44-BDC352D12F62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A7A9071-316A-43C9-9B44-BDC352D12F62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9047732-9F23-4AF4-8FE6-289594C30EE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9047732-9F23-4AF4-8FE6-289594C30EE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9047732-9F23-4AF4-8FE6-289594C30EE3}.InterfaceDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9047732-9F23-4AF4-8FE6-289594C30EE3}.InterfaceDebug|Any CPU.Build.0 = Debug|Any CPU
+		{C9047732-9F23-4AF4-8FE6-289594C30EE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9047732-9F23-4AF4-8FE6-289594C30EE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

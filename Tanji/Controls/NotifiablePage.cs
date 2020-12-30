@@ -16,7 +16,7 @@ namespace Tanji.Controls
     {
         private readonly Dictionary<string, Binding> _bindings;
 
-        protected Program Master => Program.Master;
+        protected static Program Master => Program.Master;
         protected override Size DefaultSize => new Size(506, 315);
 
         public NotifiablePage()

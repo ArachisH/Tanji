@@ -18,7 +18,7 @@ namespace Tanji.Controls
     {
         private readonly Dictionary<string, Binding> _bindings;
 
-        protected Program Master => Program.Master;
+        protected static Program Master => Program.Master;
 
         public NotifiableForm()
         {

@@ -34,7 +34,7 @@ namespace Tanji.Windows
 
             InitializeComponent();
 
-            Bind(_loggerUI, "TopMost", "TopMost");
+            Bind(_loggerUI, "TopMost", nameof(TopMost));
         }
 
         private void PacketTxt_KeyDown(object sender, KeyEventArgs e)

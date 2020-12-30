@@ -13,7 +13,7 @@ using Sulakore.Habbo;
 using Sulakore.Modules;
 using Sulakore.Network;
 using Sulakore.Habbo.Web;
-using Sulakore.Habbo.Messages;
+using Sulakore.Habbo.Packages;
 
 namespace Tangine
 {
@@ -25,11 +25,10 @@ namespace Tangine
         public virtual bool IsStandalone { get; }
         public IInstaller Installer { get; set; }
 
-        public Incoming In => Installer.In;
-        public Outgoing Out => Installer.Out;
+        public Incoming In => Installer.Game.In;
+        public Outgoing Out => Installer.Game.Out;
 
-        public HGame Game => Installer.Game;
-        public HGameData GameData => Installer.GameData;
+        public IHGame Game => Installer.Game;
         public IHConnection Connection => Installer.Connection;
 
         public ReadOnlyDictionary<int, HEntity> Entities => _service.Entities;

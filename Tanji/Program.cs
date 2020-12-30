@@ -12,10 +12,10 @@ using Tanji.Utilities;
 using Tanji.Services.Modules;
 using Tanji.Services.Injection;
 
+using Sulakore.Habbo;
 using Sulakore.Modules;
 using Sulakore.Network;
 using Sulakore.Habbo.Web;
-using Sulakore.Habbo.Messages;
 using Sulakore.Network.Protocol;
 
 using Eavesdrop;
@@ -33,13 +33,11 @@ namespace Tanji
         public Incoming In => Game?.In;
         public Outgoing Out => Game?.Out;
         public KeyboardHook Hook { get; }
-        public HGameData GameData { get; set; }
 
         public TConfiguration Config { get; }
         public bool IsConnected => Connection.IsConnected;
 
-        public HGame Game { get; set; }
-        HGame IInstaller.Game => Game;
+        public IHGame Game { get; set; }
 
         public HConnection Connection { get; }
         IHConnection IInstaller.Connection => Connection;
@@ -78,7 +76,6 @@ namespace Tanji
             _receivers = new SortedList<int, IReceiver>();
             _hotkeyActions = new Dictionary<Keys, Action>();
 
-            GameData = new HGameData();
             Config = new TConfiguration();
 
             Connection = new HConnection();
