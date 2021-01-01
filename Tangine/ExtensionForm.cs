@@ -12,7 +12,6 @@ using Tangine.Helpers;
 using Sulakore.Habbo;
 using Sulakore.Modules;
 using Sulakore.Network;
-using Sulakore.Habbo.Web;
 using Sulakore.Habbo.Packages;
 
 namespace Tangine
@@ -28,7 +27,7 @@ namespace Tangine
         public Incoming In => Installer.Game.In;
         public Outgoing Out => Installer.Game.Out;
 
-        public IHGame Game => Installer.Game;
+        public IGame Game => Installer.Game;
         public IHConnection Connection => Installer.Connection;
 
         public ReadOnlyDictionary<int, HEntity> Entities => _service.Entities;
