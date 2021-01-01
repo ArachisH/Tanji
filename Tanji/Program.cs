@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 
+using Tanji.Habbo;
 using Tanji.Network;
 using Tanji.Windows;
 using Tanji.Services;
@@ -15,7 +16,6 @@ using Tanji.Services.Injection;
 using Sulakore.Habbo;
 using Sulakore.Modules;
 using Sulakore.Network;
-using Sulakore.Habbo.Web;
 using Sulakore.Network.Protocol;
 
 using Eavesdrop;
@@ -37,7 +37,8 @@ namespace Tanji
         public TConfiguration Config { get; }
         public bool IsConnected => Connection.IsConnected;
 
-        public IHGame Game { get; set; }
+        public TGame Game { get; set; }
+        IGame IInstaller.Game => Game;
 
         public HConnection Connection { get; }
         IHConnection IInstaller.Connection => Connection;
@@ -218,6 +219,14 @@ namespace Tanji
                 action();
             }
         }
+
+        public HMessage GetMessage(short id, bool isOutgoing)
+        {
+            Identifiers identifiers = isOutgoing ? Out : In;
+            identifiers.TryGetMessage(id, out HMessage message);
+            return message;
+        }
+        public MessageInfo GetInformation(HMessage message) => Game.GetInformation(message);
 
         public static void Display(Exception exception, string header = null)
         {
