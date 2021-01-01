@@ -5,13 +5,14 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
 
+using Tanji.Habbo;
 using Tanji.Network;
 using Tanji.Controls;
 using Tanji.Services;
 using Tanji.Windows.Dialogs;
 
+using Sulakore.Habbo;
 using Sulakore.Network;
-using Sulakore.Habbo.Messages;
 using Sulakore.Network.Protocol;
 
 namespace Tanji.Windows
@@ -24,11 +25,21 @@ namespace Tanji.Windows
         private DateTime _latencyTestStart;
         private DataInterceptedEventArgs _lastIntercepted;
 
-        private readonly object _queueWriteLock;
-        private readonly object _queueProcessLock;
+        private readonly object _queueWriteLock, _queueProcessLock;
         private readonly Queue<DataInterceptedEventArgs> _intercepted;
         private readonly Action<List<(string, Color)>> _displayEntries;
 
+        #region Highlight Colors
+        public Color DetailHighlight { get; set; } = Color.Cyan;
+        public Color DefaultHighlight { get; set; } = Color.White;
+        public Color BlockedHighlight { get; set; } = Color.Yellow;
+        public Color ReplacedHighlight { get; set; } = Color.Yellow;
+        public Color IncomingHighlight { get; set; } = Color.FromArgb(178, 34, 34);
+        public Color OutgoingHighlight { get; set; } = Color.FromArgb(0, 102, 204);
+        public Color StructureHighlight { get; set; } = Color.FromArgb(170, 244, 66);
+        public Color DismantledHighlight { get; set; } = Color.FromArgb(0, 204, 136);
+        public Color ConcurrentPacketHighlight { get; set; } = Color.FromArgb(255, 174, 61);
+        #endregion
         #region Bindable Properties
         private bool _isDisplayingBlocked = true;
         public bool IsDisplayingBlocked
@@ -185,16 +196,6 @@ namespace Tanji.Windows
 
         public bool IsFindDialogOpened => !(_findDialog?.IsDisposed ?? true);
 
-        public Color DetailHighlight { get; set; } = Color.Cyan;
-        public Color DefaultHighlight { get; set; } = Color.White;
-        public Color BlockedHighlight { get; set; } = Color.Yellow;
-        public Color ReplacedHighlight { get; set; } = Color.Yellow;
-        public Color IncomingHighlight { get; set; } = Color.FromArgb(178, 34, 34);
-        public Color OutgoingHighlight { get; set; } = Color.FromArgb(0, 102, 204);
-        public Color StructureHighlight { get; set; } = Color.FromArgb(170, 244, 66);
-        public Color DismantledHighlight { get; set; } = Color.FromArgb(0, 204, 136);
-        public Color ConcurrentPacketHighlight { get; set; } = Color.FromArgb(255, 174, 61);
-
         public PacketLoggerFrm()
         {
             _queueWriteLock = new object();
@@ -279,11 +280,12 @@ namespace Tanji.Windows
                 }
 
                 _lastIntercepted = intercepted;
-                HMessage message = GetMessage(intercepted);
+                HMessage message = Master.GetMessage((short)intercepted.Packet.Id, intercepted.IsOutgoing); // TODO: Use short everywhere.
+                MessageInfo information = Master.GetInformation(message);
 
-                if (IsDisplayingStructure && !string.IsNullOrWhiteSpace(message?.Structure))
+                if (IsDisplayingStructure && !string.IsNullOrWhiteSpace(information?.Structure))
                 {
-                    AddEntryLine(entries, message.Structure, StructureHighlight);
+                    AddEntryLine(entries, information.Structure, StructureHighlight);
                 }
 
                 if (intercepted.IsBlocked)
@@ -295,14 +297,14 @@ namespace Tanji.Windows
                     AddEntryLine(entries, "Replaced", BlockedHighlight);
                 }
 
-                if (IsDisplayingHash && !string.IsNullOrWhiteSpace(message?.Hash))
+                if (IsDisplayingHash && !string.IsNullOrWhiteSpace(information?.Hash))
                 {
                     if (!string.IsNullOrWhiteSpace(message.Name))
                     {
                         AddEntry(entries, message.Name, DetailHighlight, right: ", ");
                     }
                     else AddEntry(entries, null, DefaultHighlight, right: null);
-                    AddEntryLine(entries, message.Hash, DetailHighlight, left: null);
+                    AddEntryLine(entries, information.Hash, DetailHighlight, left: null);
                 }
 
                 if (IsDisplayingHexadecimal)
@@ -321,26 +323,26 @@ namespace Tanji.Windows
                 }
 
                 AddEntry(entries, title + "[", entryHighlight, null, intercepted.Packet.Id.ToString());
-                if (message != null)
+                if (information != null)
                 {
                     if (IsDisplayingClassName)
                     {
-                        AddEntry(entries, ", ", entryHighlight, null, message.ClassName);
+                        AddEntry(entries, ", ", entryHighlight, null, information.TypeName);
                     }
-                    if (IsDisplayingParserName && !string.IsNullOrWhiteSpace(message.ParserName))
+                    if (IsDisplayingParserName && !string.IsNullOrWhiteSpace(information.ParserTypeName))
                     {
-                        AddEntry(entries, ", ", entryHighlight, null, message.ParserName);
+                        AddEntry(entries, ", ", entryHighlight, null, information.ParserTypeName);
                     }
                 }
                 AddEntry(entries, "]", entryHighlight, null, $" {arrow} ");
                 entries.Add(($"{intercepted.Packet}\r\n", entryHighlight));
 
-                if (IsDisplayingDismantled && !string.IsNullOrWhiteSpace(message?.Structure))
+                if (IsDisplayingDismantled && !string.IsNullOrWhiteSpace(information?.Structure))
                 {
                     int index = 0;
                     int position = 0;
                     HPacket packet = intercepted.Packet;
-                    string dismantled = $"{{id:{packet.Id}}}{LoopDismantle(packet, ref position, message.Structure, ref index, 1)}";
+                    string dismantled = $"{{id:{packet.Id}}}{LoopDismantle(packet, ref position, information.Structure, ref index, 1)}";
 
                     if (packet.GetReadableBytes(position) == 0)
                     {
@@ -387,14 +389,9 @@ namespace Tanji.Windows
             }
         }
 
-        private HMessage GetMessage(DataInterceptedEventArgs e)
-        {
-            HMessages messages = e.IsOutgoing ? Program.Master.Out : (HMessages)Program.Master.In;
-            return messages?.GetMessage(e.Packet.Id);
-        }
         private void CalculateLatency(DataInterceptedEventArgs e)
         {
-            if (e.IsOutgoing && e.Packet.Id == Master.Out?.LatencyPingRequest)
+            if (e.IsOutgoing && e.Packet.Id == Master.Out?.ClientLatencyPingRequest)
             {
                 _latencyTestStart = e.Timestamp;
             }
@@ -484,7 +481,7 @@ namespace Tanji.Windows
                         break;
 
                         case 'd':
-                        dismantled += "{s:" + packet.ReadDouble(ref position) + "}";
+                        dismantled += "{d:" + packet.ReadDouble(ref position) + "}";
                         break;
 
                         case 'b':
@@ -530,7 +527,7 @@ namespace Tanji.Windows
         {
             _isReceiving = true;
             WindowState = FormWindowState.Normal;
-            //RevisionLbl.Text = "Revision: " + Master.Game.Revision;
+            RevisionLbl.Text = "Revision: " + Master.Game.Revision;
         }
         #endregion
         #region IReceiver Implementation
