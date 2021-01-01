@@ -243,10 +243,7 @@ namespace Tanji.Services.Modules
 
             public void OnConnected()
             {
-                byte[] clientBytes = File.ReadAllBytes(Installer.Game.Path);
                 var onConnectedPacket = new EvaWirePacket(2);
-                onConnectedPacket.Write(clientBytes.Length);
-                onConnectedPacket.Write(clientBytes);
                 onConnectedPacket.Write(Installer.Game.Path);
 
                 byte[] hashesData = File.ReadAllBytes("Hashes.ini");
