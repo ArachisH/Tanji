@@ -379,7 +379,7 @@ namespace Tanji.Services.Modules
         private void QueueImportantPackets(DataInterceptedEventArgs e)
         {
             if (e.IsOutgoing) return;
-            switch (Master.In?[e.Packet.Id]?.Name)
+            switch (Master.In?[(short)e.Packet.Id]?.Name) // TODO: Forgot what this does, but use short everywhere.
             {
                 case nameof(Master.In.HeightMap):
                 _packetQueue = new ConcurrentQueue<DataInterceptedEventArgs>();
