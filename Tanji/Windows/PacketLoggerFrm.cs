@@ -297,19 +297,19 @@ namespace Tanji.Windows
                     AddEntryLine(entries, "Replaced", BlockedHighlight);
                 }
 
-                if (IsDisplayingHash && !string.IsNullOrWhiteSpace(information?.Hash))
+                if (IsDisplayingHash)
                 {
-                    if (!string.IsNullOrWhiteSpace(message.Name))
+                    if (!string.IsNullOrWhiteSpace(message?.Name))
                     {
                         AddEntry(entries, message.Name, DetailHighlight, right: ", ");
                     }
                     else AddEntry(entries, null, DefaultHighlight, right: null);
-                    AddEntryLine(entries, information.Hash, DetailHighlight, left: null);
+                    AddEntryLine(entries, information?.Hash ?? "?", DetailHighlight, left: null);
                 }
 
                 if (IsDisplayingHexadecimal)
                 {
-                    AddEntryLine(entries, BitConverter.ToString(intercepted.Packet.ToBytes()).Replace("-", string.Empty), DetailHighlight);
+                    AddEntryLine(entries, Convert.ToHexString(intercepted.Packet.ToBytes()), DetailHighlight);
                 }
 
                 string arrow = "->";
@@ -325,7 +325,7 @@ namespace Tanji.Windows
                 AddEntry(entries, title + "[", entryHighlight, null, intercepted.Packet.Id.ToString());
                 if (information != null)
                 {
-                    if (IsDisplayingClassName)
+                    if (IsDisplayingClassName && !string.IsNullOrWhiteSpace(information.TypeName))
                     {
                         AddEntry(entries, ", ", entryHighlight, null, information.TypeName);
                     }
