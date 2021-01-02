@@ -2,35 +2,24 @@
 using System.IO;
 using System.Net;
 using System.Text;
-using System.Linq;
 using System.Buffers;
 using System.Net.Http;
-using System.Text.Json;
+using System.Reflection;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
+using Tanji.Habbo;
 using Tanji.Network;
 using Tanji.Controls;
 
+using Sulakore.Habbo;
 using Sulakore.Network;
-using Sulakore.Habbo.Web;
-using Sulakore.Habbo.Messages;
 using Sulakore.Cryptography.Ciphers;
 
 using Eavesdrop;
-
 using Flazzy;
-
-using Wazzy;
-using Wazzy.Types;
-using Wazzy.Bytecode;
-using Wazzy.Sections.Subsections;
-using Wazzy.Bytecode.Instructions.Numeric;
-using Wazzy.Bytecode.Instructions.Variable;
-using Wazzy.Bytecode.Instructions.Control;
-using Wazzy.Bytecode.Instructions.Parametric;
 
 namespace Tanji.Services
 {
@@ -38,25 +27,16 @@ namespace Tanji.Services
     [DesignerCategory("UserControl")]
     public partial class ConnectionPage : NotifiablePage, IHaltable, IReceiver
     {
-        const string USEr_JSON_END = ";window.geoLocation";
-        const string USER_JSON_START = "<script>window.session=";
-
-        private static readonly JsonSerializerOptions _userSerializerOptions;
-
-        private byte[] _nonce;
-        private Guid _randomQuery;
-        private bool _wasBlacklisted;
-        private int _unhandledUnityAssets;
+        private static readonly string _sessionId;
 
         #region Status Constants
         private const string STANDING_BY = "Standing By...";
 
-        private const string INTERCEPTING_CLIENT = "Intercepting Client...";
+        private const string INTERCEPTING_RESOURCES = "Intercepting Resources...";
         private const string INTERCEPTING_CONNECTION = "Intercepting Connection...";
-        private const string INTERCEPTING_CLIENT_PAGE = "Intercepting Client Page...";
-        private const string INTERCEPTING_CLIENT_REQUEST_RESPONSE = "Intercepting Client Request/Response";
+        private const string INTERCEPTING_CLIENT_LOADER = "Intercepting Client Loader...";
 
-        private const string MODIFYING_CLIENT = "Modifying Client...";
+        private const string PATCHING_CLIENT = "Patching Client...";
         private const string INJECTING_CLIENT = "Injecting Client...";
         private const string GENERATING_MESSAGE_HASHES = "Generating Message Hashes...";
 
@@ -102,12 +82,9 @@ namespace Tanji.Services
             }
         }
 
-        public bool IsH2020 => Master.GameData.User != null;
-
         static ConnectionPage()
         {
-            _userSerializerOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
-            _userSerializerOptions.Converters.Add(new Sulakore.Habbo.Web.Json.DateTimeConverter());
+            _sessionId = Convert.ToHexString(Guid.NewGuid().ToByteArray()).ToLowerInvariant();
         }
         public ConnectionPage()
         {
@@ -117,211 +94,218 @@ namespace Tanji.Services
             Bind(CustomClientTxt, "Text", nameof(CustomClientPath));
         }
 
-        private Task InjectResourceAsync(object sender, RequestInterceptedEventArgs e)
+        private Task InterceptRequestResourcesAsync(object sender, RequestInterceptedEventArgs e)
         {
-            if (!_wasBlacklisted && !e.Uri.Query.Contains(_randomQuery.ToString())) return null;
+            if (!e.Uri.Query.Contains(_sessionId) && CanModifyClientPage(e.Uri.DnsSafeHost)) return Task.CompletedTask;
 
+            string resourceName = e.Uri.Segments[^1];
             string resourcePath = Path.GetFullPath($"Cache/{e.Uri.Host}/{e.Uri.LocalPath}");
-            if ((_wasBlacklisted || IsH2020) && !File.Exists(resourcePath)) return null;
 
-            if (!IsH2020 && !string.IsNullOrWhiteSpace(CustomClientPath))
-            {
-                resourcePath = CustomClientPath;
-            }
+            bool isGlobalProdData = resourceName.Equals("habbo2020-global-prod.data.unityweb", StringComparison.InvariantCultureIgnoreCase);
+            bool isGlobalProdWasmCode = resourceName.Equals("habbo2020-global-prod.wasm.code.unityweb", StringComparison.InvariantCultureIgnoreCase);
 
             if (File.Exists(resourcePath))
             {
-                if (!IsH2020)
+                if (!isGlobalProdData)
                 {
-                    Status = DISASSEMBLING_CLIENT;
-                    Master.Game = new HGame(resourcePath);
-                    Master.Game.Disassemble();
-
-                    if (Master.Game.IsPostShuffle)
+                    if (!string.IsNullOrWhiteSpace(CustomClientPath))
                     {
-                        Status = GENERATING_MESSAGE_HASHES;
-                        Master.Game.GenerateMessageHashes("Hashes.ini");
+                        resourcePath = CustomClientPath;
                     }
-                }
 
-                if (!IsH2020 || --_unhandledUnityAssets == 0)
-                {
-                    TerminateProxy();
+                    if (!isGlobalProdWasmCode)
+                    {
+                        var flash = new FlashGame(resourcePath);
+                        Status = DISASSEMBLING_CLIENT;
+                        flash.Disassemble();
+
+                        if (flash.IsPostShuffle)
+                        {
+                            Status = GENERATING_MESSAGE_HASHES;
+                            flash.GenerateMessageHashes("Messages.ini");
+                        }
+                        Master.Game = flash;
+                        TerminateProxy();
+                    }
+                    else
+                    {
+                        var unity = new UnityGame(null, resourcePath, e.Uri.Segments[2][0..^1]);
+                        unity.LoadMessagesInformation("Messages.ini");
+                        Master.Game = unity;
+                    }
                     _ = InterceptConnectionAsync();
                 }
                 e.Request = WebRequest.Create(new Uri(resourcePath));
             }
-            else if (!IsH2020)
+            else
             {
-                Status = INTERCEPTING_CLIENT;
-                Eavesdropper.ResponseInterceptedAsync += InterceptResourceAsync;
+                if (isGlobalProdData)
+                {
+                    HttpWebRequest buraksRequest = StripInterceptionQuery((HttpWebRequest)e.Request, "https://jxz.be"); // Thanks Burak!
+                    buraksRequest.Headers["From"] = "Tanji";
+                    buraksRequest.AllowAutoRedirect = true;
+                    buraksRequest.Host = "jxz.be";
+                    buraksRequest.Method = "GET";
+                    buraksRequest.Proxy = null;
+                    e.Request = buraksRequest;
+                }
+                //else e.Request = StripInterceptionQuery((HttpWebRequest)e.Request); // TODO: Doing this seems to cause a double-request to happen, not sure why.
             }
-            return null;
+            return Task.CompletedTask;
         }
-        private async Task InterceptResourceAsync(object sender, ResponseInterceptedEventArgs e)
+        private async Task InterceptClientLoaderAsync(object sender, ResponseInterceptedEventArgs e)
         {
-            if (!IsH2020 && e.ContentType != "application/x-shockwave-flash") return;
-            if (!_wasBlacklisted && !e.Uri.Query.Contains(_randomQuery.ToString())) return;
+            if (!TryGetContentTypes(e, out bool isText, out bool isJavascript, out _, out _, out _)) return;
+            if (!isText && !isJavascript) return;
 
-            string clientPath = Path.GetFullPath($"Cache/{e.Uri.Host}/{e.Uri.LocalPath}");
-            string clientDirectory = Path.GetDirectoryName(clientPath);
-            Directory.CreateDirectory(clientDirectory);
-
-            if (IsH2020)
+            byte[] replacement = null;
+            bool clientLoaderDetected = false;
+            string body = await e.Content.ReadAsStringAsync().ConfigureAwait(false);
+            if (!isJavascript && HasTriggers(body, Master.Config.UnityInterceptionTriggers)) // Unity Client
             {
-                byte[] replacement = null;
-                string resourceName = e.Uri.Segments[^1];
+                string globalProdJsonUrl = GetInnerString(body, "UnityLoader.instantiate(\"unityContainer\", \"", "\"");
+                string revision = GetInnerString(body, "habbo-webgl-clients/", "/");
+
+                body = body.Replace(globalProdJsonUrl, $"{globalProdJsonUrl}?{revision}_{_sessionId}"); // Force a non-cached version of this client, unless we've already returns this modified file at least once during this session.
+                replacement = Encoding.UTF8.GetBytes(body);
+
+                clientLoaderDetected = true;
+                HotelServer = HotelEndPoint.Create(e.Uri.DnsSafeHost);
+            }
+            else if (HasTriggers(body, Master.Config.FlashInterceptionTriggers, 2)) // Flash Client
+            {
+                int swfStartIndex = GetSWFStartIndex(body, 0);
+                if (swfStartIndex == -1) return;
+
+                clientLoaderDetected = true;
+                if (CanModifyClientPage(e.Uri.DnsSafeHost))
+                {
+                    do
+                    {
+                        if (body[swfStartIndex++] == ')') continue;
+                        var embedSWFEnd = body.IndexOf(',', swfStartIndex);
+
+                        if (embedSWFEnd == -1) break;
+                        body = body.Insert(embedSWFEnd, $"+\"?{_sessionId}\"");
+                    }
+                    while ((swfStartIndex = GetSWFStartIndex(body, swfStartIndex)) != -1);
+                    replacement = Encoding.UTF8.GetBytes(body);
+                }
+            }
+
+            if (clientLoaderDetected)
+            {
+                Eavesdropper.ResponseInterceptedAsync -= InterceptClientLoaderAsync;
+                Eavesdropper.RequestInterceptedAsync += InterceptRequestResourcesAsync;
+                Eavesdropper.ResponseInterceptedAsync += InterceptResponseResourcesAsync;
+                Status = INTERCEPTING_RESOURCES;
+            }
+
+            if (replacement != null)
+            {
+                e.Content = new ByteArrayContent(replacement);
+                e.Headers[HttpResponseHeader.ContentLength] = replacement.Length.ToString();
+            }
+        }
+        private async Task InterceptResponseResourcesAsync(object sender, ResponseInterceptedEventArgs e)
+        {
+            if (!TryGetContentTypes(e, out _, out _, out bool isShockwaveFlash, out bool isJson, out bool isUnityWeb)) return;
+            if (!isShockwaveFlash && !isJson && !isUnityWeb) return;
+
+            string resourcePath = Path.GetFullPath($"Cache/{e.Uri.Host}/{e.Uri.LocalPath}");
+            string resourceDirectory = Path.GetDirectoryName(resourcePath);
+
+            string revision = null;
+            byte[] replacement = null;
+            bool isStoringLocally = true;
+            string resourceName = e.Uri.Segments[^1];
+
+            if (isJson && resourceName == "habbo2020-global-prod.json")
+            {
+                isStoringLocally = false;
+                revision = e.Uri.Segments[2][0..^1];
+                string body = await e.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                body = body.Replace(".unityweb", $".unityweb?{revision}_{_sessionId}.unityweb");
+                replacement = Encoding.UTF8.GetBytes(body);
+            }
+            else if (isUnityWeb)
+            {
+                revision = e.Uri.Segments[2][0..^1];
                 switch (resourceName)
                 {
-                    case "habbo2020-global-prod.data.unityweb":
-                    {
-                        // TODO: Download from external location.
-                        replacement = await e.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-                        break;
-                    }
                     case "habbo2020-global-prod.wasm.code.unityweb":
                     {
                         replacement = await e.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-                        replacement = InjectKeyShouter(replacement);
+                        var unity = new UnityGame(replacement, resourcePath, revision);
+
+                        Status = DISASSEMBLING_CLIENT;
+                        unity.Disassemble();
+                        unity.LoadMessagesInformation("Messages.ini");
+
+                        Status = PATCHING_CLIENT;
+                        unity.Patch();
+
+                        Status = ASSEMBLING_CLIENT;
+                        replacement = unity.ToArray();
+
+                        Master.Game = unity;
+                        _ = InterceptConnectionAsync();
                         break;
                     }
                     case "habbo2020-global-prod.wasm.framework.unityweb":
                     {
+                        isStoringLocally = false;
                         string body = await e.Content.ReadAsStringAsync().ConfigureAwait(false);
                         body = body.Replace("new WebSocket(instance.url);", $"new WebSocket(\"ws://localhost:{Master.Config.GameListenPort}/websocket\");");
                         replacement = Encoding.UTF8.GetBytes(body);
                         break;
                     }
                 }
-
-                if (replacement != null)
-                {
-                    e.Content = new ByteArrayContent(replacement);
-                    e.Headers[HttpResponseHeader.ContentLength] = replacement.Length.ToString();
-                    using (var cacheStream = File.Open(clientPath, FileMode.Create, FileAccess.Write))
-                    {
-                        cacheStream.Write(replacement, 0, replacement.Length);
-                    }
-                }
-                --_unhandledUnityAssets;
             }
-            else
+            else if (isShockwaveFlash)
             {
-                byte[] payload = await e.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                replacement = await e.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                var flash = new FlashGame(resourcePath, replacement);
 
-                HGame game = null;
-                if (_wasBlacklisted && !IsGameClient(payload, out game)) return;
+                Status = DISASSEMBLING_CLIENT;
+                flash.Disassemble();
 
-                if (!_wasBlacklisted)
+                if (flash.IsPostShuffle)
                 {
-                    Status = DISASSEMBLING_CLIENT;
-                    game = new HGame(payload) { Location = clientPath };
-                    game.Disassemble();
-
-                    if (game.IsPostShuffle)
-                    {
-                        Status = GENERATING_MESSAGE_HASHES;
-                        game.GenerateMessageHashes("Hashes.ini");
-
-                        Status = MODIFYING_CLIENT;
-                        game.DisableHostChecks();
-                        game.InjectKeyShouter(4001);
-                    }
-                    game.InjectEndPointShouter(game.IsPostShuffle ? 4000 : 206);
-                    game.InjectEndPoint("127.0.0.1", Master.Config.GameListenPort);
+                    Status = GENERATING_MESSAGE_HASHES;
+                    flash.GenerateMessageHashes("Messages.ini");
                 }
-                Master.Game = game;
-                Master.Game.Location = clientPath;
+
+                Status = PATCHING_CLIENT;
+                flash.Patch(flash.IsPostShuffle ? 4000 : 206, "127.0.0.1", Master.Config.GameListenPort);
 
                 CompressionKind compression = CompressionKind.ZLIB;
 #if DEBUG
                 compression = CompressionKind.None;
 #endif
+
                 Status = ASSEMBLING_CLIENT;
+                replacement = flash.ToArray(compression);
 
-                byte[] assembled = Master.Game.ToArray(compression);
-                e.Headers[HttpResponseHeader.ContentLength] = assembled.Length.ToString();
+                Master.Game = flash;
 
-                e.Content = new ByteArrayContent(assembled);
-                using (var clientStream = File.Open(clientPath, FileMode.Create, FileAccess.Write))
-                {
-                    clientStream.Write(assembled, 0, assembled.Length);
-                }
-            }
-
-            if (!IsH2020 || _unhandledUnityAssets == 0)
-            {
                 TerminateProxy();
-                Task interceptConnectionTask = InterceptConnectionAsync();
+                _ = InterceptConnectionAsync();
             }
-        }
-        private async Task InterceptClientPageAsync(object sender, ResponseInterceptedEventArgs e)
-        {
-            if (e.Content == null) return;
-            string contentType = e.ContentType.ToLower();
-            bool hasText = contentType.Contains("text");
-            bool hasJson = contentType.Contains("json");
-            bool hasJavascript = contentType.Contains("javascript");
-            if (!hasText && !hasJson && !hasJavascript) return;
 
-            string body = await e.Content.ReadAsStringAsync().ConfigureAwait(false);
-            if (!IsH2020 && (hasText || hasJavascript))
+            if (replacement != null)
             {
-                int userTriggersFound = GetTriggersCount(Master.Config.UserInterceptionTriggers, body);
-                bool hasUserJson = userTriggersFound == Master.Config.UserInterceptionTriggers.Count;
-
-                if (hasUserJson)
+                if (isStoringLocally)
                 {
-                    int offset = 0;
-                    int jsonStart = body.IndexOf(USER_JSON_START) + USER_JSON_START.Length + offset;
-                    int jsonLength = body.IndexOf(USEr_JSON_END) - jsonStart - offset;
-
-                    string userJson = body.Substring(jsonStart, jsonLength);
-                    Master.GameData = new HGameData(JsonSerializer.Deserialize<HUser>(userJson, _userSerializerOptions));
+#if !DEBUG
+                    Directory.CreateDirectory(resourceDirectory);
+                    using FileStream localCacheFileStream = File.Open(resourcePath, FileMode.Create, FileAccess.Write);
+                    localCacheFileStream.Write(replacement, 0, replacement.Length);
+#endif
                 }
-                if (hasUserJson || GetTriggersCount(Master.Config.FlashInterceptionTriggers, body) < 2) return; // Otherwise, continue executing code below.
-            }
-            else if (IsH2020 && hasJson && GetTriggersCount(Master.Config.WASMInterceptionTriggers, body) >= 3)
-            {
-                body = body.Replace(".unityweb", $".unityweb?{_randomQuery = Guid.NewGuid()}.unityweb");
-
-                e.Content = new StringContent(body);
-                e.Headers[HttpResponseHeader.ContentLength] = body.Length.ToString();
-
-                _unhandledUnityAssets = 3;
-            }
-            else return;
-
-            int swfStartIndex = !IsH2020 ? GetSWFStartIndex(body) : -1;
-            bool isBlacklisted = _wasBlacklisted = Master.Config.CacheBlacklist.Contains(e.Uri.Host);
-            if (!IsH2020 && swfStartIndex == -1 && !isBlacklisted) return;
-
-            Eavesdropper.ResponseInterceptedAsync -= InterceptClientPageAsync;
-            Master.GameData.Source = body;
-
-            if (!IsH2020 && !isBlacklisted)
-            {
-                do
-                {
-                    if (body[swfStartIndex++] == ')') continue;
-                    var embedSWFEnd = body.IndexOf(',', swfStartIndex);
-
-                    if (embedSWFEnd == -1) break;
-                    body = body.Insert(embedSWFEnd, $"+\"?{_randomQuery = Guid.NewGuid()}\"");
-                }
-                while ((swfStartIndex = GetSWFStartIndex(body, swfStartIndex)) != -1);
-
-                e.Content = new StringContent(body);
-                e.Headers[HttpResponseHeader.ContentLength] = body.Length.ToString();
-
-                Status = INJECTING_CLIENT;
-                Eavesdropper.RequestInterceptedAsync += InjectResourceAsync;
-            }
-            else
-            {
-                Status = INTERCEPTING_CLIENT_REQUEST_RESPONSE;
-                Eavesdropper.RequestInterceptedAsync += InjectResourceAsync;
-                Eavesdropper.ResponseInterceptedAsync += InterceptResourceAsync;
+                e.Content = new ByteArrayContent(replacement);
+                e.Headers[HttpResponseHeader.ContentLength] = replacement.Length.ToString();
             }
         }
 
@@ -373,9 +357,9 @@ namespace Tanji.Services
 #if DEBUG
                 FindForm().WindowState = FormWindowState.Minimized;
 #endif
-                Eavesdropper.ResponseInterceptedAsync += InterceptClientPageAsync;
+                Eavesdropper.ResponseInterceptedAsync += InterceptClientLoaderAsync;
                 Eavesdropper.Initiate(Master.Config.ProxyListenPort);
-                Status = INTERCEPTING_CLIENT_PAGE;
+                Status = INTERCEPTING_CLIENT_LOADER;
             }
         }
         private void ConnectionPage_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -397,128 +381,53 @@ namespace Tanji.Services
 
         private void TerminateProxy()
         {
-            Eavesdropper.RequestInterceptedAsync -= InjectResourceAsync;
-            Eavesdropper.ResponseInterceptedAsync -= InterceptClientPageAsync;
-            Eavesdropper.ResponseInterceptedAsync -= InterceptResourceAsync;
             Eavesdropper.Terminate();
+            Eavesdropper.ResponseInterceptedAsync -= InterceptClientLoaderAsync;
+            Eavesdropper.RequestInterceptedAsync -= InterceptRequestResourcesAsync;
+            Eavesdropper.ResponseInterceptedAsync -= InterceptResponseResourcesAsync;
         }
         private async Task InterceptConnectionAsync()
         {
-            Status = INTERCEPTING_CONNECTION;
-            if (!IsH2020 && Master.Game.IsPostShuffle && Master.Game.HasPingInstructions)
+            if (Master.Game.IsPostShuffle && Master.Game.HasPingInstructions)
             {
                 Master.Connection.SocketSkip = 2;
             }
+            Master.Game.Dispose(); // This will only kill the objects that are no longer needed. (In/Out will stay alive)
 
-            if (!IsH2020)
-            {
-                Master.Game.Dispose();
-                foreach (HMessage message in Master.Out.Concat(Master.In))
-                {
-                    message.Class = null;
-                    message.Parser = null;
-                    message.References.Clear();
-                }
-            }
-            else
-            {
-                Master.Connection.SocketSkip = 0;
-                HotelServer = HotelEndPoint.Parse($"game-{Master.GameData.User.UniqueId.Substring(2, 2)}.habbo.com", 30001);
-            }
+            Status = INTERCEPTING_CONNECTION;
             await Master.Connection.InterceptAsync(HotelServer).ConfigureAwait(false);
+
+            TerminateProxy(); // Ensure the local proxy has been terminated.
             Status = STANDING_BY;
         }
-        private bool IsGameClient(byte[] data, out HGame game)
-        {
-            HGame possibleGame = null;
-            try
-            {
-                possibleGame = new HGame(data);
-                possibleGame.Disassemble();
 
-                if (possibleGame.IsPostShuffle)
-                {
-                    possibleGame.GenerateMessageHashes();
-                    if (!possibleGame.DisableHostChecks()) return false;
-                    if (!possibleGame.InjectKeyShouter(4001)) return false;
-                }
-                if (!possibleGame.InjectEndPointShouter(possibleGame.IsPostShuffle ? 4000 : 206)) return false;
-                possibleGame.InjectEndPoint("127.0.0.1", Master.Config.GameListenPort);
-            }
-            catch
-            {
-                possibleGame?.Dispose();
-                possibleGame = null;
-            }
-            finally
-            {
-                game = possibleGame;
-            }
-            return game != null;
+        private static bool CanModifyClientPage(string domain)
+        {
+            return HotelEndPoint.GetHotel(domain) != HHotel.Unknown || Master.Config.IsModifyingRetroClientLoaders;
+        }
+        private static string GetInnerString(string body, string left, string right)
+        {
+            int leftStartIndex = body.IndexOf(left);
+            if (leftStartIndex == -1) return null;
+
+            int innerStartIndex = leftStartIndex + left.Length;
+
+            int rightStartIndex = body.IndexOf(right, innerStartIndex);
+            if (rightStartIndex == -1) return null;
+
+            return body[innerStartIndex..rightStartIndex];
+        }
+        private static bool TryGetContentTypes(ResponseInterceptedEventArgs e, out bool isText, out bool isJavascript, out bool isShockwaveFlash, out bool isJson, out bool isUnityWeb)
+        {
+            string contentType = e.ContentType?.ToLower();
+            isText = contentType?.Contains("text") ?? false;
+            isJson = contentType?.Contains("json") ?? false;
+            isUnityWeb = contentType?.Contains("vnd.unity") ?? false;
+            isJavascript = contentType?.Contains("javascript") ?? false;
+            isShockwaveFlash = contentType?.Contains("x-shockwave-flash") ?? false;
+            return e.Content != null;
         }
 
-        private static byte[] InjectKeyShouter(byte[] contentBytes)
-        {
-            var module = new WASMModule(contentBytes);
-            module.Disassemble();
-            for (int i = 0; i < module.CodeSec.Count; i++)
-            {
-                // Begin searching for the ChaChaEngine.SetKey method.
-                var funcTypeIndex = (int)module.FunctionSec[i];
-                FuncType functionType = module.TypeSec[funcTypeIndex];
-                CodeSubsection codeSubSec = module.CodeSec[i];
-
-                if (codeSubSec.Locals.Count != 1) continue;
-                if (functionType.ParameterTypes.Count != 4) continue;
-
-                bool hasValidParamTypes = true;
-                for (int j = 0; j < functionType.ParameterTypes.Count; j++)
-                {
-                    if (functionType.ParameterTypes[j] == typeof(int)) continue;
-                    hasValidParamTypes = false;
-                    break;
-                }
-                if (!hasValidParamTypes) continue; // If all of the parameters are not of type int.
-
-                if (codeSubSec.Expression[0].OP != OPCode.ConstantI32) continue;
-                if (codeSubSec.Expression[1].OP != OPCode.LoadI32_8S) continue;
-                if (codeSubSec.Expression[2].OP != OPCode.EqualZeroI32) continue;
-                if (codeSubSec.Expression[3].OP != OPCode.If) continue;
-
-                // Dig through the block/branching expressions
-                var expandedInstructions = WASMInstruction.ConcatNestedExpressions(codeSubSec.Expression).ToArray();
-                for (int j = 0, k = expandedInstructions.Length - 2; j < expandedInstructions.Length; j++)
-                {
-                    WASMInstruction instruction = expandedInstructions[j];
-                    if (instruction.OP != OPCode.ConstantI32) continue;
-
-                    var constanti32Ins = (ConstantI32Ins)instruction;
-                    if (constanti32Ins.Constant != 12) continue;
-
-                    if (expandedInstructions[++j].OP != OPCode.AddI32) continue;
-                    if (expandedInstructions[++j].OP != OPCode.TeeLocal) continue;
-                    if (expandedInstructions[++j].OP != OPCode.LoadI32) continue;
-                    if (expandedInstructions[++j].OP != OPCode.ConstantI32) continue;
-                    if (expandedInstructions[++j].OP != OPCode.SubtractI32) continue;
-
-                    if (expandedInstructions[k--].OP != OPCode.Call) continue;
-                    if (expandedInstructions[k--].OP != OPCode.ConstantI32) continue;
-                    if (expandedInstructions[k--].OP != OPCode.ConstantI32) continue;
-                    if (expandedInstructions[k--].OP != OPCode.ConstantI32) continue;
-
-                    codeSubSec.Expression.InsertRange(0, new WASMInstruction[]
-                    {
-                        new ConstantI32Ins(0),      // WebSocket Instance Id
-                        new GetLocalIns(1),         // Key Pointer
-                        new ConstantI32Ins(48),     // Key Length
-                        new CallIns(126),           // _WebSocketSend
-                        new DropIns(),
-                    });
-                    return module.ToArray();
-                }
-            }
-            return null;
-        }
         private static int GetSWFStartIndex(string body, int index = 0)
         {
             int swfStartIndex = body.IndexOf("embedswf(", index, StringComparison.OrdinalIgnoreCase) + 9;
@@ -529,15 +438,37 @@ namespace Tanji.Services
             }
             return swfStartIndex;
         }
-        private static int GetTriggersCount(IList<string> triggers, string body)
+        private static bool HasTriggers(string body, IList<string> triggers, int minimum = 0)
         {
+            if (minimum < 1)
+            {
+                minimum = triggers.Count;
+            }
+
             int triggersFound = 0;
             foreach (string trigger in triggers)
             {
-                if (!body.Contains(trigger, StringComparison.CurrentCulture)) continue;
+                if (!body.Contains(trigger, StringComparison.InvariantCultureIgnoreCase)) continue;
                 triggersFound++;
             }
-            return triggersFound;
+            return triggersFound >= minimum;
+        }
+        private static HttpWebRequest StripInterceptionQuery(HttpWebRequest request, string authority = null)
+        {
+            string strippedUrl = (authority ?? request.RequestUri.GetLeftPart(UriPartial.Authority)) + request.RequestUri.AbsolutePath;
+            var strippedRequest = WebRequest.CreateHttp(new Uri(strippedUrl));
+            if (authority != null) return strippedRequest;
+
+            foreach (var item in request.GetType().GetProperties())
+            {
+                if (!item.CanWrite || !item.CanRead) continue;
+                var value = item.GetValue(request, BindingFlags.GetProperty, null, null, null);
+
+                if (value == null) continue;
+                item.SetValue(strippedRequest, value, BindingFlags.SetProperty, null, null, null);
+            }
+            strippedRequest.AuthenticationLevel = System.Net.Security.AuthenticationLevel.None;
+            return strippedRequest;
         }
 
         #region IHaltable Implementation
@@ -549,6 +480,7 @@ namespace Tanji.Services
         }
         #endregion
         #region IReceiver Implementation
+        private byte[] _nonce;
         private Task _initializeStreamCiphersTask;
 
         [Browsable(false)]
@@ -559,9 +491,9 @@ namespace Tanji.Services
 
         public void HandleOutgoing(DataInterceptedEventArgs e)
         {
-            if (IsH2020)
+            if (Master.Game.IsUnity)
             {
-                if (e.Packet.Id == 4000)
+                if (e.Packet.Id == Master.Out.Hello)
                 {
                     string nonce = string.Empty;
                     string hex = e.Packet.ReadUTF8(0);
@@ -571,22 +503,20 @@ namespace Tanji.Services
                     }
                     _nonce = Convert.FromHexString(nonce);
                 }
-                else if (e.Packet.Id == 208)
+                else if (e.Packet.Id == Master.Out.CompleteDhHandshake)
                 {
                     e.WaitUntil = _initializeStreamCiphersTask = InitializeStreamCiphersAsync();
+                    IsReceiving = false;
                 }
             }
-            else if (e.Packet.Id == 4001 && Master.Game.IsPostShuffle)
+            else if (e.Packet.Id == 4002 && Master.Game.IsPostShuffle)
             {
                 string sharedKeyHex = e.Packet.ReadUTF8();
                 if (sharedKeyHex.Length % 2 != 0)
                 {
                     sharedKeyHex = "0" + sharedKeyHex;
                 }
-
-                byte[] sharedKey = Enumerable.Range(0, sharedKeyHex.Length / 2)
-                    .Select(x => Convert.ToByte(sharedKeyHex.Substring(x * 2, 2), 16))
-                    .ToArray();
+                byte[] sharedKey = Convert.FromHexString(sharedKeyHex);
 
                 Master.Connection.Remote.Encrypter = new RC4(sharedKey);
                 if (IsIncomingEncrypted)
@@ -604,11 +534,11 @@ namespace Tanji.Services
         }
         public void HandleIncoming(DataInterceptedEventArgs e)
         {
-            if (IsH2020 && e.Packet.Id == 279)
+            if (Master.Game.IsUnity && e.Packet.Id == Master.In.DhCompleteHandshake)
             {
                 e.WaitUntil = _initializeStreamCiphersTask;
             }
-            else if ((e.Step == 2 || e.Packet.Id == Master.In?.CompleteDiffieHandshake) && (Master.Game?.IsPostShuffle ?? false))
+            else if (!Master.Game.IsUnity && (e.Step == 2 || e.Packet.Id == Master.In.CompleteDiffieHandshake) && (Master.Game?.IsPostShuffle ?? false))
             {
                 e.Packet.ReadUTF8();
                 if (e.Packet.ReadableBytes > 0)
