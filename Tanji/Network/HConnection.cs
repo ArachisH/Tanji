@@ -56,7 +56,7 @@ namespace Tanji.Network
             DataIncoming?.Invoke(this, e);
         }
 
-        public int SocketSkip { get; set; } = 0;
+        public int SocketSkip { get; set; }
         public int ListenPort { get; set; } = 9567;
         public bool IsConnected { get; private set; }
 
