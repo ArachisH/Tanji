@@ -17,11 +17,11 @@ namespace Tanji.Habbo
 {
     public class FlashGame : TGame
     {
-        private readonly ShockwaveFlash _flash;
-        private readonly List<ABCFile> _abcFiles;
-        private readonly Dictionary<DoABCTag, ABCFile> _abcFileTags;
-        private readonly Dictionary<ASClass, FlashMessage> _flashMsgs;
-        private readonly Dictionary<string, MessageInfo> _outMessages, _inMessages;
+        private ShockwaveFlash _flash;
+        private List<ABCFile> _abcFiles;
+        private Dictionary<DoABCTag, ABCFile> _abcFileTags;
+        private Dictionary<ASClass, FlashMessage> _flashMsgs;
+        private Dictionary<string, MessageInfo> _outMessages, _inMessages;
 
         private ASMethod _habboCommManagerConnect;
         private ASInstance _habboCommDemo, _habboCommManager;
@@ -40,12 +40,16 @@ namespace Tanji.Habbo
         };
         #endregion
 
-        public bool HasPingInstructions { get; private set; }
-
         public FlashGame(string path)
+            : this(new ShockwaveFlash(path), path)
+        { }
+        public FlashGame(string path, byte[] gameBytes)
+            : this(new ShockwaveFlash(gameBytes), path)
+        { }
+        protected FlashGame(ShockwaveFlash flash, string path)
         {
+            _flash = flash;
             _abcFiles = new List<ABCFile>();
-            _flash = new ShockwaveFlash(path);
             _abcFileTags = new Dictionary<DoABCTag, ABCFile>();
             _inMessages = new Dictionary<string, MessageInfo>();
             _outMessages = new Dictionary<string, MessageInfo>();
@@ -53,6 +57,7 @@ namespace Tanji.Habbo
 
             Path = path;
             IsUnity = false;
+            IsPostShuffle = true;
         }
 
         #region Message Hashing/Linking
@@ -324,6 +329,7 @@ namespace Tanji.Habbo
         }
         public override MessageInfo GetInformation(HMessage message)
         {
+            if (message == null) return null;
             Dictionary<string, MessageInfo> msgInfos = message.IsOutgoing ? _outMessages : _inMessages;
             if (!msgInfos.TryGetValue(message.Name, out MessageInfo msgInfo)) return null;
             return msgInfo;
@@ -996,6 +1002,27 @@ namespace Tanji.Habbo
             return _habboCommManager;
         }
 
+        public byte[] ToArray(CompressionKind compression)
+        {
+            using var assembledOutput = new MemoryStream((int)_flash.FileLength);
+            using var writer = new FlashWriter(assembledOutput);
+            {
+                Assemble(writer, compression);
+                writer.Flush();
+                return assembledOutput.ToArray();
+            }
+        }
+        public void Patch(short keyShouterId, string host, int port)
+        {
+            if (IsPostShuffle)
+            {
+                DisableHostChecks();
+                InjectKeyShouter();
+            }
+            InjectEndPointShouter(keyShouterId);
+            InjectEndPoint(host, port);
+        }
+
         public void Disassemble()
         {
             _flash.Disassemble(t =>
@@ -1017,6 +1044,23 @@ namespace Tanji.Habbo
             var doABCTag = (DoABCTag)t;
             doABCTag.ABCData = _abcFileTags[doABCTag].ToArray();
         });
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _flash.Dispose();
+                _abcFiles.Clear();
+                _flashMsgs.Clear();
+                _abcFileTags.Clear();
+            }
+            _flash = null;
+            _abcFiles = null;
+            _flashMsgs = null;
+            _abcFileTags = null;
+            _habboCommManagerConnect = null;
+            _habboCommDemo = _habboCommManager = null;
+        }
 
         private record FlashMessage(short Id, string Structure, bool IsOutgoing, ASClass MessageClass, ASClass ParserClass, List<MessageReference> References);
 

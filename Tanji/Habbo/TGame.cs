@@ -1,19 +1,36 @@
-﻿using Sulakore.Habbo;
+﻿using System;
+
+using Sulakore.Habbo;
 
 namespace Tanji.Habbo
 {
-    public abstract class TGame : IGame
+    public abstract class TGame : IGame, IDisposable
     {
-        public Incoming In { get; protected set; }
-        public Outgoing Out { get; protected set; }
+        private bool _isDisposed;
 
-        public string Path { get; init; }
-        public bool IsUnity { get; init; }
+        public virtual string Path { get; init; }
+        public virtual bool IsUnity { get; init; }
 
-        public string Revision { get; protected set; }
-        public bool IsPostShuffle { get; protected set; }
+        public virtual Incoming In { get; protected set; }
+        public virtual Outgoing Out { get; protected set; }
+
+        public virtual string Revision { get; protected set; }
+        public virtual bool IsPostShuffle { get; protected set; }
+        public virtual bool HasPingInstructions { get; protected set; }
 
         public abstract short Resolve(string name, bool isOutgoing);
         public abstract MessageInfo GetInformation(HMessage message);
+
+        public void Dispose()
+        {
+            if (!_isDisposed)
+            {
+                Dispose(true);
+                GC.Collect();
+                GC.SuppressFinalize(this);
+                _isDisposed = true;
+            }
+        }
+        protected abstract void Dispose(bool disposing);
     }
 }
