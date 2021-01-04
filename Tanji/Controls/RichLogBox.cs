@@ -20,6 +20,11 @@ namespace Tanji.Controls
             }
         }
 
+        public RichLogBox()
+        {
+            SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
+        }
+
         public IDisposable GetSuspender() => new RichLogBoxPaintSuspender(this);
 
         protected override void WndProc(ref Message m)
