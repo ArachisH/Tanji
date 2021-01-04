@@ -64,7 +64,7 @@ namespace Tanji.Habbo
         public void GenerateMessageHashes(string hashesPath)
         {
             bool isUnmatched = false;
-            var names = new Dictionary<string, string>();
+            var names = new Dictionary<string, (string, bool)>();
             foreach (string line in File.ReadAllLines(hashesPath))
             {
                 if (string.IsNullOrWhiteSpace(line)) continue;
@@ -88,7 +88,7 @@ namespace Tanji.Habbo
                     if (items.Length != 2) continue;
                 }
                 string hash = items[1];
-                names.Add(hash, name); // Duplicate hashes should no longer exist, so allow the exception to be thrown.
+                names.Add(hash, (name, isUnmatched)); // Duplicate hashes should no longer exist, so allow the exception to be thrown.
             }
 
             FindMessageReferences();
@@ -109,12 +109,12 @@ namespace Tanji.Habbo
                 messages.Add(hash, flashMsg);
             }
 
-            foreach ((string hash, string name) in names)
+            foreach ((string hash, (string name, bool unmatched)) in names)
             {
                 if (!messages.TryGetValue(hash, out FlashMessage flashMsg)) continue;
 
                 (flashMsg.IsOutgoing ? _outMessages : _inMessages)
-                    .Add(name, new MessageInfo(flashMsg.Id, hash, flashMsg.Structure, flashMsg.MessageClass.QName.Name, flashMsg.ParserClass?.QName.Name));
+                    .Add(name, new MessageInfo(flashMsg.Id, hash, flashMsg.Structure, flashMsg.MessageClass.QName.Name, flashMsg.ParserClass?.QName.Name, !unmatched));
             }
 
             In = new Incoming(this);

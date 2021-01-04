@@ -72,7 +72,7 @@ namespace Tanji.Habbo
                 short id = short.Parse(subItems[0]);
 
                 Dictionary<string, MessageInfo> messages = (isOutgoing ? _outMessages : _inMessages);
-                messages.Add(name, new MessageInfo(id, hash, null, null, null));
+                messages.Add(name, new MessageInfo(id, hash, null, null, null, true));
             }
         }
 
@@ -143,6 +143,7 @@ namespace Tanji.Habbo
 
         public override MessageInfo GetInformation(HMessage message)
         {
+            if (message == null) return null;
             Dictionary<string, MessageInfo> messages = message.IsOutgoing ? _outMessages : _inMessages;
             messages.TryGetValue(message.Name, out MessageInfo msgInfo);
             return msgInfo;

@@ -304,7 +304,15 @@ namespace Tanji.Windows
                         AddEntry(entries, message.Name, DetailHighlight, right: ", ");
                     }
                     else AddEntry(entries, null, DefaultHighlight, right: null);
-                    AddEntryLine(entries, information?.Hash ?? "?", DetailHighlight, left: null);
+
+                    bool isUnityCompatible = information?.IsUnityCompatible ?? true;
+                    AddEntry(entries, information?.Hash ?? "?", DetailHighlight, null, !isUnityCompatible ? ", " : null);
+                    if (!isUnityCompatible)
+                    {
+                        AddEntry(entries, "Umatched", Color.Red, null, null);
+                        AddEntryLine(entries, null, DetailHighlight, null);
+                    }
+                    else AddEntryLine(entries, null, DetailHighlight, null);
                 }
 
                 if (IsDisplayingHexadecimal)
@@ -391,11 +399,11 @@ namespace Tanji.Windows
 
         private void CalculateLatency(DataInterceptedEventArgs e)
         {
-            if (e.IsOutgoing && e.Packet.Id == Master.Out?.ClientLatencyPingRequest)
+            if (e.IsOutgoing && e.Packet.Id == Master.Out.ClientLatencyPingRequest)
             {
                 _latencyTestStart = e.Timestamp;
             }
-            else if (e.Packet.Id == Master.In?.LatencyPingResponse)
+            else if (e.Packet.Id == Master.In.ClientLatencyPingResponse)
             {
                 Latency = (e.Timestamp - _latencyTestStart).TotalMilliseconds;
             }
