@@ -299,11 +299,9 @@ namespace Tanji.Services
             {
                 if (isStoringLocally)
                 {
-#if DEBUG
                     Directory.CreateDirectory(Path.GetDirectoryName(resourcePath));
                     using FileStream localCacheFileStream = File.Open(resourcePath, FileMode.Create, FileAccess.Write);
                     localCacheFileStream.Write(replacement, 0, replacement.Length);
-#endif
                 }
                 e.Content = new ByteArrayContent(replacement);
                 e.Headers[HttpResponseHeader.ContentLength] = replacement.Length.ToString();
