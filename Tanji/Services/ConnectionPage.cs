@@ -4,7 +4,6 @@ using System.Net;
 using System.Text;
 using System.Buffers;
 using System.Net.Http;
-using System.Reflection;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -19,7 +18,6 @@ using Sulakore.Network;
 using Sulakore.Cryptography.Ciphers;
 
 using Eavesdrop;
-using Flazzy;
 
 namespace Tanji.Services
 {
@@ -103,7 +101,6 @@ namespace Tanji.Services
 
             bool isGlobalProdData = resourceName.Equals("habbo2020-global-prod.data.unityweb", StringComparison.InvariantCultureIgnoreCase);
             bool isGlobalProdWasmCode = resourceName.Equals("habbo2020-global-prod.wasm.code.unityweb", StringComparison.InvariantCultureIgnoreCase);
-
             if (File.Exists(resourcePath))
             {
                 if (!isGlobalProdData)
@@ -142,14 +139,12 @@ namespace Tanji.Services
                 if (isGlobalProdData)
                 {
                     HttpWebRequest buraksRequest = StripInterceptionQuery((HttpWebRequest)e.Request, "https://jxz.be"); // Thanks Burak!
+                    buraksRequest.Headers["Initiator"] = e.Uri.Host;
                     buraksRequest.Headers["From"] = "Tanji";
-                    buraksRequest.AllowAutoRedirect = true;
                     buraksRequest.Host = "jxz.be";
-                    buraksRequest.Method = "GET";
-                    buraksRequest.Proxy = null;
                     e.Request = buraksRequest;
                 }
-                //else e.Request = StripInterceptionQuery((HttpWebRequest)e.Request); // TODO: Doing this seems to cause a double-request to happen, not sure why.
+                else e.Request = StripInterceptionQuery((HttpWebRequest)e.Request);
             }
             return Task.CompletedTask;
         }
@@ -212,14 +207,11 @@ namespace Tanji.Services
             if (!TryGetContentTypes(e, out _, out _, out bool isShockwaveFlash, out bool isJson, out bool isUnityWeb)) return;
             if (!isShockwaveFlash && !isJson && !isUnityWeb) return;
 
-            string resourcePath = Path.GetFullPath($"Cache/{e.Uri.Host}/{e.Uri.LocalPath}");
-            string resourceDirectory = Path.GetDirectoryName(resourcePath);
-
             string revision = null;
             byte[] replacement = null;
             bool isStoringLocally = true;
             string resourceName = e.Uri.Segments[^1];
-
+            string resourcePath = Path.GetFullPath($"Cache/{e.Uri.Host}/{e.Uri.LocalPath}");
             if (isJson && resourceName == "habbo2020-global-prod.json")
             {
                 isStoringLocally = false;
@@ -234,6 +226,15 @@ namespace Tanji.Services
                 revision = e.Uri.Segments[2][0..^1];
                 switch (resourceName)
                 {
+                    case "habbo2020-global-prod.data.unityweb":
+                    {
+                        replacement = await e.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                        if (e.Uri.Host.Equals("jxz.be", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            resourcePath = Path.GetFullPath($"Cache/{e.Request.Headers["Initiator"]}/{e.Uri.LocalPath}");
+                        }
+                        break;
+                    }
                     case "habbo2020-global-prod.wasm.code.unityweb":
                     {
                         replacement = await e.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
@@ -280,9 +281,9 @@ namespace Tanji.Services
                 Status = PATCHING_CLIENT;
                 flash.Patch(flash.IsPostShuffle ? 4000 : 206, "127.0.0.1", Master.Config.GameListenPort);
 
-                CompressionKind compression = CompressionKind.ZLIB;
+                Flazzy.CompressionKind compression = Flazzy.CompressionKind.ZLIB;
 #if DEBUG
-                compression = CompressionKind.None;
+                compression = Flazzy.CompressionKind.None;
 #endif
 
                 Status = ASSEMBLING_CLIENT;
@@ -298,8 +299,8 @@ namespace Tanji.Services
             {
                 if (isStoringLocally)
                 {
-#if !DEBUG
-                    Directory.CreateDirectory(resourceDirectory);
+#if DEBUG
+                    Directory.CreateDirectory(Path.GetDirectoryName(resourcePath));
                     using FileStream localCacheFileStream = File.Open(resourcePath, FileMode.Create, FileAccess.Write);
                     localCacheFileStream.Write(replacement, 0, replacement.Length);
 #endif
@@ -456,19 +457,45 @@ namespace Tanji.Services
         private static HttpWebRequest StripInterceptionQuery(HttpWebRequest request, string authority = null)
         {
             string strippedUrl = (authority ?? request.RequestUri.GetLeftPart(UriPartial.Authority)) + request.RequestUri.AbsolutePath;
-            var strippedRequest = WebRequest.CreateHttp(new Uri(strippedUrl));
-            if (authority != null) return strippedRequest;
+            HttpWebRequest strippedQueryRequest = WebRequest.CreateHttp(strippedUrl);
+            strippedQueryRequest.AllowAutoRedirect = request.AllowAutoRedirect;
+            strippedQueryRequest.IfModifiedSince = request.IfModifiedSince;
+            strippedQueryRequest.ProtocolVersion = request.ProtocolVersion;
+            strippedQueryRequest.CookieContainer = request.CookieContainer;
+            strippedQueryRequest.ContentType = request.ContentType;
+            strippedQueryRequest.KeepAlive = request.KeepAlive;
+            strippedQueryRequest.UserAgent = request.UserAgent;
+            strippedQueryRequest.Referer = request.Referer;
+            strippedQueryRequest.Accept = request.Accept;
+            strippedQueryRequest.Method = request.Method;
+            strippedQueryRequest.Proxy = request.Proxy;
+            strippedQueryRequest.Host = request.Host;
 
-            foreach (var item in request.GetType().GetProperties())
+            if (request.ContentLength > 0)
             {
-                if (!item.CanWrite || !item.CanRead) continue;
-                var value = item.GetValue(request, BindingFlags.GetProperty, null, null, null);
-
-                if (value == null) continue;
-                item.SetValue(strippedRequest, value, BindingFlags.SetProperty, null, null, null);
+                strippedQueryRequest.ContentLength = request.ContentLength;
             }
-            strippedRequest.AuthenticationLevel = System.Net.Security.AuthenticationLevel.None;
-            return strippedRequest;
+            foreach (string header in request.Headers.Keys)
+            {
+                switch (header.ToLower())
+                {
+                    case "range":
+                    case "expect":
+                    case "host":
+                    case "accept":
+                    case "cookie":
+                    case "referer":
+                    case "keep-alive":
+                    case "connection":
+                    case "user-agent":
+                    case "content-type":
+                    case "content-length":
+                    case "proxy-connection":
+                    case "if-modified-since": break;
+                    default: strippedQueryRequest.Headers[header] = request.Headers[header]; break;
+                }
+            }
+            return strippedQueryRequest;
         }
 
         #region IHaltable Implementation
