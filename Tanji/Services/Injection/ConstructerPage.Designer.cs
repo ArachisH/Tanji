@@ -48,9 +48,9 @@
             // MoveDownBtn
             // 
             this.MoveDownBtn.Enabled = false;
-            this.MoveDownBtn.Location = new System.Drawing.Point(216, 256);
+            this.MoveDownBtn.Location = new System.Drawing.Point(203, 248);
             this.MoveDownBtn.Name = "MoveDownBtn";
-            this.MoveDownBtn.Size = new System.Drawing.Size(100, 20);
+            this.MoveDownBtn.Size = new System.Drawing.Size(95, 20);
             this.MoveDownBtn.TabIndex = 17;
             this.MoveDownBtn.Text = "Move Down";
             this.MoveDownBtn.Click += new System.EventHandler(this.MoveDownBtn_Click);
@@ -58,9 +58,9 @@
             // MoveUpBtn
             // 
             this.MoveUpBtn.Enabled = false;
-            this.MoveUpBtn.Location = new System.Drawing.Point(322, 256);
+            this.MoveUpBtn.Location = new System.Drawing.Point(304, 248);
             this.MoveUpBtn.Name = "MoveUpBtn";
-            this.MoveUpBtn.Size = new System.Drawing.Size(100, 20);
+            this.MoveUpBtn.Size = new System.Drawing.Size(90, 20);
             this.MoveUpBtn.TabIndex = 16;
             this.MoveUpBtn.Text = "Move Up";
             this.MoveUpBtn.Click += new System.EventHandler(this.MoveUpBtn_Click);
@@ -68,49 +68,49 @@
             // RemoveBtn
             // 
             this.RemoveBtn.Enabled = false;
-            this.RemoveBtn.Location = new System.Drawing.Point(110, 256);
+            this.RemoveBtn.Location = new System.Drawing.Point(103, 248);
             this.RemoveBtn.Name = "RemoveBtn";
-            this.RemoveBtn.Size = new System.Drawing.Size(100, 20);
+            this.RemoveBtn.Size = new System.Drawing.Size(95, 20);
             this.RemoveBtn.TabIndex = 15;
             this.RemoveBtn.Text = "Remove";
             this.RemoveBtn.Click += new System.EventHandler(this.RemoveBtn_Click);
             // 
             // ClearBtn
             // 
-            this.ClearBtn.Location = new System.Drawing.Point(322, 230);
+            this.ClearBtn.Location = new System.Drawing.Point(304, 222);
             this.ClearBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.ClearBtn.Name = "ClearBtn";
-            this.ClearBtn.Size = new System.Drawing.Size(100, 20);
+            this.ClearBtn.Size = new System.Drawing.Size(90, 20);
             this.ClearBtn.TabIndex = 13;
             this.ClearBtn.Text = "Clear";
             this.ClearBtn.Click += new System.EventHandler(this.ClearBtn_Click);
             // 
             // CopyBtn
             // 
-            this.CopyBtn.Location = new System.Drawing.Point(3, 256);
+            this.CopyBtn.Location = new System.Drawing.Point(3, 248);
             this.CopyBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.CopyBtn.Name = "CopyBtn";
-            this.CopyBtn.Size = new System.Drawing.Size(100, 20);
+            this.CopyBtn.Size = new System.Drawing.Size(95, 20);
             this.CopyBtn.TabIndex = 12;
             this.CopyBtn.Text = "Copy";
             this.CopyBtn.Click += new System.EventHandler(this.CopyBtn_Click);
             // 
             // WriteBooleanBtn
             // 
-            this.WriteBooleanBtn.Location = new System.Drawing.Point(219, 29);
+            this.WriteBooleanBtn.Location = new System.Drawing.Point(199, 29);
             this.WriteBooleanBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.WriteBooleanBtn.Name = "WriteBooleanBtn";
-            this.WriteBooleanBtn.Size = new System.Drawing.Size(100, 20);
+            this.WriteBooleanBtn.Size = new System.Drawing.Size(90, 20);
             this.WriteBooleanBtn.TabIndex = 9;
             this.WriteBooleanBtn.Text = "Write Boolean";
             this.WriteBooleanBtn.Click += new System.EventHandler(this.WriteBooleanBtn_Click);
             // 
             // WriteStringBtn
             // 
-            this.WriteStringBtn.Location = new System.Drawing.Point(111, 29);
+            this.WriteStringBtn.Location = new System.Drawing.Point(101, 29);
             this.WriteStringBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.WriteStringBtn.Name = "WriteStringBtn";
-            this.WriteStringBtn.Size = new System.Drawing.Size(100, 20);
+            this.WriteStringBtn.Size = new System.Drawing.Size(90, 20);
             this.WriteStringBtn.TabIndex = 8;
             this.WriteStringBtn.Text = "Write String";
             this.WriteStringBtn.Click += new System.EventHandler(this.WriteStringBtn_Click);
@@ -120,7 +120,7 @@
             this.WriteIntegerBtn.Location = new System.Drawing.Point(3, 29);
             this.WriteIntegerBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.WriteIntegerBtn.Name = "WriteIntegerBtn";
-            this.WriteIntegerBtn.Size = new System.Drawing.Size(100, 20);
+            this.WriteIntegerBtn.Size = new System.Drawing.Size(90, 20);
             this.WriteIntegerBtn.TabIndex = 2;
             this.WriteIntegerBtn.Text = "Write Integer";
             this.WriteIntegerBtn.Click += new System.EventHandler(this.WriteIntegerBtn_Click);
@@ -130,7 +130,7 @@
             this.ValueTxt.Location = new System.Drawing.Point(96, 3);
             this.ValueTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.ValueTxt.Name = "ValueTxt";
-            this.ValueTxt.Size = new System.Drawing.Size(326, 20);
+            this.ValueTxt.Size = new System.Drawing.Size(298, 20);
             this.ValueTxt.TabIndex = 1;
             this.ValueTxt.TabStop = false;
             this.ValueTxt.Text = "";
@@ -154,7 +154,7 @@
             this.ValuesVw.Name = "ValuesVw";
             this.ValuesVw.OwnerDraw = true;
             this.ValuesVw.ShowItemToolTips = true;
-            this.ValuesVw.Size = new System.Drawing.Size(419, 169);
+            this.ValuesVw.Size = new System.Drawing.Size(391, 164);
             this.ValuesVw.TabIndex = 0;
             this.ValuesVw.TabStop = false;
             this.ValuesVw.UseCompatibleStateImageBehavior = false;
@@ -168,20 +168,20 @@
             // 
             this.TypeCol.Name = "TypeCol";
             this.TypeCol.Text = "Type";
-            this.TypeCol.Width = 82;
+            this.TypeCol.Width = 75;
             // 
             // ValueCol
             // 
             this.ValueCol.Name = "ValueCol";
             this.ValueCol.Text = "Value";
-            this.ValueCol.Width = 333;
+            this.ValueCol.Width = 312;
             // 
             // DismantledTxt
             // 
             this.DismantledTxt.IsReadOnly = true;
-            this.DismantledTxt.Location = new System.Drawing.Point(3, 230);
+            this.DismantledTxt.Location = new System.Drawing.Point(3, 222);
             this.DismantledTxt.Name = "DismantledTxt";
-            this.DismantledTxt.Size = new System.Drawing.Size(313, 20);
+            this.DismantledTxt.Size = new System.Drawing.Size(296, 20);
             this.DismantledTxt.TabIndex = 18;
             this.DismantledTxt.TabStop = false;
             this.DismantledTxt.Text = "";
@@ -190,10 +190,10 @@
             // AmountTxt
             // 
             this.AmountTxt.IsNumbersOnly = true;
-            this.AmountTxt.Location = new System.Drawing.Point(326, 29);
+            this.AmountTxt.Location = new System.Drawing.Point(299, 29);
             this.AmountTxt.MaxLength = 2;
             this.AmountTxt.Name = "AmountTxt";
-            this.AmountTxt.Size = new System.Drawing.Size(96, 20);
+            this.AmountTxt.Size = new System.Drawing.Size(95, 20);
             this.AmountTxt.TabIndex = 19;
             this.AmountTxt.TabStop = false;
             this.AmountTxt.Text = "";
@@ -213,7 +213,7 @@
             // 
             // ConstructerPage
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.IDTxt);
             this.Controls.Add(this.AmountTxt);
@@ -228,8 +228,10 @@
             this.Controls.Add(this.WriteBooleanBtn);
             this.Controls.Add(this.ValueTxt);
             this.Controls.Add(this.ValuesVw);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "ConstructerPage";
-            this.Size = new System.Drawing.Size(425, 278);
+            this.Size = new System.Drawing.Size(397, 270);
             this.ResumeLayout(false);
 
         }

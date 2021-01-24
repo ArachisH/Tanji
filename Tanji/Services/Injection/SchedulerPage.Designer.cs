@@ -51,10 +51,10 @@
             // IntervalTxt
             // 
             this.IntervalTxt.IsNumbersOnly = true;
-            this.IntervalTxt.Location = new System.Drawing.Point(250, 229);
+            this.IntervalTxt.Location = new System.Drawing.Point(236, 220);
             this.IntervalTxt.MaxLength = 5;
             this.IntervalTxt.Name = "IntervalTxt";
-            this.IntervalTxt.Size = new System.Drawing.Size(93, 20);
+            this.IntervalTxt.Size = new System.Drawing.Size(80, 20);
             this.IntervalTxt.TabIndex = 0;
             this.IntervalTxt.Text = "250";
             this.IntervalTxt.TextPaddingWidth = 0;
@@ -63,10 +63,10 @@
             // CyclesTxt
             // 
             this.CyclesTxt.IsNumbersOnly = true;
-            this.CyclesTxt.Location = new System.Drawing.Point(3, 255);
+            this.CyclesTxt.Location = new System.Drawing.Point(7, 247);
             this.CyclesTxt.MaxLength = 2;
             this.CyclesTxt.Name = "CyclesTxt";
-            this.CyclesTxt.Size = new System.Drawing.Size(72, 20);
+            this.CyclesTxt.Size = new System.Drawing.Size(62, 20);
             this.CyclesTxt.TabIndex = 0;
             this.CyclesTxt.Text = "0";
             this.CyclesTxt.TextPaddingWidth = 1;
@@ -74,9 +74,9 @@
             // 
             // PacketTxt
             // 
-            this.PacketTxt.Location = new System.Drawing.Point(3, 229);
+            this.PacketTxt.Location = new System.Drawing.Point(5, 221);
             this.PacketTxt.Name = "PacketTxt";
-            this.PacketTxt.Size = new System.Drawing.Size(241, 20);
+            this.PacketTxt.Size = new System.Drawing.Size(225, 20);
             this.PacketTxt.TabIndex = 1;
             this.PacketTxt.Text = "";
             this.PacketTxt.TextPaddingWidth = 0;
@@ -84,9 +84,9 @@
             // 
             // HotkeyTxt
             // 
-            this.HotkeyTxt.Location = new System.Drawing.Point(81, 255);
+            this.HotkeyTxt.Location = new System.Drawing.Point(73, 247);
             this.HotkeyTxt.Name = "HotkeyTxt";
-            this.HotkeyTxt.Size = new System.Drawing.Size(149, 20);
+            this.HotkeyTxt.Size = new System.Drawing.Size(135, 20);
             this.HotkeyTxt.TabIndex = 1;
             this.HotkeyTxt.Text = "";
             this.HotkeyTxt.TextPaddingWidth = 0;
@@ -96,16 +96,16 @@
             // ToServerChbx
             // 
             this.ToServerChbx.AutoSize = true;
-            this.ToServerChbx.Location = new System.Drawing.Point(349, 230);
+            this.ToServerChbx.Location = new System.Drawing.Point(321, 221);
             this.ToServerChbx.Name = "ToServerChbx";
-            this.ToServerChbx.Size = new System.Drawing.Size(73, 19);
+            this.ToServerChbx.Size = new System.Drawing.Size(73, 17);
             this.ToServerChbx.TabIndex = 3;
             this.ToServerChbx.Text = "To Server";
             this.ToServerChbx.UseVisualStyleBackColor = true;
             // 
             // CreateBtn
             // 
-            this.CreateBtn.Location = new System.Drawing.Point(236, 255);
+            this.CreateBtn.Location = new System.Drawing.Point(214, 247);
             this.CreateBtn.Name = "CreateBtn";
             this.CreateBtn.Size = new System.Drawing.Size(58, 20);
             this.CreateBtn.TabIndex = 4;
@@ -114,16 +114,16 @@
             // 
             // RemoveBtn
             // 
-            this.RemoveBtn.Location = new System.Drawing.Point(300, 255);
+            this.RemoveBtn.Location = new System.Drawing.Point(279, 247);
             this.RemoveBtn.Name = "RemoveBtn";
-            this.RemoveBtn.Size = new System.Drawing.Size(58, 20);
+            this.RemoveBtn.Size = new System.Drawing.Size(50, 20);
             this.RemoveBtn.TabIndex = 4;
             this.RemoveBtn.Text = "Remove";
             this.RemoveBtn.Click += new System.EventHandler(this.RemoveBtn_Click);
             // 
             // ClearBtn
             // 
-            this.ClearBtn.Location = new System.Drawing.Point(364, 255);
+            this.ClearBtn.Location = new System.Drawing.Point(336, 247);
             this.ClearBtn.Name = "ClearBtn";
             this.ClearBtn.Size = new System.Drawing.Size(58, 20);
             this.ClearBtn.TabIndex = 4;
@@ -150,7 +150,7 @@
             this.SchedulesVw.Name = "SchedulesVw";
             this.SchedulesVw.OwnerDraw = true;
             this.SchedulesVw.ShowItemToolTips = true;
-            this.SchedulesVw.Size = new System.Drawing.Size(419, 220);
+            this.SchedulesVw.Size = new System.Drawing.Size(391, 212);
             this.SchedulesVw.TabIndex = 5;
             this.SchedulesVw.UseCompatibleStateImageBehavior = false;
             this.SchedulesVw.View = System.Windows.Forms.View.Details;
@@ -162,7 +162,7 @@
             // 
             this.PacketCol.Name = "PacketCol";
             this.PacketCol.Text = "Packet";
-            this.PacketCol.Width = 136;
+            this.PacketCol.Width = 129;
             // 
             // DestinationCol
             // 
@@ -186,7 +186,7 @@
             // 
             this.HotkeyCol.Name = "HotkeyCol";
             this.HotkeyCol.Text = "Hotkey";
-            this.HotkeyCol.Width = 101;
+            this.HotkeyCol.Width = 74;
             // 
             // SchedulerCxm
             // 
@@ -205,7 +205,7 @@
             // 
             // SchedulerPage
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.ClearBtn);
             this.Controls.Add(this.RemoveBtn);
@@ -216,8 +216,10 @@
             this.Controls.Add(this.IntervalTxt);
             this.Controls.Add(this.ToServerChbx);
             this.Controls.Add(this.SchedulesVw);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "SchedulerPage";
-            this.Size = new System.Drawing.Size(425, 278);
+            this.Size = new System.Drawing.Size(397, 270);
             this.SchedulerCxm.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

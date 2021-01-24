@@ -55,7 +55,7 @@
             this.AvatarPct.InitialImage = null;
             this.AvatarPct.Location = new System.Drawing.Point(0, 199);
             this.AvatarPct.Name = "AvatarPct";
-            this.AvatarPct.Size = new System.Drawing.Size(65, 116);
+            this.AvatarPct.Size = new System.Drawing.Size(65, 114);
             this.AvatarPct.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.AvatarPct.TabIndex = 1;
             this.AvatarPct.TabStop = false;
@@ -63,9 +63,9 @@
             // AuthorsLbl
             // 
             this.AuthorsLbl.AutoSize = true;
-            this.AuthorsLbl.Location = new System.Drawing.Point(330, 209);
+            this.AuthorsLbl.Location = new System.Drawing.Point(298, 209);
             this.AuthorsLbl.Name = "AuthorsLbl";
-            this.AuthorsLbl.Size = new System.Drawing.Size(57, 15);
+            this.AuthorsLbl.Size = new System.Drawing.Size(49, 13);
             this.AuthorsLbl.TabIndex = 9;
             this.AuthorsLbl.Text = "Author(s)";
             // 
@@ -74,16 +74,16 @@
             this.AuthorsCmb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.AuthorsCmb.Enabled = false;
             this.AuthorsCmb.FormattingEnabled = true;
-            this.AuthorsCmb.ItemHeight = 15;
-            this.AuthorsCmb.Location = new System.Drawing.Point(330, 227);
+            this.AuthorsCmb.ItemHeight = 13;
+            this.AuthorsCmb.Location = new System.Drawing.Point(298, 227);
             this.AuthorsCmb.Name = "AuthorsCmb";
-            this.AuthorsCmb.Size = new System.Drawing.Size(173, 23);
+            this.AuthorsCmb.Size = new System.Drawing.Size(173, 21);
             this.AuthorsCmb.TabIndex = 8;
             // 
             // UninstallModuleBtn
             // 
             this.UninstallModuleBtn.Enabled = false;
-            this.UninstallModuleBtn.Location = new System.Drawing.Point(330, 261);
+            this.UninstallModuleBtn.Location = new System.Drawing.Point(298, 261);
             this.UninstallModuleBtn.Name = "UninstallModuleBtn";
             this.UninstallModuleBtn.Size = new System.Drawing.Size(173, 20);
             this.UninstallModuleBtn.TabIndex = 4;
@@ -92,7 +92,7 @@
             // 
             // InstallModuleBtn
             // 
-            this.InstallModuleBtn.Location = new System.Drawing.Point(330, 287);
+            this.InstallModuleBtn.Location = new System.Drawing.Point(298, 287);
             this.InstallModuleBtn.Name = "InstallModuleBtn";
             this.InstallModuleBtn.Size = new System.Drawing.Size(173, 20);
             this.InstallModuleBtn.TabIndex = 3;
@@ -117,7 +117,7 @@
             this.ModulesLv.Name = "ModulesLv";
             this.ModulesLv.OwnerDraw = true;
             this.ModulesLv.ShowItemToolTips = true;
-            this.ModulesLv.Size = new System.Drawing.Size(506, 199);
+            this.ModulesLv.Size = new System.Drawing.Size(476, 199);
             this.ModulesLv.TabIndex = 0;
             this.ModulesLv.UseCompatibleStateImageBehavior = false;
             this.ModulesLv.View = System.Windows.Forms.View.Details;
@@ -157,7 +157,10 @@
             this.Controls.Add(this.InstallModuleBtn);
             this.Controls.Add(this.AvatarPct);
             this.Controls.Add(this.ModulesLv);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "ModulesPage";
+            this.Size = new System.Drawing.Size(476, 313);
             ((System.ComponentModel.ISupportInitialize)(this.AvatarPct)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

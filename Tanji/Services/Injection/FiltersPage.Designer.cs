@@ -35,7 +35,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Name = "FiltersPage";
-            this.Size = new System.Drawing.Size(425, 278);
+            this.Size = new System.Drawing.Size(397, 270);
             this.ResumeLayout(false);
 
         }
