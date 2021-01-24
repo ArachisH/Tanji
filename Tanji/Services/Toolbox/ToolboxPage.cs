@@ -12,5 +12,15 @@ namespace Tanji.Services.Toolbox
         {
             InitializeComponent();
         }
+
+        private void DecodeUShortBtn_Click(object sender, System.EventArgs e)
+        {
+
+        }
+
+        private void DecodeIntBtn_Click(object sender, System.EventArgs e)
+        {
+
+        }
     }
 }
