@@ -65,7 +65,7 @@
             this.AuthorsLbl.AutoSize = true;
             this.AuthorsLbl.Location = new System.Drawing.Point(298, 209);
             this.AuthorsLbl.Name = "AuthorsLbl";
-            this.AuthorsLbl.Size = new System.Drawing.Size(49, 13);
+            this.AuthorsLbl.Size = new System.Drawing.Size(54, 13);
             this.AuthorsLbl.TabIndex = 9;
             this.AuthorsLbl.Text = "Author(s)";
             // 
@@ -157,7 +157,7 @@
             this.Controls.Add(this.InstallModuleBtn);
             this.Controls.Add(this.AvatarPct);
             this.Controls.Add(this.ModulesLv);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "ModulesPage";
             this.Size = new System.Drawing.Size(476, 313);

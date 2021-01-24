@@ -149,7 +149,7 @@
             this.Controls.Add(this.CustomClientTxt);
             this.Controls.Add(this.ConnectBtn);
             this.Controls.Add(this.StatusTxt);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "ConnectionPage";
             this.Size = new System.Drawing.Size(476, 313);

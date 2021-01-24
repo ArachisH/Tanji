@@ -147,7 +147,7 @@
             this.Controls.Add(this.DarkboxBtn);
             this.Controls.Add(this.DarkStarBtn);
             this.Controls.Add(this.ArachisBtn);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "AboutPage";
             this.Size = new System.Drawing.Size(402, 299);

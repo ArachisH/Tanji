@@ -228,7 +228,7 @@
             this.Controls.Add(this.WriteBooleanBtn);
             this.Controls.Add(this.ValueTxt);
             this.Controls.Add(this.ValuesVw);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "ConstructerPage";
             this.Size = new System.Drawing.Size(397, 270);

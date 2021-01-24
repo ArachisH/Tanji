@@ -98,7 +98,7 @@
             this.ToServerChbx.AutoSize = true;
             this.ToServerChbx.Location = new System.Drawing.Point(321, 221);
             this.ToServerChbx.Name = "ToServerChbx";
-            this.ToServerChbx.Size = new System.Drawing.Size(73, 17);
+            this.ToServerChbx.Size = new System.Drawing.Size(72, 17);
             this.ToServerChbx.TabIndex = 3;
             this.ToServerChbx.Text = "To Server";
             this.ToServerChbx.UseVisualStyleBackColor = true;
@@ -216,7 +216,7 @@
             this.Controls.Add(this.IntervalTxt);
             this.Controls.Add(this.ToServerChbx);
             this.Controls.Add(this.SchedulesVw);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "SchedulerPage";
             this.Size = new System.Drawing.Size(397, 270);

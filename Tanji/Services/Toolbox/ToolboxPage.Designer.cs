@@ -46,7 +46,7 @@
             this.Bit16InputLbl.BackColor = System.Drawing.Color.Transparent;
             this.Bit16InputLbl.Location = new System.Drawing.Point(6, 260);
             this.Bit16InputLbl.Name = "Bit16InputLbl";
-            this.Bit16InputLbl.Size = new System.Drawing.Size(100, 13);
+            this.Bit16InputLbl.Size = new System.Drawing.Size(110, 13);
             this.Bit16InputLbl.TabIndex = 0;
             this.Bit16InputLbl.Text = "16-Bit Integer Input:";
             // 
@@ -56,7 +56,7 @@
             this.Bit32InputLbl.BackColor = System.Drawing.Color.Transparent;
             this.Bit32InputLbl.Location = new System.Drawing.Point(6, 288);
             this.Bit32InputLbl.Name = "Bit32InputLbl";
-            this.Bit32InputLbl.Size = new System.Drawing.Size(100, 13);
+            this.Bit32InputLbl.Size = new System.Drawing.Size(110, 13);
             this.Bit32InputLbl.TabIndex = 1;
             this.Bit32InputLbl.Text = "32-Bit Integer Input:";
             // 
@@ -73,7 +73,7 @@
             // IntInputTxt
             // 
             this.IntInputTxt.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.IntInputTxt.Location = new System.Drawing.Point(108, 285);
+            this.IntInputTxt.Location = new System.Drawing.Point(118, 285);
             this.IntInputTxt.Maximum = new decimal(new int[] {
             2147483647,
             0,
@@ -85,7 +85,7 @@
             0,
             -2147483648});
             this.IntInputTxt.Name = "IntInputTxt";
-            this.IntInputTxt.Size = new System.Drawing.Size(126, 22);
+            this.IntInputTxt.Size = new System.Drawing.Size(116, 22);
             this.IntInputTxt.TabIndex = 16;
             this.IntInputTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -120,14 +120,14 @@
             // UShortInputTxt
             // 
             this.UShortInputTxt.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.UShortInputTxt.Location = new System.Drawing.Point(108, 257);
+            this.UShortInputTxt.Location = new System.Drawing.Point(118, 257);
             this.UShortInputTxt.Maximum = new decimal(new int[] {
             65535,
             0,
             0,
             0});
             this.UShortInputTxt.Name = "UShortInputTxt";
-            this.UShortInputTxt.Size = new System.Drawing.Size(126, 22);
+            this.UShortInputTxt.Size = new System.Drawing.Size(116, 22);
             this.UShortInputTxt.TabIndex = 21;
             this.UShortInputTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -143,7 +143,7 @@
             this.Controls.Add(this.UShortOutputTxt);
             this.Controls.Add(this.DecodeIntBtn);
             this.Controls.Add(this.DecodeUShortBtn);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "ToolboxPage";
             this.Size = new System.Drawing.Size(476, 313);

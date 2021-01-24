@@ -63,7 +63,7 @@
             this.DestinationLbl.BackColor = System.Drawing.Color.Transparent;
             this.DestinationLbl.Location = new System.Drawing.Point(66, 198);
             this.DestinationLbl.Name = "DestinationLbl";
-            this.DestinationLbl.Size = new System.Drawing.Size(60, 13);
+            this.DestinationLbl.Size = new System.Drawing.Size(67, 13);
             this.DestinationLbl.TabIndex = 2;
             this.DestinationLbl.Text = "Destination";
             // 
@@ -83,7 +83,7 @@
             this.HeaderLbl.BackColor = System.Drawing.Color.Transparent;
             this.HeaderLbl.Location = new System.Drawing.Point(3, 198);
             this.HeaderLbl.Name = "HeaderLbl";
-            this.HeaderLbl.Size = new System.Drawing.Size(42, 13);
+            this.HeaderLbl.Size = new System.Drawing.Size(44, 13);
             this.HeaderLbl.TabIndex = 10;
             this.HeaderLbl.Text = "Header";
             // 
@@ -97,7 +97,7 @@
             0,
             0});
             this.HeaderTxt.Name = "HeaderTxt";
-            this.HeaderTxt.Size = new System.Drawing.Size(57, 20);
+            this.HeaderTxt.Size = new System.Drawing.Size(57, 22);
             this.HeaderTxt.TabIndex = 11;
             this.HeaderTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -126,7 +126,7 @@
             this.ActionLbl.BackColor = System.Drawing.Color.Transparent;
             this.ActionLbl.Location = new System.Drawing.Point(138, 198);
             this.ActionLbl.Name = "ActionLbl";
-            this.ActionLbl.Size = new System.Drawing.Size(37, 13);
+            this.ActionLbl.Size = new System.Drawing.Size(40, 13);
             this.ActionLbl.TabIndex = 16;
             this.ActionLbl.Text = "Action";
             // 
@@ -155,6 +155,7 @@
             this.FiltersVw.Location = new System.Drawing.Point(6, 6);
             this.FiltersVw.MultiSelect = false;
             this.FiltersVw.Name = "FiltersVw";
+            this.FiltersVw.OwnerDraw = true;
             this.FiltersVw.ShowItemToolTips = true;
             this.FiltersVw.Size = new System.Drawing.Size(385, 189);
             this.FiltersVw.TabIndex = 20;
@@ -199,7 +200,7 @@
             this.Controls.Add(this.ActionLbl);
             this.Controls.Add(this.ActionTxt);
             this.Controls.Add(this.FiltersVw);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "FiltersPage";
             this.Size = new System.Drawing.Size(397, 270);

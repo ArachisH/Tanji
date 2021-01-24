@@ -172,7 +172,7 @@
             // ConnectionPg
             // 
             this.ConnectionPg.BackColor = System.Drawing.Color.Transparent;
-            this.ConnectionPg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ConnectionPg.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.ConnectionPg.IsReceiving = false;
             this.ConnectionPg.Location = new System.Drawing.Point(0, 0);
             this.ConnectionPg.Margin = new System.Windows.Forms.Padding(0);
@@ -247,7 +247,7 @@
             // 
             this.ConstructerPg.Amount = ((ushort)(1));
             this.ConstructerPg.BackColor = System.Drawing.Color.Transparent;
-            this.ConstructerPg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ConstructerPg.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.ConstructerPg.Id = ((ushort)(1));
             this.ConstructerPg.Location = new System.Drawing.Point(0, 0);
             this.ConstructerPg.Margin = new System.Windows.Forms.Padding(0);
@@ -272,7 +272,7 @@
             // 
             this.SchedulerPg.BackColor = System.Drawing.Color.Transparent;
             this.SchedulerPg.Cycles = 0;
-            this.SchedulerPg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.SchedulerPg.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.SchedulerPg.HotkeysText = "";
             this.SchedulerPg.Interval = 250;
             this.SchedulerPg.Location = new System.Drawing.Point(0, 0);
@@ -298,7 +298,7 @@
             // InspectorPg
             // 
             this.InspectorPg.BackColor = System.Drawing.Color.Transparent;
-            this.InspectorPg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.InspectorPg.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.InspectorPg.Location = new System.Drawing.Point(0, 0);
             this.InspectorPg.Margin = new System.Windows.Forms.Padding(0);
             this.InspectorPg.Name = "InspectorPg";
@@ -320,7 +320,7 @@
             // FiltersPg
             // 
             this.FiltersPg.BackColor = System.Drawing.Color.Transparent;
-            this.FiltersPg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.FiltersPg.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.FiltersPg.Location = new System.Drawing.Point(0, 0);
             this.FiltersPg.Margin = new System.Windows.Forms.Padding(0);
             this.FiltersPg.Name = "FiltersPg";
@@ -357,7 +357,7 @@
             // ToolboxPg
             // 
             this.ToolboxPg.BackColor = System.Drawing.Color.Transparent;
-            this.ToolboxPg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ToolboxPg.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.ToolboxPg.Location = new System.Drawing.Point(0, 0);
             this.ToolboxPg.Margin = new System.Windows.Forms.Padding(0);
             this.ToolboxPg.Name = "ToolboxPg";
@@ -380,7 +380,7 @@
             // ModulesPg
             // 
             this.ModulesPg.BackColor = System.Drawing.Color.Transparent;
-            this.ModulesPg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ModulesPg.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.ModulesPg.Location = new System.Drawing.Point(0, 0);
             this.ModulesPg.Margin = new System.Windows.Forms.Padding(0);
             this.ModulesPg.Name = "ModulesPg";
@@ -430,7 +430,7 @@
             // SettingsPg
             // 
             this.SettingsPg.BackColor = System.Drawing.Color.Transparent;
-            this.SettingsPg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.SettingsPg.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.SettingsPg.Location = new System.Drawing.Point(0, 0);
             this.SettingsPg.Margin = new System.Windows.Forms.Padding(0);
             this.SettingsPg.Name = "SettingsPg";
@@ -452,7 +452,7 @@
             // AboutPg
             // 
             this.AboutPg.BackColor = System.Drawing.Color.Transparent;
-            this.AboutPg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.AboutPg.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.AboutPg.Location = new System.Drawing.Point(0, 0);
             this.AboutPg.Margin = new System.Windows.Forms.Padding(0);
             this.AboutPg.Name = "AboutPg";
@@ -468,7 +468,7 @@
             this.ClientSize = new System.Drawing.Size(484, 369);
             this.Controls.Add(this.TanjiTabs);
             this.Controls.Add(this.TanjiStatusStrip);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.Name = "MainFrm";
