@@ -320,6 +320,7 @@
             // FiltersPg
             // 
             this.FiltersPg.BackColor = System.Drawing.Color.Transparent;
+            this.FiltersPg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.FiltersPg.Location = new System.Drawing.Point(0, 0);
             this.FiltersPg.Margin = new System.Windows.Forms.Padding(0);
             this.FiltersPg.Name = "FiltersPg";

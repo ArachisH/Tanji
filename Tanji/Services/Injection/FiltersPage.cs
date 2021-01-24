@@ -28,5 +28,15 @@ namespace Tanji.Services.Injection
         public void HandleIncoming(DataInterceptedEventArgs e)
         { }
         #endregion
+
+        private void CreateBtn_Click(object sender, System.EventArgs e)
+        {
+
+        }
+
+        private void RemoveBtn_Click(object sender, System.EventArgs e)
+        {
+
+        }
     }
 }
