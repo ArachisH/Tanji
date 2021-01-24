@@ -298,6 +298,7 @@
             // InspectorPg
             // 
             this.InspectorPg.BackColor = System.Drawing.Color.Transparent;
+            this.InspectorPg.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.InspectorPg.Location = new System.Drawing.Point(0, 0);
             this.InspectorPg.Margin = new System.Windows.Forms.Padding(0);
             this.InspectorPg.Name = "InspectorPg";
