@@ -51,7 +51,7 @@
             // IntervalTxt
             // 
             this.IntervalTxt.IsNumbersOnly = true;
-            this.IntervalTxt.Location = new System.Drawing.Point(236, 220);
+            this.IntervalTxt.Location = new System.Drawing.Point(231, 221);
             this.IntervalTxt.MaxLength = 5;
             this.IntervalTxt.Name = "IntervalTxt";
             this.IntervalTxt.Size = new System.Drawing.Size(80, 20);
@@ -63,7 +63,7 @@
             // CyclesTxt
             // 
             this.CyclesTxt.IsNumbersOnly = true;
-            this.CyclesTxt.Location = new System.Drawing.Point(7, 247);
+            this.CyclesTxt.Location = new System.Drawing.Point(1, 246);
             this.CyclesTxt.MaxLength = 2;
             this.CyclesTxt.Name = "CyclesTxt";
             this.CyclesTxt.Size = new System.Drawing.Size(62, 20);
@@ -74,7 +74,7 @@
             // 
             // PacketTxt
             // 
-            this.PacketTxt.Location = new System.Drawing.Point(5, 221);
+            this.PacketTxt.Location = new System.Drawing.Point(1, 221);
             this.PacketTxt.Name = "PacketTxt";
             this.PacketTxt.Size = new System.Drawing.Size(225, 20);
             this.PacketTxt.TabIndex = 1;
@@ -84,7 +84,7 @@
             // 
             // HotkeyTxt
             // 
-            this.HotkeyTxt.Location = new System.Drawing.Point(73, 247);
+            this.HotkeyTxt.Location = new System.Drawing.Point(73, 246);
             this.HotkeyTxt.Name = "HotkeyTxt";
             this.HotkeyTxt.Size = new System.Drawing.Size(135, 20);
             this.HotkeyTxt.TabIndex = 1;
@@ -96,16 +96,16 @@
             // ToServerChbx
             // 
             this.ToServerChbx.AutoSize = true;
-            this.ToServerChbx.Location = new System.Drawing.Point(321, 221);
+            this.ToServerChbx.Location = new System.Drawing.Point(321, 223);
             this.ToServerChbx.Name = "ToServerChbx";
-            this.ToServerChbx.Size = new System.Drawing.Size(72, 17);
+            this.ToServerChbx.Size = new System.Drawing.Size(73, 19);
             this.ToServerChbx.TabIndex = 3;
             this.ToServerChbx.Text = "To Server";
             this.ToServerChbx.UseVisualStyleBackColor = true;
             // 
             // CreateBtn
             // 
-            this.CreateBtn.Location = new System.Drawing.Point(214, 247);
+            this.CreateBtn.Location = new System.Drawing.Point(214, 246);
             this.CreateBtn.Name = "CreateBtn";
             this.CreateBtn.Size = new System.Drawing.Size(58, 20);
             this.CreateBtn.TabIndex = 4;
@@ -114,7 +114,7 @@
             // 
             // RemoveBtn
             // 
-            this.RemoveBtn.Location = new System.Drawing.Point(279, 247);
+            this.RemoveBtn.Location = new System.Drawing.Point(277, 246);
             this.RemoveBtn.Name = "RemoveBtn";
             this.RemoveBtn.Size = new System.Drawing.Size(50, 20);
             this.RemoveBtn.TabIndex = 4;
@@ -123,7 +123,7 @@
             // 
             // ClearBtn
             // 
-            this.ClearBtn.Location = new System.Drawing.Point(336, 247);
+            this.ClearBtn.Location = new System.Drawing.Point(332, 246);
             this.ClearBtn.Name = "ClearBtn";
             this.ClearBtn.Size = new System.Drawing.Size(58, 20);
             this.ClearBtn.TabIndex = 4;
@@ -150,7 +150,7 @@
             this.SchedulesVw.Name = "SchedulesVw";
             this.SchedulesVw.OwnerDraw = true;
             this.SchedulesVw.ShowItemToolTips = true;
-            this.SchedulesVw.Size = new System.Drawing.Size(391, 212);
+            this.SchedulesVw.Size = new System.Drawing.Size(387, 212);
             this.SchedulesVw.TabIndex = 5;
             this.SchedulesVw.UseCompatibleStateImageBehavior = false;
             this.SchedulesVw.View = System.Windows.Forms.View.Details;
@@ -205,7 +205,7 @@
             // 
             // SchedulerPage
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.ClearBtn);
             this.Controls.Add(this.RemoveBtn);
@@ -216,10 +216,10 @@
             this.Controls.Add(this.IntervalTxt);
             this.Controls.Add(this.ToServerChbx);
             this.Controls.Add(this.SchedulesVw);
-            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "SchedulerPage";
-            this.Size = new System.Drawing.Size(397, 270);
+            this.Size = new System.Drawing.Size(393, 270);
             this.SchedulerCxm.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

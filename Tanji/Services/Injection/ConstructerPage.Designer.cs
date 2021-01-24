@@ -43,12 +43,13 @@
             this.DismantledTxt = new Tangine.Controls.TangineLabelBox();
             this.AmountTxt = new Tangine.Controls.TangineLabelBox();
             this.IDTxt = new Tangine.Controls.TangineLabelBox();
+            this.EncodedCol = new System.Windows.Forms.ColumnHeader();
             this.SuspendLayout();
             // 
             // MoveDownBtn
             // 
             this.MoveDownBtn.Enabled = false;
-            this.MoveDownBtn.Location = new System.Drawing.Point(203, 248);
+            this.MoveDownBtn.Location = new System.Drawing.Point(201, 246);
             this.MoveDownBtn.Name = "MoveDownBtn";
             this.MoveDownBtn.Size = new System.Drawing.Size(95, 20);
             this.MoveDownBtn.TabIndex = 17;
@@ -58,7 +59,7 @@
             // MoveUpBtn
             // 
             this.MoveUpBtn.Enabled = false;
-            this.MoveUpBtn.Location = new System.Drawing.Point(304, 248);
+            this.MoveUpBtn.Location = new System.Drawing.Point(300, 246);
             this.MoveUpBtn.Name = "MoveUpBtn";
             this.MoveUpBtn.Size = new System.Drawing.Size(90, 20);
             this.MoveUpBtn.TabIndex = 16;
@@ -68,7 +69,7 @@
             // RemoveBtn
             // 
             this.RemoveBtn.Enabled = false;
-            this.RemoveBtn.Location = new System.Drawing.Point(103, 248);
+            this.RemoveBtn.Location = new System.Drawing.Point(102, 246);
             this.RemoveBtn.Name = "RemoveBtn";
             this.RemoveBtn.Size = new System.Drawing.Size(95, 20);
             this.RemoveBtn.TabIndex = 15;
@@ -77,7 +78,7 @@
             // 
             // ClearBtn
             // 
-            this.ClearBtn.Location = new System.Drawing.Point(304, 222);
+            this.ClearBtn.Location = new System.Drawing.Point(300, 222);
             this.ClearBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.ClearBtn.Name = "ClearBtn";
             this.ClearBtn.Size = new System.Drawing.Size(90, 20);
@@ -87,7 +88,7 @@
             // 
             // CopyBtn
             // 
-            this.CopyBtn.Location = new System.Drawing.Point(3, 248);
+            this.CopyBtn.Location = new System.Drawing.Point(3, 246);
             this.CopyBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.CopyBtn.Name = "CopyBtn";
             this.CopyBtn.Size = new System.Drawing.Size(95, 20);
@@ -97,20 +98,20 @@
             // 
             // WriteBooleanBtn
             // 
-            this.WriteBooleanBtn.Location = new System.Drawing.Point(199, 29);
+            this.WriteBooleanBtn.Location = new System.Drawing.Point(201, 29);
             this.WriteBooleanBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.WriteBooleanBtn.Name = "WriteBooleanBtn";
-            this.WriteBooleanBtn.Size = new System.Drawing.Size(90, 20);
+            this.WriteBooleanBtn.Size = new System.Drawing.Size(95, 20);
             this.WriteBooleanBtn.TabIndex = 9;
             this.WriteBooleanBtn.Text = "Write Boolean";
             this.WriteBooleanBtn.Click += new System.EventHandler(this.WriteBooleanBtn_Click);
             // 
             // WriteStringBtn
             // 
-            this.WriteStringBtn.Location = new System.Drawing.Point(101, 29);
+            this.WriteStringBtn.Location = new System.Drawing.Point(102, 29);
             this.WriteStringBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.WriteStringBtn.Name = "WriteStringBtn";
-            this.WriteStringBtn.Size = new System.Drawing.Size(90, 20);
+            this.WriteStringBtn.Size = new System.Drawing.Size(95, 20);
             this.WriteStringBtn.TabIndex = 8;
             this.WriteStringBtn.Text = "Write String";
             this.WriteStringBtn.Click += new System.EventHandler(this.WriteStringBtn_Click);
@@ -120,17 +121,17 @@
             this.WriteIntegerBtn.Location = new System.Drawing.Point(3, 29);
             this.WriteIntegerBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.WriteIntegerBtn.Name = "WriteIntegerBtn";
-            this.WriteIntegerBtn.Size = new System.Drawing.Size(90, 20);
+            this.WriteIntegerBtn.Size = new System.Drawing.Size(95, 20);
             this.WriteIntegerBtn.TabIndex = 2;
             this.WriteIntegerBtn.Text = "Write Integer";
             this.WriteIntegerBtn.Click += new System.EventHandler(this.WriteIntegerBtn_Click);
             // 
             // ValueTxt
             // 
-            this.ValueTxt.Location = new System.Drawing.Point(96, 3);
+            this.ValueTxt.Location = new System.Drawing.Point(83, 3);
             this.ValueTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.ValueTxt.Name = "ValueTxt";
-            this.ValueTxt.Size = new System.Drawing.Size(298, 20);
+            this.ValueTxt.Size = new System.Drawing.Size(307, 20);
             this.ValueTxt.TabIndex = 1;
             this.ValueTxt.TabStop = false;
             this.ValueTxt.Text = "";
@@ -143,7 +144,8 @@
             this.ValuesVw.CheckBoxes = true;
             this.ValuesVw.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.TypeCol,
-            this.ValueCol});
+            this.ValueCol,
+            this.EncodedCol});
             this.ValuesVw.FullRowSelect = true;
             this.ValuesVw.GridLines = true;
             this.ValuesVw.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
@@ -154,7 +156,7 @@
             this.ValuesVw.Name = "ValuesVw";
             this.ValuesVw.OwnerDraw = true;
             this.ValuesVw.ShowItemToolTips = true;
-            this.ValuesVw.Size = new System.Drawing.Size(391, 164);
+            this.ValuesVw.Size = new System.Drawing.Size(387, 164);
             this.ValuesVw.TabIndex = 0;
             this.ValuesVw.TabStop = false;
             this.ValuesVw.UseCompatibleStateImageBehavior = false;
@@ -168,52 +170,61 @@
             // 
             this.TypeCol.Name = "TypeCol";
             this.TypeCol.Text = "Type";
-            this.TypeCol.Width = 75;
+            this.TypeCol.Width = 66;
             // 
             // ValueCol
             // 
             this.ValueCol.Name = "ValueCol";
             this.ValueCol.Text = "Value";
-            this.ValueCol.Width = 312;
+            this.ValueCol.Width = 149;
             // 
             // DismantledTxt
             // 
             this.DismantledTxt.IsReadOnly = true;
-            this.DismantledTxt.Location = new System.Drawing.Point(3, 222);
+            this.DismantledTxt.Location = new System.Drawing.Point(1, 222);
             this.DismantledTxt.Name = "DismantledTxt";
-            this.DismantledTxt.Size = new System.Drawing.Size(296, 20);
+            this.DismantledTxt.Size = new System.Drawing.Size(295, 20);
             this.DismantledTxt.TabIndex = 18;
             this.DismantledTxt.TabStop = false;
             this.DismantledTxt.Text = "";
+            this.DismantledTxt.TextPaddingWidth = 0;
             this.DismantledTxt.Title = "Dismantled";
             // 
             // AmountTxt
             // 
             this.AmountTxt.IsNumbersOnly = true;
-            this.AmountTxt.Location = new System.Drawing.Point(299, 29);
+            this.AmountTxt.Location = new System.Drawing.Point(298, 29);
             this.AmountTxt.MaxLength = 2;
             this.AmountTxt.Name = "AmountTxt";
-            this.AmountTxt.Size = new System.Drawing.Size(95, 20);
+            this.AmountTxt.Size = new System.Drawing.Size(92, 20);
             this.AmountTxt.TabIndex = 19;
             this.AmountTxt.TabStop = false;
             this.AmountTxt.Text = "";
+            this.AmountTxt.TextPaddingWidth = 0;
             this.AmountTxt.Title = "Amount";
             // 
             // IDTxt
             // 
             this.IDTxt.IsNumbersOnly = true;
-            this.IDTxt.Location = new System.Drawing.Point(3, 3);
+            this.IDTxt.Location = new System.Drawing.Point(1, 3);
             this.IDTxt.MaxLength = 4;
             this.IDTxt.Name = "IDTxt";
-            this.IDTxt.Size = new System.Drawing.Size(86, 20);
+            this.IDTxt.Size = new System.Drawing.Size(75, 20);
             this.IDTxt.TabIndex = 19;
             this.IDTxt.TabStop = false;
             this.IDTxt.Text = "1";
+            this.IDTxt.TextPaddingWidth = 0;
             this.IDTxt.Title = "ID";
+            // 
+            // EncodedCol
+            // 
+            this.EncodedCol.Name = "EncodedCol";
+            this.EncodedCol.Text = "Encoded";
+            this.EncodedCol.Width = 149;
             // 
             // ConstructerPage
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.IDTxt);
             this.Controls.Add(this.AmountTxt);
@@ -228,10 +239,10 @@
             this.Controls.Add(this.WriteBooleanBtn);
             this.Controls.Add(this.ValueTxt);
             this.Controls.Add(this.ValuesVw);
-            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "ConstructerPage";
-            this.Size = new System.Drawing.Size(397, 270);
+            this.Size = new System.Drawing.Size(393, 270);
             this.ResumeLayout(false);
 
         }
@@ -253,5 +264,6 @@
         private Tangine.Controls.TangineLabelBox DismantledTxt;
         private Tangine.Controls.TangineLabelBox AmountTxt;
         private Tangine.Controls.TangineLabelBox IDTxt;
+        private System.Windows.Forms.ColumnHeader EncodedCol;
     }
 }
