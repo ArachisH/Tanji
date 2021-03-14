@@ -4,12 +4,11 @@
     {
         public ushort AcceptFriend { get; set; }
         public ushort ActivateEffect { get; set; }
-        public ushort OpenCampaignCalendarDoorAsStaff { get; set; }
-        public ushort OpenCampaignCalendarDoor { get; set; }
         public ushort AdvertisingSave { get; set; }
         public ushort AmbassadorAlertCommand { get; set; }
         public ushort AmbassadorVisitCommand { get; set; }
         public ushort AnswerPoll { get; set; }
+        public ushort AvatarExpression { get; set; }
         public ushort BotPickup { get; set; }
         public ushort BotPlace { get; set; }
         public ushort BotSaveSettings { get; set; }
@@ -24,12 +23,14 @@
         public ushort CancelPoll { get; set; }
         public ushort CatalogBuyItem { get; set; }
         public ushort CatalogBuyItemAsGift { get; set; }
-        public ushort GetProductOffer { get; set; }
+        public ushort Chat { get; set; }
         public ushort ChangeNameCheckUsername { get; set; }
+        public ushort ChangePosture { get; set; }
         public ushort ChangeRelation { get; set; }
         public ushort CheckPetName { get; set; }
-        public ushort VersionCheck { get; set; }
+        public ushort ClientHello { get; set; }
         public ushort CloseDice { get; set; }
+        public ushort CompleteDiffieHandshake { get; set; }
         public ushort CompostMonsterplant { get; set; }
         public ushort ConfirmChangeName { get; set; }
         public ushort CraftingAddRecipe { get; set; }
@@ -38,6 +39,7 @@
         public ushort DeclineFriendRequest { get; set; }
         public ushort EditRoomPromotionMessage { get; set; }
         public ushort EnableEffect { get; set; }
+        public ushort EventLog { get; set; }
         public ushort FindNewFriends { get; set; }
         public ushort FloorPlanEditorRequestBlockedTiles { get; set; }
         public ushort FloorPlanEditorRequestDoorSettings { get; set; }
@@ -45,18 +47,22 @@
         public ushort FollowFriend { get; set; }
         public ushort FootballGateSaveLook { get; set; }
         public ushort FriendPrivateMessage { get; set; }
-        public ushort RequestFriend { get; set; }
         public ushort GameCenter { get; set; }
         public ushort GameCenterJoinGame { get; set; }
         public ushort GameCenterLoadGame { get; set; }
         public ushort GameCenterRequestAccountStatus { get; set; }
         public ushort GameCenterRequestGameStatus { get; set; }
-        public ushort CompleteDiffieHandshake { get; set; }
-        public ushort GetClubData { get; set; }
-        public ushort GetGuestRoom { get; set; }
         public ushort GetBadgePointLimits { get; set; }
+        public ushort GetProductOffer { get; set; }
+        public ushort GetCatalogPage { get; set; }
+        public ushort GetClubData { get; set; }
+        public ushort GetConcurrentUsersGoalProgress { get; set; }
+        public ushort GetCreditsInfo { get; set; }
+        public ushort GetCurrentTimingCode { get; set; }
+        public ushort GetGuestRoom { get; set; }
         public ushort GetMarketplaceConfig { get; set; }
         public ushort GetPollData { get; set; }
+        public ushort GetSongInfo { get; set; }
         public ushort GuardianAcceptRequest { get; set; }
         public ushort GuardianNoUpdatesWanted { get; set; }
         public ushort GuardianVote { get; set; }
@@ -90,12 +96,11 @@
         public ushort HotelViewClaimBadge { get; set; }
         public ushort HotelViewClaimBadgeReward { get; set; }
         public ushort HotelViewConcurrentUsersButton { get; set; }
-        public ushort GetCurrentTimingCode { get; set; }
         public ushort HotelViewRequestBadgeReward { get; set; }
         public ushort HotelViewRequestBonusRare { get; set; }
         public ushort HotelViewRequestCommunityGoal { get; set; }
-        public ushort GetConcurrentUsersGoalProgress { get; set; }
         public ushort IgnoreRoomUser { get; set; }
+        public ushort InfoRetrieve { get; set; }
         public ushort InitDiffieHandshake { get; set; }
         public ushort InviteFriends { get; set; }
         public ushort JoinGroup { get; set; }
@@ -105,9 +110,7 @@
         public ushort JukeBoxEventTwo { get; set; }
         public ushort JukeBoxRequestPlayList { get; set; }
         public ushort JukeBoxRequestTrackCode { get; set; }
-        public ushort GetSongInfo { get; set; }
         public ushort LatencyTest { get; set; }
-        public ushort UniqueID { get; set; }
         public ushort MannequinSaveLook { get; set; }
         public ushort MannequinSaveName { get; set; }
         public ushort ModToolAlert { get; set; }
@@ -133,12 +136,17 @@
         public ushort MoodLightSaveSettings { get; set; }
         public ushort MoodLightSettings { get; set; }
         public ushort MoodLightTurnOn { get; set; }
+        public ushort MoveAvatar { get; set; }
         public ushort MovePet { get; set; }
         public ushort MoveWallItem { get; set; }
         public ushort NavigatorCategoryListMode { get; set; }
         public ushort NavigatorCollapseCategory { get; set; }
         public ushort NavigatorUncollapseCategory { get; set; }
         public ushort NewNavigatorAction { get; set; }
+        public ushort NewNavigatorInit { get; set; }
+        public ushort OpenCampaignCalendarDoor { get; set; }
+        public ushort OpenCampaignCalendarDoorAsStaff { get; set; }
+        public ushort OpenFlatConnection { get; set; }
         public ushort OpenRecycleBox { get; set; }
         public ushort PetPackageName { get; set; }
         public ushort PetPickup { get; set; }
@@ -153,7 +161,7 @@
         public ushort RedeemClothing { get; set; }
         public ushort RedeemItem { get; set; }
         public ushort RedeemVoucher { get; set; }
-        public ushort ClientHello { get; set; }
+        public ushort RequestFriend { get; set; }
         public ushort ReloadRecycler { get; set; }
         public ushort RemoveFriend { get; set; }
         public ushort RentSpace { get; set; }
@@ -166,12 +174,10 @@
         public ushort RequestCanCreateRoom { get; set; }
         public ushort RequestCatalogIndex { get; set; }
         public ushort RequestCatalogMode { get; set; }
-        public ushort GetCatalogPage { get; set; }
         public ushort RequestClubGifts { get; set; }
         public ushort RequestCraftingRecipes { get; set; }
         public ushort RequestCraftingRecipesAvailable { get; set; }
         public ushort RequestCreateRoom { get; set; }
-        public ushort GetCreditsInfo { get; set; }
         public ushort RequestDeleteRoom { get; set; }
         public ushort RequestDiscount { get; set; }
         public ushort RequestFriendRequests { get; set; }
@@ -200,7 +206,6 @@
         public ushort RequestMeMenuSettings { get; set; }
         public ushort RequestMyRooms { get; set; }
         public ushort RequestNavigatorSettings { get; set; }
-        public ushort NewNavigatorInit { get; set; }
         public ushort RequestNewNavigatorRooms { get; set; }
         public ushort RequestNewsList { get; set; }
         public ushort RequestOffers { get; set; }
@@ -221,7 +226,6 @@
         public ushort RequestRoomCategories { get; set; }
         public ushort RequestRoomData { get; set; }
         public ushort RequestRoomHeightmap { get; set; }
-        public ushort OpenFlatConnection { get; set; }
         public ushort RequestRoomRights { get; set; }
         public ushort RequestRoomSettings { get; set; }
         public ushort RequestRoomWordFilter { get; set; }
@@ -230,13 +234,13 @@
         public ushort RequestTalenTrack { get; set; }
         public ushort RequestTargetOffer { get; set; }
         public ushort RequestUserCitizenShip { get; set; }
-        public ushort ScrGetUserInfo { get; set; }
         public ushort RequestUserCredits { get; set; }
-        public ushort InfoRetrieve { get; set; }
         public ushort RequestUserProfile { get; set; }
         public ushort RequestUserTags { get; set; }
         public ushort RequestUserWardrobe { get; set; }
         public ushort RequestWearingBadges { get; set; }
+        public ushort RespectPet { get; set; }
+        public ushort RespectUser { get; set; }
         public ushort RoomBackground { get; set; }
         public ushort RoomFavorite { get; set; }
         public ushort RoomMute { get; set; }
@@ -249,24 +253,18 @@
         public ushort RoomRequestBannedUsers { get; set; }
         public ushort RoomSettingsSave { get; set; }
         public ushort RoomStaffPick { get; set; }
-        public ushort AvatarExpression { get; set; }
         public ushort RoomUserBan { get; set; }
         public ushort Dance { get; set; }
         public ushort RoomUserDropHandItem { get; set; }
         public ushort RoomUserGiveHandItem { get; set; }
-        public ushort RespectUser { get; set; }
         public ushort RoomUserGiveRights { get; set; }
         public ushort RoomUserKick { get; set; }
         public ushort RoomUserLookAtPoint { get; set; }
         public ushort RoomUserMute { get; set; }
         public ushort RoomUserRemoveRights { get; set; }
-        public ushort Shout { get; set; }
         public ushort RoomUserSign { get; set; }
-        public ushort ChangePosture { get; set; }
         public ushort RoomUserStartTyping { get; set; }
         public ushort RoomUserStopTyping { get; set; }
-        public ushort Chat { get; set; }
-        public ushort MoveAvatar { get; set; }
         public ushort RoomUserWhisper { get; set; }
         public ushort RoomVote { get; set; }
         public ushort RoomWordFilterModify { get; set; }
@@ -281,7 +279,7 @@
         public ushort SaveUserVolumes { get; set; }
         public ushort SaveWardrobe { get; set; }
         public ushort SaveWindowSettings { get; set; }
-        public ushort RespectPet { get; set; }
+        public ushort ScrGetUserInfo { get; set; }
         public ushort SearchRooms { get; set; }
         public ushort SearchRoomsByTag { get; set; }
         public ushort SearchRoomsFriendsNow { get; set; }
@@ -294,13 +292,12 @@
         public ushort SellItem { get; set; }
         public ushort SetHomeRoom { get; set; }
         public ushort SetStackHelperHeight { get; set; }
+        public ushort Shout { get; set; }
         public ushort StalkFriend { get; set; }
         public ushort TakeBackItem { get; set; }
         public ushort TestInventory { get; set; }
-        public ushort UseFurniture { get; set; }
         public ushort ToggleMonsterplantBreedable { get; set; }
         public ushort ToggleWallItem { get; set; }
-        public ushort EventLog { get; set; }
         public ushort TradeAccept { get; set; }
         public ushort TradeCancelOfferItem { get; set; }
         public ushort TradeClose { get; set; }
@@ -314,11 +311,14 @@
         public ushort TriggerOneWayGate { get; set; }
         public ushort UnIgnoreRoomUser { get; set; }
         public ushort UnbanRoomUser { get; set; }
+        public ushort UniqueID { get; set; }
+        public ushort UpdateFigureData { get; set; }
+        public ushort UseFurniture { get; set; }
         public ushort UserActivity { get; set; }
         public ushort UserNux { get; set; }
-        public ushort UpdateFigureData { get; set; }
         public ushort UserWearBadge { get; set; }
         public ushort Username { get; set; }
+        public ushort VersionCheck { get; set; }
         public ushort WiredConditionSaveData { get; set; }
         public ushort WiredEffectSaveData { get; set; }
         public ushort WiredTriggerSaveData { get; set; }
