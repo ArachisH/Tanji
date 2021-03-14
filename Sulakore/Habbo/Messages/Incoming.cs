@@ -13,7 +13,7 @@
         public ushort AddUserBadge { get; set; }
         public ushort AddWallItem { get; set; }
         public ushort AdventCalendarData { get; set; }
-        public ushort AdventCalendarProduct { get; set; }
+        public ushort CampaignCalendarDoorOpened { get; set; }
         public ushort AlertLimitedSoldOut { get; set; }
         public ushort AlertMessage { get; set; }
         public ushort AlertPurchaseFailed { get; set; }
@@ -43,9 +43,9 @@
         public ushort CatalogMode { get; set; }
         public ushort CatalogPage { get; set; }
         public ushort CatalogPagesList { get; set; }
-        public ushort CatalogSearchResult { get; set; }
+        public ushort ProductOffer { get; set; }
         public ushort CatalogUpdated { get; set; }
-        public ushort CfhTopicsMessage { get; set; }
+        public ushort CfhTopicsInit { get; set; }
         public ushort ChangeNameUpdate { get; set; }
         public ushort CloseWebPage { get; set; }
         public ushort ClubCenterData { get; set; }
@@ -53,7 +53,7 @@
         public ushort ClubGiftReceived { get; set; }
         public ushort ClubGifts { get; set; }
         public ushort CompetitionEntrySubmitResult { get; set; }
-        public ushort ConnectionError { get; set; }
+        public ushort ErrorReport { get; set; }
         public ushort ConvertedForwardToRoom { get; set; }
         public ushort CraftableProducts { get; set; }
         public ushort CraftingComposerFour { get; set; }
@@ -68,7 +68,7 @@
         public ushort EffectsListEffectEnable { get; set; }
         public ushort EffectsListRemove { get; set; }
         public ushort EpicPopupFrame { get; set; }
-        public ushort ErrorLogin { get; set; }
+        public ushort DisconnectReason { get; set; }
         public ushort ExtendClubMessage { get; set; }
         public ushort FavoriteRoomChanged { get; set; }
         public ushort FavoriteRoomsCount { get; set; }
@@ -76,11 +76,11 @@
         public ushort FloorItemUpdate { get; set; }
         public ushort FloorPlanEditorBlockedTiles { get; set; }
         public ushort FloorPlanEditorDoorSettings { get; set; }
-        public ushort ForwardToRoom { get; set; }
+        public ushort RoomForward { get; set; }
         public ushort FreezeLives { get; set; }
         public ushort FriendChatMessage { get; set; }
         public ushort FriendFindingRoom { get; set; }
-        public ushort FriendRequest { get; set; }
+        public ushort NewFriendRequest { get; set; }
         public ushort FriendRequestError { get; set; }
         public ushort FriendRequests { get; set; }
         public ushort FriendToolbarNotification { get; set; }
@@ -93,7 +93,7 @@
         public ushort GameCenterFeaturedPlayers { get; set; }
         public ushort GameCenterGame { get; set; }
         public ushort GameCenterGameList { get; set; }
-        public ushort GenerateSecretKey { get; set; }
+        public ushort CompleteDiffieHandshake { get; set; }
         public ushort GenericAlert { get; set; }
         public ushort GenericErrorMessages { get; set; }
         public ushort GiftConfiguration { get; set; }
@@ -129,7 +129,7 @@
         public ushort GuildForumThreads { get; set; }
         public ushort GuildForumsUnreadMessagesCount { get; set; }
         public ushort GuildFurniWidget { get; set; }
-        public ushort GuildInfo { get; set; }
+        public ushort HabboGroupDetails { get; set; }
         public ushort GuildJoinError { get; set; }
         public ushort GuildList { get; set; }
         public ushort GuildManage { get; set; }
@@ -147,10 +147,10 @@
         public ushort HotelView { get; set; }
         public ushort HotelViewBadgeButtonConfig { get; set; }
         public ushort HotelViewCatalogPageExpiring { get; set; }
-        public ushort HotelViewCommunityGoal { get; set; }
+        public ushort ConcurrentUsersGoalProgress { get; set; }
         public ushort HotelViewConcurrentUsers { get; set; }
         public ushort HotelViewCustomTimer { get; set; }
-        public ushort HotelViewData { get; set; }
+        public ushort CurrentTimingCode { get; set; }
         public ushort HotelViewExpiringCatalogPageCommposer { get; set; }
         public ushort HotelViewHideCommunityVoteButton { get; set; }
         public ushort HotelViewNextLTDAvailable { get; set; }
@@ -175,13 +175,13 @@
         public ushort JukeBoxPlayListUpdated { get; set; }
         public ushort JukeBoxPlaylistFull { get; set; }
         public ushort JukeBoxTrackCode { get; set; }
-        public ushort JukeBoxTrackData { get; set; }
+        public ushort TraxSongInfo { get; set; }
         public ushort LatencyResponse { get; set; }
         public ushort LeprechaunStarterBundle { get; set; }
         public ushort LoveLockFurniFinished { get; set; }
         public ushort LoveLockFurniFriendConfirmed { get; set; }
         public ushort LoveLockFurniStart { get; set; }
-        public ushort MachineID { get; set; }
+        public ushort UniqueMachineID { get; set; }
         public ushort MaintenanceStatus { get; set; }
         public ushort MarketplaceBuyError { get; set; }
         public ushort MarketplaceCancelSale { get; set; }
@@ -295,7 +295,7 @@
         public ushort RoomCategoryUpdateMessage { get; set; }
         public ushort RoomChatSettings { get; set; }
         public ushort RoomCreated { get; set; }
-        public ushort RoomData { get; set; }
+        public ushort GetGuestRoomResult { get; set; }
         public ushort RoomEditSettingsError { get; set; }
         public ushort RoomEnterError { get; set; }
         public ushort RoomEntryInfo { get; set; }
@@ -347,7 +347,7 @@
         public ushort RoomUsers { get; set; }
         public ushort RoomUsersGuildBadges { get; set; }
         public ushort RoomWallItems { get; set; }
-        public ushort SecureLoginOK { get; set; }
+        public ushort AuthenticationOK { get; set; }
         public ushort SessionRights { get; set; }
         public ushort SimplePollAnswer { get; set; }
         public ushort SimplePollAnswers { get; set; }
@@ -355,7 +355,7 @@
         public ushort StaffAlertAndOpenHabboWay { get; set; }
         public ushort StaffAlertWIthLinkAndOpenHabboWay { get; set; }
         public ushort StaffAlertWithLink { get; set; }
-        public ushort StalkError { get; set; }
+        public ushort FollowFriendFailed { get; set; }
         public ushort SubmitCompetitionRoom { get; set; }
         public ushort Tags { get; set; }
         public ushort TalentLevelUpdate { get; set; }
@@ -383,7 +383,7 @@
         public ushort UserClub { get; set; }
         public ushort UserCredits { get; set; }
         public ushort UserCurrency { get; set; }
-        public ushort UserData { get; set; }
+        public ushort UserObject { get; set; }
         public ushort UserEffectsList { get; set; }
         public ushort UserHomeRoom { get; set; }
         public ushort UserPerks { get; set; }
@@ -397,7 +397,7 @@
         public ushort VerifyMobilePhoneCodeWindow { get; set; }
         public ushort VerifyMobilePhoneDone { get; set; }
         public ushort VerifyMobilePhoneWindow { get; set; }
-        public ushort VerifyPrimes { get; set; }
+        public ushort InitDiffieHandshake { get; set; }
         public ushort VipTutorialsStart { get; set; }
         public ushort WallItemUpdate { get; set; }
         public ushort WatchAndEarnReward { get; set; }
