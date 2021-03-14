@@ -182,6 +182,7 @@
         public ushort LoveLockFurniFriendConfirmed { get; set; }
         public ushort LoveLockFurniStart { get; set; }
         public ushort MachineID { get; set; }
+        public ushort MaintenanceStatus { get; set; }
         public ushort MarketplaceBuyError { get; set; }
         public ushort MarketplaceCancelSale { get; set; }
         public ushort MarketplaceConfig { get; set; }

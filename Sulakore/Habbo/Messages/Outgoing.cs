@@ -42,6 +42,7 @@
         public ushort FloorPlanEditorRequestBlockedTiles { get; set; }
         public ushort FloorPlanEditorRequestDoorSettings { get; set; }
         public ushort FloorPlanEditorSave { get; set; }
+        public ushort FollowFriend { get; set; }
         public ushort FootballGateSaveLook { get; set; }
         public ushort FriendPrivateMessage { get; set; }
         public ushort FriendRequest { get; set; }
@@ -52,6 +53,7 @@
         public ushort GameCenterRequestGameStatus { get; set; }
         public ushort GenerateSecretKey { get; set; }
         public ushort GetClubData { get; set; }
+        public ushort GetGuestRoomData { get; set; }
         public ushort GetHabboGuildBadgesMessage { get; set; }
         public ushort GetMarketplaceConfig { get; set; }
         public ushort GetPollData { get; set; }
