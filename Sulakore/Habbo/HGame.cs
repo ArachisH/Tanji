@@ -111,7 +111,7 @@ namespace Sulakore.Habbo
                     string name = values[0];
                     string hash = values[2];
 
-                    if (hash == "-1") continue;
+                    if (hash == "-1" || hashNames.ContainsKey(hash)) continue;
                     hashNames.Add(hash, name);
                 }
             }
@@ -1960,6 +1960,17 @@ namespace Sulakore.Habbo
                 if (getProperty.PropertyName != propertyName) continue;
 
                 next = code[++i];
+
+                if (next.OP == OPCode.PushByte)
+                {
+                    //  TODO:  Parse this data structure:
+                    //         [Outgoing] PushByte = ad9b9bb3691954f21190ad59ea244718
+                    //    √    PRODUCTION-202102022203-135819140 statement not needed
+                    //    x    PRODUCTION-202102102230-952082090 = 1123 = §_-3x§
+                    //    x    PRODUCTION-202102121205-249545988 = 1880 = §_-2yH§
+                    return null;
+                }
+
                 ASClass classToCheck = @class;
                 if (Local.IsGetLocal(next.OP))
                 {
