@@ -69,8 +69,10 @@ namespace Sulakore.Communication
                 if (!Client.Connected) return (connected = false);
                 if (SOCKS5EndPoint != null)
                 {
-                    await SendAsync(new byte[]
-                    {
+                    if (Username == null) await SendAsync(new byte[] { 0x05, 0x01, 0x00 }).ConfigureAwait(false);
+                    else
+                        await SendAsync(new byte[]
+                        {
                         0x05, // Version 5
                         0x02, // 2 Authentication Methods Present
                         0x00, // No Authentication
