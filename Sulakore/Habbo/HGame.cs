@@ -125,6 +125,12 @@ namespace Sulakore.Habbo
                     group = new List<MessageItem>();
                     Messages.Add(message.Hash, group);
                 }
+
+                if (hashNames != null && hashNames.TryGetValue(message.Hash, out string name))
+                {
+                    message.Name = name;
+                }
+
                 group.Add(message);
             }
         }
@@ -852,6 +858,7 @@ namespace Sulakore.Habbo
                     {
                         var pushStringIns = (PushStringIns)toArrayCode[index];
                         _revisionIndex = pushStringIns.ValueIndex;
+                        Revision = pushStringIns.Value;
                     }
                 }
             }
@@ -1510,6 +1517,7 @@ namespace Sulakore.Habbo
         public string Hash { get; set; }
         public bool IsOutgoing { get; set; }
 
+        public string Name { get; set; }
         public ASClass Class { get; set; }
         public string ClassName { get; }
 
@@ -1545,6 +1553,19 @@ namespace Sulakore.Habbo
 
         public string GenerateHash()
         {
+            if (Class.Instance.Constructor.Name != null)
+                return Hash = Class.Instance.Constructor.Name;
+            else if (Class.Instance.Traits.Count > 0)
+            {
+                foreach (var trait in Class.Instance.Traits)
+                {
+                    string name = trait.QName.Namespace.Name;
+                    if (name != null && name.Contains(":"))
+                    {
+                        return Hash = name.Split(':')[1];
+                    }
+                }
+            }
             if (!string.IsNullOrWhiteSpace(Hash))
             {
                 return Hash;

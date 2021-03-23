@@ -166,6 +166,10 @@
             this.MTDescriptionCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.MTVersionCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.MTStateCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.OptionsTab = new System.Windows.Forms.TabPage();
+            this.OptionsTabs = new Sulakore.Components.SKoreTabControl();
+            this.SettingsTab = new System.Windows.Forms.TabPage();
+            this.GenerateMessageHashesBtn = new Sulakore.Components.SKoreButton();
             this.AboutTab = new System.Windows.Forms.TabPage();
             this.Sellout2Btn = new Sulakore.Components.SKoreButton();
             this.SelloutBtn = new Sulakore.Components.SKoreButton();
@@ -202,6 +206,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.TTUShortInputTxt)).BeginInit();
             this.ModulesTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MTAuthorPctbx)).BeginInit();
+            this.OptionsTab.SuspendLayout();
+            this.OptionsTabs.SuspendLayout();
+            this.SettingsTab.SuspendLayout();
             this.AboutTab.SuspendLayout();
             this.TanjiStrip.SuspendLayout();
             this.SuspendLayout();
@@ -226,7 +233,7 @@
             this.TanjiTabs.Controls.Add(this.InjectionTab);
             this.TanjiTabs.Controls.Add(this.ToolboxTab);
             this.TanjiTabs.Controls.Add(this.ModulesTab);
-            this.TanjiTabs.Controls.Add(this.AboutTab);
+            this.TanjiTabs.Controls.Add(this.OptionsTab);
             this.TanjiTabs.DisplayBoundary = true;
             this.TanjiTabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TanjiTabs.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
@@ -1488,6 +1495,54 @@
             this.MTStateCol.Text = "State";
             this.MTStateCol.Width = 68;
             // 
+            // OptionsTab
+            // 
+            this.OptionsTab.Controls.Add(this.OptionsTabs);
+            this.OptionsTab.Location = new System.Drawing.Point(4, 28);
+            this.OptionsTab.Name = "OptionsTab";
+            this.OptionsTab.Padding = new System.Windows.Forms.Padding(3);
+            this.OptionsTab.Size = new System.Drawing.Size(476, 313);
+            this.OptionsTab.TabIndex = 5;
+            this.OptionsTab.Text = "Options";
+            this.OptionsTab.UseVisualStyleBackColor = true;
+            // 
+            // OptionsTabs
+            // 
+            this.OptionsTabs.Alignment = System.Windows.Forms.TabAlignment.Right;
+            this.OptionsTabs.Controls.Add(this.SettingsTab);
+            this.OptionsTabs.Controls.Add(this.AboutTab);
+            this.OptionsTabs.DisplayBoundary = false;
+            this.OptionsTabs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.OptionsTabs.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
+            this.OptionsTabs.ItemSize = new System.Drawing.Size(25, 60);
+            this.OptionsTabs.Location = new System.Drawing.Point(3, 3);
+            this.OptionsTabs.Multiline = true;
+            this.OptionsTabs.Name = "OptionsTabs";
+            this.OptionsTabs.SelectedIndex = 0;
+            this.OptionsTabs.Size = new System.Drawing.Size(470, 307);
+            this.OptionsTabs.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            this.OptionsTabs.TabIndex = 17;
+            // 
+            // SettingsTab
+            // 
+            this.SettingsTab.Controls.Add(this.GenerateMessageHashesBtn);
+            this.SettingsTab.Location = new System.Drawing.Point(4, 4);
+            this.SettingsTab.Name = "SettingsTab";
+            this.SettingsTab.Padding = new System.Windows.Forms.Padding(3);
+            this.SettingsTab.Size = new System.Drawing.Size(402, 299);
+            this.SettingsTab.TabIndex = 0;
+            this.SettingsTab.Text = "Settings";
+            this.SettingsTab.UseVisualStyleBackColor = true;
+            // 
+            // GenerateMessageHashesBtn
+            // 
+            this.GenerateMessageHashesBtn.Location = new System.Drawing.Point(93, 76);
+            this.GenerateMessageHashesBtn.Name = "GenerateMessageHashesBtn";
+            this.GenerateMessageHashesBtn.Size = new System.Drawing.Size(223, 20);
+            this.GenerateMessageHashesBtn.TabIndex = 0;
+            this.GenerateMessageHashesBtn.Text = "Generate message hashes";
+            this.GenerateMessageHashesBtn.Click += new System.EventHandler(this.GenerateMessageHashesBtn_Click);
+            // 
             // AboutTab
             // 
             this.AboutTab.Controls.Add(this.Sellout2Btn);
@@ -1499,18 +1554,18 @@
             this.AboutTab.Controls.Add(this.DarkboxBtn);
             this.AboutTab.Controls.Add(this.DarkStarBtn);
             this.AboutTab.Controls.Add(this.ArachisBtn);
-            this.AboutTab.Location = new System.Drawing.Point(4, 28);
+            this.AboutTab.Location = new System.Drawing.Point(4, 4);
             this.AboutTab.Name = "AboutTab";
             this.AboutTab.Padding = new System.Windows.Forms.Padding(3);
-            this.AboutTab.Size = new System.Drawing.Size(476, 313);
-            this.AboutTab.TabIndex = 5;
+            this.AboutTab.Size = new System.Drawing.Size(402, 299);
+            this.AboutTab.TabIndex = 1;
             this.AboutTab.Text = "About";
             this.AboutTab.UseVisualStyleBackColor = true;
             // 
             // Sellout2Btn
             // 
             this.Sellout2Btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.Sellout2Btn.Location = new System.Drawing.Point(95, 211);
+            this.Sellout2Btn.Location = new System.Drawing.Point(61, 206);
             this.Sellout2Btn.Name = "Sellout2Btn";
             this.Sellout2Btn.Size = new System.Drawing.Size(286, 20);
             this.Sellout2Btn.TabIndex = 16;
@@ -1519,7 +1574,7 @@
             // SelloutBtn
             // 
             this.SelloutBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.SelloutBtn.Location = new System.Drawing.Point(95, 185);
+            this.SelloutBtn.Location = new System.Drawing.Point(61, 180);
             this.SelloutBtn.Name = "SelloutBtn";
             this.SelloutBtn.Size = new System.Drawing.Size(286, 20);
             this.SelloutBtn.TabIndex = 15;
@@ -1528,7 +1583,7 @@
             // HarbleDiscordBtn
             // 
             this.HarbleDiscordBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(137)))), ((int)(((byte)(218)))));
-            this.HarbleDiscordBtn.Location = new System.Drawing.Point(127, 159);
+            this.HarbleDiscordBtn.Location = new System.Drawing.Point(93, 154);
             this.HarbleDiscordBtn.Name = "HarbleDiscordBtn";
             this.HarbleDiscordBtn.Size = new System.Drawing.Size(223, 20);
             this.HarbleDiscordBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(137)))), ((int)(((byte)(218)))));
@@ -1538,7 +1593,7 @@
             // DonateBtn
             // 
             this.DonateBtn.BackColor = System.Drawing.Color.Green;
-            this.DonateBtn.Location = new System.Drawing.Point(233, 81);
+            this.DonateBtn.Location = new System.Drawing.Point(199, 76);
             this.DonateBtn.Name = "DonateBtn";
             this.DonateBtn.Size = new System.Drawing.Size(117, 20);
             this.DonateBtn.Skin = System.Drawing.Color.Green;
@@ -1548,7 +1603,7 @@
             // SpeaqerBtn
             // 
             this.SpeaqerBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
-            this.SpeaqerBtn.Location = new System.Drawing.Point(127, 133);
+            this.SpeaqerBtn.Location = new System.Drawing.Point(93, 128);
             this.SpeaqerBtn.Name = "SpeaqerBtn";
             this.SpeaqerBtn.Size = new System.Drawing.Size(100, 20);
             this.SpeaqerBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
@@ -1558,7 +1613,7 @@
             // SNGButton
             // 
             this.SNGButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.SNGButton.Location = new System.Drawing.Point(233, 133);
+            this.SNGButton.Location = new System.Drawing.Point(199, 128);
             this.SNGButton.Name = "SNGButton";
             this.SNGButton.Size = new System.Drawing.Size(117, 20);
             this.SNGButton.TabIndex = 6;
@@ -1567,7 +1622,7 @@
             // DarkboxBtn
             // 
             this.DarkboxBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.DarkboxBtn.Location = new System.Drawing.Point(233, 107);
+            this.DarkboxBtn.Location = new System.Drawing.Point(199, 102);
             this.DarkboxBtn.Name = "DarkboxBtn";
             this.DarkboxBtn.Size = new System.Drawing.Size(117, 20);
             this.DarkboxBtn.TabIndex = 5;
@@ -1576,7 +1631,7 @@
             // DarkStarBtn
             // 
             this.DarkStarBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
-            this.DarkStarBtn.Location = new System.Drawing.Point(127, 107);
+            this.DarkStarBtn.Location = new System.Drawing.Point(93, 102);
             this.DarkStarBtn.Name = "DarkStarBtn";
             this.DarkStarBtn.Size = new System.Drawing.Size(100, 20);
             this.DarkStarBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
@@ -1586,7 +1641,7 @@
             // ArachisBtn
             // 
             this.ArachisBtn.BackColor = System.Drawing.Color.Purple;
-            this.ArachisBtn.Location = new System.Drawing.Point(127, 81);
+            this.ArachisBtn.Location = new System.Drawing.Point(93, 76);
             this.ArachisBtn.Name = "ArachisBtn";
             this.ArachisBtn.Size = new System.Drawing.Size(100, 20);
             this.ArachisBtn.Skin = System.Drawing.Color.Purple;
@@ -1704,6 +1759,9 @@
             this.ModulesTab.ResumeLayout(false);
             this.ModulesTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MTAuthorPctbx)).EndInit();
+            this.OptionsTab.ResumeLayout(false);
+            this.OptionsTabs.ResumeLayout(false);
+            this.SettingsTab.ResumeLayout(false);
             this.AboutTab.ResumeLayout(false);
             this.TanjiStrip.ResumeLayout(false);
             this.TanjiStrip.PerformLayout();
@@ -1714,7 +1772,7 @@
 
         #endregion
         public Sulakore.Components.SKoreInjectionMenu InjectionMenu;
-        private System.Windows.Forms.TabPage AboutTab;
+        private System.Windows.Forms.TabPage OptionsTab;
         private System.Windows.Forms.TabPage ModulesTab;
         private System.Windows.Forms.TabPage ToolboxTab;
         private System.Windows.Forms.Label TT16BitInputLbl;
@@ -1843,5 +1901,9 @@
         internal Sulakore.Components.SKoreLabel CoTProxyPortLbl;
         internal Sulakore.Components.SKoreButton SelloutBtn;
         internal Sulakore.Components.SKoreButton Sellout2Btn;
+        private Sulakore.Components.SKoreTabControl OptionsTabs;
+        private System.Windows.Forms.TabPage SettingsTab;
+        private System.Windows.Forms.TabPage AboutTab;
+        private Sulakore.Components.SKoreButton GenerateMessageHashesBtn;
     }
 }

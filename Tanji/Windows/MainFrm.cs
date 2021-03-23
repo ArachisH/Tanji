@@ -27,6 +27,9 @@ using Sulakore.Communication;
 using Sulakore.Habbo.Messages;
 
 using Eavesdrop;
+using System.IO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Tanji.Windows
 {
@@ -87,7 +90,7 @@ namespace Tanji.Windows
             InjectionPg = new InjectionPage(this, InjectionTab);
             ToolboxPg = new ToolboxPage(this, ToolboxTab);
             ModulesPg = new ModulesPage(this, ModulesTab);
-            AboutPg = new AboutPage(this, AboutTab);
+            AboutPg = new AboutPage(this, OptionsTab);
             PacketLoggerUI = new PacketLoggerFrm(this);
 
             _haltables.Add(ModulesPg);
@@ -274,6 +277,149 @@ namespace Tanji.Windows
                     receiver.HandleIncoming(e);
                 }
             }
+        }
+
+        static string Revision;
+        private void GenerateMessageHashesBtn_Click(object sender, EventArgs e)
+        {
+            Revision ??= "HabboAir";
+            var swfBytes = File.ReadAllBytes($"Revisions/{Revision}.swf");
+            var swf = new HGame(swfBytes);
+            swf.Disassemble();
+            swf.GenerateMessageHashes("Hashes.ini");
+
+            var habbo = new Habbo() { Revision = swf.Revision };
+            var hashes = new Habbo() { Revision = swf.Revision };
+            var headers = new Habbo() { Revision = swf.Revision };
+
+            if (!Directory.Exists(@"Habbo/Outgoing")) Directory.CreateDirectory("Habbo/Outgoing");
+            if (!Directory.Exists(@"Habbo/Incoming")) Directory.CreateDirectory("Habbo/Incoming");
+
+            Array.ForEach(Directory.GetFiles(@"Habbo/Outgoing"), delegate (string path) { File.Delete(path); });
+            Array.ForEach(Directory.GetFiles(@"Habbo/Incoming"), delegate (string path) { File.Delete(path); });
+
+            foreach (var msg in swf.Messages)
+            {
+                for (int i = 0; i < msg.Value.Count; i++)
+                {
+                    var id = msg.Value[i];
+
+                    // Habbo
+                    var h = new HId()
+                    {
+                        Hash = id.Hash,
+                        Name = id.Name,
+                        IsOutgoing = id.IsOutgoing,
+                        Structure = id.Structure
+                    };
+
+                    // Habbo.json
+                    var hId = (HId)h.Clone();
+                    hId.Id = id.Id;
+                    hId.ClassName = id.ClassName;
+                    hId.ParserName = id.ParserName;
+
+                    // Hashes.json
+                    var hIdHash = new HId()
+                    {
+                        Hash = id.Hash,
+                        Name = id.Name
+                    };
+
+                    // Headers.json
+                    var hIdHeader = new HId()
+                    {
+                        Id = id.Id,
+                        Hash = id.Hash,
+                        Name = id.Name,
+                        ClassName = id.ClassName
+                    };
+
+                    string subpath;
+                    if (id.IsOutgoing)
+                    {
+                        subpath = "Outgoing";
+                        habbo.Outgoing.Add(hId);
+                        hashes.Outgoing.Add(hIdHash);
+                        headers.Outgoing.Add(hIdHeader);
+                    }
+                    else
+                    {
+                        subpath = "Incoming";
+                        habbo.Incoming.Add(hId);
+                        hashes.Incoming.Add(hIdHash);
+                        headers.Incoming.Add(hIdHeader);
+                    }
+
+                    string path;
+                    if (id.Name == null)
+                    {
+                        if (i > 0) path = $@"Habbo/{subpath}/z_{id.Hash}_{i + 1}.json";
+                        else path = $@"Habbo/{subpath}/z_{id.Hash}.json";
+                    }
+                    else path = $@"Habbo/{subpath}/{id.Name}.json";
+
+                    string h_str = JsonConvert.SerializeObject(h, new JsonSerializerSettings()
+                    {
+                        DefaultValueHandling = DefaultValueHandling.Ignore,
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    });
+                    var h_json = JObject.Parse(h_str);
+                    File.WriteAllText(path, h_json.ToString());
+                }
+            }
+
+            string habbo_str = JsonConvert.SerializeObject(habbo, new JsonSerializerSettings() { DefaultValueHandling = DefaultValueHandling.Ignore });
+            string hashes_str = JsonConvert.SerializeObject(hashes, new JsonSerializerSettings() { DefaultValueHandling = DefaultValueHandling.Ignore });
+            string headers_str = JsonConvert.SerializeObject(headers, new JsonSerializerSettings() { DefaultValueHandling = DefaultValueHandling.Ignore });
+
+            var habbo_json = JObject.Parse(habbo_str);
+            var hashes_json = JObject.Parse(hashes_str);
+            var headers_json = JObject.Parse(headers_str);
+
+            File.WriteAllText(@"Hashes.json", hashes_json.ToString());
+            File.WriteAllText(@"Headers.json", headers_json.ToString());
+            File.WriteAllText(@"Habbo/Habbo.json", habbo_json.ToString());
+
+            MessageBox.Show("Generated", "Tanji ~ Info!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        class MessageInfo
+        {
+            public ushort Id { get; set; }
+            public string Hash { get; set; }
+            public string Name { get; set; }
+        }
+
+        class Habbo
+        {
+            public string Revision;
+            public List<HId> Outgoing = new List<HId>();
+            public List<HId> Incoming = new List<HId>();
+        }
+
+        class HId : ICloneable
+        {
+            public object Clone()
+            {
+                return MemberwiseClone();
+            }
+            public ushort Id { get; set; }
+            public string Hash { get; set; }
+            public bool IsOutgoing { get; set; }
+            public string Name { get; set; }
+            public string[] Structure { get; set; }
+            public string ClassName { get; set; }
+            public string ParserName { get; set; }
+            public List<HReference> References { get; set; }
+        }
+
+        public class HReference
+        {
+            public int ClassRank { get; set; }
+            public int GroupCount { get; set; }
+            public int MethodRank { get; set; }
+            public int InstructionRank { get; set; }
         }
     }
 }
