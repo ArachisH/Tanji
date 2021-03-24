@@ -186,8 +186,8 @@
             this.SchedulesTxt = new System.Windows.Forms.ToolStripStatusLabel();
             this.FiltersTxt = new System.Windows.Forms.ToolStripStatusLabel();
             this.ModulesTxt = new System.Windows.Forms.ToolStripStatusLabel();
-            this.TanjiInfoTxt = new System.Windows.Forms.ToolStripStatusLabel();
             this.TanjiStrip = new System.Windows.Forms.StatusStrip();
+            this.TanjiInfoTxt = new System.Windows.Forms.ToolStripStatusLabel();
             this.TanjiTabs.SuspendLayout();
             this.ConnectionTab.SuspendLayout();
             this.InjectionTab.SuspendLayout();
@@ -240,6 +240,7 @@
             this.TanjiTabs.IsDisplayingBorder = true;
             this.TanjiTabs.ItemSize = new System.Drawing.Size(96, 24);
             this.TanjiTabs.Location = new System.Drawing.Point(0, 0);
+            this.TanjiTabs.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.TanjiTabs.Name = "TanjiTabs";
             this.TanjiTabs.SelectedIndex = 0;
             this.TanjiTabs.Size = new System.Drawing.Size(484, 345);
@@ -299,10 +300,11 @@
             // CoTVariableTxt
             // 
             this.CoTVariableTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.CoTVariableTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.CoTVariableTxt.IsReadOnly = true;
-            this.CoTVariableTxt.Location = new System.Drawing.Point(6, 207);
+            this.CoTVariableTxt.Location = new System.Drawing.Point(3, 207);
             this.CoTVariableTxt.Name = "CoTVariableTxt";
-            this.CoTVariableTxt.Size = new System.Drawing.Size(358, 20);
+            this.CoTVariableTxt.Size = new System.Drawing.Size(361, 20);
             this.CoTVariableTxt.TabIndex = 107;
             this.CoTVariableTxt.Text = "";
             this.CoTVariableTxt.TextPaddingWidth = 0;
@@ -314,11 +316,13 @@
             // CoTValueTxt
             // 
             this.CoTValueTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CoTValueTxt.Location = new System.Drawing.Point(6, 181);
+            this.CoTValueTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.CoTValueTxt.Location = new System.Drawing.Point(3, 181);
             this.CoTValueTxt.Name = "CoTValueTxt";
-            this.CoTValueTxt.Size = new System.Drawing.Size(358, 20);
+            this.CoTValueTxt.Size = new System.Drawing.Size(361, 20);
             this.CoTValueTxt.TabIndex = 106;
             this.CoTValueTxt.Text = "";
+            this.CoTValueTxt.TextPaddingWidth = 13;
             this.CoTValueTxt.Title = "Value";
             this.CoTValueTxt.Value = "";
             this.CoTValueTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
@@ -327,9 +331,10 @@
             // CoTCustomClientTxt
             // 
             this.CoTCustomClientTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CoTCustomClientTxt.Location = new System.Drawing.Point(6, 260);
+            this.CoTCustomClientTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.CoTCustomClientTxt.Location = new System.Drawing.Point(4, 260);
             this.CoTCustomClientTxt.Name = "CoTCustomClientTxt";
-            this.CoTCustomClientTxt.Size = new System.Drawing.Size(355, 20);
+            this.CoTCustomClientTxt.Size = new System.Drawing.Size(360, 20);
             this.CoTCustomClientTxt.TabIndex = 105;
             this.CoTCustomClientTxt.Text = "";
             this.CoTCustomClientTxt.TextPaddingWidth = 0;
@@ -413,6 +418,7 @@
             this.CoTVariablesVw.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.CoTVariableCol,
             this.CoTValueCol});
+            this.CoTVariablesVw.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.CoTVariablesVw.FullRowSelect = true;
             this.CoTVariablesVw.GridLines = true;
             this.CoTVariablesVw.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
@@ -451,7 +457,7 @@
             // CoTValueCol
             // 
             this.CoTValueCol.Text = "Value";
-            this.CoTValueCol.Width = 222;
+            this.CoTValueCol.Width = 238;
             // 
             // InjectionTab
             // 
@@ -498,7 +504,7 @@
             this.InjectionTabs.Dock = System.Windows.Forms.DockStyle.Top;
             this.InjectionTabs.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.InjectionTabs.IsDisplayingBorder = true;
-            this.InjectionTabs.ItemSize = new System.Drawing.Size(24, 65);
+            this.InjectionTabs.ItemSize = new System.Drawing.Size(24, 69);
             this.InjectionTabs.Location = new System.Drawing.Point(3, 3);
             this.InjectionTabs.Multiline = true;
             this.InjectionTabs.Name = "InjectionTabs";
@@ -529,7 +535,7 @@
             this.ConstructerTab.Location = new System.Drawing.Point(4, 4);
             this.ConstructerTab.Name = "ConstructerTab";
             this.ConstructerTab.Padding = new System.Windows.Forms.Padding(3);
-            this.ConstructerTab.Size = new System.Drawing.Size(397, 270);
+            this.ConstructerTab.Size = new System.Drawing.Size(393, 270);
             this.ConstructerTab.TabIndex = 2;
             this.ConstructerTab.Text = "Constructer";
             this.ConstructerTab.UseVisualStyleBackColor = true;
@@ -538,16 +544,19 @@
             // 
             this.CTValueTxt.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CTValueTxt.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CTValueTxt.DropDownWidth = 261;
+            this.CTValueTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.CTValueTxt.IntegralHeight = false;
             this.CTValueTxt.ItemHeight = 13;
-            this.CTValueTxt.Location = new System.Drawing.Point(68, 19);
+            this.CTValueTxt.Location = new System.Drawing.Point(65, 19);
             this.CTValueTxt.Name = "CTValueTxt";
             this.CTValueTxt.Size = new System.Drawing.Size(261, 21);
             this.CTValueTxt.TabIndex = 28;
             // 
             // CTHeaderTxt
             // 
-            this.CTHeaderTxt.Location = new System.Drawing.Point(6, 20);
+            this.CTHeaderTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.CTHeaderTxt.Location = new System.Drawing.Point(3, 20);
             this.CTHeaderTxt.Maximum = new decimal(new int[] {
             4000,
             0,
@@ -561,20 +570,20 @@
             // CTHeaderLbl
             // 
             this.CTHeaderLbl.AutoSize = true;
-            this.CTHeaderLbl.Location = new System.Drawing.Point(3, 3);
+            this.CTHeaderLbl.Location = new System.Drawing.Point(0, 2);
             this.CTHeaderLbl.Margin = new System.Windows.Forms.Padding(3, 0, 3, 1);
             this.CTHeaderLbl.Name = "CTHeaderLbl";
-            this.CTHeaderLbl.Size = new System.Drawing.Size(42, 13);
+            this.CTHeaderLbl.Size = new System.Drawing.Size(45, 15);
             this.CTHeaderLbl.TabIndex = 31;
             this.CTHeaderLbl.Text = "Header";
             // 
             // CTAmountLbl
             // 
             this.CTAmountLbl.AutoSize = true;
-            this.CTAmountLbl.Location = new System.Drawing.Point(332, 3);
+            this.CTAmountLbl.Location = new System.Drawing.Point(330, 2);
             this.CTAmountLbl.Margin = new System.Windows.Forms.Padding(3, 0, 3, 1);
             this.CTAmountLbl.Name = "CTAmountLbl";
-            this.CTAmountLbl.Size = new System.Drawing.Size(43, 13);
+            this.CTAmountLbl.Size = new System.Drawing.Size(51, 15);
             this.CTAmountLbl.TabIndex = 39;
             this.CTAmountLbl.Text = "Amount";
             // 
@@ -582,21 +591,22 @@
             // 
             this.CTStructureTxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.CTStructureTxt.Location = new System.Drawing.Point(112, 215);
+            this.CTStructureTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.CTStructureTxt.Location = new System.Drawing.Point(102, 219);
             this.CTStructureTxt.Name = "CTStructureTxt";
             this.CTStructureTxt.ReadOnly = true;
-            this.CTStructureTxt.Size = new System.Drawing.Size(279, 20);
+            this.CTStructureTxt.Size = new System.Drawing.Size(288, 23);
             this.CTStructureTxt.TabIndex = 48;
             this.CTStructureTxt.Text = "{l}{u:0}";
             this.CTStructureTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // CTTransferBelowBtn
             // 
-            this.CTTransferBelowBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CTTransferBelowBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CTTransferBelowBtn.Location = new System.Drawing.Point(6, 241);
+            this.CTTransferBelowBtn.Location = new System.Drawing.Point(3, 246);
+            this.CTTransferBelowBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.CTTransferBelowBtn.Name = "CTTransferBelowBtn";
-            this.CTTransferBelowBtn.Size = new System.Drawing.Size(100, 20);
+            this.CTTransferBelowBtn.Size = new System.Drawing.Size(95, 20);
             this.CTTransferBelowBtn.TabIndex = 46;
             this.CTTransferBelowBtn.Text = "Transfer Below";
             // 
@@ -604,15 +614,16 @@
             // 
             this.CTValueCountLbl.AnimationInterval = 0;
             this.CTValueCountLbl.DisplayBoundary = true;
-            this.CTValueCountLbl.Location = new System.Drawing.Point(6, 215);
+            this.CTValueCountLbl.Location = new System.Drawing.Point(3, 220);
             this.CTValueCountLbl.Name = "CTValueCountLbl";
-            this.CTValueCountLbl.Size = new System.Drawing.Size(100, 20);
+            this.CTValueCountLbl.Size = new System.Drawing.Size(96, 20);
             this.CTValueCountLbl.TabIndex = 45;
             this.CTValueCountLbl.Text = "Value Count: 0";
             // 
             // CTAmountTxt
             // 
-            this.CTAmountTxt.Location = new System.Drawing.Point(335, 20);
+            this.CTAmountTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.CTAmountTxt.Location = new System.Drawing.Point(333, 20);
             this.CTAmountTxt.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -635,44 +646,41 @@
             // 
             // CTRemoveBtn
             // 
-            this.CTRemoveBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CTRemoveBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CTRemoveBtn.Enabled = false;
-            this.CTRemoveBtn.Location = new System.Drawing.Point(112, 241);
+            this.CTRemoveBtn.Location = new System.Drawing.Point(102, 246);
             this.CTRemoveBtn.Name = "CTRemoveBtn";
-            this.CTRemoveBtn.Size = new System.Drawing.Size(89, 20);
+            this.CTRemoveBtn.Size = new System.Drawing.Size(95, 20);
             this.CTRemoveBtn.TabIndex = 38;
             this.CTRemoveBtn.Text = "Remove";
             // 
             // CTMoveDownBtn
             // 
-            this.CTMoveDownBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CTMoveDownBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CTMoveDownBtn.Enabled = false;
-            this.CTMoveDownBtn.Location = new System.Drawing.Point(302, 241);
+            this.CTMoveDownBtn.Location = new System.Drawing.Point(300, 246);
             this.CTMoveDownBtn.Name = "CTMoveDownBtn";
-            this.CTMoveDownBtn.Size = new System.Drawing.Size(89, 20);
+            this.CTMoveDownBtn.Size = new System.Drawing.Size(90, 20);
             this.CTMoveDownBtn.TabIndex = 37;
             this.CTMoveDownBtn.Text = "Move Down";
             // 
             // CTMoveUpBtn
             // 
-            this.CTMoveUpBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CTMoveUpBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CTMoveUpBtn.Enabled = false;
-            this.CTMoveUpBtn.Location = new System.Drawing.Point(207, 241);
+            this.CTMoveUpBtn.Location = new System.Drawing.Point(201, 246);
             this.CTMoveUpBtn.Name = "CTMoveUpBtn";
-            this.CTMoveUpBtn.Size = new System.Drawing.Size(89, 20);
+            this.CTMoveUpBtn.Size = new System.Drawing.Size(95, 20);
             this.CTMoveUpBtn.TabIndex = 36;
             this.CTMoveUpBtn.Text = "Move Up";
             // 
             // CTClearBtn
             // 
-            this.CTClearBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CTClearBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CTClearBtn.Location = new System.Drawing.Point(6, 46);
+            this.CTClearBtn.Location = new System.Drawing.Point(3, 46);
+            this.CTClearBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.CTClearBtn.Name = "CTClearBtn";
-            this.CTClearBtn.Size = new System.Drawing.Size(73, 20);
+            this.CTClearBtn.Size = new System.Drawing.Size(78, 20);
             this.CTClearBtn.TabIndex = 35;
             this.CTClearBtn.Text = "Clear";
             // 
@@ -680,17 +688,17 @@
             // 
             this.CTWriteBooleanBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CTWriteBooleanBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CTWriteBooleanBtn.Location = new System.Drawing.Point(293, 46);
+            this.CTWriteBooleanBtn.Location = new System.Drawing.Point(289, 46);
             this.CTWriteBooleanBtn.Name = "CTWriteBooleanBtn";
-            this.CTWriteBooleanBtn.Size = new System.Drawing.Size(98, 20);
+            this.CTWriteBooleanBtn.Size = new System.Drawing.Size(101, 20);
             this.CTWriteBooleanBtn.TabIndex = 34;
             this.CTWriteBooleanBtn.Text = "Write Boolean";
             // 
             // CTWriteStringBtn
             // 
-            this.CTWriteStringBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CTWriteStringBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CTWriteStringBtn.Location = new System.Drawing.Point(189, 46);
+            this.CTWriteStringBtn.Location = new System.Drawing.Point(187, 46);
+            this.CTWriteStringBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.CTWriteStringBtn.Name = "CTWriteStringBtn";
             this.CTWriteStringBtn.Size = new System.Drawing.Size(98, 20);
             this.CTWriteStringBtn.TabIndex = 33;
@@ -698,9 +706,9 @@
             // 
             // CTWriteIntegerBtn
             // 
-            this.CTWriteIntegerBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CTWriteIntegerBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.CTWriteIntegerBtn.Location = new System.Drawing.Point(85, 46);
+            this.CTWriteIntegerBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.CTWriteIntegerBtn.Name = "CTWriteIntegerBtn";
             this.CTWriteIntegerBtn.Size = new System.Drawing.Size(98, 20);
             this.CTWriteIntegerBtn.TabIndex = 32;
@@ -709,16 +717,14 @@
             // CTValueLbl
             // 
             this.CTValueLbl.AutoSize = true;
-            this.CTValueLbl.Location = new System.Drawing.Point(65, 3);
+            this.CTValueLbl.Location = new System.Drawing.Point(62, 2);
             this.CTValueLbl.Name = "CTValueLbl";
-            this.CTValueLbl.Size = new System.Drawing.Size(34, 13);
+            this.CTValueLbl.Size = new System.Drawing.Size(35, 15);
             this.CTValueLbl.TabIndex = 29;
             this.CTValueLbl.Text = "Value";
             // 
             // CTConstructerVw
             // 
-            this.CTConstructerVw.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.CTConstructerVw.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.CTTypeCol,
             this.CTValueCol,
@@ -727,11 +733,11 @@
             this.CTConstructerVw.GridLines = true;
             this.CTConstructerVw.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.CTConstructerVw.HideSelection = false;
-            this.CTConstructerVw.Location = new System.Drawing.Point(6, 74);
+            this.CTConstructerVw.Location = new System.Drawing.Point(3, 74);
             this.CTConstructerVw.MultiSelect = false;
             this.CTConstructerVw.Name = "CTConstructerVw";
             this.CTConstructerVw.ShowItemToolTips = true;
-            this.CTConstructerVw.Size = new System.Drawing.Size(385, 138);
+            this.CTConstructerVw.Size = new System.Drawing.Size(387, 142);
             this.CTConstructerVw.TabIndex = 44;
             this.CTConstructerVw.UseCompatibleStateImageBehavior = false;
             this.CTConstructerVw.View = System.Windows.Forms.View.Details;
@@ -749,7 +755,7 @@
             // CTEncodedCol
             // 
             this.CTEncodedCol.Text = "Encoded";
-            this.CTEncodedCol.Width = 149;
+            this.CTEncodedCol.Width = 167;
             // 
             // SchedulerTab
             // 
@@ -770,7 +776,7 @@
             this.SchedulerTab.Location = new System.Drawing.Point(4, 4);
             this.SchedulerTab.Name = "SchedulerTab";
             this.SchedulerTab.Padding = new System.Windows.Forms.Padding(3);
-            this.SchedulerTab.Size = new System.Drawing.Size(397, 270);
+            this.SchedulerTab.Size = new System.Drawing.Size(393, 270);
             this.SchedulerTab.TabIndex = 0;
             this.SchedulerTab.Text = "Scheduler";
             this.SchedulerTab.UseVisualStyleBackColor = true;
@@ -780,10 +786,10 @@
             this.STAutoStartChckbx.AutoSize = true;
             this.STAutoStartChckbx.Checked = true;
             this.STAutoStartChckbx.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.STAutoStartChckbx.Location = new System.Drawing.Point(128, 198);
+            this.STAutoStartChckbx.Location = new System.Drawing.Point(118, 201);
             this.STAutoStartChckbx.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             this.STAutoStartChckbx.Name = "STAutoStartChckbx";
-            this.STAutoStartChckbx.Size = new System.Drawing.Size(73, 17);
+            this.STAutoStartChckbx.Size = new System.Drawing.Size(79, 19);
             this.STAutoStartChckbx.TabIndex = 53;
             this.STAutoStartChckbx.Text = "Auto Start";
             this.STAutoStartChckbx.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -792,8 +798,10 @@
             // STDestinationTxt
             // 
             this.STDestinationTxt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.STDestinationTxt.DropDownWidth = 66;
+            this.STDestinationTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.STDestinationTxt.FormattingEnabled = true;
-            this.STDestinationTxt.Location = new System.Drawing.Point(201, 214);
+            this.STDestinationTxt.Location = new System.Drawing.Point(200, 219);
             this.STDestinationTxt.Margin = new System.Windows.Forms.Padding(3, 2, 3, 3);
             this.STDestinationTxt.Name = "STDestinationTxt";
             this.STDestinationTxt.Size = new System.Drawing.Size(66, 21);
@@ -801,7 +809,8 @@
             // 
             // STPacketTxt
             // 
-            this.STPacketTxt.Location = new System.Drawing.Point(6, 215);
+            this.STPacketTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.STPacketTxt.Location = new System.Drawing.Point(3, 220);
             this.STPacketTxt.MaxLength = 2147483647;
             this.STPacketTxt.Name = "STPacketTxt";
             this.STPacketTxt.Size = new System.Drawing.Size(189, 20);
@@ -811,9 +820,9 @@
             // 
             this.STHotkeyTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.STHotkeyTxt.IsReadOnly = true;
-            this.STHotkeyTxt.Location = new System.Drawing.Point(201, 241);
+            this.STHotkeyTxt.Location = new System.Drawing.Point(198, 246);
             this.STHotkeyTxt.Name = "STHotkeyTxt";
-            this.STHotkeyTxt.Size = new System.Drawing.Size(190, 20);
+            this.STHotkeyTxt.Size = new System.Drawing.Size(192, 20);
             this.STHotkeyTxt.TabIndex = 63;
             this.STHotkeyTxt.Text = "";
             this.STHotkeyTxt.TextPaddingWidth = 0;
@@ -826,7 +835,7 @@
             // 
             this.STRemoveBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.STRemoveBtn.Enabled = false;
-            this.STRemoveBtn.Location = new System.Drawing.Point(71, 241);
+            this.STRemoveBtn.Location = new System.Drawing.Point(68, 246);
             this.STRemoveBtn.Name = "STRemoveBtn";
             this.STRemoveBtn.Size = new System.Drawing.Size(59, 20);
             this.STRemoveBtn.TabIndex = 61;
@@ -835,24 +844,25 @@
             // STDestinationLbl
             // 
             this.STDestinationLbl.AutoSize = true;
-            this.STDestinationLbl.Location = new System.Drawing.Point(198, 199);
+            this.STDestinationLbl.Location = new System.Drawing.Point(197, 202);
             this.STDestinationLbl.Name = "STDestinationLbl";
-            this.STDestinationLbl.Size = new System.Drawing.Size(60, 13);
+            this.STDestinationLbl.Size = new System.Drawing.Size(67, 15);
             this.STDestinationLbl.TabIndex = 48;
             this.STDestinationLbl.Text = "Destination";
             // 
             // STCyclesLbl
             // 
             this.STCyclesLbl.AutoSize = true;
-            this.STCyclesLbl.Location = new System.Drawing.Point(332, 199);
+            this.STCyclesLbl.Location = new System.Drawing.Point(331, 202);
             this.STCyclesLbl.Name = "STCyclesLbl";
-            this.STCyclesLbl.Size = new System.Drawing.Size(38, 13);
+            this.STCyclesLbl.Size = new System.Drawing.Size(41, 15);
             this.STCyclesLbl.TabIndex = 60;
             this.STCyclesLbl.Text = "Cycles";
             // 
             // STCyclesTxt
             // 
-            this.STCyclesTxt.Location = new System.Drawing.Point(335, 215);
+            this.STCyclesTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.STCyclesTxt.Location = new System.Drawing.Point(334, 220);
             this.STCyclesTxt.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -866,16 +876,16 @@
             // STIntervalLbl
             // 
             this.STIntervalLbl.AutoSize = true;
-            this.STIntervalLbl.Location = new System.Drawing.Point(270, 199);
+            this.STIntervalLbl.Location = new System.Drawing.Point(269, 202);
             this.STIntervalLbl.Name = "STIntervalLbl";
-            this.STIntervalLbl.Size = new System.Drawing.Size(42, 13);
+            this.STIntervalLbl.Size = new System.Drawing.Size(46, 15);
             this.STIntervalLbl.TabIndex = 50;
             this.STIntervalLbl.Text = "Interval";
             // 
             // STClearBtn
             // 
             this.STClearBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.STClearBtn.Location = new System.Drawing.Point(136, 241);
+            this.STClearBtn.Location = new System.Drawing.Point(133, 246);
             this.STClearBtn.Name = "STClearBtn";
             this.STClearBtn.Size = new System.Drawing.Size(59, 20);
             this.STClearBtn.TabIndex = 58;
@@ -884,7 +894,7 @@
             // STCreateBtn
             // 
             this.STCreateBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.STCreateBtn.Location = new System.Drawing.Point(6, 241);
+            this.STCreateBtn.Location = new System.Drawing.Point(3, 246);
             this.STCreateBtn.Name = "STCreateBtn";
             this.STCreateBtn.Size = new System.Drawing.Size(59, 20);
             this.STCreateBtn.TabIndex = 54;
@@ -892,7 +902,8 @@
             // 
             // STIntervalTxt
             // 
-            this.STIntervalTxt.Location = new System.Drawing.Point(273, 215);
+            this.STIntervalTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.STIntervalTxt.Location = new System.Drawing.Point(272, 220);
             this.STIntervalTxt.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -916,16 +927,14 @@
             // STPacketLbl
             // 
             this.STPacketLbl.AutoSize = true;
-            this.STPacketLbl.Location = new System.Drawing.Point(3, 199);
+            this.STPacketLbl.Location = new System.Drawing.Point(0, 204);
             this.STPacketLbl.Name = "STPacketLbl";
-            this.STPacketLbl.Size = new System.Drawing.Size(41, 13);
+            this.STPacketLbl.Size = new System.Drawing.Size(42, 15);
             this.STPacketLbl.TabIndex = 46;
             this.STPacketLbl.Text = "Packet";
             // 
             // STSchedulerVw
             // 
-            this.STSchedulerVw.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.STSchedulerVw.CheckBoxes = true;
             this.STSchedulerVw.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.STPacketCol,
@@ -937,11 +946,11 @@
             this.STSchedulerVw.GridLines = true;
             this.STSchedulerVw.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.STSchedulerVw.HideSelection = false;
-            this.STSchedulerVw.Location = new System.Drawing.Point(6, 6);
+            this.STSchedulerVw.Location = new System.Drawing.Point(3, 3);
             this.STSchedulerVw.MultiSelect = false;
             this.STSchedulerVw.Name = "STSchedulerVw";
             this.STSchedulerVw.ShowItemToolTips = true;
-            this.STSchedulerVw.Size = new System.Drawing.Size(385, 190);
+            this.STSchedulerVw.Size = new System.Drawing.Size(387, 197);
             this.STSchedulerVw.TabIndex = 0;
             this.STSchedulerVw.UseCompatibleStateImageBehavior = false;
             this.STSchedulerVw.View = System.Windows.Forms.View.Details;
@@ -949,27 +958,27 @@
             // STPacketCol
             // 
             this.STPacketCol.Text = "Packet";
-            this.STPacketCol.Width = 120;
+            this.STPacketCol.Width = 129;
             // 
             // STDestinationCol
             // 
             this.STDestinationCol.Text = "Destination";
-            this.STDestinationCol.Width = 73;
+            this.STDestinationCol.Width = 75;
             // 
             // STIntervalCol
             // 
             this.STIntervalCol.Text = "Interval";
-            this.STIntervalCol.Width = 53;
+            this.STIntervalCol.Width = 54;
             // 
             // STCyclesCol
             // 
             this.STCyclesCol.Text = "Cycles";
-            this.STCyclesCol.Width = 53;
+            this.STCyclesCol.Width = 49;
             // 
             // STHotkeyCol
             // 
             this.STHotkeyCol.Text = "Hotkey";
-            this.STHotkeyCol.Width = 65;
+            this.STHotkeyCol.Width = 74;
             // 
             // PrimitiveTab
             // 
@@ -981,7 +990,7 @@
             this.PrimitiveTab.Location = new System.Drawing.Point(4, 4);
             this.PrimitiveTab.Name = "PrimitiveTab";
             this.PrimitiveTab.Padding = new System.Windows.Forms.Padding(3);
-            this.PrimitiveTab.Size = new System.Drawing.Size(397, 270);
+            this.PrimitiveTab.Size = new System.Drawing.Size(393, 270);
             this.PrimitiveTab.TabIndex = 1;
             this.PrimitiveTab.Text = "Primitive";
             this.PrimitiveTab.UseVisualStyleBackColor = true;
@@ -989,7 +998,7 @@
             // PTSaveAsBtn
             // 
             this.PTSaveAsBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.PTSaveAsBtn.Location = new System.Drawing.Point(304, 241);
+            this.PTSaveAsBtn.Location = new System.Drawing.Point(303, 246);
             this.PTSaveAsBtn.Name = "PTSaveAsBtn";
             this.PTSaveAsBtn.Size = new System.Drawing.Size(87, 20);
             this.PTSaveAsBtn.TabIndex = 11;
@@ -999,7 +1008,7 @@
             // 
             this.PTLengthTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.PTLengthTxt.IsReadOnly = true;
-            this.PTLengthTxt.Location = new System.Drawing.Point(103, 241);
+            this.PTLengthTxt.Location = new System.Drawing.Point(99, 246);
             this.PTLengthTxt.Name = "PTLengthTxt";
             this.PTLengthTxt.Size = new System.Drawing.Size(91, 20);
             this.PTLengthTxt.TabIndex = 10;
@@ -1014,7 +1023,7 @@
             // 
             this.PTHeaderTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.PTHeaderTxt.IsReadOnly = true;
-            this.PTHeaderTxt.Location = new System.Drawing.Point(6, 241);
+            this.PTHeaderTxt.Location = new System.Drawing.Point(1, 246);
             this.PTHeaderTxt.Name = "PTHeaderTxt";
             this.PTHeaderTxt.Size = new System.Drawing.Size(91, 20);
             this.PTHeaderTxt.TabIndex = 9;
@@ -1029,7 +1038,7 @@
             // 
             this.PTCorruptedTxt.BackColor = System.Drawing.Color.Firebrick;
             this.PTCorruptedTxt.IsReadOnly = true;
-            this.PTCorruptedTxt.Location = new System.Drawing.Point(200, 241);
+            this.PTCorruptedTxt.Location = new System.Drawing.Point(195, 246);
             this.PTCorruptedTxt.Name = "PTCorruptedTxt";
             this.PTCorruptedTxt.Size = new System.Drawing.Size(98, 20);
             this.PTCorruptedTxt.TabIndex = 8;
@@ -1042,12 +1051,12 @@
             // 
             // PTPacketTxt
             // 
-            this.PTPacketTxt.Location = new System.Drawing.Point(6, 6);
+            this.PTPacketTxt.Location = new System.Drawing.Point(3, 3);
             this.PTPacketTxt.MaxLength = 2147483647;
             this.PTPacketTxt.Multiline = true;
             this.PTPacketTxt.Name = "PTPacketTxt";
             this.PTPacketTxt.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.PTPacketTxt.Size = new System.Drawing.Size(385, 229);
+            this.PTPacketTxt.Size = new System.Drawing.Size(387, 240);
             this.PTPacketTxt.TabIndex = 3;
             // 
             // FiltersTab
@@ -1065,7 +1074,7 @@
             this.FiltersTab.Location = new System.Drawing.Point(4, 4);
             this.FiltersTab.Name = "FiltersTab";
             this.FiltersTab.Padding = new System.Windows.Forms.Padding(3);
-            this.FiltersTab.Size = new System.Drawing.Size(397, 270);
+            this.FiltersTab.Size = new System.Drawing.Size(393, 270);
             this.FiltersTab.TabIndex = 3;
             this.FiltersTab.Text = "Filters";
             this.FiltersTab.UseVisualStyleBackColor = true;
@@ -1074,9 +1083,9 @@
             // 
             this.FTReplacementTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.FTReplacementTxt.IsReadOnly = true;
-            this.FTReplacementTxt.Location = new System.Drawing.Point(6, 241);
+            this.FTReplacementTxt.Location = new System.Drawing.Point(1, 247);
             this.FTReplacementTxt.Name = "FTReplacementTxt";
-            this.FTReplacementTxt.Size = new System.Drawing.Size(385, 20);
+            this.FTReplacementTxt.Size = new System.Drawing.Size(389, 20);
             this.FTReplacementTxt.TabIndex = 54;
             this.FTReplacementTxt.Text = "";
             this.FTReplacementTxt.TextPaddingWidth = 0;
@@ -1088,24 +1097,28 @@
             // FTDestinationLbl
             // 
             this.FTDestinationLbl.AutoSize = true;
-            this.FTDestinationLbl.Location = new System.Drawing.Point(66, 198);
+            this.FTDestinationLbl.Location = new System.Drawing.Point(64, 200);
             this.FTDestinationLbl.Name = "FTDestinationLbl";
-            this.FTDestinationLbl.Size = new System.Drawing.Size(60, 13);
+            this.FTDestinationLbl.Size = new System.Drawing.Size(67, 15);
             this.FTDestinationLbl.TabIndex = 53;
             this.FTDestinationLbl.Text = "Destination";
             // 
             // FTDestinationTxt
             // 
             this.FTDestinationTxt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.FTDestinationTxt.DropDownWidth = 66;
+            this.FTDestinationTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.FTDestinationTxt.FormattingEnabled = true;
-            this.FTDestinationTxt.Location = new System.Drawing.Point(69, 214);
+            this.FTDestinationTxt.ItemHeight = 15;
+            this.FTDestinationTxt.Location = new System.Drawing.Point(67, 216);
             this.FTDestinationTxt.Name = "FTDestinationTxt";
-            this.FTDestinationTxt.Size = new System.Drawing.Size(66, 21);
+            this.FTDestinationTxt.Size = new System.Drawing.Size(66, 23);
             this.FTDestinationTxt.TabIndex = 52;
             // 
             // FTHeaderTxt
             // 
-            this.FTHeaderTxt.Location = new System.Drawing.Point(6, 215);
+            this.FTHeaderTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.FTHeaderTxt.Location = new System.Drawing.Point(4, 216);
             this.FTHeaderTxt.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
             this.FTHeaderTxt.Maximum = new decimal(new int[] {
             4000,
@@ -1113,16 +1126,16 @@
             0,
             0});
             this.FTHeaderTxt.Name = "FTHeaderTxt";
-            this.FTHeaderTxt.Size = new System.Drawing.Size(57, 20);
+            this.FTHeaderTxt.Size = new System.Drawing.Size(57, 23);
             this.FTHeaderTxt.TabIndex = 51;
             this.FTHeaderTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // FTHeaderLbl
             // 
             this.FTHeaderLbl.AutoSize = true;
-            this.FTHeaderLbl.Location = new System.Drawing.Point(3, 198);
+            this.FTHeaderLbl.Location = new System.Drawing.Point(1, 200);
             this.FTHeaderLbl.Name = "FTHeaderLbl";
-            this.FTHeaderLbl.Size = new System.Drawing.Size(42, 13);
+            this.FTHeaderLbl.Size = new System.Drawing.Size(45, 15);
             this.FTHeaderLbl.TabIndex = 50;
             this.FTHeaderLbl.Text = "Header";
             // 
@@ -1130,41 +1143,43 @@
             // 
             this.FTRemoveBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.FTRemoveBtn.Enabled = false;
-            this.FTRemoveBtn.Location = new System.Drawing.Point(305, 214);
+            this.FTRemoveBtn.Location = new System.Drawing.Point(304, 216);
             this.FTRemoveBtn.Name = "FTRemoveBtn";
-            this.FTRemoveBtn.Size = new System.Drawing.Size(86, 20);
+            this.FTRemoveBtn.Size = new System.Drawing.Size(86, 23);
             this.FTRemoveBtn.TabIndex = 8;
             this.FTRemoveBtn.Text = "Remove";
             // 
             // FTCreateBtn
             // 
             this.FTCreateBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.FTCreateBtn.Location = new System.Drawing.Point(213, 215);
+            this.FTCreateBtn.Location = new System.Drawing.Point(213, 216);
             this.FTCreateBtn.Name = "FTCreateBtn";
-            this.FTCreateBtn.Size = new System.Drawing.Size(86, 20);
+            this.FTCreateBtn.Size = new System.Drawing.Size(84, 23);
             this.FTCreateBtn.TabIndex = 7;
             this.FTCreateBtn.Text = "Create";
             // 
             // FTActionLbl
             // 
             this.FTActionLbl.AutoSize = true;
-            this.FTActionLbl.Location = new System.Drawing.Point(138, 198);
+            this.FTActionLbl.Location = new System.Drawing.Point(137, 200);
             this.FTActionLbl.Name = "FTActionLbl";
-            this.FTActionLbl.Size = new System.Drawing.Size(37, 13);
+            this.FTActionLbl.Size = new System.Drawing.Size(42, 15);
             this.FTActionLbl.TabIndex = 2;
             this.FTActionLbl.Text = "Action";
             // 
             // FTActionTxt
             // 
             this.FTActionTxt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.FTActionTxt.DropDownWidth = 66;
+            this.FTActionTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.FTActionTxt.FormattingEnabled = true;
             this.FTActionTxt.Items.AddRange(new object[] {
             "Block",
             "Replace",
             "Execute"});
-            this.FTActionTxt.Location = new System.Drawing.Point(141, 214);
+            this.FTActionTxt.Location = new System.Drawing.Point(140, 216);
             this.FTActionTxt.Name = "FTActionTxt";
-            this.FTActionTxt.Size = new System.Drawing.Size(66, 21);
+            this.FTActionTxt.Size = new System.Drawing.Size(66, 23);
             this.FTActionTxt.TabIndex = 1;
             // 
             // FTFiltersVw
@@ -1179,11 +1194,11 @@
             this.FTFiltersVw.GridLines = true;
             this.FTFiltersVw.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.FTFiltersVw.HideSelection = false;
-            this.FTFiltersVw.Location = new System.Drawing.Point(6, 6);
+            this.FTFiltersVw.Location = new System.Drawing.Point(3, 3);
             this.FTFiltersVw.MultiSelect = false;
             this.FTFiltersVw.Name = "FTFiltersVw";
             this.FTFiltersVw.ShowItemToolTips = true;
-            this.FTFiltersVw.Size = new System.Drawing.Size(385, 189);
+            this.FTFiltersVw.Size = new System.Drawing.Size(387, 192);
             this.FTFiltersVw.TabIndex = 0;
             this.FTFiltersVw.UseCompatibleStateImageBehavior = false;
             this.FTFiltersVw.View = System.Windows.Forms.View.Details;
@@ -1196,7 +1211,7 @@
             // FTDestinationCol
             // 
             this.FTDestinationCol.Text = "Destination";
-            this.FTDestinationCol.Width = 68;
+            this.FTDestinationCol.Width = 75;
             // 
             // FTActionCol
             // 
@@ -1206,7 +1221,7 @@
             // FTReplacementCol
             // 
             this.FTReplacementCol.Text = "Replacement";
-            this.FTReplacementCol.Width = 176;
+            this.FTReplacementCol.Width = 184;
             // 
             // ITPacketTxt
             // 
@@ -1241,25 +1256,25 @@
             // TT16BitInputLbl
             // 
             this.TT16BitInputLbl.AutoSize = true;
-            this.TT16BitInputLbl.Location = new System.Drawing.Point(6, 260);
+            this.TT16BitInputLbl.Location = new System.Drawing.Point(3, 260);
             this.TT16BitInputLbl.Name = "TT16BitInputLbl";
-            this.TT16BitInputLbl.Size = new System.Drawing.Size(100, 13);
+            this.TT16BitInputLbl.Size = new System.Drawing.Size(112, 15);
             this.TT16BitInputLbl.TabIndex = 50;
             this.TT16BitInputLbl.Text = "16-Bit Integer Input:";
             // 
             // TT32BitInputLbl
             // 
             this.TT32BitInputLbl.AutoSize = true;
-            this.TT32BitInputLbl.Location = new System.Drawing.Point(6, 288);
+            this.TT32BitInputLbl.Location = new System.Drawing.Point(3, 288);
             this.TT32BitInputLbl.Name = "TT32BitInputLbl";
-            this.TT32BitInputLbl.Size = new System.Drawing.Size(100, 13);
+            this.TT32BitInputLbl.Size = new System.Drawing.Size(112, 15);
             this.TT32BitInputLbl.TabIndex = 0;
             this.TT32BitInputLbl.Text = "32-Bit Integer Input:";
             // 
             // TTIntInputTxt
             // 
-            this.TTIntInputTxt.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.TTIntInputTxt.Location = new System.Drawing.Point(108, 285);
+            this.TTIntInputTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.TTIntInputTxt.Location = new System.Drawing.Point(116, 285);
             this.TTIntInputTxt.Maximum = new decimal(new int[] {
             2147483647,
             0,
@@ -1271,26 +1286,26 @@
             0,
             -2147483648});
             this.TTIntInputTxt.Name = "TTIntInputTxt";
-            this.TTIntInputTxt.Size = new System.Drawing.Size(126, 22);
+            this.TTIntInputTxt.Size = new System.Drawing.Size(118, 23);
             this.TTIntInputTxt.TabIndex = 0;
             this.TTIntInputTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // TTIntOutputTxt
             // 
-            this.TTIntOutputTxt.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.TTIntOutputTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.TTIntOutputTxt.Location = new System.Drawing.Point(240, 285);
             this.TTIntOutputTxt.Name = "TTIntOutputTxt";
-            this.TTIntOutputTxt.Size = new System.Drawing.Size(126, 22);
+            this.TTIntOutputTxt.Size = new System.Drawing.Size(126, 23);
             this.TTIntOutputTxt.TabIndex = 37;
             this.TTIntOutputTxt.Text = "[0][0][0][0]";
             this.TTIntOutputTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // TTUShortOutputTxt
             // 
-            this.TTUShortOutputTxt.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TTUShortOutputTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.TTUShortOutputTxt.Location = new System.Drawing.Point(240, 257);
             this.TTUShortOutputTxt.Name = "TTUShortOutputTxt";
-            this.TTUShortOutputTxt.Size = new System.Drawing.Size(126, 22);
+            this.TTUShortOutputTxt.Size = new System.Drawing.Size(126, 23);
             this.TTUShortOutputTxt.TabIndex = 38;
             this.TTUShortOutputTxt.Text = "[0][0]";
             this.TTUShortOutputTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -1298,32 +1313,32 @@
             // TTDecodeIntBtn
             // 
             this.TTDecodeIntBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.TTDecodeIntBtn.Location = new System.Drawing.Point(372, 287);
+            this.TTDecodeIntBtn.Location = new System.Drawing.Point(372, 285);
             this.TTDecodeIntBtn.Name = "TTDecodeIntBtn";
-            this.TTDecodeIntBtn.Size = new System.Drawing.Size(98, 20);
+            this.TTDecodeIntBtn.Size = new System.Drawing.Size(98, 23);
             this.TTDecodeIntBtn.TabIndex = 34;
             this.TTDecodeIntBtn.Text = "Decode Int32";
             // 
             // TTDecodeUShortBtn
             // 
             this.TTDecodeUShortBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.TTDecodeUShortBtn.Location = new System.Drawing.Point(372, 259);
+            this.TTDecodeUShortBtn.Location = new System.Drawing.Point(372, 257);
             this.TTDecodeUShortBtn.Name = "TTDecodeUShortBtn";
-            this.TTDecodeUShortBtn.Size = new System.Drawing.Size(98, 20);
+            this.TTDecodeUShortBtn.Size = new System.Drawing.Size(98, 23);
             this.TTDecodeUShortBtn.TabIndex = 35;
             this.TTDecodeUShortBtn.Text = "Decode UInt16";
             // 
             // TTUShortInputTxt
             // 
-            this.TTUShortInputTxt.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.TTUShortInputTxt.Location = new System.Drawing.Point(108, 257);
+            this.TTUShortInputTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.TTUShortInputTxt.Location = new System.Drawing.Point(116, 257);
             this.TTUShortInputTxt.Maximum = new decimal(new int[] {
             65535,
             0,
             0,
             0});
             this.TTUShortInputTxt.Name = "TTUShortInputTxt";
-            this.TTUShortInputTxt.Size = new System.Drawing.Size(126, 22);
+            this.TTUShortInputTxt.Size = new System.Drawing.Size(118, 23);
             this.TTUShortInputTxt.TabIndex = 49;
             this.TTUShortInputTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -1360,8 +1375,9 @@
             // sKoreLabelBox1
             // 
             this.sKoreLabelBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.sKoreLabelBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.sKoreLabelBox1.IsReadOnly = true;
-            this.sKoreLabelBox1.Location = new System.Drawing.Point(77, 268);
+            this.sKoreLabelBox1.Location = new System.Drawing.Point(78, 270);
             this.sKoreLabelBox1.Name = "sKoreLabelBox1";
             this.sKoreLabelBox1.Size = new System.Drawing.Size(127, 20);
             this.sKoreLabelBox1.TabIndex = 16;
@@ -1376,56 +1392,60 @@
             // 
             this.MTResourceBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.MTResourceBtn.Enabled = false;
-            this.MTResourceBtn.Location = new System.Drawing.Point(343, 241);
+            this.MTResourceBtn.Location = new System.Drawing.Point(343, 238);
             this.MTResourceBtn.Name = "MTResourceBtn";
-            this.MTResourceBtn.Size = new System.Drawing.Size(127, 20);
+            this.MTResourceBtn.Size = new System.Drawing.Size(127, 23);
             this.MTResourceBtn.TabIndex = 13;
             // 
             // MTHabboNameTxt
             // 
-            this.MTHabboNameTxt.Location = new System.Drawing.Point(210, 241);
+            this.MTHabboNameTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.MTHabboNameTxt.Location = new System.Drawing.Point(211, 238);
             this.MTHabboNameTxt.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
             this.MTHabboNameTxt.Name = "MTHabboNameTxt";
             this.MTHabboNameTxt.ReadOnly = true;
-            this.MTHabboNameTxt.Size = new System.Drawing.Size(127, 20);
+            this.MTHabboNameTxt.Size = new System.Drawing.Size(127, 23);
             this.MTHabboNameTxt.TabIndex = 9;
             this.MTHabboNameTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // MTHabboNameLbl
             // 
             this.MTHabboNameLbl.AutoSize = true;
-            this.MTHabboNameLbl.Location = new System.Drawing.Point(207, 224);
+            this.MTHabboNameLbl.Location = new System.Drawing.Point(208, 221);
             this.MTHabboNameLbl.Name = "MTHabboNameLbl";
-            this.MTHabboNameLbl.Size = new System.Drawing.Size(70, 13);
+            this.MTHabboNameLbl.Size = new System.Drawing.Size(78, 15);
             this.MTHabboNameLbl.TabIndex = 8;
             this.MTHabboNameLbl.Text = "Habbo Name";
             // 
             // MTAuthorsLbl
             // 
             this.MTAuthorsLbl.AutoSize = true;
-            this.MTAuthorsLbl.Location = new System.Drawing.Point(74, 224);
+            this.MTAuthorsLbl.Location = new System.Drawing.Point(75, 221);
             this.MTAuthorsLbl.Name = "MTAuthorsLbl";
-            this.MTAuthorsLbl.Size = new System.Drawing.Size(49, 13);
+            this.MTAuthorsLbl.Size = new System.Drawing.Size(57, 15);
             this.MTAuthorsLbl.TabIndex = 7;
             this.MTAuthorsLbl.Text = "Author(s)";
             // 
             // MTAuthorsTxt
             // 
             this.MTAuthorsTxt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.MTAuthorsTxt.DropDownWidth = 127;
             this.MTAuthorsTxt.Enabled = false;
+            this.MTAuthorsTxt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.MTAuthorsTxt.FormattingEnabled = true;
-            this.MTAuthorsTxt.Location = new System.Drawing.Point(77, 240);
+            this.MTAuthorsTxt.ItemHeight = 15;
+            this.MTAuthorsTxt.Location = new System.Drawing.Point(78, 237);
             this.MTAuthorsTxt.Name = "MTAuthorsTxt";
-            this.MTAuthorsTxt.Size = new System.Drawing.Size(127, 21);
+            this.MTAuthorsTxt.Size = new System.Drawing.Size(127, 23);
             this.MTAuthorsTxt.TabIndex = 6;
             // 
             // MTUninstallModuleBtn
             // 
             this.MTUninstallModuleBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.MTUninstallModuleBtn.Enabled = false;
-            this.MTUninstallModuleBtn.Location = new System.Drawing.Point(210, 268);
+            this.MTUninstallModuleBtn.Location = new System.Drawing.Point(211, 268);
             this.MTUninstallModuleBtn.Name = "MTUninstallModuleBtn";
-            this.MTUninstallModuleBtn.Size = new System.Drawing.Size(127, 20);
+            this.MTUninstallModuleBtn.Size = new System.Drawing.Size(127, 23);
             this.MTUninstallModuleBtn.TabIndex = 3;
             this.MTUninstallModuleBtn.Text = "Uninstall Module";
             // 
@@ -1434,7 +1454,7 @@
             this.MTInstallModuleBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
             this.MTInstallModuleBtn.Location = new System.Drawing.Point(343, 268);
             this.MTInstallModuleBtn.Name = "MTInstallModuleBtn";
-            this.MTInstallModuleBtn.Size = new System.Drawing.Size(127, 20);
+            this.MTInstallModuleBtn.Size = new System.Drawing.Size(127, 23);
             this.MTInstallModuleBtn.TabIndex = 2;
             this.MTInstallModuleBtn.Text = "Install Module";
             // 
@@ -1493,14 +1513,15 @@
             // MTStateCol
             // 
             this.MTStateCol.Text = "State";
-            this.MTStateCol.Width = 68;
+            this.MTStateCol.Width = 78;
             // 
             // OptionsTab
             // 
             this.OptionsTab.Controls.Add(this.OptionsTabs);
             this.OptionsTab.Location = new System.Drawing.Point(4, 28);
+            this.OptionsTab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.OptionsTab.Name = "OptionsTab";
-            this.OptionsTab.Padding = new System.Windows.Forms.Padding(3);
+            this.OptionsTab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.OptionsTab.Size = new System.Drawing.Size(476, 313);
             this.OptionsTab.TabIndex = 5;
             this.OptionsTab.Text = "Options";
@@ -1515,11 +1536,11 @@
             this.OptionsTabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.OptionsTabs.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.OptionsTabs.ItemSize = new System.Drawing.Size(25, 60);
-            this.OptionsTabs.Location = new System.Drawing.Point(3, 3);
+            this.OptionsTabs.Location = new System.Drawing.Point(4, 3);
             this.OptionsTabs.Multiline = true;
             this.OptionsTabs.Name = "OptionsTabs";
             this.OptionsTabs.SelectedIndex = 0;
-            this.OptionsTabs.Size = new System.Drawing.Size(470, 307);
+            this.OptionsTabs.Size = new System.Drawing.Size(468, 307);
             this.OptionsTabs.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.OptionsTabs.TabIndex = 17;
             // 
@@ -1529,14 +1550,14 @@
             this.SettingsTab.Location = new System.Drawing.Point(4, 4);
             this.SettingsTab.Name = "SettingsTab";
             this.SettingsTab.Padding = new System.Windows.Forms.Padding(3);
-            this.SettingsTab.Size = new System.Drawing.Size(402, 299);
+            this.SettingsTab.Size = new System.Drawing.Size(400, 299);
             this.SettingsTab.TabIndex = 0;
             this.SettingsTab.Text = "Settings";
             this.SettingsTab.UseVisualStyleBackColor = true;
             // 
             // GenerateMessageHashesBtn
             // 
-            this.GenerateMessageHashesBtn.Location = new System.Drawing.Point(93, 76);
+            this.GenerateMessageHashesBtn.Location = new System.Drawing.Point(91, 76);
             this.GenerateMessageHashesBtn.Name = "GenerateMessageHashesBtn";
             this.GenerateMessageHashesBtn.Size = new System.Drawing.Size(223, 20);
             this.GenerateMessageHashesBtn.TabIndex = 0;
@@ -1557,7 +1578,7 @@
             this.AboutTab.Location = new System.Drawing.Point(4, 4);
             this.AboutTab.Name = "AboutTab";
             this.AboutTab.Padding = new System.Windows.Forms.Padding(3);
-            this.AboutTab.Size = new System.Drawing.Size(402, 299);
+            this.AboutTab.Size = new System.Drawing.Size(400, 299);
             this.AboutTab.TabIndex = 1;
             this.AboutTab.Text = "About";
             this.AboutTab.UseVisualStyleBackColor = true;
@@ -1565,7 +1586,7 @@
             // Sellout2Btn
             // 
             this.Sellout2Btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.Sellout2Btn.Location = new System.Drawing.Point(61, 206);
+            this.Sellout2Btn.Location = new System.Drawing.Point(59, 206);
             this.Sellout2Btn.Name = "Sellout2Btn";
             this.Sellout2Btn.Size = new System.Drawing.Size(286, 20);
             this.Sellout2Btn.TabIndex = 16;
@@ -1574,7 +1595,7 @@
             // SelloutBtn
             // 
             this.SelloutBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.SelloutBtn.Location = new System.Drawing.Point(61, 180);
+            this.SelloutBtn.Location = new System.Drawing.Point(59, 180);
             this.SelloutBtn.Name = "SelloutBtn";
             this.SelloutBtn.Size = new System.Drawing.Size(286, 20);
             this.SelloutBtn.TabIndex = 15;
@@ -1583,7 +1604,7 @@
             // HarbleDiscordBtn
             // 
             this.HarbleDiscordBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(137)))), ((int)(((byte)(218)))));
-            this.HarbleDiscordBtn.Location = new System.Drawing.Point(93, 154);
+            this.HarbleDiscordBtn.Location = new System.Drawing.Point(91, 154);
             this.HarbleDiscordBtn.Name = "HarbleDiscordBtn";
             this.HarbleDiscordBtn.Size = new System.Drawing.Size(223, 20);
             this.HarbleDiscordBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(137)))), ((int)(((byte)(218)))));
@@ -1593,7 +1614,7 @@
             // DonateBtn
             // 
             this.DonateBtn.BackColor = System.Drawing.Color.Green;
-            this.DonateBtn.Location = new System.Drawing.Point(199, 76);
+            this.DonateBtn.Location = new System.Drawing.Point(197, 76);
             this.DonateBtn.Name = "DonateBtn";
             this.DonateBtn.Size = new System.Drawing.Size(117, 20);
             this.DonateBtn.Skin = System.Drawing.Color.Green;
@@ -1603,7 +1624,7 @@
             // SpeaqerBtn
             // 
             this.SpeaqerBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
-            this.SpeaqerBtn.Location = new System.Drawing.Point(93, 128);
+            this.SpeaqerBtn.Location = new System.Drawing.Point(91, 128);
             this.SpeaqerBtn.Name = "SpeaqerBtn";
             this.SpeaqerBtn.Size = new System.Drawing.Size(100, 20);
             this.SpeaqerBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
@@ -1613,7 +1634,7 @@
             // SNGButton
             // 
             this.SNGButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.SNGButton.Location = new System.Drawing.Point(199, 128);
+            this.SNGButton.Location = new System.Drawing.Point(197, 128);
             this.SNGButton.Name = "SNGButton";
             this.SNGButton.Size = new System.Drawing.Size(117, 20);
             this.SNGButton.TabIndex = 6;
@@ -1622,7 +1643,7 @@
             // DarkboxBtn
             // 
             this.DarkboxBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.DarkboxBtn.Location = new System.Drawing.Point(199, 102);
+            this.DarkboxBtn.Location = new System.Drawing.Point(197, 102);
             this.DarkboxBtn.Name = "DarkboxBtn";
             this.DarkboxBtn.Size = new System.Drawing.Size(117, 20);
             this.DarkboxBtn.TabIndex = 5;
@@ -1631,7 +1652,7 @@
             // DarkStarBtn
             // 
             this.DarkStarBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
-            this.DarkStarBtn.Location = new System.Drawing.Point(93, 102);
+            this.DarkStarBtn.Location = new System.Drawing.Point(91, 102);
             this.DarkStarBtn.Name = "DarkStarBtn";
             this.DarkStarBtn.Size = new System.Drawing.Size(100, 20);
             this.DarkStarBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
@@ -1641,7 +1662,7 @@
             // ArachisBtn
             // 
             this.ArachisBtn.BackColor = System.Drawing.Color.Purple;
-            this.ArachisBtn.Location = new System.Drawing.Point(93, 76);
+            this.ArachisBtn.Location = new System.Drawing.Point(91, 76);
             this.ArachisBtn.Name = "ArachisBtn";
             this.ArachisBtn.Size = new System.Drawing.Size(100, 20);
             this.ArachisBtn.Skin = System.Drawing.Color.Purple;
@@ -1663,13 +1684,14 @@
             // TanjiVersionTxt
             // 
             this.TanjiVersionTxt.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.TanjiVersionTxt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.TanjiVersionTxt.IsLink = true;
             this.TanjiVersionTxt.LinkColor = System.Drawing.SystemColors.HotTrack;
             this.TanjiVersionTxt.Name = "TanjiVersionTxt";
             this.TanjiVersionTxt.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.TanjiVersionTxt.Size = new System.Drawing.Size(51, 19);
             this.TanjiVersionTxt.Text = "v0.0.0";
-            this.TanjiVersionTxt.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            this.TanjiVersionTxt.VisitedLinkColor = System.Drawing.Color.Purple;
             // 
             // SchedulesTxt
             // 
@@ -1688,20 +1710,10 @@
             // ModulesTxt
             // 
             this.ModulesTxt.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.ModulesTxt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.ModulesTxt.Name = "ModulesTxt";
             this.ModulesTxt.Size = new System.Drawing.Size(80, 19);
             this.ModulesTxt.Text = "Modules: 0/0";
-            // 
-            // TanjiInfoTxt
-            // 
-            this.TanjiInfoTxt.IsLink = true;
-            this.TanjiInfoTxt.LinkColor = System.Drawing.SystemColors.HotTrack;
-            this.TanjiInfoTxt.Name = "TanjiInfoTxt";
-            this.TanjiInfoTxt.Size = new System.Drawing.Size(186, 19);
-            this.TanjiInfoTxt.Spring = true;
-            this.TanjiInfoTxt.Text = "Github - ArachisH/Tanji";
-            this.TanjiInfoTxt.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.TanjiInfoTxt.Click += new System.EventHandler(this.TanjiInfoTxt_Click);
             // 
             // TanjiStrip
             // 
@@ -1715,19 +1727,32 @@
             this.TanjiInfoTxt});
             this.TanjiStrip.Location = new System.Drawing.Point(0, 345);
             this.TanjiStrip.Name = "TanjiStrip";
+            this.TanjiStrip.Padding = new System.Windows.Forms.Padding(1, 0, 12, 0);
             this.TanjiStrip.Size = new System.Drawing.Size(484, 24);
             this.TanjiStrip.SizingGrip = false;
             this.TanjiStrip.TabIndex = 5;
-            this.TanjiStrip.Text = "TanjiStrip";
+            // 
+            // TanjiInfoTxt
+            // 
+            this.TanjiInfoTxt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.TanjiInfoTxt.IsLink = true;
+            this.TanjiInfoTxt.LinkColor = System.Drawing.SystemColors.HotTrack;
+            this.TanjiInfoTxt.Name = "TanjiInfoTxt";
+            this.TanjiInfoTxt.Size = new System.Drawing.Size(188, 19);
+            this.TanjiInfoTxt.Spring = true;
+            this.TanjiInfoTxt.Text = "GitHub - Elbrah/Tanji";
+            this.TanjiInfoTxt.VisitedLinkColor = System.Drawing.Color.Purple;
+            this.TanjiInfoTxt.Click += new System.EventHandler(this.TanjiInfoTxt_Click);
             // 
             // MainFrm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(484, 369);
             this.Controls.Add(this.TanjiTabs);
             this.Controls.Add(this.TanjiStrip);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.MaximizeBox = false;
             this.Name = "MainFrm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -1892,7 +1917,6 @@
         internal System.Windows.Forms.ToolStripStatusLabel SchedulesTxt;
         internal System.Windows.Forms.ToolStripStatusLabel FiltersTxt;
         internal System.Windows.Forms.ToolStripStatusLabel ModulesTxt;
-        private System.Windows.Forms.ToolStripStatusLabel TanjiInfoTxt;
         private System.Windows.Forms.StatusStrip TanjiStrip;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -1905,5 +1929,6 @@
         private System.Windows.Forms.TabPage SettingsTab;
         private System.Windows.Forms.TabPage AboutTab;
         private Sulakore.Components.SKoreButton GenerateMessageHashesBtn;
+        private System.Windows.Forms.ToolStripStatusLabel TanjiInfoTxt;
     }
 }

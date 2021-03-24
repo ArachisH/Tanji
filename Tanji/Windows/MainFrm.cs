@@ -117,7 +117,7 @@ namespace Tanji.Windows
 
         private void TanjiInfoTxt_Click(object sender, EventArgs e)
         {
-            Process.Start("https://GitHub.com/ArachisH/Tanji");
+            Process.Start("https://GitHub.com/Elbrah/Tanji");
         }
 
         private void Hook_HotkeyActivated(object sender, KeyEventArgs e)

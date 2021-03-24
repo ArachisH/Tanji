@@ -110,6 +110,7 @@ namespace Sulakore.Components
             Box = new TextBox
             {
                 TabStop = true,
+                AutoSize = false,
                 Dock = DockStyle.Right,
                 ForeColor = Color.Black,
                 BackColor = Color.White,
