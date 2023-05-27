@@ -325,7 +325,7 @@ namespace Tanji.Pages.Connection
             UI.Out.Load(UI.Game, "Hashes.ini");
             UI.ModulesPg.ModifyGame(UI.Game);
 
-            CompressionKind compression = CompressionKind.ZLIB;
+            CompressionKind compression = CompressionKind.ZLib;
 #if DEBUG
             compression = CompressionKind.None;
 #endif

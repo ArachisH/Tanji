@@ -239,7 +239,7 @@ namespace Sulakore.Habbo
         private List<MessageReference> FindMessageReferences(ASClass fromClass, ASContainer fromContainer, ASMethod fromMethod)
         {
             int instructionRank = 0;
-            ABCFile abc = fromMethod.GetABC();
+            ABCFile abc = fromMethod.ABC;
 
             var nameStack = new Stack<ASMultiname>();
             var references = new List<MessageReference>();
@@ -456,7 +456,7 @@ namespace Sulakore.Habbo
             assignDataMethod.ReturnTypeIndex = 2;
             int assignDataMethodIndex = abc.AddMethod(assignDataMethod);
 
-            var bitmapParam = new ASParameter(abc.Pool, assignDataMethod);
+            var bitmapParam = new ASParameter(assignDataMethod);
             bitmapParam.TypeIndex = abc.Pool.GetMultinameIndex("BitmapData");
             assignDataMethod.Parameters.Add(bitmapParam);
 
@@ -575,7 +575,7 @@ namespace Sulakore.Habbo
             ASMethod dataSendMethod = bigCameraHandlerInstance.GetMethod(dataSendTraitName, "Boolean", 0);
             if (dataSendMethod == null) return false;
 
-            var bitmapDataParam = new ASParameter(abc.Pool, dataSendMethod);
+            var bitmapDataParam = new ASParameter(dataSendMethod);
             bitmapDataParam.TypeIndex = abc.Pool.GetMultinameIndex("BitmapData");
             dataSendMethod.Parameters.Add(bitmapDataParam);
 
@@ -926,7 +926,7 @@ namespace Sulakore.Habbo
             int sendMessageMethodIndex = abc.AddMethod(sendMessageMethod);
 
             // The parameters for the instructions to expect / use.
-            var idParam = new ASParameter(abc.Pool, sendMessageMethod);
+            var idParam = new ASParameter(sendMessageMethod);
             idParam.NameIndex = abc.Pool.AddConstant("id");
             idParam.TypeIndex = abc.Pool.GetMultinameIndex("int");
             sendMessageMethod.Parameters.Add(idParam);
@@ -946,7 +946,7 @@ namespace Sulakore.Habbo
         }
         private ASTrait AddPublicSlot(ASContainer container, string name, int typeIndex)
         {
-            ABCFile abc = container.GetABC();
+            ABCFile abc = container.ABC;
             var trait = new ASTrait(abc)
             {
                 Kind = TraitKind.Slot,
@@ -964,7 +964,7 @@ namespace Sulakore.Habbo
         }
         private ASTrait AddPublicSlot(ASContainer container, string name, string typeName)
         {
-            return AddPublicSlot(container, name, container.GetABC().Pool.GetMultinameIndex(typeName));
+            return AddPublicSlot(container, name, container.ABC.Pool.GetMultinameIndex(typeName));
         }
 
         private bool DisableEncryption()
@@ -1620,7 +1620,7 @@ namespace Sulakore.Habbo
 
         private ASClass GetMessageParser()
         {
-            ABCFile abc = Class.GetABC();
+            ABCFile abc = Class.ABC;
             ASInstance instance = Class.Instance;
 
             ASInstance superInstance = abc.GetInstance(instance.Super);
@@ -1674,7 +1674,7 @@ namespace Sulakore.Habbo
             ASCode code = method.Body.ParseCode();
             if (code.JumpExits.Count > 0 || code.SwitchExits.Count > 0) return null;
 
-            ABCFile abc = method.GetABC();
+            ABCFile abc = method.ABC;
             var structure = new List<string>();
             for (int i = 0; i < code.Count; i++)
             {
@@ -1802,7 +1802,7 @@ namespace Sulakore.Habbo
             ASMethod getArrayMethod = @class.Instance.GetMethod(null, "Array", 0);
             if (getArrayMethod == null)
             {
-                ASClass superClass = @class.GetABC().GetClass(@class.Instance.Super);
+                ASClass superClass = @class.ABC.GetClass(@class.Instance.Super);
                 return GetOutgoingStructure(superClass);
             }
             if (getArrayMethod.Body.Exceptions.Count > 0) return null;
@@ -1889,7 +1889,7 @@ namespace Sulakore.Habbo
                         if (beforeGetProp.OP == OPCode.GetLex)
                         {
                             var getLex = (GetLexIns)beforeGetProp;
-                            classToCheck = classToCheck.GetABC().GetClass(getLex.TypeName);
+                            classToCheck = classToCheck.ABC.GetClass(getLex.TypeName);
                         }
 
                         string propertyTypeName = null;
@@ -1950,7 +1950,7 @@ namespace Sulakore.Habbo
                     var constructSuper = (ConstructSuperIns)instruction;
                     if (constructSuper.ArgCount > 0)
                     {
-                        ASClass superClass = @class.GetABC().GetClass(@class.Instance.Super);
+                        ASClass superClass = @class.ABC.GetClass(@class.Instance.Super);
                         structure.AddRange(GetOutgoingStructure(superClass, propertyName));
                     }
                 }
@@ -1982,7 +1982,7 @@ namespace Sulakore.Habbo
                     else if (next.OP == OPCode.GetLex)
                     {
                         var getLex = (GetLexIns)next;
-                        classToCheck = classToCheck.GetABC().GetClass(getLex.TypeName);
+                        classToCheck = classToCheck.ABC.GetClass(getLex.TypeName);
                     }
                     do
                     {
@@ -2037,7 +2037,7 @@ namespace Sulakore.Habbo
                     if (previous.OP == OPCode.GetLex)
                     {
                         var getLex = (GetLexIns)previous;
-                        classToCheck = classToCheck.GetABC().GetClass(getLex.TypeName);
+                        classToCheck = classToCheck.ABC.GetClass(getLex.TypeName);
                     }
 
                     string propertyTypeName = null;

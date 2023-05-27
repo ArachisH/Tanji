@@ -91,7 +91,7 @@ namespace Tanji
                 using (var fileOutput = File.Open(moddedClientPath, FileMode.Create))
                 using (var output = new FlashWriter(fileOutput))
                 {
-                    game.Assemble(output, CompressionKind.ZLIB);
+                    game.Assemble(output, CompressionKind.ZLib);
                 }
                 MessageBox.Show($"File has been modified/re-assembled successfully at '{moddedClientPath}'.", "Tanji - Alert!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 return disabledHostChecks && injectedKeyShouter && injectedEndPointShouter && injectedEndPoint;
