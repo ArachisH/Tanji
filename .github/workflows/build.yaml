@@ -1,0 +1,35 @@
+name: Build
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - develop 
+  workflow_dispatch:
+  
+jobs:
+  build:
+    runs-on: [self-hosted, windows]
+    steps:
+
+    - uses: actions/checkout@v3
+      name: Git Checkout
+      with:
+        fetch-depth: 0
+        submodules: true
+
+    - uses: actions/setup-dotnet@v3
+      name: .NET Setup
+      with:
+        dotnet-version: 7.0.x
+
+    - name: Restoring
+      run: dotnet restore --verbosity normal
+
+    - name: Building
+      run: dotnet build --configuration Release --no-restore --verbosity normal
+
+    - name: Testing
+      run: dotnet test --configuration Release --no-restore --no-build --verbosity normal
