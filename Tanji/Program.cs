@@ -25,7 +25,7 @@ namespace Tanji
     public static class Program
     {
         public static bool IsParentProcess { get; private set; }
-        public static bool HasAdminPrivilages { get; private set; }
+        public static bool HasAdminPrivileges { get; private set; }
         public static Dictionary<string, object> Settings { get; private set; }
 
         [STAThread]
@@ -33,7 +33,7 @@ namespace Tanji
         {
             using (var identity = WindowsIdentity.GetCurrent())
             {
-                HasAdminPrivilages = new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator);
+                HasAdminPrivileges = new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator);
             }
 
             Settings = LoadSettings();
@@ -150,7 +150,7 @@ namespace Tanji
                 ServiceControllerStatus status = controller?.Status ?? ServiceControllerStatus.Stopped;
                 if (status == ServiceControllerStatus.Running) return status;
 
-                if (HasAdminPrivilages)
+                if (HasAdminPrivileges)
                 {
                     using (RegistryKey winHttpAutoProxySvcKey = Registry.LocalMachine.CreateSubKey(@"System\CurrentControlSet\Services\WinHttpAutoProxySvc", true))
                     {
@@ -184,7 +184,7 @@ namespace Tanji
                 }
                 else status = (ServiceControllerStatus)RunTanjiAsAdmin("ems");
 
-                if (status != ServiceControllerStatus.Running && (!HasAdminPrivilages || IsParentProcess))
+                if (status != ServiceControllerStatus.Running && (!HasAdminPrivileges || IsParentProcess))
                 {
                     // Changes made to the registry relating to services requires a full OS reboot.
                     MessageBox.Show("Changes have been made to the registry regarding the 'WinHttpAutoProxy' service, please reboot your computer for the changes to take effect.",

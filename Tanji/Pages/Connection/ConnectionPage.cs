@@ -464,7 +464,7 @@ public class ConnectionPage : TanjiPage, IReceiver
         if (!Eavesdropper.Certifier.CreateTrustedRootCertificate())
         {
             Program.RunTanjiAsAdmin("ica");
-            // Will return true if the external process succeeded in installing certifcate with admin privileges.
+            // Will return true if the external process succeeded in installing the certificate with admin privileges.
             return Eavesdropper.Certifier.CreateTrustedRootCertificate();
         }
         return true;
@@ -474,7 +474,7 @@ public class ConnectionPage : TanjiPage, IReceiver
         if (!Eavesdropper.Certifier.DestroyCertificates())
         {
             Program.RunTanjiAsAdmin("dcs");
-            // Will return true if the external process succeeded in destroying the certifcates with admin privileges.
+            // Will return true if the external process succeeded in destroying the certificates with admin privileges.
             return Eavesdropper.Certifier.DestroyCertificates();
         }
         return true;
