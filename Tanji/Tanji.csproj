@@ -1,202 +1,124 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <TrimUnusedDependencies>true</TrimUnusedDependencies>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C1F1AF28-8993-4FD3-B1F9-CE180DA5F133}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>Tanji</RootNamespace>
-    <AssemblyName>Tanji</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
-    <ShouldCreateLogs>False</ShouldCreateLogs>
-    <AdvancedSettingsExpanded>False</AdvancedSettingsExpanded>
-    <UpdateAssemblyVersion>True</UpdateAssemblyVersion>
-    <UpdateAssemblyFileVersion>True</UpdateAssemblyFileVersion>
-    <UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
-    <AssemblyVersionSettings>None.IncrementOnDemandWithReset.None.None</AssemblyVersionSettings>
-    <AssemblyFileVersionSettings>None.IncrementOnDemandWithReset.Increment.None</AssemblyFileVersionSettings>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <UpdatePackageVersion>False</UpdatePackageVersion>
-    <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>Resources\Tanji_256.ico</ApplicationIcon>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="netstandard" />
-    <Reference Include="Octokit, Version=0.47.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Octokit.0.47.0\lib\net46\Octokit.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Network\ConnectedEventArgs.cs" />
-    <Compile Include="Network\HConnection.cs" />
-    <Compile Include="Windows\Dialogs\FindDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Windows\Dialogs\FindDialog.designer.cs">
-      <DependentUpon>FindDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\Dialogs\FindMessageDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Windows\Dialogs\FindMessageDialog.designer.cs">
-      <DependentUpon>FindMessageDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\Dialogs\IgnoreMessagesDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Windows\Dialogs\IgnoreMessagesDialog.designer.cs">
-      <DependentUpon>IgnoreMessagesDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Components\ObservableForm.cs" />
-    <Compile Include="Controls\BindableToolStripMenuItem.cs" />
-    <Compile Include="Windows\MainFrm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Windows\MainFrm.designer.cs">
-      <DependentUpon>MainFrm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Services\IHaltable.cs" />
-    <Compile Include="Services\IReceiver.cs" />
-    <Compile Include="Windows\PacketLoggerFrm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Windows\PacketLoggerFrm.designer.cs">
-      <DependentUpon>PacketLoggerFrm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\About\AboutPage.cs" />
-    <Compile Include="Pages\Connection\ConnectionPage.cs" />
-    <Compile Include="Pages\Injection\ConstructerPage.cs" />
-    <Compile Include="Pages\Injection\FiltersPage.cs" />
-    <Compile Include="Pages\Injection\InjectionPage.cs" />
-    <Compile Include="Pages\Injection\PrimitivePage.cs" />
-    <Compile Include="Pages\Injection\SchedulerPage.cs" />
-    <Compile Include="Pages\Modules\Enums\ModuleAction.cs" />
-    <Compile Include="Pages\Modules\Handlers\ModuleItem.cs" />
-    <Compile Include="Pages\Modules\Handlers\ModulesManager.cs" />
-    <Compile Include="Pages\Modules\ModulesPage.cs" />
-    <Compile Include="Pages\TanjiPage.cs" />
-    <Compile Include="Pages\TanjiSubPage.cs" />
-    <Compile Include="Pages\Toolbox\ToolboxPage.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\Event Args\KeyPressedEventArgs.cs" />
-    <Compile Include="Utilities\Internals\NativeMethods.cs" />
-    <Compile Include="Utilities\KeyboardHook.cs" />
-    <EmbeddedResource Include="Windows\Dialogs\FindDialog.resx">
-      <DependentUpon>FindDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Windows\Dialogs\FindMessageDialog.resx">
-      <DependentUpon>FindMessageDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Windows\Dialogs\IgnoreMessagesDialog.resx">
-      <DependentUpon>IgnoreMessagesDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Windows\MainFrm.resx">
-      <DependentUpon>MainFrm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Windows\PacketLoggerFrm.resx">
-      <DependentUpon>PacketLoggerFrm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <None Include="Hashes.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <None Include="Settings.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Tanji_256.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Eavesdrop\Eavesdrop.csproj">
-      <Project>{29ab109a-8343-45a9-a91e-0f54211fdd45}</Project>
-      <Name>Eavesdrop</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Submodules\Flazzy\Flazzy\Flazzy.csproj">
-      <Project>{ced7a534-da5f-4d7b-8464-0a9e18605f35}</Project>
-      <Name>Flazzy</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sulakore\Sulakore.csproj">
-      <Project>{49e8859b-4191-48f2-af04-ad7012e867b3}</Project>
-      <Name>Sulakore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tangine\Tangine.csproj">
-      <Project>{9642f597-8b78-4603-9b21-530279da5131}</Project>
-      <Name>Tangine</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Avatar.png" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Microsoft.Packaging.Tools.Trimming.1.1.0-preview1-26619-01\build\Microsoft.Packaging.Tools.Trimming.targets" Condition="Exists('..\packages\Microsoft.Packaging.Tools.Trimming.1.1.0-preview1-26619-01\build\Microsoft.Packaging.Tools.Trimming.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Packaging.Tools.Trimming.1.1.0-preview1-26619-01\build\Microsoft.Packaging.Tools.Trimming.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Packaging.Tools.Trimming.1.1.0-preview1-26619-01\build\Microsoft.Packaging.Tools.Trimming.targets'))" />
-  </Target>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<ProjectGuid>{C1F1AF28-8993-4FD3-B1F9-CE180DA5F133}</ProjectGuid>
+		<OutputType>WinExe</OutputType>
+
+		<UseWindowsForms>true</UseWindowsForms>
+		<TargetFramework>net7.0-windows</TargetFramework>
+		<AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+
+		<AssemblyTitle>Tanji</AssemblyTitle>
+		<Product>Tanji</Product>
+		<Description>Habbo Hotel Packet Sniffer</Description>
+		<Copyright>Copyright © ArachisH 2020</Copyright>
+		<AssemblyVersion>1.4.0.0</AssemblyVersion>
+		<FileVersion>1.4.1512.0</FileVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<DebugType>full</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<DebugType>none</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<ApplicationIcon>Resources\Tanji_256.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Packaging.Tools.Trimming" Version="1.1.0-preview1-26619-01" />
+		<PackageReference Include="Octokit" Version="0.47.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Windows\Dialogs\FindDialog.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Windows\Dialogs\FindDialog.designer.cs">
+			<DependentUpon>FindDialog.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Windows\Dialogs\FindMessageDialog.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Windows\Dialogs\FindMessageDialog.designer.cs">
+			<DependentUpon>FindMessageDialog.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Windows\Dialogs\IgnoreMessagesDialog.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Windows\Dialogs\IgnoreMessagesDialog.designer.cs">
+			<DependentUpon>IgnoreMessagesDialog.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Windows\MainFrm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Windows\MainFrm.designer.cs">
+			<DependentUpon>MainFrm.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Windows\PacketLoggerFrm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Windows\PacketLoggerFrm.designer.cs">
+			<DependentUpon>PacketLoggerFrm.cs</DependentUpon>
+		</Compile>
+		<EmbeddedResource Update="Windows\Dialogs\FindDialog.resx">
+			<DependentUpon>FindDialog.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Windows\Dialogs\FindMessageDialog.resx">
+			<DependentUpon>FindMessageDialog.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Windows\Dialogs\IgnoreMessagesDialog.resx">
+			<DependentUpon>IgnoreMessagesDialog.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Windows\MainFrm.resx">
+			<DependentUpon>MainFrm.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Windows\PacketLoggerFrm.resx">
+			<DependentUpon>PacketLoggerFrm.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+			<SubType>Designer</SubType>
+		</EmbeddedResource>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+		</Compile>
+		
+		<None Include="Hashes.ini">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		
+		<None Include="Properties\Settings.settings">
+			<Generator>SettingsSingleFileGenerator</Generator>
+			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
+		</None>
+		
+		<Compile Update="Properties\Settings.Designer.cs">
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Settings.settings</DependentUpon>
+			<DesignTimeSharedInput>True</DesignTimeSharedInput>
+		</Compile>
+		
+		<None Include="Settings.ini">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="Resources\Tanji_256.ico" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Eavesdrop\Eavesdrop.csproj" />
+		<ProjectReference Include="..\Submodules\Flazzy\Flazzy\Flazzy.csproj" />
+		<ProjectReference Include="..\Sulakore\Sulakore.csproj" />
+		<ProjectReference Include="..\Tangine\Tangine.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="Resources\Avatar.png" />
+	</ItemGroup>
 </Project>
