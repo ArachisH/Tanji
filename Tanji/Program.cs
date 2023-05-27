@@ -54,7 +54,7 @@ namespace Tanji
             IsParentProcess = true;
             if (EnsureManualWinHttpAutoProxySvcStartup() == ServiceControllerStatus.Running)
             {
-                Eavesdropper.Certifier = new CertificateManager("Tanji", "Tanji Certificate Authority");
+                Eavesdropper.Certifier = new Certifier("Tanji", "Tanji Certificate Authority");
                 Eavesdropper.Overrides.AddRange(((string)Settings["ProxyOverrides"]).Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
                 Eavesdropper.Terminate();
 
@@ -67,13 +67,13 @@ namespace Tanji
 
         private static void DestroyCertificates()
         {
-            var tanjiCertificateManager = new CertificateManager("Tanji", "Tanji Certificate Authority");
+            var tanjiCertificateManager = new Certifier("Tanji", "Tanji Certificate Authority");
             bool destroyedCertificates = tanjiCertificateManager.DestroyCertificates();
             Console.WriteLine("Tanji Generated Certificates Destroyed: " + destroyedCertificates);
         }
         private static void InstallCertificateAuthority()
         {
-            var tanjiCertificateManager = new CertificateManager("Tanji", "Tanji Certificate Authority");
+            var tanjiCertificateManager = new Certifier("Tanji", "Tanji Certificate Authority");
             bool installedRootCA = tanjiCertificateManager.CreateTrustedRootCertificate();
             Console.WriteLine("Tanji Certificate Authority Installed: " + installedRootCA);
         }
