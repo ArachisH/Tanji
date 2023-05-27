@@ -28,388 +28,381 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
-            "furnidata.load.url",
-            ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
-            "productdata.load.url",
-            ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
-            "avatareditor.promohabbos",
-            ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
-            "external.texts.txt",
-            ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
-            "external.variables.txt",
-            ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
-            "external.figurepartlist.txt",
-            ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
-            "external.override.texts.txt",
-            ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
-            "external.override.variables.txt",
-            ""}, -1);
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainFrm));
-            this.CustomClientDlg = new System.Windows.Forms.OpenFileDialog();
-            this.InstallModuleDlg = new System.Windows.Forms.OpenFileDialog();
-            this.TanjiTabs = new Sulakore.Components.SKoreTabControl();
-            this.ConnectionTab = new System.Windows.Forms.TabPage();
-            this.label2 = new System.Windows.Forms.Label();
-            this.CoTProxyPortLbl = new Sulakore.Components.SKoreLabel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.CoTVariableTxt = new Sulakore.Components.SKoreLabelBox();
-            this.CoTValueTxt = new Sulakore.Components.SKoreLabelBox();
-            this.CoTCustomClientTxt = new Sulakore.Components.SKoreLabelBox();
-            this.CoTBrowseBtn = new Sulakore.Components.SKoreButton();
-            this.CoTExportCertificateAuthorityBtn = new Sulakore.Components.SKoreButton();
-            this.CoTDestroyCertificatesBtn = new Sulakore.Components.SKoreButton();
-            this.CoTResetBtn = new Sulakore.Components.SKoreButton();
-            this.CoTUpdateBtn = new Sulakore.Components.SKoreButton();
-            this.CoTStatusTxt = new Sulakore.Components.SKoreLabel();
-            this.CoTConnectBtn = new Sulakore.Components.SKoreButton();
-            this.CoTVariablesVw = new Sulakore.Components.SKoreListView();
-            this.CoTVariableCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.CoTValueCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.InjectionTab = new System.Windows.Forms.TabPage();
-            this.ITSendToClientBtn = new Sulakore.Components.SKoreButton();
-            this.ITSendToServerBtn = new Sulakore.Components.SKoreButton();
-            this.InjectionTabs = new Sulakore.Components.SKoreTabControl();
-            this.ConstructerTab = new System.Windows.Forms.TabPage();
-            this.CTValueTxt = new System.Windows.Forms.ComboBox();
-            this.CTHeaderTxt = new System.Windows.Forms.NumericUpDown();
-            this.CTHeaderLbl = new System.Windows.Forms.Label();
-            this.CTAmountLbl = new System.Windows.Forms.Label();
-            this.CTStructureTxt = new System.Windows.Forms.TextBox();
-            this.CTTransferBelowBtn = new Sulakore.Components.SKoreButton();
-            this.CTValueCountLbl = new Sulakore.Components.SKoreLabel();
-            this.CTAmountTxt = new System.Windows.Forms.NumericUpDown();
-            this.CTRemoveBtn = new Sulakore.Components.SKoreButton();
-            this.CTMoveDownBtn = new Sulakore.Components.SKoreButton();
-            this.CTMoveUpBtn = new Sulakore.Components.SKoreButton();
-            this.CTClearBtn = new Sulakore.Components.SKoreButton();
-            this.CTWriteBooleanBtn = new Sulakore.Components.SKoreButton();
-            this.CTWriteStringBtn = new Sulakore.Components.SKoreButton();
-            this.CTWriteIntegerBtn = new Sulakore.Components.SKoreButton();
-            this.CTValueLbl = new System.Windows.Forms.Label();
-            this.CTConstructerVw = new Sulakore.Components.SKoreConstructView();
-            this.CTTypeCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.CTValueCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.CTEncodedCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.SchedulerTab = new System.Windows.Forms.TabPage();
-            this.STAutoStartChckbx = new System.Windows.Forms.CheckBox();
-            this.STDestinationTxt = new System.Windows.Forms.ComboBox();
-            this.STPacketTxt = new System.Windows.Forms.TextBox();
-            this.STHotkeyTxt = new Sulakore.Components.SKoreLabelBox();
-            this.STRemoveBtn = new Sulakore.Components.SKoreButton();
-            this.STDestinationLbl = new System.Windows.Forms.Label();
-            this.STCyclesLbl = new System.Windows.Forms.Label();
-            this.STCyclesTxt = new System.Windows.Forms.NumericUpDown();
-            this.STIntervalLbl = new System.Windows.Forms.Label();
-            this.STClearBtn = new Sulakore.Components.SKoreButton();
-            this.STCreateBtn = new Sulakore.Components.SKoreButton();
-            this.STIntervalTxt = new System.Windows.Forms.NumericUpDown();
-            this.STPacketLbl = new System.Windows.Forms.Label();
-            this.STSchedulerVw = new Sulakore.Components.SKoreScheduleView();
-            this.STPacketCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.STDestinationCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.STIntervalCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.STCyclesCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.STHotkeyCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.PrimitiveTab = new System.Windows.Forms.TabPage();
-            this.PTSaveAsBtn = new Sulakore.Components.SKoreButton();
-            this.PTLengthTxt = new Sulakore.Components.SKoreLabelBox();
-            this.PTHeaderTxt = new Sulakore.Components.SKoreLabelBox();
-            this.PTCorruptedTxt = new Sulakore.Components.SKoreLabelBox();
-            this.PTPacketTxt = new System.Windows.Forms.TextBox();
-            this.FiltersTab = new System.Windows.Forms.TabPage();
-            this.FTReplacementTxt = new Sulakore.Components.SKoreLabelBox();
-            this.FTDestinationLbl = new System.Windows.Forms.Label();
-            this.FTDestinationTxt = new System.Windows.Forms.ComboBox();
-            this.FTHeaderTxt = new System.Windows.Forms.NumericUpDown();
-            this.FTHeaderLbl = new System.Windows.Forms.Label();
-            this.FTRemoveBtn = new Sulakore.Components.SKoreButton();
-            this.FTCreateBtn = new Sulakore.Components.SKoreButton();
-            this.FTActionLbl = new System.Windows.Forms.Label();
-            this.FTActionTxt = new System.Windows.Forms.ComboBox();
-            this.FTFiltersVw = new Sulakore.Components.SKoreListView();
-            this.FTHeaderCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.FTDestinationCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.FTActionCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.FTReplacementCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ITPacketTxt = new System.Windows.Forms.ComboBox();
-            this.ToolboxTab = new System.Windows.Forms.TabPage();
-            this.TT16BitInputLbl = new System.Windows.Forms.Label();
-            this.TT32BitInputLbl = new System.Windows.Forms.Label();
-            this.TTIntInputTxt = new System.Windows.Forms.NumericUpDown();
-            this.TTIntOutputTxt = new System.Windows.Forms.TextBox();
-            this.TTUShortOutputTxt = new System.Windows.Forms.TextBox();
-            this.TTDecodeIntBtn = new Sulakore.Components.SKoreButton();
-            this.TTDecodeUShortBtn = new Sulakore.Components.SKoreButton();
-            this.TTUShortInputTxt = new System.Windows.Forms.NumericUpDown();
-            this.ModulesTab = new System.Windows.Forms.TabPage();
-            this.MTSeperator1 = new System.Windows.Forms.Label();
-            this.sKoreLabelBox1 = new Sulakore.Components.SKoreLabelBox();
-            this.MTResourceBtn = new Sulakore.Components.SKoreButton();
-            this.MTHabboNameTxt = new System.Windows.Forms.TextBox();
-            this.MTHabboNameLbl = new System.Windows.Forms.Label();
-            this.MTAuthorsLbl = new System.Windows.Forms.Label();
-            this.MTAuthorsTxt = new System.Windows.Forms.ComboBox();
-            this.MTUninstallModuleBtn = new Sulakore.Components.SKoreButton();
-            this.MTInstallModuleBtn = new Sulakore.Components.SKoreButton();
-            this.MTAuthorPctbx = new System.Windows.Forms.PictureBox();
-            this.MTModulesVw = new Sulakore.Components.SKoreListView();
-            this.MTNameCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.MTDescriptionCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.MTVersionCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.MTStateCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.AboutTab = new System.Windows.Forms.TabPage();
-            this.Sellout2Btn = new Sulakore.Components.SKoreButton();
-            this.SelloutBtn = new Sulakore.Components.SKoreButton();
-            this.HarbleDiscordBtn = new Sulakore.Components.SKoreButton();
-            this.DonateBtn = new Sulakore.Components.SKoreButton();
-            this.SpeaqerBtn = new Sulakore.Components.SKoreButton();
-            this.SNGButton = new Sulakore.Components.SKoreButton();
-            this.DarkboxBtn = new Sulakore.Components.SKoreButton();
-            this.DarkStarBtn = new Sulakore.Components.SKoreButton();
-            this.ArachisBtn = new Sulakore.Components.SKoreButton();
-            this.InjectionMenu = new Sulakore.Components.SKoreInjectionMenu(this.components);
-            this.SavePacketDlg = new System.Windows.Forms.SaveFileDialog();
-            this.TanjiVersionTxt = new System.Windows.Forms.ToolStripStatusLabel();
-            this.SchedulesTxt = new System.Windows.Forms.ToolStripStatusLabel();
-            this.FiltersTxt = new System.Windows.Forms.ToolStripStatusLabel();
-            this.ModulesTxt = new System.Windows.Forms.ToolStripStatusLabel();
-            this.TanjiInfoTxt = new System.Windows.Forms.ToolStripStatusLabel();
-            this.TanjiStrip = new System.Windows.Forms.StatusStrip();
-            this.TanjiTabs.SuspendLayout();
-            this.ConnectionTab.SuspendLayout();
-            this.InjectionTab.SuspendLayout();
-            this.InjectionTabs.SuspendLayout();
-            this.ConstructerTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CTHeaderTxt)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CTAmountTxt)).BeginInit();
-            this.SchedulerTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.STCyclesTxt)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.STIntervalTxt)).BeginInit();
-            this.PrimitiveTab.SuspendLayout();
-            this.FiltersTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.FTHeaderTxt)).BeginInit();
-            this.ToolboxTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.TTIntInputTxt)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TTUShortInputTxt)).BeginInit();
-            this.ModulesTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MTAuthorPctbx)).BeginInit();
-            this.AboutTab.SuspendLayout();
-            this.TanjiStrip.SuspendLayout();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            var listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] { "furnidata.load.url", "" }, -1);
+            var listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] { "productdata.load.url", "" }, -1);
+            var listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] { "avatareditor.promohabbos", "" }, -1);
+            var listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] { "external.texts.txt", "" }, -1);
+            var listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] { "external.variables.txt", "" }, -1);
+            var listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] { "external.figurepartlist.txt", "" }, -1);
+            var listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] { "external.override.texts.txt", "" }, -1);
+            var listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] { "external.override.variables.txt", "" }, -1);
+            var resources = new System.ComponentModel.ComponentResourceManager(typeof(MainFrm));
+            CustomClientDlg = new System.Windows.Forms.OpenFileDialog();
+            InstallModuleDlg = new System.Windows.Forms.OpenFileDialog();
+            TanjiTabs = new Sulakore.Components.SKoreTabControl();
+            ConnectionTab = new System.Windows.Forms.TabPage();
+            label2 = new System.Windows.Forms.Label();
+            CoTProxyPortLbl = new Sulakore.Components.SKoreLabel();
+            label1 = new System.Windows.Forms.Label();
+            CoTVariableTxt = new Sulakore.Components.SKoreLabelBox();
+            CoTValueTxt = new Sulakore.Components.SKoreLabelBox();
+            CoTCustomClientTxt = new Sulakore.Components.SKoreLabelBox();
+            CoTBrowseBtn = new Sulakore.Components.SKoreButton();
+            CoTExportCertificateAuthorityBtn = new Sulakore.Components.SKoreButton();
+            CoTDestroyCertificatesBtn = new Sulakore.Components.SKoreButton();
+            CoTResetBtn = new Sulakore.Components.SKoreButton();
+            CoTUpdateBtn = new Sulakore.Components.SKoreButton();
+            CoTStatusTxt = new Sulakore.Components.SKoreLabel();
+            CoTConnectBtn = new Sulakore.Components.SKoreButton();
+            CoTVariablesVw = new Sulakore.Components.SKoreListView();
+            CoTVariableCol = new System.Windows.Forms.ColumnHeader();
+            CoTValueCol = new System.Windows.Forms.ColumnHeader();
+            InjectionTab = new System.Windows.Forms.TabPage();
+            ITSendToClientBtn = new Sulakore.Components.SKoreButton();
+            ITSendToServerBtn = new Sulakore.Components.SKoreButton();
+            InjectionTabs = new Sulakore.Components.SKoreTabControl();
+            ConstructerTab = new System.Windows.Forms.TabPage();
+            CTValueTxt = new System.Windows.Forms.ComboBox();
+            CTHeaderTxt = new System.Windows.Forms.NumericUpDown();
+            CTHeaderLbl = new System.Windows.Forms.Label();
+            CTAmountLbl = new System.Windows.Forms.Label();
+            CTStructureTxt = new System.Windows.Forms.TextBox();
+            CTTransferBelowBtn = new Sulakore.Components.SKoreButton();
+            CTValueCountLbl = new Sulakore.Components.SKoreLabel();
+            CTAmountTxt = new System.Windows.Forms.NumericUpDown();
+            CTRemoveBtn = new Sulakore.Components.SKoreButton();
+            CTMoveDownBtn = new Sulakore.Components.SKoreButton();
+            CTMoveUpBtn = new Sulakore.Components.SKoreButton();
+            CTClearBtn = new Sulakore.Components.SKoreButton();
+            CTWriteBooleanBtn = new Sulakore.Components.SKoreButton();
+            CTWriteStringBtn = new Sulakore.Components.SKoreButton();
+            CTWriteIntegerBtn = new Sulakore.Components.SKoreButton();
+            CTValueLbl = new System.Windows.Forms.Label();
+            CTConstructerVw = new Sulakore.Components.SKoreConstructView();
+            CTTypeCol = new System.Windows.Forms.ColumnHeader();
+            CTValueCol = new System.Windows.Forms.ColumnHeader();
+            CTEncodedCol = new System.Windows.Forms.ColumnHeader();
+            SchedulerTab = new System.Windows.Forms.TabPage();
+            STAutoStartChckbx = new System.Windows.Forms.CheckBox();
+            STDestinationTxt = new System.Windows.Forms.ComboBox();
+            STPacketTxt = new System.Windows.Forms.TextBox();
+            STHotkeyTxt = new Sulakore.Components.SKoreLabelBox();
+            STRemoveBtn = new Sulakore.Components.SKoreButton();
+            STDestinationLbl = new System.Windows.Forms.Label();
+            STCyclesLbl = new System.Windows.Forms.Label();
+            STCyclesTxt = new System.Windows.Forms.NumericUpDown();
+            STIntervalLbl = new System.Windows.Forms.Label();
+            STClearBtn = new Sulakore.Components.SKoreButton();
+            STCreateBtn = new Sulakore.Components.SKoreButton();
+            STIntervalTxt = new System.Windows.Forms.NumericUpDown();
+            STPacketLbl = new System.Windows.Forms.Label();
+            STSchedulerVw = new Sulakore.Components.SKoreScheduleView();
+            STPacketCol = new System.Windows.Forms.ColumnHeader();
+            STDestinationCol = new System.Windows.Forms.ColumnHeader();
+            STIntervalCol = new System.Windows.Forms.ColumnHeader();
+            STCyclesCol = new System.Windows.Forms.ColumnHeader();
+            STHotkeyCol = new System.Windows.Forms.ColumnHeader();
+            PrimitiveTab = new System.Windows.Forms.TabPage();
+            PTSaveAsBtn = new Sulakore.Components.SKoreButton();
+            PTLengthTxt = new Sulakore.Components.SKoreLabelBox();
+            PTHeaderTxt = new Sulakore.Components.SKoreLabelBox();
+            PTCorruptedTxt = new Sulakore.Components.SKoreLabelBox();
+            PTPacketTxt = new System.Windows.Forms.TextBox();
+            FiltersTab = new System.Windows.Forms.TabPage();
+            FTReplacementTxt = new Sulakore.Components.SKoreLabelBox();
+            FTDestinationLbl = new System.Windows.Forms.Label();
+            FTDestinationTxt = new System.Windows.Forms.ComboBox();
+            FTHeaderTxt = new System.Windows.Forms.NumericUpDown();
+            FTHeaderLbl = new System.Windows.Forms.Label();
+            FTRemoveBtn = new Sulakore.Components.SKoreButton();
+            FTCreateBtn = new Sulakore.Components.SKoreButton();
+            FTActionLbl = new System.Windows.Forms.Label();
+            FTActionTxt = new System.Windows.Forms.ComboBox();
+            FTFiltersVw = new Sulakore.Components.SKoreListView();
+            FTHeaderCol = new System.Windows.Forms.ColumnHeader();
+            FTDestinationCol = new System.Windows.Forms.ColumnHeader();
+            FTActionCol = new System.Windows.Forms.ColumnHeader();
+            FTReplacementCol = new System.Windows.Forms.ColumnHeader();
+            ITPacketTxt = new System.Windows.Forms.ComboBox();
+            ToolboxTab = new System.Windows.Forms.TabPage();
+            TT16BitInputLbl = new System.Windows.Forms.Label();
+            TT32BitInputLbl = new System.Windows.Forms.Label();
+            TTIntInputTxt = new System.Windows.Forms.NumericUpDown();
+            TTIntOutputTxt = new System.Windows.Forms.TextBox();
+            TTUShortOutputTxt = new System.Windows.Forms.TextBox();
+            TTDecodeIntBtn = new Sulakore.Components.SKoreButton();
+            TTDecodeUShortBtn = new Sulakore.Components.SKoreButton();
+            TTUShortInputTxt = new System.Windows.Forms.NumericUpDown();
+            ModulesTab = new System.Windows.Forms.TabPage();
+            MTSeperator1 = new System.Windows.Forms.Label();
+            sKoreLabelBox1 = new Sulakore.Components.SKoreLabelBox();
+            MTResourceBtn = new Sulakore.Components.SKoreButton();
+            MTHabboNameTxt = new System.Windows.Forms.TextBox();
+            MTHabboNameLbl = new System.Windows.Forms.Label();
+            MTAuthorsLbl = new System.Windows.Forms.Label();
+            MTAuthorsTxt = new System.Windows.Forms.ComboBox();
+            MTUninstallModuleBtn = new Sulakore.Components.SKoreButton();
+            MTInstallModuleBtn = new Sulakore.Components.SKoreButton();
+            MTAuthorPctbx = new System.Windows.Forms.PictureBox();
+            MTModulesVw = new Sulakore.Components.SKoreListView();
+            MTNameCol = new System.Windows.Forms.ColumnHeader();
+            MTDescriptionCol = new System.Windows.Forms.ColumnHeader();
+            MTVersionCol = new System.Windows.Forms.ColumnHeader();
+            MTStateCol = new System.Windows.Forms.ColumnHeader();
+            AboutTab = new System.Windows.Forms.TabPage();
+            Sellout2Btn = new Sulakore.Components.SKoreButton();
+            SelloutBtn = new Sulakore.Components.SKoreButton();
+            HarbleDiscordBtn = new Sulakore.Components.SKoreButton();
+            DonateBtn = new Sulakore.Components.SKoreButton();
+            SpeaqerBtn = new Sulakore.Components.SKoreButton();
+            SNGButton = new Sulakore.Components.SKoreButton();
+            DarkboxBtn = new Sulakore.Components.SKoreButton();
+            DarkStarBtn = new Sulakore.Components.SKoreButton();
+            ArachisBtn = new Sulakore.Components.SKoreButton();
+            InjectionMenu = new Sulakore.Components.SKoreInjectionMenu(components);
+            SavePacketDlg = new System.Windows.Forms.SaveFileDialog();
+            TanjiVersionTxt = new System.Windows.Forms.ToolStripStatusLabel();
+            SchedulesTxt = new System.Windows.Forms.ToolStripStatusLabel();
+            FiltersTxt = new System.Windows.Forms.ToolStripStatusLabel();
+            ModulesTxt = new System.Windows.Forms.ToolStripStatusLabel();
+            TanjiInfoTxt = new System.Windows.Forms.ToolStripStatusLabel();
+            TanjiStrip = new System.Windows.Forms.StatusStrip();
+            TanjiTabs.SuspendLayout();
+            ConnectionTab.SuspendLayout();
+            InjectionTab.SuspendLayout();
+            InjectionTabs.SuspendLayout();
+            ConstructerTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)CTHeaderTxt).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)CTAmountTxt).BeginInit();
+            SchedulerTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)STCyclesTxt).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)STIntervalTxt).BeginInit();
+            PrimitiveTab.SuspendLayout();
+            FiltersTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)FTHeaderTxt).BeginInit();
+            ToolboxTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)TTIntInputTxt).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)TTUShortInputTxt).BeginInit();
+            ModulesTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)MTAuthorPctbx).BeginInit();
+            AboutTab.SuspendLayout();
+            TanjiStrip.SuspendLayout();
+            SuspendLayout();
             // 
             // CustomClientDlg
             // 
-            this.CustomClientDlg.DefaultExt = "swf";
-            this.CustomClientDlg.Filter = "Shockwave Flash File (*.swf)|*.swf";
-            this.CustomClientDlg.Title = "Tanji ~ Custom Client";
+            CustomClientDlg.DefaultExt = "swf";
+            CustomClientDlg.Filter = "Shockwave Flash File (*.swf)|*.swf";
+            CustomClientDlg.Title = "Tanji ~ Custom Client";
             // 
             // InstallModuleDlg
             // 
-            this.InstallModuleDlg.DefaultExt = "dll";
-            this.InstallModuleDlg.Filter = ".NET Assembly (*.dll, *.exe)|*.dll; *.exe|Dynamic Link Library (*.dll)|*.dll|Exec" +
-    "utable (*.exe)|*.exe";
-            this.InstallModuleDlg.Title = "Tanji ~ Install Module";
+            InstallModuleDlg.DefaultExt = "dll";
+            InstallModuleDlg.Filter = ".NET Assembly (*.dll, *.exe)|*.dll; *.exe|Dynamic Link Library (*.dll)|*.dll|Executable (*.exe)|*.exe";
+            InstallModuleDlg.Title = "Tanji ~ Install Module";
             // 
             // TanjiTabs
             // 
-            this.TanjiTabs.AllowDrop = true;
-            this.TanjiTabs.Controls.Add(this.ConnectionTab);
-            this.TanjiTabs.Controls.Add(this.InjectionTab);
-            this.TanjiTabs.Controls.Add(this.ToolboxTab);
-            this.TanjiTabs.Controls.Add(this.ModulesTab);
-            this.TanjiTabs.Controls.Add(this.AboutTab);
-            this.TanjiTabs.DisplayBoundary = true;
-            this.TanjiTabs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TanjiTabs.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
-            this.TanjiTabs.IsDisplayingBorder = true;
-            this.TanjiTabs.ItemSize = new System.Drawing.Size(96, 24);
-            this.TanjiTabs.Location = new System.Drawing.Point(0, 0);
-            this.TanjiTabs.Name = "TanjiTabs";
-            this.TanjiTabs.SelectedIndex = 0;
-            this.TanjiTabs.Size = new System.Drawing.Size(484, 345);
-            this.TanjiTabs.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-            this.TanjiTabs.TabIndex = 6;
+            TanjiTabs.AllowDrop = true;
+            TanjiTabs.Controls.Add(ConnectionTab);
+            TanjiTabs.Controls.Add(InjectionTab);
+            TanjiTabs.Controls.Add(ToolboxTab);
+            TanjiTabs.Controls.Add(ModulesTab);
+            TanjiTabs.Controls.Add(AboutTab);
+            TanjiTabs.DisplayBoundary = true;
+            TanjiTabs.Dock = System.Windows.Forms.DockStyle.Fill;
+            TanjiTabs.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
+            TanjiTabs.IsDisplayingBorder = true;
+            TanjiTabs.ItemSize = new System.Drawing.Size(96, 24);
+            TanjiTabs.Location = new System.Drawing.Point(0, 0);
+            TanjiTabs.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TanjiTabs.Name = "TanjiTabs";
+            TanjiTabs.SelectedIndex = 0;
+            TanjiTabs.Size = new System.Drawing.Size(565, 402);
+            TanjiTabs.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            TanjiTabs.TabIndex = 6;
             // 
             // ConnectionTab
             // 
-            this.ConnectionTab.Controls.Add(this.label2);
-            this.ConnectionTab.Controls.Add(this.CoTProxyPortLbl);
-            this.ConnectionTab.Controls.Add(this.label1);
-            this.ConnectionTab.Controls.Add(this.CoTVariableTxt);
-            this.ConnectionTab.Controls.Add(this.CoTValueTxt);
-            this.ConnectionTab.Controls.Add(this.CoTCustomClientTxt);
-            this.ConnectionTab.Controls.Add(this.CoTBrowseBtn);
-            this.ConnectionTab.Controls.Add(this.CoTExportCertificateAuthorityBtn);
-            this.ConnectionTab.Controls.Add(this.CoTDestroyCertificatesBtn);
-            this.ConnectionTab.Controls.Add(this.CoTResetBtn);
-            this.ConnectionTab.Controls.Add(this.CoTUpdateBtn);
-            this.ConnectionTab.Controls.Add(this.CoTStatusTxt);
-            this.ConnectionTab.Controls.Add(this.CoTConnectBtn);
-            this.ConnectionTab.Controls.Add(this.CoTVariablesVw);
-            this.ConnectionTab.Location = new System.Drawing.Point(4, 28);
-            this.ConnectionTab.Name = "ConnectionTab";
-            this.ConnectionTab.Padding = new System.Windows.Forms.Padding(3);
-            this.ConnectionTab.Size = new System.Drawing.Size(476, 313);
-            this.ConnectionTab.TabIndex = 4;
-            this.ConnectionTab.Text = "Connection";
-            this.ConnectionTab.UseVisualStyleBackColor = true;
+            ConnectionTab.BackColor = System.Drawing.Color.White;
+            ConnectionTab.Controls.Add(label2);
+            ConnectionTab.Controls.Add(CoTProxyPortLbl);
+            ConnectionTab.Controls.Add(label1);
+            ConnectionTab.Controls.Add(CoTVariableTxt);
+            ConnectionTab.Controls.Add(CoTValueTxt);
+            ConnectionTab.Controls.Add(CoTCustomClientTxt);
+            ConnectionTab.Controls.Add(CoTBrowseBtn);
+            ConnectionTab.Controls.Add(CoTExportCertificateAuthorityBtn);
+            ConnectionTab.Controls.Add(CoTDestroyCertificatesBtn);
+            ConnectionTab.Controls.Add(CoTResetBtn);
+            ConnectionTab.Controls.Add(CoTUpdateBtn);
+            ConnectionTab.Controls.Add(CoTStatusTxt);
+            ConnectionTab.Controls.Add(CoTConnectBtn);
+            ConnectionTab.Controls.Add(CoTVariablesVw);
+            ConnectionTab.Location = new System.Drawing.Point(4, 28);
+            ConnectionTab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ConnectionTab.Name = "ConnectionTab";
+            ConnectionTab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ConnectionTab.Size = new System.Drawing.Size(557, 370);
+            ConnectionTab.TabIndex = 4;
+            ConnectionTab.Text = "Connection";
             // 
             // label2
             // 
-            this.label2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.label2.Location = new System.Drawing.Point(6, 230);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(464, 1);
-            this.label2.TabIndex = 111;
+            label2.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            label2.Location = new System.Drawing.Point(7, 265);
+            label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(541, 1);
+            label2.TabIndex = 111;
             // 
             // CoTProxyPortLbl
             // 
-            this.CoTProxyPortLbl.AnimationInterval = 0;
-            this.CoTProxyPortLbl.DisplayBoundary = true;
-            this.CoTProxyPortLbl.Location = new System.Drawing.Point(370, 234);
-            this.CoTProxyPortLbl.Name = "CoTProxyPortLbl";
-            this.CoTProxyPortLbl.Size = new System.Drawing.Size(100, 20);
-            this.CoTProxyPortLbl.TabIndex = 110;
-            this.CoTProxyPortLbl.Text = "Proxy Port: 0";
+            CoTProxyPortLbl.AnimationInterval = 0;
+            CoTProxyPortLbl.DisplayBoundary = true;
+            CoTProxyPortLbl.Location = new System.Drawing.Point(432, 270);
+            CoTProxyPortLbl.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CoTProxyPortLbl.Name = "CoTProxyPortLbl";
+            CoTProxyPortLbl.Size = new System.Drawing.Size(117, 23);
+            CoTProxyPortLbl.TabIndex = 110;
+            CoTProxyPortLbl.Text = "Proxy Port: 0";
             // 
             // label1
             // 
-            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.label1.Location = new System.Drawing.Point(6, 283);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(464, 1);
-            this.label1.TabIndex = 109;
+            label1.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            label1.Location = new System.Drawing.Point(7, 327);
+            label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(541, 1);
+            label1.TabIndex = 109;
             // 
             // CoTVariableTxt
             // 
-            this.CoTVariableTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CoTVariableTxt.IsReadOnly = true;
-            this.CoTVariableTxt.Location = new System.Drawing.Point(6, 207);
-            this.CoTVariableTxt.Name = "CoTVariableTxt";
-            this.CoTVariableTxt.Size = new System.Drawing.Size(358, 20);
-            this.CoTVariableTxt.TabIndex = 107;
-            this.CoTVariableTxt.Text = "";
-            this.CoTVariableTxt.TextPaddingWidth = 0;
-            this.CoTVariableTxt.Title = "Variable";
-            this.CoTVariableTxt.Value = "";
-            this.CoTVariableTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.CoTVariableTxt.ValueReadOnly = true;
+            CoTVariableTxt.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            CoTVariableTxt.IsReadOnly = true;
+            CoTVariableTxt.Location = new System.Drawing.Point(7, 239);
+            CoTVariableTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CoTVariableTxt.Name = "CoTVariableTxt";
+            CoTVariableTxt.Size = new System.Drawing.Size(418, 20);
+            CoTVariableTxt.TabIndex = 107;
+            CoTVariableTxt.Text = "";
+            CoTVariableTxt.TextPaddingWidth = 0;
+            CoTVariableTxt.Title = "Variable";
+            CoTVariableTxt.Value = "";
+            CoTVariableTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            CoTVariableTxt.ValueReadOnly = true;
             // 
             // CoTValueTxt
             // 
-            this.CoTValueTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CoTValueTxt.Location = new System.Drawing.Point(6, 181);
-            this.CoTValueTxt.Name = "CoTValueTxt";
-            this.CoTValueTxt.Size = new System.Drawing.Size(358, 20);
-            this.CoTValueTxt.TabIndex = 106;
-            this.CoTValueTxt.Text = "";
-            this.CoTValueTxt.Title = "Value";
-            this.CoTValueTxt.Value = "";
-            this.CoTValueTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.CoTValueTxt.ValueReadOnly = false;
+            CoTValueTxt.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            CoTValueTxt.Location = new System.Drawing.Point(7, 209);
+            CoTValueTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CoTValueTxt.Name = "CoTValueTxt";
+            CoTValueTxt.Size = new System.Drawing.Size(418, 20);
+            CoTValueTxt.TabIndex = 106;
+            CoTValueTxt.Text = "";
+            CoTValueTxt.Title = "Value";
+            CoTValueTxt.Value = "";
+            CoTValueTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            CoTValueTxt.ValueReadOnly = false;
             // 
             // CoTCustomClientTxt
             // 
-            this.CoTCustomClientTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CoTCustomClientTxt.Location = new System.Drawing.Point(6, 260);
-            this.CoTCustomClientTxt.Name = "CoTCustomClientTxt";
-            this.CoTCustomClientTxt.Size = new System.Drawing.Size(355, 20);
-            this.CoTCustomClientTxt.TabIndex = 105;
-            this.CoTCustomClientTxt.Text = "";
-            this.CoTCustomClientTxt.TextPaddingWidth = 0;
-            this.CoTCustomClientTxt.Title = "Custom Client";
-            this.CoTCustomClientTxt.Value = "";
-            this.CoTCustomClientTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.CoTCustomClientTxt.ValueReadOnly = false;
+            CoTCustomClientTxt.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            CoTCustomClientTxt.Location = new System.Drawing.Point(7, 300);
+            CoTCustomClientTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CoTCustomClientTxt.Name = "CoTCustomClientTxt";
+            CoTCustomClientTxt.Size = new System.Drawing.Size(414, 20);
+            CoTCustomClientTxt.TabIndex = 105;
+            CoTCustomClientTxt.Text = "";
+            CoTCustomClientTxt.TextPaddingWidth = 0;
+            CoTCustomClientTxt.Title = "Custom Client";
+            CoTCustomClientTxt.Value = "";
+            CoTCustomClientTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            CoTCustomClientTxt.ValueReadOnly = false;
             // 
             // CoTBrowseBtn
             // 
-            this.CoTBrowseBtn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.CoTBrowseBtn.Location = new System.Drawing.Point(370, 260);
-            this.CoTBrowseBtn.Name = "CoTBrowseBtn";
-            this.CoTBrowseBtn.Size = new System.Drawing.Size(100, 20);
-            this.CoTBrowseBtn.TabIndex = 2;
-            this.CoTBrowseBtn.Text = "Browse";
+            CoTBrowseBtn.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            CoTBrowseBtn.Location = new System.Drawing.Point(432, 304);
+            CoTBrowseBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CoTBrowseBtn.Name = "CoTBrowseBtn";
+            CoTBrowseBtn.Size = new System.Drawing.Size(117, 23);
+            CoTBrowseBtn.TabIndex = 2;
+            CoTBrowseBtn.Text = "Browse";
             // 
             // CoTExportCertificateAuthorityBtn
             // 
-            this.CoTExportCertificateAuthorityBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CoTExportCertificateAuthorityBtn.Location = new System.Drawing.Point(6, 234);
-            this.CoTExportCertificateAuthorityBtn.Name = "CoTExportCertificateAuthorityBtn";
-            this.CoTExportCertificateAuthorityBtn.Size = new System.Drawing.Size(176, 20);
-            this.CoTExportCertificateAuthorityBtn.TabIndex = 3;
-            this.CoTExportCertificateAuthorityBtn.Text = "Export Certificate Authority";
+            CoTExportCertificateAuthorityBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            CoTExportCertificateAuthorityBtn.Location = new System.Drawing.Point(7, 270);
+            CoTExportCertificateAuthorityBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CoTExportCertificateAuthorityBtn.Name = "CoTExportCertificateAuthorityBtn";
+            CoTExportCertificateAuthorityBtn.Size = new System.Drawing.Size(205, 23);
+            CoTExportCertificateAuthorityBtn.TabIndex = 3;
+            CoTExportCertificateAuthorityBtn.Text = "Export Certificate Authority";
             // 
             // CoTDestroyCertificatesBtn
             // 
-            this.CoTDestroyCertificatesBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CoTDestroyCertificatesBtn.Location = new System.Drawing.Point(188, 234);
-            this.CoTDestroyCertificatesBtn.Name = "CoTDestroyCertificatesBtn";
-            this.CoTDestroyCertificatesBtn.Size = new System.Drawing.Size(176, 20);
-            this.CoTDestroyCertificatesBtn.TabIndex = 2;
-            this.CoTDestroyCertificatesBtn.Text = "Destroy Certificates";
+            CoTDestroyCertificatesBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            CoTDestroyCertificatesBtn.Location = new System.Drawing.Point(219, 270);
+            CoTDestroyCertificatesBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CoTDestroyCertificatesBtn.Name = "CoTDestroyCertificatesBtn";
+            CoTDestroyCertificatesBtn.Size = new System.Drawing.Size(205, 23);
+            CoTDestroyCertificatesBtn.TabIndex = 2;
+            CoTDestroyCertificatesBtn.Text = "Destroy Certificates";
             // 
             // CoTResetBtn
             // 
-            this.CoTResetBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CoTResetBtn.Enabled = false;
-            this.CoTResetBtn.Location = new System.Drawing.Point(370, 207);
-            this.CoTResetBtn.Name = "CoTResetBtn";
-            this.CoTResetBtn.Size = new System.Drawing.Size(100, 20);
-            this.CoTResetBtn.TabIndex = 95;
-            this.CoTResetBtn.Text = "Reset";
+            CoTResetBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            CoTResetBtn.Enabled = false;
+            CoTResetBtn.Location = new System.Drawing.Point(432, 239);
+            CoTResetBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CoTResetBtn.Name = "CoTResetBtn";
+            CoTResetBtn.Size = new System.Drawing.Size(117, 23);
+            CoTResetBtn.TabIndex = 95;
+            CoTResetBtn.Text = "Reset";
             // 
             // CoTUpdateBtn
             // 
-            this.CoTUpdateBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CoTUpdateBtn.Enabled = false;
-            this.CoTUpdateBtn.Location = new System.Drawing.Point(370, 181);
-            this.CoTUpdateBtn.Name = "CoTUpdateBtn";
-            this.CoTUpdateBtn.Size = new System.Drawing.Size(100, 20);
-            this.CoTUpdateBtn.TabIndex = 94;
-            this.CoTUpdateBtn.Text = "Update";
+            CoTUpdateBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            CoTUpdateBtn.Enabled = false;
+            CoTUpdateBtn.Location = new System.Drawing.Point(432, 209);
+            CoTUpdateBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CoTUpdateBtn.Name = "CoTUpdateBtn";
+            CoTUpdateBtn.Size = new System.Drawing.Size(117, 23);
+            CoTUpdateBtn.TabIndex = 94;
+            CoTUpdateBtn.Text = "Update";
             // 
             // CoTStatusTxt
             // 
-            this.CoTStatusTxt.AnimationInterval = 0;
-            this.CoTStatusTxt.DisplayBoundary = true;
-            this.CoTStatusTxt.Location = new System.Drawing.Point(6, 287);
-            this.CoTStatusTxt.Name = "CoTStatusTxt";
-            this.CoTStatusTxt.Size = new System.Drawing.Size(358, 20);
-            this.CoTStatusTxt.TabIndex = 2;
-            this.CoTStatusTxt.Text = "Standing By...";
+            CoTStatusTxt.AnimationInterval = 0;
+            CoTStatusTxt.DisplayBoundary = true;
+            CoTStatusTxt.Location = new System.Drawing.Point(7, 331);
+            CoTStatusTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CoTStatusTxt.Name = "CoTStatusTxt";
+            CoTStatusTxt.Size = new System.Drawing.Size(418, 23);
+            CoTStatusTxt.TabIndex = 2;
+            CoTStatusTxt.Text = "Standing By...";
             // 
             // CoTConnectBtn
             // 
-            this.CoTConnectBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CoTConnectBtn.Location = new System.Drawing.Point(370, 287);
-            this.CoTConnectBtn.Name = "CoTConnectBtn";
-            this.CoTConnectBtn.Size = new System.Drawing.Size(100, 20);
-            this.CoTConnectBtn.TabIndex = 1;
-            this.CoTConnectBtn.Text = "Connect";
+            CoTConnectBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            CoTConnectBtn.Location = new System.Drawing.Point(432, 331);
+            CoTConnectBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CoTConnectBtn.Name = "CoTConnectBtn";
+            CoTConnectBtn.Size = new System.Drawing.Size(117, 23);
+            CoTConnectBtn.TabIndex = 1;
+            CoTConnectBtn.Text = "Connect";
             // 
             // CoTVariablesVw
             // 
-            this.CoTVariablesVw.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.CoTVariablesVw.CheckBoxes = true;
-            this.CoTVariablesVw.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.CoTVariableCol,
-            this.CoTValueCol});
-            this.CoTVariablesVw.FullRowSelect = true;
-            this.CoTVariablesVw.GridLines = true;
-            this.CoTVariablesVw.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.CoTVariablesVw.HideSelection = false;
+            CoTVariablesVw.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            CoTVariablesVw.CheckBoxes = true;
+            CoTVariablesVw.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { CoTVariableCol, CoTValueCol });
+            CoTVariablesVw.FullRowSelect = true;
+            CoTVariablesVw.GridLines = true;
+            CoTVariablesVw.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             listViewItem1.StateImageIndex = 0;
             listViewItem2.StateImageIndex = 0;
             listViewItem3.StateImageIndex = 0;
@@ -418,1298 +411,1289 @@
             listViewItem6.StateImageIndex = 0;
             listViewItem7.StateImageIndex = 0;
             listViewItem8.StateImageIndex = 0;
-            this.CoTVariablesVw.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3,
-            listViewItem4,
-            listViewItem5,
-            listViewItem6,
-            listViewItem7,
-            listViewItem8});
-            this.CoTVariablesVw.Location = new System.Drawing.Point(6, 6);
-            this.CoTVariablesVw.MultiSelect = false;
-            this.CoTVariablesVw.Name = "CoTVariablesVw";
-            this.CoTVariablesVw.ShowItemToolTips = true;
-            this.CoTVariablesVw.Size = new System.Drawing.Size(464, 169);
-            this.CoTVariablesVw.TabIndex = 101;
-            this.CoTVariablesVw.UseCompatibleStateImageBehavior = false;
-            this.CoTVariablesVw.View = System.Windows.Forms.View.Details;
+            CoTVariablesVw.Items.AddRange(new System.Windows.Forms.ListViewItem[] { listViewItem1, listViewItem2, listViewItem3, listViewItem4, listViewItem5, listViewItem6, listViewItem7, listViewItem8 });
+            CoTVariablesVw.Location = new System.Drawing.Point(7, 7);
+            CoTVariablesVw.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CoTVariablesVw.MultiSelect = false;
+            CoTVariablesVw.Name = "CoTVariablesVw";
+            CoTVariablesVw.ShowItemToolTips = true;
+            CoTVariablesVw.Size = new System.Drawing.Size(541, 194);
+            CoTVariablesVw.TabIndex = 101;
+            CoTVariablesVw.UseCompatibleStateImageBehavior = false;
+            CoTVariablesVw.View = System.Windows.Forms.View.Details;
             // 
             // CoTVariableCol
             // 
-            this.CoTVariableCol.Text = "Variable";
-            this.CoTVariableCol.Width = 221;
+            CoTVariableCol.Text = "Variable";
+            CoTVariableCol.Width = 221;
             // 
             // CoTValueCol
             // 
-            this.CoTValueCol.Text = "Value";
-            this.CoTValueCol.Width = 222;
+            CoTValueCol.Text = "Value";
+            CoTValueCol.Width = 222;
             // 
             // InjectionTab
             // 
-            this.InjectionTab.Controls.Add(this.ITSendToClientBtn);
-            this.InjectionTab.Controls.Add(this.ITSendToServerBtn);
-            this.InjectionTab.Controls.Add(this.InjectionTabs);
-            this.InjectionTab.Controls.Add(this.ITPacketTxt);
-            this.InjectionTab.Location = new System.Drawing.Point(4, 28);
-            this.InjectionTab.Name = "InjectionTab";
-            this.InjectionTab.Padding = new System.Windows.Forms.Padding(3);
-            this.InjectionTab.Size = new System.Drawing.Size(476, 313);
-            this.InjectionTab.TabIndex = 2;
-            this.InjectionTab.Text = "Injection";
-            this.InjectionTab.UseVisualStyleBackColor = true;
+            InjectionTab.Controls.Add(ITSendToClientBtn);
+            InjectionTab.Controls.Add(ITSendToServerBtn);
+            InjectionTab.Controls.Add(InjectionTabs);
+            InjectionTab.Controls.Add(ITPacketTxt);
+            InjectionTab.Location = new System.Drawing.Point(4, 28);
+            InjectionTab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            InjectionTab.Name = "InjectionTab";
+            InjectionTab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            InjectionTab.Size = new System.Drawing.Size(557, 370);
+            InjectionTab.TabIndex = 2;
+            InjectionTab.Text = "Injection";
+            InjectionTab.UseVisualStyleBackColor = true;
             // 
             // ITSendToClientBtn
             // 
-            this.ITSendToClientBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ITSendToClientBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.ITSendToClientBtn.Location = new System.Drawing.Point(262, 287);
-            this.ITSendToClientBtn.Name = "ITSendToClientBtn";
-            this.ITSendToClientBtn.Size = new System.Drawing.Size(101, 20);
-            this.ITSendToClientBtn.TabIndex = 7;
-            this.ITSendToClientBtn.Text = "Send To Client";
+            ITSendToClientBtn.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            ITSendToClientBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            ITSendToClientBtn.Location = new System.Drawing.Point(306, 335);
+            ITSendToClientBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ITSendToClientBtn.Name = "ITSendToClientBtn";
+            ITSendToClientBtn.Size = new System.Drawing.Size(118, 23);
+            ITSendToClientBtn.TabIndex = 7;
+            ITSendToClientBtn.Text = "Send To Client";
             // 
             // ITSendToServerBtn
             // 
-            this.ITSendToServerBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ITSendToServerBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.ITSendToServerBtn.Location = new System.Drawing.Point(369, 287);
-            this.ITSendToServerBtn.Name = "ITSendToServerBtn";
-            this.ITSendToServerBtn.Size = new System.Drawing.Size(101, 20);
-            this.ITSendToServerBtn.TabIndex = 6;
-            this.ITSendToServerBtn.Text = "Send To Server";
+            ITSendToServerBtn.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            ITSendToServerBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            ITSendToServerBtn.Location = new System.Drawing.Point(430, 335);
+            ITSendToServerBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ITSendToServerBtn.Name = "ITSendToServerBtn";
+            ITSendToServerBtn.Size = new System.Drawing.Size(118, 23);
+            ITSendToServerBtn.TabIndex = 6;
+            ITSendToServerBtn.Text = "Send To Server";
             // 
             // InjectionTabs
             // 
-            this.InjectionTabs.Alignment = System.Windows.Forms.TabAlignment.Right;
-            this.InjectionTabs.Controls.Add(this.ConstructerTab);
-            this.InjectionTabs.Controls.Add(this.SchedulerTab);
-            this.InjectionTabs.Controls.Add(this.PrimitiveTab);
-            this.InjectionTabs.Controls.Add(this.FiltersTab);
-            this.InjectionTabs.DisplayBoundary = true;
-            this.InjectionTabs.Dock = System.Windows.Forms.DockStyle.Top;
-            this.InjectionTabs.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
-            this.InjectionTabs.IsDisplayingBorder = true;
-            this.InjectionTabs.ItemSize = new System.Drawing.Size(24, 65);
-            this.InjectionTabs.Location = new System.Drawing.Point(3, 3);
-            this.InjectionTabs.Multiline = true;
-            this.InjectionTabs.Name = "InjectionTabs";
-            this.InjectionTabs.SelectedIndex = 0;
-            this.InjectionTabs.Size = new System.Drawing.Size(470, 278);
-            this.InjectionTabs.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-            this.InjectionTabs.TabIndex = 0;
+            InjectionTabs.Alignment = System.Windows.Forms.TabAlignment.Right;
+            InjectionTabs.Controls.Add(ConstructerTab);
+            InjectionTabs.Controls.Add(SchedulerTab);
+            InjectionTabs.Controls.Add(PrimitiveTab);
+            InjectionTabs.Controls.Add(FiltersTab);
+            InjectionTabs.DisplayBoundary = true;
+            InjectionTabs.Dock = System.Windows.Forms.DockStyle.Top;
+            InjectionTabs.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
+            InjectionTabs.IsDisplayingBorder = true;
+            InjectionTabs.ItemSize = new System.Drawing.Size(24, 65);
+            InjectionTabs.Location = new System.Drawing.Point(4, 3);
+            InjectionTabs.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            InjectionTabs.Multiline = true;
+            InjectionTabs.Name = "InjectionTabs";
+            InjectionTabs.SelectedIndex = 0;
+            InjectionTabs.Size = new System.Drawing.Size(549, 321);
+            InjectionTabs.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            InjectionTabs.TabIndex = 0;
             // 
             // ConstructerTab
             // 
-            this.ConstructerTab.Controls.Add(this.CTValueTxt);
-            this.ConstructerTab.Controls.Add(this.CTHeaderTxt);
-            this.ConstructerTab.Controls.Add(this.CTHeaderLbl);
-            this.ConstructerTab.Controls.Add(this.CTAmountLbl);
-            this.ConstructerTab.Controls.Add(this.CTStructureTxt);
-            this.ConstructerTab.Controls.Add(this.CTTransferBelowBtn);
-            this.ConstructerTab.Controls.Add(this.CTValueCountLbl);
-            this.ConstructerTab.Controls.Add(this.CTAmountTxt);
-            this.ConstructerTab.Controls.Add(this.CTRemoveBtn);
-            this.ConstructerTab.Controls.Add(this.CTMoveDownBtn);
-            this.ConstructerTab.Controls.Add(this.CTMoveUpBtn);
-            this.ConstructerTab.Controls.Add(this.CTClearBtn);
-            this.ConstructerTab.Controls.Add(this.CTWriteBooleanBtn);
-            this.ConstructerTab.Controls.Add(this.CTWriteStringBtn);
-            this.ConstructerTab.Controls.Add(this.CTWriteIntegerBtn);
-            this.ConstructerTab.Controls.Add(this.CTValueLbl);
-            this.ConstructerTab.Controls.Add(this.CTConstructerVw);
-            this.ConstructerTab.Location = new System.Drawing.Point(4, 4);
-            this.ConstructerTab.Name = "ConstructerTab";
-            this.ConstructerTab.Padding = new System.Windows.Forms.Padding(3);
-            this.ConstructerTab.Size = new System.Drawing.Size(397, 270);
-            this.ConstructerTab.TabIndex = 2;
-            this.ConstructerTab.Text = "Constructer";
-            this.ConstructerTab.UseVisualStyleBackColor = true;
+            ConstructerTab.Controls.Add(CTValueTxt);
+            ConstructerTab.Controls.Add(CTHeaderTxt);
+            ConstructerTab.Controls.Add(CTHeaderLbl);
+            ConstructerTab.Controls.Add(CTAmountLbl);
+            ConstructerTab.Controls.Add(CTStructureTxt);
+            ConstructerTab.Controls.Add(CTTransferBelowBtn);
+            ConstructerTab.Controls.Add(CTValueCountLbl);
+            ConstructerTab.Controls.Add(CTAmountTxt);
+            ConstructerTab.Controls.Add(CTRemoveBtn);
+            ConstructerTab.Controls.Add(CTMoveDownBtn);
+            ConstructerTab.Controls.Add(CTMoveUpBtn);
+            ConstructerTab.Controls.Add(CTClearBtn);
+            ConstructerTab.Controls.Add(CTWriteBooleanBtn);
+            ConstructerTab.Controls.Add(CTWriteStringBtn);
+            ConstructerTab.Controls.Add(CTWriteIntegerBtn);
+            ConstructerTab.Controls.Add(CTValueLbl);
+            ConstructerTab.Controls.Add(CTConstructerVw);
+            ConstructerTab.Location = new System.Drawing.Point(4, 4);
+            ConstructerTab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ConstructerTab.Name = "ConstructerTab";
+            ConstructerTab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ConstructerTab.Size = new System.Drawing.Size(476, 313);
+            ConstructerTab.TabIndex = 2;
+            ConstructerTab.Text = "Constructer";
+            ConstructerTab.UseVisualStyleBackColor = true;
             // 
             // CTValueTxt
             // 
-            this.CTValueTxt.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.CTValueTxt.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CTValueTxt.IntegralHeight = false;
-            this.CTValueTxt.ItemHeight = 13;
-            this.CTValueTxt.Location = new System.Drawing.Point(68, 19);
-            this.CTValueTxt.Name = "CTValueTxt";
-            this.CTValueTxt.Size = new System.Drawing.Size(261, 21);
-            this.CTValueTxt.TabIndex = 28;
+            CTValueTxt.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            CTValueTxt.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            CTValueTxt.IntegralHeight = false;
+            CTValueTxt.ItemHeight = 15;
+            CTValueTxt.Location = new System.Drawing.Point(79, 22);
+            CTValueTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CTValueTxt.Name = "CTValueTxt";
+            CTValueTxt.Size = new System.Drawing.Size(304, 23);
+            CTValueTxt.TabIndex = 28;
             // 
             // CTHeaderTxt
             // 
-            this.CTHeaderTxt.Location = new System.Drawing.Point(6, 20);
-            this.CTHeaderTxt.Maximum = new decimal(new int[] {
-            4000,
-            0,
-            0,
-            0});
-            this.CTHeaderTxt.Name = "CTHeaderTxt";
-            this.CTHeaderTxt.Size = new System.Drawing.Size(56, 20);
-            this.CTHeaderTxt.TabIndex = 49;
-            this.CTHeaderTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            CTHeaderTxt.Location = new System.Drawing.Point(7, 23);
+            CTHeaderTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CTHeaderTxt.Maximum = new decimal(new int[] { 4000, 0, 0, 0 });
+            CTHeaderTxt.Name = "CTHeaderTxt";
+            CTHeaderTxt.Size = new System.Drawing.Size(65, 23);
+            CTHeaderTxt.TabIndex = 49;
+            CTHeaderTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // CTHeaderLbl
             // 
-            this.CTHeaderLbl.AutoSize = true;
-            this.CTHeaderLbl.Location = new System.Drawing.Point(3, 3);
-            this.CTHeaderLbl.Margin = new System.Windows.Forms.Padding(3, 0, 3, 1);
-            this.CTHeaderLbl.Name = "CTHeaderLbl";
-            this.CTHeaderLbl.Size = new System.Drawing.Size(42, 13);
-            this.CTHeaderLbl.TabIndex = 31;
-            this.CTHeaderLbl.Text = "Header";
+            CTHeaderLbl.AutoSize = true;
+            CTHeaderLbl.Location = new System.Drawing.Point(4, 3);
+            CTHeaderLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 1);
+            CTHeaderLbl.Name = "CTHeaderLbl";
+            CTHeaderLbl.Size = new System.Drawing.Size(45, 15);
+            CTHeaderLbl.TabIndex = 31;
+            CTHeaderLbl.Text = "Header";
             // 
             // CTAmountLbl
             // 
-            this.CTAmountLbl.AutoSize = true;
-            this.CTAmountLbl.Location = new System.Drawing.Point(332, 3);
-            this.CTAmountLbl.Margin = new System.Windows.Forms.Padding(3, 0, 3, 1);
-            this.CTAmountLbl.Name = "CTAmountLbl";
-            this.CTAmountLbl.Size = new System.Drawing.Size(43, 13);
-            this.CTAmountLbl.TabIndex = 39;
-            this.CTAmountLbl.Text = "Amount";
+            CTAmountLbl.AutoSize = true;
+            CTAmountLbl.Location = new System.Drawing.Point(387, 3);
+            CTAmountLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 1);
+            CTAmountLbl.Name = "CTAmountLbl";
+            CTAmountLbl.Size = new System.Drawing.Size(51, 15);
+            CTAmountLbl.TabIndex = 39;
+            CTAmountLbl.Text = "Amount";
             // 
             // CTStructureTxt
             // 
-            this.CTStructureTxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.CTStructureTxt.Location = new System.Drawing.Point(112, 215);
-            this.CTStructureTxt.Name = "CTStructureTxt";
-            this.CTStructureTxt.ReadOnly = true;
-            this.CTStructureTxt.Size = new System.Drawing.Size(279, 20);
-            this.CTStructureTxt.TabIndex = 48;
-            this.CTStructureTxt.Text = "{l}{u:0}";
-            this.CTStructureTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            CTStructureTxt.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            CTStructureTxt.Location = new System.Drawing.Point(131, 248);
+            CTStructureTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CTStructureTxt.Name = "CTStructureTxt";
+            CTStructureTxt.ReadOnly = true;
+            CTStructureTxt.Size = new System.Drawing.Size(326, 23);
+            CTStructureTxt.TabIndex = 48;
+            CTStructureTxt.Text = "{l}{u:0}";
+            CTStructureTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // CTTransferBelowBtn
             // 
-            this.CTTransferBelowBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CTTransferBelowBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CTTransferBelowBtn.Location = new System.Drawing.Point(6, 241);
-            this.CTTransferBelowBtn.Name = "CTTransferBelowBtn";
-            this.CTTransferBelowBtn.Size = new System.Drawing.Size(100, 20);
-            this.CTTransferBelowBtn.TabIndex = 46;
-            this.CTTransferBelowBtn.Text = "Transfer Below";
+            CTTransferBelowBtn.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            CTTransferBelowBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            CTTransferBelowBtn.Location = new System.Drawing.Point(8, 278);
+            CTTransferBelowBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CTTransferBelowBtn.Name = "CTTransferBelowBtn";
+            CTTransferBelowBtn.Size = new System.Drawing.Size(117, 23);
+            CTTransferBelowBtn.TabIndex = 46;
+            CTTransferBelowBtn.Text = "Transfer Below";
             // 
             // CTValueCountLbl
             // 
-            this.CTValueCountLbl.AnimationInterval = 0;
-            this.CTValueCountLbl.DisplayBoundary = true;
-            this.CTValueCountLbl.Location = new System.Drawing.Point(6, 215);
-            this.CTValueCountLbl.Name = "CTValueCountLbl";
-            this.CTValueCountLbl.Size = new System.Drawing.Size(100, 20);
-            this.CTValueCountLbl.TabIndex = 45;
-            this.CTValueCountLbl.Text = "Value Count: 0";
+            CTValueCountLbl.AnimationInterval = 0;
+            CTValueCountLbl.DisplayBoundary = true;
+            CTValueCountLbl.Location = new System.Drawing.Point(7, 248);
+            CTValueCountLbl.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CTValueCountLbl.Name = "CTValueCountLbl";
+            CTValueCountLbl.Size = new System.Drawing.Size(117, 23);
+            CTValueCountLbl.TabIndex = 45;
+            CTValueCountLbl.Text = "Value Count: 0";
             // 
             // CTAmountTxt
             // 
-            this.CTAmountTxt.Location = new System.Drawing.Point(335, 20);
-            this.CTAmountTxt.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.CTAmountTxt.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.CTAmountTxt.Name = "CTAmountTxt";
-            this.CTAmountTxt.Size = new System.Drawing.Size(56, 20);
-            this.CTAmountTxt.TabIndex = 40;
-            this.CTAmountTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.CTAmountTxt.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            CTAmountTxt.Location = new System.Drawing.Point(391, 23);
+            CTAmountTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CTAmountTxt.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+            CTAmountTxt.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            CTAmountTxt.Name = "CTAmountTxt";
+            CTAmountTxt.Size = new System.Drawing.Size(65, 23);
+            CTAmountTxt.TabIndex = 40;
+            CTAmountTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            CTAmountTxt.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // CTRemoveBtn
             // 
-            this.CTRemoveBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CTRemoveBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CTRemoveBtn.Enabled = false;
-            this.CTRemoveBtn.Location = new System.Drawing.Point(112, 241);
-            this.CTRemoveBtn.Name = "CTRemoveBtn";
-            this.CTRemoveBtn.Size = new System.Drawing.Size(89, 20);
-            this.CTRemoveBtn.TabIndex = 38;
-            this.CTRemoveBtn.Text = "Remove";
+            CTRemoveBtn.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            CTRemoveBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            CTRemoveBtn.Enabled = false;
+            CTRemoveBtn.Location = new System.Drawing.Point(132, 278);
+            CTRemoveBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CTRemoveBtn.Name = "CTRemoveBtn";
+            CTRemoveBtn.Size = new System.Drawing.Size(104, 23);
+            CTRemoveBtn.TabIndex = 38;
+            CTRemoveBtn.Text = "Remove";
             // 
             // CTMoveDownBtn
             // 
-            this.CTMoveDownBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CTMoveDownBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CTMoveDownBtn.Enabled = false;
-            this.CTMoveDownBtn.Location = new System.Drawing.Point(302, 241);
-            this.CTMoveDownBtn.Name = "CTMoveDownBtn";
-            this.CTMoveDownBtn.Size = new System.Drawing.Size(89, 20);
-            this.CTMoveDownBtn.TabIndex = 37;
-            this.CTMoveDownBtn.Text = "Move Down";
+            CTMoveDownBtn.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            CTMoveDownBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            CTMoveDownBtn.Enabled = false;
+            CTMoveDownBtn.Location = new System.Drawing.Point(353, 278);
+            CTMoveDownBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CTMoveDownBtn.Name = "CTMoveDownBtn";
+            CTMoveDownBtn.Size = new System.Drawing.Size(104, 23);
+            CTMoveDownBtn.TabIndex = 37;
+            CTMoveDownBtn.Text = "Move Down";
             // 
             // CTMoveUpBtn
             // 
-            this.CTMoveUpBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CTMoveUpBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CTMoveUpBtn.Enabled = false;
-            this.CTMoveUpBtn.Location = new System.Drawing.Point(207, 241);
-            this.CTMoveUpBtn.Name = "CTMoveUpBtn";
-            this.CTMoveUpBtn.Size = new System.Drawing.Size(89, 20);
-            this.CTMoveUpBtn.TabIndex = 36;
-            this.CTMoveUpBtn.Text = "Move Up";
+            CTMoveUpBtn.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            CTMoveUpBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            CTMoveUpBtn.Enabled = false;
+            CTMoveUpBtn.Location = new System.Drawing.Point(242, 278);
+            CTMoveUpBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CTMoveUpBtn.Name = "CTMoveUpBtn";
+            CTMoveUpBtn.Size = new System.Drawing.Size(104, 23);
+            CTMoveUpBtn.TabIndex = 36;
+            CTMoveUpBtn.Text = "Move Up";
             // 
             // CTClearBtn
             // 
-            this.CTClearBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CTClearBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CTClearBtn.Location = new System.Drawing.Point(6, 46);
-            this.CTClearBtn.Name = "CTClearBtn";
-            this.CTClearBtn.Size = new System.Drawing.Size(73, 20);
-            this.CTClearBtn.TabIndex = 35;
-            this.CTClearBtn.Text = "Clear";
+            CTClearBtn.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            CTClearBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            CTClearBtn.Location = new System.Drawing.Point(8, 53);
+            CTClearBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CTClearBtn.Name = "CTClearBtn";
+            CTClearBtn.Size = new System.Drawing.Size(85, 23);
+            CTClearBtn.TabIndex = 35;
+            CTClearBtn.Text = "Clear";
             // 
             // CTWriteBooleanBtn
             // 
-            this.CTWriteBooleanBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CTWriteBooleanBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CTWriteBooleanBtn.Location = new System.Drawing.Point(293, 46);
-            this.CTWriteBooleanBtn.Name = "CTWriteBooleanBtn";
-            this.CTWriteBooleanBtn.Size = new System.Drawing.Size(98, 20);
-            this.CTWriteBooleanBtn.TabIndex = 34;
-            this.CTWriteBooleanBtn.Text = "Write Boolean";
+            CTWriteBooleanBtn.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            CTWriteBooleanBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            CTWriteBooleanBtn.Location = new System.Drawing.Point(343, 53);
+            CTWriteBooleanBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CTWriteBooleanBtn.Name = "CTWriteBooleanBtn";
+            CTWriteBooleanBtn.Size = new System.Drawing.Size(114, 23);
+            CTWriteBooleanBtn.TabIndex = 34;
+            CTWriteBooleanBtn.Text = "Write Boolean";
             // 
             // CTWriteStringBtn
             // 
-            this.CTWriteStringBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CTWriteStringBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CTWriteStringBtn.Location = new System.Drawing.Point(189, 46);
-            this.CTWriteStringBtn.Name = "CTWriteStringBtn";
-            this.CTWriteStringBtn.Size = new System.Drawing.Size(98, 20);
-            this.CTWriteStringBtn.TabIndex = 33;
-            this.CTWriteStringBtn.Text = "Write String";
+            CTWriteStringBtn.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            CTWriteStringBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            CTWriteStringBtn.Location = new System.Drawing.Point(221, 53);
+            CTWriteStringBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CTWriteStringBtn.Name = "CTWriteStringBtn";
+            CTWriteStringBtn.Size = new System.Drawing.Size(114, 23);
+            CTWriteStringBtn.TabIndex = 33;
+            CTWriteStringBtn.Text = "Write String";
             // 
             // CTWriteIntegerBtn
             // 
-            this.CTWriteIntegerBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CTWriteIntegerBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.CTWriteIntegerBtn.Location = new System.Drawing.Point(85, 46);
-            this.CTWriteIntegerBtn.Name = "CTWriteIntegerBtn";
-            this.CTWriteIntegerBtn.Size = new System.Drawing.Size(98, 20);
-            this.CTWriteIntegerBtn.TabIndex = 32;
-            this.CTWriteIntegerBtn.Text = "Write Integer";
+            CTWriteIntegerBtn.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            CTWriteIntegerBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            CTWriteIntegerBtn.Location = new System.Drawing.Point(100, 53);
+            CTWriteIntegerBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CTWriteIntegerBtn.Name = "CTWriteIntegerBtn";
+            CTWriteIntegerBtn.Size = new System.Drawing.Size(114, 23);
+            CTWriteIntegerBtn.TabIndex = 32;
+            CTWriteIntegerBtn.Text = "Write Integer";
             // 
             // CTValueLbl
             // 
-            this.CTValueLbl.AutoSize = true;
-            this.CTValueLbl.Location = new System.Drawing.Point(65, 3);
-            this.CTValueLbl.Name = "CTValueLbl";
-            this.CTValueLbl.Size = new System.Drawing.Size(34, 13);
-            this.CTValueLbl.TabIndex = 29;
-            this.CTValueLbl.Text = "Value";
+            CTValueLbl.AutoSize = true;
+            CTValueLbl.Location = new System.Drawing.Point(76, 3);
+            CTValueLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            CTValueLbl.Name = "CTValueLbl";
+            CTValueLbl.Size = new System.Drawing.Size(35, 15);
+            CTValueLbl.TabIndex = 29;
+            CTValueLbl.Text = "Value";
             // 
             // CTConstructerVw
             // 
-            this.CTConstructerVw.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.CTConstructerVw.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.CTTypeCol,
-            this.CTValueCol,
-            this.CTEncodedCol});
-            this.CTConstructerVw.FullRowSelect = true;
-            this.CTConstructerVw.GridLines = true;
-            this.CTConstructerVw.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.CTConstructerVw.HideSelection = false;
-            this.CTConstructerVw.Location = new System.Drawing.Point(6, 74);
-            this.CTConstructerVw.MultiSelect = false;
-            this.CTConstructerVw.Name = "CTConstructerVw";
-            this.CTConstructerVw.ShowItemToolTips = true;
-            this.CTConstructerVw.Size = new System.Drawing.Size(385, 138);
-            this.CTConstructerVw.TabIndex = 44;
-            this.CTConstructerVw.UseCompatibleStateImageBehavior = false;
-            this.CTConstructerVw.View = System.Windows.Forms.View.Details;
+            CTConstructerVw.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            CTConstructerVw.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { CTTypeCol, CTValueCol, CTEncodedCol });
+            CTConstructerVw.FullRowSelect = true;
+            CTConstructerVw.GridLines = true;
+            CTConstructerVw.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            CTConstructerVw.Location = new System.Drawing.Point(7, 85);
+            CTConstructerVw.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CTConstructerVw.MultiSelect = false;
+            CTConstructerVw.Name = "CTConstructerVw";
+            CTConstructerVw.ShowItemToolTips = true;
+            CTConstructerVw.Size = new System.Drawing.Size(449, 159);
+            CTConstructerVw.TabIndex = 44;
+            CTConstructerVw.UseCompatibleStateImageBehavior = false;
+            CTConstructerVw.View = System.Windows.Forms.View.Details;
             // 
             // CTTypeCol
             // 
-            this.CTTypeCol.Text = "Type";
-            this.CTTypeCol.Width = 66;
+            CTTypeCol.Text = "Type";
+            CTTypeCol.Width = 66;
             // 
             // CTValueCol
             // 
-            this.CTValueCol.Text = "Value";
-            this.CTValueCol.Width = 149;
+            CTValueCol.Text = "Value";
+            CTValueCol.Width = 149;
             // 
             // CTEncodedCol
             // 
-            this.CTEncodedCol.Text = "Encoded";
-            this.CTEncodedCol.Width = 149;
+            CTEncodedCol.Text = "Encoded";
+            CTEncodedCol.Width = 149;
             // 
             // SchedulerTab
             // 
-            this.SchedulerTab.Controls.Add(this.STAutoStartChckbx);
-            this.SchedulerTab.Controls.Add(this.STDestinationTxt);
-            this.SchedulerTab.Controls.Add(this.STPacketTxt);
-            this.SchedulerTab.Controls.Add(this.STHotkeyTxt);
-            this.SchedulerTab.Controls.Add(this.STRemoveBtn);
-            this.SchedulerTab.Controls.Add(this.STDestinationLbl);
-            this.SchedulerTab.Controls.Add(this.STCyclesLbl);
-            this.SchedulerTab.Controls.Add(this.STCyclesTxt);
-            this.SchedulerTab.Controls.Add(this.STIntervalLbl);
-            this.SchedulerTab.Controls.Add(this.STClearBtn);
-            this.SchedulerTab.Controls.Add(this.STCreateBtn);
-            this.SchedulerTab.Controls.Add(this.STIntervalTxt);
-            this.SchedulerTab.Controls.Add(this.STPacketLbl);
-            this.SchedulerTab.Controls.Add(this.STSchedulerVw);
-            this.SchedulerTab.Location = new System.Drawing.Point(4, 4);
-            this.SchedulerTab.Name = "SchedulerTab";
-            this.SchedulerTab.Padding = new System.Windows.Forms.Padding(3);
-            this.SchedulerTab.Size = new System.Drawing.Size(397, 270);
-            this.SchedulerTab.TabIndex = 0;
-            this.SchedulerTab.Text = "Scheduler";
-            this.SchedulerTab.UseVisualStyleBackColor = true;
+            SchedulerTab.Controls.Add(STAutoStartChckbx);
+            SchedulerTab.Controls.Add(STDestinationTxt);
+            SchedulerTab.Controls.Add(STPacketTxt);
+            SchedulerTab.Controls.Add(STHotkeyTxt);
+            SchedulerTab.Controls.Add(STRemoveBtn);
+            SchedulerTab.Controls.Add(STDestinationLbl);
+            SchedulerTab.Controls.Add(STCyclesLbl);
+            SchedulerTab.Controls.Add(STCyclesTxt);
+            SchedulerTab.Controls.Add(STIntervalLbl);
+            SchedulerTab.Controls.Add(STClearBtn);
+            SchedulerTab.Controls.Add(STCreateBtn);
+            SchedulerTab.Controls.Add(STIntervalTxt);
+            SchedulerTab.Controls.Add(STPacketLbl);
+            SchedulerTab.Controls.Add(STSchedulerVw);
+            SchedulerTab.Location = new System.Drawing.Point(4, 4);
+            SchedulerTab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            SchedulerTab.Name = "SchedulerTab";
+            SchedulerTab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            SchedulerTab.Size = new System.Drawing.Size(476, 313);
+            SchedulerTab.TabIndex = 0;
+            SchedulerTab.Text = "Scheduler";
+            SchedulerTab.UseVisualStyleBackColor = true;
             // 
             // STAutoStartChckbx
             // 
-            this.STAutoStartChckbx.AutoSize = true;
-            this.STAutoStartChckbx.Checked = true;
-            this.STAutoStartChckbx.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.STAutoStartChckbx.Location = new System.Drawing.Point(128, 198);
-            this.STAutoStartChckbx.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
-            this.STAutoStartChckbx.Name = "STAutoStartChckbx";
-            this.STAutoStartChckbx.Size = new System.Drawing.Size(73, 17);
-            this.STAutoStartChckbx.TabIndex = 53;
-            this.STAutoStartChckbx.Text = "Auto Start";
-            this.STAutoStartChckbx.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.STAutoStartChckbx.UseVisualStyleBackColor = true;
+            STAutoStartChckbx.AutoSize = true;
+            STAutoStartChckbx.Checked = true;
+            STAutoStartChckbx.CheckState = System.Windows.Forms.CheckState.Checked;
+            STAutoStartChckbx.Location = new System.Drawing.Point(149, 228);
+            STAutoStartChckbx.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
+            STAutoStartChckbx.Name = "STAutoStartChckbx";
+            STAutoStartChckbx.Size = new System.Drawing.Size(79, 19);
+            STAutoStartChckbx.TabIndex = 53;
+            STAutoStartChckbx.Text = "Auto Start";
+            STAutoStartChckbx.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            STAutoStartChckbx.UseVisualStyleBackColor = true;
             // 
             // STDestinationTxt
             // 
-            this.STDestinationTxt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.STDestinationTxt.FormattingEnabled = true;
-            this.STDestinationTxt.Location = new System.Drawing.Point(201, 214);
-            this.STDestinationTxt.Margin = new System.Windows.Forms.Padding(3, 2, 3, 3);
-            this.STDestinationTxt.Name = "STDestinationTxt";
-            this.STDestinationTxt.Size = new System.Drawing.Size(66, 21);
-            this.STDestinationTxt.TabIndex = 47;
+            STDestinationTxt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            STDestinationTxt.FormattingEnabled = true;
+            STDestinationTxt.Location = new System.Drawing.Point(234, 247);
+            STDestinationTxt.Margin = new System.Windows.Forms.Padding(4, 2, 4, 3);
+            STDestinationTxt.Name = "STDestinationTxt";
+            STDestinationTxt.Size = new System.Drawing.Size(76, 23);
+            STDestinationTxt.TabIndex = 47;
             // 
             // STPacketTxt
             // 
-            this.STPacketTxt.Location = new System.Drawing.Point(6, 215);
-            this.STPacketTxt.MaxLength = 2147483647;
-            this.STPacketTxt.Name = "STPacketTxt";
-            this.STPacketTxt.Size = new System.Drawing.Size(189, 20);
-            this.STPacketTxt.TabIndex = 45;
+            STPacketTxt.Location = new System.Drawing.Point(7, 248);
+            STPacketTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            STPacketTxt.MaxLength = int.MaxValue;
+            STPacketTxt.Name = "STPacketTxt";
+            STPacketTxt.Size = new System.Drawing.Size(220, 23);
+            STPacketTxt.TabIndex = 45;
             // 
             // STHotkeyTxt
             // 
-            this.STHotkeyTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.STHotkeyTxt.IsReadOnly = true;
-            this.STHotkeyTxt.Location = new System.Drawing.Point(201, 241);
-            this.STHotkeyTxt.Name = "STHotkeyTxt";
-            this.STHotkeyTxt.Size = new System.Drawing.Size(190, 20);
-            this.STHotkeyTxt.TabIndex = 63;
-            this.STHotkeyTxt.Text = "";
-            this.STHotkeyTxt.TextPaddingWidth = 0;
-            this.STHotkeyTxt.Title = "Hotkey";
-            this.STHotkeyTxt.Value = "";
-            this.STHotkeyTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.STHotkeyTxt.ValueReadOnly = true;
+            STHotkeyTxt.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            STHotkeyTxt.IsReadOnly = true;
+            STHotkeyTxt.Location = new System.Drawing.Point(234, 278);
+            STHotkeyTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            STHotkeyTxt.Name = "STHotkeyTxt";
+            STHotkeyTxt.Size = new System.Drawing.Size(222, 20);
+            STHotkeyTxt.TabIndex = 63;
+            STHotkeyTxt.Text = "";
+            STHotkeyTxt.TextPaddingWidth = 0;
+            STHotkeyTxt.Title = "Hotkey";
+            STHotkeyTxt.Value = "";
+            STHotkeyTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            STHotkeyTxt.ValueReadOnly = true;
             // 
             // STRemoveBtn
             // 
-            this.STRemoveBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.STRemoveBtn.Enabled = false;
-            this.STRemoveBtn.Location = new System.Drawing.Point(71, 241);
-            this.STRemoveBtn.Name = "STRemoveBtn";
-            this.STRemoveBtn.Size = new System.Drawing.Size(59, 20);
-            this.STRemoveBtn.TabIndex = 61;
-            this.STRemoveBtn.Text = "Remove";
+            STRemoveBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            STRemoveBtn.Enabled = false;
+            STRemoveBtn.Location = new System.Drawing.Point(83, 278);
+            STRemoveBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            STRemoveBtn.Name = "STRemoveBtn";
+            STRemoveBtn.Size = new System.Drawing.Size(69, 23);
+            STRemoveBtn.TabIndex = 61;
+            STRemoveBtn.Text = "Remove";
             // 
             // STDestinationLbl
             // 
-            this.STDestinationLbl.AutoSize = true;
-            this.STDestinationLbl.Location = new System.Drawing.Point(198, 199);
-            this.STDestinationLbl.Name = "STDestinationLbl";
-            this.STDestinationLbl.Size = new System.Drawing.Size(60, 13);
-            this.STDestinationLbl.TabIndex = 48;
-            this.STDestinationLbl.Text = "Destination";
+            STDestinationLbl.AutoSize = true;
+            STDestinationLbl.Location = new System.Drawing.Point(231, 230);
+            STDestinationLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            STDestinationLbl.Name = "STDestinationLbl";
+            STDestinationLbl.Size = new System.Drawing.Size(67, 15);
+            STDestinationLbl.TabIndex = 48;
+            STDestinationLbl.Text = "Destination";
             // 
             // STCyclesLbl
             // 
-            this.STCyclesLbl.AutoSize = true;
-            this.STCyclesLbl.Location = new System.Drawing.Point(332, 199);
-            this.STCyclesLbl.Name = "STCyclesLbl";
-            this.STCyclesLbl.Size = new System.Drawing.Size(38, 13);
-            this.STCyclesLbl.TabIndex = 60;
-            this.STCyclesLbl.Text = "Cycles";
+            STCyclesLbl.AutoSize = true;
+            STCyclesLbl.Location = new System.Drawing.Point(387, 230);
+            STCyclesLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            STCyclesLbl.Name = "STCyclesLbl";
+            STCyclesLbl.Size = new System.Drawing.Size(41, 15);
+            STCyclesLbl.TabIndex = 60;
+            STCyclesLbl.Text = "Cycles";
             // 
             // STCyclesTxt
             // 
-            this.STCyclesTxt.Location = new System.Drawing.Point(335, 215);
-            this.STCyclesTxt.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.STCyclesTxt.Name = "STCyclesTxt";
-            this.STCyclesTxt.Size = new System.Drawing.Size(56, 20);
-            this.STCyclesTxt.TabIndex = 59;
-            this.STCyclesTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            STCyclesTxt.Location = new System.Drawing.Point(391, 248);
+            STCyclesTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            STCyclesTxt.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+            STCyclesTxt.Name = "STCyclesTxt";
+            STCyclesTxt.Size = new System.Drawing.Size(65, 23);
+            STCyclesTxt.TabIndex = 59;
+            STCyclesTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // STIntervalLbl
             // 
-            this.STIntervalLbl.AutoSize = true;
-            this.STIntervalLbl.Location = new System.Drawing.Point(270, 199);
-            this.STIntervalLbl.Name = "STIntervalLbl";
-            this.STIntervalLbl.Size = new System.Drawing.Size(42, 13);
-            this.STIntervalLbl.TabIndex = 50;
-            this.STIntervalLbl.Text = "Interval";
+            STIntervalLbl.AutoSize = true;
+            STIntervalLbl.Location = new System.Drawing.Point(315, 230);
+            STIntervalLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            STIntervalLbl.Name = "STIntervalLbl";
+            STIntervalLbl.Size = new System.Drawing.Size(46, 15);
+            STIntervalLbl.TabIndex = 50;
+            STIntervalLbl.Text = "Interval";
             // 
             // STClearBtn
             // 
-            this.STClearBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.STClearBtn.Location = new System.Drawing.Point(136, 241);
-            this.STClearBtn.Name = "STClearBtn";
-            this.STClearBtn.Size = new System.Drawing.Size(59, 20);
-            this.STClearBtn.TabIndex = 58;
-            this.STClearBtn.Text = "Clear";
+            STClearBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            STClearBtn.Location = new System.Drawing.Point(159, 278);
+            STClearBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            STClearBtn.Name = "STClearBtn";
+            STClearBtn.Size = new System.Drawing.Size(69, 23);
+            STClearBtn.TabIndex = 58;
+            STClearBtn.Text = "Clear";
             // 
             // STCreateBtn
             // 
-            this.STCreateBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.STCreateBtn.Location = new System.Drawing.Point(6, 241);
-            this.STCreateBtn.Name = "STCreateBtn";
-            this.STCreateBtn.Size = new System.Drawing.Size(59, 20);
-            this.STCreateBtn.TabIndex = 54;
-            this.STCreateBtn.Text = "Create";
+            STCreateBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            STCreateBtn.Location = new System.Drawing.Point(7, 278);
+            STCreateBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            STCreateBtn.Name = "STCreateBtn";
+            STCreateBtn.Size = new System.Drawing.Size(69, 23);
+            STCreateBtn.TabIndex = 54;
+            STCreateBtn.Text = "Create";
             // 
             // STIntervalTxt
             // 
-            this.STIntervalTxt.Location = new System.Drawing.Point(273, 215);
-            this.STIntervalTxt.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.STIntervalTxt.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.STIntervalTxt.Name = "STIntervalTxt";
-            this.STIntervalTxt.Size = new System.Drawing.Size(56, 20);
-            this.STIntervalTxt.TabIndex = 49;
-            this.STIntervalTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.STIntervalTxt.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
+            STIntervalTxt.Location = new System.Drawing.Point(318, 248);
+            STIntervalTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            STIntervalTxt.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+            STIntervalTxt.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            STIntervalTxt.Name = "STIntervalTxt";
+            STIntervalTxt.Size = new System.Drawing.Size(65, 23);
+            STIntervalTxt.TabIndex = 49;
+            STIntervalTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            STIntervalTxt.Value = new decimal(new int[] { 100, 0, 0, 0 });
             // 
             // STPacketLbl
             // 
-            this.STPacketLbl.AutoSize = true;
-            this.STPacketLbl.Location = new System.Drawing.Point(3, 199);
-            this.STPacketLbl.Name = "STPacketLbl";
-            this.STPacketLbl.Size = new System.Drawing.Size(41, 13);
-            this.STPacketLbl.TabIndex = 46;
-            this.STPacketLbl.Text = "Packet";
+            STPacketLbl.AutoSize = true;
+            STPacketLbl.Location = new System.Drawing.Point(4, 230);
+            STPacketLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            STPacketLbl.Name = "STPacketLbl";
+            STPacketLbl.Size = new System.Drawing.Size(42, 15);
+            STPacketLbl.TabIndex = 46;
+            STPacketLbl.Text = "Packet";
             // 
             // STSchedulerVw
             // 
-            this.STSchedulerVw.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.STSchedulerVw.CheckBoxes = true;
-            this.STSchedulerVw.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.STPacketCol,
-            this.STDestinationCol,
-            this.STIntervalCol,
-            this.STCyclesCol,
-            this.STHotkeyCol});
-            this.STSchedulerVw.FullRowSelect = true;
-            this.STSchedulerVw.GridLines = true;
-            this.STSchedulerVw.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.STSchedulerVw.HideSelection = false;
-            this.STSchedulerVw.Location = new System.Drawing.Point(6, 6);
-            this.STSchedulerVw.MultiSelect = false;
-            this.STSchedulerVw.Name = "STSchedulerVw";
-            this.STSchedulerVw.ShowItemToolTips = true;
-            this.STSchedulerVw.Size = new System.Drawing.Size(385, 190);
-            this.STSchedulerVw.TabIndex = 0;
-            this.STSchedulerVw.UseCompatibleStateImageBehavior = false;
-            this.STSchedulerVw.View = System.Windows.Forms.View.Details;
+            STSchedulerVw.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            STSchedulerVw.CheckBoxes = true;
+            STSchedulerVw.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { STPacketCol, STDestinationCol, STIntervalCol, STCyclesCol, STHotkeyCol });
+            STSchedulerVw.FullRowSelect = true;
+            STSchedulerVw.GridLines = true;
+            STSchedulerVw.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            STSchedulerVw.Location = new System.Drawing.Point(7, 7);
+            STSchedulerVw.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            STSchedulerVw.MultiSelect = false;
+            STSchedulerVw.Name = "STSchedulerVw";
+            STSchedulerVw.ShowItemToolTips = true;
+            STSchedulerVw.Size = new System.Drawing.Size(449, 219);
+            STSchedulerVw.TabIndex = 0;
+            STSchedulerVw.UseCompatibleStateImageBehavior = false;
+            STSchedulerVw.View = System.Windows.Forms.View.Details;
             // 
             // STPacketCol
             // 
-            this.STPacketCol.Text = "Packet";
-            this.STPacketCol.Width = 120;
+            STPacketCol.Text = "Packet";
+            STPacketCol.Width = 120;
             // 
             // STDestinationCol
             // 
-            this.STDestinationCol.Text = "Destination";
-            this.STDestinationCol.Width = 73;
+            STDestinationCol.Text = "Destination";
+            STDestinationCol.Width = 73;
             // 
             // STIntervalCol
             // 
-            this.STIntervalCol.Text = "Interval";
-            this.STIntervalCol.Width = 53;
+            STIntervalCol.Text = "Interval";
+            STIntervalCol.Width = 53;
             // 
             // STCyclesCol
             // 
-            this.STCyclesCol.Text = "Cycles";
-            this.STCyclesCol.Width = 53;
+            STCyclesCol.Text = "Cycles";
+            STCyclesCol.Width = 53;
             // 
             // STHotkeyCol
             // 
-            this.STHotkeyCol.Text = "Hotkey";
-            this.STHotkeyCol.Width = 65;
+            STHotkeyCol.Text = "Hotkey";
+            STHotkeyCol.Width = 65;
             // 
             // PrimitiveTab
             // 
-            this.PrimitiveTab.Controls.Add(this.PTSaveAsBtn);
-            this.PrimitiveTab.Controls.Add(this.PTLengthTxt);
-            this.PrimitiveTab.Controls.Add(this.PTHeaderTxt);
-            this.PrimitiveTab.Controls.Add(this.PTCorruptedTxt);
-            this.PrimitiveTab.Controls.Add(this.PTPacketTxt);
-            this.PrimitiveTab.Location = new System.Drawing.Point(4, 4);
-            this.PrimitiveTab.Name = "PrimitiveTab";
-            this.PrimitiveTab.Padding = new System.Windows.Forms.Padding(3);
-            this.PrimitiveTab.Size = new System.Drawing.Size(397, 270);
-            this.PrimitiveTab.TabIndex = 1;
-            this.PrimitiveTab.Text = "Primitive";
-            this.PrimitiveTab.UseVisualStyleBackColor = true;
+            PrimitiveTab.Controls.Add(PTSaveAsBtn);
+            PrimitiveTab.Controls.Add(PTLengthTxt);
+            PrimitiveTab.Controls.Add(PTHeaderTxt);
+            PrimitiveTab.Controls.Add(PTCorruptedTxt);
+            PrimitiveTab.Controls.Add(PTPacketTxt);
+            PrimitiveTab.Location = new System.Drawing.Point(4, 4);
+            PrimitiveTab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            PrimitiveTab.Name = "PrimitiveTab";
+            PrimitiveTab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            PrimitiveTab.Size = new System.Drawing.Size(476, 313);
+            PrimitiveTab.TabIndex = 1;
+            PrimitiveTab.Text = "Primitive";
+            PrimitiveTab.UseVisualStyleBackColor = true;
             // 
             // PTSaveAsBtn
             // 
-            this.PTSaveAsBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.PTSaveAsBtn.Location = new System.Drawing.Point(304, 241);
-            this.PTSaveAsBtn.Name = "PTSaveAsBtn";
-            this.PTSaveAsBtn.Size = new System.Drawing.Size(87, 20);
-            this.PTSaveAsBtn.TabIndex = 11;
-            this.PTSaveAsBtn.Text = "Save As";
+            PTSaveAsBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            PTSaveAsBtn.Location = new System.Drawing.Point(355, 278);
+            PTSaveAsBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            PTSaveAsBtn.Name = "PTSaveAsBtn";
+            PTSaveAsBtn.Size = new System.Drawing.Size(102, 23);
+            PTSaveAsBtn.TabIndex = 11;
+            PTSaveAsBtn.Text = "Save As";
             // 
             // PTLengthTxt
             // 
-            this.PTLengthTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.PTLengthTxt.IsReadOnly = true;
-            this.PTLengthTxt.Location = new System.Drawing.Point(103, 241);
-            this.PTLengthTxt.Name = "PTLengthTxt";
-            this.PTLengthTxt.Size = new System.Drawing.Size(91, 20);
-            this.PTLengthTxt.TabIndex = 10;
-            this.PTLengthTxt.Text = "0";
-            this.PTLengthTxt.TextPaddingWidth = 0;
-            this.PTLengthTxt.Title = "Length";
-            this.PTLengthTxt.Value = "0";
-            this.PTLengthTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.PTLengthTxt.ValueReadOnly = true;
+            PTLengthTxt.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            PTLengthTxt.IsReadOnly = true;
+            PTLengthTxt.Location = new System.Drawing.Point(120, 278);
+            PTLengthTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            PTLengthTxt.Name = "PTLengthTxt";
+            PTLengthTxt.Size = new System.Drawing.Size(106, 20);
+            PTLengthTxt.TabIndex = 10;
+            PTLengthTxt.Text = "0";
+            PTLengthTxt.TextPaddingWidth = 0;
+            PTLengthTxt.Title = "Length";
+            PTLengthTxt.Value = "0";
+            PTLengthTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            PTLengthTxt.ValueReadOnly = true;
             // 
             // PTHeaderTxt
             // 
-            this.PTHeaderTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.PTHeaderTxt.IsReadOnly = true;
-            this.PTHeaderTxt.Location = new System.Drawing.Point(6, 241);
-            this.PTHeaderTxt.Name = "PTHeaderTxt";
-            this.PTHeaderTxt.Size = new System.Drawing.Size(91, 20);
-            this.PTHeaderTxt.TabIndex = 9;
-            this.PTHeaderTxt.Text = "0";
-            this.PTHeaderTxt.TextPaddingWidth = 0;
-            this.PTHeaderTxt.Title = "Header";
-            this.PTHeaderTxt.Value = "0";
-            this.PTHeaderTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.PTHeaderTxt.ValueReadOnly = true;
+            PTHeaderTxt.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            PTHeaderTxt.IsReadOnly = true;
+            PTHeaderTxt.Location = new System.Drawing.Point(7, 278);
+            PTHeaderTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            PTHeaderTxt.Name = "PTHeaderTxt";
+            PTHeaderTxt.Size = new System.Drawing.Size(106, 20);
+            PTHeaderTxt.TabIndex = 9;
+            PTHeaderTxt.Text = "0";
+            PTHeaderTxt.TextPaddingWidth = 0;
+            PTHeaderTxt.Title = "Header";
+            PTHeaderTxt.Value = "0";
+            PTHeaderTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            PTHeaderTxt.ValueReadOnly = true;
             // 
             // PTCorruptedTxt
             // 
-            this.PTCorruptedTxt.BackColor = System.Drawing.Color.Firebrick;
-            this.PTCorruptedTxt.IsReadOnly = true;
-            this.PTCorruptedTxt.Location = new System.Drawing.Point(200, 241);
-            this.PTCorruptedTxt.Name = "PTCorruptedTxt";
-            this.PTCorruptedTxt.Size = new System.Drawing.Size(98, 20);
-            this.PTCorruptedTxt.TabIndex = 8;
-            this.PTCorruptedTxt.Text = "True";
-            this.PTCorruptedTxt.TextPaddingWidth = 0;
-            this.PTCorruptedTxt.Title = "Corrupted";
-            this.PTCorruptedTxt.Value = "True";
-            this.PTCorruptedTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.PTCorruptedTxt.ValueReadOnly = true;
+            PTCorruptedTxt.BackColor = System.Drawing.Color.Firebrick;
+            PTCorruptedTxt.IsReadOnly = true;
+            PTCorruptedTxt.Location = new System.Drawing.Point(233, 278);
+            PTCorruptedTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            PTCorruptedTxt.Name = "PTCorruptedTxt";
+            PTCorruptedTxt.Size = new System.Drawing.Size(114, 20);
+            PTCorruptedTxt.TabIndex = 8;
+            PTCorruptedTxt.Text = "True";
+            PTCorruptedTxt.TextPaddingWidth = 0;
+            PTCorruptedTxt.Title = "Corrupted";
+            PTCorruptedTxt.Value = "True";
+            PTCorruptedTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            PTCorruptedTxt.ValueReadOnly = true;
             // 
             // PTPacketTxt
             // 
-            this.PTPacketTxt.Location = new System.Drawing.Point(6, 6);
-            this.PTPacketTxt.MaxLength = 2147483647;
-            this.PTPacketTxt.Multiline = true;
-            this.PTPacketTxt.Name = "PTPacketTxt";
-            this.PTPacketTxt.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.PTPacketTxt.Size = new System.Drawing.Size(385, 229);
-            this.PTPacketTxt.TabIndex = 3;
+            PTPacketTxt.Location = new System.Drawing.Point(7, 7);
+            PTPacketTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            PTPacketTxt.MaxLength = int.MaxValue;
+            PTPacketTxt.Multiline = true;
+            PTPacketTxt.Name = "PTPacketTxt";
+            PTPacketTxt.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            PTPacketTxt.Size = new System.Drawing.Size(448, 264);
+            PTPacketTxt.TabIndex = 3;
             // 
             // FiltersTab
             // 
-            this.FiltersTab.Controls.Add(this.FTReplacementTxt);
-            this.FiltersTab.Controls.Add(this.FTDestinationLbl);
-            this.FiltersTab.Controls.Add(this.FTDestinationTxt);
-            this.FiltersTab.Controls.Add(this.FTHeaderTxt);
-            this.FiltersTab.Controls.Add(this.FTHeaderLbl);
-            this.FiltersTab.Controls.Add(this.FTRemoveBtn);
-            this.FiltersTab.Controls.Add(this.FTCreateBtn);
-            this.FiltersTab.Controls.Add(this.FTActionLbl);
-            this.FiltersTab.Controls.Add(this.FTActionTxt);
-            this.FiltersTab.Controls.Add(this.FTFiltersVw);
-            this.FiltersTab.Location = new System.Drawing.Point(4, 4);
-            this.FiltersTab.Name = "FiltersTab";
-            this.FiltersTab.Padding = new System.Windows.Forms.Padding(3);
-            this.FiltersTab.Size = new System.Drawing.Size(397, 270);
-            this.FiltersTab.TabIndex = 3;
-            this.FiltersTab.Text = "Filters";
-            this.FiltersTab.UseVisualStyleBackColor = true;
+            FiltersTab.Controls.Add(FTReplacementTxt);
+            FiltersTab.Controls.Add(FTDestinationLbl);
+            FiltersTab.Controls.Add(FTDestinationTxt);
+            FiltersTab.Controls.Add(FTHeaderTxt);
+            FiltersTab.Controls.Add(FTHeaderLbl);
+            FiltersTab.Controls.Add(FTRemoveBtn);
+            FiltersTab.Controls.Add(FTCreateBtn);
+            FiltersTab.Controls.Add(FTActionLbl);
+            FiltersTab.Controls.Add(FTActionTxt);
+            FiltersTab.Controls.Add(FTFiltersVw);
+            FiltersTab.Location = new System.Drawing.Point(4, 4);
+            FiltersTab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            FiltersTab.Name = "FiltersTab";
+            FiltersTab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            FiltersTab.Size = new System.Drawing.Size(476, 313);
+            FiltersTab.TabIndex = 3;
+            FiltersTab.Text = "Filters";
+            FiltersTab.UseVisualStyleBackColor = true;
             // 
             // FTReplacementTxt
             // 
-            this.FTReplacementTxt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.FTReplacementTxt.IsReadOnly = true;
-            this.FTReplacementTxt.Location = new System.Drawing.Point(6, 241);
-            this.FTReplacementTxt.Name = "FTReplacementTxt";
-            this.FTReplacementTxt.Size = new System.Drawing.Size(385, 20);
-            this.FTReplacementTxt.TabIndex = 54;
-            this.FTReplacementTxt.Text = "";
-            this.FTReplacementTxt.TextPaddingWidth = 0;
-            this.FTReplacementTxt.Title = "Replacement";
-            this.FTReplacementTxt.Value = "";
-            this.FTReplacementTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.FTReplacementTxt.ValueReadOnly = true;
+            FTReplacementTxt.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            FTReplacementTxt.IsReadOnly = true;
+            FTReplacementTxt.Location = new System.Drawing.Point(7, 278);
+            FTReplacementTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            FTReplacementTxt.Name = "FTReplacementTxt";
+            FTReplacementTxt.Size = new System.Drawing.Size(449, 20);
+            FTReplacementTxt.TabIndex = 54;
+            FTReplacementTxt.Text = "";
+            FTReplacementTxt.TextPaddingWidth = 0;
+            FTReplacementTxt.Title = "Replacement";
+            FTReplacementTxt.Value = "";
+            FTReplacementTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            FTReplacementTxt.ValueReadOnly = true;
             // 
             // FTDestinationLbl
             // 
-            this.FTDestinationLbl.AutoSize = true;
-            this.FTDestinationLbl.Location = new System.Drawing.Point(66, 198);
-            this.FTDestinationLbl.Name = "FTDestinationLbl";
-            this.FTDestinationLbl.Size = new System.Drawing.Size(60, 13);
-            this.FTDestinationLbl.TabIndex = 53;
-            this.FTDestinationLbl.Text = "Destination";
+            FTDestinationLbl.AutoSize = true;
+            FTDestinationLbl.Location = new System.Drawing.Point(77, 228);
+            FTDestinationLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            FTDestinationLbl.Name = "FTDestinationLbl";
+            FTDestinationLbl.Size = new System.Drawing.Size(67, 15);
+            FTDestinationLbl.TabIndex = 53;
+            FTDestinationLbl.Text = "Destination";
             // 
             // FTDestinationTxt
             // 
-            this.FTDestinationTxt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.FTDestinationTxt.FormattingEnabled = true;
-            this.FTDestinationTxt.Location = new System.Drawing.Point(69, 214);
-            this.FTDestinationTxt.Name = "FTDestinationTxt";
-            this.FTDestinationTxt.Size = new System.Drawing.Size(66, 21);
-            this.FTDestinationTxt.TabIndex = 52;
+            FTDestinationTxt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            FTDestinationTxt.FormattingEnabled = true;
+            FTDestinationTxt.Location = new System.Drawing.Point(80, 247);
+            FTDestinationTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            FTDestinationTxt.Name = "FTDestinationTxt";
+            FTDestinationTxt.Size = new System.Drawing.Size(76, 23);
+            FTDestinationTxt.TabIndex = 52;
             // 
             // FTHeaderTxt
             // 
-            this.FTHeaderTxt.Location = new System.Drawing.Point(6, 215);
-            this.FTHeaderTxt.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
-            this.FTHeaderTxt.Maximum = new decimal(new int[] {
-            4000,
-            0,
-            0,
-            0});
-            this.FTHeaderTxt.Name = "FTHeaderTxt";
-            this.FTHeaderTxt.Size = new System.Drawing.Size(57, 20);
-            this.FTHeaderTxt.TabIndex = 51;
-            this.FTHeaderTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            FTHeaderTxt.Location = new System.Drawing.Point(7, 248);
+            FTHeaderTxt.Margin = new System.Windows.Forms.Padding(4, 5, 4, 3);
+            FTHeaderTxt.Maximum = new decimal(new int[] { 4000, 0, 0, 0 });
+            FTHeaderTxt.Name = "FTHeaderTxt";
+            FTHeaderTxt.Size = new System.Drawing.Size(66, 23);
+            FTHeaderTxt.TabIndex = 51;
+            FTHeaderTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // FTHeaderLbl
             // 
-            this.FTHeaderLbl.AutoSize = true;
-            this.FTHeaderLbl.Location = new System.Drawing.Point(3, 198);
-            this.FTHeaderLbl.Name = "FTHeaderLbl";
-            this.FTHeaderLbl.Size = new System.Drawing.Size(42, 13);
-            this.FTHeaderLbl.TabIndex = 50;
-            this.FTHeaderLbl.Text = "Header";
+            FTHeaderLbl.AutoSize = true;
+            FTHeaderLbl.Location = new System.Drawing.Point(4, 228);
+            FTHeaderLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            FTHeaderLbl.Name = "FTHeaderLbl";
+            FTHeaderLbl.Size = new System.Drawing.Size(45, 15);
+            FTHeaderLbl.TabIndex = 50;
+            FTHeaderLbl.Text = "Header";
             // 
             // FTRemoveBtn
             // 
-            this.FTRemoveBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.FTRemoveBtn.Enabled = false;
-            this.FTRemoveBtn.Location = new System.Drawing.Point(305, 214);
-            this.FTRemoveBtn.Name = "FTRemoveBtn";
-            this.FTRemoveBtn.Size = new System.Drawing.Size(86, 20);
-            this.FTRemoveBtn.TabIndex = 8;
-            this.FTRemoveBtn.Text = "Remove";
+            FTRemoveBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            FTRemoveBtn.Enabled = false;
+            FTRemoveBtn.Location = new System.Drawing.Point(356, 247);
+            FTRemoveBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            FTRemoveBtn.Name = "FTRemoveBtn";
+            FTRemoveBtn.Size = new System.Drawing.Size(100, 23);
+            FTRemoveBtn.TabIndex = 8;
+            FTRemoveBtn.Text = "Remove";
             // 
             // FTCreateBtn
             // 
-            this.FTCreateBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.FTCreateBtn.Location = new System.Drawing.Point(213, 215);
-            this.FTCreateBtn.Name = "FTCreateBtn";
-            this.FTCreateBtn.Size = new System.Drawing.Size(86, 20);
-            this.FTCreateBtn.TabIndex = 7;
-            this.FTCreateBtn.Text = "Create";
+            FTCreateBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            FTCreateBtn.Location = new System.Drawing.Point(248, 248);
+            FTCreateBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            FTCreateBtn.Name = "FTCreateBtn";
+            FTCreateBtn.Size = new System.Drawing.Size(100, 23);
+            FTCreateBtn.TabIndex = 7;
+            FTCreateBtn.Text = "Create";
             // 
             // FTActionLbl
             // 
-            this.FTActionLbl.AutoSize = true;
-            this.FTActionLbl.Location = new System.Drawing.Point(138, 198);
-            this.FTActionLbl.Name = "FTActionLbl";
-            this.FTActionLbl.Size = new System.Drawing.Size(37, 13);
-            this.FTActionLbl.TabIndex = 2;
-            this.FTActionLbl.Text = "Action";
+            FTActionLbl.AutoSize = true;
+            FTActionLbl.Location = new System.Drawing.Point(161, 228);
+            FTActionLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            FTActionLbl.Name = "FTActionLbl";
+            FTActionLbl.Size = new System.Drawing.Size(42, 15);
+            FTActionLbl.TabIndex = 2;
+            FTActionLbl.Text = "Action";
             // 
             // FTActionTxt
             // 
-            this.FTActionTxt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.FTActionTxt.FormattingEnabled = true;
-            this.FTActionTxt.Items.AddRange(new object[] {
-            "Block",
-            "Replace",
-            "Execute"});
-            this.FTActionTxt.Location = new System.Drawing.Point(141, 214);
-            this.FTActionTxt.Name = "FTActionTxt";
-            this.FTActionTxt.Size = new System.Drawing.Size(66, 21);
-            this.FTActionTxt.TabIndex = 1;
+            FTActionTxt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            FTActionTxt.FormattingEnabled = true;
+            FTActionTxt.Items.AddRange(new object[] { "Block", "Replace", "Execute" });
+            FTActionTxt.Location = new System.Drawing.Point(164, 247);
+            FTActionTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            FTActionTxt.Name = "FTActionTxt";
+            FTActionTxt.Size = new System.Drawing.Size(76, 23);
+            FTActionTxt.TabIndex = 1;
             // 
             // FTFiltersVw
             // 
-            this.FTFiltersVw.CheckBoxes = true;
-            this.FTFiltersVw.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.FTHeaderCol,
-            this.FTDestinationCol,
-            this.FTActionCol,
-            this.FTReplacementCol});
-            this.FTFiltersVw.FullRowSelect = true;
-            this.FTFiltersVw.GridLines = true;
-            this.FTFiltersVw.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.FTFiltersVw.HideSelection = false;
-            this.FTFiltersVw.Location = new System.Drawing.Point(6, 6);
-            this.FTFiltersVw.MultiSelect = false;
-            this.FTFiltersVw.Name = "FTFiltersVw";
-            this.FTFiltersVw.ShowItemToolTips = true;
-            this.FTFiltersVw.Size = new System.Drawing.Size(385, 189);
-            this.FTFiltersVw.TabIndex = 0;
-            this.FTFiltersVw.UseCompatibleStateImageBehavior = false;
-            this.FTFiltersVw.View = System.Windows.Forms.View.Details;
+            FTFiltersVw.CheckBoxes = true;
+            FTFiltersVw.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { FTHeaderCol, FTDestinationCol, FTActionCol, FTReplacementCol });
+            FTFiltersVw.FullRowSelect = true;
+            FTFiltersVw.GridLines = true;
+            FTFiltersVw.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            FTFiltersVw.Location = new System.Drawing.Point(7, 7);
+            FTFiltersVw.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            FTFiltersVw.MultiSelect = false;
+            FTFiltersVw.Name = "FTFiltersVw";
+            FTFiltersVw.ShowItemToolTips = true;
+            FTFiltersVw.Size = new System.Drawing.Size(448, 217);
+            FTFiltersVw.TabIndex = 0;
+            FTFiltersVw.UseCompatibleStateImageBehavior = false;
+            FTFiltersVw.View = System.Windows.Forms.View.Details;
             // 
             // FTHeaderCol
             // 
-            this.FTHeaderCol.Text = "Header";
-            this.FTHeaderCol.Width = 55;
+            FTHeaderCol.Text = "Header";
+            FTHeaderCol.Width = 55;
             // 
             // FTDestinationCol
             // 
-            this.FTDestinationCol.Text = "Destination";
-            this.FTDestinationCol.Width = 68;
+            FTDestinationCol.Text = "Destination";
+            FTDestinationCol.Width = 68;
             // 
             // FTActionCol
             // 
-            this.FTActionCol.Text = "Action";
-            this.FTActionCol.Width = 68;
+            FTActionCol.Text = "Action";
+            FTActionCol.Width = 68;
             // 
             // FTReplacementCol
             // 
-            this.FTReplacementCol.Text = "Replacement";
-            this.FTReplacementCol.Width = 176;
+            FTReplacementCol.Text = "Replacement";
+            FTReplacementCol.Width = 176;
             // 
             // ITPacketTxt
             // 
-            this.ITPacketTxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ITPacketTxt.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.ITPacketTxt.ItemHeight = 14;
-            this.ITPacketTxt.Location = new System.Drawing.Point(6, 287);
-            this.ITPacketTxt.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-            this.ITPacketTxt.Name = "ITPacketTxt";
-            this.ITPacketTxt.Size = new System.Drawing.Size(250, 20);
-            this.ITPacketTxt.TabIndex = 8;
+            ITPacketTxt.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            ITPacketTxt.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            ITPacketTxt.ItemHeight = 14;
+            ITPacketTxt.Location = new System.Drawing.Point(7, 335);
+            ITPacketTxt.Margin = new System.Windows.Forms.Padding(4, 6, 4, 3);
+            ITPacketTxt.Name = "ITPacketTxt";
+            ITPacketTxt.Size = new System.Drawing.Size(291, 20);
+            ITPacketTxt.TabIndex = 8;
             // 
             // ToolboxTab
             // 
-            this.ToolboxTab.Controls.Add(this.TT16BitInputLbl);
-            this.ToolboxTab.Controls.Add(this.TT32BitInputLbl);
-            this.ToolboxTab.Controls.Add(this.TTIntInputTxt);
-            this.ToolboxTab.Controls.Add(this.TTIntOutputTxt);
-            this.ToolboxTab.Controls.Add(this.TTUShortOutputTxt);
-            this.ToolboxTab.Controls.Add(this.TTDecodeIntBtn);
-            this.ToolboxTab.Controls.Add(this.TTDecodeUShortBtn);
-            this.ToolboxTab.Controls.Add(this.TTUShortInputTxt);
-            this.ToolboxTab.Location = new System.Drawing.Point(4, 28);
-            this.ToolboxTab.Name = "ToolboxTab";
-            this.ToolboxTab.Padding = new System.Windows.Forms.Padding(3);
-            this.ToolboxTab.Size = new System.Drawing.Size(476, 313);
-            this.ToolboxTab.TabIndex = 3;
-            this.ToolboxTab.Text = "Toolbox";
-            this.ToolboxTab.UseVisualStyleBackColor = true;
+            ToolboxTab.Controls.Add(TT16BitInputLbl);
+            ToolboxTab.Controls.Add(TT32BitInputLbl);
+            ToolboxTab.Controls.Add(TTIntInputTxt);
+            ToolboxTab.Controls.Add(TTIntOutputTxt);
+            ToolboxTab.Controls.Add(TTUShortOutputTxt);
+            ToolboxTab.Controls.Add(TTDecodeIntBtn);
+            ToolboxTab.Controls.Add(TTDecodeUShortBtn);
+            ToolboxTab.Controls.Add(TTUShortInputTxt);
+            ToolboxTab.Location = new System.Drawing.Point(4, 28);
+            ToolboxTab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ToolboxTab.Name = "ToolboxTab";
+            ToolboxTab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ToolboxTab.Size = new System.Drawing.Size(557, 370);
+            ToolboxTab.TabIndex = 3;
+            ToolboxTab.Text = "Toolbox";
+            ToolboxTab.UseVisualStyleBackColor = true;
             // 
             // TT16BitInputLbl
             // 
-            this.TT16BitInputLbl.AutoSize = true;
-            this.TT16BitInputLbl.Location = new System.Drawing.Point(6, 260);
-            this.TT16BitInputLbl.Name = "TT16BitInputLbl";
-            this.TT16BitInputLbl.Size = new System.Drawing.Size(100, 13);
-            this.TT16BitInputLbl.TabIndex = 50;
-            this.TT16BitInputLbl.Text = "16-Bit Integer Input:";
+            TT16BitInputLbl.AutoSize = true;
+            TT16BitInputLbl.Location = new System.Drawing.Point(7, 300);
+            TT16BitInputLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            TT16BitInputLbl.Name = "TT16BitInputLbl";
+            TT16BitInputLbl.Size = new System.Drawing.Size(112, 15);
+            TT16BitInputLbl.TabIndex = 50;
+            TT16BitInputLbl.Text = "16-Bit Integer Input:";
             // 
             // TT32BitInputLbl
             // 
-            this.TT32BitInputLbl.AutoSize = true;
-            this.TT32BitInputLbl.Location = new System.Drawing.Point(6, 288);
-            this.TT32BitInputLbl.Name = "TT32BitInputLbl";
-            this.TT32BitInputLbl.Size = new System.Drawing.Size(100, 13);
-            this.TT32BitInputLbl.TabIndex = 0;
-            this.TT32BitInputLbl.Text = "32-Bit Integer Input:";
+            TT32BitInputLbl.AutoSize = true;
+            TT32BitInputLbl.Location = new System.Drawing.Point(7, 332);
+            TT32BitInputLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            TT32BitInputLbl.Name = "TT32BitInputLbl";
+            TT32BitInputLbl.Size = new System.Drawing.Size(112, 15);
+            TT32BitInputLbl.TabIndex = 0;
+            TT32BitInputLbl.Text = "32-Bit Integer Input:";
             // 
             // TTIntInputTxt
             // 
-            this.TTIntInputTxt.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.TTIntInputTxt.Location = new System.Drawing.Point(108, 285);
-            this.TTIntInputTxt.Maximum = new decimal(new int[] {
-            2147483647,
-            0,
-            0,
-            0});
-            this.TTIntInputTxt.Minimum = new decimal(new int[] {
-            -2147483648,
-            0,
-            0,
-            -2147483648});
-            this.TTIntInputTxt.Name = "TTIntInputTxt";
-            this.TTIntInputTxt.Size = new System.Drawing.Size(126, 22);
-            this.TTIntInputTxt.TabIndex = 0;
-            this.TTIntInputTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            TTIntInputTxt.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TTIntInputTxt.Location = new System.Drawing.Point(126, 329);
+            TTIntInputTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TTIntInputTxt.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
+            TTIntInputTxt.Minimum = new decimal(new int[] { int.MinValue, 0, 0, int.MinValue });
+            TTIntInputTxt.Name = "TTIntInputTxt";
+            TTIntInputTxt.Size = new System.Drawing.Size(147, 22);
+            TTIntInputTxt.TabIndex = 0;
+            TTIntInputTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // TTIntOutputTxt
             // 
-            this.TTIntOutputTxt.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.TTIntOutputTxt.Location = new System.Drawing.Point(240, 285);
-            this.TTIntOutputTxt.Name = "TTIntOutputTxt";
-            this.TTIntOutputTxt.Size = new System.Drawing.Size(126, 22);
-            this.TTIntOutputTxt.TabIndex = 37;
-            this.TTIntOutputTxt.Text = "[0][0][0][0]";
-            this.TTIntOutputTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            TTIntOutputTxt.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TTIntOutputTxt.Location = new System.Drawing.Point(280, 329);
+            TTIntOutputTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TTIntOutputTxt.Name = "TTIntOutputTxt";
+            TTIntOutputTxt.Size = new System.Drawing.Size(146, 22);
+            TTIntOutputTxt.TabIndex = 37;
+            TTIntOutputTxt.Text = "[0][0][0][0]";
+            TTIntOutputTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // TTUShortOutputTxt
             // 
-            this.TTUShortOutputTxt.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TTUShortOutputTxt.Location = new System.Drawing.Point(240, 257);
-            this.TTUShortOutputTxt.Name = "TTUShortOutputTxt";
-            this.TTUShortOutputTxt.Size = new System.Drawing.Size(126, 22);
-            this.TTUShortOutputTxt.TabIndex = 38;
-            this.TTUShortOutputTxt.Text = "[0][0]";
-            this.TTUShortOutputTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            TTUShortOutputTxt.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TTUShortOutputTxt.Location = new System.Drawing.Point(280, 297);
+            TTUShortOutputTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TTUShortOutputTxt.Name = "TTUShortOutputTxt";
+            TTUShortOutputTxt.Size = new System.Drawing.Size(146, 22);
+            TTUShortOutputTxt.TabIndex = 38;
+            TTUShortOutputTxt.Text = "[0][0]";
+            TTUShortOutputTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // TTDecodeIntBtn
             // 
-            this.TTDecodeIntBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.TTDecodeIntBtn.Location = new System.Drawing.Point(372, 287);
-            this.TTDecodeIntBtn.Name = "TTDecodeIntBtn";
-            this.TTDecodeIntBtn.Size = new System.Drawing.Size(98, 20);
-            this.TTDecodeIntBtn.TabIndex = 34;
-            this.TTDecodeIntBtn.Text = "Decode Int32";
+            TTDecodeIntBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            TTDecodeIntBtn.Location = new System.Drawing.Point(434, 331);
+            TTDecodeIntBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TTDecodeIntBtn.Name = "TTDecodeIntBtn";
+            TTDecodeIntBtn.Size = new System.Drawing.Size(114, 23);
+            TTDecodeIntBtn.TabIndex = 34;
+            TTDecodeIntBtn.Text = "Decode Int32";
             // 
             // TTDecodeUShortBtn
             // 
-            this.TTDecodeUShortBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.TTDecodeUShortBtn.Location = new System.Drawing.Point(372, 259);
-            this.TTDecodeUShortBtn.Name = "TTDecodeUShortBtn";
-            this.TTDecodeUShortBtn.Size = new System.Drawing.Size(98, 20);
-            this.TTDecodeUShortBtn.TabIndex = 35;
-            this.TTDecodeUShortBtn.Text = "Decode UInt16";
+            TTDecodeUShortBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            TTDecodeUShortBtn.Location = new System.Drawing.Point(434, 299);
+            TTDecodeUShortBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TTDecodeUShortBtn.Name = "TTDecodeUShortBtn";
+            TTDecodeUShortBtn.Size = new System.Drawing.Size(114, 23);
+            TTDecodeUShortBtn.TabIndex = 35;
+            TTDecodeUShortBtn.Text = "Decode UInt16";
             // 
             // TTUShortInputTxt
             // 
-            this.TTUShortInputTxt.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.TTUShortInputTxt.Location = new System.Drawing.Point(108, 257);
-            this.TTUShortInputTxt.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.TTUShortInputTxt.Name = "TTUShortInputTxt";
-            this.TTUShortInputTxt.Size = new System.Drawing.Size(126, 22);
-            this.TTUShortInputTxt.TabIndex = 49;
-            this.TTUShortInputTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            TTUShortInputTxt.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TTUShortInputTxt.Location = new System.Drawing.Point(126, 297);
+            TTUShortInputTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TTUShortInputTxt.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+            TTUShortInputTxt.Name = "TTUShortInputTxt";
+            TTUShortInputTxt.Size = new System.Drawing.Size(147, 22);
+            TTUShortInputTxt.TabIndex = 49;
+            TTUShortInputTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // ModulesTab
             // 
-            this.ModulesTab.AllowDrop = true;
-            this.ModulesTab.Controls.Add(this.MTSeperator1);
-            this.ModulesTab.Controls.Add(this.sKoreLabelBox1);
-            this.ModulesTab.Controls.Add(this.MTResourceBtn);
-            this.ModulesTab.Controls.Add(this.MTHabboNameTxt);
-            this.ModulesTab.Controls.Add(this.MTHabboNameLbl);
-            this.ModulesTab.Controls.Add(this.MTAuthorsLbl);
-            this.ModulesTab.Controls.Add(this.MTAuthorsTxt);
-            this.ModulesTab.Controls.Add(this.MTUninstallModuleBtn);
-            this.ModulesTab.Controls.Add(this.MTInstallModuleBtn);
-            this.ModulesTab.Controls.Add(this.MTAuthorPctbx);
-            this.ModulesTab.Controls.Add(this.MTModulesVw);
-            this.ModulesTab.Location = new System.Drawing.Point(4, 28);
-            this.ModulesTab.Name = "ModulesTab";
-            this.ModulesTab.Padding = new System.Windows.Forms.Padding(3);
-            this.ModulesTab.Size = new System.Drawing.Size(476, 313);
-            this.ModulesTab.TabIndex = 1;
-            this.ModulesTab.Text = "Modules";
-            this.ModulesTab.UseVisualStyleBackColor = true;
+            ModulesTab.AllowDrop = true;
+            ModulesTab.Controls.Add(MTSeperator1);
+            ModulesTab.Controls.Add(sKoreLabelBox1);
+            ModulesTab.Controls.Add(MTResourceBtn);
+            ModulesTab.Controls.Add(MTHabboNameTxt);
+            ModulesTab.Controls.Add(MTHabboNameLbl);
+            ModulesTab.Controls.Add(MTAuthorsLbl);
+            ModulesTab.Controls.Add(MTAuthorsTxt);
+            ModulesTab.Controls.Add(MTUninstallModuleBtn);
+            ModulesTab.Controls.Add(MTInstallModuleBtn);
+            ModulesTab.Controls.Add(MTAuthorPctbx);
+            ModulesTab.Controls.Add(MTModulesVw);
+            ModulesTab.Location = new System.Drawing.Point(4, 28);
+            ModulesTab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ModulesTab.Name = "ModulesTab";
+            ModulesTab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ModulesTab.Size = new System.Drawing.Size(557, 370);
+            ModulesTab.TabIndex = 1;
+            ModulesTab.Text = "Modules";
+            ModulesTab.UseVisualStyleBackColor = true;
             // 
             // MTSeperator1
             // 
-            this.MTSeperator1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.MTSeperator1.Location = new System.Drawing.Point(77, 264);
-            this.MTSeperator1.Name = "MTSeperator1";
-            this.MTSeperator1.Size = new System.Drawing.Size(393, 1);
-            this.MTSeperator1.TabIndex = 17;
+            MTSeperator1.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            MTSeperator1.Location = new System.Drawing.Point(90, 305);
+            MTSeperator1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            MTSeperator1.Name = "MTSeperator1";
+            MTSeperator1.Size = new System.Drawing.Size(458, 1);
+            MTSeperator1.TabIndex = 17;
             // 
             // sKoreLabelBox1
             // 
-            this.sKoreLabelBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.sKoreLabelBox1.IsReadOnly = true;
-            this.sKoreLabelBox1.Location = new System.Drawing.Point(77, 268);
-            this.sKoreLabelBox1.Name = "sKoreLabelBox1";
-            this.sKoreLabelBox1.Size = new System.Drawing.Size(127, 20);
-            this.sKoreLabelBox1.TabIndex = 16;
-            this.sKoreLabelBox1.Text = "8055";
-            this.sKoreLabelBox1.TextPaddingWidth = 0;
-            this.sKoreLabelBox1.Title = "Install Port";
-            this.sKoreLabelBox1.Value = "8055";
-            this.sKoreLabelBox1.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.sKoreLabelBox1.ValueReadOnly = true;
+            sKoreLabelBox1.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            sKoreLabelBox1.IsReadOnly = true;
+            sKoreLabelBox1.Location = new System.Drawing.Point(90, 309);
+            sKoreLabelBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            sKoreLabelBox1.Name = "sKoreLabelBox1";
+            sKoreLabelBox1.Size = new System.Drawing.Size(148, 20);
+            sKoreLabelBox1.TabIndex = 16;
+            sKoreLabelBox1.Text = "8055";
+            sKoreLabelBox1.TextPaddingWidth = 0;
+            sKoreLabelBox1.Title = "Install Port";
+            sKoreLabelBox1.Value = "8055";
+            sKoreLabelBox1.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            sKoreLabelBox1.ValueReadOnly = true;
             // 
             // MTResourceBtn
             // 
-            this.MTResourceBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.MTResourceBtn.Enabled = false;
-            this.MTResourceBtn.Location = new System.Drawing.Point(343, 241);
-            this.MTResourceBtn.Name = "MTResourceBtn";
-            this.MTResourceBtn.Size = new System.Drawing.Size(127, 20);
-            this.MTResourceBtn.TabIndex = 13;
+            MTResourceBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            MTResourceBtn.Enabled = false;
+            MTResourceBtn.Location = new System.Drawing.Point(400, 278);
+            MTResourceBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MTResourceBtn.Name = "MTResourceBtn";
+            MTResourceBtn.Size = new System.Drawing.Size(148, 23);
+            MTResourceBtn.TabIndex = 13;
             // 
             // MTHabboNameTxt
             // 
-            this.MTHabboNameTxt.Location = new System.Drawing.Point(210, 241);
-            this.MTHabboNameTxt.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
-            this.MTHabboNameTxt.Name = "MTHabboNameTxt";
-            this.MTHabboNameTxt.ReadOnly = true;
-            this.MTHabboNameTxt.Size = new System.Drawing.Size(127, 20);
-            this.MTHabboNameTxt.TabIndex = 9;
-            this.MTHabboNameTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            MTHabboNameTxt.Location = new System.Drawing.Point(245, 278);
+            MTHabboNameTxt.Margin = new System.Windows.Forms.Padding(4, 5, 4, 3);
+            MTHabboNameTxt.Name = "MTHabboNameTxt";
+            MTHabboNameTxt.ReadOnly = true;
+            MTHabboNameTxt.Size = new System.Drawing.Size(148, 23);
+            MTHabboNameTxt.TabIndex = 9;
+            MTHabboNameTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // MTHabboNameLbl
             // 
-            this.MTHabboNameLbl.AutoSize = true;
-            this.MTHabboNameLbl.Location = new System.Drawing.Point(207, 224);
-            this.MTHabboNameLbl.Name = "MTHabboNameLbl";
-            this.MTHabboNameLbl.Size = new System.Drawing.Size(70, 13);
-            this.MTHabboNameLbl.TabIndex = 8;
-            this.MTHabboNameLbl.Text = "Habbo Name";
+            MTHabboNameLbl.AutoSize = true;
+            MTHabboNameLbl.Location = new System.Drawing.Point(241, 258);
+            MTHabboNameLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            MTHabboNameLbl.Name = "MTHabboNameLbl";
+            MTHabboNameLbl.Size = new System.Drawing.Size(78, 15);
+            MTHabboNameLbl.TabIndex = 8;
+            MTHabboNameLbl.Text = "Habbo Name";
             // 
             // MTAuthorsLbl
             // 
-            this.MTAuthorsLbl.AutoSize = true;
-            this.MTAuthorsLbl.Location = new System.Drawing.Point(74, 224);
-            this.MTAuthorsLbl.Name = "MTAuthorsLbl";
-            this.MTAuthorsLbl.Size = new System.Drawing.Size(49, 13);
-            this.MTAuthorsLbl.TabIndex = 7;
-            this.MTAuthorsLbl.Text = "Author(s)";
+            MTAuthorsLbl.AutoSize = true;
+            MTAuthorsLbl.Location = new System.Drawing.Point(86, 258);
+            MTAuthorsLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            MTAuthorsLbl.Name = "MTAuthorsLbl";
+            MTAuthorsLbl.Size = new System.Drawing.Size(57, 15);
+            MTAuthorsLbl.TabIndex = 7;
+            MTAuthorsLbl.Text = "Author(s)";
             // 
             // MTAuthorsTxt
             // 
-            this.MTAuthorsTxt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.MTAuthorsTxt.Enabled = false;
-            this.MTAuthorsTxt.FormattingEnabled = true;
-            this.MTAuthorsTxt.Location = new System.Drawing.Point(77, 240);
-            this.MTAuthorsTxt.Name = "MTAuthorsTxt";
-            this.MTAuthorsTxt.Size = new System.Drawing.Size(127, 21);
-            this.MTAuthorsTxt.TabIndex = 6;
+            MTAuthorsTxt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            MTAuthorsTxt.Enabled = false;
+            MTAuthorsTxt.FormattingEnabled = true;
+            MTAuthorsTxt.Location = new System.Drawing.Point(90, 277);
+            MTAuthorsTxt.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MTAuthorsTxt.Name = "MTAuthorsTxt";
+            MTAuthorsTxt.Size = new System.Drawing.Size(148, 23);
+            MTAuthorsTxt.TabIndex = 6;
             // 
             // MTUninstallModuleBtn
             // 
-            this.MTUninstallModuleBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.MTUninstallModuleBtn.Enabled = false;
-            this.MTUninstallModuleBtn.Location = new System.Drawing.Point(210, 268);
-            this.MTUninstallModuleBtn.Name = "MTUninstallModuleBtn";
-            this.MTUninstallModuleBtn.Size = new System.Drawing.Size(127, 20);
-            this.MTUninstallModuleBtn.TabIndex = 3;
-            this.MTUninstallModuleBtn.Text = "Uninstall Module";
+            MTUninstallModuleBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            MTUninstallModuleBtn.Enabled = false;
+            MTUninstallModuleBtn.Location = new System.Drawing.Point(245, 309);
+            MTUninstallModuleBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MTUninstallModuleBtn.Name = "MTUninstallModuleBtn";
+            MTUninstallModuleBtn.Size = new System.Drawing.Size(148, 23);
+            MTUninstallModuleBtn.TabIndex = 3;
+            MTUninstallModuleBtn.Text = "Uninstall Module";
             // 
             // MTInstallModuleBtn
             // 
-            this.MTInstallModuleBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.MTInstallModuleBtn.Location = new System.Drawing.Point(343, 268);
-            this.MTInstallModuleBtn.Name = "MTInstallModuleBtn";
-            this.MTInstallModuleBtn.Size = new System.Drawing.Size(127, 20);
-            this.MTInstallModuleBtn.TabIndex = 2;
-            this.MTInstallModuleBtn.Text = "Install Module";
+            MTInstallModuleBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            MTInstallModuleBtn.Location = new System.Drawing.Point(400, 309);
+            MTInstallModuleBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MTInstallModuleBtn.Name = "MTInstallModuleBtn";
+            MTInstallModuleBtn.Size = new System.Drawing.Size(148, 23);
+            MTInstallModuleBtn.TabIndex = 2;
+            MTInstallModuleBtn.Text = "Install Module";
             // 
             // MTAuthorPctbx
             // 
-            this.MTAuthorPctbx.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.MTAuthorPctbx.BackColor = System.Drawing.Color.Transparent;
-            this.MTAuthorPctbx.Enabled = false;
-            this.MTAuthorPctbx.ErrorImage = null;
-            this.MTAuthorPctbx.Image = ((System.Drawing.Image)(resources.GetObject("MTAuthorPctbx.Image")));
-            this.MTAuthorPctbx.InitialImage = null;
-            this.MTAuthorPctbx.Location = new System.Drawing.Point(6, 208);
-            this.MTAuthorPctbx.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.MTAuthorPctbx.Name = "MTAuthorPctbx";
-            this.MTAuthorPctbx.Size = new System.Drawing.Size(65, 102);
-            this.MTAuthorPctbx.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.MTAuthorPctbx.TabIndex = 1;
-            this.MTAuthorPctbx.TabStop = false;
+            MTAuthorPctbx.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            MTAuthorPctbx.BackColor = System.Drawing.Color.Transparent;
+            MTAuthorPctbx.Enabled = false;
+            MTAuthorPctbx.ErrorImage = null;
+            MTAuthorPctbx.Image = (System.Drawing.Image)resources.GetObject("MTAuthorPctbx.Image");
+            MTAuthorPctbx.InitialImage = null;
+            MTAuthorPctbx.Location = new System.Drawing.Point(7, 240);
+            MTAuthorPctbx.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            MTAuthorPctbx.Name = "MTAuthorPctbx";
+            MTAuthorPctbx.Size = new System.Drawing.Size(76, 118);
+            MTAuthorPctbx.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            MTAuthorPctbx.TabIndex = 1;
+            MTAuthorPctbx.TabStop = false;
             // 
             // MTModulesVw
             // 
-            this.MTModulesVw.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.MTNameCol,
-            this.MTDescriptionCol,
-            this.MTVersionCol,
-            this.MTStateCol});
-            this.MTModulesVw.FullRowSelect = true;
-            this.MTModulesVw.GridLines = true;
-            this.MTModulesVw.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.MTModulesVw.HideSelection = false;
-            this.MTModulesVw.Location = new System.Drawing.Point(6, 6);
-            this.MTModulesVw.MultiSelect = false;
-            this.MTModulesVw.Name = "MTModulesVw";
-            this.MTModulesVw.ShowItemToolTips = true;
-            this.MTModulesVw.Size = new System.Drawing.Size(464, 199);
-            this.MTModulesVw.TabIndex = 0;
-            this.MTModulesVw.UseCompatibleStateImageBehavior = false;
-            this.MTModulesVw.View = System.Windows.Forms.View.Details;
+            MTModulesVw.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { MTNameCol, MTDescriptionCol, MTVersionCol, MTStateCol });
+            MTModulesVw.FullRowSelect = true;
+            MTModulesVw.GridLines = true;
+            MTModulesVw.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            MTModulesVw.Location = new System.Drawing.Point(7, 7);
+            MTModulesVw.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MTModulesVw.MultiSelect = false;
+            MTModulesVw.Name = "MTModulesVw";
+            MTModulesVw.ShowItemToolTips = true;
+            MTModulesVw.Size = new System.Drawing.Size(541, 229);
+            MTModulesVw.TabIndex = 0;
+            MTModulesVw.UseCompatibleStateImageBehavior = false;
+            MTModulesVw.View = System.Windows.Forms.View.Details;
             // 
             // MTNameCol
             // 
-            this.MTNameCol.Text = "Name";
-            this.MTNameCol.Width = 98;
+            MTNameCol.Text = "Name";
+            MTNameCol.Width = 98;
             // 
             // MTDescriptionCol
             // 
-            this.MTDescriptionCol.Text = "Description";
-            this.MTDescriptionCol.Width = 215;
+            MTDescriptionCol.Text = "Description";
+            MTDescriptionCol.Width = 215;
             // 
             // MTVersionCol
             // 
-            this.MTVersionCol.Text = "Version";
-            this.MTVersionCol.Width = 68;
+            MTVersionCol.Text = "Version";
+            MTVersionCol.Width = 68;
             // 
             // MTStateCol
             // 
-            this.MTStateCol.Text = "State";
-            this.MTStateCol.Width = 68;
+            MTStateCol.Text = "State";
+            MTStateCol.Width = 68;
             // 
             // AboutTab
             // 
-            this.AboutTab.Controls.Add(this.Sellout2Btn);
-            this.AboutTab.Controls.Add(this.SelloutBtn);
-            this.AboutTab.Controls.Add(this.HarbleDiscordBtn);
-            this.AboutTab.Controls.Add(this.DonateBtn);
-            this.AboutTab.Controls.Add(this.SpeaqerBtn);
-            this.AboutTab.Controls.Add(this.SNGButton);
-            this.AboutTab.Controls.Add(this.DarkboxBtn);
-            this.AboutTab.Controls.Add(this.DarkStarBtn);
-            this.AboutTab.Controls.Add(this.ArachisBtn);
-            this.AboutTab.Location = new System.Drawing.Point(4, 28);
-            this.AboutTab.Name = "AboutTab";
-            this.AboutTab.Padding = new System.Windows.Forms.Padding(3);
-            this.AboutTab.Size = new System.Drawing.Size(476, 313);
-            this.AboutTab.TabIndex = 5;
-            this.AboutTab.Text = "About";
-            this.AboutTab.UseVisualStyleBackColor = true;
+            AboutTab.Controls.Add(Sellout2Btn);
+            AboutTab.Controls.Add(SelloutBtn);
+            AboutTab.Controls.Add(HarbleDiscordBtn);
+            AboutTab.Controls.Add(DonateBtn);
+            AboutTab.Controls.Add(SpeaqerBtn);
+            AboutTab.Controls.Add(SNGButton);
+            AboutTab.Controls.Add(DarkboxBtn);
+            AboutTab.Controls.Add(DarkStarBtn);
+            AboutTab.Controls.Add(ArachisBtn);
+            AboutTab.Location = new System.Drawing.Point(4, 28);
+            AboutTab.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            AboutTab.Name = "AboutTab";
+            AboutTab.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            AboutTab.Size = new System.Drawing.Size(557, 370);
+            AboutTab.TabIndex = 5;
+            AboutTab.Text = "About";
+            AboutTab.UseVisualStyleBackColor = true;
             // 
             // Sellout2Btn
             // 
-            this.Sellout2Btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.Sellout2Btn.Location = new System.Drawing.Point(95, 211);
-            this.Sellout2Btn.Name = "Sellout2Btn";
-            this.Sellout2Btn.Size = new System.Drawing.Size(286, 20);
-            this.Sellout2Btn.TabIndex = 16;
-            this.Sellout2Btn.Text = "HabboInterceptor | Niewiarowski\'s Packet Logger";
+            Sellout2Btn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            Sellout2Btn.Location = new System.Drawing.Point(111, 243);
+            Sellout2Btn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Sellout2Btn.Name = "Sellout2Btn";
+            Sellout2Btn.Size = new System.Drawing.Size(334, 23);
+            Sellout2Btn.TabIndex = 16;
+            Sellout2Btn.Text = "HabboInterceptor | Niewiarowski's Packet Logger";
             // 
             // SelloutBtn
             // 
-            this.SelloutBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.SelloutBtn.Location = new System.Drawing.Point(95, 185);
-            this.SelloutBtn.Name = "SelloutBtn";
-            this.SelloutBtn.Size = new System.Drawing.Size(286, 20);
-            this.SelloutBtn.TabIndex = 15;
-            this.SelloutBtn.Text = "G-Earth | Cross-Platform Packet Logger by sirjonasxx";
+            SelloutBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            SelloutBtn.Location = new System.Drawing.Point(111, 213);
+            SelloutBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            SelloutBtn.Name = "SelloutBtn";
+            SelloutBtn.Size = new System.Drawing.Size(334, 23);
+            SelloutBtn.TabIndex = 15;
+            SelloutBtn.Text = "G-Earth | Cross-Platform Packet Logger by sirjonasxx";
             // 
             // HarbleDiscordBtn
             // 
-            this.HarbleDiscordBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(137)))), ((int)(((byte)(218)))));
-            this.HarbleDiscordBtn.Location = new System.Drawing.Point(127, 159);
-            this.HarbleDiscordBtn.Name = "HarbleDiscordBtn";
-            this.HarbleDiscordBtn.Size = new System.Drawing.Size(223, 20);
-            this.HarbleDiscordBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(137)))), ((int)(((byte)(218)))));
-            this.HarbleDiscordBtn.TabIndex = 14;
-            this.HarbleDiscordBtn.Text = "Join our Discord! - Elbrah";
+            HarbleDiscordBtn.BackColor = System.Drawing.Color.FromArgb(114, 137, 218);
+            HarbleDiscordBtn.Location = new System.Drawing.Point(148, 183);
+            HarbleDiscordBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            HarbleDiscordBtn.Name = "HarbleDiscordBtn";
+            HarbleDiscordBtn.Size = new System.Drawing.Size(260, 23);
+            HarbleDiscordBtn.Skin = System.Drawing.Color.FromArgb(114, 137, 218);
+            HarbleDiscordBtn.TabIndex = 14;
+            HarbleDiscordBtn.Text = "Join our Discord! - Elbrah";
             // 
             // DonateBtn
             // 
-            this.DonateBtn.BackColor = System.Drawing.Color.Green;
-            this.DonateBtn.Location = new System.Drawing.Point(233, 81);
-            this.DonateBtn.Name = "DonateBtn";
-            this.DonateBtn.Size = new System.Drawing.Size(117, 20);
-            this.DonateBtn.Skin = System.Drawing.Color.Green;
-            this.DonateBtn.TabIndex = 13;
-            this.DonateBtn.Text = "Donate";
+            DonateBtn.BackColor = System.Drawing.Color.Green;
+            DonateBtn.Location = new System.Drawing.Point(272, 93);
+            DonateBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            DonateBtn.Name = "DonateBtn";
+            DonateBtn.Size = new System.Drawing.Size(136, 23);
+            DonateBtn.Skin = System.Drawing.Color.Green;
+            DonateBtn.TabIndex = 13;
+            DonateBtn.Text = "Donate";
             // 
             // SpeaqerBtn
             // 
-            this.SpeaqerBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
-            this.SpeaqerBtn.Location = new System.Drawing.Point(127, 133);
-            this.SpeaqerBtn.Name = "SpeaqerBtn";
-            this.SpeaqerBtn.Size = new System.Drawing.Size(100, 20);
-            this.SpeaqerBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
-            this.SpeaqerBtn.TabIndex = 8;
-            this.SpeaqerBtn.Text = "@SpeaqerDev";
+            SpeaqerBtn.BackColor = System.Drawing.Color.FromArgb(50, 106, 218);
+            SpeaqerBtn.Location = new System.Drawing.Point(148, 153);
+            SpeaqerBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            SpeaqerBtn.Name = "SpeaqerBtn";
+            SpeaqerBtn.Size = new System.Drawing.Size(117, 23);
+            SpeaqerBtn.Skin = System.Drawing.Color.FromArgb(50, 106, 218);
+            SpeaqerBtn.TabIndex = 8;
+            SpeaqerBtn.Text = "@SpeaqerDev";
             // 
             // SNGButton
             // 
-            this.SNGButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.SNGButton.Location = new System.Drawing.Point(233, 133);
-            this.SNGButton.Name = "SNGButton";
-            this.SNGButton.Size = new System.Drawing.Size(117, 20);
-            this.SNGButton.TabIndex = 6;
-            this.SNGButton.Text = "SnGForum.info";
+            SNGButton.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            SNGButton.Location = new System.Drawing.Point(272, 153);
+            SNGButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            SNGButton.Name = "SNGButton";
+            SNGButton.Size = new System.Drawing.Size(136, 23);
+            SNGButton.TabIndex = 6;
+            SNGButton.Text = "SnGForum.info";
             // 
             // DarkboxBtn
             // 
-            this.DarkboxBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.DarkboxBtn.Location = new System.Drawing.Point(233, 107);
-            this.DarkboxBtn.Name = "DarkboxBtn";
-            this.DarkboxBtn.Size = new System.Drawing.Size(117, 20);
-            this.DarkboxBtn.TabIndex = 5;
-            this.DarkboxBtn.Text = "Darkbox.nl";
+            DarkboxBtn.BackColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            DarkboxBtn.Location = new System.Drawing.Point(272, 123);
+            DarkboxBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            DarkboxBtn.Name = "DarkboxBtn";
+            DarkboxBtn.Size = new System.Drawing.Size(136, 23);
+            DarkboxBtn.TabIndex = 5;
+            DarkboxBtn.Text = "Darkbox.nl";
             // 
             // DarkStarBtn
             // 
-            this.DarkStarBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
-            this.DarkStarBtn.Location = new System.Drawing.Point(127, 107);
-            this.DarkStarBtn.Name = "DarkStarBtn";
-            this.DarkStarBtn.Size = new System.Drawing.Size(100, 20);
-            this.DarkStarBtn.Skin = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(106)))), ((int)(((byte)(218)))));
-            this.DarkStarBtn.TabIndex = 2;
-            this.DarkStarBtn.Text = "@DarkStar851";
+            DarkStarBtn.BackColor = System.Drawing.Color.FromArgb(50, 106, 218);
+            DarkStarBtn.Location = new System.Drawing.Point(148, 123);
+            DarkStarBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            DarkStarBtn.Name = "DarkStarBtn";
+            DarkStarBtn.Size = new System.Drawing.Size(117, 23);
+            DarkStarBtn.Skin = System.Drawing.Color.FromArgb(50, 106, 218);
+            DarkStarBtn.TabIndex = 2;
+            DarkStarBtn.Text = "@DarkStar851";
             // 
             // ArachisBtn
             // 
-            this.ArachisBtn.BackColor = System.Drawing.Color.Purple;
-            this.ArachisBtn.Location = new System.Drawing.Point(127, 81);
-            this.ArachisBtn.Name = "ArachisBtn";
-            this.ArachisBtn.Size = new System.Drawing.Size(100, 20);
-            this.ArachisBtn.Skin = System.Drawing.Color.Purple;
-            this.ArachisBtn.TabIndex = 1;
-            this.ArachisBtn.Text = "@ArachisH";
+            ArachisBtn.BackColor = System.Drawing.Color.Purple;
+            ArachisBtn.Location = new System.Drawing.Point(148, 93);
+            ArachisBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            ArachisBtn.Name = "ArachisBtn";
+            ArachisBtn.Size = new System.Drawing.Size(117, 23);
+            ArachisBtn.Skin = System.Drawing.Color.Purple;
+            ArachisBtn.TabIndex = 1;
+            ArachisBtn.Text = "@ArachisH";
             // 
             // InjectionMenu
             // 
-            this.InjectionMenu.InputBox = null;
-            this.InjectionMenu.Name = "InjectionMenu";
-            this.InjectionMenu.Size = new System.Drawing.Size(174, 170);
+            InjectionMenu.InputBox = null;
+            InjectionMenu.Name = "InjectionMenu";
+            InjectionMenu.Size = new System.Drawing.Size(174, 170);
             // 
             // SavePacketDlg
             // 
-            this.SavePacketDlg.DefaultExt = "pkt";
-            this.SavePacketDlg.Filter = "Packet (*.pkt)|*.pkt";
-            this.SavePacketDlg.Title = "Tanji ~ Save Packet";
+            SavePacketDlg.DefaultExt = "pkt";
+            SavePacketDlg.Filter = "Packet (*.pkt)|*.pkt";
+            SavePacketDlg.Title = "Tanji ~ Save Packet";
             // 
             // TanjiVersionTxt
             // 
-            this.TanjiVersionTxt.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.TanjiVersionTxt.IsLink = true;
-            this.TanjiVersionTxt.LinkColor = System.Drawing.SystemColors.HotTrack;
-            this.TanjiVersionTxt.Name = "TanjiVersionTxt";
-            this.TanjiVersionTxt.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.TanjiVersionTxt.Size = new System.Drawing.Size(51, 19);
-            this.TanjiVersionTxt.Text = "v0.0.0";
-            this.TanjiVersionTxt.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
+            TanjiVersionTxt.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            TanjiVersionTxt.IsLink = true;
+            TanjiVersionTxt.LinkColor = System.Drawing.SystemColors.HotTrack;
+            TanjiVersionTxt.Name = "TanjiVersionTxt";
+            TanjiVersionTxt.Padding = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            TanjiVersionTxt.Size = new System.Drawing.Size(51, 19);
+            TanjiVersionTxt.Text = "v0.0.0";
+            TanjiVersionTxt.VisitedLinkColor = System.Drawing.Color.FromArgb(243, 63, 63);
             // 
             // SchedulesTxt
             // 
-            this.SchedulesTxt.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.SchedulesTxt.Name = "SchedulesTxt";
-            this.SchedulesTxt.Size = new System.Drawing.Size(87, 19);
-            this.SchedulesTxt.Text = "Schedules: 0/0";
+            SchedulesTxt.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            SchedulesTxt.Name = "SchedulesTxt";
+            SchedulesTxt.Size = new System.Drawing.Size(87, 19);
+            SchedulesTxt.Text = "Schedules: 0/0";
             // 
             // FiltersTxt
             // 
-            this.FiltersTxt.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.FiltersTxt.Name = "FiltersTxt";
-            this.FiltersTxt.Size = new System.Drawing.Size(65, 19);
-            this.FiltersTxt.Text = "Filters: 0/0";
+            FiltersTxt.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            FiltersTxt.Name = "FiltersTxt";
+            FiltersTxt.Size = new System.Drawing.Size(65, 19);
+            FiltersTxt.Text = "Filters: 0/0";
             // 
             // ModulesTxt
             // 
-            this.ModulesTxt.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.ModulesTxt.Name = "ModulesTxt";
-            this.ModulesTxt.Size = new System.Drawing.Size(80, 19);
-            this.ModulesTxt.Text = "Modules: 0/0";
+            ModulesTxt.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            ModulesTxt.Name = "ModulesTxt";
+            ModulesTxt.Size = new System.Drawing.Size(80, 19);
+            ModulesTxt.Text = "Modules: 0/0";
             // 
             // TanjiInfoTxt
             // 
-            this.TanjiInfoTxt.IsLink = true;
-            this.TanjiInfoTxt.LinkColor = System.Drawing.SystemColors.HotTrack;
-            this.TanjiInfoTxt.Name = "TanjiInfoTxt";
-            this.TanjiInfoTxt.Size = new System.Drawing.Size(186, 19);
-            this.TanjiInfoTxt.Spring = true;
-            this.TanjiInfoTxt.Text = "Github - ArachisH/Tanji";
-            this.TanjiInfoTxt.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(63)))), ((int)(((byte)(63)))));
-            this.TanjiInfoTxt.Click += new System.EventHandler(this.TanjiInfoTxt_Click);
+            TanjiInfoTxt.IsLink = true;
+            TanjiInfoTxt.LinkColor = System.Drawing.SystemColors.HotTrack;
+            TanjiInfoTxt.Name = "TanjiInfoTxt";
+            TanjiInfoTxt.Size = new System.Drawing.Size(265, 19);
+            TanjiInfoTxt.Spring = true;
+            TanjiInfoTxt.Text = "Github - ArachisH/Tanji";
+            TanjiInfoTxt.VisitedLinkColor = System.Drawing.Color.FromArgb(243, 63, 63);
+            TanjiInfoTxt.Click += TanjiInfoTxt_Click;
             // 
             // TanjiStrip
             // 
-            this.TanjiStrip.AllowMerge = false;
-            this.TanjiStrip.BackColor = System.Drawing.Color.White;
-            this.TanjiStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TanjiVersionTxt,
-            this.SchedulesTxt,
-            this.FiltersTxt,
-            this.ModulesTxt,
-            this.TanjiInfoTxt});
-            this.TanjiStrip.Location = new System.Drawing.Point(0, 345);
-            this.TanjiStrip.Name = "TanjiStrip";
-            this.TanjiStrip.Size = new System.Drawing.Size(484, 24);
-            this.TanjiStrip.SizingGrip = false;
-            this.TanjiStrip.TabIndex = 5;
-            this.TanjiStrip.Text = "TanjiStrip";
+            TanjiStrip.AllowMerge = false;
+            TanjiStrip.BackColor = System.Drawing.Color.White;
+            TanjiStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { TanjiVersionTxt, SchedulesTxt, FiltersTxt, ModulesTxt, TanjiInfoTxt });
+            TanjiStrip.Location = new System.Drawing.Point(0, 402);
+            TanjiStrip.Name = "TanjiStrip";
+            TanjiStrip.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
+            TanjiStrip.Size = new System.Drawing.Size(565, 24);
+            TanjiStrip.SizingGrip = false;
+            TanjiStrip.TabIndex = 5;
+            TanjiStrip.Text = "TanjiStrip";
             // 
             // MainFrm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(484, 369);
-            this.Controls.Add(this.TanjiTabs);
-            this.Controls.Add(this.TanjiStrip);
-            this.MaximizeBox = false;
-            this.Name = "MainFrm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Tanji ~ Disconnected";
-            this.TopMost = true;
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainFrm_FormClosed);
-            this.Load += new System.EventHandler(this.MainFrm_Load);
-            this.TanjiTabs.ResumeLayout(false);
-            this.ConnectionTab.ResumeLayout(false);
-            this.InjectionTab.ResumeLayout(false);
-            this.InjectionTabs.ResumeLayout(false);
-            this.ConstructerTab.ResumeLayout(false);
-            this.ConstructerTab.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CTHeaderTxt)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CTAmountTxt)).EndInit();
-            this.SchedulerTab.ResumeLayout(false);
-            this.SchedulerTab.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.STCyclesTxt)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.STIntervalTxt)).EndInit();
-            this.PrimitiveTab.ResumeLayout(false);
-            this.PrimitiveTab.PerformLayout();
-            this.FiltersTab.ResumeLayout(false);
-            this.FiltersTab.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.FTHeaderTxt)).EndInit();
-            this.ToolboxTab.ResumeLayout(false);
-            this.ToolboxTab.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.TTIntInputTxt)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TTUShortInputTxt)).EndInit();
-            this.ModulesTab.ResumeLayout(false);
-            this.ModulesTab.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MTAuthorPctbx)).EndInit();
-            this.AboutTab.ResumeLayout(false);
-            this.TanjiStrip.ResumeLayout(false);
-            this.TanjiStrip.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            BackColor = System.Drawing.Color.White;
+            ClientSize = new System.Drawing.Size(565, 426);
+            Controls.Add(TanjiTabs);
+            Controls.Add(TanjiStrip);
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            Name = "MainFrm";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            Text = "Tanji ~ Disconnected";
+            TopMost = true;
+            FormClosed += MainFrm_FormClosed;
+            Load += MainFrm_Load;
+            TanjiTabs.ResumeLayout(false);
+            ConnectionTab.ResumeLayout(false);
+            InjectionTab.ResumeLayout(false);
+            InjectionTabs.ResumeLayout(false);
+            ConstructerTab.ResumeLayout(false);
+            ConstructerTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)CTHeaderTxt).EndInit();
+            ((System.ComponentModel.ISupportInitialize)CTAmountTxt).EndInit();
+            SchedulerTab.ResumeLayout(false);
+            SchedulerTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)STCyclesTxt).EndInit();
+            ((System.ComponentModel.ISupportInitialize)STIntervalTxt).EndInit();
+            PrimitiveTab.ResumeLayout(false);
+            PrimitiveTab.PerformLayout();
+            FiltersTab.ResumeLayout(false);
+            FiltersTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)FTHeaderTxt).EndInit();
+            ToolboxTab.ResumeLayout(false);
+            ToolboxTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)TTIntInputTxt).EndInit();
+            ((System.ComponentModel.ISupportInitialize)TTUShortInputTxt).EndInit();
+            ModulesTab.ResumeLayout(false);
+            ModulesTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)MTAuthorPctbx).EndInit();
+            AboutTab.ResumeLayout(false);
+            TanjiStrip.ResumeLayout(false);
+            TanjiStrip.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
