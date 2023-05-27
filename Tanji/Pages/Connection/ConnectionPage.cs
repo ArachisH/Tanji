@@ -232,11 +232,6 @@ public class ConnectionPage : TanjiPage, IReceiver
         }
         if (!File.Exists(clientPath))
         {
-            if (e.Request is HttpWebRequest httpRequest)
-            {
-                e.Request = TrimQuery(httpRequest);
-                _swfUri = e.Request.RequestUri;
-            }
             Status = INTERCEPTING_CLIENT;
             Eavesdropper.ResponseInterceptedAsync += InterceptGameClientAsync;
         }
@@ -483,51 +478,6 @@ public class ConnectionPage : TanjiPage, IReceiver
             return Eavesdropper.Certifier.DestroyCertificates();
         }
         return true;
-    }
-    private WebRequest TrimQuery(HttpWebRequest request)
-    {
-        if (string.IsNullOrWhiteSpace(request.RequestUri.Query)) return request;
-
-        HttpWebRequest trimmedRequest = WebRequest.CreateHttp(request.RequestUri.GetLeftPart(UriPartial.Path));
-        trimmedRequest.ProtocolVersion = request.ProtocolVersion;
-        trimmedRequest.CookieContainer = request.CookieContainer;
-        trimmedRequest.AllowAutoRedirect = request.AllowAutoRedirect;
-        trimmedRequest.KeepAlive = request.KeepAlive;
-        trimmedRequest.Method = request.Method;
-        trimmedRequest.Proxy = request.Proxy;
-
-        trimmedRequest.Host = request.Host;
-        trimmedRequest.Accept = request.Accept;
-        trimmedRequest.Referer = request.Referer;
-        trimmedRequest.UserAgent = request.UserAgent;
-        trimmedRequest.ContentType = request.ContentType;
-        trimmedRequest.IfModifiedSince = request.IfModifiedSince;
-
-        if (request.ContentLength > 0)
-        {
-            trimmedRequest.ContentLength = request.ContentLength;
-        }
-        foreach (string header in request.Headers.Keys)
-        {
-            switch (header.ToLower())
-            {
-                case "range":
-                case "expect":
-                case "host":
-                case "accept":
-                case "cookie":
-                case "referer":
-                case "keep-alive":
-                case "connection":
-                case "user-agent":
-                case "content-type":
-                case "content-length":
-                case "proxy-connection":
-                case "if-modified-since": break;
-                default: trimmedRequest.Headers[header] = request.Headers[header]; break;
-            }
-        }
-        return trimmedRequest;
     }
     private int GetSWFStartIndex(string body, int index = 0)
     {
