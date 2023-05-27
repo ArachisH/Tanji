@@ -55,7 +55,7 @@ namespace Tanji
             if (EnsureManualWinHttpAutoProxySvcStartup() == ServiceControllerStatus.Running)
             {
                 Eavesdropper.Certifier = new Certifier("Tanji", "Tanji Certificate Authority");
-                Eavesdropper.Overrides.AddRange(((string)Settings["ProxyOverrides"]).Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+                Eavesdropper.Targets.AddRange(((string)Settings["ProxyOverrides"]).Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
                 Eavesdropper.Terminate();
 
                 Application.EnableVisualStyles();

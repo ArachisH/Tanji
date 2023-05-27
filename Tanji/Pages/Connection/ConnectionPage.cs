@@ -255,7 +255,9 @@ public class ConnectionPage : TanjiPage, IReceiver
             else TerminateProxy();
 
             Task interceptConnectionTask = InterceptConnectionAsync();
-            e.Request = WebRequest.Create(new Uri(clientPath));
+
+            e.Response = new HttpResponseMessage(HttpStatusCode.OK);
+            e.Response.Content = new StreamContent(File.OpenRead(clientPath));
         }
         return null;
     }
@@ -264,22 +266,19 @@ public class ConnectionPage : TanjiPage, IReceiver
         string absoluteUri = e.Uri.AbsoluteUri;
         if (_variableReplacements.TryGetValue(absoluteUri, out string replacementUrl))
         {
-            var httpResponse = (HttpWebResponse)e.Response;
-            if (httpResponse.StatusCode == HttpStatusCode.TemporaryRedirect)
+            if (e.StatusCode == HttpStatusCode.TemporaryRedirect)
             {
                 _variableReplacements.Remove(absoluteUri);
 
-                absoluteUri = httpResponse.Headers[HttpResponseHeader.Location];
+                absoluteUri = e.Headers.Location.AbsoluteUri;
                 _variableReplacements[absoluteUri] = replacementUrl;
                 return;
             }
 
             if (replacementUrl.StartsWith("http"))
             {
-                using (var webClient = new WebClient())
-                {
-                    e.Content = new ByteArrayContent(await webClient.DownloadDataTaskAsync(replacementUrl).ConfigureAwait(false));
-                }
+                using var webClient = new WebClient();
+                e.Content = new ByteArrayContent(await webClient.DownloadDataTaskAsync(replacementUrl).ConfigureAwait(false));
             }
             else e.Content = new ByteArrayContent(File.ReadAllBytes(replacementUrl));
 
@@ -294,7 +293,7 @@ public class ConnectionPage : TanjiPage, IReceiver
     private async Task InterceptGameClientAsync(object sender, ResponseInterceptedEventArgs e)
     {
         if (e.Request.RequestUri != _swfUri) return;
-        if (e.ContentType != "application/x-shockwave-flash") return;
+        if (e.Content.Headers.ContentType.MediaType != "application/x-shockwave-flash") return;
         Eavesdropper.ResponseInterceptedAsync -= InterceptGameClientAsync;
 
         string clientPath = Path.GetFullPath($"Modified Clients/{e.Uri.Host}{e.Uri.LocalPath}");
@@ -325,9 +324,6 @@ public class ConnectionPage : TanjiPage, IReceiver
 #endif
         Status = ASSEMBLING_CLIENT;
         byte[] payload = UI.Game.ToArray(compression);
-        e.Headers[HttpResponseHeader.ContentLength] = payload.Length.ToString();
-
-        e.Content = new ByteArrayContent(payload);
         using (var clientStream = File.Open(clientPath, FileMode.Create, FileAccess.Write))
         {
             clientStream.Write(payload, 0, payload.Length);
@@ -338,13 +334,15 @@ public class ConnectionPage : TanjiPage, IReceiver
             Eavesdropper.ResponseInterceptedAsync += ReplaceResourcesAsync;
         }
         else TerminateProxy();
+
+        e.Content = new ByteArrayContent(payload);
         Task interceptConnectionTask = InterceptConnectionAsync();
     }
     private async Task InterceptClientPageAsync(object sender, ResponseInterceptedEventArgs e)
     {
         if (e.Content == null) return;
 
-        string contentType = e.ContentType.ToLower();
+        string contentType = e.Content.Headers.ContentType.MediaType;
         if (!contentType.Contains("text") && !contentType.Contains("javascript")) return;
 
         int triggerSumIndices = 0;
@@ -400,7 +398,6 @@ public class ConnectionPage : TanjiPage, IReceiver
             byte[] payload = Encoding.UTF8.GetBytes(body);
 
             e.Content = new ByteArrayContent(payload);
-            e.Headers[HttpResponseHeader.ContentLength] = payload.Length.ToString();
         }
         Status = INJECTING_CLIENT;
         Eavesdropper.RequestInterceptedAsync += InjectGameClientAsync;
