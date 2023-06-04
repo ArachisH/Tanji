@@ -28,6 +28,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Hypo.Flazzy" Version="0.1.0" />
 		<PackageReference Include="Octokit" Version="6.0.0" />
 		<PackageReference Include="Eavesdrop" Version="1.1.0" />
 		<PackageReference Include="System.ServiceProcess.ServiceController" Version="7.0.0" />
@@ -89,26 +90,26 @@
 			<DependentUpon>Resources.resx</DependentUpon>
 			<DesignTime>True</DesignTime>
 		</Compile>
-		
+
 		<None Include="Hashes.ini">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		
+
 		<None Include="Properties\Settings.settings">
 			<Generator>SettingsSingleFileGenerator</Generator>
 			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
 		</None>
-		
+
 		<Compile Update="Properties\Settings.Designer.cs">
 			<AutoGen>True</AutoGen>
 			<DependentUpon>Settings.settings</DependentUpon>
 			<DesignTimeSharedInput>True</DesignTimeSharedInput>
 		</Compile>
-		
+
 		<None Include="Settings.ini">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		
+
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="Resources\Tanji_256.ico" />

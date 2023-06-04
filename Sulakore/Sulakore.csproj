@@ -22,10 +22,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Submodules\Flazzy\Flazzy\Flazzy.csproj" />
+		<Folder Include="Properties\" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Properties\" />
+		<PackageReference Include="Hypo.Flazzy" Version="0.1.0" />
 	</ItemGroup>
 </Project>
