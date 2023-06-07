@@ -5,9 +5,7 @@ using System.Runtime.CompilerServices;
 
 using Tanji.Properties;
 
-using Tanji.Controls;
-
-namespace Tanji.Components
+namespace Tanji.Controls
 {
     [ToolboxItem(false)]
     [DesignerCategory("Code")]
@@ -51,7 +49,7 @@ namespace Tanji.Components
         {
             component.DataBindings.Add(propertyName, this, dataMember, false, DataSourceUpdateMode.OnPropertyChanged);
         }
-        protected void RaiseOnPropertyChanged([CallerMemberName]string propertyName = "")
+        protected void RaiseOnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
         }

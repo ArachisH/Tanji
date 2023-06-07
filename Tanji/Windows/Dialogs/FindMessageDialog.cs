@@ -3,10 +3,9 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
 
-using Tanji.Components;
-
 using Sulakore.Habbo;
 using Sulakore.Habbo.Messages;
+using Tanji.Controls;
 
 namespace Tanji.Windows.Dialogs
 {

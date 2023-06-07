@@ -4,8 +4,6 @@ using System.Threading;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
-
-using Tanji.Components;
 using Tanji.Manipulators;
 using Tanji.Windows.Dialogs;
 
@@ -13,6 +11,7 @@ using Sulakore.Habbo;
 using Sulakore.Protocol;
 using Sulakore.Communication;
 using Sulakore.Habbo.Messages;
+using Tanji.Controls;
 
 namespace Tanji.Windows
 {

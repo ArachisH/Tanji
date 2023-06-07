@@ -3,8 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
-
-using Tanji.Components;
+using Tanji.Controls;
 
 namespace Tanji.Windows.Dialogs
 {

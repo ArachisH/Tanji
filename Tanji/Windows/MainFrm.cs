@@ -11,7 +11,6 @@ using System.Runtime.InteropServices;
 using Tanji.Network;
 using Tanji.Utilities;
 using Tanji.Properties;
-using Tanji.Components;
 using Tanji.Pages.About;
 using Tanji.Manipulators;
 using Tanji.Pages.Modules;
@@ -28,6 +27,7 @@ using Sulakore.Habbo.Messages;
 
 using Eavesdrop;
 using Tangine;
+using Tanji.Controls;
 
 namespace Tanji.Windows
 {
