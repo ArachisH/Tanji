@@ -1,180 +1,25 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
-using System.Diagnostics;
 using System.Configuration;
 using System.Windows.Forms;
-using System.ServiceProcess;
-using System.Security.Principal;
-
-using Microsoft.Win32;
 
 using Tanji.Windows;
 
 using Tanji.Core.Services;
 
-using Eavesdrop;
+namespace Tanji;
 
-using Sulakore.Habbo;
-
-using Flazzy;
-using Flazzy.IO;
-
-namespace Tanji
+public static class Program
 {
-    public static class Program
+    public static bool IsParentProcess { get; private set; }
+    public static bool HasAdminPrivileges { get; private set; }
+    public static ConfigurationService Configuration { get; private set; }
+
+    [STAThread]
+    private static void Main(string[] args)
     {
-        public static bool IsParentProcess { get; private set; }
-        public static bool HasAdminPrivileges { get; private set; }
-        public static ConfigurationService Configuration { get; private set; }
+        Configuration = new ConfigurationService(ConfigurationManager.AppSettings);
 
-        [STAThread]
-        private static int Main(string[] args)
-        {
-            using (var identity = WindowsIdentity.GetCurrent())
-            {
-                HasAdminPrivileges = new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator);
-            }
-
-            Configuration = new ConfigurationService(ConfigurationManager.AppSettings);
-            AppDomain.CurrentDomain.UnhandledException += UnhandledException;
-
-            if (args.Length > 0)
-            {
-                switch (args[0].Substring(args[0].Length - 3))
-                {
-                    case "dcs": DestroyCertificates(); break;
-                    case "ica": InstallCertificateAuthority(); break;
-                    case "ems": return (int)EnsureManualWinHttpAutoProxySvcStartup();
-                    case "swf": PatchClient(new FileInfo(Path.GetFullPath(args[0]))); break;
-                }
-                return 0;
-            }
-
-            IsParentProcess = true;
-            if (EnsureManualWinHttpAutoProxySvcStartup() == ServiceControllerStatus.Running)
-            {
-                Eavesdropper.Certifier = new Certifier("Tanji", "Tanji Certificate Authority");
-                Eavesdropper.Targets.AddRange(Configuration.ProxyOverrides);
-                Eavesdropper.Terminate();
-
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new MainFrm());
-            }
-            return 1;
-        }
-
-        private static void DestroyCertificates()
-        {
-            var tanjiCertificateManager = new Certifier("Tanji", "Tanji Certificate Authority");
-            bool destroyedCertificates = tanjiCertificateManager.DestroyCertificates();
-            Console.WriteLine("Tanji Generated Certificates Destroyed: " + destroyedCertificates);
-        }
-        private static void InstallCertificateAuthority()
-        {
-            var tanjiCertificateManager = new Certifier("Tanji", "Tanji Certificate Authority");
-            bool installedRootCA = tanjiCertificateManager.CreateTrustedRootCertificate();
-            Console.WriteLine("Tanji Certificate Authority Installed: " + installedRootCA);
-        }
-        private static bool PatchClient(FileInfo clientInfo)
-        {
-            using (var game = new HGame(clientInfo.FullName))
-            {
-                game.Disassemble();
-                bool disabledHostChecks = game.DisableHostChecks();
-                bool injectedKeyShouter = game.InjectKeyShouter(4001);
-                bool injectedEndPointShouter = game.InjectEndPointShouter(4000);
-                bool injectedEndPoint = game.InjectEndPoint("127.0.0.1", Configuration.GameListenPort);
-
-                string moddedClientPath = Path.Combine(clientInfo.DirectoryName, "MOD_" + clientInfo.Name);
-                using (var fileOutput = File.Open(moddedClientPath, FileMode.Create))
-                using (var output = new FlashWriter(fileOutput))
-                {
-                    game.Assemble(output, CompressionKind.ZLib);
-                }
-                MessageBox.Show($"File has been modified/re-assembled successfully at '{moddedClientPath}'.", "Tanji - Alert!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                return disabledHostChecks && injectedKeyShouter && injectedEndPointShouter && injectedEndPoint;
-            }
-        }
-
-        public static int RunTanjiAsAdmin(string argument)
-        {
-            using (var proc = new Process())
-            {
-                proc.StartInfo.FileName = Path.GetFullPath("Tanji.exe");
-                proc.StartInfo.UseShellExecute = true;
-                proc.StartInfo.Verb = "runas";
-                proc.StartInfo.Arguments = argument;
-
-                proc.Start();
-                proc.WaitForExit();
-                return proc.ExitCode;
-            }
-        }
-
-        private static ServiceControllerStatus EnsureManualWinHttpAutoProxySvcStartup()
-        {
-            using (var controller = ServiceController.GetServices().FirstOrDefault(sc => sc.ServiceName == "WinHttpAutoProxySvc"))
-            {
-                ServiceControllerStatus status = controller?.Status ?? ServiceControllerStatus.Stopped;
-                if (status == ServiceControllerStatus.Running) return status;
-
-                if (HasAdminPrivileges)
-                {
-                    using (RegistryKey winHttpAutoProxySvcKey = Registry.LocalMachine.CreateSubKey(@"System\CurrentControlSet\Services\WinHttpAutoProxySvc", true))
-                    {
-                        if (winHttpAutoProxySvcKey.GetValue("Start") == null && controller == null)
-                        {
-                            winHttpAutoProxySvcKey.SetValue("DependOnService", new string[] { "Dhcp" }, RegistryValueKind.MultiString);
-                            winHttpAutoProxySvcKey.SetValue("Description", @"@%SystemRoot%\system32\winhttp.dll,-101", RegistryValueKind.String);
-                            winHttpAutoProxySvcKey.SetValue("DisplayName", @"@%SystemRoot%\system32\winhttp.dll,-100", RegistryValueKind.String);
-                            winHttpAutoProxySvcKey.SetValue("ErrorControl", 1, RegistryValueKind.DWord);
-                            winHttpAutoProxySvcKey.SetValue("FailureActions", new byte[] { 0, 92, 38, 5, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 20, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, RegistryValueKind.Binary);
-                            winHttpAutoProxySvcKey.SetValue("ImagePath", @"%SystemRoot%\system32\svchost.exe -k LocalService", RegistryValueKind.ExpandString);
-                            winHttpAutoProxySvcKey.SetValue("ObjectName", @"NT AUTHORITY\LocalService", RegistryValueKind.String);
-                            winHttpAutoProxySvcKey.SetValue("RequiredPrivileges", new string[] { "SeChangeNotifyPrivilege", "SeCreateGlobalPrivilege", "SeImpersonatePrivilege" }, RegistryValueKind.MultiString);
-                            winHttpAutoProxySvcKey.SetValue("ServiceSidType", 1, RegistryValueKind.DWord);
-                            winHttpAutoProxySvcKey.SetValue("Type", 32, RegistryValueKind.DWord);
-
-                            using (RegistryKey parameters = winHttpAutoProxySvcKey.CreateSubKey("Parameters"))
-                            {
-                                parameters.SetValue("ProxyDllFile", @"%SystemRoot%\system32\jsproxy.dll", RegistryValueKind.ExpandString);
-                                parameters.SetValue("ServiceDll", @"%SystemRoot%\system32\winhttp.dll", RegistryValueKind.ExpandString);
-                                parameters.SetValue("ServiceDllUnloadOnStop", 1, RegistryValueKind.DWord);
-                                parameters.SetValue("ServiceMain", "WinHttpAutoProxySvcMain", RegistryValueKind.String);
-                            }
-                            using (RegistryKey security = winHttpAutoProxySvcKey.CreateSubKey("Security"))
-                            {
-                                security.SetValue("Security", new byte[] { 1, 0, 20, 128, 184, 0, 0, 0, 196, 0, 0, 0, 20, 0, 0, 0, 48, 0, 0, 0, 2, 0, 28, 0, 1, 0, 0, 0, 2, 128, 20, 0, 255, 1, 15, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0, 136, 0, 6, 0, 0, 0, 0, 0, 20, 0, 255, 1, 15, 0, 1, 1, 0, 0, 0, 0, 0, 5, 18, 0, 0, 0, 0, 0, 24, 0, 255, 1, 15, 0, 1, 2, 0, 0, 0, 0, 0, 5, 32, 0, 0, 0, 32, 2, 0, 0, 0, 0, 20, 0, 157, 1, 2, 0, 1, 1, 0, 0, 0, 0, 0, 5, 11, 0, 0, 0, 0, 0, 20, 0, 157, 1, 2, 0, 1, 1, 0, 0, 0, 0, 0, 5, 4, 0, 0, 0, 0, 0, 20, 0, 157, 1, 2, 0, 1, 1, 0, 0, 0, 0, 0, 5, 6, 0, 0, 0, 0, 0, 24, 0, 148, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0, 15, 2, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 5, 18, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 5, 18, 0, 0, 0 }, RegistryValueKind.Binary);
-                            }
-                        }
-                        winHttpAutoProxySvcKey.SetValue("Start", ServiceStartMode.Manual, RegistryValueKind.DWord);
-                    }
-                }
-                else status = (ServiceControllerStatus)RunTanjiAsAdmin("ems");
-
-                if (status != ServiceControllerStatus.Running && (!HasAdminPrivileges || IsParentProcess))
-                {
-                    // Changes made to the registry relating to services requires a full OS reboot.
-                    MessageBox.Show("Changes have been made to the registry regarding the 'WinHttpAutoProxy' service, please reboot your computer for the changes to take effect.",
-                        "Tanji - Alert! ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                }
-                return status;
-            }
-        }
-        private static void UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            var exception = (Exception)e.ExceptionObject;
-
-            string title = ("Tanji - " + (e.IsTerminating ? "Critical Error!" : "Error!"));
-            string message = $"Message: {exception.Message}\r\n\r\n{exception.StackTrace.Trim()}";
-            MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-            if (e.IsTerminating)
-            {
-                Eavesdropper.Terminate();
-            }
-        }
+        ApplicationConfiguration.Initialize();
+        Application.Run(new MainFrm());
     }
 }
