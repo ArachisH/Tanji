@@ -6,8 +6,10 @@ using System.ComponentModel;
 using System.Collections.Generic;
 
 using Sulakore.Protocol;
+using Sulakore.Habbo.Web;
+using Tangine;
 
-namespace Sulakore.Components
+namespace Tanji.Controls
 {
     [DesignerCategory("Code")]
     public class SKoreScheduleView : SKoreListView

@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace Sulakore.Components
+namespace Tanji.Controls
 {
     public interface ISkinnable
     {

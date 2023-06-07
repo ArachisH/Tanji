@@ -27,6 +27,7 @@ using Sulakore.Communication;
 using Sulakore.Habbo.Messages;
 
 using Eavesdrop;
+using Tangine;
 
 namespace Tanji.Windows
 {

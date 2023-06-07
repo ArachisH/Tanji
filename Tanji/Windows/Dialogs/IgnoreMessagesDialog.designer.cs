@@ -28,14 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.IgnoredVw = new Sulakore.Components.SKoreListView();
+            this.IgnoredVw = new Tanji.Controls.SKoreListView();
             this.TypeCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.HeaderCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.IgnoreBtn = new Sulakore.Components.SKoreButton();
+            this.IgnoreBtn = new Tanji.Controls.SKoreButton();
             this.TypeTxt = new System.Windows.Forms.ComboBox();
             this.HeaderTxt = new System.Windows.Forms.NumericUpDown();
             this.HeaderLbl = new System.Windows.Forms.Label();
-            this.RemoveBtn = new Sulakore.Components.SKoreButton();
+            this.RemoveBtn = new Tanji.Controls.SKoreButton();
             this.Glow1Pnl = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.HeaderTxt)).BeginInit();
             this.SuspendLayout();
@@ -168,14 +168,14 @@
 
         #endregion
 
-        private Sulakore.Components.SKoreListView IgnoredVw;
+        private Tanji.Controls.SKoreListView IgnoredVw;
         private System.Windows.Forms.ColumnHeader TypeCol;
         private System.Windows.Forms.ColumnHeader HeaderCol;
-        private Sulakore.Components.SKoreButton IgnoreBtn;
+        private Tanji.Controls.SKoreButton IgnoreBtn;
         private System.Windows.Forms.ComboBox TypeTxt;
         internal System.Windows.Forms.NumericUpDown HeaderTxt;
         private System.Windows.Forms.Label HeaderLbl;
-        private Sulakore.Components.SKoreButton RemoveBtn;
+        private Tanji.Controls.SKoreButton RemoveBtn;
         private System.Windows.Forms.Panel Glow1Pnl;
     }
 }

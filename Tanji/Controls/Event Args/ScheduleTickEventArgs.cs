@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 using Sulakore.Protocol;
 
-namespace Sulakore.Components
+namespace Tanji.Controls
 {
     public class ScheduleTickEventArgs : CancelEventArgs
     {

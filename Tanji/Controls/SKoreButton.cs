@@ -6,7 +6,7 @@ using System.Drawing.Design;
 using System.Drawing.Drawing2D;
 using System.ComponentModel.Design;
 
-namespace Sulakore.Components
+namespace Tanji.Controls
 {
     [DesignerCategory("Code")]
     public class SKoreButton : Control, IButtonControl, ISkinnable

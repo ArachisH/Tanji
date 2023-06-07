@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
 
-namespace Sulakore.Components
+namespace Tanji.Controls
 {
     [DesignerCategory("Code")]
     public class SKoreListView : ListView

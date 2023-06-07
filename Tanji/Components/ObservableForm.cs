@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 using Tanji.Properties;
 
-using Sulakore.Components;
+using Tanji.Controls;
 
 namespace Tanji.Components
 {

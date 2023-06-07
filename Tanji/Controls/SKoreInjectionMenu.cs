@@ -4,8 +4,9 @@ using System.Windows.Forms;
 using System.ComponentModel;
 
 using Sulakore.Protocol;
+using Tangine;
 
-namespace Sulakore.Components
+namespace Tanji.Controls
 {
     [DesignerCategory("Code")]
     public class SKoreInjectionMenu : ContextMenuStrip

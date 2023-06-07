@@ -2,7 +2,7 @@
 
 using Sulakore.Habbo;
 
-namespace Sulakore.Components
+namespace Tanji.Controls
 {
     public class TileEventArgs : MouseEventArgs
     {

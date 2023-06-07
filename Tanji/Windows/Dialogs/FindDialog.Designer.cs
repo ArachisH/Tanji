@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.FindNextBtn = new Sulakore.Components.SKoreButton();
+            this.FindNextBtn = new Tanji.Controls.SKoreButton();
             this.MatchCaseChckbx = new System.Windows.Forms.CheckBox();
             this.MatchWordChckbx = new System.Windows.Forms.CheckBox();
             this.DirectionGrpbx = new System.Windows.Forms.GroupBox();
@@ -38,7 +38,7 @@
             this.RegExRd = new System.Windows.Forms.RadioButton();
             this.NormalRd = new System.Windows.Forms.RadioButton();
             this.WrapAroundChckbx = new System.Windows.Forms.CheckBox();
-            this.FindWhatTxt = new Sulakore.Components.SKoreLabelBox();
+            this.FindWhatTxt = new Tanji.Controls.SKoreLabelBox();
             this.DirectionGrpbx.SuspendLayout();
             this.ModeGrpbx.SuspendLayout();
             this.SuspendLayout();
@@ -195,7 +195,7 @@
 
         #endregion
 
-        private Sulakore.Components.SKoreButton FindNextBtn;
+        private Tanji.Controls.SKoreButton FindNextBtn;
         private System.Windows.Forms.CheckBox MatchCaseChckbx;
         private System.Windows.Forms.CheckBox MatchWordChckbx;
         private System.Windows.Forms.GroupBox DirectionGrpbx;
@@ -205,6 +205,6 @@
         private System.Windows.Forms.RadioButton RegExRd;
         private System.Windows.Forms.RadioButton NormalRd;
         private System.Windows.Forms.CheckBox WrapAroundChckbx;
-        private Sulakore.Components.SKoreLabelBox FindWhatTxt;
+        private Tanji.Controls.SKoreLabelBox FindWhatTxt;
     }
 }

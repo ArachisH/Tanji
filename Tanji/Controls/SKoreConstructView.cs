@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 using Sulakore.Protocol;
 
-namespace Sulakore.Components
+namespace Tanji.Controls
 {
     [DesignerCategory("Code")]
     public class SKoreConstructView : SKoreListView

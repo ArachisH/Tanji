@@ -3,12 +3,12 @@ using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
+using Tanji.Controls;
 using Tanji.Manipulators;
 
 using Sulakore.Protocol;
-using Sulakore.Components;
 
-using static Sulakore.Components.SKoreScheduleView;
+using static Tanji.Controls.SKoreScheduleView;
 
 namespace Tanji.Pages.Injection
 {

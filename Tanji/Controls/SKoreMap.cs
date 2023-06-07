@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 using Sulakore.Habbo;
 
-namespace Sulakore.Components
+namespace Tanji.Controls
 {
     [DesignerCategory("Code")]
     [DefaultEvent(nameof(TileClick))]
