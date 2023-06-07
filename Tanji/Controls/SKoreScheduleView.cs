@@ -12,7 +12,7 @@ using Tangine;
 namespace Tanji.Controls;
 
 [DesignerCategory("Code")]
-public class SKoreScheduleView : SKoreListView
+public class SKoreScheduleView : TanjiListView
 {
     private readonly Action<HSchedule> _updateItem;
     private readonly Dictionary<HSchedule, ListViewItem> _items;

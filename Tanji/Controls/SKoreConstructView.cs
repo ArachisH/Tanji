@@ -8,7 +8,7 @@ using Sulakore.Protocol;
 namespace Tanji.Controls;
 
 [DesignerCategory("Code")]
-public class SKoreConstructView : SKoreListView
+public class SKoreConstructView : TanjiListView
 {
     private HMessage _cachedPacket;
 

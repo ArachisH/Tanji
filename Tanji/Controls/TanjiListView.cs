@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace Tanji.Controls;
 
 [DesignerCategory("Code")]
-public class SKoreListView : ListView
+public class TanjiListView : ListView
 {
     private bool _lastSelectionState;
     private ListViewItem _previouslySelectedItem, _expectedSelection;
@@ -74,7 +74,7 @@ public class SKoreListView : ListView
         }
     }
 
-    public SKoreListView()
+    public TanjiListView()
     {
         SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 

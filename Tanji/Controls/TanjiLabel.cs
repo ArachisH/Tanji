@@ -6,7 +6,7 @@ using System.ComponentModel;
 namespace Tanji.Controls;
 
 [DesignerCategory("Code")]
-public class SKoreLabel : Control, ISkinnable
+public class TanjiLabel : Control, ISkinnable
 {
     private int _borderWidth = 1;
     [DefaultValue(1)]
@@ -69,7 +69,7 @@ public class SKoreLabel : Control, ISkinnable
         }
     }
 
-    public SKoreLabel()
+    public TanjiLabel()
     {
         SetStyle(ControlStyles.UserPaint | ControlStyles.SupportsTransparentBackColor | ControlStyles.ResizeRedraw, true);
         DoubleBuffered = true;

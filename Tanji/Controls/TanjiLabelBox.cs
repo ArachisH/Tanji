@@ -6,7 +6,7 @@ using System.ComponentModel;
 namespace Tanji.Controls;
 
 [DesignerCategory("Code")]
-public class SKoreLabelBox : Control, ISkinnable
+public class TanjiLabelBox : Control, ISkinnable
 {
     private Rectangle _titleRect;
 
@@ -99,7 +99,7 @@ public class SKoreLabelBox : Control, ISkinnable
         set => IsReadOnly = value;
     }
 
-    public SKoreLabelBox()
+    public TanjiLabelBox()
     {
         SetStyle(ControlStyles.UserPaint | ControlStyles.SupportsTransparentBackColor, true);
         DoubleBuffered = true;

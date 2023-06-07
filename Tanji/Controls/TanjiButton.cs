@@ -9,7 +9,7 @@ using System.ComponentModel.Design;
 namespace Tanji.Controls;
 
 [DesignerCategory("Code")]
-public class SKoreButton : Control, IButtonControl, ISkinnable
+public class TanjiButton : Control, IButtonControl, ISkinnable
 {
     private bool _isPressed;
     private Control _lastParent;
@@ -114,7 +114,7 @@ public class SKoreButton : Control, IButtonControl, ISkinnable
         }
     }
 
-    public SKoreButton()
+    public TanjiButton()
     {
         SetStyle(ControlStyles.UserPaint, true);
 

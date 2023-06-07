@@ -5,7 +5,7 @@ using System.ComponentModel;
 namespace Tanji.Controls;
 
 [DesignerCategory("Code")]
-public class SKoreTabControl : TabControl, ISkinnable
+public class TanjiTabControl : TabControl, ISkinnable
 {
     private bool _isDisplayingBorder = false;
     [DefaultValue(false)]
@@ -62,7 +62,7 @@ public class SKoreTabControl : TabControl, ISkinnable
         set => IsDisplayingBorder = value;
     }
 
-    public SKoreTabControl()
+    public TanjiTabControl()
     {
         SetStyle(ControlStyles.UserPaint | ControlStyles.SupportsTransparentBackColor, true);
 

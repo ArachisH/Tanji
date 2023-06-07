@@ -28,15 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.FindBtn = new Tanji.Controls.SKoreButton();
-            this.HeadersVw = new Tanji.Controls.SKoreListView();
+            this.FindBtn = new Tanji.Controls.TanjiButton();
+            this.HeadersVw = new Tanji.Controls.TanjiListView();
             this.TypeCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.IDCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.NameCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ClassNameCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ParserNameCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Glow1Pnl = new System.Windows.Forms.Panel();
-            this.HashTxt = new Tanji.Controls.SKoreLabelBox();
+            this.HashTxt = new Tanji.Controls.TanjiLabelBox();
             this.SuspendLayout();
             // 
             // FindBtn
@@ -138,14 +138,14 @@
         }
 
         #endregion
-        private Tanji.Controls.SKoreButton FindBtn;
-        private Tanji.Controls.SKoreListView HeadersVw;
+        private Tanji.Controls.TanjiButton FindBtn;
+        private Tanji.Controls.TanjiListView HeadersVw;
         private System.Windows.Forms.ColumnHeader TypeCol;
         private System.Windows.Forms.ColumnHeader ClassNameCol;
         private System.Windows.Forms.Panel Glow1Pnl;
         private System.Windows.Forms.ColumnHeader NameCol;
         private System.Windows.Forms.ColumnHeader ParserNameCol;
         private System.Windows.Forms.ColumnHeader IDCol;
-        private Tanji.Controls.SKoreLabelBox HashTxt;
+        private Tanji.Controls.TanjiLabelBox HashTxt;
     }
 }
