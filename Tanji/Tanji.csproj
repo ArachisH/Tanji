@@ -1,9 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-
-		<UseWindowsForms>true</UseWindowsForms>
 		<TargetFramework>net7.0-windows</TargetFramework>
+
+		<Nullable>enable</Nullable>
+		<PlatformTarget>x64</PlatformTarget>
+		<UseWindowsForms>true</UseWindowsForms>
+		<EnablePreviewFeatures>true</EnablePreviewFeatures>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -29,9 +32,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Hypo.Flazzy" Version="0.1.0" />
 		<PackageReference Include="Octokit" Version="6.0.0" />
 		<PackageReference Include="Eavesdrop" Version="1.1.0" />
+		<PackageReference Include="Hypo.Flazzy" Version="0.1.0" />
 		<PackageReference Include="System.ServiceProcess.ServiceController" Version="7.0.0" />
 	</ItemGroup>
 
