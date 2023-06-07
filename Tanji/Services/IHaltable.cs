@@ -1,8 +1,7 @@
-﻿namespace Tanji.Manipulators
+﻿namespace Tanji.Manipulators;
+
+public interface IHaltable
 {
-    public interface IHaltable
-    {
-        void Halt();
-        void Restore();
-    }
+    void Halt();
+    void Restore();
 }

@@ -1,9 +1,8 @@
-﻿namespace Sulakore.Habbo
+﻿namespace Sulakore.Habbo;
+
+public enum HSize
 {
-    public enum HSize
-    {
-        Small = 's',
-        Medium = 'm',
-        Large = 'l'
-    }
+    Small = 's',
+    Medium = 'm',
+    Large = 'l'
 }

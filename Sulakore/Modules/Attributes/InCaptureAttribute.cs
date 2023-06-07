@@ -1,14 +1,13 @@
-﻿namespace Sulakore.Modules
-{
-    public sealed class InDataCaptureAttribute : DataCaptureAttribute
-    {
-        public override bool IsOutgoing => false;
+﻿namespace Sulakore.Modules;
 
-        public InDataCaptureAttribute(ushort id)
-            : base(id)
-        { }
-        public InDataCaptureAttribute(string identifier)
-            : base(identifier)
-        { }
-    }
+public sealed class InDataCaptureAttribute : DataCaptureAttribute
+{
+    public override bool IsOutgoing => false;
+
+    public InDataCaptureAttribute(ushort id)
+        : base(id)
+    { }
+    public InDataCaptureAttribute(string identifier)
+        : base(identifier)
+    { }
 }

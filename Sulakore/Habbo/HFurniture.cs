@@ -1,11 +1,10 @@
 ﻿using Sulakore.Protocol;
 
-namespace Sulakore.Habbo
+namespace Sulakore.Habbo;
+
+public class HFurniture : HFloorItem
 {
-    public class HFurniture : HFloorItem
-    {
-        public HFurniture(HMessage packet)
-            : base(packet)
-        { }
-    }
+    public HFurniture(HMessage packet)
+        : base(packet)
+    { }
 }

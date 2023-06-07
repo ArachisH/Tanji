@@ -1,8 +1,7 @@
-﻿namespace Sulakore.Protocol
+﻿namespace Sulakore.Protocol;
+
+public enum HDestination
 {
-    public enum HDestination
-    {
-        Client = 0,
-        Server = 1
-    }
+    Client = 0,
+    Server = 1
 }

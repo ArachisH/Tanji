@@ -3,76 +3,75 @@ using System.Collections.Generic;
 
 using Sulakore.Protocol;
 
-namespace Sulakore.Habbo
+namespace Sulakore.Habbo;
+
+public class HFloorItem : HData
 {
-    public class HFloorItem : HData
+    public int Id { get; set; }
+    public int TypeId { get; set; }
+    public HPoint Tile { get; set; }
+    public HDirection Facing { get; set; }
+
+    public int Category { get; set; }
+    public object[] Stuff { get; set; }
+
+    public int SecondsToExpiration { get; set; }
+    public int UsagePolicy { get; set; }
+
+    public int OwnerId { get; set; }
+    public string OwnerName { get; set; }
+
+    public HFloorItem(HMessage packet)
     {
-        public int Id { get; set; }
-        public int TypeId { get; set; }
-        public HPoint Tile { get; set; }
-        public HDirection Facing { get; set; }
+        Id = packet.ReadInteger();
+        TypeId = packet.ReadInteger();
 
-        public int Category { get; set; }
-        public object[] Stuff { get; set; }
+        var tile = new HPoint(packet.ReadInteger(), packet.ReadInteger());
+        Facing = (HDirection)packet.ReadInteger();
 
-        public int SecondsToExpiration { get; set; }
-        public int UsagePolicy { get; set; }
+        tile.Z = double.Parse(packet.ReadString(), CultureInfo.InvariantCulture);
+        Tile = tile;
 
-        public int OwnerId { get; set; }
-        public string OwnerName { get; set; }
+        packet.ReadString();
+        packet.ReadInteger();
 
-        public HFloorItem(HMessage packet)
+        Category = packet.ReadInteger();
+        Stuff = ReadData(packet, Category);
+
+        SecondsToExpiration = packet.ReadInteger();
+        UsagePolicy = packet.ReadInteger();
+
+        OwnerId = packet.ReadInteger();
+        if (TypeId < 0)
         {
-            Id = packet.ReadInteger();
-            TypeId = packet.ReadInteger();
-
-            var tile = new HPoint(packet.ReadInteger(), packet.ReadInteger());
-            Facing = (HDirection)packet.ReadInteger();
-
-            tile.Z = double.Parse(packet.ReadString(), CultureInfo.InvariantCulture);
-            Tile = tile;
-
             packet.ReadString();
-            packet.ReadInteger();
-
-            Category = packet.ReadInteger();
-            Stuff = ReadData(packet, Category);
-
-            SecondsToExpiration = packet.ReadInteger();
-            UsagePolicy = packet.ReadInteger();
-
-            OwnerId = packet.ReadInteger();
-            if (TypeId < 0)
-            {
-                packet.ReadString();
-            }
         }
+    }
 
-        public void Update(HFloorItem furni)
+    public void Update(HFloorItem furni)
+    {
+        Tile = furni.Tile;
+        Stuff = furni.Stuff;
+        Facing = furni.Facing;
+    }
+
+    public static HFloorItem[] Parse(HMessage packet)
+    {
+        int ownersCount = packet.ReadInteger();
+        var owners = new Dictionary<int, string>(ownersCount);
+        for (int i = 0; i < ownersCount; i++)
         {
-            Tile = furni.Tile;
-            Stuff = furni.Stuff;
-            Facing = furni.Facing;
+            owners.Add(packet.ReadInteger(), packet.ReadString());
         }
 
-        public static HFloorItem[] Parse(HMessage packet)
+        var furniture = new HFloorItem[packet.ReadInteger()];
+        for (int i = 0; i < furniture.Length; i++)
         {
-            int ownersCount = packet.ReadInteger();
-            var owners = new Dictionary<int, string>(ownersCount);
-            for (int i = 0; i < ownersCount; i++)
-            {
-                owners.Add(packet.ReadInteger(), packet.ReadString());
-            }
+            var furni = new HFloorItem(packet);
+            furni.OwnerName = owners[furni.OwnerId];
 
-            var furniture = new HFloorItem[packet.ReadInteger()];
-            for (int i = 0; i < furniture.Length; i++)
-            {
-                var furni = new HFloorItem(packet);
-                furni.OwnerName = owners[furni.OwnerId];
-
-                furniture[i] = furni;
-            }
-            return furniture;
+            furniture[i] = furni;
         }
+        return furniture;
     }
 }

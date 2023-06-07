@@ -3,92 +3,91 @@ using System.Globalization;
 
 using Sulakore.Protocol;
 
-namespace Sulakore.Habbo
+namespace Sulakore.Habbo;
+
+public class HEntityUpdate
 {
-    public class HEntityUpdate
+    public int Index { get; set; }
+    public bool IsController { get; set; }
+
+    public HPoint Tile { get; set; }
+    public HPoint MovingTo { get; set; }
+
+    public HSign Sign { get; set; }
+    public HStance Stance { get; set; }
+    public HAction Action { get; set; }
+    public HDirection HeadFacing { get; set; }
+    public HDirection BodyFacing { get; set; }
+
+    public HEntityUpdate(HMessage packet)
     {
-        public int Index { get; set; }
-        public bool IsController { get; set; }
+        Index = packet.ReadInteger();
 
-        public HPoint Tile { get; set; }
-        public HPoint MovingTo { get; set; }
+        Tile = new HPoint(packet.ReadInteger(), packet.ReadInteger(),
+            double.Parse(packet.ReadString(), CultureInfo.InvariantCulture));
 
-        public HSign Sign { get; set; }
-        public HStance Stance { get; set; }
-        public HAction Action { get; set; }
-        public HDirection HeadFacing { get; set; }
-        public HDirection BodyFacing { get; set; }
+        HeadFacing = (HDirection)packet.ReadInteger();
+        BodyFacing = (HDirection)packet.ReadInteger();
 
-        public HEntityUpdate(HMessage packet)
+        string action = packet.ReadString();
+
+        string[] actionData = action.Split(
+            new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+
+        foreach (string actionInfo in actionData)
         {
-            Index = packet.ReadInteger();
+            string[] actionValues = actionInfo.Split(' ');
 
-            Tile = new HPoint(packet.ReadInteger(), packet.ReadInteger(),
-                double.Parse(packet.ReadString(), CultureInfo.InvariantCulture));
+            if (actionValues.Length < 2) continue;
+            if (string.IsNullOrWhiteSpace(actionValues[0])) continue;
 
-            HeadFacing = (HDirection)packet.ReadInteger();
-            BodyFacing = (HDirection)packet.ReadInteger();
-
-            string action = packet.ReadString();
-
-            string[] actionData = action.Split(
-                new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (string actionInfo in actionData)
+            switch (actionValues[0])
             {
-                string[] actionValues = actionInfo.Split(' ');
-
-                if (actionValues.Length < 2) continue;
-                if (string.IsNullOrWhiteSpace(actionValues[0])) continue;
-
-                switch (actionValues[0])
+                case "flatctrl":
                 {
-                    case "flatctrl":
+                    IsController = true;
+                    break;
+                }
+                case "mv":
+                {
+                    string[] values = actionValues[1].Split(',');
+                    if (values.Length >= 3)
                     {
-                        IsController = true;
-                        break;
+                        MovingTo = new HPoint(int.Parse(values[0]), int.Parse(values[1]),
+                            double.Parse(values[2], CultureInfo.InvariantCulture));
                     }
-                    case "mv":
-                    {
-                        string[] values = actionValues[1].Split(',');
-                        if (values.Length >= 3)
-                        {
-                            MovingTo = new HPoint(int.Parse(values[0]), int.Parse(values[1]),
-                                double.Parse(values[2], CultureInfo.InvariantCulture));
-                        }
-                        Action = HAction.Move;
-                        break;
-                    }
-                    case "sit":
-                    {
-                        Action = HAction.Sit;
-                        Stance = HStance.Sit;
-                        break;
-                    }
-                    case "lay":
-                    {
-                        Action = HAction.Lay;
-                        Stance = HStance.Lay;
-                        break;
-                    }
-                    case "sign":
-                    {
-                        Sign = (HSign)int.Parse(actionValues[1]);
-                        Action = HAction.Sign;
-                        break;
-                    }
+                    Action = HAction.Move;
+                    break;
+                }
+                case "sit":
+                {
+                    Action = HAction.Sit;
+                    Stance = HStance.Sit;
+                    break;
+                }
+                case "lay":
+                {
+                    Action = HAction.Lay;
+                    Stance = HStance.Lay;
+                    break;
+                }
+                case "sign":
+                {
+                    Sign = (HSign)int.Parse(actionValues[1]);
+                    Action = HAction.Sign;
+                    break;
                 }
             }
         }
-        
-        public static HEntityUpdate[] Parse(HMessage packet)
+    }
+    
+    public static HEntityUpdate[] Parse(HMessage packet)
+    {
+        var updates = new HEntityUpdate[packet.ReadInteger()];
+        for (int i = 0; i < updates.Length; i++)
         {
-            var updates = new HEntityUpdate[packet.ReadInteger()];
-            for (int i = 0; i < updates.Length; i++)
-            {
-                updates[i] = new HEntityUpdate(packet);
-            }
-            return updates;
+            updates[i] = new HEntityUpdate(packet);
         }
+        return updates;
     }
 }

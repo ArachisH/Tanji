@@ -1,26 +1,25 @@
 ﻿using Sulakore.Protocol;
 
-namespace Sulakore.Habbo
+namespace Sulakore.Habbo;
+
+public class HFriendRequests
 {
-    public class HFriendRequests
+    public int Unk { get; set; }
+    public int Requests { get; set; }
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Motto { get; set; }
+
+    public HFriendRequests(HMessage packet)
     {
-        public int Unk { get; set; }
-        public int Requests { get; set; }
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Motto { get; set; }
+        Unk = packet.ReadInteger();
 
-        public HFriendRequests(HMessage packet)
+        Requests = packet.ReadInteger();
+        for (int i = 0; i < Requests; i++)
         {
-            Unk = packet.ReadInteger();
-
-            Requests = packet.ReadInteger();
-            for (int i = 0; i < Requests; i++)
-            {
-                Id = packet.ReadInteger();
-                Name = packet.ReadString();
-                Motto = packet.ReadString();
-            }
+            Id = packet.ReadInteger();
+            Name = packet.ReadString();
+            Motto = packet.ReadString();
         }
     }
 }

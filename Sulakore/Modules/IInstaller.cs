@@ -3,16 +3,15 @@ using Sulakore.Habbo.Web;
 using Sulakore.Communication;
 using Sulakore.Habbo.Messages;
 
-namespace Sulakore.Modules
-{
-    public interface IInstaller
-    {
-        Incoming In { get; }
-        Outgoing Out { get; }
+namespace Sulakore.Modules;
 
-        HGame Game { get; }
-        HHotel Hotel { get; }
-        HGameData GameData { get; }
-        IHConnection Connection { get; }
-    }
+public interface IInstaller
+{
+    Incoming In { get; }
+    Outgoing Out { get; }
+
+    HGame Game { get; }
+    HHotel Hotel { get; }
+    HGameData GameData { get; }
+    IHConnection Connection { get; }
 }

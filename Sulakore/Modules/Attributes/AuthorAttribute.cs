@@ -2,27 +2,26 @@
 
 using Sulakore.Habbo;
 
-namespace Sulakore.Modules
+namespace Sulakore.Modules;
+
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+public sealed class AuthorAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public sealed class AuthorAttribute : Attribute
+    public string Name { get; }
+
+    public HHotel Hotel { get; set; }
+    public string HabboName { get; set; }
+
+    public string ResourceUrl { get; set; }
+    public string ResourceName { get; set; }
+
+    public AuthorAttribute(string name)
     {
-        public string Name { get; }
+        Name = name;
+    }
 
-        public HHotel Hotel { get; set; }
-        public string HabboName { get; set; }
-
-        public string ResourceUrl { get; set; }
-        public string ResourceName { get; set; }
-
-        public AuthorAttribute(string name)
-        {
-            Name = name;
-        }
-
-        public override string ToString()
-        {
-            return Name;
-        }
+    public override string ToString()
+    {
+        return Name;
     }
 }
