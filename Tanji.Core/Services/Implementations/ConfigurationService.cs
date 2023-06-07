@@ -23,7 +23,7 @@ public sealed class ConfigurationService : NameValueCollection, IConfigurationSe
     public string? UnityPath { get; }
     public string? LauncherPath { get; }
     public string CacheDirectory { get; }
-    public string[]? ProxyOverrides { get; }
+    public string[] ProxyOverrides { get; }
 
 #pragma warning disable CS8600 // Ignore null-reference warnings, and allow the end user to crash if configuration file is invalid.
 #pragma warning disable CS8602

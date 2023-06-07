@@ -4,8 +4,8 @@ namespace Tanji.Core.Services;
 
 public interface IConfigurationService
 {
-    string[]? UnityInterceptionTriggers { get; }
-    string[]? FlashInterceptionTriggers { get; }
+    string[] UnityInterceptionTriggers { get; }
+    string[] FlashInterceptionTriggers { get; }
 
     int GameListenPort { get; set; }
     int ProxyListenPort { get; set; }
@@ -21,5 +21,5 @@ public interface IConfigurationService
     string? UnityPath { get; }
     string? LauncherPath { get; }
     string CacheDirectory { get; }
-    string[]? ProxyOverrides { get; }
+    string[] ProxyOverrides { get; }
 }
