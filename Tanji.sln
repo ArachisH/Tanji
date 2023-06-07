@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tangine", "Tangine\Tangine.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sulakore", "Sulakore\Sulakore.csproj", "{49E8859B-4191-48F2-AF04-AD7012E867B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tanji.Core", "Tanji.Core\Tanji.Core.csproj", "{34F44445-23A0-49B5-92C1-DD77C0B6F20B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{49E8859B-4191-48F2-AF04-AD7012E867B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49E8859B-4191-48F2-AF04-AD7012E867B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49E8859B-4191-48F2-AF04-AD7012E867B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34F44445-23A0-49B5-92C1-DD77C0B6F20B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34F44445-23A0-49B5-92C1-DD77C0B6F20B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34F44445-23A0-49B5-92C1-DD77C0B6F20B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34F44445-23A0-49B5-92C1-DD77C0B6F20B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
