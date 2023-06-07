@@ -1,41 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
 	<PropertyGroup>
 		<TargetFramework>net7.0-windows</TargetFramework>
 		<UseWindowsForms>true</UseWindowsForms>
-		<ProjectGuid>{9642F597-8B78-4603-9B21-530279DA5131}</ProjectGuid>
-
-		<AssemblyTitle>Tangine</AssemblyTitle>
-		<Product>Tangine</Product>
-		<Description>Tanji Module API</Description>
-		<Copyright>Copyright © ArachisH 2016</Copyright>
-		<AssemblyVersion>1.4.0.0</AssemblyVersion>
-		<FileVersion>1.4.0.0</FileVersion>
-	</PropertyGroup>
-
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-		<DebugType>full</DebugType>
-	</PropertyGroup>
-
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-		<DebugType>none</DebugType>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Compile Update="ExtensionForm.cs">
-			<SubType>Form</SubType>
-		</Compile>
+		<PackageReference Include="Hypo.Flazzy" Version="0.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Sulakore\Sulakore.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Properties\" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <PackageReference Include="Hypo.Flazzy" Version="0.1.0" />
 	</ItemGroup>
 
 </Project>

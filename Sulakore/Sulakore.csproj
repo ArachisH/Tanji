@@ -1,31 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
 	<PropertyGroup>
 		<TargetFramework>net7.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
-		<ProjectGuid>{49E8859B-4191-48F2-AF04-AD7012E867B3}</ProjectGuid>
-
-		<AssemblyTitle>Sulakore</AssemblyTitle>
-		<Product>Sulakore</Product>
-		<Description>Habbo Hotel SDK</Description>
-		<Copyright>Copyright © ArachisH 2015</Copyright>
-		<AssemblyVersion>1.4.0.0</AssemblyVersion>
-		<FileVersion>1.4.0.0</FileVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
-
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-		<DebugType>full</DebugType>
-		<NoWarn>CS0612</NoWarn>
-	</PropertyGroup>
-
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-		<DebugType>none</DebugType>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<Folder Include="Properties\" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Hypo.Flazzy" Version="0.1.0" />
 	</ItemGroup>
+
 </Project>
