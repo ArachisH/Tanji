@@ -1,10 +1,9 @@
 ﻿using System.Drawing;
 using System.Text.Json.Nodes;
-using System.Collections.Specialized;
 
 namespace Tanji.Core.Services;
 
-public sealed class ConfigurationService : NameValueCollection, IConfigurationService
+public sealed class ConfigurationService : IConfigurationService
 {
     public string[] UnityInterceptionTriggers { get; }
     public string[] FlashInterceptionTriggers { get; }
@@ -28,28 +27,27 @@ public sealed class ConfigurationService : NameValueCollection, IConfigurationSe
 #pragma warning disable CS8600 // Ignore null-reference warnings, and allow the end user to crash if configuration file is invalid.
 #pragma warning disable CS8602
 #pragma warning disable CS8604
-    public ConfigurationService(NameValueCollection appSettings)
-        : base(appSettings)
+    public ConfigurationService(IConfigurationDataProviderService data)
     {
         CacheDirectory = Path.GetFullPath("Cache");
         Directory.CreateDirectory(CacheDirectory);
 
-        UnityInterceptionTriggers = Split(this[nameof(UnityInterceptionTriggers)]);
-        FlashInterceptionTriggers = Split(this[nameof(FlashInterceptionTriggers)]);
+        UnityInterceptionTriggers = Split(data.GetValue(nameof(UnityInterceptionTriggers));
+        FlashInterceptionTriggers = Split(data.GetValue(nameof(FlashInterceptionTriggers)));
 
-        GameListenPort = int.Parse(this[nameof(GameListenPort)]);
-        ProxyListenPort = int.Parse(this[nameof(ProxyListenPort)]);
+        GameListenPort = int.Parse(data.GetValue(nameof(GameListenPort)));
+        ProxyListenPort = int.Parse(data.GetValue(nameof(ProxyListenPort)));
 
-        ModulesListenPort = int.Parse(this[nameof(ModulesListenPort)]);
-        IsQueuingModulePackets = Convert.ToBoolean(this[nameof(IsQueuingModulePackets)]);
+        ModulesListenPort = int.Parse(data.GetValue(nameof(ModulesListenPort)));
+        IsQueuingModulePackets = Convert.ToBoolean(data.GetValue(nameof(IsQueuingModulePackets)));
 
-        UIScheme = ColorTranslator.FromHtml(this[nameof(UIScheme)]);
-        IsCheckingForUpdates = Convert.ToBoolean(this[nameof(IsCheckingForUpdates)]);
-        IsModifyingRetroWebResponses = Convert.ToBoolean(this[nameof(IsModifyingRetroWebResponses)]);
+        UIScheme = ColorTranslator.FromHtml(data.GetValue(nameof(UIScheme)));
+        IsCheckingForUpdates = Convert.ToBoolean(data.GetValue(nameof(IsCheckingForUpdates)));
+        IsModifyingRetroWebResponses = Convert.ToBoolean(data.GetValue(nameof(IsModifyingRetroWebResponses)));
 
-        ProxyOverrides = Split(this[nameof(ProxyOverrides)]);
+        ProxyOverrides = Split(data.GetValue(nameof(ProxyOverrides)));
 
-        LauncherPath = Environment.ExpandEnvironmentVariables(this[nameof(LauncherPath)]);
+        LauncherPath = Environment.ExpandEnvironmentVariables(data.GetValue(nameof(LauncherPath)));
         if (!Directory.Exists(LauncherPath)) return;
 
         string versionsJson = File.ReadAllText(Path.Combine(LauncherPath, "versions.json"));

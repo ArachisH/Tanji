@@ -1,25 +1,45 @@
 ﻿using System;
-using System.Configuration;
 using System.Windows.Forms;
 
-using Tanji.Windows;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+
+using Tanji.Services;
 
 using Tanji.Core.Services;
+using Tanji.Windows;
 
 namespace Tanji;
 
-public static class Program
+static class Program
 {
     public static bool IsParentProcess { get; private set; }
     public static bool HasAdminPrivileges { get; private set; }
-    public static ConfigurationService Configuration { get; private set; }
+    public static IConfigurationService Configuration { get; private set; }
+
+    static IHostBuilder CreateHostBuilder(string[] args)
+    {
+        return Host.CreateDefaultBuilder(args)
+            .ConfigureServices((context, services) =>
+            {
+                // Views (Windows, Dialogs, Pages)
+                services.AddSingleton<MainFrm>();
+
+                // Services
+                services.AddSingleton<IConfigurationDataProviderService, ConfigurationDataProviderService>();                                                                   // Provides the data
+                services.AddSingleton<IConfigurationService, ConfigurationService>(s => new ConfigurationService(s.GetRequiredService<IConfigurationDataProviderService>()));   // Parses the data
+            });
+    }
 
     [STAThread]
-    private static void Main(string[] args)
+    static void Main(string[] args)
     {
-        Configuration = new ConfigurationService(ConfigurationManager.AppSettings);
+        IHost host = CreateHostBuilder(args).Build();
+        IServiceProvider services = host.Services;
+
+        Configuration = services.GetRequiredService<IConfigurationService>();
 
         ApplicationConfiguration.Initialize();
-        Application.Run(new MainFrm());
+        Application.Run(services.GetRequiredService<MainFrm>());
     }
 }
