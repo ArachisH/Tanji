@@ -155,7 +155,7 @@ public class ConnectionPage : TanjiPage, IReceiver
             .Where(i => !string.IsNullOrWhiteSpace(i.SubItems[1].Text))
             .ToDictionary(i => i.Text, i => i.SubItems[1].Text);
 
-        if (TryInstallCertificateAuthority())
+        if (Eavesdropper.Certifier.CreateTrustedRootCertificate())
         {
             Eavesdropper.ResponseInterceptedAsync += InterceptClientPageAsync;
             Eavesdropper.Initiate(Program.Configuration.ProxyListenPort);
@@ -184,14 +184,14 @@ public class ConnectionPage : TanjiPage, IReceiver
 
     private void CoTDestroyCertificatesBtn_Click(object sender, EventArgs e)
     {
-        TryDestroyCertificateAuthority();
+        Eavesdropper.Certifier.DestroyCertificates();
     }
     private void CoTExportCertificateAuthorityBtn_Click(object sender, EventArgs e)
     {
         string fileName = Eavesdropper.Certifier.CertificateAuthorityName.Replace(" ", "_") + ".cer";
         string filePath = Path.GetFullPath(fileName);
 
-        bool wasExported = TryInstallCertificateAuthority() && Eavesdropper.Certifier.ExportTrustedRootCertificate(filePath);
+        bool wasExported = Eavesdropper.Certifier.CreateTrustedRootCertificate() && Eavesdropper.Certifier.ExportTrustedRootCertificate(filePath);
         string message = wasExported ? $"Successfully exported '{fileName}' to:\r\n\r\n{filePath}"
             : "Unable to export root CA, perhaps try running the application with administrative privileges.";
 
@@ -443,26 +443,6 @@ public class ConnectionPage : TanjiPage, IReceiver
         {
             item.Checked = false;
         }
-    }
-    private bool TryInstallCertificateAuthority()
-    {
-        if (!Eavesdropper.Certifier.CreateTrustedRootCertificate())
-        {
-            Program.RunTanjiAsAdmin("ica");
-            // Will return true if the external process succeeded in installing the certificate with admin privileges.
-            return Eavesdropper.Certifier.CreateTrustedRootCertificate();
-        }
-        return true;
-    }
-    private bool TryDestroyCertificateAuthority()
-    {
-        if (!Eavesdropper.Certifier.DestroyCertificates())
-        {
-            Program.RunTanjiAsAdmin("dcs");
-            // Will return true if the external process succeeded in destroying the certificates with admin privileges.
-            return Eavesdropper.Certifier.DestroyCertificates();
-        }
-        return true;
     }
     private int GetSWFStartIndex(string body, int index = 0)
     {
