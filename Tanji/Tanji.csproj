@@ -42,7 +42,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Remove="App.config" />
 		<None Remove="Hashes.ini" />
 		<None Remove="Settings.ini" />
 		<None Include="Resources\Tanji_256.ico" />
@@ -50,9 +49,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="App.config">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</EmbeddedResource>
 		<EmbeddedResource Include="Hashes.ini">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</EmbeddedResource>
