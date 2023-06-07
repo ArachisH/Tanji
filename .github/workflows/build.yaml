@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - main
+      - develop
   push:
     branches:
       - develop 
@@ -18,7 +19,6 @@ jobs:
       name: Git Checkout
       with:
         fetch-depth: 0
-        submodules: true
 
     - uses: actions/setup-dotnet@v3
       name: .NET Setup
