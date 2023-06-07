@@ -115,7 +115,6 @@
 		<None Include="Resources\Tanji_256.ico" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\Submodules\Flazzy\Flazzy\Flazzy.csproj" />
 		<ProjectReference Include="..\Sulakore\Sulakore.csproj" />
 		<ProjectReference Include="..\Tangine\Tangine.csproj" />
 	</ItemGroup>
