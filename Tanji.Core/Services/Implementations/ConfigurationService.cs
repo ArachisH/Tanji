@@ -32,7 +32,7 @@ public sealed class ConfigurationService : IConfigurationService
         CacheDirectory = Path.GetFullPath("Cache");
         Directory.CreateDirectory(CacheDirectory);
 
-        UnityInterceptionTriggers = Split(data.GetValue(nameof(UnityInterceptionTriggers));
+        UnityInterceptionTriggers = Split(data.GetValue(nameof(UnityInterceptionTriggers)));
         FlashInterceptionTriggers = Split(data.GetValue(nameof(FlashInterceptionTriggers)));
 
         GameListenPort = int.Parse(data.GetValue(nameof(GameListenPort)));
