@@ -43,16 +43,12 @@
 
 	<ItemGroup>
 		<None Remove="Hashes.ini" />
-		<None Remove="Settings.ini" />
 		<None Include="Resources\Tanji_256.ico" />
 		<None Include="Resources\Avatar.png" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<EmbeddedResource Include="Hashes.ini">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</EmbeddedResource>
-		<EmbeddedResource Include="Settings.ini">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</EmbeddedResource>
 	</ItemGroup>
