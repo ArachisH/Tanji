@@ -1,31 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<ProjectGuid>{C1F1AF28-8993-4FD3-B1F9-CE180DA5F133}</ProjectGuid>
 		<OutputType>WinExe</OutputType>
 
 		<UseWindowsForms>true</UseWindowsForms>
 		<TargetFramework>net7.0-windows</TargetFramework>
-		<AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
-
-		<AssemblyTitle>Tanji</AssemblyTitle>
-		<Product>Tanji</Product>
-		<Description>Habbo Hotel Packet Sniffer</Description>
-		<Copyright>Copyright © ArachisH 2020</Copyright>
-		<AssemblyVersion>1.4.0.0</AssemblyVersion>
-		<FileVersion>1.4.1512.0</FileVersion>
-	</PropertyGroup>
-
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-		<DebugType>full</DebugType>
-	</PropertyGroup>
-
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-		<DebugType>none</DebugType>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<ApplicationIcon>Resources\Tanji_256.ico</ApplicationIcon>
+		<IsPackable>false</IsPackable>
+
+		<Title>Tanji</Title>
+		<Authors>ArachisH</Authors>
+		<Description>Habbo Protocol Analyzer</Description>
+
+		<FileVersion>1.5.0.0</FileVersion>
+		<AssemblyVersion>1.5.0.0</AssemblyVersion>
+
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+		<RepositoryUrl>https://github.com/ArachisH/Tanji</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/ArachisH/Tanji</PackageProjectUrl>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Tangine\Tangine.csproj" />
+		<ProjectReference Include="..\Sulakore\Sulakore.csproj" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Hypo.Flazzy" Version="0.1.0" />
@@ -35,90 +36,46 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Update="Windows\Dialogs\FindDialog.cs">
-			<SubType>Form</SubType>
-		</Compile>
-		<Compile Update="Windows\Dialogs\FindDialog.designer.cs">
-			<DependentUpon>FindDialog.cs</DependentUpon>
-		</Compile>
-		<Compile Update="Windows\Dialogs\FindMessageDialog.cs">
-			<SubType>Form</SubType>
-		</Compile>
-		<Compile Update="Windows\Dialogs\FindMessageDialog.designer.cs">
-			<DependentUpon>FindMessageDialog.cs</DependentUpon>
-		</Compile>
-		<Compile Update="Windows\Dialogs\IgnoreMessagesDialog.cs">
-			<SubType>Form</SubType>
-		</Compile>
-		<Compile Update="Windows\Dialogs\IgnoreMessagesDialog.designer.cs">
-			<DependentUpon>IgnoreMessagesDialog.cs</DependentUpon>
-		</Compile>
-		<Compile Update="Windows\MainFrm.cs">
-			<SubType>Form</SubType>
-		</Compile>
-		<Compile Update="Windows\MainFrm.designer.cs">
-			<DependentUpon>MainFrm.cs</DependentUpon>
-		</Compile>
-		<Compile Update="Windows\PacketLoggerFrm.cs">
-			<SubType>Form</SubType>
-		</Compile>
-		<Compile Update="Windows\PacketLoggerFrm.designer.cs">
-			<DependentUpon>PacketLoggerFrm.cs</DependentUpon>
-		</Compile>
-		<EmbeddedResource Update="Windows\Dialogs\FindDialog.resx">
-			<DependentUpon>FindDialog.cs</DependentUpon>
+		<None Remove="Hashes.ini" />
+		<None Remove="Settings.ini" />
+		<None Include="Resources\Tanji_256.ico" />
+		<None Include="Resources\Avatar.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Hashes.ini">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Windows\Dialogs\FindMessageDialog.resx">
-			<DependentUpon>FindMessageDialog.cs</DependentUpon>
+		<EmbeddedResource Include="Settings.ini">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Windows\Dialogs\IgnoreMessagesDialog.resx">
-			<DependentUpon>IgnoreMessagesDialog.cs</DependentUpon>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Windows\MainFrm.resx">
-			<DependentUpon>MainFrm.cs</DependentUpon>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Windows\PacketLoggerFrm.resx">
-			<DependentUpon>PacketLoggerFrm.cs</DependentUpon>
-		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Properties\Settings.Designer.cs">
+			<DesignTimeSharedInput>True</DesignTimeSharedInput>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Settings.settings</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
 		<EmbeddedResource Update="Properties\Resources.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
-			<SubType>Designer</SubType>
 		</EmbeddedResource>
-		<Compile Update="Properties\Resources.Designer.cs">
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Resources.resx</DependentUpon>
-			<DesignTime>True</DesignTime>
-		</Compile>
+	</ItemGroup>
 
-		<None Include="Hashes.ini">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-
-		<None Include="Properties\Settings.settings">
+	<ItemGroup>
+		<None Update="Properties\Settings.settings">
 			<Generator>SettingsSingleFileGenerator</Generator>
 			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
 		</None>
+	</ItemGroup>
 
-		<Compile Update="Properties\Settings.Designer.cs">
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Settings.settings</DependentUpon>
-			<DesignTimeSharedInput>True</DesignTimeSharedInput>
-		</Compile>
-
-		<None Include="Settings.ini">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-
-	</ItemGroup>
-	<ItemGroup>
-		<None Include="Resources\Tanji_256.ico" />
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\Sulakore\Sulakore.csproj" />
-		<ProjectReference Include="..\Tangine\Tangine.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-		<None Include="Resources\Avatar.png" />
-	</ItemGroup>
 </Project>
