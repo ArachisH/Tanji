@@ -80,7 +80,7 @@ public class ConnectionPage : TanjiPage, IReceiver
     public ConnectionPage(MainFrm ui, TabPage tab)
         : base(ui, tab)
     {
-        UI.CoTProxyPortLbl.Text = $"Proxy Port: {Program.Settings["ProxyListenPort"]}";
+        UI.CoTProxyPortLbl.Text = $"Proxy Port: {Program.Configuration.ProxyListenPort}";
         PropertyChanged += ConnectionPage_PropertyChanged;
 
         UI.CoTStatusTxt.DataBindings.Add("Text", this, nameof(Status), false, DataSourceUpdateMode.OnPropertyChanged);
@@ -158,7 +158,7 @@ public class ConnectionPage : TanjiPage, IReceiver
         if (TryInstallCertificateAuthority())
         {
             Eavesdropper.ResponseInterceptedAsync += InterceptClientPageAsync;
-            Eavesdropper.Initiate((int)Program.Settings["ProxyListenPort"]);
+            Eavesdropper.Initiate(Program.Configuration.ProxyListenPort);
             Status = INTERCEPTING_CLIENT_PAGE;
         }
     }
@@ -221,9 +221,8 @@ public class ConnectionPage : TanjiPage, IReceiver
     {
         string clientName = Path.GetFileName(e.Uri.LocalPath);
         string clientPath = Path.GetFullPath($"Modified Clients/{e.Uri.Host}{e.Uri.LocalPath}");
-        bool hasClientFileName = ((string)Program.Settings["PossibleClientFileNames"]).Split(',').Contains(clientName);
 
-        if (!e.Uri.Query.EndsWith("?" + _randomQuery) && !File.Exists(clientPath) && !hasClientFileName) return null;
+        if (!e.Uri.Query.EndsWith("?" + _randomQuery) && !File.Exists(clientPath)) return null;
         Eavesdropper.RequestInterceptedAsync -= InjectGameClientAsync;
 
         if (!string.IsNullOrWhiteSpace(CustomClientPath))
@@ -347,27 +346,16 @@ public class ConnectionPage : TanjiPage, IReceiver
 
         int triggerSumIndices = 0;
         string body = await e.Content.ReadAsStringAsync().ConfigureAwait(false);
-        foreach (string trigger in ((string)Program.Settings["ClientPageInterceptionTriggers"]).Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+        foreach (string trigger in Program.Configuration.FlashInterceptionTriggers)
         {
             triggerSumIndices += body.IndexOf(trigger, StringComparison.OrdinalIgnoreCase);
         }
         if (triggerSumIndices < 0) return;
 
-        string[] blacklistedHosts = ((string)Program.Settings["ForceSWFDecacheBlacklist"]).Split(',');
-        bool isBlacklisted = blacklistedHosts.Contains(e.Uri.Host);
-
-        bool hasPossibleClientFileName = false;
-        foreach (string clientFileName in ((string)Program.Settings["PossibleClientFileNames"]).Split(','))
-        {
-            if (body.Contains(clientFileName))
-            {
-                hasPossibleClientFileName = true;
-                break;
-            }
-        }
 
         int swfStartIndex = GetSWFStartIndex(body);
-        if (swfStartIndex == -1 && !isBlacklisted && !hasPossibleClientFileName) return;
+        if (swfStartIndex == -1) return;
+
         Eavesdropper.ResponseInterceptedAsync -= InterceptClientPageAsync;
 
         UI.GameData.Source = body;
@@ -384,7 +372,7 @@ public class ConnectionPage : TanjiPage, IReceiver
             _variableReplacements[realValue] = fakeValue;
         }
 
-        if (!isBlacklisted && swfStartIndex != -1)
+        if (swfStartIndex != -1)
         {
             do
             {

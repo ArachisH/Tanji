@@ -42,7 +42,7 @@ namespace Tanji.Components
         {
             if (!DesignMode)
             {
-                ApplyScheme(e.Control, (Color)Program.Settings["UIScheme"]);
+                ApplyScheme(e.Control, Program.Configuration.UIScheme);
             }
             base.OnControlAdded(e);
         }

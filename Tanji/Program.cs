@@ -1,17 +1,17 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Drawing;
-using System.Reflection;
 using System.Diagnostics;
+using System.Configuration;
 using System.Windows.Forms;
 using System.ServiceProcess;
 using System.Security.Principal;
-using System.Collections.Generic;
 
 using Microsoft.Win32;
 
 using Tanji.Windows;
+
+using Tanji.Core.Services;
 
 using Eavesdrop;
 
@@ -26,7 +26,7 @@ namespace Tanji
     {
         public static bool IsParentProcess { get; private set; }
         public static bool HasAdminPrivileges { get; private set; }
-        public static Dictionary<string, object> Settings { get; private set; }
+        public static ConfigurationService Configuration { get; private set; }
 
         [STAThread]
         private static int Main(string[] args)
@@ -36,7 +36,7 @@ namespace Tanji
                 HasAdminPrivileges = new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator);
             }
 
-            Settings = LoadSettings();
+            Configuration = new ConfigurationService(ConfigurationManager.AppSettings);
             AppDomain.CurrentDomain.UnhandledException += UnhandledException;
 
             if (args.Length > 0)
@@ -55,7 +55,7 @@ namespace Tanji
             if (EnsureManualWinHttpAutoProxySvcStartup() == ServiceControllerStatus.Running)
             {
                 Eavesdropper.Certifier = new Certifier("Tanji", "Tanji Certificate Authority");
-                Eavesdropper.Targets.AddRange(((string)Settings["ProxyOverrides"]).Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+                Eavesdropper.Targets.AddRange(Configuration.ProxyOverrides);
                 Eavesdropper.Terminate();
 
                 Application.EnableVisualStyles();
@@ -85,7 +85,7 @@ namespace Tanji
                 bool disabledHostChecks = game.DisableHostChecks();
                 bool injectedKeyShouter = game.InjectKeyShouter(4001);
                 bool injectedEndPointShouter = game.InjectEndPointShouter(4000);
-                bool injectedEndPoint = game.InjectEndPoint("127.0.0.1", (int)Settings["ConnectionListenPort"]);
+                bool injectedEndPoint = game.InjectEndPoint("127.0.0.1", Configuration.GameListenPort);
 
                 string moddedClientPath = Path.Combine(clientInfo.DirectoryName, "MOD_" + clientInfo.Name);
                 using (var fileOutput = File.Open(moddedClientPath, FileMode.Create))
@@ -111,36 +111,6 @@ namespace Tanji
                 proc.WaitForExit();
                 return proc.ExitCode;
             }
-        }
-        private static Dictionary<string, object> LoadSettings()
-        {
-            var settings = new Dictionary<string, object>();
-            foreach (string line in File.ReadLines(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Settings.ini")))
-            {
-                int splitIndex = line.IndexOf('=');
-                string name = line.Substring(0, splitIndex);
-                string value = line.Substring(splitIndex + 1, line.Length - (name.Length + 1));
-
-                object oValue = null;
-                if (int.TryParse(value, out int iValue))
-                {
-                    oValue = iValue;
-                }
-                else if (bool.TryParse(value, out bool bValue))
-                {
-                    oValue = bValue;
-                }
-                else if (value.StartsWith("#") && value.Length == 7)
-                {
-                    oValue = ColorTranslator.FromHtml(value.ToUpper());
-                }
-                else
-                {
-                    oValue = value;
-                }
-                settings.Add(name, oValue);
-            }
-            return settings;
         }
 
         private static ServiceControllerStatus EnsureManualWinHttpAutoProxySvcStartup()

@@ -100,7 +100,7 @@ namespace Tanji.Windows
             _receivers.Add(ConnectionPg);
             _receivers.Add(PacketLoggerUI);
 
-            Connection.ListenPort = (int)Program.Settings["ConnectionListenPort"];
+            Connection.ListenPort = Program.Configuration.GameListenPort;
         }
 
         private void MainFrm_Load(object sender, EventArgs e)
