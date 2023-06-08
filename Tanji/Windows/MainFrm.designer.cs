@@ -288,9 +288,9 @@
             CoTVariableTxt.Text = "";
             CoTVariableTxt.TextPaddingWidth = 0;
             CoTVariableTxt.Title = "Variable";
-            CoTVariableTxt.Value = "";
-            CoTVariableTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            CoTVariableTxt.ValueReadOnly = true;
+            CoTVariableTxt.Text = "";
+            CoTVariableTxt.Box.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            CoTVariableTxt.IsReadOnly = true;
             // 
             // CoTValueTxt
             // 
@@ -302,9 +302,9 @@
             CoTValueTxt.TabIndex = 106;
             CoTValueTxt.Text = "";
             CoTValueTxt.Title = "Value";
-            CoTValueTxt.Value = "";
-            CoTValueTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            CoTValueTxt.ValueReadOnly = false;
+            CoTValueTxt.Text = "";
+            CoTValueTxt.Box.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            CoTValueTxt.IsReadOnly = false;
             // 
             // CoTCustomClientTxt
             // 
@@ -317,9 +317,9 @@
             CoTCustomClientTxt.Text = "";
             CoTCustomClientTxt.TextPaddingWidth = 0;
             CoTCustomClientTxt.Title = "Custom Client";
-            CoTCustomClientTxt.Value = "";
-            CoTCustomClientTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            CoTCustomClientTxt.ValueReadOnly = false;
+            CoTCustomClientTxt.Text = "";
+            CoTCustomClientTxt.Box.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            CoTCustomClientTxt.IsReadOnly = false;
             // 
             // CoTBrowseBtn
             // 
@@ -799,9 +799,9 @@
             STHotkeyTxt.Text = "";
             STHotkeyTxt.TextPaddingWidth = 0;
             STHotkeyTxt.Title = "Hotkey";
-            STHotkeyTxt.Value = "";
-            STHotkeyTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            STHotkeyTxt.ValueReadOnly = true;
+            STHotkeyTxt.Text = "";
+            STHotkeyTxt.Box.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            STHotkeyTxt.IsReadOnly = true;
             // 
             // STRemoveBtn
             // 
@@ -978,9 +978,9 @@
             PTLengthTxt.Text = "0";
             PTLengthTxt.TextPaddingWidth = 0;
             PTLengthTxt.Title = "Length";
-            PTLengthTxt.Value = "0";
-            PTLengthTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            PTLengthTxt.ValueReadOnly = true;
+            PTLengthTxt.Text = "0";
+            PTLengthTxt.Box.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            PTLengthTxt.IsReadOnly = true;
             // 
             // PTHeaderTxt
             // 
@@ -994,9 +994,9 @@
             PTHeaderTxt.Text = "0";
             PTHeaderTxt.TextPaddingWidth = 0;
             PTHeaderTxt.Title = "Header";
-            PTHeaderTxt.Value = "0";
-            PTHeaderTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            PTHeaderTxt.ValueReadOnly = true;
+            PTHeaderTxt.Text = "0";
+            PTHeaderTxt.Box.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            PTHeaderTxt.IsReadOnly = true;
             // 
             // PTCorruptedTxt
             // 
@@ -1010,9 +1010,9 @@
             PTCorruptedTxt.Text = "True";
             PTCorruptedTxt.TextPaddingWidth = 0;
             PTCorruptedTxt.Title = "Corrupted";
-            PTCorruptedTxt.Value = "True";
-            PTCorruptedTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            PTCorruptedTxt.ValueReadOnly = true;
+            PTCorruptedTxt.Text = "True";
+            PTCorruptedTxt.Box.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            PTCorruptedTxt.IsReadOnly = true;
             // 
             // PTPacketTxt
             // 
@@ -1059,9 +1059,9 @@
             FTReplacementTxt.Text = "";
             FTReplacementTxt.TextPaddingWidth = 0;
             FTReplacementTxt.Title = "Replacement";
-            FTReplacementTxt.Value = "";
-            FTReplacementTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            FTReplacementTxt.ValueReadOnly = true;
+            FTReplacementTxt.Text = "";
+            FTReplacementTxt.Box.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            FTReplacementTxt.IsReadOnly = true;
             // 
             // FTDestinationLbl
             // 
@@ -1343,9 +1343,9 @@
             sKoreLabelBox1.Text = "8055";
             sKoreLabelBox1.TextPaddingWidth = 0;
             sKoreLabelBox1.Title = "Install Port";
-            sKoreLabelBox1.Value = "8055";
-            sKoreLabelBox1.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            sKoreLabelBox1.ValueReadOnly = true;
+            sKoreLabelBox1.Text = "8055";
+            sKoreLabelBox1.Box.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            sKoreLabelBox1.IsReadOnly = true;
             // 
             // MTResourceBtn
             // 

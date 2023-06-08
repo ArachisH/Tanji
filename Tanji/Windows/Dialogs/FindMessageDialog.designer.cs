@@ -114,9 +114,9 @@
             this.HashTxt.TabIndex = 7;
             this.HashTxt.Text = "";
             this.HashTxt.Title = "Hash";
-            this.HashTxt.Value = "";
-            this.HashTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.HashTxt.ValueReadOnly = false;
+            this.HashTxt.Text = "";
+            this.HashTxt.Box.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.HashTxt.IsReadOnly = false;
             // 
             // FindMessageDialog
             // 

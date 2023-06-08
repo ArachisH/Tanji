@@ -21,15 +21,25 @@ public class TanjiLabelBox : Control, ISkinnable
         set
         {
             _isReadOnly = value;
-            Box.ForeColor = (value ? Color.FromArgb(150, 150, 150) : Color.Black);
+            Box.ForeColor = value ? Color.FromArgb(150, 150, 150) : Color.Black;
         }
     }
+
+    [DefaultValue(false)]
+    public bool IsNumbersOnly { get; set; }
 
     [DefaultValue(null)]
     public override string Text
     {
         get => Box.Text;
         set => Box.Text = value;
+    }
+
+    [DefaultValue(32767)]
+    public int MaxLength
+    {
+        get => Box.MaxLength;
+        set => Box.MaxLength = value;
     }
 
     private int _textPaddingWidth = 10;
@@ -82,40 +92,25 @@ public class TanjiLabelBox : Control, ISkinnable
         set => Box.TabStop = value;
     }
 
-    [Browsable(false)]
-    public HorizontalAlignment ValueAlign { get; set; }
-
-    [Browsable(false)]
-    public string Value
-    {
-        get => Text;
-        set => Text = value;
-    }
-
-    [Browsable(false)]
-    public bool ValueReadOnly
-    {
-        get => IsReadOnly;
-        set => IsReadOnly = value;
-    }
-
     public TanjiLabelBox()
     {
         SetStyle(ControlStyles.UserPaint | ControlStyles.SupportsTransparentBackColor, true);
         DoubleBuffered = true;
 
         base.TabStop = false;
-        Size = new Size(200, 20);
+        Size = new Size(200, 21);
 
         Box = new TextBox
         {
             TabStop = true,
+            AutoSize = false,
             Dock = DockStyle.Right,
             ForeColor = Color.Black,
             BackColor = Color.White,
             TextAlign = HorizontalAlignment.Center
         };
         Box.KeyDown += Box_KeyDown;
+        Box.KeyPress += Box_KeyPress;
         Box.TextChanged += Box_TextChanged;
         Controls.Add(Box);
     }
@@ -133,6 +128,13 @@ public class TanjiLabelBox : Control, ISkinnable
     {
         OnTextChanged(e);
     }
+    private void Box_KeyPress(object sender, KeyPressEventArgs e)
+    {
+        if (IsNumbersOnly)
+        {
+            e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
+        }
+    }
 
     protected override void OnGotFocus(EventArgs e)
     {
@@ -145,10 +147,9 @@ public class TanjiLabelBox : Control, ISkinnable
         if (!string.IsNullOrWhiteSpace(Title))
         {
             TextRenderer.DrawText(e.Graphics, Title, Font, _titleRect, ForeColor, TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter);
-            using (var lineColor = new Pen(Skin))
-            {
-                e.Graphics.DrawLine(lineColor, _titleRect.Right, 0, _titleRect.Right, Height);
-            }
+
+            using var lineColor = new Pen(Skin);
+            e.Graphics.DrawLine(lineColor, _titleRect.Right, 0, _titleRect.Right, Height);
         }
         base.OnPaint(e);
     }
@@ -159,7 +160,7 @@ public class TanjiLabelBox : Control, ISkinnable
     }
     protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
     {
-        base.SetBoundsCore(x, y, width, 20, specified);
+        base.SetBoundsCore(x, y, width, 21, specified);
         if (Box != null)
         {
             Title = Title;
@@ -171,6 +172,7 @@ public class TanjiLabelBox : Control, ISkinnable
         if (disposing)
         {
             Box.KeyDown -= Box_KeyDown;
+            Box.KeyPress -= Box_KeyPress;
             Box.TextChanged -= Box_TextChanged;
             Box.Dispose();
         }

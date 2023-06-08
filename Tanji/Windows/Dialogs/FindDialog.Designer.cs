@@ -160,9 +160,9 @@
             this.FindWhatTxt.TabIndex = 11;
             this.FindWhatTxt.Text = "";
             this.FindWhatTxt.Title = "Find What";
-            this.FindWhatTxt.Value = "";
-            this.FindWhatTxt.ValueAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.FindWhatTxt.ValueReadOnly = false;
+            this.FindWhatTxt.Text = "";
+            this.FindWhatTxt.Box.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.FindWhatTxt.IsReadOnly = false;
             this.FindWhatTxt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FindWhatTxt_KeyDown);
             // 
             // FindDialog
