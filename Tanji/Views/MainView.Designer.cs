@@ -39,7 +39,7 @@ partial class MainView
         tabSettings = new System.Windows.Forms.TabPage();
         statusStripMain = new System.Windows.Forms.StatusStrip();
         extensionsView = new Pages.ExtensionsView();
-        settingsViews = new Pages.SettingsViews();
+        settingsViews = new Pages.SettingsView();
         tabControlMain.SuspendLayout();
         tabConnection.SuspendLayout();
         tabInjection.SuspendLayout();
@@ -207,5 +207,5 @@ partial class MainView
     private Pages.ConnectionView connectionView;
     private Pages.ToolboxView toolboxView;
     private Pages.ExtensionsView extensionsView;
-    private Pages.SettingsViews settingsViews;
+    private Pages.SettingsView settingsViews;
 }

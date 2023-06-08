@@ -7,11 +7,11 @@ namespace Tanji.Views.Pages;
 
 [ToolboxItem(true)]
 [DesignerCategory("UserControl")]
-public partial class InjectionView : InjectionPageControl
+public partial class SettingsView : SettingsPageControl
 {
     protected override BindingSource? Source => viewModelSource;
 
-    public InjectionView()
+    public SettingsView()
     {
         InitializeComponent();
     }

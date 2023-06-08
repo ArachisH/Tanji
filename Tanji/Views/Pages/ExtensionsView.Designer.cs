@@ -29,8 +29,24 @@ partial class ExtensionsView
     private void InitializeComponent()
     {
         components = new System.ComponentModel.Container();
-        this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+        viewModelSource = new System.Windows.Forms.BindingSource(components);
+        ((System.ComponentModel.ISupportInitialize)viewModelSource).BeginInit();
+        SuspendLayout();
+        // 
+        // viewModelSource
+        // 
+        viewModelSource.DataSource = typeof(Core.ViewModels.ExtensionsViewModel);
+        // 
+        // ExtensionsView
+        // 
+        AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+        AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+        Name = "ExtensionsView";
+        ((System.ComponentModel.ISupportInitialize)viewModelSource).EndInit();
+        ResumeLayout(false);
     }
 
     #endregion
+
+    private System.Windows.Forms.BindingSource viewModelSource;
 }
