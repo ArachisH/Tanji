@@ -9,7 +9,7 @@ using System.ComponentModel.Design;
 namespace Tanji.Controls;
 
 [DesignerCategory("Code")]
-public class TanjiButton : Control, IButtonControl, ISkinnable
+public class TanjiButton : ButtonBase, IButtonControl, ISkinnable
 {
     private bool _isPressed;
     private Control _lastParent;
@@ -181,7 +181,6 @@ public class TanjiButton : Control, IButtonControl, ISkinnable
         {
             e.Graphics.DrawRectangle(borderPen, new Rectangle(0, 0, Width - 1, Height - 1));
         }
-        base.OnPaint(e);
     }
     protected override void OnMouseUp(MouseEventArgs e)
     {
