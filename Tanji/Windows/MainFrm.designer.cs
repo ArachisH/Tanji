@@ -40,46 +40,46 @@
             var resources = new System.ComponentModel.ComponentResourceManager(typeof(MainFrm));
             CustomClientDlg = new System.Windows.Forms.OpenFileDialog();
             InstallModuleDlg = new System.Windows.Forms.OpenFileDialog();
-            TanjiTabs = new Tanji.Controls.TanjiTabControl();
+            TanjiTabs = new Controls.TanjiTabControl();
             ConnectionTab = new System.Windows.Forms.TabPage();
             label2 = new System.Windows.Forms.Label();
-            CoTProxyPortLbl = new Tanji.Controls.TanjiLabel();
+            CoTProxyPortLbl = new Controls.TanjiLabel();
             label1 = new System.Windows.Forms.Label();
-            CoTVariableTxt = new Tanji.Controls.TanjiLabelBox();
-            CoTValueTxt = new Tanji.Controls.TanjiLabelBox();
-            CoTCustomClientTxt = new Tanji.Controls.TanjiLabelBox();
-            CoTBrowseBtn = new Tanji.Controls.TanjiButton();
-            CoTExportCertificateAuthorityBtn = new Tanji.Controls.TanjiButton();
-            CoTDestroyCertificatesBtn = new Tanji.Controls.TanjiButton();
-            CoTResetBtn = new Tanji.Controls.TanjiButton();
-            CoTUpdateBtn = new Tanji.Controls.TanjiButton();
-            CoTStatusTxt = new Tanji.Controls.TanjiLabel();
-            CoTConnectBtn = new Tanji.Controls.TanjiButton();
-            CoTVariablesVw = new Tanji.Controls.TanjiListView();
+            CoTVariableTxt = new Controls.TanjiLabelBox();
+            CoTValueTxt = new Controls.TanjiLabelBox();
+            CoTCustomClientTxt = new Controls.TanjiLabelBox();
+            CoTBrowseBtn = new Controls.TanjiButton();
+            CoTExportCertificateAuthorityBtn = new Controls.TanjiButton();
+            CoTDestroyCertificatesBtn = new Controls.TanjiButton();
+            CoTResetBtn = new Controls.TanjiButton();
+            CoTUpdateBtn = new Controls.TanjiButton();
+            CoTStatusTxt = new Controls.TanjiLabel();
+            CoTConnectBtn = new Controls.TanjiButton();
+            CoTVariablesVw = new Controls.TanjiListView();
             CoTVariableCol = new System.Windows.Forms.ColumnHeader();
             CoTValueCol = new System.Windows.Forms.ColumnHeader();
             InjectionTab = new System.Windows.Forms.TabPage();
-            ITSendToClientBtn = new Tanji.Controls.TanjiButton();
-            ITSendToServerBtn = new Tanji.Controls.TanjiButton();
-            InjectionTabs = new Tanji.Controls.TanjiTabControl();
+            ITSendToClientBtn = new Controls.TanjiButton();
+            ITSendToServerBtn = new Controls.TanjiButton();
+            InjectionTabs = new Controls.TanjiTabControl();
             ConstructerTab = new System.Windows.Forms.TabPage();
             CTValueTxt = new System.Windows.Forms.ComboBox();
             CTHeaderTxt = new System.Windows.Forms.NumericUpDown();
             CTHeaderLbl = new System.Windows.Forms.Label();
             CTAmountLbl = new System.Windows.Forms.Label();
             CTStructureTxt = new System.Windows.Forms.TextBox();
-            CTTransferBelowBtn = new Tanji.Controls.TanjiButton();
-            CTValueCountLbl = new Tanji.Controls.TanjiLabel();
+            CTTransferBelowBtn = new Controls.TanjiButton();
+            CTValueCountLbl = new Controls.TanjiLabel();
             CTAmountTxt = new System.Windows.Forms.NumericUpDown();
-            CTRemoveBtn = new Tanji.Controls.TanjiButton();
-            CTMoveDownBtn = new Tanji.Controls.TanjiButton();
-            CTMoveUpBtn = new Tanji.Controls.TanjiButton();
-            CTClearBtn = new Tanji.Controls.TanjiButton();
-            CTWriteBooleanBtn = new Tanji.Controls.TanjiButton();
-            CTWriteStringBtn = new Tanji.Controls.TanjiButton();
-            CTWriteIntegerBtn = new Tanji.Controls.TanjiButton();
+            CTRemoveBtn = new Controls.TanjiButton();
+            CTMoveDownBtn = new Controls.TanjiButton();
+            CTMoveUpBtn = new Controls.TanjiButton();
+            CTClearBtn = new Controls.TanjiButton();
+            CTWriteBooleanBtn = new Controls.TanjiButton();
+            CTWriteStringBtn = new Controls.TanjiButton();
+            CTWriteIntegerBtn = new Controls.TanjiButton();
             CTValueLbl = new System.Windows.Forms.Label();
-            CTConstructerVw = new Tanji.Controls.SKoreConstructView();
+            CTConstructerVw = new Controls.SKoreConstructView();
             CTTypeCol = new System.Windows.Forms.ColumnHeader();
             CTValueCol = new System.Windows.Forms.ColumnHeader();
             CTEncodedCol = new System.Windows.Forms.ColumnHeader();
@@ -87,39 +87,39 @@
             STAutoStartChckbx = new System.Windows.Forms.CheckBox();
             STDestinationTxt = new System.Windows.Forms.ComboBox();
             STPacketTxt = new System.Windows.Forms.TextBox();
-            STHotkeyTxt = new Tanji.Controls.TanjiLabelBox();
-            STRemoveBtn = new Tanji.Controls.TanjiButton();
+            STHotkeyTxt = new Controls.TanjiLabelBox();
+            STRemoveBtn = new Controls.TanjiButton();
             STDestinationLbl = new System.Windows.Forms.Label();
             STCyclesLbl = new System.Windows.Forms.Label();
             STCyclesTxt = new System.Windows.Forms.NumericUpDown();
             STIntervalLbl = new System.Windows.Forms.Label();
-            STClearBtn = new Tanji.Controls.TanjiButton();
-            STCreateBtn = new Tanji.Controls.TanjiButton();
+            STClearBtn = new Controls.TanjiButton();
+            STCreateBtn = new Controls.TanjiButton();
             STIntervalTxt = new System.Windows.Forms.NumericUpDown();
             STPacketLbl = new System.Windows.Forms.Label();
-            STSchedulerVw = new Tanji.Controls.SKoreScheduleView();
+            STSchedulerVw = new Controls.SKoreScheduleView();
             STPacketCol = new System.Windows.Forms.ColumnHeader();
             STDestinationCol = new System.Windows.Forms.ColumnHeader();
             STIntervalCol = new System.Windows.Forms.ColumnHeader();
             STCyclesCol = new System.Windows.Forms.ColumnHeader();
             STHotkeyCol = new System.Windows.Forms.ColumnHeader();
             PrimitiveTab = new System.Windows.Forms.TabPage();
-            PTSaveAsBtn = new Tanji.Controls.TanjiButton();
-            PTLengthTxt = new Tanji.Controls.TanjiLabelBox();
-            PTHeaderTxt = new Tanji.Controls.TanjiLabelBox();
-            PTCorruptedTxt = new Tanji.Controls.TanjiLabelBox();
+            PTSaveAsBtn = new Controls.TanjiButton();
+            PTLengthTxt = new Controls.TanjiLabelBox();
+            PTHeaderTxt = new Controls.TanjiLabelBox();
+            PTCorruptedTxt = new Controls.TanjiLabelBox();
             PTPacketTxt = new System.Windows.Forms.TextBox();
             FiltersTab = new System.Windows.Forms.TabPage();
-            FTReplacementTxt = new Tanji.Controls.TanjiLabelBox();
+            FTReplacementTxt = new Controls.TanjiLabelBox();
             FTDestinationLbl = new System.Windows.Forms.Label();
             FTDestinationTxt = new System.Windows.Forms.ComboBox();
             FTHeaderTxt = new System.Windows.Forms.NumericUpDown();
             FTHeaderLbl = new System.Windows.Forms.Label();
-            FTRemoveBtn = new Tanji.Controls.TanjiButton();
-            FTCreateBtn = new Tanji.Controls.TanjiButton();
+            FTRemoveBtn = new Controls.TanjiButton();
+            FTCreateBtn = new Controls.TanjiButton();
             FTActionLbl = new System.Windows.Forms.Label();
             FTActionTxt = new System.Windows.Forms.ComboBox();
-            FTFiltersVw = new Tanji.Controls.TanjiListView();
+            FTFiltersVw = new Controls.TanjiListView();
             FTHeaderCol = new System.Windows.Forms.ColumnHeader();
             FTDestinationCol = new System.Windows.Forms.ColumnHeader();
             FTActionCol = new System.Windows.Forms.ColumnHeader();
@@ -131,36 +131,36 @@
             TTIntInputTxt = new System.Windows.Forms.NumericUpDown();
             TTIntOutputTxt = new System.Windows.Forms.TextBox();
             TTUShortOutputTxt = new System.Windows.Forms.TextBox();
-            TTDecodeIntBtn = new Tanji.Controls.TanjiButton();
-            TTDecodeUShortBtn = new Tanji.Controls.TanjiButton();
+            TTDecodeIntBtn = new Controls.TanjiButton();
+            TTDecodeUShortBtn = new Controls.TanjiButton();
             TTUShortInputTxt = new System.Windows.Forms.NumericUpDown();
             ModulesTab = new System.Windows.Forms.TabPage();
             MTSeperator1 = new System.Windows.Forms.Label();
-            sKoreLabelBox1 = new Tanji.Controls.TanjiLabelBox();
-            MTResourceBtn = new Tanji.Controls.TanjiButton();
+            sKoreLabelBox1 = new Controls.TanjiLabelBox();
+            MTResourceBtn = new Controls.TanjiButton();
             MTHabboNameTxt = new System.Windows.Forms.TextBox();
             MTHabboNameLbl = new System.Windows.Forms.Label();
             MTAuthorsLbl = new System.Windows.Forms.Label();
             MTAuthorsTxt = new System.Windows.Forms.ComboBox();
-            MTUninstallModuleBtn = new Tanji.Controls.TanjiButton();
-            MTInstallModuleBtn = new Tanji.Controls.TanjiButton();
+            MTUninstallModuleBtn = new Controls.TanjiButton();
+            MTInstallModuleBtn = new Controls.TanjiButton();
             MTAuthorPctbx = new System.Windows.Forms.PictureBox();
-            MTModulesVw = new Tanji.Controls.TanjiListView();
+            MTModulesVw = new Controls.TanjiListView();
             MTNameCol = new System.Windows.Forms.ColumnHeader();
             MTDescriptionCol = new System.Windows.Forms.ColumnHeader();
             MTVersionCol = new System.Windows.Forms.ColumnHeader();
             MTStateCol = new System.Windows.Forms.ColumnHeader();
             AboutTab = new System.Windows.Forms.TabPage();
-            Sellout2Btn = new Tanji.Controls.TanjiButton();
-            SelloutBtn = new Tanji.Controls.TanjiButton();
-            HarbleDiscordBtn = new Tanji.Controls.TanjiButton();
-            DonateBtn = new Tanji.Controls.TanjiButton();
-            SpeaqerBtn = new Tanji.Controls.TanjiButton();
-            SNGButton = new Tanji.Controls.TanjiButton();
-            DarkboxBtn = new Tanji.Controls.TanjiButton();
-            DarkStarBtn = new Tanji.Controls.TanjiButton();
-            ArachisBtn = new Tanji.Controls.TanjiButton();
-            InjectionMenu = new Tanji.Controls.SKoreInjectionMenu(components);
+            Sellout2Btn = new Controls.TanjiButton();
+            SelloutBtn = new Controls.TanjiButton();
+            HarbleDiscordBtn = new Controls.TanjiButton();
+            DonateBtn = new Controls.TanjiButton();
+            SpeaqerBtn = new Controls.TanjiButton();
+            SNGButton = new Controls.TanjiButton();
+            DarkboxBtn = new Controls.TanjiButton();
+            DarkStarBtn = new Controls.TanjiButton();
+            ArachisBtn = new Controls.TanjiButton();
+            InjectionMenu = new Controls.SKoreInjectionMenu(components);
             SavePacketDlg = new System.Windows.Forms.SaveFileDialog();
             TanjiVersionTxt = new System.Windows.Forms.ToolStripStatusLabel();
             SchedulesTxt = new System.Windows.Forms.ToolStripStatusLabel();
@@ -434,6 +434,7 @@
             // 
             // InjectionTab
             // 
+            InjectionTab.BackColor = System.Drawing.Color.White;
             InjectionTab.Controls.Add(ITSendToClientBtn);
             InjectionTab.Controls.Add(ITSendToServerBtn);
             InjectionTab.Controls.Add(InjectionTabs);
@@ -492,6 +493,7 @@
             // 
             // ConstructerTab
             // 
+            ConstructerTab.BackColor = System.Drawing.Color.White;
             ConstructerTab.Controls.Add(CTValueTxt);
             ConstructerTab.Controls.Add(CTHeaderTxt);
             ConstructerTab.Controls.Add(CTHeaderLbl);
@@ -730,6 +732,7 @@
             // 
             // SchedulerTab
             // 
+            SchedulerTab.BackColor = System.Drawing.Color.White;
             SchedulerTab.Controls.Add(STAutoStartChckbx);
             SchedulerTab.Controls.Add(STDestinationTxt);
             SchedulerTab.Controls.Add(STPacketTxt);
@@ -940,6 +943,7 @@
             // 
             // PrimitiveTab
             // 
+            PrimitiveTab.BackColor = System.Drawing.Color.White;
             PrimitiveTab.Controls.Add(PTSaveAsBtn);
             PrimitiveTab.Controls.Add(PTLengthTxt);
             PrimitiveTab.Controls.Add(PTHeaderTxt);
@@ -1025,6 +1029,7 @@
             // 
             // FiltersTab
             // 
+            FiltersTab.BackColor = System.Drawing.Color.White;
             FiltersTab.Controls.Add(FTReplacementTxt);
             FiltersTab.Controls.Add(FTDestinationLbl);
             FiltersTab.Controls.Add(FTDestinationTxt);
@@ -1192,6 +1197,7 @@
             // 
             // ToolboxTab
             // 
+            ToolboxTab.BackColor = System.Drawing.Color.White;
             ToolboxTab.Controls.Add(TT16BitInputLbl);
             ToolboxTab.Controls.Add(TT32BitInputLbl);
             ToolboxTab.Controls.Add(TTIntInputTxt);
@@ -1297,6 +1303,7 @@
             // ModulesTab
             // 
             ModulesTab.AllowDrop = true;
+            ModulesTab.BackColor = System.Drawing.Color.White;
             ModulesTab.Controls.Add(MTSeperator1);
             ModulesTab.Controls.Add(sKoreLabelBox1);
             ModulesTab.Controls.Add(MTResourceBtn);
@@ -1468,6 +1475,7 @@
             // 
             // AboutTab
             // 
+            AboutTab.BackColor = System.Drawing.Color.White;
             AboutTab.Controls.Add(Sellout2Btn);
             AboutTab.Controls.Add(SelloutBtn);
             AboutTab.Controls.Add(HarbleDiscordBtn);
