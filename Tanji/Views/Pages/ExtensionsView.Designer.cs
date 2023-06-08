@@ -1,6 +1,6 @@
 ﻿namespace Tanji.Views.Pages;
 
-partial class ConnectionView
+partial class ExtensionsView
 {
     /// <summary> 
     /// Required designer variable.

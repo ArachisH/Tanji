@@ -4,10 +4,9 @@ using System.Windows.Forms;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
+using Tanji.Views;
 using Tanji.Services;
-
 using Tanji.Core.Services;
-using Tanji.Windows;
 
 namespace Tanji;
 
@@ -23,7 +22,7 @@ static class Program
             .ConfigureServices((context, services) =>
             {
                 // Views (Windows, Dialogs, Pages)
-                services.AddSingleton<MainFrm>();
+                services.AddSingleton<MainView>();
 
                 // Services
                 services.AddSingleton<IConfigurationDataProviderService, ConfigurationDataProviderService>();                                                                   // Provides the data
@@ -40,6 +39,6 @@ static class Program
         Configuration = services.GetRequiredService<IConfigurationService>();
 
         ApplicationConfiguration.Initialize();
-        Application.Run(services.GetRequiredService<MainFrm>());
+        Application.Run(services.GetRequiredService<MainView>());
     }
 }

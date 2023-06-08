@@ -6,9 +6,9 @@ namespace Tanji.Views.Pages;
 
 [ToolboxItem(true)]
 [DesignerCategory("UserControl")]
-public partial class ConnectionView : PageControl
+public partial class ExtensionsView : PageControl
 {
-    public ConnectionView()
+    public ExtensionsView()
     {
         InitializeComponent();
     }

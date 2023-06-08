@@ -75,6 +75,7 @@ public sealed class TanjiTabControl : TabControl, ISkinnable
         DoubleBuffered = true;
         ItemSize = new Size(95, 24);
         SizeMode = TabSizeMode.Fixed;
+        DrawMode = TabDrawMode.OwnerDrawFixed;
     }
 
     protected override void Dispose(bool disposing)
