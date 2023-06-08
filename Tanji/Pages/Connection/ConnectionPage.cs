@@ -80,7 +80,7 @@ public class ConnectionPage : TanjiPage, IReceiver
     public ConnectionPage(MainFrm ui, TabPage tab)
         : base(ui, tab)
     {
-        UI.CoTProxyPortLbl.Text = $"Proxy Port: {Program.Configuration.ProxyListenPort}";
+        //UI.CoTProxyPortLbl.Text = $"Proxy Port: {Program.Configuration.ProxyListenPort}";
         PropertyChanged += ConnectionPage_PropertyChanged;
 
         UI.CoTStatusTxt.DataBindings.Add("Text", this, nameof(Status), false, DataSourceUpdateMode.OnPropertyChanged);
@@ -158,7 +158,7 @@ public class ConnectionPage : TanjiPage, IReceiver
         if (Eavesdropper.Certifier.CreateTrustedRootCertificate())
         {
             Eavesdropper.ResponseInterceptedAsync += InterceptClientPageAsync;
-            Eavesdropper.Initiate(Program.Configuration.ProxyListenPort);
+            //Eavesdropper.Initiate(Program.Configuration.ProxyListenPort);
             Status = INTERCEPTING_CLIENT_PAGE;
         }
     }
@@ -346,10 +346,10 @@ public class ConnectionPage : TanjiPage, IReceiver
 
         int triggerSumIndices = 0;
         string body = await e.Content.ReadAsStringAsync().ConfigureAwait(false);
-        foreach (string trigger in Program.Configuration.FlashInterceptionTriggers)
-        {
-            triggerSumIndices += body.IndexOf(trigger, StringComparison.OrdinalIgnoreCase);
-        }
+        //foreach (string trigger in Program.Configuration.FlashInterceptionTriggers)
+        //{
+        //    triggerSumIndices += body.IndexOf(trigger, StringComparison.OrdinalIgnoreCase);
+        //}
         if (triggerSumIndices < 0) return;
 
 

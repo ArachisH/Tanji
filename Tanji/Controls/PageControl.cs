@@ -36,10 +36,10 @@ public class PageControl<TObservable> : UserControl where TObservable : Observab
     protected override void OnLoad(EventArgs e)
     {
         base.OnLoad(e);
-        if (Program.ServiceProvider != null)
+        if (Program.Services is not null)
         {
             // The parent designer for the custom controls is unable to inject the view model directly into the control, and must be retrieved outside of the constructor.
-            DataContext = Program.ServiceProvider.GetRequiredService<TObservable>();
+            DataContext = Program.Services.GetRequiredService<TObservable>();
         }
     }
 
@@ -56,6 +56,8 @@ public class PageControl<TObservable> : UserControl where TObservable : Observab
         base.OnDataContextChanged(e);
     }
 }
+
+// TODO: We need to be able to inject stuff into views in order to do proper DI.
 
 // Workaround for generic base types on UserControls/Forms
 // Related: https://github.com/dotnet/winforms/issues/3328
