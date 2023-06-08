@@ -32,6 +32,8 @@ public class PageControl<TObservable> : UserControl where TObservable : Observab
     protected override void OnLoad(EventArgs e)
     {
         base.OnLoad(e);
+
+        ApplyDefault();
         if (Program.Services is not null)
         {
             // The parent designer for the custom controls is unable to inject the view model directly into the control, and must be retrieved outside of the constructor.
