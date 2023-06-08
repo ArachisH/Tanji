@@ -37,6 +37,8 @@ static class Program
                 // Services
                 services.AddSingleton<IConfigurationDataProviderService, ConfigurationDataProviderService>();                                                                   // Provides the data
                 services.AddSingleton<IConfigurationService, ConfigurationService>(s => new ConfigurationService(s.GetRequiredService<IConfigurationDataProviderService>()));   // Parses the data
+
+                services.AddSingleton<IInterceptionService, InterceptionService>();
             });
     }
 
