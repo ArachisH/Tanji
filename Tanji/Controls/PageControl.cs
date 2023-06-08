@@ -25,11 +25,7 @@ public class PageControl<TObservable> : UserControl where TObservable : Observab
 
     private void ApplyDefault()
     {
-#if DEBUG
-        BackColor = Color.DarkSlateGray;
-#else
         BackColor = Color.White;
-#endif
         Size = new Size(536, 387);
     }
 
