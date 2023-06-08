@@ -35,14 +35,14 @@ partial class ConnectionView
         btnConnect = new Controls.TanjiButton();
         line2 = new System.Windows.Forms.Label();
         btnBrowse = new Controls.TanjiButton();
-        lbxCustomClient = new Controls.TanjiLabelBox();
         btnExport = new Controls.TanjiButton();
         btnDestroy = new Controls.TanjiButton();
         line1 = new System.Windows.Forms.Label();
-        lbxVariable = new Controls.TanjiLabelBox();
-        lbxValue = new Controls.TanjiLabelBox();
         btnUpdate = new Controls.TanjiButton();
         btnReset = new Controls.TanjiButton();
+        lbxCustomClientPath = new Controls.TanjiLabelBox();
+        lbxValue = new Controls.TanjiLabelBox();
+        lbxVariable = new Controls.TanjiLabelBox();
         ((System.ComponentModel.ISupportInitialize)viewModelSource).BeginInit();
         SuspendLayout();
         // 
@@ -60,7 +60,7 @@ partial class ConnectionView
         lstVariables.MultiSelect = false;
         lstVariables.Name = "lstVariables";
         lstVariables.ShowItemToolTips = true;
-        lstVariables.Size = new System.Drawing.Size(536, 251);
+        lstVariables.Size = new System.Drawing.Size(536, 252);
         lstVariables.TabIndex = 0;
         lstVariables.UseCompatibleStateImageBehavior = false;
         lstVariables.View = System.Windows.Forms.View.Details;
@@ -104,15 +104,6 @@ partial class ConnectionView
         btnBrowse.Text = "Browse";
         btnBrowse.UseVisualStyleBackColor = true;
         // 
-        // lbxCustomClient
-        // 
-        lbxCustomClient.Location = new System.Drawing.Point(3, 337);
-        lbxCustomClient.Name = "lbxCustomClient";
-        lbxCustomClient.Size = new System.Drawing.Size(424, 21);
-        lbxCustomClient.TabIndex = 112;
-        lbxCustomClient.Text = "";
-        lbxCustomClient.Title = "Custom Client Path";
-        // 
         // btnExport
         // 
         btnExport.DataBindings.Add(new System.Windows.Forms.Binding("Command", viewModelSource, "ConnectCommand", true));
@@ -142,26 +133,6 @@ partial class ConnectionView
         line1.Size = new System.Drawing.Size(530, 1);
         line1.TabIndex = 116;
         // 
-        // lbxVariable
-        // 
-        lbxVariable.Location = new System.Drawing.Point(3, 257);
-        lbxVariable.Name = "lbxVariable";
-        lbxVariable.Size = new System.Drawing.Size(427, 21);
-        lbxVariable.TabIndex = 117;
-        lbxVariable.Text = "";
-        lbxVariable.Title = "Variable";
-        // 
-        // lbxValue
-        // 
-        lbxValue.Location = new System.Drawing.Point(3, 283);
-        lbxValue.Margin = new System.Windows.Forms.Padding(0);
-        lbxValue.Name = "lbxValue";
-        lbxValue.Size = new System.Drawing.Size(427, 21);
-        lbxValue.TabIndex = 118;
-        lbxValue.Text = "";
-        lbxValue.TextPaddingWidth = 23;
-        lbxValue.Title = "Value";
-        // 
         // btnUpdate
         // 
         btnUpdate.DataBindings.Add(new System.Windows.Forms.Binding("Command", viewModelSource, "ConnectCommand", true));
@@ -182,18 +153,46 @@ partial class ConnectionView
         btnReset.Text = "Reset";
         btnReset.UseVisualStyleBackColor = true;
         // 
+        // lbxCustomClientPath
+        // 
+        lbxCustomClientPath.Location = new System.Drawing.Point(3, 337);
+        lbxCustomClientPath.Name = "lbxCustomClientPath";
+        lbxCustomClientPath.Size = new System.Drawing.Size(424, 20);
+        lbxCustomClientPath.TabIndex = 121;
+        lbxCustomClientPath.Text = "";
+        lbxCustomClientPath.Title = "Custom Client Path";
+        // 
+        // lbxValue
+        // 
+        lbxValue.Location = new System.Drawing.Point(3, 284);
+        lbxValue.Name = "lbxValue";
+        lbxValue.Size = new System.Drawing.Size(424, 20);
+        lbxValue.TabIndex = 122;
+        lbxValue.Text = "";
+        lbxValue.TextPaddingWidth = 23;
+        lbxValue.Title = "Value";
+        // 
+        // lbxVariable
+        // 
+        lbxVariable.Location = new System.Drawing.Point(3, 258);
+        lbxVariable.Name = "lbxVariable";
+        lbxVariable.Size = new System.Drawing.Size(424, 20);
+        lbxVariable.TabIndex = 123;
+        lbxVariable.Text = "";
+        lbxVariable.Title = "Variable";
+        // 
         // ConnectionView
         // 
         AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
         AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+        Controls.Add(lbxVariable);
+        Controls.Add(lbxValue);
+        Controls.Add(lbxCustomClientPath);
         Controls.Add(btnReset);
         Controls.Add(btnUpdate);
-        Controls.Add(lbxValue);
-        Controls.Add(lbxVariable);
         Controls.Add(line1);
         Controls.Add(btnDestroy);
         Controls.Add(btnExport);
-        Controls.Add(lbxCustomClient);
         Controls.Add(btnBrowse);
         Controls.Add(line2);
         Controls.Add(btnConnect);
@@ -211,12 +210,12 @@ partial class ConnectionView
     private Controls.TanjiButton btnConnect;
     private System.Windows.Forms.Label line2;
     private Controls.TanjiButton btnBrowse;
-    private Controls.TanjiLabelBox lbxCustomClient;
     private Controls.TanjiButton btnExport;
     private Controls.TanjiButton btnDestroy;
     private System.Windows.Forms.Label line1;
-    private Controls.TanjiLabelBox lbxVariable;
-    private Controls.TanjiLabelBox lbxValue;
     private Controls.TanjiButton btnUpdate;
     private Controls.TanjiButton btnReset;
+    private Controls.TanjiLabelBox lbxCustomClientPath;
+    private Controls.TanjiLabelBox lbxValue;
+    private Controls.TanjiLabelBox lbxVariable;
 }
