@@ -9,7 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tangine", "Tangine\Tangine.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sulakore", "Sulakore\Sulakore.csproj", "{49E8859B-4191-48F2-AF04-AD7012E867B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tanji.Core", "Tanji.Core\Tanji.Core.csproj", "{34F44445-23A0-49B5-92C1-DD77C0B6F20B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tanji.Core", "Tanji.Core\Tanji.Core.csproj", "{34F44445-23A0-49B5-92C1-DD77C0B6F20B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{77E3B32C-2631-4A8A-97F5-057F2B3C2F4A}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
