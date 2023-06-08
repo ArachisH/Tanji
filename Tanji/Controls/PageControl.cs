@@ -13,7 +13,7 @@ namespace Tanji.Controls;
 
 [ToolboxItem(false)]
 [DesignerCategory("Code")]
-public class PageControl<TObservable> : UserControl where TObservable : ObservableObject, new()
+public class PageControl<TObservable> : UserControl where TObservable : ObservableObject
 {
     protected virtual BindingSource? Source { get; }
     protected TObservable? Context { get; private set; }
