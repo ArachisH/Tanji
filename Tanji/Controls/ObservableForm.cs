@@ -40,7 +40,7 @@ public class ObservableForm : Form, INotifyPropertyChanged
     {
         if (!DesignMode)
         {
-            ApplyScheme(e.Control, Program.Configuration.UIScheme);
+            //ApplyScheme(e.Control, Program.Configuration.UIScheme);
         }
         base.OnControlAdded(e);
     }

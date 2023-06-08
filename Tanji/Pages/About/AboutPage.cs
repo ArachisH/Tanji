@@ -64,14 +64,14 @@ public class AboutPage : TanjiPage
         }
         if (!Latest.Prerelease && new Version(Latest.TagName.Substring(1)) > LocalVersion)
         {
-            if (Program.Configuration.IsCheckingForUpdates)
-            {
-                if (MessageBox.Show($"An update has been found, would you like to be taken to the download page? ({Latest.TagName})",
-                    "Tanji - Alert!", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
-                {
-                    Process.Start(Latest.HtmlUrl);
-                }
-            }
+            //if (Program.Configuration.IsCheckingForUpdates)
+            //{
+            //    if (MessageBox.Show($"An update has been found, would you like to be taken to the download page? ({Latest.TagName})",
+            //        "Tanji - Alert!", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+            //    {
+            //        Process.Start(Latest.HtmlUrl);
+            //    }
+            //}
         }
     }
     private void GrabbedHashes(Task<IReadOnlyList<RepositoryContent>> getHashFileTask)

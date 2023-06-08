@@ -1,12 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
+		<PlatformTarget>x64</PlatformTarget>
+		<UseWindowsForms>true</UseWindowsForms>
 		<TargetFramework>net7.0-windows</TargetFramework>
 
 		<Nullable>enable</Nullable>
-		<PlatformTarget>x64</PlatformTarget>
-		<UseWindowsForms>true</UseWindowsForms>
+		<LangVersion>preview</LangVersion>
 		<EnablePreviewFeatures>true</EnablePreviewFeatures>
+		<NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -38,6 +40,7 @@
 		<PackageReference Include="Hypo.Flazzy" Version="0.1.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+		<PackageReference Include="OswaldTechnologies.Extensions.Hosting.WindowsFormsLifetime" Version="1.0.2" />
 		<PackageReference Include="System.ServiceProcess.ServiceController" Version="7.0.0" />
 	</ItemGroup>
 
@@ -48,6 +51,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Content Include="appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>		
 		<EmbeddedResource Include="Hashes.ini">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</EmbeddedResource>
@@ -59,11 +65,6 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>Resources.resx</DependentUpon>
 		</Compile>
-		<Compile Update="Properties\Settings.Designer.cs">
-			<DesignTimeSharedInput>True</DesignTimeSharedInput>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Settings.settings</DependentUpon>
-		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -71,13 +72,6 @@
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Update="Properties\Settings.settings">
-			<Generator>SettingsSingleFileGenerator</Generator>
-			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
-		</None>
 	</ItemGroup>
 
 </Project>
