@@ -210,7 +210,6 @@
             TanjiTabs.Controls.Add(ToolboxTab);
             TanjiTabs.Controls.Add(ModulesTab);
             TanjiTabs.Controls.Add(AboutTab);
-            TanjiTabs.DisplayBoundary = true;
             TanjiTabs.Dock = System.Windows.Forms.DockStyle.Fill;
             TanjiTabs.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             TanjiTabs.IsDisplayingBorder = true;
@@ -477,7 +476,6 @@
             InjectionTabs.Controls.Add(SchedulerTab);
             InjectionTabs.Controls.Add(PrimitiveTab);
             InjectionTabs.Controls.Add(FiltersTab);
-            InjectionTabs.DisplayBoundary = true;
             InjectionTabs.Dock = System.Windows.Forms.DockStyle.Top;
             InjectionTabs.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             InjectionTabs.IsDisplayingBorder = true;
