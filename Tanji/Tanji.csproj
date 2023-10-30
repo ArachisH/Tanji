@@ -35,13 +35,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Octokit" Version="6.0.0" />
+		<PackageReference Include="Octokit" Version="8.1.1" />
 		<PackageReference Include="Eavesdrop" Version="1.1.0" />
 		<PackageReference Include="Hypo.Flazzy" Version="0.1.0" />
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
 		<PackageReference Include="OswaldTechnologies.Extensions.Hosting.WindowsFormsLifetime" Version="1.0.2" />
-		<PackageReference Include="System.ServiceProcess.ServiceController" Version="7.0.0" />
+		<PackageReference Include="System.ServiceProcess.ServiceController" Version="7.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
