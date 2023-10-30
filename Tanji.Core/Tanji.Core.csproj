@@ -7,20 +7,28 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Folder Include="Models\" />
+		<CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="IsOutgoing" />
+
+		<AdditionalFiles Include=".\incoming.json" IsOutgoing="false" />
+		<AdditionalFiles Include=".\outgoing.json" IsOutgoing="true" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Tanji.Generators\Tanji.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Eavesdrop" Version="1.1.0" />
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
+		<PackageReference Include="Hypo.Flazzy" Version="0.1.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Sulakore\Sulakore.csproj" />
+		<Folder Include="Models\" />
 	</ItemGroup>
 
 </Project>

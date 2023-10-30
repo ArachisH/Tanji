@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-using Sulakore.Communication;
-
+using Tanji.Core.Habbo.Network;
 using Tanji.Core.Services;
 
 namespace Tanji.Core.ViewModels;

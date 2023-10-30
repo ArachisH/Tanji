@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tanji.Generators", "Tanji.Generators\Tanji.Generators.csproj", "{CAC9A749-6C57-4504-A5C9-CF42BC92EE05}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{34F44445-23A0-49B5-92C1-DD77C0B6F20B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34F44445-23A0-49B5-92C1-DD77C0B6F20B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34F44445-23A0-49B5-92C1-DD77C0B6F20B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAC9A749-6C57-4504-A5C9-CF42BC92EE05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAC9A749-6C57-4504-A5C9-CF42BC92EE05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAC9A749-6C57-4504-A5C9-CF42BC92EE05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAC9A749-6C57-4504-A5C9-CF42BC92EE05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
