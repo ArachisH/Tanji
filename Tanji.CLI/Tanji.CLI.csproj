@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<OutputType>Exe</OutputType>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="appsettings.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="appsettings.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Eavesdrop" Version="1.1.0" />
+		<PackageReference Include="Hypo.Flazzy" Version="0.2.0" />
+		<PackageReference Include="CommunityToolkit.HighPerformance" Version="8.2.2" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Tanji.Core\Tanji.Core.csproj" />
+	  <ProjectReference Include="..\Tanji.Generators\Tanji.Generators.csproj" />
+	</ItemGroup>
+
+</Project>
