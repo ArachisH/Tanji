@@ -5,28 +5,34 @@ using Microsoft.Extensions.Options;
 
 using Eavesdrop;
 
+using Tanji.Core.Habbo;
 using Tanji.Core.Configuration;
 
 namespace Tanji.Core.Services;
 
 public sealed class InterceptionService : IInterceptionService
 {
-    private readonly Channel<string> _gameTokensChannel;
+    private static ReadOnlySpan<char> TicketVariableName => "\"ticket\":\"";
+
+    private readonly Channel<string> _gameTicketsChannel;
 
     private readonly TanjiOptions _options;
     private readonly ILogger<InterceptionService> _logger;
 
     public bool IsInterceptingWebTraffic => Eavesdropper.IsRunning;
-    public bool IsInterceptingGameTraffic => false; // TODO
+    public bool IsInterceptingGameTraffic => false;
 
     public InterceptionService(ILogger<InterceptionService> logger, IOptions<TanjiOptions> options)
     {
         _logger = logger;
         _options = options.Value;
+        _gameTicketsChannel = Channel.CreateUnbounded<string>(new UnboundedChannelOptions()
+        {
+            SingleReader = true,
+            SingleWriter = true
+        });
 
         _logger.LogInformation("InterceptionService ctor");
-
-        _gameTokensChannel = Channel.CreateUnbounded<string>();
 
         Eavesdropper.Targets.AddRange(_options.ProxyOverrides);
         Eavesdropper.RequestInterceptedAsync += WebRequestInterceptedAsync;
@@ -34,37 +40,67 @@ public sealed class InterceptionService : IInterceptionService
         Eavesdropper.Certifier = new Certifier("Tanji", "Tanji Root Certificate Authority");
     }
 
+    public ValueTask<string> InterceptGameTicketAsync()
+    {
+        TryStartWebTrafficInterception();
+        return _gameTicketsChannel.Reader.ReadAsync();
+    }
+
     private Task WebRequestInterceptedAsync(object? sender, RequestInterceptedEventArgs e)
     {
-        _logger.LogDebug(e.Uri.AbsoluteUri);
         return Task.CompletedTask;
     }
-
-    private Task WebResponseInterceptedAsync(object? sender, ResponseInterceptedEventArgs e)
+    private async Task WebResponseInterceptedAsync(object? sender, ResponseInterceptedEventArgs e)
     {
-        // Testing for now...
-        // TODO: Bring over updated v1.5 interception logic
-        _gameTokensChannel.Writer.WriteAsync(e.Uri.AbsoluteUri);
+        if (e.Uri?.AbsolutePath == "/api/client/clientnative/url")
+        {
+            if (e.Uri.DnsSafeHost.AsSpan().ToHotel() == HHotel.Unknown)
+            {
+                _logger.LogDebug("Failed to determine HHotel object type from '{Host}'.", e.Uri.DnsSafeHost);
+                return;
+            }
+            if (!e.IsSuccessStatusCode)
+            {
+                _logger.LogDebug("Status Code: {Code}", e.StatusCode);
+                return;
+            }
 
-        _logger.LogDebug(e.Uri.AbsoluteUri);
-        return Task.CompletedTask;
+            string body = await e.Content.ReadAsStringAsync().ConfigureAwait(false);
+            if (TryExtractTicket(body, out string? ticket) && !string.IsNullOrWhiteSpace(ticket))
+            {
+                await _gameTicketsChannel.Writer.WriteAsync(ticket).ConfigureAwait(false);
+            }
+            else _logger.LogDebug("Failed to extract ticket: {Body}", body);
+        }
     }
 
-    public ValueTask<string> InterceptGameTokenAsync()
-    {
-        StartWebTrafficInterception();
-        return _gameTokensChannel.Reader.ReadAsync();
-    }
 
-    private void StartWebTrafficInterception()
+    private bool TryStartWebTrafficInterception()
     {
-        if (Eavesdropper.IsRunning) return;
+        if (Eavesdropper.IsRunning) return true;
         if (!Eavesdropper.Certifier.CreateTrustedRootCertificate())
         {
             _logger.LogWarning("User declined root certificate installation");
-            return;
+            return false;
         }
 
         Eavesdropper.Initiate(_options.ProxyListenPort);
+        return true;
+    }
+    private static bool TryExtractTicket(ReadOnlySpan<char> body, out string? ticket)
+    {
+        ticket = null;
+
+        int ticketStart = body.IndexOf(TicketVariableName);
+        if (ticketStart != -1)
+        {
+            ticketStart += TicketVariableName.Length;
+            body = body.Slice(ticketStart);
+
+            ticket = body.Slice(0, body.Length - 2).ToString();
+            return true;
+        }
+
+        return false;
     }
 }

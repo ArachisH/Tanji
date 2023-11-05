@@ -41,7 +41,7 @@ public class Program
         _logger.LogInformation("Intercepting Game Token(s)...");
         do
         {
-            string gameToken = await _interception.InterceptGameTokenAsync();
+            string gameToken = await _interception.InterceptGameTicketAsync();
             _logger.LogInformation("Game Token: {Token}", gameToken);
 
             // TODO: Launch local client
