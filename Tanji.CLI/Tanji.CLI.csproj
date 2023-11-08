@@ -18,9 +18,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Eavesdrop" Version="1.1.0" />
+		<PackageReference Include="Eavesdrop" Version="1.2.2" />
 		<PackageReference Include="Hypo.Flazzy" Version="0.2.0" />
-		<PackageReference Include="CommunityToolkit.HighPerformance" Version="8.2.2" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
 	</ItemGroup>
 
