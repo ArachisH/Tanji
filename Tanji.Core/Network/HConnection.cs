@@ -19,7 +19,6 @@ public sealed class HConnection : IHConnection
     private readonly object _disconnectLock;
     private readonly Channel<HPacket> _interceptedPackets;
 
-    private HNode? _local, _remote;
     private CancellationTokenSource? _interceptCancellationSource;
 
     /// <summary>
@@ -42,7 +41,7 @@ public sealed class HConnection : IHConnection
     /// </summary>
     public event EventHandler<DataInterceptedEventArgs>? DataIncoming;
 
-    public bool IsConnected => (_local?.IsConnected ?? false) && (_remote?.IsConnected ?? false);
+    public bool IsConnected => (Local?.IsConnected ?? false) && (Remote?.IsConnected ?? false);
 
     public IHFormat SendFormat { get; }
     public IHFormat ReceiveFormat { get; }
@@ -51,8 +50,8 @@ public sealed class HConnection : IHConnection
     public Outgoing? Out { get; set; }
     public HotelEndPoint RemoteEndPoint { get; private set; }
 
-    public HNode Local => _local;
-    public HNode Remote => _remote;
+    public HNode? Local { get; private set; }
+    public HNode? Remote { get; private set; }
 
     static HConnection()
     {
@@ -84,12 +83,12 @@ public sealed class HConnection : IHConnection
             int listenSkipAmount = options.MinimumConnectionAttempts;
             while (!IsConnected && !cancellationToken.IsCancellationRequested)
             {
-                _local = await HNode.AcceptAsync(options.ListenPort, cancellationToken).ConfigureAwait(false);
+                Local = await HNode.AcceptAsync(options.ListenPort, cancellationToken).ConfigureAwait(false);
                 if (cancellationToken.IsCancellationRequested) return;
 
                 if (--listenSkipAmount > 0)
                 {
-                    _local.Dispose();
+                    Local.Dispose();
                     continue;
                 }
 
@@ -100,7 +99,7 @@ public sealed class HConnection : IHConnection
                     {
                         ThrowHelper.ThrowNullReferenceException("No certificate was provided for local authentication using the WebSocket Secure protocol.");
                     }
-                    await _local.UpgradeToWebSocketServerAsync(options.WebSocketServerCertificate, cancellationToken).ConfigureAwait(false);
+                    await Local.UpgradeToWebSocketServerAsync(options.WebSocketServerCertificate, cancellationToken).ConfigureAwait(false);
                     if (cancellationToken.IsCancellationRequested) return;
                 }
 
@@ -122,7 +121,7 @@ public sealed class HConnection : IHConnection
                     using IMemoryOwner<byte> bufferOwner = MemoryPool<byte>.Shared.Rent(512);
                     Memory<byte> buffer = bufferOwner.Memory;
 
-                    int received = await _local.ReceiveAsync(buffer, cancellationToken).ConfigureAwait(false);
+                    int received = await Local.ReceiveAsync(buffer, cancellationToken).ConfigureAwait(false);
                     if (cancellationToken.IsCancellationRequested) return;
 
                     if (!buffer.Slice(0, received).Span.SequenceEqual(_crossDomainPolicyRequestBytes))
@@ -130,7 +129,7 @@ public sealed class HConnection : IHConnection
                         ThrowHelper.ThrowNotSupportedException("Expected cross-domain policy request.");
                     }
 
-                    await _local.SendAsync(_crossDomainPolicyResponseBytes, cancellationToken).ConfigureAwait(false);
+                    await Local.SendAsync(_crossDomainPolicyResponseBytes, cancellationToken).ConfigureAwait(false);
 
                     // TODO: Check if we need to establish a remote connection here, do they keep track of policy request per IP? (Assume yes for retros perhaps?)
                     using var tempRemote = await HNode.ConnectAsync(options.RemoteEndPoint, cancellationToken).ConfigureAwait(false);
@@ -139,24 +138,24 @@ public sealed class HConnection : IHConnection
                     await tempRemote.SendAsync(_crossDomainPolicyRequestBytes, cancellationToken).ConfigureAwait(false);
                     if (cancellationToken.IsCancellationRequested) return;
 
-                    _local.Dispose();
+                    Local.Dispose();
                     continue;
                 }
 
-                _remote = await HNode.ConnectAsync(options.RemoteEndPoint, cancellationToken).ConfigureAwait(false);
+                Remote = await HNode.ConnectAsync(options.RemoteEndPoint, cancellationToken).ConfigureAwait(false);
                 if (cancellationToken.IsCancellationRequested) return;
 
                 if (options.WebSocketServerCertificate != null)
                 {
-                    await _remote.UpgradeToWebSocketClientAsync(cancellationToken).ConfigureAwait(false);
+                    await Remote.UpgradeToWebSocketClientAsync(cancellationToken).ConfigureAwait(false);
                     if (cancellationToken.IsCancellationRequested) return;
                 }
 
                 // Intercept the packets being sent to the remote server by the local client using the format the client uses to send data.
-                _ = InterceptPacketsAsync(_local, options.ClientSendPacketFormat, true);
+                _ = InterceptPacketsAsync(Local, options.ClientSendPacketFormat, true);
 
                 // Intercept the packets being send to the local client by the remote server using the format the client uses to receive data.
-                _ = InterceptPacketsAsync(_remote, options.ClientReceivePacketFormat, false);
+                _ = InterceptPacketsAsync(Remote, options.ClientReceivePacketFormat, false);
 
                 // Process intercepted packets as they come in.
                 _ = HandleInterceptedPacketsAsync();
@@ -166,8 +165,8 @@ public sealed class HConnection : IHConnection
         {
             if (!IsConnected || cancellationToken.IsCancellationRequested)
             {
-                _local?.Dispose();
-                _remote?.Dispose();
+                Local?.Dispose();
+                Remote?.Dispose();
             }
             CancelAndNullifySource(ref _interceptCancellationSource);
             CancelAndNullifySource(ref linkedInterceptCancellationSource);
@@ -200,19 +199,19 @@ public sealed class HConnection : IHConnection
 
     public async ValueTask SendToServerAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default)
     {
-        if (_remote == null)
+        if (Remote == null)
         {
             ThrowHelper.ThrowNullReferenceException();
         }
-        await _remote.SendPacketAsync(buffer, cancellationToken).ConfigureAwait(false);
+        await Remote.SendPacketAsync(buffer, cancellationToken).ConfigureAwait(false);
     }
     public async ValueTask SendToClientAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default)
     {
-        if (_local == null)
+        if (Local == null)
         {
             ThrowHelper.ThrowNullReferenceException();
         }
-        await _local.SendPacketAsync(buffer, cancellationToken).ConfigureAwait(false);
+        await Local.SendPacketAsync(buffer, cancellationToken).ConfigureAwait(false);
     }
 
     private static void CancelAndNullifySource(ref CancellationTokenSource? cancellationTokenSource)
@@ -236,15 +235,15 @@ public sealed class HConnection : IHConnection
         try
         {
             CancelAndNullifySource(ref _interceptCancellationSource);
-            if (_local != null)
+            if (Local != null)
             {
-                _local.Dispose();
-                _local = null;
+                Local.Dispose();
+                Local = null;
             }
-            if (_remote != null)
+            if (Remote != null)
             {
-                _remote.Dispose();
-                _remote = null;
+                Remote.Dispose();
+                Remote = null;
             }
             if (IsConnected)
             {
