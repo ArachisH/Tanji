@@ -1,6 +1,12 @@
-﻿using System.Text.Json.Nodes;
+﻿using System.Text.Json;
+using System.Collections.ObjectModel;
 
 using Microsoft.Extensions.Options;
+
+using Tanji.Core.Habbo.Canvas;
+using Tanji.Core.Configuration.Json;
+
+using CommunityToolkit.HighPerformance.Buffers;
 
 namespace Tanji.Core.Configuration;
 
@@ -8,36 +14,32 @@ internal sealed class PostConfigureTanjiOptions : IPostConfigureOptions<TanjiOpt
 {
     public void PostConfigure(string? name, TanjiOptions options)
     {
-        // If user has not defined a custom cache directory, use the default path.
-        if (string.IsNullOrEmpty(options.CacheDirectory))
-        {
-            options.CacheDirectory = Path.GetFullPath("Cache");
-        }
-        options.CacheDirectory = Environment.ExpandEnvironmentVariables(options.CacheDirectory);
-        Directory.CreateDirectory(options.CacheDirectory);
-
-        // If the launcher directory is missing or doesn't exist, use the default path.
-        if (string.IsNullOrEmpty(options.LauncherPath))
-        {
-            options.LauncherPath = "%USERPROFILE%\\AppData\\Roaming\\Habbo Launcher";
-        }
         options.LauncherPath = Environment.ExpandEnvironmentVariables(options.LauncherPath);
-        Directory.CreateDirectory(options.LauncherPath);
+        var versionsFileInfo = new FileInfo(Path.Combine(options.LauncherPath, "versions.json"));
+        if (!versionsFileInfo.Exists) return;
 
-        // TODO: Very brittle logic, handle failures
-        using var versionsJsonFs = File.OpenRead(Path.Combine(options.LauncherPath, "versions.json"));
-        JsonNode? versionsNode = JsonNode.Parse(versionsJsonFs);
+        using var versionsFileBuffer = MemoryOwner<byte>.Allocate((int)versionsFileInfo.Length);
+        using var versionsFileStream = File.OpenRead(versionsFileInfo.FullName);
+        versionsFileStream.Read(versionsFileBuffer.Span);
 
-        foreach (JsonNode? installation in versionsNode?["installations"]?.AsArray() ?? new JsonArray())
-        {
-            if (installation?["path"] is JsonNode pathNode)
+        options.Versions = JsonSerializer.Deserialize<LauncherVersions>(versionsFileBuffer.Span,
+            new JsonSerializerOptions()
             {
-                switch (installation?["client"]?.GetValue<string>())
-                {
-                    case "air": options.AirPath = pathNode.GetValue<string>(); break;
-                    case "unity": options.UnityPath = pathNode.GetValue<string>(); break;
-                }
-            }
+                PropertyNameCaseInsensitive = true
+            });
+        if (options.Versions == default) return;
+
+        var platformPaths = new Dictionary<HPlatform, PlatformPaths>();
+        options.PlatformPaths = new ReadOnlyDictionary<HPlatform, PlatformPaths>(platformPaths);
+
+        foreach (Installation installation in options.Versions.Installations)
+        {
+            platformPaths.Add(installation.Platform, new PlatformPaths
+            {
+                RootPath = installation.Path,
+                ClientPath = Path.Combine(installation.Path, PlatformConverter.ToClientName(installation.Platform)),
+                ExecutablePath = Path.Combine(installation.Path, PlatformConverter.ToExecutableName(installation.Platform))
+            });
         }
     }
 }
