@@ -54,6 +54,9 @@ public sealed class FlashGame : HGame
     public FlashGame(string path, byte[] data)
         : this(new ShockwaveFlash(data), path)
     { }
+    public FlashGame(string path, Stream stream)
+        : this(new ShockwaveFlash(stream), path)
+    { }
     private FlashGame(ShockwaveFlash flash, string path)
         : base(HPatches.DisableHostChecks | HPatches.DisableEncryption | HPatches.InjectKeyShouter | HPatches.InjectEndPointShouter | HPatches.InjectEndPoint)
     {
@@ -794,14 +797,14 @@ public sealed class FlashGame : HGame
                 {
                     case 0: _hcmNextPortMethod = _habboCommunicationManagerInstance.GetMethod(callPropVoidIns.PropertyName.Name, "void", callPropVoidIns.ArgCount); break;
                     case 1:
-                        {
-                            _hcmUpdateHostParametersMethod = _habboCommunicationManagerInstance.GetMethod(callPropVoidIns.PropertyName.Name, "void", callPropVoidIns.ArgCount);
-                            ASCode code = _hcmUpdateHostParametersMethod.Body.ParseCode();
+                    {
+                        _hcmUpdateHostParametersMethod = _habboCommunicationManagerInstance.GetMethod(callPropVoidIns.PropertyName.Name, "void", callPropVoidIns.ArgCount);
+                        ASCode code = _hcmUpdateHostParametersMethod.Body.ParseCode();
 
-                            code.Deobfuscate();
-                            _hcmUpdateHostParametersMethod.Body.Code = code.ToArray();
-                            break;
-                        }
+                        code.Deobfuscate();
+                        _hcmUpdateHostParametersMethod.Body.Code = code.ToArray();
+                        break;
+                    }
                 }
                 if (callPropVoidCount++ == 1) break;
             }
@@ -991,18 +994,18 @@ public sealed class FlashGame : HGame
                 case OPCode.ConstructProp: messageConstructIns = (ConstructPropIns)instruction; break;
 
                 case OPCode.NewFunction:
+                {
+                    long currentPos = codeReader.Position;
+                    if (ASInstruction.Create(method.ABC, codeReader).OP != OPCode.Pop)
                     {
-                        long currentPos = codeReader.Position;
-                        if (ASInstruction.Create(method.ABC, codeReader).OP != OPCode.Pop)
-                        {
-                            (int OutCount, int InCount) = FindMessageReferences(((NewFunctionIns)instruction).Method, referencedMessagesBuffer[(outCount + inCount)..]);
-                            outCount += OutCount;
-                            inCount += InCount;
+                        (int OutCount, int InCount) = FindMessageReferences(((NewFunctionIns)instruction).Method, referencedMessagesBuffer[(outCount + inCount)..]);
+                        outCount += OutCount;
+                        inCount += InCount;
 
-                            codeReader.Position = currentPos;
-                        }
-                        continue;
+                        codeReader.Position = currentPos;
                     }
+                    continue;
+                }
 
                 default: continue;
             }
@@ -1138,14 +1141,14 @@ public sealed class FlashGame : HGame
             case "array": piece = char.MinValue; break;
 
             default:
+            {
+                if (!isOutgoing && !IsValidIdentifier(returnValueType.Name))
                 {
-                    if (!isOutgoing && !IsValidIdentifier(returnValueType.Name))
-                    {
-                        piece = 'i'; // This reference call is most likely towards 'readInt'
-                    }
-                    else piece = char.MinValue;
-                    break;
+                    piece = 'i'; // This reference call is most likely towards 'readInt'
                 }
+                else piece = char.MinValue;
+                break;
+            }
         }
         return piece != char.MinValue;
     }
@@ -1288,102 +1291,102 @@ public sealed class FlashGame : HGame
             switch (next.OP)
             {
                 case OPCode.CallProperty:
+                {
+                    var callProperty = (CallPropertyIns)next;
+                    if (callProperty.ArgCount > 0)
                     {
-                        var callProperty = (CallPropertyIns)next;
-                        if (callProperty.ArgCount > 0)
+                        ASMultiname? propertyName = null;
+                        ASInstruction previous = code[i - 2];
+
+                        switch (previous.OP)
                         {
-                            ASMultiname? propertyName = null;
-                            ASInstruction previous = code[i - 2];
-
-                            switch (previous.OP)
+                            case OPCode.FindPropStrict:
                             {
-                                case OPCode.FindPropStrict:
-                                    {
-                                        var findPropStrict = (FindPropStrictIns)previous;
-                                        propertyName = findPropStrict.PropertyName;
-                                        break;
-                                    }
-                                case OPCode.GetLex:
-                                    {
-                                        var getLex = (GetLexIns)previous;
-                                        propertyName = getLex.TypeName;
-                                        break;
-                                    }
-                                case OPCode.ConstructProp:
-                                    {
-                                        var constructProp = (ConstructPropIns)previous;
-                                        propertyName = constructProp.PropertyName;
-                                        break;
-                                    }
-                                case OPCode.GetLocal_0:
-                                    {
-                                        propertyName = instance.QName;
-                                        break;
-                                    }
+                                var findPropStrict = (FindPropStrictIns)previous;
+                                propertyName = findPropStrict.PropertyName;
+                                break;
                             }
-
-                            ASInstance innerInstance = abc.GetInstance(propertyName) ?? instance;
-                            ASMethod innerMethod = innerInstance.GetMethod(callProperty.PropertyName.Name, null, callProperty.ArgCount);
-                            if (innerMethod == null)
+                            case OPCode.GetLex:
                             {
-                                ASClass innerClass = abc.GetClass(propertyName);
-                                innerMethod = innerClass.GetMethod(callProperty.PropertyName.Name, null, callProperty.ArgCount);
+                                var getLex = (GetLexIns)previous;
+                                propertyName = getLex.TypeName;
+                                break;
                             }
-
-                            string? innerStructure = GetIncomingStructure(innerInstance, innerMethod);
-                            if (string.IsNullOrWhiteSpace(innerStructure)) return null;
-                            structure += innerStructure;
+                            case OPCode.ConstructProp:
+                            {
+                                var constructProp = (ConstructPropIns)previous;
+                                propertyName = constructProp.PropertyName;
+                                break;
+                            }
+                            case OPCode.GetLocal_0:
+                            {
+                                propertyName = instance.QName;
+                                break;
+                            }
                         }
-                        else
+
+                        ASInstance innerInstance = abc.GetInstance(propertyName) ?? instance;
+                        ASMethod innerMethod = innerInstance.GetMethod(callProperty.PropertyName.Name, null, callProperty.ArgCount);
+                        if (innerMethod == null)
                         {
-                            if (!TryGetStructurePiece(false, callProperty.PropertyName, null, out char piece)) return null;
-                            structure += piece;
+                            ASClass innerClass = abc.GetClass(propertyName);
+                            innerMethod = innerClass.GetMethod(callProperty.PropertyName.Name, null, callProperty.ArgCount);
                         }
-                        break;
+
+                        string? innerStructure = GetIncomingStructure(innerInstance, innerMethod);
+                        if (string.IsNullOrWhiteSpace(innerStructure)) return null;
+                        structure += innerStructure;
                     }
+                    else
+                    {
+                        if (!TryGetStructurePiece(false, callProperty.PropertyName, null, out char piece)) return null;
+                        structure += piece;
+                    }
+                    break;
+                }
 
                 case OPCode.ConstructProp:
-                    {
-                        var constructProp = (ConstructPropIns)next;
-                        ASInstance innerInstance = abc.GetInstance(constructProp.PropertyName);
+                {
+                    var constructProp = (ConstructPropIns)next;
+                    ASInstance innerInstance = abc.GetInstance(constructProp.PropertyName);
 
-                        string? innerStructure = GetIncomingStructure(innerInstance, innerInstance.Constructor);
-                        if (string.IsNullOrWhiteSpace(innerStructure)) return null;
-                        structure += innerStructure;
-                        break;
-                    }
+                    string? innerStructure = GetIncomingStructure(innerInstance, innerInstance.Constructor);
+                    if (string.IsNullOrWhiteSpace(innerStructure)) return null;
+                    structure += innerStructure;
+                    break;
+                }
 
                 case OPCode.ConstructSuper:
-                    {
-                        ASInstance superInstance = abc.GetInstance(instance.Super);
+                {
+                    ASInstance superInstance = abc.GetInstance(instance.Super);
 
-                        string? innerStructure = GetIncomingStructure(superInstance, superInstance.Constructor);
-                        if (string.IsNullOrWhiteSpace(innerStructure)) return null;
-                        structure += innerStructure;
-                        break;
-                    }
+                    string? innerStructure = GetIncomingStructure(superInstance, superInstance.Constructor);
+                    if (string.IsNullOrWhiteSpace(innerStructure)) return null;
+                    structure += innerStructure;
+                    break;
+                }
 
                 case OPCode.CallSuper:
-                    {
-                        var callSuper = (CallSuperIns)next;
-                        ASInstance superInstance = abc.GetInstance(instance.Super);
-                        ASMethod superMethod = superInstance.GetMethod(callSuper.MethodName.Name, null, callSuper.ArgCount);
+                {
+                    var callSuper = (CallSuperIns)next;
+                    ASInstance superInstance = abc.GetInstance(instance.Super);
+                    ASMethod superMethod = superInstance.GetMethod(callSuper.MethodName.Name, null, callSuper.ArgCount);
 
-                        string? innerStructure = GetIncomingStructure(superInstance, superMethod);
-                        if (string.IsNullOrWhiteSpace(innerStructure)) return null;
-                        structure += innerStructure;
-                        break;
-                    }
+                    string? innerStructure = GetIncomingStructure(superInstance, superMethod);
+                    if (string.IsNullOrWhiteSpace(innerStructure)) return null;
+                    structure += innerStructure;
+                    break;
+                }
 
                 case OPCode.CallPropVoid:
-                    {
-                        var callPropVoid = (CallPropVoidIns)next;
-                        if (callPropVoid.ArgCount != 0) return null;
+                {
+                    var callPropVoid = (CallPropVoidIns)next;
+                    if (callPropVoid.ArgCount != 0) return null;
 
-                        if (!TryGetStructurePiece(false, callPropVoid.PropertyName, null, out char piece)) return null;
-                        structure += piece;
-                        break;
-                    }
+                    if (!TryGetStructurePiece(false, callPropVoid.PropertyName, null, out char piece)) return null;
+                    structure += piece;
+                    break;
+                }
 
                 default: return null;
             }
