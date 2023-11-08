@@ -10,6 +10,7 @@ using Tanji.Core.Habbo;
 using Tanji.Core.Network;
 using Tanji.Core.Habbo.Canvas;
 using Tanji.Core.Configuration;
+using Tanji.Core.Habbo.Canvas.Flash;
 
 using Eavesdrop;
 
@@ -17,7 +18,6 @@ using Flazzy.Tools;
 
 using CommunityToolkit.HighPerformance;
 using CommunityToolkit.HighPerformance.Buffers;
-using Tanji.Core.Habbo.Canvas.Flash;
 
 namespace Tanji.Core.Services;
 
