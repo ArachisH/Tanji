@@ -22,18 +22,13 @@ public sealed class CachedGame : HGame
     public override IHFormat SendPacketFormat { get; }
     public override IHFormat ReceivePacketFormat { get; }
 
-    public CachedGame(string cachedGameJsonPath)
+    public CachedGame(in ReadOnlySpan<byte> jsonBuffer)
         : base(HPatches.None)
     {
-        if (!File.Exists(cachedGameJsonPath))
-        {
-            ThrowHelper.ThrowFileNotFoundException("Failed to locate the specified json file.", cachedGameJsonPath);
-        }
-
-        var cachedGameNode = JsonNode.Parse(File.ReadAllBytes(cachedGameJsonPath));
+        var cachedGameNode = JsonNode.Parse(jsonBuffer);
         if (cachedGameNode == null)
         {
-            ThrowHelper.ThrowArgumentException($"Failed to parse the json file located at: {cachedGameJsonPath}", nameof(cachedGameJsonPath));
+            ThrowHelper.ThrowArgumentException("Failed to deserialize the provide json data.", nameof(jsonBuffer));
         }
 
         Path = GetNonNullableValue<string>(cachedGameNode, Camelize(nameof(Path)));
