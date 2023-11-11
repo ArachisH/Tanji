@@ -18,7 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tanji.Generators", "Tanji.Generators\Tanji.Generators.csproj", "{CAC9A749-6C57-4504-A5C9-CF42BC92EE05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tanji.CLI", "Tanji.CLI\Tanji.CLI.csproj", "{30006EB4-B64C-43F2-ACC0-C6EDAB1A412E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tanji.CLI", "Tanji.CLI\Tanji.CLI.csproj", "{30006EB4-B64C-43F2-ACC0-C6EDAB1A412E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
