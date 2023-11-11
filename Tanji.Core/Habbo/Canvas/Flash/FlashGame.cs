@@ -1,5 +1,4 @@
-﻿using System.Buffers;
-using System.Text;
+﻿using System.Text;
 using System.Buffers;
 
 using Flazzy;
@@ -9,8 +8,6 @@ using Flazzy.Tags;
 using Flazzy.Tools;
 using Flazzy.ABC.AVM2;
 using Flazzy.ABC.AVM2.Instructions;
-using Flazzy.IO;
-using Flazzy.Tags;
 
 using Tanji.Core.Habbo.Network.Formats;
 
@@ -54,18 +51,17 @@ public sealed class FlashGame : HGame
     public FlashGame(string path)
         : this(new ShockwaveFlash(path), path)
     { }
-    public FlashGame(string path, byte[] data)
-        : this(new ShockwaveFlash(data), path)
+    public FlashGame(byte[] data)
+        : this(new ShockwaveFlash(data))
     { }
-    public FlashGame(string path, Stream stream)
-        : this(new ShockwaveFlash(stream), path)
+    public FlashGame(Stream stream)
+        : this(new ShockwaveFlash(stream))
     { }
-    private FlashGame(ShockwaveFlash flash, string path)
+    private FlashGame(ShockwaveFlash flash, string? path = null)
         : base(HPatches.DisableHostChecks | HPatches.DisableEncryption | HPatches.InjectKeyShouter | HPatches.InjectEndPointShouter | HPatches.InjectEndPoint)
     {
         _flash = flash;
         _abcFileTags = new Dictionary<DoABCTag, ABCFile>();
-        _flashMessagesById = new Dictionary<short, FlashMessage>(1000);
         _flashMessagesByHash = new Dictionary<uint, FlashMessage>(1000);
         _flashMessagesByClassName = new Dictionary<string, FlashMessage>(1000);
 
