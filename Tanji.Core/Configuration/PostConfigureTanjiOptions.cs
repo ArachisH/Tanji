@@ -36,6 +36,8 @@ internal sealed class PostConfigureTanjiOptions : IPostConfigureOptions<TanjiOpt
         {
             platformPaths.Add(installation.Platform, new PlatformPaths
             {
+                Platform = installation.Platform,
+
                 RootPath = installation.Path,
                 ClientPath = Path.Combine(installation.Path, PlatformConverter.ToClientName(installation.Platform)),
                 ExecutablePath = Path.Combine(installation.Path, PlatformConverter.ToExecutableName(installation.Platform))
