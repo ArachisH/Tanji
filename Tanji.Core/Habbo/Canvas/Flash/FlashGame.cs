@@ -6,6 +6,7 @@ using Flazzy;
 using Flazzy.IO;
 using Flazzy.ABC;
 using Flazzy.Tags;
+using Flazzy.Tools;
 using Flazzy.ABC.AVM2;
 using Flazzy.ABC.AVM2.Instructions;
 using Flazzy.IO;
@@ -823,12 +824,16 @@ public sealed class FlashGame : HGame
     }
     public override void Disassemble()
     {
+        var upgrader = new AS3MultinameUpgrader(true, true);
         _flash.Disassemble(tag =>
         {
             if (tag.Kind != TagKind.DoABC) return;
 
             var doABCTag = (DoABCTag)tag;
             var abcFile = new ABCFile(doABCTag.ABCData);
+
+            upgrader.Search(abcFile);
+            abcFile.ResetCache();
 
             _abcFileTags[doABCTag] = abcFile;
         });
