@@ -82,7 +82,7 @@ public sealed class GameCachingService : IFileCachingService<PlatformPaths, Cach
         game.Patch();
 
         _logger.LogInformation("Assembling client");
-        string assemblePath = Path.Combine(ModifiedClients.FullName, $"{identifier}_{game.Revision}.swf");
+        string assemblePath = Path.Combine(ModifiedClients.FullName, $"{identifier}_{game.Revision}{Path.GetExtension(paths.ClientPath)}");
         game.Assemble(assemblePath);
 
         // We can create hard links without admin, but not symbolic links ??
