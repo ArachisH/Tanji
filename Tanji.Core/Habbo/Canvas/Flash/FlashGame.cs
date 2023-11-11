@@ -30,7 +30,6 @@ public sealed class FlashGame : HGame
 
     private readonly ShockwaveFlash _flash;
     private readonly Dictionary<DoABCTag, ABCFile> _abcFileTags;
-    private readonly Dictionary<short, FlashMessage> _flashMessagesById;
     private readonly Dictionary<uint, FlashMessage> _flashMessagesByHash;
     private readonly Dictionary<string, FlashMessage> _flashMessagesByClassName;
 
