@@ -16,7 +16,7 @@ public abstract class HGame : IGame, IDisposable
     public abstract HPlatform Platform { get; }
     public abstract int MinimumConnectionAttempts { get; }
 
-    public virtual string? Path { get; init; }
+    public virtual string? Path { get; set; }
     public virtual string? Revision { get; protected set; }
     public virtual bool IsPostShuffle { get; protected set; }
 
