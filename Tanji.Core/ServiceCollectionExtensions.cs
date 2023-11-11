@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Tanji.Core.Services;
 using Tanji.Core.ViewModels;
+using Tanji.Core.Habbo.Canvas;
 using Tanji.Core.Configuration;
 
 namespace Tanji.Core;
@@ -17,6 +18,7 @@ public static class ServiceCollectionExtensions
 
         // Services
         services.AddSingleton<IInterceptionService, InterceptionService>();
+        services.AddSingleton<IFileCachingService<PlatformPaths, CachedGame>, GameCachingService>();
 
         // Add view-models
         services.AddSingleton<ConnectionViewModel>();
