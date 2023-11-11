@@ -63,7 +63,7 @@ public class Program
             string ticket = await _interception.InterceptGameTicketAsync(cancellationToken).ConfigureAwait(false);
             _logger.LogInformation("Game Ticket: {Ticket}", ticket);
 
-            HConnection connection = await _interception.LaunchInterceptableClientAsync(ticket, HPlatform.Flash, cancellationToken: cancellationToken).ConfigureAwait(false);
+            HConnection connection = await _interception.LaunchInterceptableClientAsync(ticket, HPlatform.Flash, cancellationToken).ConfigureAwait(false);
         }
         while (!cancellationToken.IsCancellationRequested && _interception.IsInterceptingWebTraffic);
     }
