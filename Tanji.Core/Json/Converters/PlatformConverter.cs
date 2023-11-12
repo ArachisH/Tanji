@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 using Tanji.Core.Habbo.Canvas;
 
-namespace Tanji.Core.Configuration.Json;
+namespace Tanji.Core.Json;
 
 internal sealed class PlatformConverter : JsonConverter<HPlatform>
 {
@@ -25,9 +25,9 @@ internal sealed class PlatformConverter : JsonConverter<HPlatform>
         _ => string.Empty
     };
 
-    public static HPlatform ToPlatform(string? value) => value switch
+    public static HPlatform ToPlatform(string? value) => value?.ToLowerInvariant() switch
     {
-        "air" => HPlatform.Flash,
+        "air" or "flash" => HPlatform.Flash,
         "unity" => HPlatform.Unity,
         _ => HPlatform.Unknown
     };

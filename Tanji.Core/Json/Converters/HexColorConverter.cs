@@ -3,7 +3,7 @@ using System.Text.Json;
 using System.Buffers.Text;
 using System.Text.Json.Serialization;
 
-namespace Tanji.Core.Configuration.Json;
+namespace Tanji.Core.Json;
 
 internal sealed class HexColorConverter : JsonConverter<Color>
 {
@@ -16,7 +16,7 @@ internal sealed class HexColorConverter : JsonConverter<Color>
             Utf8Parser.TryParse(reader.ValueSpan.Slice(1, 6), out int value, out _, 'x'))
         {
             // Mask alpha to 0xFF
-            return Color.FromArgb(value | (0xFF << 24));
+            return Color.FromArgb(value | 0xFF << 24);
         }
         else return default;
     }

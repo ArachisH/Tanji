@@ -2,7 +2,7 @@
 
 using Tanji.Core.Habbo.Canvas;
 
-namespace Tanji.Core.Configuration.Json;
+namespace Tanji.Core.Json;
 
 public readonly record struct PlatformCheck
 {

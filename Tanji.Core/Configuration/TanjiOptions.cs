@@ -1,8 +1,8 @@
 ﻿using System.Drawing;
 using System.Text.Json.Serialization;
 
+using Tanji.Core.Json;
 using Tanji.Core.Habbo.Canvas;
-using Tanji.Core.Configuration.Json;
 
 namespace Tanji.Core.Configuration;
 

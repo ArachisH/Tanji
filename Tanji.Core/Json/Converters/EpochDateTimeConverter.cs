@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Tanji.Core.Configuration.Json;
+namespace Tanji.Core.Json;
 
 internal sealed class EpochDateTimeConverter : JsonConverter<DateTime>
 {

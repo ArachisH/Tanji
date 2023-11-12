@@ -3,8 +3,8 @@ using System.Collections.ObjectModel;
 
 using Microsoft.Extensions.Options;
 
+using Tanji.Core.Json;
 using Tanji.Core.Habbo.Canvas;
-using Tanji.Core.Configuration.Json;
 
 using CommunityToolkit.HighPerformance.Buffers;
 
