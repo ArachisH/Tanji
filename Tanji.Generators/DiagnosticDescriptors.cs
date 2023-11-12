@@ -1,5 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 
+using Tanji.Generators.Identifiers;
+
 namespace Tanji.Generators;
 
 internal static class DiagnosticDescriptors
@@ -8,7 +10,7 @@ internal static class DiagnosticDescriptors
         id: "SLKR0001",
         title: "Failed to parse message definitions",
         messageFormat: $"Cannot deserialize message definitions from input file \"{{0}}\"",
-        category: typeof(MessageGenerator).FullName,
+        category: typeof(IdentifiersGenerator).FullName,
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true,
         description: "Cannot parse message definitions from the specified input file.");
