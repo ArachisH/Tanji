@@ -1,3676 +1,4003 @@
-﻿{
-  "Incoming": [
-    {
-      "name": "AcceptFriendResult",
-      "unityId": 315,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3691276874
-      ]
-    },
-    {
-      "name": "AccountPreferences",
-      "unityId": 308,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1689661034
-      ]
-    },
-    {
-      "name": "AccountSafetyLockStatusChange",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        326763790
-      ]
-    },
-    {
-      "name": "Achievement",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1876292167
-      ]
-    },
-    {
-      "name": "AchievementResolutionCompleted",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        928510831
-      ]
-    },
-    {
-      "name": "AchievementResolutionProgress",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3495562367
-      ]
-    },
-    {
-      "name": "AchievementResolutions",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3219527299
-      ]
-    },
-    {
-      "name": "Achievements",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        297388799
-      ]
-    },
-    {
-      "name": "AchievementsScore",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1115706807
-      ]
-    },
-    {
-      "name": "ActivityPoints",
-      "unityId": 628,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2180592593
-      ]
-    },
-    {
-      "name": "ApproveName",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2186673632
-      ]
-    },
-    {
-      "name": "AuthenticationOK",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        682763951
-      ]
-    },
-    {
-      "name": "AvailabilityStatus",
-      "unityId": 290,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2575744959
-      ]
-    },
-    {
-      "name": "AvatarEffect",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        697236939
-      ]
-    },
-    {
-      "name": "AvatarEffectActivated",
-      "unityId": 462,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1911824456
-      ]
-    },
-    {
-      "name": "AvatarEffectAdded",
-      "unityId": 461,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        210392913
-      ]
-    },
-    {
-      "name": "AvatarEffectExpired",
-      "unityId": 463,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2275729106
-      ]
-    },
-    {
-      "name": "AvatarEffects",
-      "unityId": 460,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        189867866
-      ]
-    },
-    {
-      "name": "AvatarEffectSelected",
-      "unityId": 464,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3040206728
-      ]
-    },
-    {
-      "name": "BadgePointLimits",
-      "unityId": 627,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1745461012
-      ]
-    },
-    {
-      "name": "BadgeReceived",
-      "unityId": 633,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1345090398
-      ]
-    },
-    {
-      "name": "Badges",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1596060039
-      ]
-    },
-    {
-      "name": "BannedUsersFromRoom",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        987976164
-      ]
-    },
-    {
-      "name": "BonusRareInfo",
-      "unityId": 629,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        317210867
-      ]
-    },
-    {
-      "name": "BotAddedToInventory",
-      "unityId": 3029,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        376441269
-      ]
-    },
-    {
-      "name": "BotCommandConfiguration",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1359143471
-      ]
-    },
-    {
-      "name": "BotError",
-      "unityId": 3032,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4219744333
-      ]
-    },
-    {
-      "name": "BotForceOpenContextMenu",
-      "unityId": 3035,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1033203725
-      ]
-    },
-    {
-      "name": "BotInventory",
-      "unityId": 3028,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3012162352
-      ]
-    },
-    {
-      "name": "BotRemovedFromInventory",
-      "unityId": 3030,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4199440183
-      ]
-    },
-    {
-      "name": "BotSkillListUpdate",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1681790279
-      ]
-    },
-    {
-      "name": "BuildersClubFurniCount",
-      "unityId": 1004,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2933281088
-      ]
-    },
-    {
-      "name": "BuildersClubSubscriptionStatus",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2768636374
-      ]
-    },
-    {
-      "name": "BundleDiscountRuleset",
-      "unityId": 635,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2909775787
-      ]
-    },
-    {
-      "name": "CallForHelpDisabledNotify",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1298474957
-      ]
-    },
-    {
-      "name": "CallForHelpPendingCalls",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1351847770
-      ]
-    },
-    {
-      "name": "CallForHelpPendingCallsDeleted",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2526614543
-      ]
-    },
-    {
-      "name": "CallForHelpReply",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2027770387
-      ]
-    },
-    {
-      "name": "CallForHelpResult",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2916921380
-      ]
-    },
-    {
-      "name": "CameraPublishStatus",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2722277805
-      ]
-    },
-    {
-      "name": "CameraPurchaseOK",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2107018183
-      ]
-    },
-    {
-      "name": "CameraStorageUrl",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3585601733
-      ]
-    },
-    {
-      "name": "CampaignCalendarData",
-      "unityId": 1400,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1343963788
-      ]
-    },
-    {
-      "name": "CampaignCalendarDoorOpened",
-      "unityId": 1401,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1264339919
-      ]
-    },
-    {
-      "name": "CancelMysteryBoxWait",
-      "unityId": 356,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2966946516
-      ]
-    },
-    {
-      "name": "CanCreateRoom",
-      "unityId": 512,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2770020841
-      ]
-    },
-    {
-      "name": "CanCreateRoomEvent",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3447817915
-      ]
-    },
-    {
-      "name": "CantConnect",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1197115409
-      ]
-    },
-    {
-      "name": "CarryObject",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1495723646
-      ]
-    },
-    {
-      "name": "CatalogIndex",
-      "unityId": 126,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        554768122
-      ]
-    },
-    {
-      "name": "CatalogPage",
-      "unityId": 127,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1458598382
-      ]
-    },
-    {
-      "name": "CatalogPageWithEarliestExpiry",
-      "unityId": 638,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1180086495
-      ]
-    },
-    {
-      "name": "CatalogPublished",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2382797874
-      ]
-    },
-    {
-      "name": "CategoriesWithVisitorCount",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        833740316
-      ]
-    },
-    {
-      "name": "CfhChatlog",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3695633211
-      ]
-    },
-    {
-      "name": "CfhSanction",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3777009258
-      ]
-    },
-    {
-      "name": "CfhTopicsInit",
-      "unityId": 552,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4136486532
-      ]
-    },
-    {
-      "name": "ChangeEmailResult",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1250856250
-      ]
-    },
-    {
-      "name": "ChangeUserNameResult",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1787221803
-      ]
-    },
-    {
-      "name": "Chat",
-      "unityId": 24,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3965679603
-      ]
-    },
-    {
-      "name": "ChatReviewSessionDetached",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1814385055
-      ]
-    },
-    {
-      "name": "ChatReviewSessionOfferedToGuide",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2622516754
-      ]
-    },
-    {
-      "name": "ChatReviewSessionResults",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1196150405
-      ]
-    },
-    {
-      "name": "ChatReviewSessionStarted",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        535807870
-      ]
-    },
-    {
-      "name": "ChatReviewSessionVotingStatus",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2292910444
-      ]
-    },
-    {
-      "name": "CheckUserNameResult",
-      "unityId": 571,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1558162994
-      ]
-    },
-    {
-      "name": "CitizenshipVipOfferPromoEnabled",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        575753229
-      ]
-    },
-    {
-      "name": "CloseConnection",
-      "unityId": 18,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1474929872
-      ]
-    },
-    {
-      "name": "ClubGiftInfo",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3939740298
-      ]
-    },
-    {
-      "name": "ClubGiftNotification",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3752951778
-      ]
-    },
-    {
-      "name": "ClubGiftSelected",
-      "unityId": 624,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3269481789
-      ]
-    },
-    {
-      "name": "CommunityGoalHallOfFame",
-      "unityId": 646,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2917165574
-      ]
-    },
-    {
-      "name": "CommunityGoalProgress",
-      "unityId": 790,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4133868938
-      ]
-    },
-    {
-      "name": "CommunityVoteReceived",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4019752363
-      ]
-    },
-    {
-      "name": "CompetitionEntrySubmitResult",
-      "unityId": 643,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        95951575
-      ]
-    },
-    {
-      "name": "CompetitionRoomsData",
-      "unityId": 792,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3290361206
-      ]
-    },
-    {
-      "name": "CompetitionStatus",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2778951793
-      ]
-    },
-    {
-      "name": "CompetitionVotingInfo",
-      "unityId": 644,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3114870618
-      ]
-    },
-    {
-      "name": "CompleteDiffieHandshake",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3124614156
-      ]
-    },
-    {
-      "name": "ConcurrentUsersGoalProgress",
-      "unityId": 670,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2205367966
-      ]
-    },
-    {
-      "name": "ConfirmBreedingRequest",
-      "unityId": 990,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2581566608
-      ]
-    },
-    {
-      "name": "ConfirmBreedingResult",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3785773776
-      ]
-    },
-    {
-      "name": "ConvertedRoomId",
-      "unityId": 513,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1516850228
-      ]
-    },
-    {
-      "name": "CraftableProducts",
-      "unityId": 1300,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1247408351
-      ]
-    },
-    {
-      "name": "CraftingRecipe",
-      "unityId": 1301,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2880887609
-      ]
-    },
-    {
-      "name": "CraftingRecipesAvailable",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        125276079
-      ]
-    },
-    {
-      "name": "CraftingResult",
-      "unityId": 1302,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1818253446
-      ]
-    },
-    {
-      "name": "CreditBalance",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4006330596
-      ]
-    },
-    {
-      "name": "CreditVaultStatus",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1542891568
-      ]
-    },
-    {
-      "name": "CurrentTimingCode",
-      "unityId": 649,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4144296917
-      ]
-    },
-    {
-      "name": "CustomStackingHeightUpdate",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1147958756
-      ]
-    },
-    {
-      "name": "CustomUserNotification",
-      "unityId": 1001,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3549357296
-      ]
-    },
-    {
-      "name": "Dance",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3146477447
-      ]
-    },
-    {
-      "name": "DiceValue",
-      "unityId": 90,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1463997675
-      ]
-    },
-    {
-      "name": "DisconnectReason",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        175733402
-      ]
-    },
-    {
-      "name": "Doorbell",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1082940066
-      ]
-    },
-    {
-      "name": "ElementPointer",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1726210230
-      ]
-    },
-    {
-      "name": "EmailStatusResult",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2211226813
-      ]
-    },
-    {
-      "name": "EpicPopup",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3854514060
-      ]
-    },
-    {
-      "name": "ErrorReport",
-      "unityId": 299,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4151404283
-      ]
-    },
-    {
-      "name": "Expression",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1814880357
-      ]
-    },
-    {
-      "name": "ExtendedProfile",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1635333828
-      ]
-    },
-    {
-      "name": "ExtendedProfileChanged",
-      "unityId": 924,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3299599755
-      ]
-    },
-    {
-      "name": "FavoriteMembershipUpdate",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1662379057
-      ]
-    },
-    {
-      "name": "FavouriteChanged",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3541757496
-      ]
-    },
-    {
-      "name": "Favourites",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3851270542
-      ]
-    },
-    {
-      "name": "FigureSetIds",
-      "unityId": 3036,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        437452986
-      ]
-    },
-    {
-      "name": "FigureUpdate",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2890056306
-      ]
-    },
-    {
-      "name": "FindFriendsProcessResult",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2374523949
-      ]
-    },
-    {
-      "name": "FlatAccessDenied",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3981309742
-      ]
-    },
-    {
-      "name": "FlatAccessible",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2987410913
-      ]
-    },
-    {
-      "name": "FlatControllerAdded",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        447673587
-      ]
-    },
-    {
-      "name": "FlatControllerRemoved",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1526551538
-      ]
-    },
-    {
-      "name": "FlatControllers",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1254675325
-      ]
-    },
-    {
-      "name": "FlatCreated",
-      "unityId": 59,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3749917914
-      ]
-    },
-    {
-      "name": "FloodControl",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3115454856
-      ]
-    },
-    {
-      "name": "FloorHeightMap",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2372398809
-      ]
-    },
-    {
-      "name": "FollowFriendFailed",
-      "unityId": 349,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2319832145
-      ]
-    },
-    {
-      "name": "ForumData",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2116077701
-      ]
-    },
-    {
-      "name": "ForumsList",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1730808331
-      ]
-    },
-    {
-      "name": "ForumThreads",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        714211972
-      ]
-    },
-    {
-      "name": "FriendFurniCancelLock",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1716695802
-      ]
-    },
-    {
-      "name": "FriendFurniOtherLockConfirmed",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1581006525
-      ]
-    },
-    {
-      "name": "FriendFurniStartConfirmation",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1205617034
-      ]
-    },
-    {
-      "name": "FriendListFragment",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        437681836
-      ]
-    },
-    {
-      "name": "FriendListUpdate",
-      "unityId": 13,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1214265166
-      ]
-    },
-    {
-      "name": "FriendNotification",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1293514545
-      ]
-    },
-    {
-      "name": "FriendRequests",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        865507777
-      ]
-    },
-    {
-      "name": "FurniList",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2079276713
-      ]
-    },
-    {
-      "name": "FurniListAddOrUpdate",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1615762046
-      ]
-    },
-    {
-      "name": "FurniListInvalidate",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1706289112
-      ]
-    },
-    {
-      "name": "FurniListRemove",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3495475735
-      ]
-    },
-    {
-      "name": "FurniRentOrBuyoutOffer",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        649666945
-      ]
-    },
-    {
-      "name": "FurnitureAliases",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3090849890
-      ]
-    },
-    {
-      "name": "Game2AccountGameStatus",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1858323663
-      ]
-    },
-    {
-      "name": "Game2ArenaEntered",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        92902247
-      ]
-    },
-    {
-      "name": "Game2EnterArena",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        532872149
-      ]
-    },
-    {
-      "name": "Game2EnterArenaFailed",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1363416709
-      ]
-    },
-    {
-      "name": "Game2FriendsLeaderboard",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3503554655
-      ]
-    },
-    {
-      "name": "Game2FullGameStatus",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2071378199
-      ]
-    },
-    {
-      "name": "Game2GameCancelled",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3025874027
-      ]
-    },
-    {
-      "name": "Game2GameChatFromPlayer",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1887236086
-      ]
-    },
-    {
-      "name": "Game2GameCreated",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3263071782
-      ]
-    },
-    {
-      "name": "Game2GameDirectoryStatus",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1439761094
-      ]
-    },
-    {
-      "name": "Game2GameEnding",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        421458582
-      ]
-    },
-    {
-      "name": "Game2GameLongData",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2341846485
-      ]
-    },
-    {
-      "name": "Game2GameRejoin",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        669679538
-      ]
-    },
-    {
-      "name": "Game2GameStarted",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2843616060
-      ]
-    },
-    {
-      "name": "Game2GameStatus",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3030427893
-      ]
-    },
-    {
-      "name": "Game2InArenaQueue",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3369868253
-      ]
-    },
-    {
-      "name": "Game2JoiningGameFailed",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        881994675
-      ]
-    },
-    {
-      "name": "Game2PlayerExitedGameArena",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        311766164
-      ]
-    },
-    {
-      "name": "Game2PlayerRematches",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        132268044
-      ]
-    },
-    {
-      "name": "Game2StageEnding",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2386324494
-      ]
-    },
-    {
-      "name": "Game2StageLoad",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1665843360
-      ]
-    },
-    {
-      "name": "Game2StageRunning",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2677885764
-      ]
-    },
-    {
-      "name": "Game2StageStarting",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3064027104
-      ]
-    },
-    {
-      "name": "Game2StageStillLoading",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        465145380
-      ]
-    },
-    {
-      "name": "Game2StartCounter",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2452533186
-      ]
-    },
-    {
-      "name": "Game2StartingGameFailed",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        308376974
-      ]
-    },
-    {
-      "name": "Game2StopCounter",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2697808104
-      ]
-    },
-    {
-      "name": "Game2TotalGroupLeaderboard",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1954835800
-      ]
-    },
-    {
-      "name": "Game2TotalLeaderboard",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3741552963
-      ]
-    },
-    {
-      "name": "Game2UserBlocked",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2460422102
-      ]
-    },
-    {
-      "name": "Game2UserJoinedGame",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2215669098
-      ]
-    },
-    {
-      "name": "Game2UserLeftGame",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        53585703
-      ]
-    },
-    {
-      "name": "Game2WeeklyFriendsLeaderboard",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4158114614
-      ]
-    },
-    {
-      "name": "Game2WeeklyGroupLeaderboard",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3719849888
-      ]
-    },
-    {
-      "name": "Game2WeeklyLeaderboard",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2169429270
-      ]
-    },
-    {
-      "name": "GamePlayerValue",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3474643431
-      ]
-    },
-    {
-      "name": "GenericError",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3354236779
-      ]
-    },
-    {
-      "name": "GetGuestRoomResult",
-      "unityId": 454,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2023731753
-      ]
-    },
-    {
-      "name": "GiftReceiverNotFound",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3589520096
-      ]
-    },
-    {
-      "name": "GiftWrappingConfiguration",
-      "unityId": 620,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1843076458
-      ]
-    },
-    {
-      "name": "GotMysteryBoxPrize",
-      "unityId": 357,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2428453318
-      ]
-    },
-    {
-      "name": "GoToBreedingNestFailure",
-      "unityId": 991,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1204898175
-      ]
-    },
-    {
-      "name": "GroupDetailsChanged",
-      "unityId": 932,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3332622873
-      ]
-    },
-    {
-      "name": "GroupMembershipRequested",
-      "unityId": 931,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2593415025
-      ]
-    },
-    {
-      "name": "GuestRoomSearchResult",
-      "unityId": 451,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2360048493
-      ]
-    },
-    {
-      "name": "GuideOnDutyStatus",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3886057700
-      ]
-    },
-    {
-      "name": "GuideReportingStatus",
-      "unityId": 1540,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        27477562
-      ]
-    },
-    {
-      "name": "GuideSessionAttached",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1017444192
-      ]
-    },
-    {
-      "name": "GuideSessionDetached",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2725723251
-      ]
-    },
-    {
-      "name": "GuideSessionEnded",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        696677966
-      ]
-    },
-    {
-      "name": "GuideSessionError",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1476960700
-      ]
-    },
-    {
-      "name": "GuideSessionInvitedToGuideRoom",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3832344001
-      ]
-    },
-    {
-      "name": "GuideSessionMessage",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3566398694
-      ]
-    },
-    {
-      "name": "GuideSessionPartnerIsTyping",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        791024127
-      ]
-    },
-    {
-      "name": "GuideSessionRequesterRoom",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2106991121
-      ]
-    },
-    {
-      "name": "GuideSessionStarted",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2091548135
-      ]
-    },
-    {
-      "name": "GuideTicketCreationResult",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3224480242
-      ]
-    },
-    {
-      "name": "GuideTicketResolution",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1674247504
-      ]
-    },
-    {
-      "name": "GuildCreated",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3248854886
-      ]
-    },
-    {
-      "name": "GuildCreationInfo",
-      "unityId": 917,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3935947027
-      ]
-    },
-    {
-      "name": "GuildEditFailed",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3229457987
-      ]
-    },
-    {
-      "name": "GuildEditInfo",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1306988150
-      ]
-    },
-    {
-      "name": "GuildEditorData",
-      "unityId": 919,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3819779120
-      ]
-    },
-    {
-      "name": "GuildFurniContextMenuInfo",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1481751506
-      ]
-    },
-    {
-      "name": "GuildMemberFurniCountInHQ",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        786894448
-      ]
-    },
-    {
-      "name": "GuildMemberMgmtFailed",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3688476541
-      ]
-    },
-    {
-      "name": "GuildMembers",
-      "unityId": 926,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1292769644
-      ]
-    },
-    {
-      "name": "GuildMembershipRejected",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        239796522
-      ]
-    },
-    {
-      "name": "GuildMemberships",
-      "unityId": 927,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3514942175
-      ]
-    },
-    {
-      "name": "GuildMembershipUpdated",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3693812894
-      ]
-    },
-    {
-      "name": "HabboAchievementNotification",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2503525895
-      ]
-    },
-    {
-      "name": "HabboActivityPointNotification",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        380363694
-      ]
-    },
-    {
-      "name": "HabboBroadcast",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        320248836
-      ]
-    },
-    {
-      "name": "HabboClubExtendOffer",
-      "unityId": 630,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3693941518
-      ]
-    },
-    {
-      "name": "HabboClubOffers",
-      "unityId": 625,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2753937074
-      ]
-    },
-    {
-      "name": "HabboGroupBadges",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3846737404
-      ]
-    },
-    {
-      "name": "HabboGroupDeactivated",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3030246867
-      ]
-    },
-    {
-      "name": "HabboGroupDetails",
-      "unityId": 311,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3882061775
-      ]
-    },
-    {
-      "name": "HabboGroupJoinFailed",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2912473033
-      ]
-    },
-    {
-      "name": "HabboSearchResult",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3493499982
-      ]
-    },
-    {
-      "name": "HabboUserBadges",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3702611302
-      ]
-    },
-    {
-      "name": "HandItemReceived",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2258731560
-      ]
-    },
-    {
-      "name": "HeightMap",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1177467692
-      ]
-    },
-    {
-      "name": "HeightMapUpdate",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3745184229
-      ]
-    },
-    {
-      "name": "HotLooks",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3768507715
-      ]
-    },
-    {
-      "name": "IdentityAccounts",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        982788199
-      ]
-    },
-    {
-      "name": "IgnoredUsers",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2247522357
-      ]
-    },
-    {
-      "name": "IgnoreResult",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2987580124
-      ]
-    },
-    {
-      "name": "InClientLink",
-      "unityId": 1561,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        581389576
-      ]
-    },
-    {
-      "name": "IncomeRewardClaimResponse",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1660393191
-      ]
-    },
-    {
-      "name": "IncomeRewardStatus",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2070514195
-      ]
-    },
-    {
-      "name": "InfoFeedEnable",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2745281408
-      ]
-    },
-    {
-      "name": "InfoHotelClosed",
-      "unityId": 292,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1666295042
-      ]
-    },
-    {
-      "name": "InfoHotelClosing",
-      "unityId": 291,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3006483102
-      ]
-    },
-    {
-      "name": "InitCamera",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2005163685
-      ]
-    },
-    {
-      "name": "InitDiffieHandshake",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3809968236
-      ]
-    },
-    {
-      "name": "InstantMessageError",
-      "unityId": 261,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3403706277
-      ]
-    },
-    {
-      "name": "Interstitial",
-      "unityId": 258,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4068692033
-      ]
-    },
-    {
-      "name": "IsBadgeRequestFulfilled",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4019953317
-      ]
-    },
-    {
-      "name": "IsFirstLoginOfDay",
-      "unityId": 8,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        254390194
-      ]
-    },
-    {
-      "name": "IssueCloseNotification",
-      "unityId": 540,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2865223751
-      ]
-    },
-    {
-      "name": "IssueDeleted",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1167724097
-      ]
-    },
-    {
-      "name": "IssueInfo",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4195131297
-      ]
-    },
-    {
-      "name": "IssuePickFailed",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2258195735
-      ]
-    },
-    {
-      "name": "IsUserPartOfCompetition",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3307110419
-      ]
-    },
-    {
-      "name": "ItemAdd",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2779957371
-      ]
-    },
-    {
-      "name": "ItemDataUpdate",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        448897739
-      ]
-    },
-    {
-      "name": "ItemRemove",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        299087807
-      ]
-    },
-    {
-      "name": "Items",
-      "unityId": 45,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3977425086
-      ]
-    },
-    {
-      "name": "ItemUpdate",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1075909454
-      ]
-    },
-    {
-      "name": "JukeboxPlayListFull",
-      "unityId": 337,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4071215418
-      ]
-    },
-    {
-      "name": "JukeboxSongDisks",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1024548761
-      ]
-    },
-    {
-      "name": "LatencyPingResponse",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2640146302
-      ]
-    },
-    {
-      "name": "LimitedEditionSoldOut",
-      "unityId": 636,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        181679290
-      ]
-    },
-    {
-      "name": "LimitedOfferAppearingNext",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2111000525
-      ]
-    },
-    {
-      "name": "LoginFailedHotelClosed",
-      "unityId": 294,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        649126860
-      ]
-    },
-    {
-      "name": "MaintenanceStatus",
-      "unityId": 980,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1605337069
-      ]
-    },
-    {
-      "name": "MarketplaceBuyOfferResult",
-      "unityId": 613,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3710899585
-      ]
-    },
-    {
-      "name": "MarketplaceCancelOfferResult",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4241227270
-      ]
-    },
-    {
-      "name": "MarketplaceCanMakeOfferResult",
-      "unityId": 611,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1839599001
-      ]
-    },
-    {
-      "name": "MarketplaceConfiguration",
-      "unityId": 612,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3915527844
-      ]
-    },
-    {
-      "name": "MarketplaceItemStats",
-      "unityId": 617,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        151554762
-      ]
-    },
-    {
-      "name": "MarketplaceMakeOfferResult",
-      "unityId": 610,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1248864773
-      ]
-    },
-    {
-      "name": "MarketPlaceOffers",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        138568063
-      ]
-    },
-    {
-      "name": "MarketPlaceOwnOffers",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1782256715
-      ]
-    },
-    {
-      "name": "MessengerError",
-      "unityId": 260,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3167773548
-      ]
-    },
-    {
-      "name": "MessengerInit",
-      "unityId": 12,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3380876627
-      ]
-    },
-    {
-      "name": "MiniMailNew",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2477041448
-      ]
-    },
-    {
-      "name": "MiniMailUnreadCount",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        629633546
-      ]
-    },
-    {
-      "name": "Moderator",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2236510568
-      ]
-    },
-    {
-      "name": "ModeratorActionResult",
-      "unityId": 539,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1808737303
-      ]
-    },
-    {
-      "name": "ModeratorCaution",
-      "unityId": 161,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1066060670
-      ]
-    },
-    {
-      "name": "ModeratorInit",
-      "unityId": 531,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2590550346
-      ]
-    },
-    {
-      "name": "ModeratorRoomInfo",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        204221610
-      ]
-    },
-    {
-      "name": "ModeratorToolPreferences",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        772526894
-      ]
-    },
-    {
-      "name": "ModeratorUserInfo",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3579650944
-      ]
-    },
-    {
-      "name": "MOTDNotification",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2503523631
-      ]
-    },
-    {
-      "name": "MuteAllInRoom",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4206331549
-      ]
-    },
-    {
-      "name": "MysteryBoxKeys",
-      "unityId": 1002,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        650016045
-      ]
-    },
-    {
-      "name": "NavigatorCollapsedCategories",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        556064311
-      ]
-    },
-    {
-      "name": "NavigatorLiftedRooms",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        756844409
-      ]
-    },
-    {
-      "name": "NavigatorMetaData",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2549266077
-      ]
-    },
-    {
-      "name": "NavigatorSavedSearches",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3041176493
-      ]
-    },
-    {
-      "name": "NavigatorSearchResultBlocks",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1200193528
-      ]
-    },
-    {
-      "name": "NavigatorSettings",
-      "unityId": 455,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3837663245
-      ]
-    },
-    {
-      "name": "NestBreedingSuccess",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        425706517
-      ]
-    },
-    {
-      "name": "NewConsole",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2222057052
-      ]
-    },
-    {
-      "name": "NewFriendRequest",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3207200306
-      ]
-    },
-    {
-      "name": "NewNavigatorPreferences",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3347192506
-      ]
-    },
-    {
-      "name": "NewUserExperienceGiftOffer",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3587195119
-      ]
-    },
-    {
-      "name": "NewUserExperienceNotComplete",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        755616075
-      ]
-    },
-    {
-      "name": "NoobnessLevel",
-      "unityId": 1562,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3155088088
-      ]
-    },
-    {
-      "name": "NoOwnedRoomsAlert",
-      "unityId": 793,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3688043194
-      ]
-    },
-    {
-      "name": "NoSuchFlat",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3585823257
-      ]
-    },
-    {
-      "name": "NotEnoughBalance",
-      "unityId": 68,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3032301298
-      ]
-    },
-    {
-      "name": "NotificationDialog",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        75439052
-      ]
-    },
-    {
-      "name": "NowPlaying",
-      "unityId": 327,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3211311797
-      ]
-    },
-    {
-      "name": "ObjectAdd",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3094545877
-      ]
-    },
-    {
-      "name": "ObjectDataUpdate",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        554495788
-      ]
-    },
-    {
-      "name": "ObjectRemove",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2071550506
-      ]
-    },
-    {
-      "name": "Objects",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3486286946
-      ]
-    },
-    {
-      "name": "ObjectsDataUpdate",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2218246
-      ]
-    },
-    {
-      "name": "ObjectUpdate",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1062039948
-      ]
-    },
-    {
-      "name": "OfferRewardDelivered",
-      "unityId": 685,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4289260669
-      ]
-    },
-    {
-      "name": "OfficialRooms",
-      "unityId": 450,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2894382638
-      ]
-    },
-    {
-      "name": "OfficialSongId",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1045875581
-      ]
-    },
-    {
-      "name": "OneWayDoorStatus",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1535390042
-      ]
-    },
-    {
-      "name": "Open",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4090980151
-      ]
-    },
-    {
-      "name": "OpenConnection",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        325377310
-      ]
-    },
-    {
-      "name": "OpenPetPackageRequested",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        548922697
-      ]
-    },
-    {
-      "name": "OpenPetPackageResult",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2548566183
-      ]
-    },
-    {
-      "name": "PerkAllowances",
-      "unityId": 750,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3425799906
-      ]
-    },
-    {
-      "name": "PetAddedToInventory",
-      "unityId": 603,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1932746673
-      ]
-    },
-    {
-      "name": "PetBreeding",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        976896902
-      ]
-    },
-    {
-      "name": "PetBreedingResult",
-      "unityId": 828,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3532440451
-      ]
-    },
-    {
-      "name": "PetCommands",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2153426813
-      ]
-    },
-    {
-      "name": "PetExperience",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2445621385
-      ]
-    },
-    {
-      "name": "PetFigureUpdate",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        930457165
-      ]
-    },
-    {
-      "name": "PetInfo",
-      "unityId": 601,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        500993197
-      ]
-    },
-    {
-      "name": "PetInventory",
-      "unityId": 600,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2923209669
-      ]
-    },
-    {
-      "name": "PetLevelNotification",
-      "unityId": 602,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        42369775
-      ]
-    },
-    {
-      "name": "PetLevelUpdate",
-      "unityId": 38,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4000975119
-      ]
-    },
-    {
-      "name": "PetPlacingError",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        10271864
-      ]
-    },
-    {
-      "name": "PetReceived",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2188505262
-      ]
-    },
-    {
-      "name": "PetRemovedFromInventory",
-      "unityId": 604,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3539719788
-      ]
-    },
-    {
-      "name": "PetRespectFailed",
-      "unityId": 621,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1897677551
-      ]
-    },
-    {
-      "name": "PetRespectNotification",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3388032508
-      ]
-    },
-    {
-      "name": "PetStatusUpdate",
-      "unityId": 37,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4176142486
-      ]
-    },
-    {
-      "name": "PetSupplementedNotification",
-      "unityId": 598,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1810606700
-      ]
-    },
-    {
-      "name": "PhoneCollectionState",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4273875869
-      ]
-    },
-    {
-      "name": "Ping",
-      "unityId": 50,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        634949745
-      ]
-    },
-    {
-      "name": "PlayList",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2501888242
-      ]
-    },
-    {
-      "name": "PlayListSongAdded",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2160678501
-      ]
-    },
-    {
-      "name": "PollContents",
-      "unityId": 317,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        307382062
-      ]
-    },
-    {
-      "name": "PollError",
-      "unityId": 318,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3758173423
-      ]
-    },
-    {
-      "name": "PollOffer",
-      "unityId": 316,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2278022629
-      ]
-    },
-    {
-      "name": "PopularRoomTagsResult",
-      "unityId": 452,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3061519130
-      ]
-    },
-    {
-      "name": "PostItPlaced",
-      "unityId": 145,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1912448048
-      ]
-    },
-    {
-      "name": "PostMessage",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        104751378
-      ]
-    },
-    {
-      "name": "PostThread",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1410279219
-      ]
-    },
-    {
-      "name": "PresentOpened",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3512730460
-      ]
-    },
-    {
-      "name": "ProductOffer",
-      "unityId": 637,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4096966284
-      ]
-    },
-    {
-      "name": "PromoArticles",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1465840009
-      ]
-    },
-    {
-      "name": "PurchaseError",
-      "unityId": 65,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        962458879
-      ]
-    },
-    {
-      "name": "PurchaseNotAllowed",
-      "unityId": 296,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2234740489
-      ]
-    },
-    {
-      "name": "PurchaseOK",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        935671809
-      ]
-    },
-    {
-      "name": "Quest",
-      "unityId": 802,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3005892061
-      ]
-    },
-    {
-      "name": "QuestCancelled",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2810137854
-      ]
-    },
-    {
-      "name": "QuestCompleted",
-      "unityId": 801,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1319438605
-      ]
-    },
-    {
-      "name": "QuestDaily",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        100364330
-      ]
-    },
-    {
-      "name": "Question",
-      "unityId": 1750,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2731653458
-      ]
-    },
-    {
-      "name": "QuestionAnswered",
-      "unityId": 1751,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        11893812
-      ]
-    },
-    {
-      "name": "QuestionFinished",
-      "unityId": 1752,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2234956673
-      ]
-    },
-    {
-      "name": "Quests",
-      "unityId": 800,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3149902401
-      ]
-    },
-    {
-      "name": "QuizData",
-      "unityId": 560,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2128879637
-      ]
-    },
-    {
-      "name": "QuizResults",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1470723790
-      ]
-    },
-    {
-      "name": "RelationshipStatusInfo",
-      "unityId": 914,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2113729254
-      ]
-    },
-    {
-      "name": "RemainingMutePeriod",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3655701476
-      ]
-    },
-    {
-      "name": "RentableSpaceRentFailed",
-      "unityId": 1492,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2077501817
-      ]
-    },
-    {
-      "name": "RentableSpaceRentOk",
-      "unityId": 1491,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        321270223
-      ]
-    },
-    {
-      "name": "RentableSpaceStatus",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2420906646
-      ]
-    },
-    {
-      "name": "RequestSpamWallPostIt",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        604083244
-      ]
-    },
-    {
-      "name": "RespectNotification",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        123815551
-      ]
-    },
-    {
-      "name": "RestoreClient",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2522152013
-      ]
-    },
-    {
-      "name": "RoomAdError",
-      "unityId": 374,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3294925510
-      ]
-    },
-    {
-      "name": "RoomAdPurchaseInfo",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1563587362
-      ]
-    },
-    {
-      "name": "RoomChatlog",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        804261483
-      ]
-    },
-    {
-      "name": "RoomChatSettings",
-      "unityId": 474,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2741688180
-      ]
-    },
-    {
-      "name": "RoomDimmerPresets",
-      "unityId": 365,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2760242814
-      ]
-    },
-    {
-      "name": "RoomEntryInfo",
-      "unityId": 471,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1023061412
-      ]
-    },
-    {
-      "name": "RoomEntryTile",
-      "unityId": 1472,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2483203181
-      ]
-    },
-    {
-      "name": "RoomEvent",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4198086950
-      ]
-    },
-    {
-      "name": "RoomEventCancel",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        275989434
-      ]
-    },
-    {
-      "name": "RoomFilterSettings",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        826561322
-      ]
-    },
-    {
-      "name": "RoomForward",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2471678524
-      ]
-    },
-    {
-      "name": "RoomInfoUpdated",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1813102147
-      ]
-    },
-    {
-      "name": "RoomInvite",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3473746734
-      ]
-    },
-    {
-      "name": "RoomInviteError",
-      "unityId": 262,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2141144901
-      ]
-    },
-    {
-      "name": "RoomMessageNotification",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3450871876
-      ]
-    },
-    {
-      "name": "RoomOccupiedTiles",
-      "unityId": 1473,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1216129769
-      ]
-    },
-    {
-      "name": "RoomProperty",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1414863062
-      ]
-    },
-    {
-      "name": "RoomQueueStatus",
-      "unityId": 259,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1419470745
-      ]
-    },
-    {
-      "name": "RoomRating",
-      "unityId": 345,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2234922025
-      ]
-    },
-    {
-      "name": "RoomReady",
-      "unityId": 69,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1680488788
-      ]
-    },
-    {
-      "name": "RoomSettingsData",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3896797120
-      ]
-    },
-    {
-      "name": "RoomSettingsError",
-      "unityId": 466,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        270582555
-      ]
-    },
-    {
-      "name": "RoomSettingsSaved",
-      "unityId": 467,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1250374522
-      ]
-    },
-    {
-      "name": "RoomSettingsSaveError",
-      "unityId": 468,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2120212938
-      ]
-    },
-    {
-      "name": "RoomVisits",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2142615791
-      ]
-    },
-    {
-      "name": "RoomVisualizationSettings",
-      "unityId": 472,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        931097085
-      ]
-    },
-    {
-      "name": "SanctionStatus",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        895790938
-      ]
-    },
-    {
-      "name": "ScrSendKickbackInfo",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1657022733
-      ]
-    },
-    {
-      "name": "ScrSendUserInfo",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2398578316
-      ]
-    },
-    {
-      "name": "SeasonalCalendarDailyOffer",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        437534395
-      ]
-    },
-    {
-      "name": "SeasonalQuests",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3620591675
-      ]
-    },
-    {
-      "name": "SecondsUntil",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        103249412
-      ]
-    },
-    {
-      "name": "SellablePetPalettes",
-      "unityId": 827,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1202180076
-      ]
-    },
-    {
-      "name": "Shout",
-      "unityId": 26,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1400604357
-      ]
-    },
-    {
-      "name": "ShowEnforceRoomCategoryDialog",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2300679096
-      ]
-    },
-    {
-      "name": "ShowMysteryBoxWait",
-      "unityId": 355,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2096537570
-      ]
-    },
-    {
-      "name": "Sleep",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        677690799
-      ]
-    },
-    {
-      "name": "SlideObjectBundle",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        641696449
-      ]
-    },
-    {
-      "name": "SnowWarGameTokens",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1804027612
-      ]
-    },
-    {
-      "name": "SpecialRoomEffect",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3274186197
-      ]
-    },
-    {
-      "name": "TalentLevelUp",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        350468471
-      ]
-    },
-    {
-      "name": "TalentTrack",
-      "unityId": 565,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2972062245
-      ]
-    },
-    {
-      "name": "TalentTrackLevel",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        956977425
-      ]
-    },
-    {
-      "name": "TargetedOffer",
-      "unityId": 1530,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        615406408
-      ]
-    },
-    {
-      "name": "TargetedOfferNotFound",
-      "unityId": 1531,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3523985399
-      ]
-    },
-    {
-      "name": "ThreadMessages",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        30926874
-      ]
-    },
-    {
-      "name": "ThumbnailStatus",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2714922639
-      ]
-    },
-    {
-      "name": "TradeOpenFailed",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3186421263
-      ]
-    },
-    {
-      "name": "TradingAccept",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2452161573
-      ]
-    },
-    {
-      "name": "TradingClose",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1487737888
-      ]
-    },
-    {
-      "name": "TradingCompleted",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        31482310
-      ]
-    },
-    {
-      "name": "TradingConfirmation",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3308854309
-      ]
-    },
-    {
-      "name": "TradingItemList",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4279695579
-      ]
-    },
-    {
-      "name": "TradingNotOpen",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        141011783
-      ]
-    },
-    {
-      "name": "TradingOpen",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        498210879
-      ]
-    },
-    {
-      "name": "TradingOtherNotAllowed",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1991053867
-      ]
-    },
-    {
-      "name": "TradingYouAreNotAllowed",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        874077157
-      ]
-    },
-    {
-      "name": "TraxSongInfo",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1370547100
-      ]
-    },
-    {
-      "name": "TryPhoneNumberResult",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        836937510
-      ]
-    },
-    {
-      "name": "TryVerificationCodeResult",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1109170231
-      ]
-    },
-    {
-      "name": "UniqueMachineID",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1613626911
-      ]
-    },
-    {
-      "name": "UnreadForumsCount",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2544133236
-      ]
-    },
-    {
-      "name": "UnseenItems",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1105048897
-      ]
-    },
-    {
-      "name": "UpdateMessage",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        446555121
-      ]
-    },
-    {
-      "name": "UpdateThread",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        879066235
-      ]
-    },
-    {
-      "name": "UseObject",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1219792098
-      ]
-    },
-    {
-      "name": "UserBanned",
-      "unityId": 35,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2831105878
-      ]
-    },
-    {
-      "name": "UserChange",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2401369793
-      ]
-    },
-    {
-      "name": "UserChatlog",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2687267371
-      ]
-    },
-    {
-      "name": "UserClassification",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        232427595
-      ]
-    },
-    {
-      "name": "UserEventCats",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3096914049
-      ]
-    },
-    {
-      "name": "UserFlatCats",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1305579647
-      ]
-    },
-    {
-      "name": "UserNameChanged",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3726564377
-      ]
-    },
-    {
-      "name": "UserNftWardrobe",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3732960891
-      ]
-    },
-    {
-      "name": "UserNftWardrobeSelection",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1089821668
-      ]
-    },
-    {
-      "name": "UserObject",
-      "unityId": 5,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2428575878
-      ]
-    },
-    {
-      "name": "UserRemove",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1609728960
-      ]
-    },
-    {
-      "name": "UserRights",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3782349727
-      ]
-    },
-    {
-      "name": "Users",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2702347476
-      ]
-    },
-    {
-      "name": "UserSongDisksInventory",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2015062434
-      ]
-    },
-    {
-      "name": "UserTyping",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        409649145
-      ]
-    },
-    {
-      "name": "UserUnbannedFromRoom",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2580661710
-      ]
-    },
-    {
-      "name": "UserUpdate",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2986321866
-      ]
-    },
-    {
-      "name": "VoucherRedeemError",
-      "unityId": 213,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        89973701
-      ]
-    },
-    {
-      "name": "VoucherRedeemOk",
-      "unityId": 212,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1351315028
-      ]
-    },
-    {
-      "name": "Wardrobe",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        635633020
-      ]
-    },
-    {
-      "name": "Whisper",
-      "unityId": 25,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        394582171
-      ]
-    },
-    {
-      "name": "WiredFurniAction",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4027308459
-      ]
-    },
-    {
-      "name": "WiredFurniCondition",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1992447765
-      ]
-    },
-    {
-      "name": "WiredFurniTrigger",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1285921198
-      ]
-    },
-    {
-      "name": "WiredRewardResult",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2742678825
-      ]
-    },
-    {
-      "name": "WiredSaveSuccess",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1606139461
-      ]
-    },
-    {
-      "name": "WiredValidationError",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2655685191
-      ]
-    },
-    {
-      "name": "YouAreController",
-      "unityId": 42,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        4076097589
-      ]
-    },
-    {
-      "name": "YouAreNotController",
-      "unityId": 43,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        1079335163
-      ]
-    },
-    {
-      "name": "YouAreOwner",
-      "unityId": 47,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        903290553
-      ]
-    },
-    {
-      "name": "YouArePlayingGame",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3458940800
-      ]
-    },
-    {
-      "name": "YouAreSpectator",
-      "unityId": 254,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3626743944
-      ]
-    },
-    {
-      "name": "YoutubeControlVideo",
-      "unityId": 1482,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        718148618
-      ]
-    },
-    {
-      "name": "YoutubeDisplayPlaylists",
-      "unityId": -1,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        3126737561
-      ]
-    },
-    {
-      "name": "YoutubeDisplayVideo",
-      "unityId": 1480,
-      "unityStructure": null,
-      "postShuffleHashes": [
-        2765148087
-      ]
-    }
-  ]
-}
+﻿[
+  {
+    "name": "AcceptFriendResultEvent",
+    "unityId": 315,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1178500968,
+      3691276874
+    ]
+  },
+  {
+    "name": "AccountPreferencesEvent",
+    "unityId": 308,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2241830178,
+      1689661034
+    ]
+  },
+  {
+    "name": "AccountSafetyLockStatusChangeMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3504304522,
+      326763790
+    ]
+  },
+  {
+    "name": "AchievementEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1288511925,
+      1876292167
+    ]
+  },
+  {
+    "name": "AchievementResolutionCompletedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1914025227,
+      928510831
+    ]
+  },
+  {
+    "name": "AchievementResolutionProgressMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2161276018,
+      3495562367
+    ]
+  },
+  {
+    "name": "AchievementResolutionsMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1202838602,
+      3219527299
+    ]
+  },
+  {
+    "name": "AchievementsEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4082897409,
+      297388799
+    ]
+  },
+  {
+    "name": "AchievementsScoreEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      433417547,
+      1115706807
+    ]
+  },
+  {
+    "name": "ActivityPointsMessageEvent",
+    "unityId": 628,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4138437899,
+      2180592593
+    ]
+  },
+  {
+    "name": "ApproveNameMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1611855307,
+      2186673632
+    ]
+  },
+  {
+    "name": "AuthenticationOKMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1920146502,
+      682763951
+    ]
+  },
+  {
+    "name": "AvailabilityStatusMessageEvent",
+    "unityId": 290,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2062050127,
+      2575744959
+    ]
+  },
+  {
+    "name": "AvatarEffectMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3151158710,
+      697236939
+    ]
+  },
+  {
+    "name": "AvatarEffectActivatedMessageEvent",
+    "unityId": 462,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2458972125,
+      1911824456
+    ]
+  },
+  {
+    "name": "AvatarEffectAddedMessageEvent",
+    "unityId": 461,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      480761660,
+      210392913
+    ]
+  },
+  {
+    "name": "AvatarEffectExpiredMessageEvent",
+    "unityId": 463,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1048157566,
+      2275729106
+    ]
+  },
+  {
+    "name": "AvatarEffectsMessageEvent",
+    "unityId": 460,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1190504706,
+      189867866
+    ]
+  },
+  {
+    "name": "AvatarEffectSelectedMessageEvent",
+    "unityId": 464,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2114653180,
+      3040206728
+    ]
+  },
+  {
+    "name": "BadgePointLimitsEvent",
+    "unityId": 627,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      769537512,
+      1745461012
+    ]
+  },
+  {
+    "name": "BadgeReceivedEvent",
+    "unityId": 633,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3466605645,
+      1345090398
+    ]
+  },
+  {
+    "name": "BadgesEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      647547969,
+      1596060039
+    ]
+  },
+  {
+    "name": "BannedUsersFromRoomEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1732860065,
+      987976164
+    ]
+  },
+  {
+    "name": "BonusRareInfoMessageEvent",
+    "unityId": 629,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      317210867
+    ]
+  },
+  {
+    "name": "BotAddedToInventoryEvent",
+    "unityId": 3029,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2574587158,
+      376441269
+    ]
+  },
+  {
+    "name": "BotCommandConfigurationEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1359143471
+    ]
+  },
+  {
+    "name": "BotErrorEvent",
+    "unityId": 3032,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4219744333
+    ]
+  },
+  {
+    "name": "BotForceOpenContextMenuEvent",
+    "unityId": 3035,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1701768239,
+      1033203725
+    ]
+  },
+  {
+    "name": "BotInventoryEvent",
+    "unityId": 3028,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1540250346,
+      3012162352
+    ]
+  },
+  {
+    "name": "BotRemovedFromInventoryEvent",
+    "unityId": 3030,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      657152220,
+      4199440183
+    ]
+  },
+  {
+    "name": "BotSkillListUpdateEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3973621874,
+      1681790279
+    ]
+  },
+  {
+    "name": "BuildersClubFurniCountMessageEvent",
+    "unityId": 1004,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      718552057,
+      2933281088
+    ]
+  },
+  {
+    "name": "BuildersClubSubscriptionStatusMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2628251285,
+      2768636374
+    ]
+  },
+  {
+    "name": "BundleDiscountRulesetMessageEvent",
+    "unityId": 635,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1979044013,
+      2909775787
+    ]
+  },
+  {
+    "name": "CallForHelpDisabledNotifyMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1298474957
+    ]
+  },
+  {
+    "name": "CallForHelpPendingCallsMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3933237039,
+      1351847770
+    ]
+  },
+  {
+    "name": "CallForHelpPendingCallsDeletedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      909026726,
+      2526614543
+    ]
+  },
+  {
+    "name": "CallForHelpReplyMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      778884207,
+      2027770387
+    ]
+  },
+  {
+    "name": "CallForHelpResultMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2916921380
+    ]
+  },
+  {
+    "name": "CameraPublishStatusMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2722277805
+    ]
+  },
+  {
+    "name": "CameraPurchaseOKMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2107018183
+    ]
+  },
+  {
+    "name": "CameraStorageUrlMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3585601733
+    ]
+  },
+  {
+    "name": "CampaignCalendarDataMessageEvent",
+    "unityId": 1400,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1343963788
+    ]
+  },
+  {
+    "name": "CampaignCalendarDoorOpenedMessageEvent",
+    "unityId": 1401,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1264339919
+    ]
+  },
+  {
+    "name": "CancelMysteryBoxWaitMessageEvent",
+    "unityId": 356,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2966946516
+    ]
+  },
+  {
+    "name": "CanCreateRoomEvent",
+    "unityId": 512,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1857048797,
+      2770020841
+    ]
+  },
+  {
+    "name": "CantConnectMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4071415508,
+      1197115409
+    ]
+  },
+  {
+    "name": "CarryObjectMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1478899282,
+      1495723646
+    ]
+  },
+  {
+    "name": "CatalogIndexMessageEvent",
+    "unityId": 126,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1720648900,
+      554768122
+    ]
+  },
+  {
+    "name": "CatalogPageMessageEvent",
+    "unityId": 127,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3391715139,
+      1458598382
+    ]
+  },
+  {
+    "name": "CatalogPageWithEarliestExpiryMessageEvent",
+    "unityId": 638,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1180086495
+    ]
+  },
+  {
+    "name": "CatalogPublishedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3692997035,
+      2382797874
+    ]
+  },
+  {
+    "name": "CategoriesWithVisitorCountEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2774923717,
+      833740316
+    ]
+  },
+  {
+    "name": "CfhChatlogEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      578509479,
+      3695633211
+    ]
+  },
+  {
+    "name": "CfhSanctionMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3508444332,
+      3777009258
+    ]
+  },
+  {
+    "name": "CfhTopicsInitMessageEvent",
+    "unityId": 552,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2409105974,
+      4136486532
+    ]
+  },
+  {
+    "name": "ChangeEmailResultEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1341664063,
+      1250856250
+    ]
+  },
+  {
+    "name": "ChangeUserNameResultMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1653214370,
+      1787221803
+    ]
+  },
+  {
+    "name": "ChatMessageEvent",
+    "unityId": 24,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2801568197,
+      3965679603
+    ]
+  },
+  {
+    "name": "ChatReviewSessionDetachedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      392408824,
+      1814385055
+    ]
+  },
+  {
+    "name": "ChatReviewSessionOfferedToGuideMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3471869561,
+      2622516754
+    ]
+  },
+  {
+    "name": "ChatReviewSessionResultsMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3930587007,
+      1196150405
+    ]
+  },
+  {
+    "name": "ChatReviewSessionStartedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2780627650,
+      535807870
+    ]
+  },
+  {
+    "name": "ChatReviewSessionVotingStatusMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1569338685,
+      2292910444
+    ]
+  },
+  {
+    "name": "CheckUserNameResultMessageEvent",
+    "unityId": 571,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3348148626,
+      1558162994
+    ]
+  },
+  {
+    "name": "CitizenshipVipOfferPromoEnabledEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      575753229
+    ]
+  },
+  {
+    "name": "CloseConnectionMessageEvent",
+    "unityId": 18,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1954564850,
+      1474929872
+    ]
+  },
+  {
+    "name": "ClubGiftInfoEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3507547083,
+      3939740298
+    ]
+  },
+  {
+    "name": "ClubGiftNotificationEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1305173921,
+      3752951778
+    ]
+  },
+  {
+    "name": "ClubGiftSelectedEvent",
+    "unityId": 624,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      545621082,
+      3269481789
+    ]
+  },
+  {
+    "name": "CommunityGoalHallOfFameMessageEvent",
+    "unityId": 646,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2917165574
+    ]
+  },
+  {
+    "name": "CommunityGoalProgressMessageEvent",
+    "unityId": 790,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3471088163,
+      4133868938
+    ]
+  },
+  {
+    "name": "CommunityVoteReceivedEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4019752363
+    ]
+  },
+  {
+    "name": "CompetitionEntrySubmitResultMessageEvent",
+    "unityId": 643,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3961083015,
+      95951575
+    ]
+  },
+  {
+    "name": "CompetitionRoomsDataMessageEvent",
+    "unityId": 792,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2163656324,
+      3290361206
+    ]
+  },
+  {
+    "name": "CompetitionStatusMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2778951793
+    ]
+  },
+  {
+    "name": "CompetitionVotingInfoMessageEvent",
+    "unityId": 644,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      819652150,
+      3114870618
+    ]
+  },
+  {
+    "name": "CompleteDiffieHandshakeEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1179448288,
+      3124614156
+    ]
+  },
+  {
+    "name": "ConcurrentUsersGoalProgressMessageEvent",
+    "unityId": 670,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2205367966
+    ]
+  },
+  {
+    "name": "ConfirmBreedingRequestEvent",
+    "unityId": 990,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2581566608
+    ]
+  },
+  {
+    "name": "ConfirmBreedingResultEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3785773776
+    ]
+  },
+  {
+    "name": "ConvertedRoomIdEvent",
+    "unityId": 513,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3951317790,
+      1516850228
+    ]
+  },
+  {
+    "name": "CraftableProductsMessageEvent",
+    "unityId": 1300,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1247408351
+    ]
+  },
+  {
+    "name": "CraftingRecipeMessageEvent",
+    "unityId": 1301,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2880887609
+    ]
+  },
+  {
+    "name": "CraftingRecipesAvailableMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      125276079
+    ]
+  },
+  {
+    "name": "CraftingResultMessageEvent",
+    "unityId": 1302,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1818253446
+    ]
+  },
+  {
+    "name": "CreditBalanceEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      73635897,
+      4006330596
+    ]
+  },
+  {
+    "name": "CreditVaultStatusMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2592441272,
+      1542891568
+    ]
+  },
+  {
+    "name": "CurrentTimingCodeMessageEvent",
+    "unityId": 649,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4144296917
+    ]
+  },
+  {
+    "name": "CustomStackingHeightUpdateMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1147958756
+    ]
+  },
+  {
+    "name": "CustomUserNotificationMessageEvent",
+    "unityId": 1001,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3549357296
+    ]
+  },
+  {
+    "name": "DanceMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2680118274,
+      3146477447
+    ]
+  },
+  {
+    "name": "DiceValueMessageEvent",
+    "unityId": 90,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1011038545,
+      1463997675
+    ]
+  },
+  {
+    "name": "DisconnectReasonEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2663414415,
+      175733402
+    ]
+  },
+  {
+    "name": "DoorbellMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4133157520,
+      1082940066
+    ]
+  },
+  {
+    "name": "ElementPointerMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1726210230
+    ]
+  },
+  {
+    "name": "EmailStatusResultEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      553897722,
+      2211226813
+    ]
+  },
+  {
+    "name": "EpicPopupMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3854514060
+    ]
+  },
+  {
+    "name": "ErrorReportEvent",
+    "unityId": 299,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2702981317,
+      4151404283
+    ]
+  },
+  {
+    "name": "ExpressionMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2838186717,
+      1814880357
+    ]
+  },
+  {
+    "name": "ExtendedProfileMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1472036275,
+      1635333828
+    ]
+  },
+  {
+    "name": "ExtendedProfileChangedMessageEvent",
+    "unityId": 924,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1993892017,
+      3299599755
+    ]
+  },
+  {
+    "name": "FavoriteMembershipUpdateMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1662379057
+    ]
+  },
+  {
+    "name": "FavouriteChangedEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2099328100,
+      3541757496
+    ]
+  },
+  {
+    "name": "FavouritesEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2195366178,
+      3851270542
+    ]
+  },
+  {
+    "name": "FigureSetIdsEvent",
+    "unityId": 3036,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3456217382,
+      437452986
+    ]
+  },
+  {
+    "name": "FigureUpdateEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4150281919,
+      2890056306
+    ]
+  },
+  {
+    "name": "FindFriendsProcessResultEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2374523949
+    ]
+  },
+  {
+    "name": "FlatAccessDeniedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2769331329,
+      3981309742
+    ]
+  },
+  {
+    "name": "FlatAccessibleMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1378436502,
+      2987410913
+    ]
+  },
+  {
+    "name": "FlatControllerAddedEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3963763055,
+      447673587
+    ]
+  },
+  {
+    "name": "FlatControllerRemovedEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3299427982,
+      1526551538
+    ]
+  },
+  {
+    "name": "FlatControllersEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3190948804,
+      1254675325
+    ]
+  },
+  {
+    "name": "FlatCreatedEvent",
+    "unityId": 59,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1039886095,
+      3749917914
+    ]
+  },
+  {
+    "name": "FloodControlMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3115454856
+    ]
+  },
+  {
+    "name": "FloorHeightMapMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      46940360,
+      2372398809
+    ]
+  },
+  {
+    "name": "FollowFriendFailedEvent",
+    "unityId": 349,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1625017014,
+      2319832145
+    ]
+  },
+  {
+    "name": "ForumDataMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2885368662,
+      2116077701
+    ]
+  },
+  {
+    "name": "ForumsListMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      523736926,
+      1730808331
+    ]
+  },
+  {
+    "name": "ForumThreadsMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1475160595,
+      714211972
+    ]
+  },
+  {
+    "name": "FriendFurniCancelLockMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1716695802
+    ]
+  },
+  {
+    "name": "FriendFurniOtherLockConfirmedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1581006525
+    ]
+  },
+  {
+    "name": "FriendFurniStartConfirmationMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1205617034
+    ]
+  },
+  {
+    "name": "FriendListFragmentMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      46202129,
+      437681836
+    ]
+  },
+  {
+    "name": "FriendListUpdateEvent",
+    "unityId": 13,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1331881421,
+      1214265166
+    ]
+  },
+  {
+    "name": "FriendNotificationEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1858013170,
+      1293514545
+    ]
+  },
+  {
+    "name": "FriendRequestsEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2820705868,
+      865507777
+    ]
+  },
+  {
+    "name": "FurniListEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      735421419,
+      2079276713
+    ]
+  },
+  {
+    "name": "FurniListAddOrUpdateEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1185589242,
+      1615762046
+    ]
+  },
+  {
+    "name": "FurniListInvalidateEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3354125704,
+      1706289112
+    ]
+  },
+  {
+    "name": "FurniListRemoveEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3558642121,
+      3495475735
+    ]
+  },
+  {
+    "name": "FurniRentOrBuyoutOfferMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      649666945
+    ]
+  },
+  {
+    "name": "FurnitureAliasesMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4199734372,
+      3090849890
+    ]
+  },
+  {
+    "name": "Game2AccountGameStatusMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      117086923,
+      1858323663
+    ]
+  },
+  {
+    "name": "Game2ArenaEnteredMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2232395335,
+      92902247
+    ]
+  },
+  {
+    "name": "Game2EnterArenaMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      927581078,
+      532872149
+    ]
+  },
+  {
+    "name": "Game2EnterArenaFailedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2406190309,
+      1363416709
+    ]
+  },
+  {
+    "name": "Game2FriendsLeaderboardEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1679209250,
+      3503554655
+    ]
+  },
+  {
+    "name": "Game2FullGameStatusMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2004514619,
+      2071378199
+    ]
+  },
+  {
+    "name": "Game2GameCancelledMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2475054449,
+      3025874027
+    ]
+  },
+  {
+    "name": "Game2GameChatFromPlayerMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1906022918,
+      1887236086
+    ]
+  },
+  {
+    "name": "Game2GameCreatedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3959494454,
+      3263071782
+    ]
+  },
+  {
+    "name": "Game2GameDirectoryStatusMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      866540399,
+      1439761094
+    ]
+  },
+  {
+    "name": "Game2GameEndingMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      235876687,
+      421458582
+    ]
+  },
+  {
+    "name": "Game2GameLongDataMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2535094103,
+      2341846485
+    ]
+  },
+  {
+    "name": "Game2GameRejoinMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3968911034,
+      669679538
+    ]
+  },
+  {
+    "name": "Game2GameStartedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1910528527,
+      2843616060
+    ]
+  },
+  {
+    "name": "Game2GameStatusMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3051634897,
+      3030427893
+    ]
+  },
+  {
+    "name": "Game2InArenaQueueMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      254004301,
+      3369868253
+    ]
+  },
+  {
+    "name": "Game2JoiningGameFailedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      853783478,
+      881994675
+    ]
+  },
+  {
+    "name": "Game2PlayerExitedGameArenaMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      301809124,
+      311766164
+    ]
+  },
+  {
+    "name": "Game2PlayerRematchesMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4275040177,
+      132268044
+    ]
+  },
+  {
+    "name": "Game2StageEndingMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3831448013,
+      2386324494
+    ]
+  },
+  {
+    "name": "Game2StageLoadMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2340022326,
+      1665843360
+    ]
+  },
+  {
+    "name": "Game2StageRunningMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      669514211,
+      2677885764
+    ]
+  },
+  {
+    "name": "Game2StageStartingMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1635682139,
+      3064027104
+    ]
+  },
+  {
+    "name": "Game2StageStillLoadingMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4221329104,
+      465145380
+    ]
+  },
+  {
+    "name": "Game2StartCounterMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1808034266,
+      2452533186
+    ]
+  },
+  {
+    "name": "Game2StartingGameFailedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2307900213,
+      308376974
+    ]
+  },
+  {
+    "name": "Game2StopCounterMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2733558930,
+      2697808104
+    ]
+  },
+  {
+    "name": "Game2TotalGroupLeaderboardEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2503640599,
+      1954835800
+    ]
+  },
+  {
+    "name": "Game2TotalLeaderboardEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4148722541,
+      3741552963
+    ]
+  },
+  {
+    "name": "Game2UserBlockedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2460422102
+    ]
+  },
+  {
+    "name": "Game2UserJoinedGameMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1718792031,
+      2215669098
+    ]
+  },
+  {
+    "name": "Game2UserLeftGameMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3711519765,
+      53585703
+    ]
+  },
+  {
+    "name": "Game2WeeklyFriendsLeaderboardEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3984599536,
+      4158114614
+    ]
+  },
+  {
+    "name": "Game2WeeklyGroupLeaderboardEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1408445811,
+      3719849888
+    ]
+  },
+  {
+    "name": "Game2WeeklyLeaderboardEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2402193107,
+      2169429270
+    ]
+  },
+  {
+    "name": "GamePlayerValueMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      445317863,
+      3474643431
+    ]
+  },
+  {
+    "name": "GenericErrorEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      857469236,
+      3354236779
+    ]
+  },
+  {
+    "name": "GetGuestRoomResultEvent",
+    "unityId": 454,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3152382870,
+      2023731753
+    ]
+  },
+  {
+    "name": "GiftReceiverNotFoundEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2296610226,
+      3589520096
+    ]
+  },
+  {
+    "name": "GiftWrappingConfigurationEvent",
+    "unityId": 620,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      947683919,
+      1843076458
+    ]
+  },
+  {
+    "name": "GotMysteryBoxPrizeMessageEvent",
+    "unityId": 357,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2428453318
+    ]
+  },
+  {
+    "name": "GoToBreedingNestFailureEvent",
+    "unityId": 991,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4135645832,
+      1204898175
+    ]
+  },
+  {
+    "name": "GroupDetailsChangedMessageEvent",
+    "unityId": 932,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1408473147,
+      3332622873
+    ]
+  },
+  {
+    "name": "GroupMembershipRequestedMessageEvent",
+    "unityId": 931,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3795666260,
+      2593415025
+    ]
+  },
+  {
+    "name": "GuestRoomSearchResultEvent",
+    "unityId": 451,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2395918107,
+      2360048493
+    ]
+  },
+  {
+    "name": "GuideOnDutyStatusMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2572407857,
+      3886057700
+    ]
+  },
+  {
+    "name": "GuideReportingStatusMessageEvent",
+    "unityId": 1540,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1820088622,
+      27477562
+    ]
+  },
+  {
+    "name": "GuideSessionAttachedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3241471188,
+      1017444192
+    ]
+  },
+  {
+    "name": "GuideSessionDetachedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1907310221,
+      2725723251
+    ]
+  },
+  {
+    "name": "GuideSessionEndedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1137309661,
+      696677966
+    ]
+  },
+  {
+    "name": "GuideSessionErrorMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1489930975,
+      1476960700
+    ]
+  },
+  {
+    "name": "GuideSessionInvitedToGuideRoomMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3639280324,
+      3832344001
+    ]
+  },
+  {
+    "name": "GuideSessionMessageMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3566398694
+    ]
+  },
+  {
+    "name": "GuideSessionPartnerIsTypingMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3990431496,
+      791024127
+    ]
+  },
+  {
+    "name": "GuideSessionRequesterRoomMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3339315839,
+      2106991121
+    ]
+  },
+  {
+    "name": "GuideSessionStartedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      663362890,
+      2091548135
+    ]
+  },
+  {
+    "name": "GuideTicketCreationResultMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3224480242
+    ]
+  },
+  {
+    "name": "GuideTicketResolutionMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1674247504
+    ]
+  },
+  {
+    "name": "GuildCreatedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1148279869,
+      3248854886
+    ]
+  },
+  {
+    "name": "GuildCreationInfoMessageEvent",
+    "unityId": 917,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2265388231,
+      3935947027
+    ]
+  },
+  {
+    "name": "GuildEditFailedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2814497419,
+      3229457987
+    ]
+  },
+  {
+    "name": "GuildEditInfoMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4054503660,
+      1306988150
+    ]
+  },
+  {
+    "name": "GuildEditorDataMessageEvent",
+    "unityId": 919,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4125341349,
+      3819779120
+    ]
+  },
+  {
+    "name": "GuildFurniContextMenuInfoMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1481751506
+    ]
+  },
+  {
+    "name": "GuildMemberFurniCountInHQMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1421214327,
+      786894448
+    ]
+  },
+  {
+    "name": "GuildMemberMgmtFailedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      856624323,
+      3688476541
+    ]
+  },
+  {
+    "name": "GuildMembersMessageEvent",
+    "unityId": 926,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1847497144,
+      1292769644
+    ]
+  },
+  {
+    "name": "GuildMembershipRejectedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1024209753,
+      239796522
+    ]
+  },
+  {
+    "name": "GuildMembershipsMessageEvent",
+    "unityId": 927,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3911200807,
+      3514942175
+    ]
+  },
+  {
+    "name": "GuildMembershipUpdatedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      807955781,
+      3693812894
+    ]
+  },
+  {
+    "name": "HabboAchievementNotificationMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1659883607,
+      2503525895
+    ]
+  },
+  {
+    "name": "HabboActivityPointNotificationMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2056917183,
+      380363694
+    ]
+  },
+  {
+    "name": "HabboBroadcastMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      94568483,
+      320248836
+    ]
+  },
+  {
+    "name": "HabboClubExtendOfferMessageEvent",
+    "unityId": 630,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      527270141,
+      3693941518
+    ]
+  },
+  {
+    "name": "HabboClubOffersMessageEvent",
+    "unityId": 625,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4162937738,
+      2753937074
+    ]
+  },
+  {
+    "name": "HabboGroupBadgesMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3846737404
+    ]
+  },
+  {
+    "name": "HabboGroupDeactivatedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1160170544,
+      3030246867
+    ]
+  },
+  {
+    "name": "HabboGroupDetailsMessageEvent",
+    "unityId": 311,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      838828225,
+      3882061775
+    ]
+  },
+  {
+    "name": "HabboGroupJoinFailedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4071069372,
+      2912473033
+    ]
+  },
+  {
+    "name": "HabboSearchResultEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      676290409,
+      3493499982
+    ]
+  },
+  {
+    "name": "HabboUserBadgesMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      560170596,
+      3702611302
+    ]
+  },
+  {
+    "name": "HandItemReceivedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2258731560
+    ]
+  },
+  {
+    "name": "HeightMapMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1388214514,
+      1177467692
+    ]
+  },
+  {
+    "name": "HeightMapUpdateMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      984829057,
+      3745184229
+    ]
+  },
+  {
+    "name": "HotLooksMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3768507715
+    ]
+  },
+  {
+    "name": "IdentityAccountsEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3067876297,
+      982788199
+    ]
+  },
+  {
+    "name": "IgnoredUsersMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2247522357
+    ]
+  },
+  {
+    "name": "IgnoreResultMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1253004081,
+      2987580124
+    ]
+  },
+  {
+    "name": "InClientLinkMessageEvent",
+    "unityId": 1561,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4011653936,
+      581389576
+    ]
+  },
+  {
+    "name": "IncomeRewardClaimResponseMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2935462843,
+      1660393191
+    ]
+  },
+  {
+    "name": "IncomeRewardStatusMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1822725702,
+      2070514195
+    ]
+  },
+  {
+    "name": "InfoFeedEnableMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2745281408
+    ]
+  },
+  {
+    "name": "InfoHotelClosedMessageEvent",
+    "unityId": 292,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4096659902,
+      1666295042
+    ]
+  },
+  {
+    "name": "InfoHotelClosingMessageEvent",
+    "unityId": 291,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1551180007,
+      3006483102
+    ]
+  },
+  {
+    "name": "InitCameraMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2005163685
+    ]
+  },
+  {
+    "name": "InitDiffieHandshakeEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      190075280,
+      3809968236
+    ]
+  },
+  {
+    "name": "InstantMessageErrorEvent",
+    "unityId": 261,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3403706277
+    ]
+  },
+  {
+    "name": "InterstitialMessageEvent",
+    "unityId": 258,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4068692033
+    ]
+  },
+  {
+    "name": "IsBadgeRequestFulfilledEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4019953317
+    ]
+  },
+  {
+    "name": "IsFirstLoginOfDayEvent",
+    "unityId": 8,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4147256252,
+      254390194
+    ]
+  },
+  {
+    "name": "IssueCloseNotificationMessageEvent",
+    "unityId": 540,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3814830086,
+      2865223751
+    ]
+  },
+  {
+    "name": "IssueDeletedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      586283600,
+      1167724097
+    ]
+  },
+  {
+    "name": "IssueInfoMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2253242520,
+      4195131297
+    ]
+  },
+  {
+    "name": "IssuePickFailedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2135520234,
+      2258195735
+    ]
+  },
+  {
+    "name": "IsUserPartOfCompetitionMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3307110419
+    ]
+  },
+  {
+    "name": "ItemAddMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      668187998,
+      2779957371
+    ]
+  },
+  {
+    "name": "ItemDataUpdateMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3037787553,
+      448897739
+    ]
+  },
+  {
+    "name": "ItemRemoveMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1212844120,
+      299087807
+    ]
+  },
+  {
+    "name": "ItemsMessageEvent",
+    "unityId": 45,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2776819830,
+      3977425086
+    ]
+  },
+  {
+    "name": "ItemUpdateMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      53440159,
+      1075909454
+    ]
+  },
+  {
+    "name": "JukeboxPlayListFullMessageEvent",
+    "unityId": 337,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4071215418
+    ]
+  },
+  {
+    "name": "JukeboxSongDisksMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1024548761
+    ]
+  },
+  {
+    "name": "LatencyPingResponseMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2640146302
+    ]
+  },
+  {
+    "name": "LimitedEditionSoldOutEvent",
+    "unityId": 636,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3447777306,
+      181679290
+    ]
+  },
+  {
+    "name": "LimitedOfferAppearingNextMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2111000525
+    ]
+  },
+  {
+    "name": "LoginFailedHotelClosedMessageEvent",
+    "unityId": 294,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3080925909,
+      649126860
+    ]
+  },
+  {
+    "name": "MaintenanceStatusMessageEvent",
+    "unityId": 980,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3896669773,
+      1605337069
+    ]
+  },
+  {
+    "name": "MarketplaceBuyOfferResultEvent",
+    "unityId": 613,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3606974097,
+      3710899585
+    ]
+  },
+  {
+    "name": "MarketplaceCancelOfferResultEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1523309333,
+      4241227270
+    ]
+  },
+  {
+    "name": "MarketplaceCanMakeOfferResult",
+    "unityId": 611,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      243814002,
+      1839599001
+    ]
+  },
+  {
+    "name": "MarketplaceConfigurationEvent",
+    "unityId": 612,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      661219691,
+      3915527844
+    ]
+  },
+  {
+    "name": "MarketplaceItemStatsEvent",
+    "unityId": 617,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      239716162,
+      151554762
+    ]
+  },
+  {
+    "name": "MarketplaceMakeOfferResult",
+    "unityId": 610,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1157828639,
+      1248864773
+    ]
+  },
+  {
+    "name": "MarketPlaceOffersEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1299579491,
+      138568063
+    ]
+  },
+  {
+    "name": "MarketPlaceOwnOffersEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      351658717,
+      1782256715
+    ]
+  },
+  {
+    "name": "MessengerErrorEvent",
+    "unityId": 260,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3167773548
+    ]
+  },
+  {
+    "name": "MessengerInitEvent",
+    "unityId": 12,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3560287449,
+      3380876627
+    ]
+  },
+  {
+    "name": "MiniMailNewMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2477041448
+    ]
+  },
+  {
+    "name": "MiniMailUnreadCountEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      629633546
+    ]
+  },
+  {
+    "name": "ModeratorMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      955211938,
+      2236510568
+    ]
+  },
+  {
+    "name": "ModeratorActionResultMessageEvent",
+    "unityId": 539,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3728000574,
+      1808737303
+    ]
+  },
+  {
+    "name": "ModeratorCautionEvent",
+    "unityId": 161,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      636468676,
+      1066060670
+    ]
+  },
+  {
+    "name": "ModeratorInitMessageEvent",
+    "unityId": 531,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2786520282,
+      2590550346
+    ]
+  },
+  {
+    "name": "ModeratorRoomInfoEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      341168486,
+      204221610
+    ]
+  },
+  {
+    "name": "ModeratorToolPreferencesEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2402236431,
+      772526894
+    ]
+  },
+  {
+    "name": "ModeratorUserInfoEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4088941929,
+      3579650944
+    ]
+  },
+  {
+    "name": "MOTDNotificationEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3877746951,
+      2503523631
+    ]
+  },
+  {
+    "name": "MuteAllInRoomEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4003532083,
+      4206331549
+    ]
+  },
+  {
+    "name": "MysteryBoxKeysMessageEvent",
+    "unityId": 1002,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4005971091,
+      650016045
+    ]
+  },
+  {
+    "name": "NavigatorCollapsedCategoriesMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3076793787,
+      556064311
+    ]
+  },
+  {
+    "name": "NavigatorLiftedRoomsEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      698674061,
+      756844409
+    ]
+  },
+  {
+    "name": "NavigatorMetaDataEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      284689292,
+      2549266077
+    ]
+  },
+  {
+    "name": "NavigatorSavedSearchesEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      365757420,
+      3041176493
+    ]
+  },
+  {
+    "name": "NavigatorSearchResultBlocksEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1233660342,
+      1200193528
+    ]
+  },
+  {
+    "name": "NavigatorSettingsEvent",
+    "unityId": 455,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4105711829,
+      3837663245
+    ]
+  },
+  {
+    "name": "NestBreedingSuccessEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      425706517
+    ]
+  },
+  {
+    "name": "NewConsoleMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      480543694,
+      2222057052
+    ]
+  },
+  {
+    "name": "NewFriendRequestEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      553575904,
+      3207200306
+    ]
+  },
+  {
+    "name": "NewNavigatorPreferencesEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2846421308,
+      3347192506
+    ]
+  },
+  {
+    "name": "NewUserExperienceGiftOfferEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3587195119
+    ]
+  },
+  {
+    "name": "NewUserExperienceNotCompleteEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      755616075
+    ]
+  },
+  {
+    "name": "NoobnessLevelMessageEvent",
+    "unityId": 1562,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2633590206,
+      3155088088
+    ]
+  },
+  {
+    "name": "NoOwnedRoomsAlertMessageEvent",
+    "unityId": 793,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1156804982,
+      3688043194
+    ]
+  },
+  {
+    "name": "NoSuchFlatEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1969601411,
+      3585823257
+    ]
+  },
+  {
+    "name": "NotEnoughBalanceMessageEvent",
+    "unityId": 68,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3901882605,
+      3032301298
+    ]
+  },
+  {
+    "name": "NotificationDialogMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      75439052
+    ]
+  },
+  {
+    "name": "NowPlayingMessageEvent",
+    "unityId": 327,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3211311797
+    ]
+  },
+  {
+    "name": "ObjectAddMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1517815605,
+      3094545877
+    ]
+  },
+  {
+    "name": "ObjectDataUpdateMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3641303944,
+      554495788
+    ]
+  },
+  {
+    "name": "ObjectRemoveMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1954898025,
+      2071550506
+    ]
+  },
+  {
+    "name": "ObjectsMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2699010160,
+      3486286946
+    ]
+  },
+  {
+    "name": "ObjectsDataUpdateMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3520246544,
+      2218246
+    ]
+  },
+  {
+    "name": "ObjectUpdateMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2803014230,
+      1062039948
+    ]
+  },
+  {
+    "name": "OfferRewardDeliveredMessageEvent",
+    "unityId": 685,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4289260669
+    ]
+  },
+  {
+    "name": "OfficialRoomsEvent",
+    "unityId": 450,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1339228808,
+      2894382638
+    ]
+  },
+  {
+    "name": "OfficialSongIdMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1045875581
+    ]
+  },
+  {
+    "name": "OneWayDoorStatusMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      477191139,
+      1535390042
+    ]
+  },
+  {
+    "name": "OpenEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      803428485,
+      4090980151
+    ]
+  },
+  {
+    "name": "OpenConnectionMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2680432870,
+      325377310
+    ]
+  },
+  {
+    "name": "OpenPetPackageRequestedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      548922697
+    ]
+  },
+  {
+    "name": "OpenPetPackageResultMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2548566183
+    ]
+  },
+  {
+    "name": "PerkAllowancesMessageEvent",
+    "unityId": 750,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1277975804,
+      3425799906
+    ]
+  },
+  {
+    "name": "PetAddedToInventoryEvent",
+    "unityId": 603,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2811664998,
+      1932746673
+    ]
+  },
+  {
+    "name": "PetBreedingEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      976896902
+    ]
+  },
+  {
+    "name": "PetBreedingResultEvent",
+    "unityId": 828,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3532440451
+    ]
+  },
+  {
+    "name": "PetCommandsMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2153426813
+    ]
+  },
+  {
+    "name": "PetExperienceEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1960902960,
+      2445621385
+    ]
+  },
+  {
+    "name": "PetFigureUpdateEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2715283779,
+      930457165
+    ]
+  },
+  {
+    "name": "PetInfoMessageEvent",
+    "unityId": 601,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      500993197
+    ]
+  },
+  {
+    "name": "PetInventoryEvent",
+    "unityId": 600,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3405689804,
+      2923209669
+    ]
+  },
+  {
+    "name": "PetLevelNotificationEvent",
+    "unityId": 602,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3759476601,
+      42369775
+    ]
+  },
+  {
+    "name": "PetLevelUpdateEvent",
+    "unityId": 38,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4000975119
+    ]
+  },
+  {
+    "name": "PetPlacingErrorEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      10271864
+    ]
+  },
+  {
+    "name": "PetReceivedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1392922233,
+      2188505262
+    ]
+  },
+  {
+    "name": "PetRemovedFromInventoryEvent",
+    "unityId": 604,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      843782017,
+      3539719788
+    ]
+  },
+  {
+    "name": "PetRespectFailedEvent",
+    "unityId": 621,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      596608400,
+      1897677551
+    ]
+  },
+  {
+    "name": "PetRespectNotificationEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3388032508
+    ]
+  },
+  {
+    "name": "PetStatusUpdateEvent",
+    "unityId": 37,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4176142486
+    ]
+  },
+  {
+    "name": "PetSupplementedNotificationEvent",
+    "unityId": 598,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1810606700
+    ]
+  },
+  {
+    "name": "PhoneCollectionStateMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4273875869
+    ]
+  },
+  {
+    "name": "PingMessageEvent",
+    "unityId": 50,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3622199174,
+      634949745
+    ]
+  },
+  {
+    "name": "PlayListMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2501888242
+    ]
+  },
+  {
+    "name": "PlayListSongAddedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2160678501
+    ]
+  },
+  {
+    "name": "PollContentsEvent",
+    "unityId": 317,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      307382062
+    ]
+  },
+  {
+    "name": "PollErrorEvent",
+    "unityId": 318,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3758173423
+    ]
+  },
+  {
+    "name": "PollOfferEvent",
+    "unityId": 316,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2278022629
+    ]
+  },
+  {
+    "name": "PopularRoomTagsResultEvent",
+    "unityId": 452,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2059164035,
+      3061519130
+    ]
+  },
+  {
+    "name": "PostItPlacedEvent",
+    "unityId": 145,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2651933465,
+      1912448048
+    ]
+  },
+  {
+    "name": "PostMessageMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4173485337,
+      104751378
+    ]
+  },
+  {
+    "name": "PostThreadMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2715816623,
+      1410279219
+    ]
+  },
+  {
+    "name": "PresentOpenedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3512730460
+    ]
+  },
+  {
+    "name": "ProductOfferEvent",
+    "unityId": 637,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2186937341,
+      4096966284
+    ]
+  },
+  {
+    "name": "PromoArticlesMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1465840009
+    ]
+  },
+  {
+    "name": "PurchaseErrorMessageEvent",
+    "unityId": 65,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2229233723,
+      962458879
+    ]
+  },
+  {
+    "name": "PurchaseNotAllowedMessageEvent",
+    "unityId": 296,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3495656546,
+      2234740489
+    ]
+  },
+  {
+    "name": "PurchaseOKMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2361270872,
+      935671809
+    ]
+  },
+  {
+    "name": "QuestMessageEvent",
+    "unityId": 802,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      911112919,
+      3005892061
+    ]
+  },
+  {
+    "name": "QuestCancelledMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3618182234,
+      2810137854
+    ]
+  },
+  {
+    "name": "QuestCompletedMessageEvent",
+    "unityId": 801,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      788384543,
+      1319438605
+    ]
+  },
+  {
+    "name": "QuestDailyMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      100364330
+    ]
+  },
+  {
+    "name": "QuestionEvent",
+    "unityId": 1750,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2731653458
+    ]
+  },
+  {
+    "name": "QuestionAnsweredEvent",
+    "unityId": 1751,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      11893812
+    ]
+  },
+  {
+    "name": "QuestionFinishedEvent",
+    "unityId": 1752,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2234956673
+    ]
+  },
+  {
+    "name": "QuestsMessageEvent",
+    "unityId": 800,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2659208439,
+      3149902401
+    ]
+  },
+  {
+    "name": "QuizDataMessageEvent",
+    "unityId": 560,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2128879637
+    ]
+  },
+  {
+    "name": "QuizResultsMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1470723790
+    ]
+  },
+  {
+    "name": "RelationshipStatusInfoEvent",
+    "unityId": 914,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      514021778,
+      2113729254
+    ]
+  },
+  {
+    "name": "RemainingMutePeriodEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3655701476
+    ]
+  },
+  {
+    "name": "RentableSpaceRentFailedMessageEvent",
+    "unityId": 1492,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2077501817
+    ]
+  },
+  {
+    "name": "RentableSpaceRentOkMessageEvent",
+    "unityId": 1491,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      321270223
+    ]
+  },
+  {
+    "name": "RentableSpaceStatusMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2420906646
+    ]
+  },
+  {
+    "name": "RequestSpamWallPostItMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      604083244
+    ]
+  },
+  {
+    "name": "RespectNotificationMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1270782110,
+      123815551
+    ]
+  },
+  {
+    "name": "RestoreClientMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2624206212,
+      2522152013
+    ]
+  },
+  {
+    "name": "RoomAdErrorEvent",
+    "unityId": 374,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3294925510
+    ]
+  },
+  {
+    "name": "RoomAdPurchaseInfoEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1563587362
+    ]
+  },
+  {
+    "name": "RoomChatlogEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1357931505,
+      804261483
+    ]
+  },
+  {
+    "name": "RoomChatSettingsMessageEvent",
+    "unityId": 474,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4116680955,
+      2741688180
+    ]
+  },
+  {
+    "name": "RoomDimmerPresetsMessageEvent",
+    "unityId": 365,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2460711573,
+      2760242814
+    ]
+  },
+  {
+    "name": "RoomEntryInfoMessageEvent",
+    "unityId": 471,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1466282397,
+      1023061412
+    ]
+  },
+  {
+    "name": "RoomEntryTileMessageEvent",
+    "unityId": 1472,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2686411085,
+      2483203181
+    ]
+  },
+  {
+    "name": "RoomEventEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      41713278,
+      4198086950
+    ]
+  },
+  {
+    "name": "RoomEventCancelEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3738607,
+      275989434
+    ]
+  },
+  {
+    "name": "RoomFilterSettingsMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      306933693,
+      826561322
+    ]
+  },
+  {
+    "name": "RoomForwardMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      997963180,
+      2471678524
+    ]
+  },
+  {
+    "name": "RoomInfoUpdatedEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2113261917,
+      1813102147
+    ]
+  },
+  {
+    "name": "RoomInviteEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      865489380,
+      3473746734
+    ]
+  },
+  {
+    "name": "RoomInviteErrorEvent",
+    "unityId": 262,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2141144901
+    ]
+  },
+  {
+    "name": "RoomMessageNotificationMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      254402666,
+      3450871876
+    ]
+  },
+  {
+    "name": "RoomOccupiedTilesMessageEvent",
+    "unityId": 1473,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1216129769
+    ]
+  },
+  {
+    "name": "RoomPropertyMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      21268188,
+      1414863062
+    ]
+  },
+  {
+    "name": "RoomQueueStatusMessageEvent",
+    "unityId": 259,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1419470745
+    ]
+  },
+  {
+    "name": "RoomRatingEvent",
+    "unityId": 345,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3366518233,
+      2234922025
+    ]
+  },
+  {
+    "name": "RoomReadyMessageEvent",
+    "unityId": 69,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2207770109,
+      1680488788
+    ]
+  },
+  {
+    "name": "RoomSettingsDataEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3796706234,
+      3896797120
+    ]
+  },
+  {
+    "name": "RoomSettingsErrorEvent",
+    "unityId": 466,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4219219085,
+      270582555
+    ]
+  },
+  {
+    "name": "RoomSettingsSavedEvent",
+    "unityId": 467,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      47745664,
+      1250374522
+    ]
+  },
+  {
+    "name": "RoomSettingsSaveErrorEvent",
+    "unityId": 468,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2408426493,
+      2120212938
+    ]
+  },
+  {
+    "name": "RoomVisitsEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3419770333,
+      2142615791
+    ]
+  },
+  {
+    "name": "RoomVisualizationSettingsEvent",
+    "unityId": 472,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3860023015,
+      931097085
+    ]
+  },
+  {
+    "name": "SanctionStatusEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3625299337,
+      895790938
+    ]
+  },
+  {
+    "name": "ScrSendKickbackInfoMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1657022733
+    ]
+  },
+  {
+    "name": "ScrSendUserInfoEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1970194654,
+      2398578316
+    ]
+  },
+  {
+    "name": "SeasonalCalendarDailyOfferMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      437534395
+    ]
+  },
+  {
+    "name": "SeasonalQuestsMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3010192975,
+      3620591675
+    ]
+  },
+  {
+    "name": "SecondsUntilMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      103249412
+    ]
+  },
+  {
+    "name": "SellablePetPalettesMessageEvent",
+    "unityId": 827,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2491341086,
+      1202180076
+    ]
+  },
+  {
+    "name": "ShoutMessageEvent",
+    "unityId": 26,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      457809841,
+      1400604357
+    ]
+  },
+  {
+    "name": "ShowEnforceRoomCategoryDialogEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2751034360,
+      2300679096
+    ]
+  },
+  {
+    "name": "ShowMysteryBoxWaitMessageEvent",
+    "unityId": 355,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2096537570
+    ]
+  },
+  {
+    "name": "SleepMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2831051616,
+      677690799
+    ]
+  },
+  {
+    "name": "SlideObjectBundleMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2659352542,
+      641696449
+    ]
+  },
+  {
+    "name": "SnowWarGameTokensMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1735739922,
+      1804027612
+    ]
+  },
+  {
+    "name": "SpecialRoomEffectMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3367542806,
+      3274186197
+    ]
+  },
+  {
+    "name": "TalentLevelUpMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      557794593,
+      350468471
+    ]
+  },
+  {
+    "name": "TalentTrackMessageEvent",
+    "unityId": 565,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      909788586,
+      2972062245
+    ]
+  },
+  {
+    "name": "TalentTrackLevelMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      956977425
+    ]
+  },
+  {
+    "name": "TargetedOfferEvent",
+    "unityId": 1530,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      615406408
+    ]
+  },
+  {
+    "name": "TargetedOfferNotFoundEvent",
+    "unityId": 1531,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3523985399
+    ]
+  },
+  {
+    "name": "ThreadMessagesMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2840195648,
+      30926874
+    ]
+  },
+  {
+    "name": "ThumbnailStatusMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2714922639
+    ]
+  },
+  {
+    "name": "TradeOpenFailedEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2983839916,
+      3186421263
+    ]
+  },
+  {
+    "name": "TradingAcceptEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      518831113,
+      2452161573
+    ]
+  },
+  {
+    "name": "TradingCloseEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1887502285,
+      1487737888
+    ]
+  },
+  {
+    "name": "TradingCompletedEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2564525249,
+      31482310
+    ]
+  },
+  {
+    "name": "TradingConfirmationEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1116828475,
+      3308854309
+    ]
+  },
+  {
+    "name": "TradingItemListEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2373342412,
+      4279695579
+    ]
+  },
+  {
+    "name": "TradingNotOpenEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2781027449,
+      141011783
+    ]
+  },
+  {
+    "name": "TradingOpenEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3640126703,
+      498210879
+    ]
+  },
+  {
+    "name": "TradingOtherNotAllowedEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2344634020,
+      1991053867
+    ]
+  },
+  {
+    "name": "TradingYouAreNotAllowedEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3922679869,
+      874077157
+    ]
+  },
+  {
+    "name": "TraxSongInfoMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1370547100
+    ]
+  },
+  {
+    "name": "TryPhoneNumberResultMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      836937510
+    ]
+  },
+  {
+    "name": "TryVerificationCodeResultMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1109170231
+    ]
+  },
+  {
+    "name": "UniqueMachineIDEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      156791149,
+      1613626911
+    ]
+  },
+  {
+    "name": "UnreadForumsCountMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3121138946,
+      2544133236
+    ]
+  },
+  {
+    "name": "UnseenItemsEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1105048897
+    ]
+  },
+  {
+    "name": "UpdateMessageMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2746192070,
+      446555121
+    ]
+  },
+  {
+    "name": "UpdateThreadMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2149366320,
+      879066235
+    ]
+  },
+  {
+    "name": "UseObjectMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2870957747,
+      1219792098
+    ]
+  },
+  {
+    "name": "UserBannedMessageEvent",
+    "unityId": 35,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1208850698,
+      2831105878
+    ]
+  },
+  {
+    "name": "UserChangeMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2016564638,
+      2401369793
+    ]
+  },
+  {
+    "name": "UserChatlogEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2649516481,
+      2687267371
+    ]
+  },
+  {
+    "name": "UserClassificationMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1112599628,
+      232427595
+    ]
+  },
+  {
+    "name": "UserEventCatsEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      866145684,
+      3096914049
+    ]
+  },
+  {
+    "name": "UserFlatCatsEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2735665208,
+      1305579647
+    ]
+  },
+  {
+    "name": "UserNameChangedMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2618300512,
+      3726564377
+    ]
+  },
+  {
+    "name": "UserNftWardrobeMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3732960891
+    ]
+  },
+  {
+    "name": "UserNftWardrobeSelectionMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2278612607,
+      1089821668
+    ]
+  },
+  {
+    "name": "UserObjectEvent",
+    "unityId": 5,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3924720585,
+      2428575878
+    ]
+  },
+  {
+    "name": "UserRemoveMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2744682769,
+      1609728960
+    ]
+  },
+  {
+    "name": "UserRightsMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2092095665,
+      3782349727
+    ]
+  },
+  {
+    "name": "UsersMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      628346038,
+      2702347476
+    ]
+  },
+  {
+    "name": "UserSongDisksInventoryMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2015062434
+    ]
+  },
+  {
+    "name": "UserTypingMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4138931303,
+      409649145
+    ]
+  },
+  {
+    "name": "UserUnbannedFromRoomEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      907572807,
+      2580661710
+    ]
+  },
+  {
+    "name": "UserUpdateMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3948331792,
+      2986321866
+    ]
+  },
+  {
+    "name": "VoucherRedeemErrorMessageEvent",
+    "unityId": 213,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      180950689,
+      89973701
+    ]
+  },
+  {
+    "name": "VoucherRedeemOkMessageEvent",
+    "unityId": 212,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2279337762,
+      1351315028
+    ]
+  },
+  {
+    "name": "WardrobeMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3938102728,
+      635633020
+    ]
+  },
+  {
+    "name": "WhisperMessageEvent",
+    "unityId": 25,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3024594281,
+      394582171
+    ]
+  },
+  {
+    "name": "WiredFurniActionEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      874264169,
+      4027308459
+    ]
+  },
+  {
+    "name": "WiredFurniConditionEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      862418942,
+      1992447765
+    ]
+  },
+  {
+    "name": "WiredFurniTriggerEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3588788047,
+      1285921198
+    ]
+  },
+  {
+    "name": "WiredRewardResultMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      391795100,
+      2742678825
+    ]
+  },
+  {
+    "name": "WiredSaveSuccessEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      728024413,
+      1606139461
+    ]
+  },
+  {
+    "name": "WiredValidationErrorEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1310855534,
+      2655685191
+    ]
+  },
+  {
+    "name": "YouAreControllerMessageEvent",
+    "unityId": 42,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      4076097589
+    ]
+  },
+  {
+    "name": "YouAreNotControllerMessageEvent",
+    "unityId": 43,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1079335163
+    ]
+  },
+  {
+    "name": "YouAreOwnerMessageEvent",
+    "unityId": 47,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      903290553
+    ]
+  },
+  {
+    "name": "YouArePlayingGameMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      1969280866,
+      3458940800
+    ]
+  },
+  {
+    "name": "YouAreSpectatorMessageEvent",
+    "unityId": 254,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3626743944
+    ]
+  },
+  {
+    "name": "YoutubeControlVideoMessageEvent",
+    "unityId": 1482,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      718148618
+    ]
+  },
+  {
+    "name": "YoutubeDisplayPlaylistsMessageEvent",
+    "unityId": -1,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      3126737561
+    ]
+  },
+  {
+    "name": "YoutubeDisplayVideoMessageEvent",
+    "unityId": 1480,
+    "unityStructure": null,
+    "postShuffleHashes": [
+      2765148087
+    ]
+  }
+]

@@ -1,9 +1,11 @@
 ﻿using System.Collections;
+using System.Diagnostics;
 
 using Tanji.Core.Habbo.Canvas;
 
 namespace Tanji.Core.Habbo;
 
+[DebuggerDisplay("Resolved = {_messages.Count,nq}")]
 public abstract class Identifiers : IReadOnlyList<HMessage>
 {
     private readonly List<HMessage> _messages;
@@ -30,9 +32,9 @@ public abstract class Identifiers : IReadOnlyList<HMessage>
         _byName = new Dictionary<string, HMessage>(count);
     }
 
-    public bool TryGetMessage(short id, out HMessage? message) => _byId.TryGetValue(id, out message);
-    public bool TryGetMessage(uint hash, out HMessage? message) => _byHash.TryGetValue(hash, out message);
-    public bool TryGetMessage(string name, out HMessage? message) => _byName.TryGetValue(name, out message);
+    public bool TryGetMessage(short id, out HMessage message) => _byId.TryGetValue(id, out message);
+    public bool TryGetMessage(uint hash, out HMessage message) => _byHash.TryGetValue(hash, out message);
+    public bool TryGetMessage(string name, out HMessage message) => _byName.TryGetValue(name, out message);
 
     public void TrimExcess()
     {
@@ -44,7 +46,15 @@ public abstract class Identifiers : IReadOnlyList<HMessage>
 
     protected virtual void Register(HMessage message, string propertyName, ref HMessage backingField)
     {
-        backingField = new HMessage(propertyName, message.Id, message.Hash, message.Structure, message.IsOutgoing, message.TypeName, message.ParserTypeName, message.References);
+        backingField = new HMessage(message.Id, message.IsOutgoing)
+        {
+            Hash = message.Hash,
+            Name = propertyName,
+            Structure = message.Structure,
+            TypeName = message.TypeName,
+            ParserTypeName = message.ParserTypeName,
+            References = message.References
+        };
 
         _byId.Add(backingField.Id, backingField);
         _byName.Add(propertyName, backingField);
@@ -58,9 +68,9 @@ public abstract class Identifiers : IReadOnlyList<HMessage>
         }
         _messages.Add(backingField);
     }
-    protected virtual HMessage ResolveMessage(IGame game, string name, short unityId, string? unityStructure, params uint[] postShuffleHashes)
+    protected virtual HMessage ResolveMessage(IGame game, string name, short unityId, string? unityStructure, ReadOnlySpan<uint> postShuffleHashes)
     {
-        HMessage? message = default;
+        HMessage message = default;
         if (game.Platform != HPlatform.Unity)
         {
             for (int i = 0; i < postShuffleHashes.Length; i++)
@@ -68,17 +78,21 @@ public abstract class Identifiers : IReadOnlyList<HMessage>
                 if (game.TryResolveMessage(name, postShuffleHashes[i], IsOutgoing, out message)) break;
             }
         }
-        else if (unityId > 0) message = new HMessage(name, unityId, 0, unityStructure, IsOutgoing, null, null, 0);
-
-        if (message is not null)
+        else if (unityId > 0)
         {
-            _byId.Add(message.Id, message);
-            if (game.Platform != HPlatform.Unity)
+            message = new HMessage(unityId, IsOutgoing)
             {
-                _byHash.Add(message.Hash, message);
-            }
+                Name = name,
+                Structure = unityStructure
+            };
         }
-        else throw new MessageResolvingException(name, game.Revision ?? "<none>");
+        if (message == default) return default;
+
+        _byId.Add(message.Id, message);
+        if (game.Platform != HPlatform.Unity)
+        {
+            _byHash.Add(message.Hash, message);
+        }
 
         _byName.Add(name, message);
         _messages.Add(message);

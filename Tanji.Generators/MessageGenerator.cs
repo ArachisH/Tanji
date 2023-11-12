@@ -38,7 +38,8 @@ public sealed class MessageGenerator : IIncrementalGenerator
     private static void CreateMessagesSourceOutput(SourceProductionContext context, MessageFile messageFile)
     {
         // Try deserialize the message file
-        var deserializedMessages = JsonSerializer.Deserialize<Dictionary<string, Message[]>>(messageFile.File.GetText().ToString(), _serializerOptions);
+        var deserializedMessages = JsonSerializer.Deserialize<Message[]>(messageFile.File.GetText().ToString(), _serializerOptions);
+
         if (deserializedMessages == null)
         {
             context.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.FailedToParseMessageDefinitions, null, messageFile.File.Path));
@@ -46,72 +47,106 @@ public sealed class MessageGenerator : IIncrementalGenerator
         }
 
         string isOutgoingString = messageFile.IsOutgoing.ToString().ToLowerInvariant();
-        foreach (var values in deserializedMessages)
+        string className = messageFile.IsOutgoing ? "Outgoing" : "Incoming";
+
+        using var text = new StringWriter();
+        using var indentedText = new IndentedTextWriter(text);
+
+        indentedText.WriteLine("using Tanji.Core.Habbo.Canvas;");
+        indentedText.WriteLine();
+
+        indentedText.WriteLine("namespace Tanji.Core.Habbo;");
+        indentedText.WriteLine();
+
+        indentedText.WriteLine($"public sealed partial class {className} : Identifiers");
+        indentedText.Write('{');
+        indentedText.Indent++;
+
+        foreach (Message message in deserializedMessages)
         {
-            string className = values.Key;
-            var messages = values.Value;
-
-            using var text = new StringWriter();
-            using var indentedText = new IndentedTextWriter(text);
-
-            indentedText.WriteLine("using Tanji.Core.Habbo.Canvas;");
             indentedText.WriteLine();
 
-            indentedText.WriteLine("namespace Tanji.Core.Habbo;");
-            indentedText.WriteLine();
-
-            indentedText.WriteLine($"public sealed partial class {className} : Identifiers");
-            indentedText.WriteLine('{');
-            indentedText.Indent++;
-
-            foreach (Message message in messages)
+            if (message.Name.StartsWith("_-"))
             {
-                indentedText.WriteLine();
-                message.BackingFieldName = $"_{char.ToLower(message.Name[0]) + message.Name.Substring(1)}";
-                indentedText.WriteLine($"private HMessage {message.BackingFieldName};");
-                indentedText.WriteLine($"public HMessage {message.Name}");
-                indentedText.WriteLine('{');
-
-                indentedText.Indent++;
-                indentedText.WriteLine($"get => {message.BackingFieldName};");
-                indentedText.WriteLine($"init => Register(value, nameof({message.Name}), ref {message.BackingFieldName});");
-                indentedText.Indent--;
-
-                indentedText.WriteLine('}');
+                indentedText.WriteLine("/*");
             }
 
-            indentedText.WriteLine();
-            indentedText.WriteLine($"public {className}() : base({isOutgoingString}) {{ }}");
-            indentedText.WriteLine($"public {className}(IGame game) : base({messages.Length}, {isOutgoingString})");
+            message.BackingFieldName = $"_{char.ToLower(message.Name[0]) + message.Name.Substring(1)}";
+            indentedText.WriteLine($"private HMessage {message.BackingFieldName};");
+            indentedText.WriteLine($"public HMessage {message.Name}");
             indentedText.WriteLine('{');
+
             indentedText.Indent++;
+            indentedText.WriteLine($"get => {message.BackingFieldName};");
+            indentedText.WriteLine($"init => Register(value, \"{message.Name}\", ref {message.BackingFieldName});");
+            indentedText.Indent--;
 
-            foreach (Message message in messages)
+            indentedText.WriteLine('}');
+            if (message.Name.StartsWith("_-"))
             {
-                indentedText.Write($"{message.BackingFieldName} = ResolveMessage(game, nameof({message.Name}), {message.UnityId}, ");
-                if (string.IsNullOrWhiteSpace(message.UnityStructure))
-                {
-                    indentedText.Write("null");
-                }
-                else indentedText.Write("\"" + message.UnityStructure + "\"");
-
-                foreach (uint postShuffleHash in message.PostShuffleHashes)
-                {
-                    indentedText.Write(", ");
-                    indentedText.Write(postShuffleHash);
-                }
-                indentedText.WriteLine(");");
+                indentedText.WriteLine("*/");
             }
-
-            indentedText.Indent--;
-            indentedText.WriteLine('}');
-
-            indentedText.Indent--;
-            indentedText.WriteLine('}');
-
-            indentedText.Flush();
-
-            context.AddSource($"{messageFile.Name}.g.cs", SourceText.From(text.ToString(), Encoding.UTF8));
         }
+
+        indentedText.WriteLine();
+        indentedText.WriteLine($"public {className}() : base({isOutgoingString}) {{ }}");
+        indentedText.WriteLine($"public {className}(IGame game) : base({deserializedMessages.Length}, {isOutgoingString})");
+        indentedText.WriteLine('{');
+        indentedText.Indent++;
+
+        indentedText.WriteLine("ReadOnlySpan<uint> postShuffleHashes = stackalloc uint[0];");
+        indentedText.WriteLine();
+
+        foreach (Message message in deserializedMessages)
+        {
+            if (message.Name.StartsWith("_-"))
+            {
+                indentedText.WriteLine("/*");
+                indentedText.Write('*');
+            }
+
+            if (message.PostShuffleHashes.Length > 0)
+            {
+                indentedText.Write($"postShuffleHashes = stackalloc uint[{message.PostShuffleHashes.Length}] {{ ");
+                for (int i = 0; i < message.PostShuffleHashes.Length; i++)
+                {
+                    indentedText.Write(message.PostShuffleHashes[i]);
+                    if (i + 1 < message.PostShuffleHashes.Length)
+                    {
+                        indentedText.Write(", ");
+                    }
+                }
+                indentedText.WriteLine(" };");
+            }
+
+            indentedText.Write($"{message.BackingFieldName} = ResolveMessage(game, \"{message.Name}\", {message.UnityId}, ");
+            if (string.IsNullOrWhiteSpace(message.UnityStructure))
+            {
+                indentedText.Write("default");
+            }
+            else indentedText.Write($"\"{message.UnityStructure}\"");
+
+            if (message.PostShuffleHashes.Length > 0)
+            {
+                indentedText.Write(", postShuffleHashes");
+            }
+            indentedText.WriteLine(");");
+            indentedText.WriteLine();
+
+            if (message.Name.StartsWith("_-"))
+            {
+                indentedText.WriteLine("*/");
+            }
+        }
+
+        indentedText.Indent--;
+        indentedText.WriteLine('}');
+
+        indentedText.Indent--;
+        indentedText.WriteLine('}');
+
+        indentedText.Flush();
+
+        context.AddSource($"{messageFile.Name}.g.cs", SourceText.From(text.ToString(), Encoding.UTF8));
     }
 }
