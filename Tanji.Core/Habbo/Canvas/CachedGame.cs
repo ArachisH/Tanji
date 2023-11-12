@@ -73,7 +73,6 @@ public sealed class CachedGame : HGame
 
         _outMessagesByName.Clear();
         _outMessagesByName.EnsureCapacity(0);
-
     }
 
     public static void SaveAs(string cachedGameJsonPath, HGame game, Outgoing outgoing, Incoming incoming)
