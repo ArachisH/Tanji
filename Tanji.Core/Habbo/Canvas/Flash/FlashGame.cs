@@ -555,6 +555,8 @@ public sealed class FlashGame : HGame
             {
                 hash = FlashMessageHasher.Generate(hashBuffer, flashMessage, ++collisions);
             }
+
+            flashMessage.Hash = hash;
             _flashMessagesByHash.Add(hash, flashMessage);
         }
     }
@@ -620,22 +622,26 @@ public sealed class FlashGame : HGame
             if (instructions[i + 2] is not GetLexIns getLexTypeIns) continue;
             ASClass messageClass = abc.GetClass(getLexTypeIns.TypeName);
 
-            ASClass? parser = null;
             string? structure = null;
+            ASClass? parserClass = null;
             if (!isOutgoing)
             {
-                parser = GetMessageParser(messageClass);
-                if (parser != null)
+                parserClass = GetMessageParser(messageClass);
+                if (parserClass != null)
                 {
-                    structure = GetIncomingStructure(parser);
+                    structure = GetIncomingStructure(parserClass);
                 }
             }
             else structure = GetOutgoingStructure(messageClass, messageClass);
 
-            var flashMsg = new FlashMessage(id, structure, isOutgoing, messageClass, parser, new List<FlashMessageReference>(10));
             if (!_flashMessagesByClassName.ContainsKey(messageClass.QName.Name))
             {
-                _flashMessagesByClassName.Add(messageClass.QName.Name, flashMsg);
+                var message = new FlashMessage(id, isOutgoing, messageClass)
+                {
+                    Structure = structure,
+                    ParserClass = parserClass,
+                };
+                _flashMessagesByClassName.Add(messageClass.QName.Name, message);
             }
 
             if (id == 4000 && isOutgoing)
