@@ -63,9 +63,6 @@ public abstract class HGame : IGame, IDisposable
         {
             Dispose(true);
             IsDisposed = true;
-
-            GC.Collect();
-            GC.SuppressFinalize(this);
         }
     }
     protected abstract void Dispose(bool disposing);

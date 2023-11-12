@@ -889,6 +889,9 @@ public sealed class FlashGame : HGame
             _abcFileTags.Clear();
             _flashMessagesByHash.Clear();
             _flashMessagesByClassName.Clear();
+
+            GC.Collect();
+            GC.SuppressFinalize(this);
         }
         _scSendCode = _scSendUnencryptedCode = null;
         _scSendMethod = _scSendUnencryptedMethod = null;
