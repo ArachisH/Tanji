@@ -6,48 +6,39 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace Tanji.Generators;
+namespace Tanji.Generators.Identifiers;
 
 [Generator(LanguageNames.CSharp)]
-public sealed class MessageGenerator : IIncrementalGenerator
+public sealed class IdentifiersGenerator : IIncrementalGenerator
 {
-    record MessageFile(string Name, AdditionalText File, bool IsOutgoing);
-
-    private static readonly JsonSerializerOptions _serializerOptions = new() { PropertyNameCaseInsensitive = true };
+    private static readonly JsonSerializerOptions SerializerOptions = new() { PropertyNameCaseInsensitive = true };
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        static MessageFile CreateMessagesDefinition((AdditionalText, AnalyzerConfigOptionsProvider) tuple, CancellationToken cancellationToken = default)
+        static IdentifiersFile CreateMessagesDefinition((AdditionalText text, AnalyzerConfigOptionsProvider options) tuple, CancellationToken cancellationToken = default)
         {
-            var (additionalText, optionProvider) = tuple;
-
-            optionProvider.GetOptions(additionalText).TryGetValue("build_metadata.AdditionalFiles.IsOutgoing", out string? isOutgoingValue);
+            tuple.options.GetOptions(tuple.text).TryGetValue("build_metadata.AdditionalFiles.IsOutgoing", out string? isOutgoingValue);
             bool.TryParse(isOutgoingValue, out bool isOutgoing); // TODO: Diagnostic
 
-            return new MessageFile(Path.GetFileNameWithoutExtension(additionalText.Path), additionalText, isOutgoing);
+            return new IdentifiersFile(Path.GetFileNameWithoutExtension(tuple.text.Path), tuple.text, isOutgoing);
         }
 
-        IncrementalValuesProvider<MessageFile> messageFileProvider = context.AdditionalTextsProvider
+        IncrementalValuesProvider<IdentifiersFile> identifiersFileProvider = context.AdditionalTextsProvider
             .Where(static (file) => file.Path.EndsWith(".json"))
             .Combine(context.AnalyzerConfigOptionsProvider)
             .Select(CreateMessagesDefinition);
 
-        context.RegisterSourceOutput(messageFileProvider, CreateMessagesSourceOutput);
+        context.RegisterSourceOutput(identifiersFileProvider, CreateMessagesSourceOutput);
     }
 
-    private static void CreateMessagesSourceOutput(SourceProductionContext context, MessageFile messageFile)
+    private static bool IsMessageInvalid(MessageItem message)
     {
-        // Try deserialize the message file
-        var deserializedMessages = JsonSerializer.Deserialize<Message[]>(messageFile.File.GetText().ToString(), _serializerOptions);
-
-        if (deserializedMessages == null)
-        {
-            context.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.FailedToParseMessageDefinitions, null, messageFile.File.Path));
-            return;
-        }
-
-        string isOutgoingString = messageFile.IsOutgoing.ToString().ToLowerInvariant();
-        string className = messageFile.IsOutgoing ? "Outgoing" : "Incoming";
+        return string.IsNullOrWhiteSpace(message.Name) || message.Name.StartsWith("_-");
+    }
+    private static string Generate(MessageItem[] messages, bool isOutgoing)
+    {
+        string isOutgoingArgumentValue = isOutgoing ? "true" : "false";
+        string sourceFileName = isOutgoing ? "Outgoing" : "Incoming";
 
         using var text = new StringWriter();
         using var indentedText = new IndentedTextWriter(text);
@@ -58,14 +49,15 @@ public sealed class MessageGenerator : IIncrementalGenerator
         indentedText.WriteLine("namespace Tanji.Core.Habbo;");
         indentedText.WriteLine();
 
-        indentedText.WriteLine($"public sealed partial class {className} : Identifiers");
+        indentedText.WriteLine($"public sealed partial class {sourceFileName} : Identifiers");
         indentedText.Write('{');
         indentedText.Indent++;
 
-        foreach (Message message in deserializedMessages)
+        foreach (MessageItem message in messages)
         {
-            indentedText.WriteLine();
+            if (IsMessageInvalid(message)) continue;
 
+            indentedText.WriteLine();
             if (message.Name.StartsWith("_-"))
             {
                 indentedText.WriteLine("/*");
@@ -89,16 +81,18 @@ public sealed class MessageGenerator : IIncrementalGenerator
         }
 
         indentedText.WriteLine();
-        indentedText.WriteLine($"public {className}() : base({isOutgoingString}) {{ }}");
-        indentedText.WriteLine($"public {className}(IGame game) : base({deserializedMessages.Length}, {isOutgoingString})");
+        indentedText.WriteLine($"public {sourceFileName}() : base({isOutgoingArgumentValue}) {{ }}");
+        indentedText.WriteLine($"public {sourceFileName}(IGame game) : base({messages.Length}, {isOutgoingArgumentValue})");
         indentedText.WriteLine('{');
         indentedText.Indent++;
 
         indentedText.WriteLine("ReadOnlySpan<uint> postShuffleHashes = stackalloc uint[0];");
         indentedText.WriteLine();
 
-        foreach (Message message in deserializedMessages)
+        foreach (MessageItem message in messages)
         {
+            if (IsMessageInvalid(message)) continue;
+
             if (message.Name.StartsWith("_-"))
             {
                 indentedText.WriteLine("/*");
@@ -146,7 +140,18 @@ public sealed class MessageGenerator : IIncrementalGenerator
         indentedText.WriteLine('}');
 
         indentedText.Flush();
+        return text.ToString();
+    }
+    private static void CreateMessagesSourceOutput(SourceProductionContext context, IdentifiersFile identifiersFile)
+    {
+        var messages = JsonSerializer.Deserialize<MessageItem[]?>(identifiersFile.File.GetText()!.ToString(), SerializerOptions);
+        if (messages == null)
+        {
+            context.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.FailedToParseMessageDefinitions, null, identifiersFile.File.Path));
+            return;
+        }
 
-        context.AddSource($"{messageFile.Name}.g.cs", SourceText.From(text.ToString(), Encoding.UTF8));
+        string generatedSource = Generate(messages, identifiersFile.IsOutgoing);
+        context.AddSource($"{identifiersFile.Name}.g.cs", SourceText.From(generatedSource, Encoding.UTF8));
     }
 }
