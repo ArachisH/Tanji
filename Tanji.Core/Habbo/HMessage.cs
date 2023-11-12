@@ -1,15 +1,27 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Tanji.Core.Habbo;
 
 [DebuggerDisplay("{Id,nq}")]
-public record HMessage(string? Name, short Id, uint Hash, string? Structure, bool IsOutgoing, string? TypeName, string? ParserTypeName, int References)
+public readonly record struct HMessage
 {
-    public static implicit operator short(HMessage message) => message.Id;
-    public static implicit operator string?(HMessage message) => message.Name;
-    public static implicit operator bool(HMessage message) => message.IsOutgoing;
+    public readonly required short Id { get; init; }
+    public readonly required bool IsOutgoing { get; init; }
 
+    public readonly uint Hash { get; init; }
+    public readonly int References { get; init; }
+
+    public readonly string? Name { get; init; }
+    public readonly string? Structure { get; init; }
+
+    public readonly string? TypeName { get; init; }
+    public readonly string? ParserTypeName { get; init; }
+
+    [SetsRequiredMembers]
     public HMessage(short id, bool isOutgoing)
-        : this(null, id, 0, null, isOutgoing, null, null, 0)
-    { }
+    {
+        Id = id;
+        IsOutgoing = isOutgoing;
+    }
 }
