@@ -4,12 +4,12 @@ using System.Security.Cryptography;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
+using Tanji.Core.Json;
 using Tanji.Core.Habbo;
 using Tanji.Core.Internals;
 using Tanji.Core.Habbo.Canvas;
 using Tanji.Core.Configuration;
 using Tanji.Core.Habbo.Canvas.Flash;
-using Tanji.Core.Configuration.Json;
 
 using Flazzy.Tools;
 
