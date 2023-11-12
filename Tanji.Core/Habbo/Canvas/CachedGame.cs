@@ -165,8 +165,11 @@ public sealed class CachedGame : HGame
     {
         for (int i = 0; i < identifiers.Count; i++)
         {
-            var message = new HMessage(GetNonNullableValue<short>(identifiers[i], Camelize(nameof(HMessage.Id))), isOutgoing)
+            var message = new HMessage()
             {
+                Id = GetNonNullableValue<short>(identifiers[i], Camelize(nameof(HMessage.Id))),
+                IsOutgoing = isOutgoing,
+
                 Name = GetNonNullableValue<string>(identifiers[i], Camelize(nameof(HMessage.Name))),
                 Hash = GetNonNullableValue<uint>(identifiers[i], Camelize(nameof(HMessage.Hash))),
                 Structure = GetNonNullableValue<string>(identifiers[i], Camelize(nameof(HMessage.Structure))),

@@ -563,11 +563,21 @@ public sealed class FlashGame : HGame
     public override bool TryResolveMessage(string name, uint hash, bool isOutgoing, out HMessage message)
     {
         message = default;
-        if (_flashMessagesByHash.TryGetValue(hash, out FlashMessage flashMessage) && flashMessage.IsOutgoing == isOutgoing)
+        if (_flashMessagesByHash.TryGetValue(hash, out FlashMessage? flashMessage))
         {
-            message = new HMessage(name, flashMessage.Id, hash, flashMessage.Structure, flashMessage.IsOutgoing,
-                flashMessage.MessageClass.QName.Name, flashMessage.ParserClass?.QName.Name, flashMessage.References.Count);
+            message = new HMessage(flashMessage.Id, isOutgoing)
+            {
+                Hash = hash,
+                References = flashMessage.References.Count,
+
+                Name = name,
+                Structure = flashMessage.Structure,
+
+                TypeName = flashMessage.MessageClass.QName.Name,
+                ParserTypeName = flashMessage.ParserClass?.QName.Name
+            };
         }
+
         return message != default;
     }
 
