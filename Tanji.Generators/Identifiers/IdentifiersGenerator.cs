@@ -70,7 +70,7 @@ public sealed class IdentifiersGenerator : IIncrementalGenerator
 
             indentedText.Indent++;
             indentedText.WriteLine($"get => {message.BackingFieldName};");
-            indentedText.WriteLine($"init => Register(value, \"{message.Name}\", ref {message.BackingFieldName});");
+            indentedText.WriteLine($"init => Register(value, ref {message.BackingFieldName});");
             indentedText.Indent--;
 
             indentedText.WriteLine('}');
@@ -82,7 +82,7 @@ public sealed class IdentifiersGenerator : IIncrementalGenerator
 
         indentedText.WriteLine();
         indentedText.WriteLine($"public {sourceFileName}() : base({isOutgoingArgumentValue}) {{ }}");
-        indentedText.WriteLine($"public {sourceFileName}(IGame game) : base({messages.Length}, {isOutgoingArgumentValue})");
+        indentedText.WriteLine($"public {sourceFileName}(IGame game) : base({isOutgoingArgumentValue})");
         indentedText.WriteLine('{');
         indentedText.Indent++;
 
@@ -113,12 +113,7 @@ public sealed class IdentifiersGenerator : IIncrementalGenerator
                 indentedText.WriteLine(" };");
             }
 
-            indentedText.Write($"{message.BackingFieldName} = ResolveMessage(game, \"{message.Name}\", {message.UnityId}, ");
-            if (string.IsNullOrWhiteSpace(message.UnityStructure))
-            {
-                indentedText.Write("default");
-            }
-            else indentedText.Write($"\"{message.UnityStructure}\"");
+            indentedText.Write($"{message.Name} = ResolveMessage(game, \"{message.Name}\", {message.UnityId}");
 
             if (message.PostShuffleHashes.Length > 0)
             {

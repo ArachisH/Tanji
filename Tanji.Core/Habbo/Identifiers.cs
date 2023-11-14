@@ -1,109 +1,41 @@
-﻿using System.Collections;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 using Tanji.Core.Habbo.Canvas;
 
 namespace Tanji.Core.Habbo;
 
-[DebuggerDisplay("Resolved = {_messages.Count,nq}")]
-public abstract class Identifiers : IReadOnlyList<HMessage>
+[DebuggerDisplay("Resolved = {Resolved,nq}")]
+public abstract class Identifiers
 {
-    private readonly List<HMessage> _messages;
-    private readonly Dictionary<short, HMessage> _byId;
-    private readonly Dictionary<uint, HMessage> _byHash;
-    private readonly Dictionary<string, HMessage> _byName;
+    public bool IsOutgoing { get; init; }
+    public int Resolved { get; private set; }
 
-    public bool IsOutgoing { get; }
-
-    public HMessage this[short id] => _byId[id];
-    public HMessage this[uint hash] => _byHash[hash];
-    public HMessage this[string name] => _byName[name];
-
-    protected Identifiers(bool isOutgoing)
-        : this(768, isOutgoing)
-    { }
-    protected Identifiers(int count, bool isOutgoing)
+    public Identifiers(bool isOutgoing)
     {
         IsOutgoing = isOutgoing;
-
-        _messages = new List<HMessage>(count);
-        _byId = new Dictionary<short, HMessage>(count);
-        _byHash = new Dictionary<uint, HMessage>(count);
-        _byName = new Dictionary<string, HMessage>(count);
     }
 
-    public bool TryGetMessage(short id, out HMessage message) => _byId.TryGetValue(id, out message);
-    public bool TryGetMessage(uint hash, out HMessage message) => _byHash.TryGetValue(hash, out message);
-    public bool TryGetMessage(string name, out HMessage message) => _byName.TryGetValue(name, out message);
-
-    public void TrimExcess()
+    protected void Register(HMessage value, ref HMessage backingField)
     {
-        _byId.TrimExcess();
-        _byHash.TrimExcess();
-        _byName.TrimExcess();
-        _messages.TrimExcess();
+        backingField = value;
+        Resolved += value == default ? -1 : 1;
     }
-
-    protected virtual void Register(HMessage message, string propertyName, ref HMessage backingField)
-    {
-        backingField = new HMessage(message.Id, message.IsOutgoing)
-        {
-            Hash = message.Hash,
-            Name = propertyName,
-            Structure = message.Structure,
-            TypeName = message.TypeName,
-            ParserTypeName = message.ParserTypeName,
-            References = message.References
-        };
-
-        _byId.Add(backingField.Id, backingField);
-        _byName.Add(propertyName, backingField);
-        if (!string.IsNullOrWhiteSpace(message.Name))
-        {
-            _byName.Add(message.Name, backingField);
-        }
-        if (message.Hash != 0)
-        {
-            _byHash.Add(message.Hash, backingField);
-        }
-        _messages.Add(backingField);
-    }
-    protected virtual HMessage ResolveMessage(IGame game, string name, short unityId, string? unityStructure, ReadOnlySpan<uint> postShuffleHashes)
+    protected HMessage ResolveMessage(IGame game, string name, short unityId, ReadOnlySpan<uint> postShuffleHashes)
     {
         HMessage message = default;
         if (game.Platform != HPlatform.Unity)
         {
+            // Resolve by Hash
             for (int i = 0; i < postShuffleHashes.Length; i++)
             {
-                if (game.TryResolveMessage(name, postShuffleHashes[i], IsOutgoing, out message)) break;
+                if (game.TryResolveMessage(postShuffleHashes[i], out message)) return message;
             }
-        }
-        else if (unityId > 0)
-        {
-            message = new HMessage(unityId, IsOutgoing)
-            {
-                Name = name,
-                Structure = unityStructure
-            };
-        }
-        if (message == default) return default;
 
-        _byId.Add(message.Id, message);
-        if (game.Platform != HPlatform.Unity)
-        {
-            _byHash.Add(message.Hash, message);
+            // Resolve by Name
+            if (game.TryResolveMessage(name, out message)) return message;
         }
+        else if (unityId > 0) return new HMessage(unityId, IsOutgoing);
 
-        _byName.Add(name, message);
-        _messages.Add(message);
         return message;
     }
-
-    #region IReadOnlyList<HMessage> Implementation
-    public int Count => _messages.Count;
-    HMessage IReadOnlyList<HMessage>.this[int index] => _messages[index];
-
-    IEnumerator IEnumerable.GetEnumerator() => _messages.GetEnumerator();
-    public IEnumerator<HMessage> GetEnumerator() => ((IEnumerable<HMessage>)_messages).GetEnumerator();
-    #endregion
 }

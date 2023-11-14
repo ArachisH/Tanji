@@ -19,9 +19,9 @@ public readonly record struct HConnectionOptions
     public EndPoint? RemoteEndPoint { get; init; } = default;
     public X509Certificate? WebSocketServerCertificate { get; init; } = default;
 
-    public HConnectionOptions(HGame game)
+    public HConnectionOptions(IGame game)
     {
-        RemoteEndPoint = game.RemoteEndPoint;
+        // TODO: RemoteEndPoint = game.RemoteEndPoint;
         ClientSendPacketFormat = game.SendPacketFormat;
         ClientReceivePacketFormat = game.ReceivePacketFormat;
         MinimumConnectionAttempts = game.MinimumConnectionAttempts;

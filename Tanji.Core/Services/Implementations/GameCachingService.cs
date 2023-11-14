@@ -69,20 +69,15 @@ public sealed class GameCachingService : IFileCachingService<PlatformPaths, Cach
             if (!item.Name.StartsWith(identifier, StringComparison.InvariantCultureIgnoreCase) ||
                 !item.Name.EndsWith(".json")) continue;
 
-            using var jsonBuffer = MemoryOwner<byte>.Allocate((int)item.Length);
-            Span<byte> jsonBufferSpan = jsonBuffer.Span;
+            using var deserializationStream = File.OpenRead(item.FullName);
+            CachedGame? deserializedCachedGame = JsonSerializer.Deserialize<CachedGame>(deserializationStream, SerializerOptions);
 
-            using var jsonBufferFs = File.OpenRead(item.FullName);
-            jsonBufferFs.Read(jsonBufferSpan);
-
-            return new CachedGame(jsonBufferSpan);
+            return deserializedCachedGame ?? throw new Exception("Failed to deserialize the cached game.");
         }
 
         var gameInfo = new FileInfo(paths.ClientPath);
         using Stream gameStream = AcquireGameStream(gameInfo, paths.Platform);
-
-        using HGame game = AcquireGame(gameStream, paths.Platform);
-        game.Path = gameInfo.FullName;
+        using IGame game = AcquireGame(gameStream, paths.Platform);
 
         _logger.LogInformation("Disassembling client");
         game.Disassemble();
@@ -94,38 +89,25 @@ public sealed class GameCachingService : IFileCachingService<PlatformPaths, Cach
         }
 
         _logger.LogInformation("Patching client");
-        game.Patch();
+        game.Patch(AcquireGamePatchingOptions(_options, game.Platform));
 
         _logger.LogInformation("Assembling client");
         string assemblePath = Path.Combine(ModifiedClients.FullName, $"{identifier}_{game.Revision}{Path.GetExtension(paths.ClientPath)}");
         game.Assemble(assemblePath);
 
-        // We can create hard links without admin, but not symbolic links ??
-        _logger.LogInformation("Creating hard link to patched client");
-        string linkPath = Path.Combine(paths.RootPath, $"patched.{PlatformConverter.ToClientName(paths.Platform)}");
-
-        File.Delete(linkPath);
-        if (!NativeMethods.CreateHardLink(linkPath, assemblePath, IntPtr.Zero))
-        {
-            _logger.LogError("Failed to create a hard link at the provided location.", linkPath);
-        }
-
         var incoming = new Incoming(game);
         var outgoing = new Outgoing(game);
+        var cachedGame = new CachedGame(game, outgoing, incoming, assemblePath);
 
-        game.Path = linkPath;
-        CachedGame.SaveAs(Path.Combine(Root.FullName,$"{identifier}_{game.Revision}.json"), game, outgoing, incoming);
+        using FileStream serializationStream = File.OpenWrite(Path.Combine(Root.FullName, $"{identifier}_{game.Revision}.json"));
+        JsonSerializer.Serialize(serializationStream, cachedGame, SerializerOptions);
 
-        return null;
+        return cachedGame;
     }
 
-    private HGame AcquireGame(Stream gameStream, HPlatform platform) => platform switch
+    private static IGame AcquireGame(Stream gameStream, HPlatform platform) => platform switch
     {
-        HPlatform.Flash => new FlashGame(gameStream)
-        {
-            KeyShouterId = 4002,
-            RemoteEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), _options.GameListenPort)
-        },
+        HPlatform.Flash => new FlashGame(gameStream),
         _ => throw new ArgumentException("Failed to initialize a game instance for the provided platform.", nameof(platform))
     };
     private static Stream AcquireGameStream(FileInfo gameInfo, HPlatform platform)
@@ -160,6 +142,22 @@ public sealed class GameCachingService : IFileCachingService<PlatformPaths, Cach
                 // Original file stream should be disposed, as we'll be returning another stream that references a rented buffer.
                 gameStream?.Dispose();
             }
+        }
+    }
+    private static GamePatchingOptions AcquireGamePatchingOptions(TanjiOptions options, HPlatform platform)
+    {
+        switch (platform)
+        {
+            case HPlatform.Flash:
+            {
+                return new GamePatchingOptions(HPatches.FlashDefaults)
+                {
+                    KeyShoutingId = 4002,
+                    AddressShoutingId = 4000,
+                    RemoteAddress = new IPEndPoint(LocalHostIP, options.GameListenPort),
+                };
+            }
+            default: throw new NotSupportedException("Unable to acquire game patch options for the provided platform.");
         }
     }
 }

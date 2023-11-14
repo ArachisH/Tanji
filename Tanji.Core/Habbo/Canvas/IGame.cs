@@ -2,7 +2,7 @@
 
 namespace Tanji.Core.Habbo.Canvas;
 
-public interface IGame
+public interface IGame : IDisposable
 {
     bool IsPostShuffle { get; }
     HPlatform Platform { get; }
@@ -10,9 +10,14 @@ public interface IGame
     IHFormat SendPacketFormat { get; }
     IHFormat ReceivePacketFormat { get; }
 
-    string? Path { get; }
     string? Revision { get; }
     int MinimumConnectionAttempts { get; }
 
-    bool TryResolveMessage(string name, uint hash, bool isOutgoing, out HMessage message);
+    void Disassemble();
+    void Assemble(string path);
+    void GenerateMessageHashes();
+    void Patch(GamePatchingOptions options);
+
+    bool TryResolveMessage(uint hash, out HMessage message);
+    bool TryResolveMessage(string name, out HMessage message);
 }

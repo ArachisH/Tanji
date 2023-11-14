@@ -5,12 +5,14 @@ public enum HPatches
 {
     None = 0,
 
-    InjectEndPoint = 1,
+    FlashDefaults = DisableHostChecks | DisableEncryption | InjectKeyShouter | InjectAddressShouter | InjectAddress,
+
+    InjectAddress = 1,
     InjectRSAKeys = 2,
 
     InjectKeyShouter = 4,
-    InjectEndPointShouter = 8,
+    InjectAddressShouter = 8,
 
     DisableHostChecks = 16,
-    DisableEncryption = 32
+    DisableEncryption = 32,
 }

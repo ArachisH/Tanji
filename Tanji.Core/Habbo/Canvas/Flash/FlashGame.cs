@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net;
+using System.Text;
 using System.Buffers;
 
 using Flazzy;
@@ -13,10 +14,10 @@ using Tanji.Core.Habbo.Network.Formats;
 
 namespace Tanji.Core.Habbo.Canvas.Flash;
 
-public sealed class FlashGame : HGame
+public sealed class FlashGame : IGame
 {
     #region Reserved Flash/AS3 Keywords
-    private static readonly string[] _reservedKeywords = new[]
+    private static readonly string[] ReservedKeywords = new[]
     {
             "break", "case", "catch", "class", "continue",
             "default", "do", "dynamic", "each", "else",
@@ -40,16 +41,19 @@ public sealed class FlashGame : HGame
     private ASMethod? _hcmNextPortMethod, _hcmUpdateHostParametersMethod;
     private ASInstance? _socketConnectionInstance, _habboCommunicationDemoInstance, _habboCommunicationManagerInstance;
 
-    public override HPlatform Platform => HPlatform.Flash;
+    public HPlatform Platform => HPlatform.Flash;
+    public bool IsPostShuffle { get; private set; } = true;
 
-    public override IHFormat SendPacketFormat => IsPostShuffle ? IHFormat.EvaWire : IHFormat.WedgieOut;
-    public override IHFormat ReceivePacketFormat => IsPostShuffle ? IHFormat.EvaWire : IHFormat.WedgieIn;
+    public IHFormat SendPacketFormat => IsPostShuffle ? IHFormat.EvaWire : IHFormat.WedgieOut;
+    public IHFormat ReceivePacketFormat => IsPostShuffle ? IHFormat.EvaWire : IHFormat.WedgieIn;
 
-    private int _minimumConnectionAttempts;
-    public override int MinimumConnectionAttempts => _minimumConnectionAttempts;
+    public string? Revision { get; private set; }
+    public int MinimumConnectionAttempts { get; private set; }
+
+    public bool IsDisposed { get; private set; }
 
     public FlashGame(string path)
-        : this(new ShockwaveFlash(path), path)
+        : this(new ShockwaveFlash(path))
     { }
     public FlashGame(byte[] data)
         : this(new ShockwaveFlash(data))
@@ -57,436 +61,15 @@ public sealed class FlashGame : HGame
     public FlashGame(Stream stream)
         : this(new ShockwaveFlash(stream))
     { }
-    private FlashGame(ShockwaveFlash flash, string? path = null)
-        : base(HPatches.DisableHostChecks | HPatches.DisableEncryption | HPatches.InjectKeyShouter | HPatches.InjectEndPointShouter | HPatches.InjectEndPoint)
+    private FlashGame(ShockwaveFlash flash)
     {
         _flash = flash;
         _abcFileTags = new Dictionary<DoABCTag, ABCFile>();
         _flashMessagesByHash = new Dictionary<uint, FlashMessage>(1000);
         _flashMessagesByClassName = new Dictionary<string, FlashMessage>(1000);
-
-        Path = path;
-        IsPostShuffle = true;
     }
 
-    #region Patching Methods
-    protected override bool? TryPatch(HPatches patch) => patch switch
-    {
-        HPatches.InjectEndPoint => InjectEndPoint(),
-        HPatches.InjectKeyShouter => InjectKeyShouter(),
-        HPatches.DisableHostChecks => DisableHostChecks(),
-        HPatches.DisableEncryption => DisableEncryption(),
-        HPatches.InjectEndPointShouter => InjectEndPointShouter(),
-        HPatches.InjectRSAKeys => InjectRSAKeys("", ""),
-        _ => null
-    };
-
-    private bool DisableHostChecks()
-    {
-        ASMethod localHostCheckMethod = _abcFileTags.Values.First().Classes[0].GetMethod(null, "Boolean", 1);
-        if (localHostCheckMethod == null) return false;
-
-        ASInstance habboInstance = _abcFileTags.Values.First().GetInstance("Habbo");
-        if (habboInstance == null) return false;
-
-        ASMethod remoteHostCheckMethod = habboInstance.GetMethod(null, "Boolean", new[] { "String", "Object" });
-        if (remoteHostCheckMethod == null) return false;
-
-        localHostCheckMethod.Body.Code[0] = remoteHostCheckMethod.Body.Code[0] = (byte)OPCode.PushTrue;
-        localHostCheckMethod.Body.Code[1] = remoteHostCheckMethod.Body.Code[1] = (byte)OPCode.ReturnValue;
-        return LockInfoHostProperty(out _);
-    }
-    private bool DisableEncryption(ASCode? sendCode = null)
-    {
-        sendCode ??= _scSendCode;
-        if (sendCode == null) return false;
-
-        int localCount = 0;
-        for (int i = sendCode.Count - 1; i >= 0; i--)
-        {
-            ASInstruction instruction = sendCode[i];
-            if (instruction.OP == OPCode.PushNull)
-            {
-                /* 
-                 * Remove the encryption cipher null check.
-                 * if (_clientToServerEncryption == null)
-                 * {
-                 *     return false;
-                 * }
-                 */
-                sendCode.RemoveRange(i - 1, 5);
-                break;
-            }
-            else if (Local.IsValid(instruction.OP) && ++localCount == 2)
-            {
-                /* 
-                 * Remove the instructions that attempt to encrypt a local block of data.
-                 * _clientToServerEncryption.cipher(local);
-                 */
-                sendCode.RemoveRange(--i, 3);
-            }
-        }
-        if (sendCode == _scSendCode && _scSendMethod != null)
-        {
-            _scSendMethod.Body.Code = _scSendCode.ToArray();
-        }
-        return true;
-    }
-
-    private bool InjectEndPoint()
-    {
-        if (_socketConnectionInstance == null) return false;
-        if (RemoteEndPoint == null)
-        {
-            ThrowHelper.ThrowNullReferenceException($"The property {RemoteEndPoint} is null.");
-        }
-
-        ASMethod? initMethod = _socketConnectionInstance.GetMethod("init", "Boolean", 2);
-        if (initMethod == null) return false;
-
-        if (!InjectEndPointSaver(out _, out _)) return false;
-
-        ASCode initCode = initMethod.Body.ParseCode();
-        for (int i = 0; i < initCode.Count; i++)
-        {
-            ASInstruction instruction = initCode[i];
-            if (instruction.OP != OPCode.CallPropVoid) continue;
-
-            var callPropVoid = (CallPropVoidIns)instruction;
-            if (callPropVoid.PropertyName.Name == "connect" && callPropVoid.ArgCount == 2)
-            {
-                initCode[i - 2] = new PushStringIns(_socketConnectionInstance.ABC, RemoteEndPoint.Address.ToString());
-                initCode[i - 1] = new PushIntIns(_socketConnectionInstance.ABC, RemoteEndPoint.Port);
-            }
-        }
-
-        initMethod.Body.Code = initCode.ToArray();
-        _minimumConnectionAttempts = CountConnectionAttempts();
-        return true;
-    }
-    private bool InjectEndPointSaver(out ASTrait? hostTrait, out ASTrait? portTrait)
-    {
-        if (_socketConnectionInstance == null)
-        {
-            hostTrait = portTrait = null;
-            return false;
-        }
-
-        hostTrait = _socketConnectionInstance.GetSlot("remoteHost");
-        portTrait = _socketConnectionInstance.GetSlot("remotePort");
-        if (hostTrait != null && portTrait != null) return true;
-
-        portTrait = _socketConnectionInstance.AddSlot("remotePort", "int");
-        hostTrait = _socketConnectionInstance.AddSlot("remoteHost", "String");
-
-        ASMethod init = _socketConnectionInstance.GetMethod("init", "Boolean", 2);
-        if (init == null) return false;
-
-        ASCode initCode = init.Body.ParseCode();
-        initCode.InsertRange(2, new ASInstruction[]
-        {
-            new GetLocal0Ins(),
-            new GetLocal1Ins(),
-            new SetPropertyIns(_socketConnectionInstance.ABC, hostTrait.QNameIndex),
-
-            new GetLocal0Ins(),
-            new GetLocal2Ins(),
-            new SetPropertyIns(_socketConnectionInstance.ABC, portTrait.QNameIndex)
-        });
-        init.Body.MaxStack += 2;
-        init.Body.Code = initCode.ToArray();
-        return true;
-    }
-
-    private bool InjectKeyShouter()
-    {
-        if (_habboCommunicationDemoInstance == null) return false;
-
-        ASTrait? sendFunction = InjectUniversalSendFunction();
-        if (sendFunction == null) return false;
-
-        ASMethod onCompleteDiffieHandshakeMethod = _habboCommunicationDemoInstance.GetMethod("onCompleteDiffieHandshake", "void", 1);
-        if (onCompleteDiffieHandshakeMethod != null)
-        {
-            foreach (ASMethod method in _habboCommunicationDemoInstance.GetMethods(null, "void", 1))
-            {
-                if (method.Flags != MethodFlags.None) continue;
-                if (method.Body.MaxStack != 4) continue;
-                if (method.Body.LocalCount < 10) continue;
-
-                onCompleteDiffieHandshakeMethod = method;
-                break;
-            }
-        }
-        if (onCompleteDiffieHandshakeMethod == null) return false;
-
-        int connectionInstanceRegister = 2;
-        ASCode onCompleteDiffieHandshakeCode = onCompleteDiffieHandshakeMethod.Body.ParseCode();
-        for (int i = 0; i < onCompleteDiffieHandshakeCode.Count; i++)
-        {
-            ASInstruction instruction = onCompleteDiffieHandshakeCode[i];
-            if (instruction.OP == OPCode.Coerce)
-            {
-                if (Local.IsSetLocal(onCompleteDiffieHandshakeCode[i + 1].OP))
-                {
-                    var local = (Local)onCompleteDiffieHandshakeCode[i + 1];
-                    connectionInstanceRegister = local.Register;
-                }
-                break;
-            }
-        }
-
-        onCompleteDiffieHandshakeCode.InsertRange(onCompleteDiffieHandshakeCode.Count - 5, new ASInstruction[]
-        {
-                // {SocketConnection}.sendMessage({KeyShouterId}, {sharedKey});
-                new GetLocalIns(connectionInstanceRegister),
-                new PushIntIns(_habboCommunicationDemoInstance.ABC, KeyShouterId),
-                new GetLocalIns(2),
-                new CallPropVoidIns(_habboCommunicationDemoInstance.ABC, sendFunction.QNameIndex, 2)
-        });
-
-        onCompleteDiffieHandshakeMethod.Body.MaxStack += 4;
-        onCompleteDiffieHandshakeMethod.Body.Code = onCompleteDiffieHandshakeCode.ToArray();
-        return true;
-    }
-    private bool InjectEndPointShouter()
-    {
-        if (_habboCommunicationDemoInstance == null) return false;
-
-        ASTrait? sendFunction = InjectUniversalSendFunction();
-        if (sendFunction == null) return false;
-
-        if (!InjectEndPointSaver(out ASTrait? hostTrait, out ASTrait? portTrait)) return false;
-        if (hostTrait == null || portTrait == null) return false;
-
-        ASCode? onConnectionEstablishedCode = null;
-        ASMethod onConnectionEstablishedMethod = _habboCommunicationDemoInstance.GetMethod("onConnectionEstablished");
-        if (onConnectionEstablishedMethod == null)
-        {
-            foreach (ASMethod method in _habboCommunicationDemoInstance.GetMethods(null, "void", new[] { "Event" }))
-            {
-                if (!IsPostShuffle && !method.Name.EndsWith("onConnectionEstablished")) continue;
-                if (method.Flags != MethodFlags.HasOptional) continue;
-
-                onConnectionEstablishedCode = method.Body.ParseCode();
-                for (int i = 0; i < onConnectionEstablishedCode.Count; i++)
-                {
-                    ASInstruction instruction = onConnectionEstablishedCode[i];
-                    if (instruction.OP != OPCode.GetLocal_2) continue;
-                    if (onConnectionEstablishedCode[i + 1].OP == OPCode.PushNull) continue;
-
-                    onConnectionEstablishedMethod = method;
-                    break;
-                }
-            }
-        }
-
-        if (onConnectionEstablishedMethod == null) return false;
-        if (onConnectionEstablishedCode == null)
-        {
-            onConnectionEstablishedCode = onConnectionEstablishedMethod.Body.ParseCode();
-        }
-
-        // local2.sendMessage(messageId, local2.remoteHost, int(local2.remotePort))
-        ABCFile abc = _habboCommunicationDemoInstance.ABC;
-        onConnectionEstablishedCode.InsertRange(onConnectionEstablishedCode.IndexOf(OPCode.IfEq) + 1, new ASInstruction[]
-        {
-                new GetLocal2Ins(),
-
-                new PushIntIns(abc, 4000),
-
-                new GetLocal2Ins(),
-                new GetPropertyIns(abc, hostTrait.QNameIndex),
-
-                new GetLocal2Ins(),
-                new GetPropertyIns(abc, portTrait.QNameIndex),
-                new ConvertIIns(),
-
-                new CallPropVoidIns(abc, sendFunction.QNameIndex, 3)
-        });
-
-        onConnectionEstablishedMethod.Body.MaxStack += 5;
-        onConnectionEstablishedMethod.Body.Code = onConnectionEstablishedCode.ToArray();
-
-        return onConnectionEstablishedMethod != null;
-    }
-    private bool InjectRSAKeys(string exponent, string modulus)
-    {
-        if (_habboCommunicationDemoInstance == null) return false;
-        if (string.IsNullOrWhiteSpace(exponent))
-        {
-            ThrowHelper.ThrowArgumentException("The specified public key must not be empty or null.", nameof(exponent));
-        }
-        if (string.IsNullOrWhiteSpace(modulus))
-        {
-            ThrowHelper.ThrowArgumentException("The specified public key must not be empty or null.", nameof(modulus));
-        }
-
-        foreach (ASMethod method in _habboCommunicationDemoInstance.GetMethods(null, "void", 1))
-        {
-            if (method.Body.LocalCount < 10) continue;
-
-            ASCode code = method.Body.ParseCode();
-            for (int i = 0; i < code.Count; i++)
-            {
-                ASInstruction instruction = code[i];
-
-                if (instruction.OP != OPCode.InitProperty) continue;
-                var initProperty = (InitPropertyIns)instruction;
-
-                if (code[i + 3].OP != OPCode.GetProperty) continue;
-                var getProperty = (GetPropertyIns)code[i + 3];
-
-                if (initProperty.PropertyNameIndex != getProperty.PropertyNameIndex) continue;
-                if (code[i + 8].OP != OPCode.CallPropVoid) continue;
-
-                var callPropVoid = (CallPropVoidIns)code[i + 8];
-                if (callPropVoid.ArgCount != 3) continue; // Don't use the 'verify' name, as it could get shuffled in the future
-
-                code.RemoveRange(i - 7, 6);
-                code.InsertRange(i - 7, new ASInstruction[]
-                {
-                    new PushStringIns(_habboCommunicationDemoInstance.ABC, modulus),
-                    new PushStringIns(_habboCommunicationDemoInstance.ABC, exponent),
-                });
-
-                method.Body.Code = code.ToArray();
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private int CountConnectionAttempts()
-    {
-        if (_hcmNextPortMethod == null) return 0;
-
-        if (!LockInfoHostProperty(out ASTrait? infoHostSlot)) return 0;
-        if (infoHostSlot == null) return 0;
-
-        int connectionAttempts = 0;
-        ASCode connectCode = _hcmNextPortMethod.Body.ParseCode();
-        for (int i = 0; i < connectCode.Count; i++)
-        {
-            ASMultiname propertyName;
-            ASInstruction instruction = connectCode[i];
-            if (instruction.OP == OPCode.GetLex)
-            {
-                propertyName = ((GetLexIns)instruction).TypeName;
-            }
-            else if (instruction.OP == OPCode.GetProperty)
-            {
-                propertyName = ((GetPropertyIns)instruction).PropertyName;
-            }
-            else continue;
-
-            if (propertyName != infoHostSlot.QName) continue;
-            connectionAttempts++;
-        }
-        return connectionAttempts;
-    }
-    private ASTrait? InjectUniversalSendFunction()
-    {
-        if (_socketConnectionInstance == null || _scSendMethod == null) return null;
-        ABCFile abc = _socketConnectionInstance.ABC;
-
-        ASTrait? sendFunctionTrait = _socketConnectionInstance.GetMethod("sendMessage", "Boolean", 1)?.Trait;
-        if (sendFunctionTrait != null) return sendFunctionTrait;
-
-        ASCode trimmedSendCode = _scSendMethod.Body.ParseCode();
-        DisableEncryption(trimmedSendCode);
-
-        for (int i = 6; i < trimmedSendCode.Count; i++)
-        {
-            ASInstruction instruction = trimmedSendCode[i];
-            if (instruction.OP == OPCode.Coerce)
-            {
-                var coerceIns = (CoerceIns)instruction;
-                if (coerceIns.TypeName.Name != "ByteArray") continue;
-
-                trimmedSendCode.RemoveRange(6, i - 10);
-                break;
-            }
-        }
-        trimmedSendCode.InsertRange(2, new ASInstruction[2]
-        {
-            new GetLocal1Ins(),
-            new SetLocalIns(4)
-        });
-
-        var sendMessageMethod = new ASMethod(abc);
-        sendMessageMethod.Flags |= MethodFlags.NeedRest;
-        sendMessageMethod.ReturnTypeIndex = _scSendMethod.ReturnTypeIndex;
-        int sendMessageMethodIndex = abc.AddMethod(sendMessageMethod);
-
-        // The parameters for the instructions to expect / use.
-        var idParam = new ASParameter(sendMessageMethod)
-        {
-            NameIndex = abc.Pool.AddConstant("id"),
-            TypeIndex = abc.Pool.GetMultinameIndex("int")
-        };
-        sendMessageMethod.Parameters.Add(idParam);
-
-        // The method body that houses the instructions.
-        var sendMessageBody = new ASMethodBody(abc)
-        {
-            MethodIndex = sendMessageMethodIndex,
-            Code = trimmedSendCode.ToArray(),
-            InitialScopeDepth = 0,
-            MaxScopeDepth = 1,
-            LocalCount = 7,
-            MaxStack = 7
-        };
-        abc.AddMethodBody(sendMessageBody);
-
-        _socketConnectionInstance.AddMethod(sendMessageMethod, "sendMessage");
-        return sendMessageMethod.Trait;
-    }
-    private bool LockInfoHostProperty(out ASTrait? infoHostSlot)
-    {
-        if (_habboCommunicationManagerInstance == null || _hcmNextPortMethod == null)
-        {
-            infoHostSlot = null;
-            return false;
-        }
-
-        ABCFile abc = _habboCommunicationManagerInstance.ABC;
-
-        ASCode connectCode = _hcmNextPortMethod.Body.ParseCode();
-        int pushByteIndex = connectCode.IndexOf(OPCode.PushByte);
-
-        infoHostSlot = _habboCommunicationManagerInstance.GetSlotTraits("String").FirstOrDefault();
-        if (infoHostSlot == null) return false;
-
-        int getPropertyIndex = abc.Pool.GetMultinameIndex("getProperty");
-        connectCode.InsertRange(pushByteIndex, new ASInstruction[]
-        {
-            new GetLocal0Ins(),
-            new FindPropStrictIns(abc, getPropertyIndex),
-            new PushStringIns(abc, "connection.info.host"),
-            new CallPropertyIns(abc, getPropertyIndex, 1),
-            new InitPropertyIns(abc, infoHostSlot.QNameIndex)
-        });
-
-        // This portion prevents any suffix from being added to the host slot.
-        int magicInverseIndex = abc.Pool.AddConstant(65290);
-        for (int i = 0; i < connectCode.Count; i++)
-        {
-            ASInstruction instruction = connectCode[i];
-            if (instruction.OP != OPCode.PushInt) continue;
-            if (connectCode[i - 1].OP == OPCode.Add) continue;
-
-            var pushIntIns = (PushIntIns)instruction;
-            pushIntIns.ValueIndex = magicInverseIndex;
-        }
-
-        _hcmNextPortMethod.Body.MaxStack += 4;
-        _hcmNextPortMethod.Body.Code = connectCode.ToArray();
-        return true;
-    }
-    #endregion
-
-    public override void GenerateMessageHashes()
+    public void GenerateMessageHashes()
     {
         // Hashes have already been generated.
         if (_flashMessagesByHash.Count > 0) return;
@@ -560,24 +143,39 @@ public sealed class FlashGame : HGame
             _flashMessagesByHash.Add(hash, flashMessage);
         }
     }
-    public override bool TryResolveMessage(string name, uint hash, bool isOutgoing, out HMessage message)
+    public void Patch(GamePatchingOptions options)
+    {
+        foreach (HPatches patch in Enum.GetValues(typeof(HPatches)))
+        {
+            if ((options.Patches & patch) != patch || patch == HPatches.None) continue;
+            if (!TryPatch(options, patch) && false)
+            {
+                throw new Exception($"Failed to apply patch to the game client: {patch}");
+            }
+        }
+    }
+    public bool TryResolveMessage(uint hash, out HMessage message)
     {
         message = default;
         if (_flashMessagesByHash.TryGetValue(hash, out FlashMessage? flashMessage))
         {
-            message = new HMessage(flashMessage.Id, isOutgoing)
+            message = new HMessage(flashMessage.Id, flashMessage.IsOutgoing)
             {
-                Hash = hash,
-                References = flashMessage.References.Count,
-
-                Name = name,
-                Structure = flashMessage.Structure,
-
-                TypeName = flashMessage.MessageClass.QName.Name,
-                ParserTypeName = flashMessage.ParserClass?.QName.Name
+                Hash = flashMessage.Hash
             };
         }
-
+        return message != default;
+    }
+    public bool TryResolveMessage(string name, out HMessage message)
+    {
+        message = default;
+        if (_flashMessagesByClassName.TryGetValue(name, out FlashMessage? flashMessage))
+        {
+            message = new HMessage(flashMessage.Id, flashMessage.IsOutgoing)
+            {
+                Hash = flashMessage.Hash
+            };
+        }
         return message != default;
     }
 
@@ -827,14 +425,14 @@ public sealed class FlashGame : HGame
         return _habboCommunicationManagerInstance != null;
     }
 
-    public override byte[] ToArray()
+    public byte[] ToArray()
     {
         using var assembleStream = new MemoryStream((int)_flash.FileLength);
         using var output = new FlashWriter(assembleStream);
         Assemble(output, CompressionKind.ZLib);
         return assembleStream.ToArray();
     }
-    public override void Disassemble()
+    public void Disassemble()
     {
         var upgrader = new AS3MultinameUpgrader(true, true);
         _flash.Disassemble(tag =>
@@ -862,7 +460,7 @@ public sealed class FlashGame : HGame
             PrepareHabboCommunicationManager(abc);
         }
     }
-    public override void Assemble(string path)
+    public void Assemble(string path)
     {
         using FileStream assembleStream = File.Open(path, FileMode.Create);
         using var output = new FlashWriter(assembleStream);
@@ -881,30 +479,425 @@ public sealed class FlashGame : HGame
         output.Flush();
     }
 
-    protected override void Dispose(bool disposing)
-    {
-        if (disposing)
-        {
-            _flash.Dispose();
-            _abcFileTags.Clear();
-            _flashMessagesByHash.Clear();
-            _flashMessagesByClassName.Clear();
-
-            GC.Collect();
-            GC.SuppressFinalize(this);
-        }
-        _scSendCode = _scSendUnencryptedCode = null;
-        _scSendMethod = _scSendUnencryptedMethod = null;
-        _hcmNextPortMethod = _hcmUpdateHostParametersMethod = null;
-        _socketConnectionInstance = _habboCommunicationDemoInstance = _habboCommunicationManagerInstance = null;
-    }
-
     private static bool IsValidIdentifier(string value)
     {
         return !string.IsNullOrWhiteSpace(value) &&
             !value.StartsWith("_-") &&
-            !_reservedKeywords.Contains(value.ToLower());
+            !ReservedKeywords.Contains(value.ToLower());
     }
+
+    #region Patching Methods
+    private bool TryPatch(GamePatchingOptions options, HPatches patch) => patch switch
+    {
+        HPatches.InjectAddress => TryInjectAddress(options.RemoteAddress),
+        HPatches.InjectKeyShouter => TryInjectKeyShouter(options.KeyShoutingId),
+        HPatches.DisableHostChecks => TryDisableHostChecks(),
+        HPatches.DisableEncryption => TryDisableEncryption(),
+        HPatches.InjectAddressShouter => TryInjectAddressShouter(options.AddressShoutingId),
+        HPatches.InjectRSAKeys => TryInjectRSAKeys(options.RSAExponent, options.RSAModulus),
+        _ => false
+    };
+
+    private bool TryDisableHostChecks()
+    {
+        ASMethod localHostCheckMethod = _abcFileTags.Values.First().Classes[0].GetMethod(null, "Boolean", 1);
+        if (localHostCheckMethod == null) return false;
+
+        ASInstance habboInstance = _abcFileTags.Values.First().GetInstance("Habbo");
+        if (habboInstance == null) return false;
+
+        ASMethod remoteHostCheckMethod = habboInstance.GetMethod(null, "Boolean", new[] { "String", "Object" });
+        if (remoteHostCheckMethod == null) return false;
+
+        localHostCheckMethod.Body.Code[0] = remoteHostCheckMethod.Body.Code[0] = (byte)OPCode.PushTrue;
+        localHostCheckMethod.Body.Code[1] = remoteHostCheckMethod.Body.Code[1] = (byte)OPCode.ReturnValue;
+        return LockInfoHostProperty(out _);
+    }
+    private bool TryDisableEncryption(ASCode? sendCode = null)
+    {
+        sendCode ??= _scSendCode;
+        if (sendCode == null) return false;
+
+        int localCount = 0;
+        for (int i = sendCode.Count - 1; i >= 0; i--)
+        {
+            ASInstruction instruction = sendCode[i];
+            if (instruction.OP == OPCode.PushNull)
+            {
+                /* 
+                 * Remove the encryption cipher null check.
+                 * if (_clientToServerEncryption == null)
+                 * {
+                 *     return false;
+                 * }
+                 */
+                sendCode.RemoveRange(i - 1, 5);
+                break;
+            }
+            else if (Local.IsValid(instruction.OP) && ++localCount == 2)
+            {
+                /* 
+                 * Remove the instructions that attempt to encrypt a local block of data.
+                 * _clientToServerEncryption.cipher(local);
+                 */
+                sendCode.RemoveRange(--i, 3);
+            }
+        }
+        if (sendCode == _scSendCode && _scSendMethod != null)
+        {
+            _scSendMethod.Body.Code = _scSendCode.ToArray();
+        }
+        return true;
+    }
+
+    private bool TryInjectAddress(IPEndPoint? remoteAddress)
+    {
+        if (_socketConnectionInstance == null || remoteAddress == null) return false;
+
+        ASMethod? initMethod = _socketConnectionInstance.GetMethod("init", "Boolean", 2);
+        if (initMethod == null) return false;
+
+        if (!TryInjectAddressSaver(out _, out _)) return false;
+
+        ASCode initCode = initMethod.Body.ParseCode();
+        for (int i = 0; i < initCode.Count; i++)
+        {
+            ASInstruction instruction = initCode[i];
+            if (instruction.OP != OPCode.CallPropVoid) continue;
+
+            var callPropVoid = (CallPropVoidIns)instruction;
+            if (callPropVoid.PropertyName.Name == "connect" && callPropVoid.ArgCount == 2)
+            {
+                initCode[i - 2] = new PushStringIns(_socketConnectionInstance.ABC, remoteAddress.Address.ToString());
+                initCode[i - 1] = new PushIntIns(_socketConnectionInstance.ABC, remoteAddress.Port);
+            }
+        }
+
+        initMethod.Body.Code = initCode.ToArray();
+        MinimumConnectionAttempts = CountConnectionAttempts();
+        return true;
+    }
+    private bool TryInjectAddressSaver(out ASTrait? hostTrait, out ASTrait? portTrait)
+    {
+        if (_socketConnectionInstance == null)
+        {
+            hostTrait = portTrait = null;
+            return false;
+        }
+
+        hostTrait = _socketConnectionInstance.GetSlot("remoteHost");
+        portTrait = _socketConnectionInstance.GetSlot("remotePort");
+        if (hostTrait != null && portTrait != null) return true;
+
+        portTrait = _socketConnectionInstance.AddSlot("remotePort", "int");
+        hostTrait = _socketConnectionInstance.AddSlot("remoteHost", "String");
+
+        ASMethod init = _socketConnectionInstance.GetMethod("init", "Boolean", 2);
+        if (init == null) return false;
+
+        ASCode initCode = init.Body.ParseCode();
+        initCode.InsertRange(2, new ASInstruction[]
+        {
+            new GetLocal0Ins(),
+            new GetLocal1Ins(),
+            new SetPropertyIns(_socketConnectionInstance.ABC, hostTrait.QNameIndex),
+
+            new GetLocal0Ins(),
+            new GetLocal2Ins(),
+            new SetPropertyIns(_socketConnectionInstance.ABC, portTrait.QNameIndex)
+        });
+        init.Body.MaxStack += 2;
+        init.Body.Code = initCode.ToArray();
+        return true;
+    }
+
+    private bool TryInjectKeyShouter(int keyShoutingId)
+    {
+        if (_habboCommunicationDemoInstance == null) return false;
+
+        ASTrait? sendFunction = InjectUniversalSendFunction();
+        if (sendFunction == null) return false;
+
+        ASMethod onCompleteDiffieHandshakeMethod = _habboCommunicationDemoInstance.GetMethod("onCompleteDiffieHandshake", "void", 1);
+        if (onCompleteDiffieHandshakeMethod != null)
+        {
+            foreach (ASMethod method in _habboCommunicationDemoInstance.GetMethods(null, "void", 1))
+            {
+                if (method.Flags != MethodFlags.None) continue;
+                if (method.Body.MaxStack != 4) continue;
+                if (method.Body.LocalCount < 10) continue;
+
+                onCompleteDiffieHandshakeMethod = method;
+                break;
+            }
+        }
+        if (onCompleteDiffieHandshakeMethod == null) return false;
+
+        int connectionInstanceRegister = 2;
+        ASCode onCompleteDiffieHandshakeCode = onCompleteDiffieHandshakeMethod.Body.ParseCode();
+        for (int i = 0; i < onCompleteDiffieHandshakeCode.Count; i++)
+        {
+            ASInstruction instruction = onCompleteDiffieHandshakeCode[i];
+            if (instruction.OP == OPCode.Coerce)
+            {
+                if (Local.IsSetLocal(onCompleteDiffieHandshakeCode[i + 1].OP))
+                {
+                    var local = (Local)onCompleteDiffieHandshakeCode[i + 1];
+                    connectionInstanceRegister = local.Register;
+                }
+                break;
+            }
+        }
+
+        // {SocketConnection}.sendMessage({keyShoutingId}, {sharedKey});
+        onCompleteDiffieHandshakeCode.InsertRange(onCompleteDiffieHandshakeCode.Count - 5, new ASInstruction[]
+        {
+            new GetLocalIns(connectionInstanceRegister),
+            new PushIntIns(_habboCommunicationDemoInstance.ABC, keyShoutingId),
+            new GetLocalIns(2),
+            new CallPropVoidIns(_habboCommunicationDemoInstance.ABC, sendFunction.QNameIndex, 2)
+        });
+
+        onCompleteDiffieHandshakeMethod.Body.MaxStack += 4;
+        onCompleteDiffieHandshakeMethod.Body.Code = onCompleteDiffieHandshakeCode.ToArray();
+        return true;
+    }
+    private bool TryInjectAddressShouter(int addressShoutingId)
+    {
+        if (_habboCommunicationDemoInstance == null) return false;
+
+        ASTrait? sendFunction = InjectUniversalSendFunction();
+        if (sendFunction == null) return false;
+
+        if (!TryInjectAddressSaver(out ASTrait? hostTrait, out ASTrait? portTrait)) return false;
+        if (hostTrait == null || portTrait == null) return false;
+
+        ASCode? onConnectionEstablishedCode = null;
+        ASMethod onConnectionEstablishedMethod = _habboCommunicationDemoInstance.GetMethod("onConnectionEstablished");
+        if (onConnectionEstablishedMethod == null)
+        {
+            foreach (ASMethod method in _habboCommunicationDemoInstance.GetMethods(null, "void", new[] { "Event" }))
+            {
+                if (!IsPostShuffle && !method.Name.EndsWith("onConnectionEstablished")) continue;
+                if (method.Flags != MethodFlags.HasOptional) continue;
+
+                onConnectionEstablishedCode = method.Body.ParseCode();
+                for (int i = 0; i < onConnectionEstablishedCode.Count; i++)
+                {
+                    ASInstruction instruction = onConnectionEstablishedCode[i];
+                    if (instruction.OP != OPCode.GetLocal_2) continue;
+                    if (onConnectionEstablishedCode[i + 1].OP == OPCode.PushNull) continue;
+
+                    onConnectionEstablishedMethod = method;
+                    break;
+                }
+            }
+        }
+
+        if (onConnectionEstablishedMethod == null) return false;
+        if (onConnectionEstablishedCode == null)
+        {
+            onConnectionEstablishedCode = onConnectionEstablishedMethod.Body.ParseCode();
+        }
+
+        // local2.sendMessage(messageId, local2.remoteHost, int(local2.remotePort))
+        ABCFile abc = _habboCommunicationDemoInstance.ABC;
+        onConnectionEstablishedCode.InsertRange(onConnectionEstablishedCode.IndexOf(OPCode.IfEq) + 1, new ASInstruction[]
+        {
+                new GetLocal2Ins(),
+
+                new PushIntIns(abc, addressShoutingId),
+
+                new GetLocal2Ins(),
+                new GetPropertyIns(abc, hostTrait.QNameIndex),
+
+                new GetLocal2Ins(),
+                new GetPropertyIns(abc, portTrait.QNameIndex),
+                new ConvertIIns(),
+
+                new CallPropVoidIns(abc, sendFunction.QNameIndex, 3)
+        });
+
+        onConnectionEstablishedMethod.Body.MaxStack += 5;
+        onConnectionEstablishedMethod.Body.Code = onConnectionEstablishedCode.ToArray();
+
+        return onConnectionEstablishedMethod != null;
+    }
+    private bool TryInjectRSAKeys(string? exponent, string? modulus)
+    {
+        if (_habboCommunicationDemoInstance == null) return false;
+        if (string.IsNullOrWhiteSpace(exponent))
+        {
+            ThrowHelper.ThrowArgumentException("The specified public key must not be empty or null.", nameof(exponent));
+        }
+        if (string.IsNullOrWhiteSpace(modulus))
+        {
+            ThrowHelper.ThrowArgumentException("The specified public key must not be empty or null.", nameof(modulus));
+        }
+
+        foreach (ASMethod method in _habboCommunicationDemoInstance.GetMethods(null, "void", 1))
+        {
+            if (method.Body.LocalCount < 10) continue;
+
+            ASCode code = method.Body.ParseCode();
+            for (int i = 0; i < code.Count; i++)
+            {
+                ASInstruction instruction = code[i];
+
+                if (instruction.OP != OPCode.InitProperty) continue;
+                var initProperty = (InitPropertyIns)instruction;
+
+                if (code[i + 3].OP != OPCode.GetProperty) continue;
+                var getProperty = (GetPropertyIns)code[i + 3];
+
+                if (initProperty.PropertyNameIndex != getProperty.PropertyNameIndex) continue;
+                if (code[i + 8].OP != OPCode.CallPropVoid) continue;
+
+                var callPropVoid = (CallPropVoidIns)code[i + 8];
+                if (callPropVoid.ArgCount != 3) continue; // Don't use the 'verify' name, as it could get shuffled in the future
+
+                code.RemoveRange(i - 7, 6);
+                code.InsertRange(i - 7, new ASInstruction[]
+                {
+                    new PushStringIns(_habboCommunicationDemoInstance.ABC, modulus),
+                    new PushStringIns(_habboCommunicationDemoInstance.ABC, exponent),
+                });
+
+                method.Body.Code = code.ToArray();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private int CountConnectionAttempts()
+    {
+        if (_hcmNextPortMethod == null) return 0;
+
+        if (!LockInfoHostProperty(out ASTrait? infoHostSlot)) return 0;
+        if (infoHostSlot == null) return 0;
+
+        int connectionAttempts = 0;
+        ASCode connectCode = _hcmNextPortMethod.Body.ParseCode();
+        for (int i = 0; i < connectCode.Count; i++)
+        {
+            ASMultiname propertyName;
+            ASInstruction instruction = connectCode[i];
+            if (instruction.OP == OPCode.GetLex)
+            {
+                propertyName = ((GetLexIns)instruction).TypeName;
+            }
+            else if (instruction.OP == OPCode.GetProperty)
+            {
+                propertyName = ((GetPropertyIns)instruction).PropertyName;
+            }
+            else continue;
+
+            if (propertyName != infoHostSlot.QName) continue;
+            connectionAttempts++;
+        }
+        return connectionAttempts;
+    }
+    private ASTrait? InjectUniversalSendFunction()
+    {
+        if (_socketConnectionInstance == null || _scSendMethod == null) return null;
+        ABCFile abc = _socketConnectionInstance.ABC;
+
+        ASTrait? sendFunctionTrait = _socketConnectionInstance.GetMethod("sendMessage", "Boolean", 1)?.Trait;
+        if (sendFunctionTrait != null) return sendFunctionTrait;
+
+        ASCode trimmedSendCode = _scSendMethod.Body.ParseCode();
+        TryDisableEncryption(trimmedSendCode);
+
+        for (int i = 6; i < trimmedSendCode.Count; i++)
+        {
+            ASInstruction instruction = trimmedSendCode[i];
+            if (instruction.OP == OPCode.Coerce)
+            {
+                var coerceIns = (CoerceIns)instruction;
+                if (coerceIns.TypeName.Name != "ByteArray") continue;
+
+                trimmedSendCode.RemoveRange(6, i - 10);
+                break;
+            }
+        }
+        trimmedSendCode.InsertRange(2, new ASInstruction[2]
+        {
+            new GetLocal1Ins(),
+            new SetLocalIns(4)
+        });
+
+        var sendMessageMethod = new ASMethod(abc);
+        sendMessageMethod.Flags |= MethodFlags.NeedRest;
+        sendMessageMethod.ReturnTypeIndex = _scSendMethod.ReturnTypeIndex;
+        int sendMessageMethodIndex = abc.AddMethod(sendMessageMethod);
+
+        // The parameters for the instructions to expect / use.
+        var idParam = new ASParameter(sendMessageMethod)
+        {
+            NameIndex = abc.Pool.AddConstant("id"),
+            TypeIndex = abc.Pool.GetMultinameIndex("int")
+        };
+        sendMessageMethod.Parameters.Add(idParam);
+
+        // The method body that houses the instructions.
+        var sendMessageBody = new ASMethodBody(abc)
+        {
+            MethodIndex = sendMessageMethodIndex,
+            Code = trimmedSendCode.ToArray(),
+            InitialScopeDepth = 0,
+            MaxScopeDepth = 1,
+            LocalCount = 7,
+            MaxStack = 7
+        };
+        abc.AddMethodBody(sendMessageBody);
+
+        _socketConnectionInstance.AddMethod(sendMessageMethod, "sendMessage");
+        return sendMessageMethod.Trait;
+    }
+    private bool LockInfoHostProperty(out ASTrait? infoHostSlot)
+    {
+        if (_habboCommunicationManagerInstance == null || _hcmNextPortMethod == null)
+        {
+            infoHostSlot = null;
+            return false;
+        }
+
+        ABCFile abc = _habboCommunicationManagerInstance.ABC;
+
+        ASCode connectCode = _hcmNextPortMethod.Body.ParseCode();
+        int pushByteIndex = connectCode.IndexOf(OPCode.PushByte);
+
+        infoHostSlot = _habboCommunicationManagerInstance.GetSlotTraits("String").FirstOrDefault();
+        if (infoHostSlot == null) return false;
+
+        int getPropertyIndex = abc.Pool.GetMultinameIndex("getProperty");
+        connectCode.InsertRange(pushByteIndex, new ASInstruction[]
+        {
+            new GetLocal0Ins(),
+            new FindPropStrictIns(abc, getPropertyIndex),
+            new PushStringIns(abc, "connection.info.host"),
+            new CallPropertyIns(abc, getPropertyIndex, 1),
+            new InitPropertyIns(abc, infoHostSlot.QNameIndex)
+        });
+
+        // This portion prevents any suffix from being added to the host slot.
+        int magicInverseIndex = abc.Pool.AddConstant(65290);
+        for (int i = 0; i < connectCode.Count; i++)
+        {
+            ASInstruction instruction = connectCode[i];
+            if (instruction.OP != OPCode.PushInt) continue;
+            if (connectCode[i - 1].OP == OPCode.Add) continue;
+
+            var pushIntIns = (PushIntIns)instruction;
+            pushIntIns.ValueIndex = magicInverseIndex;
+        }
+
+        _hcmNextPortMethod.Body.MaxStack += 4;
+        _hcmNextPortMethod.Body.Code = connectCode.ToArray();
+        return true;
+    }
+    #endregion
 
     #region Hashing/Message Linking
     private void FindMessageReferences(Dictionary<string, (int, FlashMessage[])> methodsReferencingMessages)
@@ -1032,7 +1025,7 @@ public sealed class FlashGame : HGame
                 default: continue;
             }
 
-            if (!_flashMessagesByClassName.TryGetValue(messageConstructIns.PropertyName.Name, out FlashMessage flashMessage)) continue;
+            if (!_flashMessagesByClassName.TryGetValue(messageConstructIns.PropertyName.Name, out FlashMessage? flashMessage)) continue;
             if (flashMessage.IsOutgoing)
             {
                 referencedMessagesBuffer[referencedMessagesBuffer.Length - 1 - outCount++] = flashMessage;
@@ -1581,4 +1574,27 @@ public sealed class FlashGame : HGame
         return structure;
     }
     #endregion
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+    private void Dispose(bool disposing)
+    {
+        if (IsDisposed) return;
+        if (disposing)
+        {
+            _flash.Dispose();
+            _abcFileTags.Clear();
+            _flashMessagesByHash.Clear();
+            _flashMessagesByClassName.Clear();
+            GC.Collect();
+        }
+        _scSendCode = _scSendUnencryptedCode = null;
+        _scSendMethod = _scSendUnencryptedMethod = null;
+        _hcmNextPortMethod = _hcmUpdateHostParametersMethod = null;
+        _socketConnectionInstance = _habboCommunicationDemoInstance = _habboCommunicationManagerInstance = null;
+        IsDisposed = true;
+    }
 }
