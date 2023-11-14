@@ -6,7 +6,6 @@ using Microsoft.Extensions.Options;
 
 using Tanji.Core.Json;
 using Tanji.Core.Habbo;
-using Tanji.Core.Internals;
 using Tanji.Core.Habbo.Canvas;
 using Tanji.Core.Configuration;
 using Tanji.Core.Habbo.Canvas.Flash;

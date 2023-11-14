@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Tanji.Core.Internals;
+namespace Tanji.Core;
 
 internal static partial class NativeMethods
 {
