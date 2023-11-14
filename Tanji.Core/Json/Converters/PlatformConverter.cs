@@ -9,7 +9,11 @@ internal sealed class PlatformConverter : JsonConverter<HPlatform>
 {
     public override void Write(Utf8JsonWriter writer, HPlatform value, JsonSerializerOptions options)
     {
-        throw new NotImplementedException();
+        switch (value)
+        {
+            case HPlatform.Flash: writer.WriteStringValue("Flash"); break;
+            case HPlatform.Unity: writer.WriteStringValue("Unity"); break;
+        }
     }
     public override HPlatform Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) => ToPlatform(reader.GetString());
 
@@ -27,7 +31,7 @@ internal sealed class PlatformConverter : JsonConverter<HPlatform>
 
     public static HPlatform ToPlatform(string? value) => value?.ToLowerInvariant() switch
     {
-        "air" or "flash" => HPlatform.Flash,
+        "flash" or "air" => HPlatform.Flash,
         "unity" => HPlatform.Unity,
         _ => HPlatform.Unknown
     };
