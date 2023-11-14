@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Text.Json;
 using System.Security.Cryptography;
 
 using Microsoft.Extensions.Logging;
@@ -19,12 +20,26 @@ namespace Tanji.Core.Services;
 
 public sealed class GameCachingService : IFileCachingService<PlatformPaths, CachedGame>
 {
+    private static readonly JsonSerializerOptions SerializerOptions;
+    private static readonly IPAddress LocalHostIP = IPAddress.Parse("127.0.0.1");
+
     private readonly TanjiOptions _options;
     private readonly ILogger<GameCachingService> _logger;
 
     public required DirectoryInfo Root { get; init; }
     public required DirectoryInfo ModifiedClients { get; init; }
 
+    static GameCachingService()
+    {
+        SerializerOptions = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            PropertyNameCaseInsensitive = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        };
+        SerializerOptions.Converters.Add(new FormatConverter());
+        SerializerOptions.Converters.Add(new PlatformConverter());
+    }
     public GameCachingService(ILogger<GameCachingService> logger, IOptions<TanjiOptions> options)
     {
         _logger = logger;
