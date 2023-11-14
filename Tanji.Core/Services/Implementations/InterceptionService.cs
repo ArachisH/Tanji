@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
+using Tanji.Core.Json;
 using Tanji.Core.Habbo;
 using Tanji.Core.Network;
 using Tanji.Core.Habbo.Canvas;
@@ -72,6 +73,16 @@ public sealed class InterceptionService : IInterceptionService
         }
 
         CachedGame game = _caching.GetOrAdd(paths);
+
+        // We can create hard links without admin, but not symbolic links ??
+        _logger.LogInformation("Creating hard link to patched client");
+        string linkPath = Path.Combine(paths.RootPath, $"patched.{PlatformConverter.ToClientName(paths.Platform)}");
+
+        File.Delete(linkPath);
+        if (!NativeMethods.CreateHardLink(linkPath, game.ClientPath, IntPtr.Zero))
+        {
+            _logger.LogError("Failed to create a hard link at the provided location.", linkPath);
+        }
 
         // TODO: Populate with relevant game client information.
         var connection = new HConnection() { };
