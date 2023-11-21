@@ -3,7 +3,7 @@
 		<OutputType>WinExe</OutputType>
 		<PlatformTarget>x64</PlatformTarget>
 		<UseWindowsForms>true</UseWindowsForms>
-		<TargetFramework>net7.0-windows</TargetFramework>
+		<TargetFramework>net8.0-windows</TargetFramework>
 
 		<Nullable>enable</Nullable>
 		<LangVersion>preview</LangVersion>
