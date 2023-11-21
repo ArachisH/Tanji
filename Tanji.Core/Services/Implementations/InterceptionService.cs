@@ -81,7 +81,7 @@ public sealed class InterceptionService : IInterceptionService
         File.Delete(linkPath);
         if (!NativeMethods.CreateHardLink(linkPath, game.ClientPath, IntPtr.Zero))
         {
-            _logger.LogError("Failed to create a hard link at the provided location.", linkPath);
+            _logger.LogError("Failed to create a hard link at the provided {linkPath}.", linkPath);
         }
 
         // TODO: Populate with relevant game client information.
