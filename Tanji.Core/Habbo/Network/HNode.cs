@@ -6,8 +6,9 @@ using System.Buffers.Text;
 using System.Net.Security;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using Tanji.Core.Habbo.Network.Formats;
+
 using Tanji.Core.Cryptography.Ciphers;
+using Tanji.Core.Habbo.Network.Formats;
 
 namespace Tanji.Core.Habbo.Network;
 
