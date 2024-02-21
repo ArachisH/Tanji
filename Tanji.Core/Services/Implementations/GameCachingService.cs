@@ -108,6 +108,7 @@ public sealed class GameCachingService : IFileCachingService<PlatformPaths, Cach
     private static IGame AcquireGame(Stream gameStream, HPlatform platform) => platform switch
     {
         HPlatform.Flash => new FlashGame(gameStream),
+        //HPlatform.Unity => new UnityGame(gameStream),
         _ => throw new ArgumentException("Failed to initialize a game instance for the provided platform.", nameof(platform))
     };
     private static Stream AcquireGameStream(FileInfo gameInfo, HPlatform platform)
