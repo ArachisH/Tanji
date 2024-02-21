@@ -43,16 +43,18 @@ public sealed class IdentifiersGenerator : IIncrementalGenerator
         using var text = new StringWriter();
         using var indentedText = new IndentedTextWriter(text);
 
-        indentedText.WriteLine("using Tanji.Core.Habbo.Canvas;");
-        indentedText.WriteLine();
+        indentedText.Write($$"""
+            using System.Text.Json.Serialization;
 
-        indentedText.WriteLine("namespace Tanji.Core.Habbo;");
-        indentedText.WriteLine();
+            using Tanji.Core.Habbo.Canvas;
 
-        indentedText.WriteLine($"public sealed partial class {sourceFileName} : Identifiers");
-        indentedText.Write('{');
-        indentedText.Indent++;
+            namespace Tanji.Core.Habbo;
 
+            public sealed partial class {{sourceFileName}} : Identifiers
+            {
+            """);
+
+        string backingFieldVariableName;
         foreach (MessageItem message in messages)
         {
             if (IsMessageInvalid(message)) continue;
@@ -63,40 +65,42 @@ public sealed class IdentifiersGenerator : IIncrementalGenerator
                 indentedText.WriteLine("/*");
             }
 
-            message.BackingFieldName = $"_{char.ToLower(message.Name[0]) + message.Name.Substring(1)}";
-            indentedText.WriteLine($"private HMessage {message.BackingFieldName};");
-            indentedText.WriteLine($"public HMessage {message.Name}");
-            indentedText.WriteLine('{');
+            backingFieldVariableName = $"_{char.ToLower(message.Name[0])}{message.Name.Substring(1)}";
+            indentedText.WriteLine($$"""
+                    private readonly HMessage {{backingFieldVariableName}};
+                    public HMessage {{message.Name}}
+                    {
+                        get => {{backingFieldVariableName}};
+                        init => Register(value, ref {{backingFieldVariableName}});
+                    }
+                """);
 
-            indentedText.Indent++;
-            indentedText.WriteLine($"get => {message.BackingFieldName};");
-            indentedText.WriteLine($"init => Register(value, ref {message.BackingFieldName});");
-            indentedText.Indent--;
-
-            indentedText.WriteLine('}');
             if (message.Name.StartsWith("_-"))
             {
                 indentedText.WriteLine("*/");
             }
         }
 
-        indentedText.WriteLine();
-        indentedText.WriteLine($"public {sourceFileName}() : base({isOutgoingArgumentValue}) {{ }}");
-        indentedText.WriteLine($"public {sourceFileName}(IGame game) : base({isOutgoingArgumentValue})");
-        indentedText.WriteLine('{');
-        indentedText.Indent++;
+        indentedText.WriteLine($$"""
 
-        indentedText.WriteLine("ReadOnlySpan<uint> postShuffleHashes = stackalloc uint[0];");
-        indentedText.WriteLine();
+                public {{sourceFileName}}() : base({{isOutgoingArgumentValue}}) { }
+                public {{sourceFileName}}(IGame game) : base({{isOutgoingArgumentValue}})
+                {
+                    ReadOnlySpan<uint> postShuffleHashes = stackalloc uint[0];
+            """);
 
+        indentedText.Indent += 2;
         foreach (MessageItem message in messages)
         {
             if (IsMessageInvalid(message)) continue;
 
+            indentedText.WriteLine();
             if (message.Name.StartsWith("_-"))
             {
-                indentedText.WriteLine("/*");
-                indentedText.Write('*');
+                indentedText.Write("""
+                    /*
+                    *
+                    """);
             }
 
             if (message.PostShuffleHashes.Length > 0)
@@ -114,13 +118,11 @@ public sealed class IdentifiersGenerator : IIncrementalGenerator
             }
 
             indentedText.Write($"{message.Name} = ResolveMessage(game, \"{message.Name}\", {message.UnityId}");
-
             if (message.PostShuffleHashes.Length > 0)
             {
                 indentedText.Write(", postShuffleHashes");
             }
             indentedText.WriteLine(");");
-            indentedText.WriteLine();
 
             if (message.Name.StartsWith("_-"))
             {
@@ -132,7 +134,7 @@ public sealed class IdentifiersGenerator : IIncrementalGenerator
         indentedText.WriteLine('}');
 
         indentedText.Indent--;
-        indentedText.WriteLine('}');
+        indentedText.Write('}');
 
         indentedText.Flush();
         return text.ToString();
