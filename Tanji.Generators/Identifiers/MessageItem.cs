@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Tanji.Generators.Identifiers;
+﻿namespace Tanji.Generators.Identifiers;
 
 internal sealed record MessageItem
 {
@@ -9,7 +7,4 @@ internal sealed record MessageItem
 
     public string UnityStructure { get; init; } = string.Empty;
     public uint[] PostShuffleHashes { get; init; } = Array.Empty<uint>();
-
-    [JsonIgnore]
-    public string BackingFieldName { get; set; } = string.Empty;
 }
