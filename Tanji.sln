@@ -16,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tanji.Generators", "Tanji.Generators\Tanji.Generators.csproj", "{CAC9A749-6C57-4504-A5C9-CF42BC92EE05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tanji.Core.Generators", "Tanji.Generators\Tanji.Core.Generators.csproj", "{CAC9A749-6C57-4504-A5C9-CF42BC92EE05}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tanji.CLI", "Tanji.CLI\Tanji.CLI.csproj", "{30006EB4-B64C-43F2-ACC0-C6EDAB1A412E}"
 EndProject

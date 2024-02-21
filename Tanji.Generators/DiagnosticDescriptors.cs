@@ -1,8 +1,8 @@
 ﻿using Microsoft.CodeAnalysis;
 
-using Tanji.Generators.Identifiers;
+using Tanji.Core.Generators.Identifiers;
 
-namespace Tanji.Generators;
+namespace Tanji.Core.Generators;
 
 internal static class DiagnosticDescriptors
 {

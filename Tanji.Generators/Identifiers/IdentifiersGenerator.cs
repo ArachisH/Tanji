@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace Tanji.Generators.Identifiers;
+namespace Tanji.Core.Generators.Identifiers;
 
 [Generator(LanguageNames.CSharp)]
 public sealed class IdentifiersGenerator : IIncrementalGenerator

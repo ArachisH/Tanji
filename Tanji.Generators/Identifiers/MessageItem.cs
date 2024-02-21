@@ -1,4 +1,4 @@
-﻿namespace Tanji.Generators.Identifiers;
+﻿namespace Tanji.Core.Generators.Identifiers;
 
 internal sealed record MessageItem
 {
