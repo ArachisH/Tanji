@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Xml;
+using System.Diagnostics;
 using System.Threading.Channels;
 using System.Collections.ObjectModel;
 
@@ -60,7 +61,7 @@ public sealed class InterceptionService : IInterceptionService
         TryStartWebTrafficInterception();
         return _gameTicketsChannel.Reader.ReadAsync(cancellationToken);
     }
-    public ValueTask<HConnection> LaunchInterceptableClientAsync(string ticket, HPlatform platform, CancellationToken cancellationToken = default)
+    public Task LaunchInterceptableClientAsync(string ticket, HConnection connection, HPlatform platform, CancellationToken cancellationToken = default)
     {
         if (_options.PlatformPaths == null || _options.PlatformPaths.Count == 0)
         {
@@ -84,13 +85,20 @@ public sealed class InterceptionService : IInterceptionService
             _logger.LogError("Failed to create a hard link at the provided {linkPath}.", linkPath);
         }
 
-        // TODO: Populate with relevant game client information.
-        var connection = new HConnection() { };
+        var options = new HConnectionOptions(game)
+        {
+            ListenPort = _options.GameListenPort
+        };
 
-        // TODO: Begin packet interception, then return the task.
+        // Begin intercepting before launching the modified client.
+        Task connectionInterceptionTask = connection.InterceptAsync(options, cancellationToken);
+
+        ToggleLauncherSettings(paths, true);
         Process.Start(paths.ExecutablePath, $"server {ticket[..4]} ticket {ticket[5..]}");
+        //ToggleLauncherSettings(paths, false);
+        // TODO: Reset config, ensure client is launched first though.
 
-        return ValueTask.FromResult(connection);
+        return connectionInterceptionTask;
     }
 
     private Task WebRequestInterceptedAsync(object? sender, RequestInterceptedEventArgs e)

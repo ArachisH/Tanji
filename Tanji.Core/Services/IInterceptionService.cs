@@ -9,5 +9,5 @@ public interface IInterceptionService
     public bool IsInterceptingGameTraffic { get; }
 
     public ValueTask<string> InterceptGameTicketAsync(CancellationToken cancellationToken = default);
-    public ValueTask<HConnection> LaunchInterceptableClientAsync(string ticket, HPlatform platform, CancellationToken cancellationToken = default);
+    public Task LaunchInterceptableClientAsync(string ticket, HConnection connection, HPlatform platform, CancellationToken cancellationToken = default);
 }
