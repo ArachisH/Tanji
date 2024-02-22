@@ -150,4 +150,33 @@ public sealed class InterceptionService : IInterceptionService
 
         return false;
     }
+    private static void ToggleLauncherSettings(PlatformPaths paths, bool isPointingToPatchedClient)
+    {
+        // TODO: Check if any Unity game launcher settings need to be processed prior to launcher the client.
+        if (paths.Platform != HPlatform.Flash) return;
+
+        string applicationXMLPath = Path.Combine(paths.RootPath, "META-INF\\AIR\\application.xml");
+
+        var habboAirSettings = new XmlDocument();
+        habboAirSettings.Load(applicationXMLPath);
+
+        XmlElement? idElement = habboAirSettings.DocumentElement?["id"];
+        if (idElement == null)
+        {
+            ThrowHelper.ThrowNullReferenceException("The 'id' element does not exist in the application's XML configuration file.");
+        }
+
+        idElement.InnerText = idElement.InnerText.StartsWith("TNJ") ? idElement.InnerText[4..] : ("TNJ." + idElement.InnerText);
+        XmlElement? contentElement = habboAirSettings["application"]?["initialWindow"]?["content"];
+        if (contentElement == null)
+        {
+            ThrowHelper.ThrowNullReferenceException("The 'application.initialWindow.content' element does not exist in the application's XML configuration file.");
+        }
+
+        string fileName = isPointingToPatchedClient ? "patched." : "";
+        fileName += PlatformConverter.ToClientName(paths.Platform);
+
+        contentElement.InnerText = fileName;
+        habboAirSettings.Save(applicationXMLPath);
+    }
 }
