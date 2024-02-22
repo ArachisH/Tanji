@@ -127,7 +127,7 @@ public sealed class HNode : IDisposable
             do received = await ReceiveAsync(buffer, cancellationToken).ConfigureAwait(false);
             while (received == 0);
 
-            if (received != buffer.Length) return 0;
+            if (received < ReceiveFormat.MinBufferSize) return 0;
             if (!ReceiveFormat.TryReadHeader(buffer.Span, out int length, out packetId, out _)) return 0;
 
             writer.Advance(received);
