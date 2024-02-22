@@ -32,7 +32,7 @@ public sealed class HPacketWriter : IBufferWriter<byte>, IDisposable
 
         Id = id;
         Format = format;
-        WrittenCount -= format.MinBufferSize;
+        WrittenCount += format.MinBufferSize;
 
         Span<byte> headerSpan = GetSpan(format.MinBufferSize);
         if (!format.TryWriteHeader(headerSpan, format.MinPacketLength, id, out int bytesWritten))
