@@ -20,7 +20,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Eavesdrop" Version="1.2.2" />
-		<PackageReference Include="Hypo.Flazzy" Version="0.2.0" />
+		<PackageReference Include="Hypo.Flazzy" Version="0.3.0" />
 		<PackageReference Include="System.IO.Pipelines" Version="8.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
