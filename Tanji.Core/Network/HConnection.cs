@@ -107,7 +107,7 @@ public sealed class HConnection : IHConnection
                 var args = new ConnectedEventArgs(options);
                 Connected?.Invoke(this, args);
 
-                // Replace the options initially provided, by the ones returned from the Connected event invokation.
+                // Replace the options initially provided, by the ones returned from the Connected event invocation.
                 options = args.Options;
 
                 if (options.RemoteEndPoint == null)
@@ -154,7 +154,7 @@ public sealed class HConnection : IHConnection
                 // Intercept the packets being sent to the remote server by the local client using the format the client uses to send data.
                 _ = InterceptPacketsAsync(Local, options.ClientSendPacketFormat, true);
 
-                // Intercept the packets being send to the local client by the remote server using the format the client uses to receive data.
+                // Intercept the packets being sent to the local client by the remote server using the format the client uses to receive data.
                 _ = InterceptPacketsAsync(Remote, options.ClientReceivePacketFormat, false);
 
                 // Process intercepted packets as they come in.
