@@ -36,7 +36,7 @@ public sealed class FlashGame : IGame
     private readonly Dictionary<string, FlashMessage> _flashMessagesByClassName;
 
     private ASCode? _scSendCode, _scSendUnencryptedCode;
-    private ASMethod? _scSendMethod, _scSendUnencryptedMethod;
+    private ASMethod? _scInitMethod, _scSendMethod, _scSendUnencryptedMethod;
 
     private ASMethod? _hcmNextPortMethod, _hcmUpdateHostParametersMethod;
     private ASInstance? _socketConnectionInstance, _habboCommunicationDemoInstance, _habboCommunicationManagerInstance;
@@ -147,8 +147,8 @@ public sealed class FlashGame : IGame
     {
         foreach (HPatches patch in Enum.GetValues(typeof(HPatches)))
         {
-            if ((options.Patches & patch) != patch || patch == HPatches.None) continue;
-            if (!TryPatch(options, patch) && false)
+            if ((options.Patches & patch) != patch || patch == HPatches.None || patch == HPatches.FlashDefaults) continue;
+            if (!TryPatch(options, patch))
             {
                 throw new Exception($"Failed to apply patch to the game client: {patch}");
             }
@@ -294,6 +294,10 @@ public sealed class FlashGame : IGame
                 }
 
                 if (_scSendMethod == null && _scSendUnencryptedMethod == null) return false;
+
+                _scInitMethod = _socketConnectionInstance.GetMethod("init", "Boolean", 2) ??
+                    _socketConnectionInstance.GetMethod("init", "Boolean", 3); // 'TCP_NODELAY' Flag
+                if (_scInitMethod == null) return false;
 
                 // Deobfuscation on this method on older clients is tricky, avoid for now.
                 //ASMethod initMethod = _socketConnectionInstance.GetMethod("init", "Boolean", 2);
@@ -500,17 +504,34 @@ public sealed class FlashGame : IGame
 
     private bool TryDisableHostChecks()
     {
-        ASMethod localHostCheckMethod = _abcFileTags.Values.First().Classes[0].GetMethod(null, "Boolean", 1);
+        ASMethod? localHostCheckMethod = null;
+        foreach (ABCFile abc in _abcFileTags.Values)
+        {
+            foreach (ASMethod method in abc.Methods)
+            {
+                if (method.ReturnType?.Name != "Boolean") continue;
+                if (method.Parameters.Count != 1) continue;
+                if (method.Parameters[0].Type.Name != "Sprite") continue;
+                localHostCheckMethod = method;
+                break;
+            }
+            if (localHostCheckMethod != null) break;
+        }
         if (localHostCheckMethod == null) return false;
 
         ASInstance habboInstance = _abcFileTags.Values.First().GetInstance("Habbo");
-        if (habboInstance == null) return false;
+        if (habboInstance != null)
+        {
+            ASMethod remoteHostCheckMethod = habboInstance.GetMethod(null, "Boolean", ["String", "Object"]);
+            if (remoteHostCheckMethod != null)
+            {
+                remoteHostCheckMethod.Body.Code[0] = (byte)OPCode.PushTrue;
+                remoteHostCheckMethod.Body.Code[1] = (byte)OPCode.ReturnValue;
+            }
+        }
 
-        ASMethod remoteHostCheckMethod = habboInstance.GetMethod(null, "Boolean", new[] { "String", "Object" });
-        if (remoteHostCheckMethod == null) return false;
-
-        localHostCheckMethod.Body.Code[0] = remoteHostCheckMethod.Body.Code[0] = (byte)OPCode.PushTrue;
-        localHostCheckMethod.Body.Code[1] = remoteHostCheckMethod.Body.Code[1] = (byte)OPCode.ReturnValue;
+        localHostCheckMethod.Body.Code[0] = (byte)OPCode.PushTrue;
+        localHostCheckMethod.Body.Code[1] = (byte)OPCode.ReturnValue;
         return LockInfoHostProperty(out _);
     }
     private bool TryDisableEncryption(ASCode? sendCode = null)
@@ -552,34 +573,34 @@ public sealed class FlashGame : IGame
 
     private bool TryInjectAddress(IPEndPoint? remoteAddress)
     {
-        if (_socketConnectionInstance == null || remoteAddress == null) return false;
-
-        ASMethod? initMethod = _socketConnectionInstance.GetMethod("init", "Boolean", 2);
-        if (initMethod == null) return false;
-
+        if (_socketConnectionInstance == null || _scInitMethod == null || remoteAddress == null) return false;
         if (!TryInjectAddressSaver(out _, out _)) return false;
 
-        ASCode initCode = initMethod.Body.ParseCode();
+        ASCode initCode = _scInitMethod.Body.ParseCode();
         for (int i = 0; i < initCode.Count; i++)
         {
             ASInstruction instruction = initCode[i];
-            if (instruction.OP != OPCode.CallPropVoid) continue;
-
-            var callPropVoid = (CallPropVoidIns)instruction;
-            if (callPropVoid.PropertyName.Name == "connect" && callPropVoid.ArgCount == 2)
+            if (Jumper.IsValid(instruction.OP))
             {
-                initCode[i - 2] = new PushStringIns(_socketConnectionInstance.ABC, remoteAddress.Address.ToString());
-                initCode[i - 1] = new PushIntIns(_socketConnectionInstance.ABC, remoteAddress.Port);
+                initCode.InsertRange(i - 2,
+                    [
+                        new PushStringIns(_socketConnectionInstance.ABC, remoteAddress.Address.ToString()),
+                        new SetLocal1Ins(),
+
+                        new PushIntIns(_socketConnectionInstance.ABC, remoteAddress.Port),
+                        new SetLocal2Ins()
+                    ]);
+                break;
             }
         }
 
-        initMethod.Body.Code = initCode.ToArray();
+        _scInitMethod.Body.Code = initCode.ToArray();
         MinimumConnectionAttempts = CountConnectionAttempts();
         return true;
     }
     private bool TryInjectAddressSaver(out ASTrait? hostTrait, out ASTrait? portTrait)
     {
-        if (_socketConnectionInstance == null)
+        if (_socketConnectionInstance == null || _scInitMethod == null)
         {
             hostTrait = portTrait = null;
             return false;
@@ -592,12 +613,9 @@ public sealed class FlashGame : IGame
         portTrait = _socketConnectionInstance.AddSlot("remotePort", "int");
         hostTrait = _socketConnectionInstance.AddSlot("remoteHost", "String");
 
-        ASMethod init = _socketConnectionInstance.GetMethod("init", "Boolean", 2);
-        if (init == null) return false;
-
-        ASCode initCode = init.Body.ParseCode();
-        initCode.InsertRange(2, new ASInstruction[]
-        {
+        ASCode initCode = _scInitMethod.Body.ParseCode();
+        initCode.InsertRange(2,
+        [
             new GetLocal0Ins(),
             new GetLocal1Ins(),
             new SetPropertyIns(_socketConnectionInstance.ABC, hostTrait.QNameIndex),
@@ -605,9 +623,9 @@ public sealed class FlashGame : IGame
             new GetLocal0Ins(),
             new GetLocal2Ins(),
             new SetPropertyIns(_socketConnectionInstance.ABC, portTrait.QNameIndex)
-        });
-        init.Body.MaxStack += 2;
-        init.Body.Code = initCode.ToArray();
+        ]);
+        _scInitMethod.Body.MaxStack += 2;
+        _scInitMethod.Body.Code = initCode.ToArray();
         return true;
     }
 
@@ -872,14 +890,14 @@ public sealed class FlashGame : IGame
         if (infoHostSlot == null) return false;
 
         int getPropertyIndex = abc.Pool.GetMultinameIndex("getProperty");
-        connectCode.InsertRange(pushByteIndex, new ASInstruction[]
-        {
+        connectCode.InsertRange(pushByteIndex,
+        [
             new GetLocal0Ins(),
             new FindPropStrictIns(abc, getPropertyIndex),
             new PushStringIns(abc, "connection.info.host"),
             new CallPropertyIns(abc, getPropertyIndex, 1),
             new InitPropertyIns(abc, infoHostSlot.QNameIndex)
-        });
+        ]);
 
         // This portion prevents any suffix from being added to the host slot.
         int magicInverseIndex = abc.Pool.AddConstant(65290);
