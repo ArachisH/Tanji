@@ -43,12 +43,12 @@ public sealed class HConnection : IHConnection
 
     public bool IsConnected => (Local?.IsConnected ?? false) && (Remote?.IsConnected ?? false);
 
-    public IHFormat SendFormat { get; }
-    public IHFormat ReceiveFormat { get; }
+    public IHFormat? SendFormat { get; }
+    public IHFormat? ReceiveFormat { get; }
 
     public Incoming? In { get; set; }
     public Outgoing? Out { get; set; }
-    public HotelEndPoint RemoteEndPoint { get; private set; }
+    public HotelEndPoint? RemoteEndPoint { get; private set; }
 
     public HNode? Local { get; private set; }
     public HNode? Remote { get; private set; }
