@@ -1,11 +1,10 @@
 ﻿using System.Text;
 using System.Buffers;
-using System.Threading.Channels;
+using System.IO.Pipelines;
 
 using Tanji.Core.Habbo;
 using Tanji.Core.Habbo.Network;
 using Tanji.Core.Habbo.Network.Formats;
-using Tanji.Core.Habbo.Network.Buffers;
 
 namespace Tanji.Core.Network;
 
@@ -16,8 +15,7 @@ public sealed class HConnection : IHConnection
 {
     private static readonly byte[] _crossDomainPolicyRequestBytes, _crossDomainPolicyResponseBytes;
 
-    private readonly object _disconnectLock;
-    private readonly Channel<HPacket> _interceptedPackets;
+    private readonly Pipe _pipe;
 
     private CancellationTokenSource? _interceptCancellationSource;
 
@@ -60,8 +58,7 @@ public sealed class HConnection : IHConnection
     }
     public HConnection()
     {
-        _disconnectLock = new object();
-        _interceptedPackets = Channel.CreateUnbounded<HPacket>();
+        _pipe = new Pipe();
     }
 
     public async Task InterceptAsync(HConnectionOptions options, CancellationToken cancellationToken = default)
@@ -156,9 +153,6 @@ public sealed class HConnection : IHConnection
 
                 // Intercept the packets being sent to the local client by the remote server using the format the client uses to receive data.
                 _ = InterceptPacketsAsync(Remote, options.ClientReceivePacketFormat, false);
-
-                // Process intercepted packets as they come in.
-                _ = HandleInterceptedPacketsAsync();
             }
         }
         finally
@@ -173,27 +167,11 @@ public sealed class HConnection : IHConnection
         }
     }
 
-    private async Task HandleInterceptedPacketsAsync()
-    {
-        await foreach (HPacket packet in _interceptedPackets.Reader.ReadAllAsync().ConfigureAwait(false))
-        {
-            try
-            {
-                // TODO: 
-            }
-            finally { packet.Writer.Dispose(); }
-        }
-    }
     private async Task InterceptPacketsAsync(HNode node, IHFormat format, bool isOutgoing)
     {
         while (IsConnected)
         {
-            var writer = new HPacketWriter(format);
-            short id = await node.ReceivePacketAsync(writer).ConfigureAwait(false);
-
-            var packet = new HPacket(writer, id, isOutgoing, node.PacketsReceived);
-            await _interceptedPackets.Writer.WriteAsync(packet).ConfigureAwait(false);
-
+            await node.ReceivePacketAsync(_pipe.Writer).ConfigureAwait(false);
         }
     }
 
@@ -231,7 +209,7 @@ public sealed class HConnection : IHConnection
     }
     public void Disconnect()
     {
-        if (!Monitor.TryEnter(_disconnectLock)) return;
+        if (!Monitor.TryEnter(_pipe)) return;
         try
         {
             CancelAndNullifySource(ref _interceptCancellationSource);
@@ -250,6 +228,6 @@ public sealed class HConnection : IHConnection
                 Disconnected?.Invoke(this, EventArgs.Empty);
             }
         }
-        finally { Monitor.Exit(_disconnectLock); }
+        finally { Monitor.Exit(_pipe); }
     }
 }
