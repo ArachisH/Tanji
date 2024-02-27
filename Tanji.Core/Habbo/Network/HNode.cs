@@ -194,7 +194,7 @@ public sealed class HNode : IDisposable
         //RandomNumberGenerator.Fill(_mask);
 
         IsUpgraded = true;
-        _socketStream = _webSocketStream = new WebSocketStream(_socketStream, _mask, false); // Anything now being sent or received through the stream will be parsed using the WebSocket protocol.
+        _socketStream = _webSocketStream = new WebSocketStream(_socketStream, true, null, false); // Anything now being sent or received through the stream will be parsed using the WebSocket protocol.
 
         await SendAsync(_startTLSBytes.ToArray(), cancellationToken).ConfigureAwait(false);
         received = await ReceiveAsync(receiveOwner.Memory, cancellationToken).ConfigureAwait(false);

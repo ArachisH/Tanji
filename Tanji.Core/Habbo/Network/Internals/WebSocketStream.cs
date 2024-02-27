@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Buffers.Binary;
 
 using CommunityToolkit.HighPerformance.Buffers;
@@ -19,13 +19,13 @@ internal sealed class WebSocketStream : Stream
     private bool _disposed;
 
     public WebSocketStream(Stream innerStream)
-        : this(innerStream, null, false)
+        : this(innerStream, false, null, false)
     { }
-    public WebSocketStream(Stream innerStream, byte[]? mask, bool leaveOpen)
+    public WebSocketStream(Stream innerStream, bool isClient, byte[]? mask, bool leaveOpen)
     {
-        _mask = mask;
+        _isClient = isClient;
         _leaveOpen = leaveOpen;
-        _isClient = mask != null;
+        _mask = mask ?? _emptyMask;
         _innerStream = innerStream;
     }
 
