@@ -115,13 +115,12 @@ public sealed class HConnection : IHConnection
                 if (args.Cancel || cancellationToken.IsCancellationRequested) return;
                 if (options.IsFakingPolicyRequest)
                 {
-                    using IMemoryOwner<byte> bufferOwner = MemoryPool<byte>.Shared.Rent(512);
-                    Memory<byte> buffer = bufferOwner.Memory;
+                    using MemoryOwner<byte> buffer = MemoryOwner<byte>.Allocate(512);
 
-                    int received = await Local.ReceiveAsync(buffer, cancellationToken).ConfigureAwait(false);
+                    int received = await Local.ReceiveAsync(buffer.Memory, cancellationToken).ConfigureAwait(false);
                     if (cancellationToken.IsCancellationRequested) return;
 
-                    if (!buffer.Slice(0, received).Span.SequenceEqual(_crossDomainPolicyRequestBytes))
+                    if (!buffer.Span.Slice(0, received).SequenceEqual(_crossDomainPolicyRequestBytes))
                     {
                         ThrowHelper.ThrowNotSupportedException("Expected cross-domain policy request.");
                     }

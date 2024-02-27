@@ -10,6 +10,8 @@ using System.Security.Cryptography.X509Certificates;
 using Tanji.Core.Cryptography.Ciphers;
 using Tanji.Core.Habbo.Network.Formats;
 
+using CommunityToolkit.HighPerformance.Buffers;
+
 namespace Tanji.Core.Habbo.Network;
 
 public sealed class HNode : IDisposable
@@ -185,8 +187,8 @@ public sealed class HNode : IDisposable
         string webRequest = $"GET /websocket HTTP/1.1\r\nHost: {RemoteEndPoint}\r\n{requestHeaders}\r\nSec-WebSocket-Key: {GenerateWebSocketKey()}\r\n\r\n";
         await SendAsync(Encoding.UTF8.GetBytes(webRequest), cancellationToken).ConfigureAwait(false);
 
-        using IMemoryOwner<byte> receiveOwner = BufferHelper.Rent(256, out Memory<byte> receiveRegion);
-        int received = await ReceiveAsync(receiveRegion, cancellationToken).ConfigureAwait(false);
+        using MemoryOwner<byte> receiveOwner = MemoryOwner<byte>.Allocate(256);
+        int received = await ReceiveAsync(receiveOwner.Memory, cancellationToken).ConfigureAwait(false);
 
         // Create the mask that will be used for the WebSocket payloads.
         //RandomNumberGenerator.Fill(_mask);
@@ -195,8 +197,8 @@ public sealed class HNode : IDisposable
         _socketStream = _webSocketStream = new WebSocketStream(_socketStream, _mask, false); // Anything now being sent or received through the stream will be parsed using the WebSocket protocol.
 
         await SendAsync(_startTLSBytes.ToArray(), cancellationToken).ConfigureAwait(false);
-        received = await ReceiveAsync(receiveRegion, cancellationToken).ConfigureAwait(false);
-        if (!IsTLSAccepted(receiveRegion.Span.Slice(0, received))) return false;
+        received = await ReceiveAsync(receiveOwner.Memory, cancellationToken).ConfigureAwait(false);
+        if (!IsTLSAccepted(receiveOwner.Span.Slice(0, received))) return false;
 
         // Initialize the second secure tunnel layer where ONLY the WebSocket payload data will be read/written from/to.
         secureSocketStream = new SslStream(_socketStream, false, ValidateRemoteCertificate);
@@ -233,19 +235,19 @@ public sealed class HNode : IDisposable
         // TODO: Is this check still needed?
         //if (IsUpgraded || !await DetermineFormatsAsync(cancellationToken).ConfigureAwait(false)) return IsUpgraded;
 
-        using IMemoryOwner<byte> receivedOwner = BufferHelper.Rent(1024, out Memory<byte> receivedRegion);
-        int received = await ReceiveAsync(receivedRegion, cancellationToken).ConfigureAwait(false);
+        using MemoryOwner<byte> receivedOwner = MemoryOwner<byte>.Allocate(1024);
+        int received = await ReceiveAsync(receivedOwner.Memory, cancellationToken).ConfigureAwait(false);
 
-        using IMemoryOwner<byte> responseOwner = BufferHelper.Rent(256, out Memory<byte> responseRegion);
-        FillWebResponse(receivedRegion.Span.Slice(0, received), responseRegion.Span, out int responseWritten);
-        await SendAsync(responseRegion.Slice(0, responseWritten), cancellationToken).ConfigureAwait(false);
+        using MemoryOwner<byte> responseOwner = MemoryOwner<byte>.Allocate(256);
+        FillWebResponse(receivedOwner.Span.Slice(0, received), responseOwner.Span, out int responseWritten);
+        await SendAsync(responseOwner.Memory.Slice(0, responseWritten), cancellationToken).ConfigureAwait(false);
 
         // Begin receiving/sending data as WebSocket frames.
         IsUpgraded = true;
         _socketStream = _webSocketStream = new WebSocketStream(_socketStream);
 
-        received = await ReceiveAsync(receivedRegion, cancellationToken).ConfigureAwait(false);
-        if (IsTLSRequested(receivedRegion.Span.Slice(0, received)))
+        received = await ReceiveAsync(receivedOwner.Memory, cancellationToken).ConfigureAwait(false);
+        if (IsTLSRequested(receivedOwner.Span.Slice(0, received)))
         {
             await SendAsync(_okBytes.ToArray(), cancellationToken).ConfigureAwait(false);
 
