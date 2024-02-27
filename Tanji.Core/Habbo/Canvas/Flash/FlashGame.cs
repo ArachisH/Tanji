@@ -694,7 +694,7 @@ public sealed class FlashGame : IGame
         ASMethod onConnectionEstablishedMethod = _habboCommunicationDemoInstance.GetMethod("onConnectionEstablished");
         if (onConnectionEstablishedMethod == null)
         {
-            foreach (ASMethod method in _habboCommunicationDemoInstance.GetMethods(null, "void", new[] { "Event" }))
+            foreach (ASMethod method in _habboCommunicationDemoInstance.GetMethods(null, "void", ["Event"]))
             {
                 if (!IsPostShuffle && !method.Name.EndsWith("onConnectionEstablished")) continue;
                 if (method.Flags != MethodFlags.HasOptional) continue;
@@ -713,28 +713,25 @@ public sealed class FlashGame : IGame
         }
 
         if (onConnectionEstablishedMethod == null) return false;
-        if (onConnectionEstablishedCode == null)
-        {
-            onConnectionEstablishedCode = onConnectionEstablishedMethod.Body.ParseCode();
-        }
+        onConnectionEstablishedCode ??= onConnectionEstablishedMethod.Body.ParseCode();
 
         // local2.sendMessage(messageId, local2.remoteHost, int(local2.remotePort))
         ABCFile abc = _habboCommunicationDemoInstance.ABC;
-        onConnectionEstablishedCode.InsertRange(onConnectionEstablishedCode.IndexOf(OPCode.IfEq) + 1, new ASInstruction[]
-        {
-                new GetLocal2Ins(),
+        onConnectionEstablishedCode.InsertRange(onConnectionEstablishedCode.IndexOf(OPCode.IfEq) + 1,
+        [
+            new GetLocal2Ins(),
 
-                new PushIntIns(abc, addressShoutingId),
+            new PushIntIns(abc, addressShoutingId),
 
-                new GetLocal2Ins(),
-                new GetPropertyIns(abc, hostTrait.QNameIndex),
+            new GetLocal2Ins(),
+            new GetPropertyIns(abc, hostTrait.QNameIndex),
 
-                new GetLocal2Ins(),
-                new GetPropertyIns(abc, portTrait.QNameIndex),
-                new ConvertIIns(),
+            new GetLocal2Ins(),
+            new GetPropertyIns(abc, portTrait.QNameIndex),
+            new ConvertIIns(),
 
-                new CallPropVoidIns(abc, sendFunction.QNameIndex, 3)
-        });
+            new CallPropVoidIns(abc, sendFunction.QNameIndex, 3)
+        ]);
 
         onConnectionEstablishedMethod.Body.MaxStack += 5;
         onConnectionEstablishedMethod.Body.Code = onConnectionEstablishedCode.ToArray();
