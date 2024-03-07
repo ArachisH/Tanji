@@ -68,7 +68,7 @@ public class Program
             _logger.LogInformation("Game Ticket: {Ticket}", ticket);
 
             CachedGame game = _clientHandler.PatchClient(HPlatform.Flash, null);
-            _logger.LogInformation("Client Processed : {game.ClientPath}", game.Path);
+            _logger.LogInformation("Client Processed : {game.path}", game.Path);
 
             var connectionContext = new HConnectionContext(game);
             _ = await _connectionHandler.LaunchAndInterceptConnectionAsync(ticket, connectionContext, cancellationToken).ConfigureAwait(false);
