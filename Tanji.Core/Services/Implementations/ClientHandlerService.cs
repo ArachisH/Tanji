@@ -148,29 +148,6 @@ public sealed class ClientHandlerService(ILogger<ClientHandlerService> logger, I
         return clientProcess;
     }
 
-    private static void ApplyFlashLauncherSettings(string launcherRootPath, string? contentPrefix = null, string? idPrefix = null)
-    {
-        string applicationXMLPath = Path.Combine(launcherRootPath, "META-INF\\AIR\\application.xml");
-        var habboAirSettings = new XmlDocument();
-        habboAirSettings.Load(applicationXMLPath);
-
-        XmlElement? idElement = habboAirSettings.DocumentElement?["id"];
-        if (idElement == null)
-        {
-            ThrowHelper.ThrowNullReferenceException("The 'id' element does not exist in the application's XML configuration file.");
-        }
-        idElement.InnerText = $"{idPrefix}com.sulake.habboair";
-
-        XmlElement? contentElement = habboAirSettings["application"]?["initialWindow"]?["content"];
-        if (contentElement == null)
-        {
-            ThrowHelper.ThrowNullReferenceException("The 'application.initialWindow.content' element does not exist in the application's XML configuration file.");
-        }
-        contentElement.InnerText = $"{contentPrefix}{PlatformConverter.ToClientName(HPlatform.Flash)}";
-
-        habboAirSettings.Save(applicationXMLPath);
-    }
-
     private static IGame AcquireGame(HPlatform platform, Stream clientFileStream) => platform switch
     {
         HPlatform.Flash => new FlashGame(clientFileStream),
@@ -226,6 +203,28 @@ public sealed class ClientHandlerService(ILogger<ClientHandlerService> logger, I
             }
             default: throw new NotSupportedException("Unable to acquire game patch options for the provided platform.");
         }
+    }
+    private static void ApplyFlashLauncherSettings(string launcherRootPath, string? contentPrefix = null, string? idPrefix = null)
+    {
+        string applicationXMLPath = Path.Combine(launcherRootPath, "META-INF\\AIR\\application.xml");
+        var habboAirSettings = new XmlDocument();
+        habboAirSettings.Load(applicationXMLPath);
+
+        XmlElement? idElement = habboAirSettings.DocumentElement?["id"];
+        if (idElement == null)
+        {
+            ThrowHelper.ThrowNullReferenceException("The 'id' element does not exist in the application's XML configuration file.");
+        }
+        idElement.InnerText = $"{idPrefix}com.sulake.habboair";
+
+        XmlElement? contentElement = habboAirSettings["application"]?["initialWindow"]?["content"];
+        if (contentElement == null)
+        {
+            ThrowHelper.ThrowNullReferenceException("The 'application.initialWindow.content' element does not exist in the application's XML configuration file.");
+        }
+        contentElement.InnerText = $"{contentPrefix}{PlatformConverter.ToClientName(HPlatform.Flash)}";
+
+        habboAirSettings.Save(applicationXMLPath);
     }
     private static PlatformPaths GetPlatformPaths(HPlatform platform, IReadOnlyDictionary<HPlatform, PlatformPaths>? platformPaths)
     {
