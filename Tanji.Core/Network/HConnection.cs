@@ -1,10 +1,11 @@
-﻿using System.Text;
-using System.Buffers;
-using System.IO.Pipelines;
+﻿using System.Net;
+using System.Text;
+using System.Net.Sockets;
 
 using Tanji.Core.Habbo;
 using Tanji.Core.Habbo.Network;
-using Tanji.Core.Habbo.Network.Formats;
+
+using CommunityToolkit.HighPerformance.Buffers;
 
 namespace Tanji.Core.Network;
 
@@ -13,55 +14,20 @@ namespace Tanji.Core.Network;
 /// </summary>
 public sealed class HConnection : IHConnection
 {
-    private static readonly byte[] _crossDomainPolicyRequestBytes, _crossDomainPolicyResponseBytes;
-
-    private readonly Pipe _pipe;
+    private static ReadOnlySpan<byte> XDPRequestBytes => "<policy-file-request/>\0"u8;
+    private static readonly ReadOnlyMemory<byte> XDPResponseBytes = Encoding.UTF8.GetBytes("<cross-domain-policy><allow-access-from domain=\"*\" to-ports=\"*\"/></cross-domain-policy>\0");
 
     private CancellationTokenSource? _interceptCancellationSource;
-
-    /// <summary>
-    /// Occurs when the connection between the client, and server have been intercepted.
-    /// </summary>
-    public event EventHandler<ConnectedEventArgs>? Connected;
-
-    /// <summary>
-    /// Occurs when either the game client, or server have disconnected.
-    /// </summary>
-    public event EventHandler? Disconnected;
-
-    /// <summary>
-    /// Occurs when the client's outgoing data has been intercepted.
-    /// </summary>
-    public event EventHandler<DataInterceptedEventArgs>? DataOutgoing;
-
-    /// <summary>
-    /// Occrus when the server's incoming data has been intercepted.
-    /// </summary>
-    public event EventHandler<DataInterceptedEventArgs>? DataIncoming;
-
-    public bool IsConnected => (Local?.IsConnected ?? false) && (Remote?.IsConnected ?? false);
-
-    public IHFormat? SendFormat { get; }
-    public IHFormat? ReceiveFormat { get; }
-
-    public Incoming? In { get; set; }
-    public Outgoing? Out { get; set; }
-    public HotelEndPoint? RemoteEndPoint { get; private set; }
 
     public HNode? Local { get; private set; }
     public HNode? Remote { get; private set; }
 
-    static HConnection()
-    {
-        _crossDomainPolicyRequestBytes = Encoding.UTF8.GetBytes("<policy-file-request/>\0");
-        _crossDomainPolicyResponseBytes = Encoding.UTF8.GetBytes("<cross-domain-policy><allow-access-from domain=\"*\" to-ports=\"*\"/></cross-domain-policy>\0");
-    }
-    public HConnection()
-    {
-        _pipe = new Pipe();
-    }
+    public Incoming? In { get; set; }
+    public Outgoing? Out { get; set; }
 
-    public async Task InterceptAsync(HConnectionOptions options, CancellationToken cancellationToken = default)
+    public bool IsConnected => Local != null && Remote != null && Local.IsConnected & Remote.IsConnected;
+
+    public async ValueTask InterceptLocalConnectionAsync(HConnectionOptions options, CancellationToken cancellationToken = default)
     {
         /* Reset the cancellation token. */
         CancelAndNullifySource(ref _interceptCancellationSource);
@@ -78,10 +44,10 @@ public sealed class HConnection : IHConnection
         try
         {
             int listenSkipAmount = options.MinimumConnectionAttempts;
-            while (!IsConnected && !cancellationToken.IsCancellationRequested)
+            while ((Local == null || !Local.IsConnected) && !cancellationToken.IsCancellationRequested)
             {
-                Local = await HNode.AcceptAsync(options.ListenPort, cancellationToken).ConfigureAwait(false);
-                if (cancellationToken.IsCancellationRequested) return;
+                Socket localSocket = await AcceptAsync(options.ListenPort, cancellationToken).ConfigureAwait(false);
+                Local = new HNode(localSocket, options.ReceivePacketFormat);
 
                 if (--listenSkipAmount > 0)
                 {
@@ -89,30 +55,18 @@ public sealed class HConnection : IHConnection
                     continue;
                 }
 
-                /* If not null, assume we're dealing with the WebSocket protocol and attempt to upgrade this node as a WebSocket server. */
                 if (options.IsWebSocketConnection)
                 {
                     if (options.WebSocketServerCertificate == null)
                     {
                         ThrowHelper.ThrowNullReferenceException("No certificate was provided for local authentication using the WebSocket Secure protocol.");
                     }
-                    await Local.UpgradeToWebSocketServerAsync(options.WebSocketServerCertificate, cancellationToken).ConfigureAwait(false);
+
                     if (cancellationToken.IsCancellationRequested) return;
+                    await Local.UpgradeToWebSocketServerAsync(options.WebSocketServerCertificate, cancellationToken).ConfigureAwait(false);
                 }
 
-                /* Provide an opportunity for users to specify a different endpoint for the remote connection. */
-                var args = new ConnectedEventArgs(options);
-                Connected?.Invoke(this, args);
-
-                // Replace the options initially provided, by the ones returned from the Connected event invocation.
-                options = args.Options;
-
-                if (options.RemoteEndPoint == null)
-                {
-                    ThrowHelper.ThrowNullReferenceException("Unable to establish a connection to the remote server without an endpoint.");
-                }
-
-                if (args.Cancel || cancellationToken.IsCancellationRequested) return;
+                if (cancellationToken.IsCancellationRequested) return;
                 if (options.IsFakingPolicyRequest)
                 {
                     using MemoryOwner<byte> buffer = MemoryOwner<byte>.Allocate(512);
@@ -120,75 +74,54 @@ public sealed class HConnection : IHConnection
                     int received = await Local.ReceiveAsync(buffer.Memory, cancellationToken).ConfigureAwait(false);
                     if (cancellationToken.IsCancellationRequested) return;
 
-                    if (!buffer.Span.Slice(0, received).SequenceEqual(_crossDomainPolicyRequestBytes))
+                    if (!buffer.Span.Slice(0, received).SequenceEqual(XDPRequestBytes))
                     {
                         ThrowHelper.ThrowNotSupportedException("Expected cross-domain policy request.");
                     }
 
-                    await Local.SendAsync(_crossDomainPolicyResponseBytes, cancellationToken).ConfigureAwait(false);
-
-                    // TODO: Check if we need to establish a remote connection here, do they keep track of policy request per IP? (Assume yes for retros perhaps?)
-                    using var tempRemote = await HNode.ConnectAsync(options.RemoteEndPoint, cancellationToken).ConfigureAwait(false);
-                    if (cancellationToken.IsCancellationRequested) return;
-
-                    await tempRemote.SendAsync(_crossDomainPolicyRequestBytes, cancellationToken).ConfigureAwait(false);
-                    if (cancellationToken.IsCancellationRequested) return;
-
+                    await Local.SendAsync(XDPResponseBytes, cancellationToken).ConfigureAwait(false);
                     Local.Dispose();
-                    continue;
                 }
-
-                Remote = await HNode.ConnectAsync(options.RemoteEndPoint, cancellationToken).ConfigureAwait(false);
-                if (cancellationToken.IsCancellationRequested) return;
-
-                if (options.WebSocketServerCertificate != null)
-                {
-                    await Remote.UpgradeToWebSocketClientAsync(cancellationToken).ConfigureAwait(false);
-                    if (cancellationToken.IsCancellationRequested) return;
-                }
-
-                // Intercept the packets being sent to the remote server by the local client using the format the client uses to send data.
-                _ = InterceptPacketsAsync(Local, options.ClientSendPacketFormat, true);
-
-                // Intercept the packets being sent to the local client by the remote server using the format the client uses to receive data.
-                _ = InterceptPacketsAsync(Remote, options.ClientReceivePacketFormat, false);
             }
         }
         finally
         {
-            if (!IsConnected || cancellationToken.IsCancellationRequested)
+            if (Local != null && (!Local.IsConnected || cancellationToken.IsCancellationRequested))
             {
-                Local?.Dispose();
-                Remote?.Dispose();
+                Local.Dispose();
             }
             CancelAndNullifySource(ref _interceptCancellationSource);
             CancelAndNullifySource(ref linkedInterceptCancellationSource);
         }
     }
-
-    private async Task InterceptPacketsAsync(HNode node, IHFormat format, bool isOutgoing)
+    public async ValueTask EstablishRemoteConnection(HConnectionOptions options, IPEndPoint remoteEndPoint, CancellationToken cancellationToken = default)
     {
-        while (IsConnected)
+        Socket remoteSocket = await ConnectAsync(remoteEndPoint, cancellationToken).ConfigureAwait(false);
+        Remote = new HNode(remoteSocket, options.ReceivePacketFormat);
+
+        if (options.WebSocketServerCertificate != null)
         {
-            await node.ReceivePacketAsync(_pipe.Writer).ConfigureAwait(false);
+            await Remote.UpgradeToWebSocketClientAsync(cancellationToken).ConfigureAwait(false);
         }
     }
 
-    public async ValueTask SendToServerAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default)
+    public void Dispose()
     {
-        if (Remote == null)
-        {
-            ThrowHelper.ThrowNullReferenceException();
-        }
-        await Remote.SendPacketAsync(buffer, cancellationToken).ConfigureAwait(false);
+        Disconnect();
     }
-    public async ValueTask SendToClientAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default)
+    public void Disconnect()
     {
-        if (Local == null)
+        CancelAndNullifySource(ref _interceptCancellationSource);
+        if (Local != null)
         {
-            ThrowHelper.ThrowNullReferenceException();
+            Local.Dispose();
+            Local = null;
         }
-        await Local.SendPacketAsync(buffer, cancellationToken).ConfigureAwait(false);
+        if (Remote != null)
+        {
+            Remote.Dispose();
+            Remote = null;
+        }
     }
 
     private static void CancelAndNullifySource(ref CancellationTokenSource? cancellationTokenSource)
@@ -201,32 +134,28 @@ public sealed class HConnection : IHConnection
         cancellationTokenSource.Dispose();
         cancellationTokenSource = null;
     }
+    private static async ValueTask<Socket> AcceptAsync(int port, CancellationToken cancellationToken = default)
+    {
+        using var listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        listenSocket.Bind(new IPEndPoint(IPAddress.Any, port));
+        listenSocket.LingerState = new LingerOption(false, 0);
+        listenSocket.Listen(1);
 
-    public void Dispose()
-    {
-        Disconnect();
+        return await listenSocket.AcceptAsync(cancellationToken).ConfigureAwait(false);
     }
-    public void Disconnect()
+    private static async ValueTask<Socket> ConnectAsync(EndPoint remoteEndPoint, CancellationToken cancellationToken = default)
     {
-        if (!Monitor.TryEnter(_pipe)) return;
+        var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         try
         {
-            CancelAndNullifySource(ref _interceptCancellationSource);
-            if (Local != null)
-            {
-                Local.Dispose();
-                Local = null;
-            }
-            if (Remote != null)
-            {
-                Remote.Dispose();
-                Remote = null;
-            }
-            if (IsConnected)
-            {
-                Disconnected?.Invoke(this, EventArgs.Empty);
-            }
+            await socket.ConnectAsync(remoteEndPoint, cancellationToken).ConfigureAwait(false);
         }
-        finally { Monitor.Exit(_pipe); }
+        catch { /* Ignore all exceptions. */ }
+        if (!socket.Connected)
+        {
+            socket.Shutdown(SocketShutdown.Both);
+            socket.Close();
+        }
+        return socket;
     }
 }

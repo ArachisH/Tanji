@@ -22,6 +22,8 @@ public sealed class CachedGame : IGame
     public required string Revision { get; init; }
     public required int MinimumConnectionAttempts { get; init; }
 
+    public required GamePatchingOptions AppliedPatches { get; init; }
+
     public required Incoming Incoming { get; init; }
     public required Outgoing Outgoing { get; init; }
 
@@ -31,7 +33,7 @@ public sealed class CachedGame : IGame
     public CachedGame()
     { }
     [SetsRequiredMembers]
-    public CachedGame(IGame game, Outgoing outgoing, Incoming incoming, string clientPath)
+    public CachedGame(IGame game, Outgoing outgoing, Incoming incoming, GamePatchingOptions appliedPatches, string clientPath)
     {
         ArgumentNullException.ThrowIfNull(game, nameof(game));
         ArgumentNullException.ThrowIfNull(outgoing, nameof(outgoing));
@@ -49,6 +51,7 @@ public sealed class CachedGame : IGame
         Incoming = incoming;
         Outgoing = outgoing;
         ClientPath = clientPath;
+        AppliedPatches = appliedPatches;
     }
 
     public void Disassemble() => throw new NotSupportedException();
