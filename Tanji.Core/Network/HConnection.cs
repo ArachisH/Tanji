@@ -27,7 +27,7 @@ public sealed class HConnection : IHConnection
 
     public bool IsConnected => Local != null && Remote != null && Local.IsConnected & Remote.IsConnected;
 
-    public async ValueTask InterceptLocalConnectionAsync(HConnectionOptions options, CancellationToken cancellationToken = default)
+    public async ValueTask InterceptLocalConnectionAsync(HConnectionContext context, CancellationToken cancellationToken = default)
     {
         /* Reset the cancellation token. */
         CancelAndNullifySource(ref _interceptCancellationSource);
@@ -43,11 +43,11 @@ public sealed class HConnection : IHConnection
 
         try
         {
-            int listenSkipAmount = options.MinimumConnectionAttempts;
+            int listenSkipAmount = context.MinimumConnectionAttempts;
             while ((Local == null || !Local.IsConnected) && !cancellationToken.IsCancellationRequested)
             {
-                Socket localSocket = await AcceptAsync(options.ListenPort, cancellationToken).ConfigureAwait(false);
-                Local = new HNode(localSocket, options.ReceivePacketFormat);
+                Socket localSocket = await AcceptAsync(context.AppliedPatchingOptions.InjectedAddress!.Port, cancellationToken).ConfigureAwait(false);
+                Local = new HNode(localSocket, context.ReceivePacketFormat);
 
                 if (--listenSkipAmount > 0)
                 {
@@ -55,19 +55,19 @@ public sealed class HConnection : IHConnection
                     continue;
                 }
 
-                if (options.IsWebSocketConnection)
+                if (context.IsWebSocketConnection)
                 {
-                    if (options.WebSocketServerCertificate == null)
+                    if (context.WebSocketServerCertificate == null)
                     {
                         ThrowHelper.ThrowNullReferenceException("No certificate was provided for local authentication using the WebSocket Secure protocol.");
                     }
 
                     if (cancellationToken.IsCancellationRequested) return;
-                    await Local.UpgradeToWebSocketServerAsync(options.WebSocketServerCertificate, cancellationToken).ConfigureAwait(false);
+                    await Local.UpgradeToWebSocketServerAsync(context.WebSocketServerCertificate, cancellationToken).ConfigureAwait(false);
                 }
 
                 if (cancellationToken.IsCancellationRequested) return;
-                if (options.IsFakingPolicyRequest)
+                if (context.IsFakingPolicyRequest)
                 {
                     using MemoryOwner<byte> buffer = MemoryOwner<byte>.Allocate(512);
 
@@ -94,12 +94,12 @@ public sealed class HConnection : IHConnection
             CancelAndNullifySource(ref linkedInterceptCancellationSource);
         }
     }
-    public async ValueTask EstablishRemoteConnection(HConnectionOptions options, IPEndPoint remoteEndPoint, CancellationToken cancellationToken = default)
+    public async ValueTask EstablishRemoteConnection(HConnectionContext context, IPEndPoint remoteEndPoint, CancellationToken cancellationToken = default)
     {
         Socket remoteSocket = await ConnectAsync(remoteEndPoint, cancellationToken).ConfigureAwait(false);
-        Remote = new HNode(remoteSocket, options.ReceivePacketFormat);
+        Remote = new HNode(remoteSocket, context.ReceivePacketFormat);
 
-        if (options.WebSocketServerCertificate != null)
+        if (context.WebSocketServerCertificate != null)
         {
             await Remote.UpgradeToWebSocketClientAsync(cancellationToken).ConfigureAwait(false);
         }
