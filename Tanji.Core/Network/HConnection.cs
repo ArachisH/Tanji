@@ -173,10 +173,10 @@ public sealed class HConnection : IHConnection
             _ = await source.ReceivePacketAsync(bufferWriter, cancellationToken).ConfigureAwait(false);
 
             // Continuously attempt to receive packets from the node
-            _ = TransferPacketAsync(destination, bufferWriter, cancellationToken);
+            _ = TransferPacketAsync(destination, bufferWriter, isOutbound, cancellationToken);
         }
     }
-    private static async Task TransferPacketAsync(HNode destination, ArrayPoolBufferWriter<byte> bufferWriter, CancellationToken cancellationToken = default)
+    private static async Task TransferPacketAsync(HNode destination, ArrayPoolBufferWriter<byte> bufferWriter, bool isOutbound, CancellationToken cancellationToken = default)
     {
         try
         {
