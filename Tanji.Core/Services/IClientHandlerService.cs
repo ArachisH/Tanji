@@ -8,6 +8,6 @@ public interface IClientHandlerService<TGame> where TGame : IGame
 {
     public DirectoryInfo PatchedClientsDirectory { get; init; }
 
-    public TGame PatchClient(HPlatform platform, string? clientPath);
-    public Process? LaunchClient(string ticket, HPlatform platform, string? clientPath);
+    public TGame PatchClient(HPlatform platform, string? clientPath = null);
+    public Process? LaunchClient(HPlatform platform, string ticket, string? clientPath = null);
 }

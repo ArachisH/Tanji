@@ -106,7 +106,7 @@ public sealed class ClientHandlerService(ILogger<ClientHandlerService> logger, I
 
         return cachedGame;
     }
-    public Process? LaunchClient(string ticket, HPlatform platform, string? clientPath = null)
+    public Process? LaunchClient(HPlatform platform, string ticket, string? clientPath = null)
     {
         PlatformPaths paths = GetPlatformPaths(platform, _options.PlatformPaths);
         if (string.IsNullOrWhiteSpace(clientPath))
