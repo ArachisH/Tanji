@@ -130,30 +130,6 @@ public sealed class HConnection : IHConnection
         }
     }
 
-    private static async Task WeldNodesAsync(HNode source, HNode destination, bool isOutbound, CancellationToken cancellationToken = default)
-    {
-        while (source.IsConnected && destination.IsConnected && !cancellationToken.IsCancellationRequested)
-        {
-            // Do not dispose 'bufferWriter' here, instead, dispose of it within the 'TransferPacketAsync' method
-            var bufferWriter = new ArrayPoolBufferWriter<byte>(source.ReceivePacketFormat.MinBufferSize);
-            int written = await source.ReceivePacketAsync(bufferWriter, cancellationToken).ConfigureAwait(false);
-
-            // Continuously attempt to receive packets from the node
-            _ = TransferPacketAsync(destination, bufferWriter, written, cancellationToken);
-        }
-    }
-    private static async Task TransferPacketAsync(HNode destination, ArrayPoolBufferWriter<byte> bufferWriter, int written, CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            if (bufferWriter.WrittenCount == 0) return;
-            Memory<byte> mutableBuffer = bufferWriter.DangerousGetArray();
-
-            await destination.SendPacketAsync(mutableBuffer, cancellationToken).ConfigureAwait(false);
-        }
-        finally { bufferWriter.Dispose(); }
-    }
-
     private static void CancelAndNullifySource(ref CancellationTokenSource? cancellationTokenSource)
     {
         if (cancellationTokenSource == null) return;
