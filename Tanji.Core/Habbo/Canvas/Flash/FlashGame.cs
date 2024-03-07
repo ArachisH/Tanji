@@ -50,11 +50,16 @@ public sealed class FlashGame : IGame
     public string? Revision { get; private set; }
     public int MinimumConnectionAttempts { get; private set; }
 
+    public string? Path { get; private set; }
+    public GamePatchingOptions AppliedPatchingOptions { get; private set; }
+
     public bool IsDisposed { get; private set; }
 
     public FlashGame(string path)
         : this(new ShockwaveFlash(path))
-    { }
+    {
+        Path = path;
+    }
     public FlashGame(byte[] data)
         : this(new ShockwaveFlash(data))
     { }
@@ -145,6 +150,7 @@ public sealed class FlashGame : IGame
     }
     public void Patch(GamePatchingOptions options)
     {
+        AppliedPatchingOptions = options;
         foreach (HPatches patch in Enum.GetValues(typeof(HPatches)))
         {
             if ((options.Patches & patch) != patch || patch == HPatches.None || patch == HPatches.FlashDefaults) continue;

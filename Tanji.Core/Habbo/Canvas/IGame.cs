@@ -4,6 +4,8 @@ namespace Tanji.Core.Habbo.Canvas;
 
 public interface IGame : IDisposable
 {
+    string? Path { get; }
+
     bool IsPostShuffle { get; }
     HPlatform Platform { get; }
 
@@ -12,6 +14,8 @@ public interface IGame : IDisposable
 
     string? Revision { get; }
     int MinimumConnectionAttempts { get; }
+
+    GamePatchingOptions AppliedPatchingOptions { get; }
 
     void Disassemble();
     void Assemble(string path);

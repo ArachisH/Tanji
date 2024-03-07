@@ -8,7 +8,7 @@ namespace Tanji.Core.Habbo.Canvas;
 
 public sealed class CachedGame : IGame
 {
-    public required string ClientPath { get; init; }
+    public required string Path { get; init; }
 
     public required bool IsPostShuffle { get; init; }
     [JsonConverter(typeof(PlatformConverter))]
@@ -22,7 +22,7 @@ public sealed class CachedGame : IGame
     public required string Revision { get; init; }
     public required int MinimumConnectionAttempts { get; init; }
 
-    public required GamePatchingOptions AppliedPatches { get; init; }
+    public required GamePatchingOptions AppliedPatchingOptions { get; init; }
 
     public required Incoming Incoming { get; init; }
     public required Outgoing Outgoing { get; init; }
@@ -50,8 +50,8 @@ public sealed class CachedGame : IGame
 
         Incoming = incoming;
         Outgoing = outgoing;
-        ClientPath = clientPath;
-        AppliedPatches = appliedPatches;
+        Path = clientPath;
+        AppliedPatchingOptions = appliedPatches;
     }
 
     public void Disassemble() => throw new NotSupportedException();
