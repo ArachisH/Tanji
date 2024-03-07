@@ -5,16 +5,17 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<OutputType>Exe</OutputType>
 		<Nullable>enable</Nullable>
+		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="appsettings.json" />
+		<None Remove="appsettings.json" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Include="appsettings.json">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </Content>
+		<Content Include="appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -24,8 +25,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Tanji.Core\Tanji.Core.csproj" />
-	  <ProjectReference Include="..\Tanji.Generators\Tanji.Core.Generators.csproj" />
+		<ProjectReference Include="..\Tanji.Core\Tanji.Core.csproj" />
+		<ProjectReference Include="..\Tanji.Generators\Tanji.Core.Generators.csproj" />
 	</ItemGroup>
 
 </Project>
