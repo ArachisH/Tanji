@@ -1,22 +1,16 @@
-﻿using System.Net;
-using System.Text;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 using Tanji.Core;
 using Tanji.Core.Network;
 using Tanji.Core.Services;
 using Tanji.Core.Habbo.Canvas;
 using Tanji.Core.Configuration;
-using Tanji.Core.Habbo.Network.Buffers;
-using Tanji.Core.Habbo.Network.Formats;
 
 using Eavesdrop;
 
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
-
-using CommunityToolkit.HighPerformance.Buffers;
 
 namespace Tanji.CLI;
 
@@ -55,7 +49,7 @@ public class Program
     private readonly IConnectionHandlerService _connectionHandler;
     private readonly IClientHandlerService<CachedGame> _clientHandler;
 
-    public Program(ILogger<Program> logger, IWebInterceptionService webInterception, IConnectionHandlerService connectionHandler, IClientHandlerService<CachedGame> clientHandler)
+    public Program(ILogger<Program> logger, IWebInterceptionService webInterception, IClientHandlerService<CachedGame> clientHandler, IConnectionHandlerService connectionHandler)
     {
         _logger = logger;
         _clientHandler = clientHandler;
@@ -67,21 +61,6 @@ public class Program
 
     public async Task RunAsync(CancellationToken cancellationToken = default)
     {
-        static IPEndPoint? GetRemoteEndPoint(IHFormat packetFormat, ReadOnlySpan<byte> packetSpan)
-        {
-            var pktReader = new HPacketReader(packetFormat, packetSpan);
-            string hostNameOrAddress = pktReader.ReadUTF8().Split('\0')[0];
-            int port = pktReader.Read<int>();
-
-            if (!IPAddress.TryParse(hostNameOrAddress, out IPAddress? address))
-            {
-                IPAddress[] addresses = Dns.GetHostAddresses(hostNameOrAddress);
-                if (addresses.Length > 0) address = addresses[0];
-            }
-
-            return address != null ? new IPEndPoint(address, port) : null;
-        }
-
         _logger.LogInformation("Intercepting Game Token(s)...");
         do
         {
@@ -89,26 +68,10 @@ public class Program
             _logger.LogInformation("Game Ticket: {Ticket}", ticket);
 
             CachedGame game = _clientHandler.PatchClient(HPlatform.Flash, null);
-            _logger.LogInformation("Client Processed : {game.ClientPath}", game.ClientPath);
+            _logger.LogInformation("Client Processed : {game.ClientPath}", game.Path);
 
-            var connection = new HConnection();
-            var connectionOptions = new HConnectionOptions(game, game.AppliedPatches);
-
-            ValueTask interceptLocalConnectionTask = connection.InterceptLocalConnectionAsync(connectionOptions, cancellationToken);
-            _ = _clientHandler.LaunchClient(ticket, HPlatform.Flash, game.ClientPath);
-
-            await interceptLocalConnectionTask.ConfigureAwait(false);
-            while (connection.Local!.IsConnected)
-            {
-                using var writer = new ArrayPoolBufferWriter<byte>(64);
-                int written = await connection.Local.ReceivePacketAsync(writer, cancellationToken).ConfigureAwait(false);
-
-                IPEndPoint? remoteEndPoint = GetRemoteEndPoint(connectionOptions.SendPacketFormat, writer.WrittenSpan);
-                await connection.EstablishRemoteConnection(connectionOptions, remoteEndPoint!, cancellationToken).ConfigureAwait(false);
-
-                // TODO: Read all data
-                break;
-            }
+            var connectionContext = new HConnectionContext(game);
+            _ = await _connectionHandler.LaunchAndInterceptConnectionAsync(ticket, connectionContext, cancellationToken).ConfigureAwait(false);
         }
         while (!cancellationToken.IsCancellationRequested);
     }
