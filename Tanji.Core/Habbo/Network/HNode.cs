@@ -53,7 +53,7 @@ public sealed class HNode : IDisposable
         socket.LingerState = new LingerOption(false, 0);
 
         _socket = socket;
-        _socketStream = new BufferedNetworkStream(socket);
+        _socketStream = new NetworkStream(socket, true);
 
         _sendSemaphore = new SemaphoreSlim(1, 1);
         _receiveSemaphore = new SemaphoreSlim(1, 1);
