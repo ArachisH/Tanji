@@ -444,7 +444,7 @@ public sealed class FlashGame : IGame
     }
     public void Disassemble()
     {
-        var upgrader = new AS3MultinameUpgrader(true, true);
+        //var upgrader = new AS3MultinameUpgrader(true, true);
         _flash.Disassemble(tag =>
         {
             if (tag.Kind != TagKind.DoABC) return;
@@ -452,7 +452,7 @@ public sealed class FlashGame : IGame
             var doABCTag = (DoABCTag)tag;
             var abcFile = new ABCFile(doABCTag.ABCData);
 
-            upgrader.Search(abcFile);
+            //upgrader.Search(abcFile);
             abcFile.ResetCache();
 
             _abcFileTags[doABCTag] = abcFile;
