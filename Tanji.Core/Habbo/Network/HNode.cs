@@ -157,36 +157,34 @@ public sealed class HNode : IDisposable
             totalReceived = await ReadFromStreamAsync(header, cancellationToken).ConfigureAwait(false);
             if (!ReceivePacketFormat.TryReadHeader(header.Span, out int length, out short id, out _)) return -1;
 
-            if (length == ReceivePacketFormat.MinPacketLength)
+            if (DecryptCipher != null)
             {
-                if (DecryptCipher != null)
-                {
-                    Encipher(DecryptCipher, header, IsWebSocket);
-                }
-                writer.Advance(totalReceived);
-                return totalReceived;
+                Encipher(DecryptCipher, header, IsWebSocket);
+            }
+            writer.Advance(ReceivePacketFormat.MinBufferSize);
+
+            // Increase buffer size if needed
+            int bodyAvailable = length - ReceivePacketFormat.MinPacketLength;
+            if (bodyAvailable > buffer.Length - ReceivePacketFormat.MinBufferSize)
+            {
+                buffer = writer.GetMemory(bodyAvailable);
             }
 
             int bodyReceived = 0;
-            int bodyAvailable = length - ReceivePacketFormat.MinPacketLength;
             while (bodyAvailable > 0)
             {
-                int bufferAvailable = buffer.Length - totalReceived;
-                if (bufferAvailable == 0)
-                { }
-                else if (bufferAvailable < 0)
-                { }
+                Memory<byte> availableBuffer = buffer.Slice(totalReceived - ReceivePacketFormat.MinBufferSize, bodyAvailable);
+                bodyReceived = await ReadFromStreamAsync(availableBuffer, cancellationToken).ConfigureAwait(false);
 
-                bodyReceived = await ReadFromStreamAsync(buffer.Slice(totalReceived, Math.Min(bodyAvailable, bufferAvailable)), cancellationToken).ConfigureAwait(false);
                 bodyAvailable -= bodyReceived;
                 totalReceived += bodyReceived;
             }
 
             if (DecryptCipher != null)
             {
-                Encipher(DecryptCipher, buffer.Slice(0, totalReceived), IsWebSocket);
+                Encipher(DecryptCipher, buffer.Slice(0, totalReceived - ReceivePacketFormat.MinBufferSize), IsWebSocket);
             }
-            writer.Advance(totalReceived);
+            writer.Advance(totalReceived - ReceivePacketFormat.MinBufferSize);
         }
         finally { _receiveSemaphore.Release(); }
         return totalReceived;
