@@ -52,13 +52,15 @@ public class Program
 
     private readonly ILogger<Program> _logger;
     private readonly IWebInterceptionService _webInterception;
+    private readonly IConnectionHandlerService _connectionHandler;
     private readonly IClientHandlerService<CachedGame> _clientHandler;
 
-    public Program(ILogger<Program> logger, IWebInterceptionService webInterception, IClientHandlerService<CachedGame> clientHandler)
+    public Program(ILogger<Program> logger, IWebInterceptionService webInterception, IConnectionHandlerService connectionHandler, IClientHandlerService<CachedGame> clientHandler)
     {
         _logger = logger;
         _clientHandler = clientHandler;
         _webInterception = webInterception;
+        _connectionHandler = connectionHandler;
 
         _logger.LogDebug($"{nameof(Program)} ctor");
     }
