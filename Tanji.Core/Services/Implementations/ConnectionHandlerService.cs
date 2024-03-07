@@ -47,14 +47,12 @@ public sealed class ConnectionHandlerService : IConnectionHandlerService
 
         if (context.AppliedPatchingOptions.Patches.HasFlag(HPatches.InjectAddressShouter))
         {
-            using var writer = new ArrayPoolBufferWriter<byte>(64);
+            using var writer = new ArrayPoolBufferWriter<byte>(32);
             int written = await connection.Local.ReceivePacketAsync(writer, cancellationToken).ConfigureAwait(false);
 
             IPEndPoint? remoteEndPoint = ParseRemoteEndPoint(context.SendPacketFormat, writer.WrittenSpan);
             await connection.EstablishRemoteConnectionAsync(context, remoteEndPoint!, cancellationToken).ConfigureAwait(false);
         }
-
-        // TODO: Clamp Connections
 
         Connections.Add(connection);
         return connection;
