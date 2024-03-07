@@ -5,7 +5,7 @@
 /// </summary>
 /// <remarks>
 /// Due to heavy optimizations, do not trust <c>out</c> parameters in <c>Try</c>-prefixed methods when the operation is unsuccessful (when the method returns <c>false</c>). 
-/// The <c>out</c> parameters contain un-initialized values when the operation is unsuccessful - this is standard behaviour and can be also seen in runtime libraries.
+/// The <c>out</c> parameters contain un-initialized values when the operation is unsuccessful - this is standard behavior and can be also seen in runtime libraries.
 /// </remarks>
 public interface IHFormat
 {
