@@ -71,7 +71,9 @@ public class Program
             _logger.LogInformation("Client Processed : {game.path}", game.Path);
 
             var connectionContext = new HConnectionContext(game);
-            _ = await _connectionHandler.LaunchAndInterceptConnectionAsync(ticket, connectionContext, cancellationToken).ConfigureAwait(false);
+            HConnection connection = await _connectionHandler.LaunchAndInterceptConnectionAsync(ticket, connectionContext, cancellationToken).ConfigureAwait(false);
+
+            await connection.WeldNodesAsync(cancellationToken).ConfigureAwait(false);
         }
         while (!cancellationToken.IsCancellationRequested);
     }
