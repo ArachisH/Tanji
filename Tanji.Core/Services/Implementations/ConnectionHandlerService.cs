@@ -51,7 +51,7 @@ public sealed class ConnectionHandlerService : IConnectionHandlerService
             int written = await connection.Local.ReceivePacketAsync(writer, cancellationToken).ConfigureAwait(false);
 
             IPEndPoint? remoteEndPoint = ParseRemoteEndPoint(context.SendPacketFormat, writer.WrittenSpan);
-            await connection.EstablishRemoteConnection(context, remoteEndPoint!, cancellationToken).ConfigureAwait(false);
+            await connection.EstablishRemoteConnectionAsync(context, remoteEndPoint!, cancellationToken).ConfigureAwait(false);
         }
 
         // TODO: Clamp Connections

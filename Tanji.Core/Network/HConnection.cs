@@ -94,7 +94,7 @@ public sealed class HConnection : IHConnection
             CancelAndNullifySource(ref linkedInterceptCancellationSource);
         }
     }
-    public async ValueTask EstablishRemoteConnection(HConnectionContext context, IPEndPoint remoteEndPoint, CancellationToken cancellationToken = default)
+    public async ValueTask EstablishRemoteConnectionAsync(HConnectionContext context, IPEndPoint remoteEndPoint, CancellationToken cancellationToken = default)
     {
         Socket remoteSocket = await ConnectAsync(remoteEndPoint, cancellationToken).ConfigureAwait(false);
         Remote = new HNode(remoteSocket, context.ReceivePacketFormat);
