@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.Options;
-using Microsoft.Extensions.DependencyInjection;
-
-using Tanji.Core.Services;
+﻿using Tanji.Core.Services;
 using Tanji.Core.ViewModels;
 using Tanji.Core.Habbo.Canvas;
 using Tanji.Core.Configuration;
+
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Tanji.Core;
 
@@ -17,8 +17,8 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IPostConfigureOptions<TanjiOptions>, PostConfigureTanjiOptions>();
 
         // Services
-        services.AddSingleton<IInterceptionService, InterceptionService>();
-        services.AddSingleton<IFileCachingService<PlatformPaths, CachedGame>, GameCachingService>();
+        services.AddSingleton<IWebInterceptionService, WebInterceptionService>();
+        services.AddSingleton<IClientHandlerService<CachedGame>, ClientHandlerService>();
 
         // Add view-models
         services.AddSingleton<ConnectionViewModel>();

@@ -1,13 +1,13 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-
+﻿using Tanji.Core.Services;
 using Tanji.Core.Habbo.Network;
-using Tanji.Core.Services;
+
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Tanji.Core.ViewModels;
 
 public partial class ConnectionViewModel : ObservableObject
 {
-    private readonly IInterceptionService _interceptions;
+    private readonly IWebInterceptionService _interceptions;
 
     [ObservableProperty]
     private string _status;
@@ -18,7 +18,7 @@ public partial class ConnectionViewModel : ObservableObject
     [ObservableProperty]
     private string _customClientPath;
 
-    public ConnectionViewModel(IInterceptionService interception)
+    public ConnectionViewModel(IWebInterceptionService interception)
     {
         _interceptions = interception;
     }
