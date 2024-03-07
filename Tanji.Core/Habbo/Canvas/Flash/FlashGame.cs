@@ -493,7 +493,7 @@ public sealed class FlashGame : IGame
     #region Patching Methods
     private bool TryPatch(GamePatchingOptions options, HPatches patch) => patch switch
     {
-        HPatches.InjectAddress => TryInjectAddress(options.RemoteAddress),
+        HPatches.InjectAddress => TryInjectAddress(options.InjectedAddress),
         HPatches.InjectKeyShouter => TryInjectKeyShouter(options.KeyShoutingId),
         HPatches.DisableHostChecks => TryDisableHostChecks(),
         HPatches.DisableEncryption => TryDisableEncryption(),
