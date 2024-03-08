@@ -12,20 +12,24 @@ using CommunityToolkit.HighPerformance.Buffers;
 
 namespace Tanji.Core.Services;
 
-public sealed class ConnectionHandlerService : IConnectionHandlerService
+public sealed class ConnectionHandlerService : IConnectionHandlerService<PacketMiddlemanService>
 {
+    private readonly PacketMiddlemanService _packetMiddleman;
     private readonly ILogger<ConnectionHandlerService> _logger;
     private readonly IClientHandlerService<CachedGame> _clientHandler;
 
-    public ObservableCollection<HConnection> Connections { get; } = [];
+    public ObservableCollection<HConnection<PacketMiddlemanService>> Connections { get; } = [];
 
-    public ConnectionHandlerService(ILogger<ConnectionHandlerService> logger, IClientHandlerService<CachedGame> clientHandler)
+    public ConnectionHandlerService(ILogger<ConnectionHandlerService> logger,
+        IClientHandlerService<CachedGame> clientHandler,
+        PacketMiddlemanService packetMiddleman)
     {
         _logger = logger;
         _clientHandler = clientHandler;
+        _packetMiddleman = packetMiddleman;
     }
 
-    public async Task<HConnection> LaunchAndInterceptConnectionAsync(string ticket, HConnectionContext context, CancellationToken cancellationToken = default)
+    public async Task<HConnection<PacketMiddlemanService>> LaunchAndInterceptConnectionAsync(string ticket, HConnectionContext context, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(ticket))
         {
@@ -33,7 +37,7 @@ public sealed class ConnectionHandlerService : IConnectionHandlerService
             ThrowHelper.ThrowArgumentNullException(nameof(ticket));
         }
 
-        var connection = new HConnection();
+        var connection = new HConnection<PacketMiddlemanService>(_packetMiddleman);
         ValueTask interceptLocalConnectionTask = connection.InterceptLocalConnectionAsync(context, cancellationToken);
 
         _ = _clientHandler.LaunchClient(context.Platform, ticket, context.ClientPath);

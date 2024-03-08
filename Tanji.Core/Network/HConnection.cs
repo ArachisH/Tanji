@@ -3,6 +3,7 @@ using System.Text;
 using System.Net.Sockets;
 
 using Tanji.Core.Habbo;
+using Tanji.Core.Services;
 using Tanji.Core.Habbo.Network;
 
 using CommunityToolkit.HighPerformance.Buffers;
@@ -12,7 +13,7 @@ namespace Tanji.Core.Network;
 /// <summary>
 /// Represents a reusable 'bridge' that transfers data to/from two separate <see cref="HNode"/> instances.
 /// </summary>
-public sealed class HConnection : IHConnection
+public sealed class HConnection<TMiddleman> : IHConnection<TMiddleman> where TMiddleman : IPacketMiddlemanService
 {
     private static ReadOnlySpan<byte> XDPRequestBytes => "<policy-file-request/>\0"u8;
     private static readonly ReadOnlyMemory<byte> XDPResponseBytes = Encoding.UTF8.GetBytes("<cross-domain-policy><allow-access-from domain=\"*\" to-ports=\"*\"/></cross-domain-policy>\0");
@@ -25,12 +26,21 @@ public sealed class HConnection : IHConnection
     public Incoming? In { get; set; }
     public Outgoing? Out { get; set; }
 
+    public TMiddleman? Middleman { get; }
     public bool IsConnected => Local != null && Remote != null && Local.IsConnected & Remote.IsConnected;
+
+    public HConnection()
+        : this(default)
+    { }
+    public HConnection(TMiddleman? middleman)
+    {
+        Middleman = middleman;
+    }
 
     public Task WeldNodesAsync(CancellationToken cancellationToken = default)
     {
-        Task localToRemote = WeldNodesAsync(Local!, Remote!, true, cancellationToken);
-        Task remoteToLocal = WeldNodesAsync(Remote!, Local!, false, cancellationToken);
+        Task localToRemote = WeldNodesAsync(Local!, Remote!, Middleman, true, cancellationToken);
+        Task remoteToLocal = WeldNodesAsync(Remote!, Local!, Middleman, false, cancellationToken);
         return Task.WhenAll(localToRemote, remoteToLocal);
     }
     public async ValueTask InterceptLocalConnectionAsync(HConnectionContext context, CancellationToken cancellationToken = default)
@@ -164,7 +174,8 @@ public sealed class HConnection : IHConnection
         }
         return socket;
     }
-    private static async Task WeldNodesAsync(HNode source, HNode destination, bool isOutbound, CancellationToken cancellationToken = default)
+
+    private static async Task WeldNodesAsync(HNode source, HNode destination, TMiddleman? middleman, bool isOutbound, CancellationToken cancellationToken = default)
     {
         while (source.IsConnected && destination.IsConnected && !cancellationToken.IsCancellationRequested)
         {
@@ -173,15 +184,25 @@ public sealed class HConnection : IHConnection
             _ = await source.ReceivePacketAsync(bufferWriter, cancellationToken).ConfigureAwait(false);
 
             // Continuously attempt to receive packets from the node
-            _ = TransferPacketAsync(destination, bufferWriter, isOutbound, cancellationToken);
+            _ = TransferPacketAsync(destination, bufferWriter, middleman, isOutbound, cancellationToken);
         }
     }
-    private static async Task TransferPacketAsync(HNode destination, ArrayPoolBufferWriter<byte> bufferWriter, bool isOutbound, CancellationToken cancellationToken = default)
+    private static async Task TransferPacketAsync(HNode destination, ArrayPoolBufferWriter<byte> bufferWriter, TMiddleman? middleman, bool isOutbound, CancellationToken cancellationToken = default)
     {
         try
         {
             if (bufferWriter.WrittenCount == 0) return;
             Memory<byte> mutableBuffer = bufferWriter.DangerousGetArray();
+
+            if (middleman != null)
+            {
+                ValueTask<bool> packetProcessTask = isOutbound
+                    ? middleman.PacketOutboundAsync(mutableBuffer)
+                    : middleman.PacketInboundAsync(mutableBuffer);
+
+                // If true, the packet is to be ignored/blocked
+                if (await packetProcessTask.ConfigureAwait(false)) return;
+            }
 
             await destination.SendPacketAsync(mutableBuffer, cancellationToken).ConfigureAwait(false);
         }

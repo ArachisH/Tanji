@@ -4,9 +4,9 @@ using Tanji.Core.Network;
 
 namespace Tanji.Core.Services;
 
-public interface IConnectionHandlerService
+public interface IConnectionHandlerService<TPacketMiddleman> where TPacketMiddleman : IPacketMiddlemanService
 {
-    ObservableCollection<HConnection> Connections { get; }
+    ObservableCollection<HConnection<TPacketMiddleman>> Connections { get; }
 
-    Task<HConnection> LaunchAndInterceptConnectionAsync(string ticket, HConnectionContext options, CancellationToken cancellationToken = default);
+    Task<HConnection<TPacketMiddleman>> LaunchAndInterceptConnectionAsync(string ticket, HConnectionContext options, CancellationToken cancellationToken = default);
 }

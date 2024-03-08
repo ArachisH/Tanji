@@ -18,8 +18,10 @@ public static class ServiceCollectionExtensions
 
         // Services
         services.AddSingleton<IWebInterceptionService, WebInterceptionService>();
-        services.AddSingleton<IConnectionHandlerService, ConnectionHandlerService>();
         services.AddSingleton<IClientHandlerService<CachedGame>, ClientHandlerService>();
+
+        services.AddSingleton<PacketMiddlemanService>();
+        services.AddSingleton<IConnectionHandlerService<PacketMiddlemanService>, ConnectionHandlerService>();
 
         // Add view-models
         services.AddSingleton<ConnectionViewModel>();

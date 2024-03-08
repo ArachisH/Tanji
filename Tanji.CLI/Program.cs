@@ -46,10 +46,13 @@ public class Program
 
     private readonly ILogger<Program> _logger;
     private readonly IWebInterceptionService _webInterception;
-    private readonly IConnectionHandlerService _connectionHandler;
     private readonly IClientHandlerService<CachedGame> _clientHandler;
+    private readonly IConnectionHandlerService<PacketMiddlemanService> _connectionHandler;
 
-    public Program(ILogger<Program> logger, IWebInterceptionService webInterception, IClientHandlerService<CachedGame> clientHandler, IConnectionHandlerService connectionHandler)
+    public Program(ILogger<Program> logger,
+        IWebInterceptionService webInterception,
+        IClientHandlerService<CachedGame> clientHandler,
+        IConnectionHandlerService<PacketMiddlemanService> connectionHandler)
     {
         _logger = logger;
         _clientHandler = clientHandler;
@@ -71,7 +74,7 @@ public class Program
             _logger.LogInformation("Client Processed : {game.path}", game.Path);
 
             var connectionContext = new HConnectionContext(game);
-            HConnection connection = await _connectionHandler.LaunchAndInterceptConnectionAsync(ticket, connectionContext, cancellationToken).ConfigureAwait(false);
+            HConnection<PacketMiddlemanService> connection = await _connectionHandler.LaunchAndInterceptConnectionAsync(ticket, connectionContext, cancellationToken).ConfigureAwait(false);
 
             await connection.WeldNodesAsync(cancellationToken).ConfigureAwait(false);
         }
