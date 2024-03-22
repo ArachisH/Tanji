@@ -24,7 +24,6 @@ namespace Tanji.Core.Services;
 public sealed class ClientHandlerService(ILogger<ClientHandlerService> logger, IOptions<TanjiOptions> options) : IClientHandlerService<CachedGame>
 {
     private static readonly JsonSerializerOptions SerializerOptions;
-    private static readonly IPAddress LocalHostIP = IPAddress.Parse("127.0.0.1");
 
     private readonly TanjiOptions _options = options.Value;
     private readonly ILogger<ClientHandlerService> _logger = logger;
@@ -198,7 +197,7 @@ public sealed class ClientHandlerService(ILogger<ClientHandlerService> logger, I
                 {
                     KeyShoutingId = 4002,
                     AddressShoutingId = 4000,
-                    InjectedAddress = new IPEndPoint(LocalHostIP, gameListenPort),
+                    InjectedAddress = new IPEndPoint(IPAddress.Loopback, gameListenPort),
                 };
             }
             default: throw new NotSupportedException("Unable to acquire game patch options for the provided platform.");
