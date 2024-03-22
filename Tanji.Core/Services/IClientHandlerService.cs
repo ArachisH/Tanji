@@ -10,6 +10,6 @@ public interface IClientHandlerService
     DirectoryInfo PatchedClientsDirectory { get; }
 
     IGame PatchClient(HPlatform platform, string? clientPath = null);
-    public Process? LaunchClient(HPlatform platform, string ticket, string? clientPath = null);
+    Process? LaunchClient(HPlatform platform, string ticket, string? clientPath = null);
     bool TryGetIdentifiers(string? revision, out Outgoing? outgoing, out Incoming? incoming);
 }
