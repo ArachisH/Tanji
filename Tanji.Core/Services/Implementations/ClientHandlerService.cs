@@ -28,7 +28,7 @@ public sealed class ClientHandlerService(ILogger<ClientHandlerService> logger, I
     private readonly TanjiOptions _options = options.Value;
     private readonly ILogger<ClientHandlerService> _logger = logger;
 
-    public required DirectoryInfo PatchedClientsDirectory { get; init; } = Directory.CreateDirectory("Patched Clients");
+    public DirectoryInfo PatchedClientsDirectory { get; } = Directory.CreateDirectory("Patched Clients");
 
     static ClientHandlerService()
     {
