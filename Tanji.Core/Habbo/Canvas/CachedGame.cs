@@ -24,20 +24,15 @@ public sealed class CachedGame : IGame
 
     public required GamePatchingOptions AppliedPatchingOptions { get; init; }
 
-    public required Incoming Incoming { get; init; }
-    public required Outgoing Outgoing { get; init; }
-
     [JsonIgnore]
     public bool IsDisposed { get; private set; }
 
     public CachedGame()
     { }
     [SetsRequiredMembers]
-    public CachedGame(IGame game, Outgoing outgoing, Incoming incoming, GamePatchingOptions appliedPatches, string clientPath)
+    public CachedGame(IGame game, GamePatchingOptions appliedPatches, string clientPath)
     {
         ArgumentNullException.ThrowIfNull(game, nameof(game));
-        ArgumentNullException.ThrowIfNull(outgoing, nameof(outgoing));
-        ArgumentNullException.ThrowIfNull(incoming, nameof(incoming));
 
         IsPostShuffle = game.IsPostShuffle;
         Platform = game.Platform;
@@ -48,8 +43,6 @@ public sealed class CachedGame : IGame
         Revision = game.Revision ?? "< Unknown Revision >";
         MinimumConnectionAttempts = game.MinimumConnectionAttempts;
 
-        Incoming = incoming;
-        Outgoing = outgoing;
         Path = clientPath;
         AppliedPatchingOptions = appliedPatches;
     }

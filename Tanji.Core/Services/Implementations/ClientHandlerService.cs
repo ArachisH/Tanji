@@ -99,7 +99,7 @@ public sealed class ClientHandlerService(ILogger<ClientHandlerService> logger, I
 
         var incoming = new Incoming(game);
         var outgoing = new Outgoing(game);
-        var cachedGame = new CachedGame(game, outgoing, incoming, patchingOptions, assemblePath);
+        var cachedGame = new CachedGame(game, patchingOptions, assemblePath);
 
         using FileStream serializationStream = File.OpenWrite(Path.Combine(PatchedClientsDirectory.FullName, $"{identifier}_{game.Revision}.json"));
         JsonSerializer.Serialize(serializationStream, cachedGame, SerializerOptions);
