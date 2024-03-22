@@ -1,6 +1,5 @@
 ﻿using Tanji.Core.Services;
 using Tanji.Core.ViewModels;
-using Tanji.Core.Habbo.Canvas;
 using Tanji.Core.Configuration;
 
 using Microsoft.Extensions.Options;
@@ -18,7 +17,7 @@ public static class ServiceCollectionExtensions
 
         // Services
         services.AddSingleton<IWebInterceptionService, WebInterceptionService>();
-        services.AddSingleton<IClientHandlerService<CachedGame>, ClientHandlerService>();
+        services.AddSingleton<IClientHandlerService, ClientHandlerService>();
 
         services.AddSingleton<PacketMiddlemanService>();
         services.AddSingleton<IConnectionHandlerService<PacketMiddlemanService>, ConnectionHandlerService>();

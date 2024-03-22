@@ -16,12 +16,12 @@ public sealed class ConnectionHandlerService : IConnectionHandlerService<PacketM
 {
     private readonly PacketMiddlemanService _packetMiddleman;
     private readonly ILogger<ConnectionHandlerService> _logger;
-    private readonly IClientHandlerService<CachedGame> _clientHandler;
+    private readonly IClientHandlerService _clientHandler;
 
     public ObservableCollection<HConnection<PacketMiddlemanService>> Connections { get; } = [];
 
     public ConnectionHandlerService(ILogger<ConnectionHandlerService> logger,
-        IClientHandlerService<CachedGame> clientHandler,
+        IClientHandlerService clientHandler)
         PacketMiddlemanService packetMiddleman)
     {
         _logger = logger;

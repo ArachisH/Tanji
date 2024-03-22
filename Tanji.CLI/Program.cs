@@ -46,12 +46,12 @@ public class Program
 
     private readonly ILogger<Program> _logger;
     private readonly IWebInterceptionService _webInterception;
-    private readonly IClientHandlerService<CachedGame> _clientHandler;
+    private readonly IClientHandlerService _clientHandler;
     private readonly IConnectionHandlerService<PacketMiddlemanService> _connectionHandler;
 
     public Program(ILogger<Program> logger,
         IWebInterceptionService webInterception,
-        IClientHandlerService<CachedGame> clientHandler,
+        IClientHandlerService clientHandler,
         IConnectionHandlerService<PacketMiddlemanService> connectionHandler)
     {
         _logger = logger;
@@ -70,7 +70,7 @@ public class Program
             string ticket = await _webInterception.InterceptTicketAsync(cancellationToken).ConfigureAwait(false);
             _logger.LogInformation("Game Ticket: {Ticket}", ticket);
 
-            CachedGame game = _clientHandler.PatchClient(HPlatform.Flash, null);
+            IGame game = _clientHandler.PatchClient(HPlatform.Flash);
             _logger.LogInformation("Client Processed : {game.path}", game.Path);
 
             var connectionContext = new HConnectionContext(game);

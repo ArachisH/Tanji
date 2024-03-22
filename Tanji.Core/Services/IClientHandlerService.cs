@@ -5,11 +5,11 @@ using Tanji.Core.Habbo.Canvas;
 
 namespace Tanji.Core.Services;
 
-public interface IClientHandlerService<TGame> where TGame : IGame
+public interface IClientHandlerService
 {
     DirectoryInfo PatchedClientsDirectory { get; }
 
-    public TGame PatchClient(HPlatform platform, string? clientPath = null);
+    IGame PatchClient(HPlatform platform, string? clientPath = null);
     public Process? LaunchClient(HPlatform platform, string ticket, string? clientPath = null);
     bool TryGetIdentifiers(string? revision, out Outgoing? outgoing, out Incoming? incoming);
 }

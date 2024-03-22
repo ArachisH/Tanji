@@ -21,7 +21,7 @@ using CommunityToolkit.HighPerformance.Buffers;
 
 namespace Tanji.Core.Services;
 
-public sealed class ClientHandlerService(ILogger<ClientHandlerService> logger, IOptions<TanjiOptions> options) : IClientHandlerService<CachedGame>
+public sealed class ClientHandlerService(ILogger<ClientHandlerService> logger, IOptions<TanjiOptions> options) : IClientHandlerService
 {
     private static readonly JsonSerializerOptions SerializerOptions;
 
@@ -44,7 +44,7 @@ public sealed class ClientHandlerService(ILogger<ClientHandlerService> logger, I
         SerializerOptions.Converters.Add(new IPEndPointConverter());
     }
 
-    public CachedGame PatchClient(HPlatform platform, string? clientPath = null)
+    public IGame PatchClient(HPlatform platform, string? clientPath = null)
     {
         if (string.IsNullOrWhiteSpace(clientPath))
         {
