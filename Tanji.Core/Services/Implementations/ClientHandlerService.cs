@@ -28,8 +28,8 @@ public sealed class ClientHandlerService : IClientHandlerService
     private readonly TanjiOptions _options;
     private readonly ILogger<ClientHandlerService> _logger;
 
-    public DirectoryInfo PatchedClientsDirectory { get; } = Directory.CreateDirectory("Patched Clients");
     public DirectoryInfo MessagesDirectory { get; } = Directory.CreateDirectory("Messages");
+    public DirectoryInfo PatchedClientsDirectory { get; } = Directory.CreateDirectory("Patched Clients");
 
     static ClientHandlerService()
     {
