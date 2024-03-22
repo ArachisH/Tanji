@@ -21,7 +21,7 @@ public sealed class ConnectionHandlerService : IConnectionHandlerService<PacketM
     public ObservableCollection<HConnection<PacketMiddlemanService>> Connections { get; } = [];
 
     public ConnectionHandlerService(ILogger<ConnectionHandlerService> logger,
-        IClientHandlerService clientHandler)
+        IClientHandlerService clientHandler,
         PacketMiddlemanService packetMiddleman)
     {
         _logger = logger;
