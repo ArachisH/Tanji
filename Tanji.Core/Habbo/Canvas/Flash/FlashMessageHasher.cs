@@ -77,10 +77,10 @@ public class FlashMessageHasher : IBufferWriter<byte>
         {
             // Utilizing ASCode in this scenario is very costly, simply read the instructions manually.
             Span<byte> counts = stackalloc byte[8];
-            using var codeReader = new FlashReader(method.Body.Code);
+            var codeReader = new SpanFlashReader(method.Body.Code);
             while (codeReader.IsDataAvailable)
             {
-                var instruction = ASInstruction.Create(method.ABC, codeReader);
+                var instruction = ASInstruction.Create(method.ABC, ref codeReader);
                 switch (instruction.OP)
                 {
                     case OPCode.PushString: counts[0]++; break;

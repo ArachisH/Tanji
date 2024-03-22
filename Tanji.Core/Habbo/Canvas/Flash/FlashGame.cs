@@ -934,11 +934,11 @@ public sealed class FlashGame : IGame
             if (method.Container is not ASInstance instance) continue;
 
             int order = 0;
-            using var codeReader = new FlashReader(method.Body.Code);
+            var codeReader = new SpanFlashReader(method.Body.Code);
             while (codeReader.IsDataAvailable)
             {
                 ASMultiname? slotName = null;
-                var instruction = ASInstruction.Create(method.ABC, codeReader);
+                var instruction = ASInstruction.Create(method.ABC, ref codeReader);
                 if (instruction.OP == OPCode.GetProperty)
                 {
                     slotName = ((GetPropertyIns)instruction).PropertyName;
@@ -1015,10 +1015,10 @@ public sealed class FlashGame : IGame
         int outCount = 0, inCount = 0;
         var names = new Stack<ASMultiname>(2);
         ConstructPropIns? messageConstructIns = null;
-        using var codeReader = new FlashReader(method.Body.Code);
+        var codeReader = new SpanFlashReader(method.Body.Code);
         while (codeReader.IsDataAvailable)
         {
-            var instruction = ASInstruction.Create(method.ABC, codeReader);
+            var instruction = ASInstruction.Create(method.ABC, ref codeReader);
             switch (instruction.OP)
             {
                 case OPCode.GetLex: names.Push(((GetLexIns)instruction).TypeName); continue;
@@ -1031,13 +1031,13 @@ public sealed class FlashGame : IGame
                 case OPCode.NewFunction:
                 {
                     long currentPos = codeReader.Position;
-                    if (ASInstruction.Create(method.ABC, codeReader).OP != OPCode.Pop)
+                    if (ASInstruction.Create(method.ABC, ref codeReader).OP != OPCode.Pop)
                     {
                         (int OutCount, int InCount) = FindMessageReferences(((NewFunctionIns)instruction).Method, referencedMessagesBuffer[(outCount + inCount)..]);
                         outCount += OutCount;
                         inCount += InCount;
 
-                        codeReader.Position = currentPos;
+                        codeReader.Position = (int)currentPos;
                     }
                     continue;
                 }
