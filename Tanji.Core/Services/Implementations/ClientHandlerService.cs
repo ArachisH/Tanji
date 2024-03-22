@@ -104,6 +104,9 @@ public sealed class ClientHandlerService(ILogger<ClientHandlerService> logger, I
         using FileStream gameSerializationStream = File.Create(Path.Combine(PatchedClientsDirectory.FullName, $"{identifier}_{game.Revision}.json"));
         JsonSerializer.Serialize(gameSerializationStream, cachedGame, SerializerOptions);
 
+        using FileStream messagesSerializationStream = File.Create(Path.Combine(MessagesDirectory.FullName, $"{game.Revision}.json"));
+        JsonSerializer.Serialize(messagesSerializationStream, new CachedIdentifiers { Outgoing = outgoing, Incoming = incoming }, SerializerOptions);
+
         return cachedGame;
     }
     public bool TryGetIdentifiers(string? revision, out Outgoing? outgoing, out Incoming? incoming)
