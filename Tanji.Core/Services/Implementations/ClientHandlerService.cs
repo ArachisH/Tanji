@@ -101,8 +101,8 @@ public sealed class ClientHandlerService(ILogger<ClientHandlerService> logger, I
         var outgoing = new Outgoing(game);
         var cachedGame = new CachedGame(game, patchingOptions, assemblePath);
 
-        using FileStream serializationStream = File.OpenWrite(Path.Combine(PatchedClientsDirectory.FullName, $"{identifier}_{game.Revision}.json"));
-        JsonSerializer.Serialize(serializationStream, cachedGame, SerializerOptions);
+        using FileStream gameSerializationStream = File.Create(Path.Combine(PatchedClientsDirectory.FullName, $"{identifier}_{game.Revision}.json"));
+        JsonSerializer.Serialize(gameSerializationStream, cachedGame, SerializerOptions);
 
         return cachedGame;
     }
