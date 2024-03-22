@@ -65,12 +65,12 @@ public sealed class ClientHandlerService(ILogger<ClientHandlerService> logger, I
         // Attempt to load game data from a json file.
         MD5.HashData(tempClientFileStream, clientFileHash);
         string identifier = Convert.ToHexString(clientFileHash.Slice(0, 4));
-        foreach (var item in PatchedClientsDirectory.EnumerateFiles())
+        foreach (FileInfo fileInfo in PatchedClientsDirectory.EnumerateFiles())
         {
-            if (!item.Name.StartsWith(identifier, StringComparison.InvariantCultureIgnoreCase) ||
-                !item.Name.EndsWith(".json")) continue;
+            if (!fileInfo.Name.StartsWith(identifier, StringComparison.InvariantCultureIgnoreCase) ||
+                !fileInfo.Name.EndsWith(".json")) continue;
 
-            using var deserializationStream = File.OpenRead(item.FullName);
+            using var deserializationStream = File.OpenRead(fileInfo.FullName);
             CachedGame? deserializedCachedGame = JsonSerializer.Deserialize<CachedGame>(deserializationStream, SerializerOptions);
 
             return deserializedCachedGame ?? throw new Exception("Failed to deserialize the cached game.");
