@@ -106,6 +106,24 @@ public sealed class ClientHandlerService(ILogger<ClientHandlerService> logger, I
 
         return cachedGame;
     }
+    public bool TryGetIdentifiers(string? revision, out Outgoing? outgoing, out Incoming? incoming)
+    {
+        outgoing = null;
+        incoming = null;
+        if (string.IsNullOrWhiteSpace(revision)) return false;
+        foreach (FileInfo fileInfo in MessagesDirectory.EnumerateFiles())
+        {
+            if (!fileInfo.Name.EndsWith($"{revision}.json")) continue;
+            
+            using FileStream messagesDeserializationStream = File.OpenRead(fileInfo.FullName);
+            var identifiers = JsonSerializer.Deserialize<CachedIdentifiers>(messagesDeserializationStream, SerializerOptions);
+
+            outgoing = identifiers.Outgoing;
+            incoming = identifiers.Incoming;
+            return true;
+        }
+        return false;
+    }
     public Process? LaunchClient(HPlatform platform, string ticket, string? clientPath = null)
     {
         PlatformPaths paths = GetPlatformPaths(platform, _options.PlatformPaths);
