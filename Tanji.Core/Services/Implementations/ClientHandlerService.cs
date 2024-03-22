@@ -29,6 +29,7 @@ public sealed class ClientHandlerService(ILogger<ClientHandlerService> logger, I
     private readonly ILogger<ClientHandlerService> _logger = logger;
 
     public DirectoryInfo PatchedClientsDirectory { get; } = Directory.CreateDirectory("Patched Clients");
+    public DirectoryInfo MessagesDirectory { get; } = Directory.CreateDirectory("Messages");
 
     static ClientHandlerService()
     {
