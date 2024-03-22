@@ -21,12 +21,12 @@ using CommunityToolkit.HighPerformance.Buffers;
 
 namespace Tanji.Core.Services;
 
-public sealed class ClientHandlerService(ILogger<ClientHandlerService> logger, IOptions<TanjiOptions> options) : IClientHandlerService
+public sealed class ClientHandlerService : IClientHandlerService
 {
     private static readonly JsonSerializerOptions SerializerOptions;
 
-    private readonly TanjiOptions _options = options.Value;
-    private readonly ILogger<ClientHandlerService> _logger = logger;
+    private readonly TanjiOptions _options;
+    private readonly ILogger<ClientHandlerService> _logger;
 
     public DirectoryInfo PatchedClientsDirectory { get; } = Directory.CreateDirectory("Patched Clients");
     public DirectoryInfo MessagesDirectory { get; } = Directory.CreateDirectory("Messages");
@@ -42,6 +42,11 @@ public sealed class ClientHandlerService(ILogger<ClientHandlerService> logger, I
         SerializerOptions.Converters.Add(new FormatConverter());
         SerializerOptions.Converters.Add(new PlatformConverter());
         SerializerOptions.Converters.Add(new IPEndPointConverter());
+    }
+    public ClientHandlerService(ILogger<ClientHandlerService> logger, IOptions<TanjiOptions> options)
+    {
+        _logger = logger;
+        _options = options.Value;
     }
 
     public IGame PatchClient(HPlatform platform, string? clientPath = null)
@@ -117,7 +122,7 @@ public sealed class ClientHandlerService(ILogger<ClientHandlerService> logger, I
         foreach (FileInfo fileInfo in MessagesDirectory.EnumerateFiles())
         {
             if (!fileInfo.Name.EndsWith($"{revision}.json")) continue;
-            
+
             using FileStream messagesDeserializationStream = File.OpenRead(fileInfo.FullName);
             var identifiers = JsonSerializer.Deserialize<CachedIdentifiers>(messagesDeserializationStream, SerializerOptions);
 
