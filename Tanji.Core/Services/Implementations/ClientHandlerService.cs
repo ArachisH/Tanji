@@ -238,4 +238,10 @@ public sealed class ClientHandlerService(ILogger<ClientHandlerService> logger, I
         }
         return paths;
     }
+
+    private readonly record struct CachedIdentifiers
+    {
+        public required Outgoing Outgoing { get; init; }
+        public required Incoming Incoming { get; init; }
+    }
 }
