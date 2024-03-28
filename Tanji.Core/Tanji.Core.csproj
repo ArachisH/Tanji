@@ -2,16 +2,15 @@
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="IsOutgoing" />
-
-		<AdditionalFiles Include=".\incoming.json" IsOutgoing="false" />
 		<AdditionalFiles Include=".\outgoing.json" IsOutgoing="true" />
+		<AdditionalFiles Include=".\incoming.json" IsOutgoing="false" />
 	</ItemGroup>
 
 	<ItemGroup>
