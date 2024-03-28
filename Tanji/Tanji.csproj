@@ -6,8 +6,8 @@
 		<TargetFramework>net8.0-windows</TargetFramework>
 
 		<Nullable>enable</Nullable>
-		<LangVersion>preview</LangVersion>
-		<EnablePreviewFeatures>true</EnablePreviewFeatures>
+		<LangVersion>latest</LangVersion>
+		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 		<NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
 	</PropertyGroup>
 
@@ -42,7 +42,6 @@
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
 		<PackageReference Include="OswaldTechnologies.Extensions.Hosting.WindowsFormsLifetime" Version="1.0.2" />
-		<PackageReference Include="System.ServiceProcess.ServiceController" Version="7.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -54,7 +53,7 @@
 	<ItemGroup>
 		<Content Include="appsettings.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>		
+		</Content>
 		<EmbeddedResource Include="Hashes.ini">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</EmbeddedResource>
