@@ -1,4 +1,7 @@
 ﻿using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("Tanji.Infrastructure")]
 
 namespace Tanji.Core;
 
