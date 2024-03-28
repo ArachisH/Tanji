@@ -7,6 +7,7 @@ namespace Tanji.Infrastructure.Services;
 
 public interface IClientHandlerService
 {
+    DirectoryInfo MessagesDirectory { get; }
     DirectoryInfo PatchedClientsDirectory { get; }
 
     IGame PatchClient(HPlatform platform, string? clientPath = null);
