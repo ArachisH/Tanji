@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Collections.Generic;
 
 using Sulakore.Protocol;
-using Sulakore.Habbo.Web;
+
 using Tangine;
 
 namespace Tanji.Controls;

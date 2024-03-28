@@ -2,8 +2,6 @@
 using System.IO;
 using System.Windows.Forms;
 
-using Tanji.Manipulators;
-
 using Sulakore.Protocol;
 
 namespace Tanji.Pages.Injection;

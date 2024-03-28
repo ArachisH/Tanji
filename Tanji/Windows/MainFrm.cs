@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 using Tanji.Network;
+using Tanji.Controls;
 using Tanji.Utilities;
 using Tanji.Properties;
 using Tanji.Pages.About;
@@ -18,7 +19,8 @@ using Tanji.Pages.Toolbox;
 using Tanji.Pages.Injection;
 using Tanji.Pages.Connection;
 
-using Sulakore;
+using Tangine;
+
 using Sulakore.Habbo;
 using Sulakore.Protocol;
 using Sulakore.Habbo.Web;
@@ -26,8 +28,6 @@ using Sulakore.Communication;
 using Sulakore.Habbo.Messages;
 
 using Eavesdrop;
-using Tangine;
-using Tanji.Controls;
 
 namespace Tanji.Windows;
 

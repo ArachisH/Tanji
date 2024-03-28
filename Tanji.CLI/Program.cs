@@ -1,8 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-using Tanji.Core.Network;
 using Tanji.Core.Habbo.Canvas;
-using Tanji.Core.Habbo.Network;
 using Tanji.Infrastructure.Services;
 using Tanji.Infrastructure.Configuration;
 
@@ -67,14 +65,14 @@ public class Program
         _logger.LogInformation("Intercepting Game Token(s)...");
         do
         {
-            string ticket = await _webInterception.InterceptTicketAsync(cancellationToken).ConfigureAwait(false);
+            string ticket = true ? "hhus.ABC.v4" : await _webInterception.InterceptTicketAsync(cancellationToken).ConfigureAwait(false);
             _logger.LogInformation("Game Ticket: {ticket}", ticket);
 
             IGame game = await _clientHandler.PatchClientAsync(HPlatform.Flash).ConfigureAwait(false);
             _logger.LogInformation("Client Patched : {game.path}", game.Path);
 
             var context = new HConnectionContext(game);
-            IHConnection connection = await _connectionHandler.LaunchAndInterceptConnectionAsync(ticket, context, cancellationToken).ConfigureAwait(false);
+            _ = await _connectionHandler.LaunchAndInterceptConnectionAsync(ticket, context, cancellationToken).ConfigureAwait(false);
         }
         while (!cancellationToken.IsCancellationRequested);
     }
