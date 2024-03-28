@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using System.Numerics;
 using System.Globalization;
 using System.Security.Cryptography;

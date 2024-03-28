@@ -1,6 +1,4 @@
-﻿using System;
-
-using Sulakore.Habbo;
+﻿using Sulakore.Habbo;
 
 namespace Sulakore.Modules;
 

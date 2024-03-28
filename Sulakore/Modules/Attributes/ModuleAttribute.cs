@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Sulakore.Modules;
+﻿namespace Sulakore.Modules;
 
 [AttributeUsage(AttributeTargets.Class)]
 public sealed class ModuleAttribute : Attribute

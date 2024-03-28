@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Sulakore.Habbo;
+﻿namespace Sulakore.Habbo;
 
 [Flags]
 public enum HRoomFlags

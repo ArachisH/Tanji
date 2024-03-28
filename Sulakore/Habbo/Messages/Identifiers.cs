@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.Text;
-using System.Collections.Generic;
+﻿using System.Text;
 
 namespace Sulakore.Habbo.Messages;
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Sulakore.Crypto;
+﻿namespace Sulakore.Crypto;
 
 public class RC4
 {
