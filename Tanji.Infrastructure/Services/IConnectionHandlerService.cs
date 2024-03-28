@@ -1,13 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 
 using Tanji.Core.Network;
-using Tanji.Infrastructure.Services;
+using Tanji.Core.Habbo.Network;
 
-namespace Tanji.Core.Services;
+namespace Tanji.Infrastructure.Services;
 
-public interface IConnectionHandlerService<TPacketMiddleman> where TPacketMiddleman : IPacketMiddlemanService
+public interface IConnectionHandlerService
 {
-    ObservableCollection<HConnection> Connections { get; }
+    ObservableCollection<IHConnection> Connections { get; }
 
-    Task<HConnection> LaunchAndInterceptConnectionAsync(string ticket, HConnectionContext options, CancellationToken cancellationToken = default);
+    Task<IHConnection> LaunchAndInterceptConnectionAsync(string ticket, HConnectionContext context, CancellationToken cancellationToken = default);
 }
