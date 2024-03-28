@@ -35,7 +35,7 @@ partial class ToolboxView
         // 
         // viewModelSource
         // 
-        viewModelSource.DataSource = typeof(Core.ViewModels.ToolboxViewModel);
+        viewModelSource.DataSource = typeof(Tanji.Infrastructure.ViewModels.ToolboxViewModel);
         // 
         // ToolboxView
         // 

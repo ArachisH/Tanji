@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Tanji.Core.ViewModels;
+namespace Tanji.Infrastructure.ViewModels;
 
 public partial class SettingsViewModel : ObservableObject
 {

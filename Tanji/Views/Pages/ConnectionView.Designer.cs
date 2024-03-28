@@ -48,7 +48,7 @@ partial class ConnectionView
         // 
         // viewModelSource
         // 
-        viewModelSource.DataSource = typeof(Core.ViewModels.ConnectionViewModel);
+        viewModelSource.DataSource = typeof(Tanji.Infrastructure.ViewModels.ConnectionViewModel);
         // 
         // lstVariables
         // 

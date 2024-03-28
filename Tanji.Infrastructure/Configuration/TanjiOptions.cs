@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 using Tanji.Core.Json;
 using Tanji.Core.Habbo.Canvas;
 
-namespace Tanji.Core.Configuration;
+namespace Tanji.Infrastructure.Configuration;
 
 public readonly record struct PlatformPaths
 {

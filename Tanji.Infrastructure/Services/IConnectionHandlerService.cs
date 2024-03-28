@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 
 using Tanji.Core.Network;
+using Tanji.Infrastructure.Services;
 
 namespace Tanji.Core.Services;
 

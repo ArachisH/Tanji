@@ -35,7 +35,7 @@ partial class InjectionView
         // 
         // viewModelSource
         // 
-        viewModelSource.DataSource = typeof(Core.ViewModels.InjectionViewModel);
+        viewModelSource.DataSource = typeof(Tanji.Infrastructure.ViewModels.InjectionViewModel);
         // 
         // InjectionView
         // 

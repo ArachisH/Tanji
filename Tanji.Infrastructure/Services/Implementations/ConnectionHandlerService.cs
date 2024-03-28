@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Collections.ObjectModel;
 
+using Tanji.Core;
 using Tanji.Core.Network;
 using Tanji.Core.Habbo.Canvas;
 using Tanji.Core.Habbo.Network.Buffers;
@@ -10,15 +11,15 @@ using Microsoft.Extensions.Logging;
 
 using CommunityToolkit.HighPerformance.Buffers;
 
-namespace Tanji.Core.Services;
+namespace Tanji.Infrastructure.Services.Implementations;
 
-public sealed class ConnectionHandlerService : IConnectionHandlerService<PacketMiddlemanService>
+public sealed class ConnectionHandlerService : IConnectionHandlerService
 {
     private readonly PacketMiddlemanService _packetMiddleman;
     private readonly ILogger<ConnectionHandlerService> _logger;
     private readonly IClientHandlerService _clientHandler;
 
-    public ObservableCollection<HConnection<PacketMiddlemanService>> Connections { get; } = [];
+    public ObservableCollection<HConnection> Connections { get; } = [];
 
     public ConnectionHandlerService(ILogger<ConnectionHandlerService> logger,
         IClientHandlerService clientHandler,
@@ -29,7 +30,7 @@ public sealed class ConnectionHandlerService : IConnectionHandlerService<PacketM
         _packetMiddleman = packetMiddleman;
     }
 
-    public async Task<HConnection<PacketMiddlemanService>> LaunchAndInterceptConnectionAsync(string ticket, HConnectionContext context, CancellationToken cancellationToken = default)
+    public async Task<HConnection> LaunchAndInterceptConnectionAsync(string ticket, HConnectionContext context, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(ticket))
         {
@@ -37,7 +38,7 @@ public sealed class ConnectionHandlerService : IConnectionHandlerService<PacketM
             ThrowHelper.ThrowArgumentNullException(nameof(ticket));
         }
 
-        var connection = new HConnection<PacketMiddlemanService>(_packetMiddleman);
+        var connection = new HConnection();
         ValueTask interceptLocalConnectionTask = connection.InterceptLocalConnectionAsync(context, cancellationToken);
 
         _ = _clientHandler.LaunchClient(context.Platform, ticket, context.ClientPath);

@@ -1,4 +1,4 @@
-﻿namespace Tanji.Core.Services;
+﻿namespace Tanji.Infrastructure.Services;
 
 public interface IWebInterceptionService
 {

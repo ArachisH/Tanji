@@ -5,9 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Tanji.Views;
 using Tanji.Utilities;
-
-using Tanji.Core;
-using Tanji.Core.Configuration;
+using Tanji.Infrastructure.Services;
+using Tanji.Infrastructure.Configuration;
 
 var builder = Host.CreateApplicationBuilder(args);
 

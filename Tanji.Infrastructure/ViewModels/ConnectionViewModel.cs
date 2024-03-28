@@ -1,9 +1,9 @@
-﻿using Tanji.Core.Services;
-using Tanji.Core.Habbo.Network;
+﻿using Tanji.Core.Habbo.Network;
+using Tanji.Infrastructure.Services;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Tanji.Core.ViewModels;
+namespace Tanji.Infrastructure.ViewModels;
 
 public partial class ConnectionViewModel : ObservableObject
 {

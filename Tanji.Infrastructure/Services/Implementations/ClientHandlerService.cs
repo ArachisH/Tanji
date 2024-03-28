@@ -7,19 +7,20 @@ using System.Security.Cryptography;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
+using Tanji.Core;
 using Tanji.Core.Json;
 using Tanji.Core.Habbo;
 using Tanji.Core.Habbo.Canvas;
-using Tanji.Core.Configuration;
 using Tanji.Core.Json.Converters;
 using Tanji.Core.Habbo.Canvas.Flash;
+using Tanji.Infrastructure.Configuration;
 
 using Flazzy.Tools;
 
 using CommunityToolkit.HighPerformance;
 using CommunityToolkit.HighPerformance.Buffers;
 
-namespace Tanji.Core.Services;
+namespace Tanji.Infrastructure.Services.Implementations;
 
 public sealed class ClientHandlerService : IClientHandlerService
 {

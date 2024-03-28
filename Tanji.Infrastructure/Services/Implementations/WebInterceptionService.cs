@@ -1,7 +1,7 @@
 ﻿using System.Threading.Channels;
 
 using Tanji.Core.Habbo;
-using Tanji.Core.Configuration;
+using Tanji.Infrastructure.Configuration;
 
 using Eavesdrop;
 
@@ -10,7 +10,7 @@ using Microsoft.Extensions.Options;
 
 using CommunityToolkit.HighPerformance;
 
-namespace Tanji.Core.Services;
+namespace Tanji.Infrastructure.Services.Implementations;
 
 public sealed class WebInterceptionService : IWebInterceptionService
 {

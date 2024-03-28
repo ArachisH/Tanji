@@ -8,7 +8,7 @@ using Tanji.Core.Habbo.Canvas;
 
 using CommunityToolkit.HighPerformance.Buffers;
 
-namespace Tanji.Core.Configuration;
+namespace Tanji.Infrastructure.Configuration;
 
 internal sealed class PostConfigureTanjiOptions : IPostConfigureOptions<TanjiOptions>
 {

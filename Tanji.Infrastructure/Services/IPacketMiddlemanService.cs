@@ -1,6 +1,6 @@
 ﻿using Tanji.Core.Habbo.Network;
 
-namespace Tanji.Core.Services;
+namespace Tanji.Infrastructure.Services;
 
 public interface IPacketMiddlemanService
 {

@@ -1,11 +1,12 @@
-﻿using Tanji.Core.Services;
-using Tanji.Core.ViewModels;
-using Tanji.Core.Configuration;
+﻿using Tanji.Infrastructure.Services.Implementations;
+
+using Tanji.Infrastructure.ViewModels;
+using Tanji.Infrastructure.Configuration;
 
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Tanji.Core;
+namespace Tanji.Infrastructure.Services;
 
 public static class ServiceCollectionExtensions
 {
@@ -20,7 +21,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IClientHandlerService, ClientHandlerService>();
 
         services.AddSingleton<PacketMiddlemanService>();
-        services.AddSingleton<IConnectionHandlerService<PacketMiddlemanService>, ConnectionHandlerService>();
+        services.AddSingleton<IConnectionHandlerService, ConnectionHandlerService>();
 
         // Add view-models
         services.AddSingleton<ConnectionViewModel>();

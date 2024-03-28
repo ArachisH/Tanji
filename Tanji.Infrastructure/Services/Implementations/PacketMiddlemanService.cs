@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.Logging;
 
-namespace Tanji.Core.Services;
+namespace Tanji.Infrastructure.Services.Implementations;
 
 public class PacketMiddlemanService : IPacketMiddlemanService
 {

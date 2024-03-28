@@ -35,7 +35,7 @@ partial class ExtensionsView
         // 
         // viewModelSource
         // 
-        viewModelSource.DataSource = typeof(Core.ViewModels.ExtensionsViewModel);
+        viewModelSource.DataSource = typeof(Tanji.Infrastructure.ViewModels.ExtensionsViewModel);
         // 
         // ExtensionsView
         // 

@@ -3,7 +3,7 @@
 using Tanji.Core.Habbo;
 using Tanji.Core.Habbo.Canvas;
 
-namespace Tanji.Core.Services;
+namespace Tanji.Infrastructure.Services;
 
 public interface IClientHandlerService
 {

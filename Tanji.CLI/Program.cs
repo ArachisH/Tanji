@@ -1,10 +1,9 @@
 ﻿using System.Runtime.InteropServices;
 
-using Tanji.Core;
 using Tanji.Core.Network;
-using Tanji.Core.Services;
 using Tanji.Core.Habbo.Canvas;
-using Tanji.Core.Configuration;
+using Tanji.Infrastructure.Services;
+using Tanji.Infrastructure.Configuration;
 
 using Eavesdrop;
 

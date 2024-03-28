@@ -35,7 +35,7 @@ partial class SettingsView
         // 
         // viewModelSource
         // 
-        viewModelSource.DataSource = typeof(Core.ViewModels.SettingsViewModel);
+        viewModelSource.DataSource = typeof(Tanji.Infrastructure.ViewModels.SettingsViewModel);
         // 
         // SettingsView
         // 
