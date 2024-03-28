@@ -156,15 +156,28 @@ public sealed class ClientHandlerService : IClientHandlerService
             HPlatform.Flash => LaunchFlashClientAsync(paths, ticket),
             _ => throw new NotSupportedException($"{platform} is not currently supported for launching.")
         };
-        }
+    }
+
+    private void Process_Exited(object? sender, EventArgs e)
+    {
+        var process = (Process)sender!;
+        process.Exited -= Process_Exited;
+        process.ErrorDataReceived -= Process_DataReceived;
+        process.OutputDataReceived -= Process_DataReceived;
+        _logger.LogTrace("Client launcher process has exited.");
+    }
+    private void Process_DataReceived(object? sender, DataReceivedEventArgs e)
+    {
+        _logger.LogTrace("{Data}", e.Data);
+    }
     private async Task<Process> LaunchFlashClientAsync(PlatformPaths paths, string ticket)
-        {
+    {
         ProcessStartInfo info = !string.IsNullOrWhiteSpace(_options.AirDebugLauncherFilePath) && _options.IsUsingAirDebugLauncher
             ? new ProcessStartInfo(_options.AirDebugLauncherFilePath)
             {
                 UseShellExecute = false,
                 CreateNoWindow = false,
-            RedirectStandardError = true,
+                RedirectStandardError = true,
                 RedirectStandardOutput = true,
                 WorkingDirectory = paths.RootPath,
                 Arguments = $"\".\\META-INF\\AIR\\application.xml\" root-dir . -- server {ticket[..4]} ticket {ticket[5..]}"
