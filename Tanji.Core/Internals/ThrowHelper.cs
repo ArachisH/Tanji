@@ -1,6 +1,10 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Runtime.CompilerServices;
+using System.Diagnostics.CodeAnalysis;
+
+[assembly: InternalsVisibleTo("Tanji.Infrastructure")]
 
 namespace Tanji.Core;
+
 internal static class ThrowHelper
 {
     [DoesNotReturn]
