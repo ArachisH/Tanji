@@ -2,6 +2,7 @@
 
 using Tanji.Core.Network;
 using Tanji.Core.Habbo.Canvas;
+using Tanji.Core.Habbo.Network;
 using Tanji.Infrastructure.Services;
 using Tanji.Infrastructure.Configuration;
 
@@ -67,15 +68,13 @@ public class Program
         do
         {
             string ticket = await _webInterception.InterceptTicketAsync(cancellationToken).ConfigureAwait(false);
-            _logger.LogInformation("Game Ticket: {Ticket}", ticket);
+            _logger.LogInformation("Game Ticket: {ticket}", ticket);
 
-            IGame game = _clientHandler.PatchClient(HPlatform.Flash);
-            _logger.LogInformation("Client Processed : {game.path}", game.Path);
+            IGame game = await _clientHandler.PatchClientAsync(HPlatform.Flash).ConfigureAwait(false);
+            _logger.LogInformation("Client Patched : {game.path}", game.Path);
 
-            var connectionContext = new HConnectionContext(game);
-            HConnection connection = await _connectionHandler.LaunchAndInterceptConnectionAsync(ticket, connectionContext, cancellationToken).ConfigureAwait(false);
-
-            await connection.WeldNodesAsync(cancellationToken).ConfigureAwait(false);
+            var context = new HConnectionContext(game);
+            IHConnection connection = await _connectionHandler.LaunchAndInterceptConnectionAsync(ticket, context, cancellationToken).ConfigureAwait(false);
         }
         while (!cancellationToken.IsCancellationRequested);
     }
