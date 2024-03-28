@@ -20,9 +20,7 @@ internal sealed class PostConfigureTanjiOptions : IPostConfigureOptions<TanjiOpt
 
         using var versionsFileBuffer = MemoryOwner<byte>.Allocate((int)versionsFileInfo.Length);
         using var versionsFileStream = File.OpenRead(versionsFileInfo.FullName);
-        versionsFileStream.Read(versionsFileBuffer.Span);
-
-        options.Versions = JsonSerializer.Deserialize<LauncherVersions>(versionsFileBuffer.Span,
+        options.Versions = JsonSerializer.Deserialize<LauncherVersions>(versionsFileStream,
             new JsonSerializerOptions()
             {
                 PropertyNameCaseInsensitive = true
