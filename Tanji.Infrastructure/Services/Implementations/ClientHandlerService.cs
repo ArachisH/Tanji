@@ -134,7 +134,7 @@ public sealed class ClientHandlerService : IClientHandlerService
         }
         return false;
     }
-    public Process? LaunchClient(HPlatform platform, string ticket, string? clientPath = null)
+    public Task<Process> LaunchClientAsync(HPlatform platform, string ticket, string? clientPath = null)
     {
         PlatformPaths paths = GetPlatformPaths(platform, _options.PlatformPaths);
         if (string.IsNullOrWhiteSpace(clientPath))
@@ -151,29 +151,45 @@ public sealed class ClientHandlerService : IClientHandlerService
             _logger.LogError("Failed to create a hard link at the provided {linkPath}.", targetLinkPath);
         }
 
-        if (platform == HPlatform.Flash)
+        return platform switch
         {
-            ApplyFlashLauncherSettings(paths.RootPath, "patched.", "Tanji.");
-        }
-
-        var processStartInfo = new ProcessStartInfo(paths.ExecutablePath, $"server {ticket[..4]} ticket {ticket[5..]}")
-        {
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
+            HPlatform.Flash => LaunchFlashClientAsync(paths, ticket),
+            _ => throw new NotSupportedException($"{platform} is not currently supported for launching.")
         };
-
-        var clientProcess = Process.Start(processStartInfo);
-        if (!clientProcess?.WaitForInputIdle(1000) ?? true)
-        {
-            _logger.LogError("Process idle state not yet reached, consider increasing timeout threshold.");
         }
-
-        if (platform == HPlatform.Flash)
+    private async Task<Process> LaunchFlashClientAsync(PlatformPaths paths, string ticket)
         {
+        ProcessStartInfo info = !string.IsNullOrWhiteSpace(_options.AirDebugLauncherFilePath) && _options.IsUsingAirDebugLauncher
+            ? new ProcessStartInfo(_options.AirDebugLauncherFilePath)
+            {
+                UseShellExecute = false,
+                CreateNoWindow = false,
+            RedirectStandardError = true,
+                RedirectStandardOutput = true,
+                WorkingDirectory = paths.RootPath,
+                Arguments = $"\".\\META-INF\\AIR\\application.xml\" root-dir . -- server {ticket[..4]} ticket {ticket[5..]}"
+            }
+            : new ProcessStartInfo(paths.ExecutablePath, $"server {ticket[..4]} ticket {ticket[5..]}");
+
+        var launcherProcess = new Process
+        {
+            StartInfo = info,
+            EnableRaisingEvents = true,
+        };
+        launcherProcess.Exited += Process_Exited;
+        launcherProcess.ErrorDataReceived += Process_DataReceived;
+        launcherProcess.OutputDataReceived += Process_DataReceived;
+
+        ApplyFlashLauncherSettings(paths.RootPath, "patched.", "Tanji.");
+        if (launcherProcess.Start())
+        {
+            // Wait for process to finish using the modified 'application.xml' file
+            await Task.Delay(250).ConfigureAwait(false);
             ApplyFlashLauncherSettings(paths.RootPath);
         }
+        else throw new Exception("Failed to start the flash client process.");
 
-        return clientProcess;
+        return launcherProcess;
     }
 
     private static IGame AcquireGame(HPlatform platform, Stream clientFileStream) => platform switch
