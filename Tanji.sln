@@ -20,7 +20,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tanji.Core.Generators", "Ta
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tanji.CLI", "Tanji.CLI\Tanji.CLI.csproj", "{30006EB4-B64C-43F2-ACC0-C6EDAB1A412E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tanji.Infrastructure", "Tanji.Infrastructure\Tanji.Infrastructure.csproj", "{219D4ABF-1922-4C01-BA89-693B689EDD3B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tanji.Infrastructure", "Tanji.Infrastructure\Tanji.Infrastructure.csproj", "{867F292C-906D-4F47-A341-CA8940FA210E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,10 +52,10 @@ Global
 		{30006EB4-B64C-43F2-ACC0-C6EDAB1A412E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30006EB4-B64C-43F2-ACC0-C6EDAB1A412E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30006EB4-B64C-43F2-ACC0-C6EDAB1A412E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{219D4ABF-1922-4C01-BA89-693B689EDD3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{219D4ABF-1922-4C01-BA89-693B689EDD3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{219D4ABF-1922-4C01-BA89-693B689EDD3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{219D4ABF-1922-4C01-BA89-693B689EDD3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{867F292C-906D-4F47-A341-CA8940FA210E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{867F292C-906D-4F47-A341-CA8940FA210E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{867F292C-906D-4F47-A341-CA8940FA210E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{867F292C-906D-4F47-A341-CA8940FA210E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
