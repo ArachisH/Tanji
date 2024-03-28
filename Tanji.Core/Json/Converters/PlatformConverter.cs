@@ -5,7 +5,7 @@ using Tanji.Core.Habbo.Canvas;
 
 namespace Tanji.Core.Json;
 
-internal sealed class PlatformConverter : JsonConverter<HPlatform>
+public sealed class PlatformConverter : JsonConverter<HPlatform>
 {
     public override void Write(Utf8JsonWriter writer, HPlatform value, JsonSerializerOptions options)
     {

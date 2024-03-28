@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Tanji.Core.Json;
 
-internal sealed class EpochDateTimeConverter : JsonConverter<DateTime>
+public sealed class EpochDateTimeConverter : JsonConverter<DateTime>
 {
     public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
     {

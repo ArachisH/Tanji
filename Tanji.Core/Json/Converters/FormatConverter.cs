@@ -5,7 +5,7 @@ using Tanji.Core.Habbo.Network.Formats;
 
 namespace Tanji.Core.Json;
 
-internal sealed class FormatConverter : JsonConverter<IHFormat>
+public sealed class FormatConverter : JsonConverter<IHFormat>
 {
     private const string EVAWIRE_NAME = "EvaWire";
     private const string WEDGIE_IN_NAME = "Wedgie-In";

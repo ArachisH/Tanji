@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Tanji.Core.Json;
 
-internal sealed class HexColorConverter : JsonConverter<Color>
+public sealed class HexColorConverter : JsonConverter<Color>
 {
     public override Color Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
