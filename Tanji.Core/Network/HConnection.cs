@@ -2,7 +2,6 @@
 using System.Text;
 using System.Net.Sockets;
 
-using Tanji.Core.Habbo;
 using Tanji.Core.Habbo.Network;
 
 using CommunityToolkit.HighPerformance.Buffers;
@@ -17,23 +16,35 @@ public sealed class HConnection : IHConnection
     private static ReadOnlySpan<byte> XDPRequestBytes => "<policy-file-request/>\0"u8;
     private static readonly ReadOnlyMemory<byte> XDPResponseBytes = Encoding.UTF8.GetBytes("<cross-domain-policy><allow-access-from domain=\"*\" to-ports=\"*\"/></cross-domain-policy>\0");
 
+    private Task? _weldTask;
     private CancellationTokenSource? _interceptCancellationSource;
 
     public HNode? Local { get; private set; }
     public HNode? Remote { get; private set; }
 
-    public Incoming? In { get; set; }
-    public Outgoing? Out { get; set; }
-
+    public int TotalInboundPackets { get; }
+    public int TotalOutboundPackets { get; }
     public bool IsConnected => Local != null && Remote != null && Local.IsConnected & Remote.IsConnected;
 
-    public Task WeldNodesAsync(CancellationToken cancellationToken = default)
+    public HConnectionContext Context { get; }
+
+    public HConnection(HConnectionContext context)
     {
-        Task localToRemote = WeldNodesAsync(Local!, Remote!, true, cancellationToken);
-        Task remoteToLocal = WeldNodesAsync(Remote!, Local!, false, cancellationToken);
-        return Task.WhenAll(localToRemote, remoteToLocal);
+        Context = context;
     }
-    public async ValueTask InterceptLocalConnectionAsync(HConnectionContext context, CancellationToken cancellationToken = default)
+
+    public Task AttachNodesAsync(CancellationToken cancellationToken = default)
+    {
+        if (_weldTask != null && !_weldTask.IsCompleted)
+        {
+            return _weldTask;
+        }
+
+        Task localToRemote = AttachNodesAsync(Local!, Remote!, true, cancellationToken);
+        Task remoteToLocal = AttachNodesAsync(Remote!, Local!, false, cancellationToken);
+        return _weldTask = Task.WhenAll(localToRemote, remoteToLocal);
+    }
+    public async Task InterceptLocalConnectionAsync(CancellationToken cancellationToken = default)
     {
         /* Reset the cancellation token. */
         CancelAndNullifySource(ref _interceptCancellationSource);
@@ -49,11 +60,11 @@ public sealed class HConnection : IHConnection
 
         try
         {
-            int listenSkipAmount = context.MinimumConnectionAttempts;
+            int listenSkipAmount = Context.MinimumConnectionAttempts;
             while ((Local == null || !Local.IsConnected) && !cancellationToken.IsCancellationRequested)
             {
-                Socket localSocket = await AcceptAsync(context.AppliedPatchingOptions.InjectedAddress!.Port, cancellationToken).ConfigureAwait(false);
-                Local = new HNode(localSocket, context.ReceivePacketFormat);
+                Socket localSocket = await AcceptAsync(Context.AppliedPatchingOptions.InjectedAddress!.Port, cancellationToken).ConfigureAwait(false);
+                Local = new HNode(localSocket, Context.ReceivePacketFormat);
 
                 if (--listenSkipAmount > 0)
                 {
@@ -61,19 +72,19 @@ public sealed class HConnection : IHConnection
                     continue;
                 }
 
-                if (context.IsWebSocketConnection)
+                if (Context.IsWebSocketConnection)
                 {
-                    if (context.WebSocketServerCertificate == null)
+                    if (Context.WebSocketServerCertificate == null)
                     {
                         ThrowHelper.ThrowNullReferenceException("No certificate was provided for local authentication using the WebSocket Secure protocol.");
                     }
 
                     if (cancellationToken.IsCancellationRequested) return;
-                    await Local.UpgradeToWebSocketServerAsync(context.WebSocketServerCertificate, cancellationToken).ConfigureAwait(false);
+                    await Local.UpgradeToWebSocketServerAsync(Context.WebSocketServerCertificate, cancellationToken).ConfigureAwait(false);
                 }
 
                 if (cancellationToken.IsCancellationRequested) return;
-                if (context.IsFakingPolicyRequest)
+                if (Context.IsFakingPolicyRequest)
                 {
                     using MemoryOwner<byte> buffer = MemoryOwner<byte>.Allocate(512);
 
@@ -100,12 +111,12 @@ public sealed class HConnection : IHConnection
             CancelAndNullifySource(ref linkedInterceptCancellationSource);
         }
     }
-    public async ValueTask EstablishRemoteConnectionAsync(HConnectionContext context, IPEndPoint remoteEndPoint, CancellationToken cancellationToken = default)
+    public async Task EstablishRemoteConnectionAsync(IPEndPoint remoteEndPoint, CancellationToken cancellationToken = default)
     {
         Socket remoteSocket = await ConnectAsync(remoteEndPoint, cancellationToken).ConfigureAwait(false);
-        Remote = new HNode(remoteSocket, context.ReceivePacketFormat);
+        Remote = new HNode(remoteSocket, Context.ReceivePacketFormat);
 
-        if (context.WebSocketServerCertificate != null)
+        if (Context.WebSocketServerCertificate != null)
         {
             await Remote.UpgradeToWebSocketClientAsync(cancellationToken).ConfigureAwait(false);
         }
@@ -130,7 +141,7 @@ public sealed class HConnection : IHConnection
         }
     }
 
-    private async Task WeldNodesAsync(HNode source, HNode destination, bool isOutbound, CancellationToken cancellationToken = default)
+    private async Task AttachNodesAsync(HNode source, HNode destination, bool isOutbound, CancellationToken cancellationToken = default)
     {
         int received;
         while (source.IsConnected && destination.IsConnected && !cancellationToken.IsCancellationRequested)
@@ -142,21 +153,23 @@ public sealed class HConnection : IHConnection
             if (received > 0)
             {
                 // Continuously attempt to receive packets from the node
-                _ = HandleInterceptedPacketAsync(writer, destination, isOutbound, cancellationToken);
+                _ = HandleInterceptedPacketAsync(received, source, destination, isOutbound, writer, cancellationToken);
             }
             else writer.Dispose();
         }
     }
-    private async Task HandleInterceptedPacketAsync(ArrayPoolBufferWriter<byte> writer, HNode destination, bool isOutbound, CancellationToken cancellationToken = default)
+    private async Task HandleInterceptedPacketAsync(int received, HNode source, HNode destination, bool isOutbound, ArrayPoolBufferWriter<byte> writer, CancellationToken cancellationToken = default)
     {
         try
         {
             Memory<byte> buffer = writer.DangerousGetArray();
-            //if (Middleman != null)
+            if (buffer.Length != writer.WrittenCount || buffer.Length != received)
+            { }
+            //if (Spooler != null)
             //{
             //    ValueTask<bool> packetProcessTask = isOutbound
-            //        ? Middleman.PacketOutboundAsync(buffer, destination)
-            //        : Middleman.PacketInboundAsync(buffer, destination);
+            //        ? Spooler.PacketOutboundAsync(buffer, source, destination)
+            //        : Spooler.PacketInboundAsync(buffer, source, destination);
 
             //    // If true, the packet is to be ignored/blocked
             //    if (await packetProcessTask.ConfigureAwait(false)) return;
