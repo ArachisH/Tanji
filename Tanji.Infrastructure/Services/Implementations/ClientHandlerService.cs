@@ -50,7 +50,7 @@ public sealed class ClientHandlerService : IClientHandlerService
         _options = options.Value;
     }
 
-    public IGame PatchClient(HPlatform platform, string? clientPath = null)
+    public async Task<IGame> PatchClientAsync(HPlatform platform, string? clientPath = null)
     {
         if (string.IsNullOrWhiteSpace(clientPath))
         {
@@ -65,12 +65,13 @@ public sealed class ClientHandlerService : IClientHandlerService
         }
 
         // Compute Chopped Hash
-        Span<byte> clientFileHash = stackalloc byte[16];
+        byte[] clientFileHash = new byte[16];
         using FileStream tempClientFileStream = File.OpenRead(clientPath);
 
         // Attempt to load game data from a json file.
-        MD5.HashData(tempClientFileStream, clientFileHash);
-        string identifier = Convert.ToHexString(clientFileHash.Slice(0, 4));
+        await MD5.HashDataAsync(tempClientFileStream, clientFileHash).ConfigureAwait(false);
+
+        string identifier = Convert.ToHexString(clientFileHash, 0, 4);
         foreach (FileInfo fileInfo in PatchedClientsDirectory.EnumerateFiles())
         {
             if (!fileInfo.Name.StartsWith(identifier, StringComparison.InvariantCultureIgnoreCase) ||
