@@ -12,18 +12,18 @@ using CommunityToolkit.HighPerformance;
 
 namespace Tanji.Infrastructure.Services.Implementations;
 
-public sealed class WebInterceptionService : IWebInterceptionService
+public sealed class EavesdropInterceptionService : IWebInterceptionService
 {
     private readonly Channel<string> _ticketsChannel;
 
     private static ReadOnlySpan<char> TicketVariableName => "\"ticket\":\"";
 
     private readonly TanjiOptions _options;
-    private readonly ILogger<WebInterceptionService> _logger;
+    private readonly ILogger<EavesdropInterceptionService> _logger;
 
     public bool IsIntercepting => Eavesdropper.IsRunning;
 
-    public WebInterceptionService(ILogger<WebInterceptionService> logger, IOptions<TanjiOptions> options)
+    public EavesdropInterceptionService(ILogger<EavesdropInterceptionService> logger, IOptions<TanjiOptions> options)
     {
         _logger = logger;
         _options = options.Value;
@@ -92,7 +92,7 @@ public sealed class WebInterceptionService : IWebInterceptionService
 
         return false;
     }
-    private static bool TryStartWebTrafficInterception(ILogger<WebInterceptionService> logger, int proxyListenPort)
+    private static bool TryStartWebTrafficInterception(ILogger<EavesdropInterceptionService> logger, int proxyListenPort)
     {
         if (Eavesdropper.IsRunning) return true;
         if (!Eavesdropper.Certifier?.CreateTrustedRootCertificate() ?? false)
