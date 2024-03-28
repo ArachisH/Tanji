@@ -3,7 +3,6 @@ using System.Text;
 using System.Net.Sockets;
 
 using Tanji.Core.Habbo;
-using Tanji.Core.Services;
 using Tanji.Core.Habbo.Network;
 
 using CommunityToolkit.HighPerformance.Buffers;
@@ -13,7 +12,7 @@ namespace Tanji.Core.Network;
 /// <summary>
 /// Represents a reusable 'bridge' that transfers data to/from two separate <see cref="HNode"/> instances.
 /// </summary>
-public sealed class HConnection<TMiddleman> : IHConnection<TMiddleman> where TMiddleman : IPacketMiddlemanService
+public sealed class HConnection : IHConnection
 {
     private static ReadOnlySpan<byte> XDPRequestBytes => "<policy-file-request/>\0"u8;
     private static readonly ReadOnlyMemory<byte> XDPResponseBytes = Encoding.UTF8.GetBytes("<cross-domain-policy><allow-access-from domain=\"*\" to-ports=\"*\"/></cross-domain-policy>\0");
@@ -26,16 +25,7 @@ public sealed class HConnection<TMiddleman> : IHConnection<TMiddleman> where TMi
     public Incoming? In { get; set; }
     public Outgoing? Out { get; set; }
 
-    public TMiddleman? Middleman { get; }
     public bool IsConnected => Local != null && Remote != null && Local.IsConnected & Remote.IsConnected;
-
-    public HConnection()
-        : this(default)
-    { }
-    public HConnection(TMiddleman? middleman)
-    {
-        Middleman = middleman;
-    }
 
     public Task WeldNodesAsync(CancellationToken cancellationToken = default)
     {
@@ -162,15 +152,15 @@ public sealed class HConnection<TMiddleman> : IHConnection<TMiddleman> where TMi
         try
         {
             Memory<byte> buffer = writer.DangerousGetArray();
-            if (Middleman != null)
-            {
-                ValueTask<bool> packetProcessTask = isOutbound
-                    ? Middleman.PacketOutboundAsync(buffer, destination)
-                    : Middleman.PacketInboundAsync(buffer, destination);
+            //if (Middleman != null)
+            //{
+            //    ValueTask<bool> packetProcessTask = isOutbound
+            //        ? Middleman.PacketOutboundAsync(buffer, destination)
+            //        : Middleman.PacketInboundAsync(buffer, destination);
 
-                // If true, the packet is to be ignored/blocked
-                if (await packetProcessTask.ConfigureAwait(false)) return;
-            }
+            //    // If true, the packet is to be ignored/blocked
+            //    if (await packetProcessTask.ConfigureAwait(false)) return;
+            //}
             await destination.SendPacketAsync(buffer, cancellationToken).ConfigureAwait(false);
         }
         finally { writer.Dispose(); }

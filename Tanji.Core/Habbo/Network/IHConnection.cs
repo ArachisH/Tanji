@@ -1,14 +1,10 @@
-﻿using Tanji.Core.Services;
+﻿namespace Tanji.Core.Habbo.Network;
 
-namespace Tanji.Core.Habbo.Network;
-
-public interface IHConnection<TMiddleman> where TMiddleman : IPacketMiddlemanService
+public interface IHConnection
 {
     HNode? Local { get; }
     HNode? Remote { get; }
 
     Incoming? In { get; }
     Outgoing? Out { get; }
-
-    TMiddleman? Middleman { get; }
 }
