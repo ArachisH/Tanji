@@ -2,9 +2,9 @@
 
 using Microsoft.Extensions.Logging;
 
-using Tanji.Core.Habbo.Network;
+using Tanji.Core.Net;
+using Tanji.Core.Net.Buffers;
 using Tanji.Core.Cryptography.Ciphers;
-using Tanji.Core.Habbo.Network.Buffers;
 
 namespace Tanji.Infrastructure.Services.Implementations;
 

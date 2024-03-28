@@ -1,4 +1,4 @@
-﻿using Tanji.Core.Habbo.Network;
+﻿using Tanji.Core.Net;
 using Tanji.Infrastructure.Services;
 
 using CommunityToolkit.Mvvm.ComponentModel;

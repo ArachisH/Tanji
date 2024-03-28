@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-using Tanji.Core.Habbo.Canvas;
+using Tanji.Core.Net;
 using Tanji.Infrastructure.Services;
 using Tanji.Infrastructure.Configuration;
 
@@ -9,6 +9,7 @@ using Eavesdrop;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
+using Tanji.Core.Canvas;
 
 namespace Tanji.CLI;
 

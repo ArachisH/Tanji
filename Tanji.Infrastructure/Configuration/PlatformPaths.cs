@@ -1,4 +1,4 @@
-﻿using Tanji.Core.Habbo.Canvas;
+﻿using Tanji.Core.Canvas;
 
 namespace Tanji.Infrastructure.Configuration;
 

@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-using Tanji.Core.Habbo.Network.Formats;
+using Tanji.Core.Net.Formats;
 
 namespace Tanji.Core.Json;
 

@@ -9,10 +9,10 @@ using Microsoft.Extensions.Options;
 
 using Tanji.Core;
 using Tanji.Core.Json;
-using Tanji.Core.Habbo;
-using Tanji.Core.Habbo.Canvas;
+using Tanji.Core.Canvas;
+using Tanji.Core.Canvas.Flash;
+using Tanji.Core.Net.Messages;
 using Tanji.Core.Json.Converters;
-using Tanji.Core.Habbo.Canvas.Flash;
 using Tanji.Infrastructure.Configuration;
 
 using Flazzy.Tools;

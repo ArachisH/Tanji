@@ -1,4 +1,4 @@
-﻿using Tanji.Core.Habbo;
+﻿using Tanji.Core.Canvas;
 
 namespace Tanji.Core.API;
 

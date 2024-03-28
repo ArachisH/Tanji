@@ -1,4 +1,4 @@
-﻿using Tanji.Core.Habbo.Network;
+﻿using Tanji.Core.Net;
 
 namespace Tanji.Infrastructure.Services;
 

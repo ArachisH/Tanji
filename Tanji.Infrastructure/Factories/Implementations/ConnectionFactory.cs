@@ -1,6 +1,5 @@
-﻿using Tanji.Core.Network;
-using Tanji.Core.Habbo.Canvas;
-using Tanji.Core.Habbo.Network;
+﻿using Tanji.Core.Net;
+using Tanji.Core.Canvas;
 
 namespace Tanji.Infrastructure.Factories.Implementations;
 

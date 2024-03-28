@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 
 using Tanji.Core.Json;
-using Tanji.Core.Habbo.Canvas;
+using Tanji.Core.Canvas;
 
 using Microsoft.Extensions.Options;
 

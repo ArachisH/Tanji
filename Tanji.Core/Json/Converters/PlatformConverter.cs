@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-using Tanji.Core.Habbo.Canvas;
+using Tanji.Core.Canvas;
 
 namespace Tanji.Core.Json;
 

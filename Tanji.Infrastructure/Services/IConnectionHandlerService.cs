@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-using Tanji.Core.Network;
-using Tanji.Core.Habbo.Network;
+using Tanji.Core.Net;
 
 namespace Tanji.Infrastructure.Services;
 

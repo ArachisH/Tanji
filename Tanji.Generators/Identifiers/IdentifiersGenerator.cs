@@ -46,9 +46,9 @@ public sealed class IdentifiersGenerator : IIncrementalGenerator
         indentedText.Write($$"""
             using System.Text.Json.Serialization;
 
-            using Tanji.Core.Habbo.Canvas;
+            using Tanji.Core.Canvas;
 
-            namespace Tanji.Core.Habbo;
+            namespace Tanji.Core.Net.Messages;
 
             public sealed partial class {{sourceFileName}} : Identifiers
             {

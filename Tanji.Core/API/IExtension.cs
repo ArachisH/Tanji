@@ -1,4 +1,4 @@
-﻿using Tanji.Core.Network;
+﻿using Tanji.Core.Net;
 
 namespace Tanji.Core.API;
 

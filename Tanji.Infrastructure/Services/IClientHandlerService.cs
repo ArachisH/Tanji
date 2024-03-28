@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 
-using Tanji.Core.Habbo;
-using Tanji.Core.Habbo.Canvas;
+using Tanji.Core.Canvas;
+using Tanji.Core.Net.Messages;
 
 namespace Tanji.Infrastructure.Services;
 

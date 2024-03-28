@@ -4,12 +4,11 @@ using System.Net.Sockets;
 using System.Collections.ObjectModel;
 
 using Tanji.Core;
-using Tanji.Core.Network;
-using Tanji.Core.Habbo.Canvas;
-using Tanji.Core.Habbo.Network;
+using Tanji.Core.Net;
+using Tanji.Core.Canvas;
+using Tanji.Core.Net.Buffers;
+using Tanji.Core.Net.Formats;
 using Tanji.Infrastructure.Factories;
-using Tanji.Core.Habbo.Network.Buffers;
-using Tanji.Core.Habbo.Network.Formats;
 
 using Microsoft.Extensions.Logging;
 

@@ -1,6 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using Tanji.Core.Generators.Identifiers;
 
-using Tanji.Core.Generators.Identifiers;
+using Microsoft.CodeAnalysis;
 
 namespace Tanji.Core.Generators;
 

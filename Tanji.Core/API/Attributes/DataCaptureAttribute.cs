@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 
-using Tanji.Core.Network;
-using Tanji.Core.Habbo.Canvas;
-using Tanji.Core.Habbo.Network.Buffers;
+using Tanji.Core.Net;
+using Tanji.Core.Canvas;
+using Tanji.Core.Net.Buffers;
 
 namespace Tanji.Core.API;
 
@@ -37,10 +37,10 @@ public sealed class DataCaptureAttribute : Attribute, IEquatable<DataCaptureAttr
         switch (result)
         {
             case bool isBlocked:
-                {
-                    args.IsBlocked = isBlocked;
-                    break;
-                }
+            {
+                args.IsBlocked = isBlocked;
+                break;
+            }
         }
     }
     private object?[] CreateValues(DataInterceptedEventArgs args)
