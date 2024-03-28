@@ -1,12 +1,10 @@
 ﻿using System.Text.Json;
 using System.Collections.ObjectModel;
 
-using Microsoft.Extensions.Options;
-
 using Tanji.Core.Json;
 using Tanji.Core.Habbo.Canvas;
 
-using CommunityToolkit.HighPerformance.Buffers;
+using Microsoft.Extensions.Options;
 
 namespace Tanji.Infrastructure.Configuration;
 
@@ -18,7 +16,8 @@ internal sealed class PostConfigureTanjiOptions : IPostConfigureOptions<TanjiOpt
         var versionsFileInfo = new FileInfo(Path.Combine(options.LauncherPath, "versions.json"));
         if (!versionsFileInfo.Exists) return;
 
-        using var versionsFileBuffer = MemoryOwner<byte>.Allocate((int)versionsFileInfo.Length);
+        options.AirDebugLauncherFilePath = Environment.ExpandEnvironmentVariables(options.AirDebugLauncherFilePath);
+
         using var versionsFileStream = File.OpenRead(versionsFileInfo.FullName);
         options.Versions = JsonSerializer.Deserialize<LauncherVersions>(versionsFileStream,
             new JsonSerializerOptions()
