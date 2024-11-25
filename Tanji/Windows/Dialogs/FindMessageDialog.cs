@@ -15,6 +15,7 @@ public partial class FindMessageDialog : ObservableForm
     private readonly MainFrm _mainUI;
 
     private string _hash = string.Empty;
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public string Hash
     {
         get => _hash;
@@ -26,6 +27,7 @@ public partial class FindMessageDialog : ObservableForm
     }
 
     private ushort _id = 0;
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public ushort Id
     {
         get => _id;

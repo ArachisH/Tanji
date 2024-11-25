@@ -13,6 +13,7 @@ public class SKoreInjectionMenu : ContextMenuStrip
 {
     private TextBox _inputBox;
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public TextBox InputBox
     {
         get => _inputBox;

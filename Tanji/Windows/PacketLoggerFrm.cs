@@ -4,6 +4,8 @@ using System.Threading;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
+
+using Tanji.Controls;
 using Tanji.Manipulators;
 using Tanji.Windows.Dialogs;
 
@@ -11,7 +13,6 @@ using Sulakore.Habbo;
 using Sulakore.Protocol;
 using Sulakore.Communication;
 using Sulakore.Habbo.Messages;
-using Tanji.Controls;
 
 namespace Tanji.Windows;
 
@@ -28,10 +29,19 @@ public partial class PacketLoggerFrm : ObservableForm, IReceiver, IHaltable
     private readonly Queue<DataInterceptedEventArgs> _intercepted;
     private readonly Action<List<Tuple<string, Color>>> _displayEntries;
 
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public Color DetailHighlight { get; set; } = Color.Cyan;
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public Color DefaultHighlight { get; set; } = Color.DarkGray;
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public Color IncomingHighlight { get; set; } = Color.FromArgb(178, 34, 34);
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public Color OutgoingHighlight { get; set; } = Color.FromArgb(0, 102, 204);
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public Color StructureHighlight { get; set; } = Color.FromArgb(0, 204, 136);
 
     public bool IsFindDialogOpened => (!(_currentFindUI?.IsDisposed ?? true));
@@ -39,6 +49,7 @@ public partial class PacketLoggerFrm : ObservableForm, IReceiver, IHaltable
     public bool IsIgnoreMessagesDialogOpened => (!(_currentIgnoreMessagesUI?.IsDisposed ?? true));
 
     private bool _isDisplayingBlocked = true;
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool IsDisplayingBlocked
     {
         get => _isDisplayingBlocked;
@@ -50,6 +61,7 @@ public partial class PacketLoggerFrm : ObservableForm, IReceiver, IHaltable
     }
 
     private bool _isDisplayingReplaced = true;
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool IsDisplayingReplaced
     {
         get => _isDisplayingReplaced;
@@ -61,6 +73,7 @@ public partial class PacketLoggerFrm : ObservableForm, IReceiver, IHaltable
     }
 
     private bool _isDisplayingHash = true;
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool IsDisplayingHash
     {
         get
@@ -79,6 +92,7 @@ public partial class PacketLoggerFrm : ObservableForm, IReceiver, IHaltable
     }
 
     private bool _isDisplayingHexadecimal = false;
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool IsDisplayingHexadecimal
     {
         get => _isDisplayingHexadecimal;
@@ -90,6 +104,7 @@ public partial class PacketLoggerFrm : ObservableForm, IReceiver, IHaltable
     }
 
     private bool _isDisplayingStructure = true;
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool IsDisplayingStructure
     {
         get => _isDisplayingStructure;
@@ -101,6 +116,7 @@ public partial class PacketLoggerFrm : ObservableForm, IReceiver, IHaltable
     }
 
     private bool _isDisplayingParserName = true;
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool IsDisplayingParserName
     {
         get => _isDisplayingParserName;
@@ -112,6 +128,7 @@ public partial class PacketLoggerFrm : ObservableForm, IReceiver, IHaltable
     }
 
     private bool _isDisplayingMessageName = true;
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool IsDisplayingMessageName
     {
         get => _isDisplayingMessageName;
@@ -123,6 +140,7 @@ public partial class PacketLoggerFrm : ObservableForm, IReceiver, IHaltable
     }
 
     private bool _isViewingOutgoing = true;
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool IsViewingOutgoing
     {
         get => _isViewingOutgoing;
@@ -134,6 +152,7 @@ public partial class PacketLoggerFrm : ObservableForm, IReceiver, IHaltable
     }
 
     private bool _isViewingIncoming = true;
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool IsViewingIncoming
     {
         get => _isViewingIncoming;
@@ -145,6 +164,7 @@ public partial class PacketLoggerFrm : ObservableForm, IReceiver, IHaltable
     }
 
     private int _latency = 0;
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public int Latency
     {
         get => _latency;
@@ -156,6 +176,7 @@ public partial class PacketLoggerFrm : ObservableForm, IReceiver, IHaltable
     }
 
     private string _revision = string.Empty;
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public string Revision
     {
         get => _revision;
@@ -166,6 +187,7 @@ public partial class PacketLoggerFrm : ObservableForm, IReceiver, IHaltable
         }
     }
 
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool IsAlwaysOnTop
     {
         get => TopMost;

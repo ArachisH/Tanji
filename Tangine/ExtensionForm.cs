@@ -23,6 +23,7 @@ public class ExtensionForm : Form, IModule
     private const BindingFlags BINDINGS = (BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
 
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public IInstaller Installer { get; set; }
 
     [Browsable(false)]

@@ -23,6 +23,7 @@ public partial class FindDialog : ObservableForm
     public int VisibleLines => (BottomLine - TopLine);
 
     private bool _matchCase = false;
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool MatchCase
     {
         get => _matchCase;
@@ -35,6 +36,7 @@ public partial class FindDialog : ObservableForm
     }
 
     private bool _matchWord = false;
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool MatchWord
     {
         get => _matchWord;
@@ -47,6 +49,7 @@ public partial class FindDialog : ObservableForm
     }
 
     private bool _isDirectionUp = false;
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool IsDirectionUp
     {
         get => _isDirectionUp;
@@ -59,6 +62,7 @@ public partial class FindDialog : ObservableForm
     }
 
     private bool _wrapAround = true;
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool WrapAround
     {
         get => _wrapAround;
@@ -70,6 +74,7 @@ public partial class FindDialog : ObservableForm
     }
 
     private bool _isNormalMode = true;
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool IsNormalMode
     {
         get => _isNormalMode;
@@ -81,6 +86,7 @@ public partial class FindDialog : ObservableForm
     }
 
     private string _findWhat = string.Empty;
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public string FindWhat
     {
         get => _findWhat;

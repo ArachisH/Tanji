@@ -18,6 +18,7 @@ public class TanjiButton : ButtonBase, IButtonControl, ISkinnable
     public DialogResult DialogResult { get; set; }
 
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public override Color BackColor
     {
         get => Skin;
@@ -36,6 +37,7 @@ public class TanjiButton : ButtonBase, IButtonControl, ISkinnable
     }
 
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public override Color ForeColor
     {
         get => base.ForeColor;
@@ -43,13 +45,15 @@ public class TanjiButton : ButtonBase, IButtonControl, ISkinnable
     }
 
     [Browsable(false)]
-    public override Image BackgroundImage
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public override Image? BackgroundImage
     {
         get => base.BackgroundImage;
         set => base.BackgroundImage = value;
     }
 
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public override ImageLayout BackgroundImageLayout
     {
         get => base.BackgroundImageLayout;
@@ -58,6 +62,7 @@ public class TanjiButton : ButtonBase, IButtonControl, ISkinnable
 
     [SettingsBindable(true)]
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public override string Text
     {
         get => base.Text;

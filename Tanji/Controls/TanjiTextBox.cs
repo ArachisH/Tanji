@@ -10,8 +10,10 @@ public sealed class TanjiTextBox : TextBox
 {
     private readonly TanjiLabelBox _lbxParent;
 
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool IsNumbersOnly { get; set; }
 
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public override bool AutoSize
     {
         get => base.AutoSize;

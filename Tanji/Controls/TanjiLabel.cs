@@ -58,6 +58,7 @@ public class TanjiLabel : Control, ISkinnable
         set => base.BackColor = value;
     }
 
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public override string Text
     {
         get => base.Text;
@@ -93,6 +94,7 @@ public class TanjiLabel : Control, ISkinnable
     }
 
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool DisplayBoundary
     {
         get => IsBorderVisible;
@@ -100,6 +102,7 @@ public class TanjiLabel : Control, ISkinnable
     }
 
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public int AnimationInterval { get; set; }
 
     public void SetDotAnimation(string format, params object[] args)

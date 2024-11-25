@@ -45,11 +45,19 @@ public partial class MainFrm : ObservableForm
 
     public KeyboardHook Hook { get; }
 
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Incoming In { get; set; }
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Outgoing Out { get; set; }
 
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public HGame Game { get; set; }
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public HGameData GameData { get; set; }
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public HConnection Connection { get; set; }
 
     public AboutPage AboutPg { get; }

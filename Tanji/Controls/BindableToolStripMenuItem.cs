@@ -10,6 +10,7 @@ public class BindableToolStripMenuItem : ToolStripMenuItem, IBindableComponent
 {
     private BindingContext _context;
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public BindingContext BindingContext
     {
         get => (_context ?? (_context = new BindingContext()));

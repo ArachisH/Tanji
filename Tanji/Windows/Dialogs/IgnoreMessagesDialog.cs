@@ -12,6 +12,7 @@ public partial class IgnoreMessagesDialog : ObservableForm
     private readonly Dictionary<int, bool> _ignoredMessages;
 
     private ushort _id = 0;
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public ushort Id
     {
         get => _id;
