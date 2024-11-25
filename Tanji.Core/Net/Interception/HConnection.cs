@@ -68,23 +68,22 @@ public sealed class HConnection : IDisposable
             if (received > 0)
             {
                 // Continuously attempt to receive packets from the node
-                _ = HandleInterceptedPacketAsync(source, destination, isOutbound, middleman, writer, received, cancellationToken);
+                _ = HandleInterceptedPacketAsync(source, destination, isOutbound, middleman, writer, cancellationToken);
             }
             else writer.Dispose();
         }
     }
-    private static async Task HandleInterceptedPacketAsync(HNode source, HNode destination, bool isOutbound, IMiddleman middleman, ArrayPoolBufferWriter<byte> writer, int received, CancellationToken cancellationToken = default)
+    private static async Task HandleInterceptedPacketAsync(HNode source, HNode destination, bool isOutbound, IMiddleman middleman, ArrayPoolBufferWriter<byte> writer, CancellationToken cancellationToken = default)
     {
         try
         {
+            // Mutable packet buffer, which will be encrypted if the node has an active cipher instance.
             Memory<byte> buffer = writer.DangerousGetArray();
-            if (buffer.Length != writer.WrittenCount || buffer.Length != received)
-            { }
-            if (middleman.IsInterceptingOutgoing && isOutbound || middleman.IsInterceptingIncoming && !isOutbound)
+            if ((middleman.IsHandlingOutbound && isOutbound) || (middleman.IsHandlingInbound && !isOutbound))
             {
-                ValueTask<bool> packetProcessTask = isOutbound
-                    ? middleman.PacketOutboundAsync(buffer, source, destination)
-                    : middleman.PacketInboundAsync(buffer, source, destination);
+                ValueTask<bool> packetProcessTask = !isOutbound
+                    ? middleman.PacketInboundAsync(buffer, source, destination)
+                    : middleman.PacketOutboundAsync(buffer, source, destination);
 
                 // If true, the packet is to be ignored/blocked
                 if (await packetProcessTask.ConfigureAwait(false)) return;

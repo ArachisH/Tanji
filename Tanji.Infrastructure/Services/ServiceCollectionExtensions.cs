@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
 using Tanji.Core.Net;
-using Tanji.Core.Net.Interception;
 using Tanji.Infrastructure.Factories;
 using Tanji.Infrastructure.ViewModels;
 using Tanji.Infrastructure.Configuration;
@@ -23,11 +22,11 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IConnectionFactory, ConnectionFactory>();
 
         // Singleton Services
-        services.AddSingleton<IMiddleman, FlashPacketMiddlemanService>();
         services.AddSingleton<IClientHandlerService, ClientHandlerService>();
+        services.AddSingleton<IConnectionHandlerService, ConnectionHandlerService>();
+        services.AddSingleton<IPacketMiddlemanService, PacketMiddlemanService>();
         services.AddSingleton<IWebInterceptionService, EavesdropInterceptionService>();
         services.AddSingleton<IRemoteEndPointResolverService<HotelEndPoint>, RemoteHotelEndPointResolverService>();
-        services.AddSingleton<IConnectionHandlerService, ConnectionHandlerService>();
 
         // View Models
         services.AddSingleton<ConnectionViewModel>();
@@ -35,6 +34,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ToolboxViewModel>();
         services.AddSingleton<ExtensionsViewModel>();
         services.AddSingleton<SettingsViewModel>();
+        services.AddSingleton<LoggerViewModel>();
 
         return services;
     }

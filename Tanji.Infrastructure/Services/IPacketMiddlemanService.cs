@@ -3,4 +3,7 @@
 namespace Tanji.Infrastructure.Services;
 
 public interface IPacketMiddlemanService : IMiddleman
-{ }
+{
+    bool IsRendering { get; }
+    IMiddleman Renderer { get; }
+}

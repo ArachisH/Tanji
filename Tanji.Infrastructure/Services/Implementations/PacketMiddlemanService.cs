@@ -4,23 +4,31 @@ using Microsoft.Extensions.Logging;
 
 using Tanji.Core.Net;
 using Tanji.Core.Net.Buffers;
+using Tanji.Core.Net.Interception;
 using Tanji.Core.Cryptography.Ciphers;
+using Tanji.Infrastructure.ViewModels;
 
 namespace Tanji.Infrastructure.Services.Implementations;
 
-public sealed class FlashPacketMiddlemanService : IPacketMiddlemanService
+public sealed class PacketMiddlemanService : IPacketMiddlemanService
 {
-    private readonly ILogger<FlashPacketMiddlemanService> _logger;
+    private readonly ILogger<PacketMiddlemanService> _logger;
 
-    public Guid Id { get; }
-    public bool IsInterceptingOutgoing { get; set; } = true;
-    public bool IsInterceptingIncoming { get; set; } = true;
+    public Guid Id { get; } = Guid.NewGuid();
 
-    public FlashPacketMiddlemanService(ILogger<FlashPacketMiddlemanService> logger)
+    public bool IsHandlingInbound { get; set; } = true;
+    public bool IsHandlingOutbound { get; set; } = true;
+
+    public bool IsRendering { get; }
+    public IMiddleman Renderer { get; }
+
+    public PacketMiddlemanService(
+        ILogger<PacketMiddlemanService> logger,
+        LoggerViewModel loggerVM)
     {
         _logger = logger;
 
-        Id = Guid.NewGuid();
+        Renderer = loggerVM;
     }
 
     public ValueTask<bool> PacketInboundAsync(Memory<byte> buffer, HNode source, HNode destination)
