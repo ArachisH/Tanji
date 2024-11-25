@@ -28,10 +28,18 @@ partial class PacketLoggerView
     /// </summary>
     private void InitializeComponent()
     {
-        this.components = new System.ComponentModel.Container();
-        this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.ClientSize = new System.Drawing.Size(800, 450);
-        this.Text = "PacketLoggerView";
+        SuspendLayout();
+        // 
+        // PacketLoggerView
+        // 
+        AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+        AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+        BackColor = System.Drawing.Color.White;
+        ClientSize = new System.Drawing.Size(735, 551);
+        Name = "PacketLoggerView";
+        StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+        Text = "Tanji - Packet Logger";
+        ResumeLayout(false);
     }
 
     #endregion

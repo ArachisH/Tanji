@@ -36,10 +36,10 @@ partial class MainView
         tabToolbox = new System.Windows.Forms.TabPage();
         toolboxView = new Pages.ToolboxView();
         tabExtensions = new System.Windows.Forms.TabPage();
-        tabSettings = new System.Windows.Forms.TabPage();
-        statusStripMain = new System.Windows.Forms.StatusStrip();
         extensionsView = new Pages.ExtensionsView();
+        tabSettings = new System.Windows.Forms.TabPage();
         settingsViews = new Pages.SettingsView();
+        statusStripMain = new System.Windows.Forms.StatusStrip();
         tabControlMain.SuspendLayout();
         tabConnection.SuspendLayout();
         tabInjection.SuspendLayout();
@@ -79,7 +79,7 @@ partial class MainView
         // 
         // connectionView
         // 
-        connectionView.BackColor = System.Drawing.Color.DarkSlateGray;
+        connectionView.BackColor = System.Drawing.Color.White;
         connectionView.Dock = System.Windows.Forms.DockStyle.Fill;
         connectionView.Location = new System.Drawing.Point(0, 0);
         connectionView.Name = "connectionView";
@@ -98,7 +98,7 @@ partial class MainView
         // 
         // injectionView
         // 
-        injectionView.BackColor = System.Drawing.Color.DarkSlateGray;
+        injectionView.BackColor = System.Drawing.Color.White;
         injectionView.Dock = System.Windows.Forms.DockStyle.Fill;
         injectionView.Location = new System.Drawing.Point(0, 0);
         injectionView.Name = "injectionView";
@@ -117,7 +117,7 @@ partial class MainView
         // 
         // toolboxView
         // 
-        toolboxView.BackColor = System.Drawing.Color.DarkSlateGray;
+        toolboxView.BackColor = System.Drawing.Color.White;
         toolboxView.Dock = System.Windows.Forms.DockStyle.Fill;
         toolboxView.Location = new System.Drawing.Point(0, 0);
         toolboxView.Name = "toolboxView";
@@ -134,6 +134,15 @@ partial class MainView
         tabExtensions.TabIndex = 4;
         tabExtensions.Text = "Extensions";
         // 
+        // extensionsView
+        // 
+        extensionsView.BackColor = System.Drawing.Color.White;
+        extensionsView.Dock = System.Windows.Forms.DockStyle.Fill;
+        extensionsView.Location = new System.Drawing.Point(0, 0);
+        extensionsView.Name = "extensionsView";
+        extensionsView.Size = new System.Drawing.Size(536, 387);
+        extensionsView.TabIndex = 0;
+        // 
         // tabSettings
         // 
         tabSettings.BackColor = System.Drawing.Color.White;
@@ -144,6 +153,15 @@ partial class MainView
         tabSettings.TabIndex = 0;
         tabSettings.Text = "Settings";
         // 
+        // settingsViews
+        // 
+        settingsViews.BackColor = System.Drawing.Color.White;
+        settingsViews.Dock = System.Windows.Forms.DockStyle.Fill;
+        settingsViews.Location = new System.Drawing.Point(0, 0);
+        settingsViews.Name = "settingsViews";
+        settingsViews.Size = new System.Drawing.Size(536, 387);
+        settingsViews.TabIndex = 0;
+        // 
         // statusStripMain
         // 
         statusStripMain.BackColor = System.Drawing.Color.White;
@@ -152,24 +170,6 @@ partial class MainView
         statusStripMain.Size = new System.Drawing.Size(544, 22);
         statusStripMain.SizingGrip = false;
         statusStripMain.TabIndex = 1;
-        // 
-        // extensionsView
-        // 
-        extensionsView.BackColor = System.Drawing.Color.DarkSlateGray;
-        extensionsView.Dock = System.Windows.Forms.DockStyle.Fill;
-        extensionsView.Location = new System.Drawing.Point(0, 0);
-        extensionsView.Name = "extensionsView";
-        extensionsView.Size = new System.Drawing.Size(536, 387);
-        extensionsView.TabIndex = 0;
-        // 
-        // settingsViews
-        // 
-        settingsViews.BackColor = System.Drawing.Color.DarkSlateGray;
-        settingsViews.Dock = System.Windows.Forms.DockStyle.Fill;
-        settingsViews.Location = new System.Drawing.Point(0, 0);
-        settingsViews.Name = "settingsViews";
-        settingsViews.Size = new System.Drawing.Size(536, 387);
-        settingsViews.TabIndex = 0;
         // 
         // MainView
         // 
