@@ -168,21 +168,24 @@ public sealed class HNode : IDisposable
             {
                 Encipher(DecryptCipher, header, IsWebSocket);
             }
-            writer.Advance(ReceivePacketFormat.MinBufferSize);
 
             // Increase buffer size if needed
             int bodyAvailable = length - ReceivePacketFormat.MinPacketLength;
             if (bodyAvailable > buffer.Length - ReceivePacketFormat.MinBufferSize)
             {
-                buffer = writer.GetMemory(bodyAvailable);
-                totalReceived -= ReceivePacketFormat.MinBufferSize;
+                Span<byte> headerTemp = stackalloc byte[ReceivePacketFormat.MinBufferSize];
+                header.Span.CopyTo(headerTemp);
+
+                buffer = writer.GetMemory(ReceivePacketFormat.MinBufferSize + bodyAvailable);
+                header = buffer.Slice(0, ReceivePacketFormat.MinBufferSize);
+                headerTemp.CopyTo(header.Span);
             }
 
             int bodyReceived = 0;
             while (bodyAvailable > 0)
             {
-                Memory<byte> availableBuffer = buffer.Slice(totalReceived, bodyAvailable);
-                bodyReceived = await ReadFromStreamAsync(availableBuffer, cancellationToken).ConfigureAwait(false);
+                Memory<byte> bodyBuffer = buffer.Slice(totalReceived, bodyAvailable);
+                bodyReceived = await ReadFromStreamAsync(bodyBuffer, cancellationToken).ConfigureAwait(false);
 
                 bodyAvailable -= bodyReceived;
                 totalReceived += bodyReceived;
@@ -192,10 +195,13 @@ public sealed class HNode : IDisposable
             {
                 Encipher(DecryptCipher, buffer.Slice(0, bodyReceived), IsWebSocket);
             }
-            writer.Advance(bodyReceived);
         }
-        finally { _receiveSemaphore.Release(); }
-        return ReceivePacketFormat.MinBufferSize - ReceivePacketFormat.MinPacketLength + totalReceived;
+        finally
+        {
+            _receiveSemaphore.Release();
+            writer.Advance(totalReceived);
+        }
+        return totalReceived;
     }
 
     public async Task<bool> UpgradeToWebSocketClientAsync(X509Certificate? certificate, CancellationToken cancellationToken = default)
