@@ -147,7 +147,7 @@ public sealed class ClientHandlerService : IClientHandlerService
         File.Delete(targetLinkPath); // Load the original unmodified client if no explicit client path has been provided.
         if (!NativeMethods.CreateHardLink(targetLinkPath, clientPath, IntPtr.Zero))
         {
-            _logger.LogError("Failed to create a hard link at the provided {linkPath}.", targetLinkPath);
+            _logger.LogError("Failed to create a hard link at the target file path: {linkPath}", targetLinkPath);
         }
 
         return platform switch
