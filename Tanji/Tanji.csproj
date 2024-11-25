@@ -1,6 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<OutputType>WinExe</OutputType>
 		<PlatformTarget>x64</PlatformTarget>
 		<UseWindowsForms>true</UseWindowsForms>
 		<TargetFramework>net9.0-windows</TargetFramework>
@@ -9,6 +8,14 @@
 		<LangVersion>latest</LangVersion>
 		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 		<NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+		<OutputType>Exe</OutputType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+		<OutputType>WinExe</OutputType>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -36,12 +43,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Octokit" Version="8.1.1" />
+		<PackageReference Include="Octokit" Version="13.0.1" />
 		<PackageReference Include="Eavesdrop" Version="1.3.0" />
 		<PackageReference Include="Hypo.Flazzy" Version="0.4.0" />
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
-		<PackageReference Include="OswaldTechnologies.Extensions.Hosting.WindowsFormsLifetime" Version="1.0.2" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0" />
+		<PackageReference Include="OswaldTechnologies.Extensions.Hosting.WindowsFormsLifetime" Version="1.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>
