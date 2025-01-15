@@ -9,4 +9,5 @@ public readonly record struct PlatformPaths
     public readonly string RootPath { get; init; }
     public required string ClientPath { get; init; }
     public required string ExecutablePath { get; init; }
+    public required Int32 Version { get; init; }
 }

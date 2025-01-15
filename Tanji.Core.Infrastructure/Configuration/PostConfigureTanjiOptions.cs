@@ -30,13 +30,25 @@ internal sealed class PostConfigureTanjiOptions : IPostConfigureOptions<TanjiOpt
 
         foreach (Installation installation in options.Versions.Installations)
         {
+            if (platformPaths.ContainsKey(installation.Platform))
+            {
+                if(platformPaths[installation.Platform].Version < int.Parse(installation.Version))
+                {
+                    platformPaths.Remove(installation.Platform);
+                }
+                else
+                {
+                    continue;
+                }
+            }
+
             platformPaths.Add(installation.Platform, new PlatformPaths
             {
                 Platform = installation.Platform,
-
                 RootPath = installation.Path,
                 ClientPath = Path.Combine(installation.Path, PlatformConverter.ToClientName(installation.Platform)),
-                ExecutablePath = Path.Combine(installation.Path, PlatformConverter.ToExecutableName(installation.Platform))
+                ExecutablePath = Path.Combine(installation.Path, PlatformConverter.ToExecutableName(installation.Platform)),
+                Version = int.Parse(installation.Version)
             });
         }
     }
