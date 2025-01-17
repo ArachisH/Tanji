@@ -8,13 +8,12 @@ using Tanji.Core.Infrastructure.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-var builder = Host.CreateApplicationBuilder(args);
-builder.Services.Configure<TanjiOptions>(builder.Configuration);
-builder.Services.AddTanjiCore();
-
 // Views (Windows, Dialogs, Pages)
-builder.Services.AddWindowsFormsLifetime<MainView>();
-builder.Services.AddSingleton<PacketLoggerView>();
+var builder = Host.CreateApplicationBuilder(args);
+builder.Services.Configure<TanjiOptions>(builder.Configuration)
+    .AddWindowsFormsLifetime<MainView>()
+    .AddSingleton<PacketLoggerView>()
+    .AddTanjiCore();
 
 var host = builder.Build();
 Services = host.Services;

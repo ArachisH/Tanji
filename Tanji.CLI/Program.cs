@@ -31,9 +31,9 @@ public class Program
         PosixSignalRegistration.Create(PosixSignal.SIGHUP, CleanUp);
 
         var builder = Host.CreateApplicationBuilder(args);
-        builder.Services.Configure<TanjiOptions>(builder.Configuration);
-        builder.Services.AddSingleton<Program>();
-        builder.Services.AddTanjiCore();
+        builder.Services.Configure<TanjiOptions>(builder.Configuration)
+            .AddSingleton<Program>()
+            .AddTanjiCore();
 
         Console.Title = $"Tanji(Core) - Press any key to exit...";
         IHost host = builder.Build();
