@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Tanji": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
