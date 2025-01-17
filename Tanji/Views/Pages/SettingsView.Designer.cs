@@ -1,4 +1,6 @@
-﻿namespace Tanji.Views.Pages;
+﻿using Tanji.Core.Infrastructure.ViewModels;
+
+namespace Tanji.Views.Pages;
 
 partial class SettingsView
 {
@@ -35,7 +37,7 @@ partial class SettingsView
         // 
         // viewModelSource
         // 
-        viewModelSource.DataSource = typeof(Tanji.Infrastructure.ViewModels.SettingsViewModel);
+        viewModelSource.DataSource = typeof(SettingsViewModel);
         // 
         // SettingsView
         // 

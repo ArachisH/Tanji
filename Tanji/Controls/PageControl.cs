@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 
-using Tanji.Infrastructure.ViewModels;
+using Tanji.Core.Infrastructure.ViewModels;
 
 using Microsoft.Extensions.DependencyInjection;
 

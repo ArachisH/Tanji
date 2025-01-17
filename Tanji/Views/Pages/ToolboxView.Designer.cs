@@ -1,4 +1,6 @@
-﻿namespace Tanji.Views.Pages;
+﻿using Tanji.Core.Infrastructure.ViewModels;
+
+namespace Tanji.Views.Pages;
 
 partial class ToolboxView
 {
@@ -35,7 +37,7 @@ partial class ToolboxView
         // 
         // viewModelSource
         // 
-        viewModelSource.DataSource = typeof(Tanji.Infrastructure.ViewModels.ToolboxViewModel);
+        viewModelSource.DataSource = typeof(ToolboxViewModel);
         // 
         // ToolboxView
         // 

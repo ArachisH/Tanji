@@ -1,4 +1,6 @@
-﻿namespace Tanji.Views.Pages;
+﻿using Tanji.Core.Infrastructure.ViewModels;
+
+namespace Tanji.Views.Pages;
 
 partial class ExtensionsView
 {
@@ -35,7 +37,7 @@ partial class ExtensionsView
         // 
         // viewModelSource
         // 
-        viewModelSource.DataSource = typeof(Tanji.Infrastructure.ViewModels.ExtensionsViewModel);
+        viewModelSource.DataSource = typeof(ExtensionsViewModel);
         // 
         // ExtensionsView
         // 

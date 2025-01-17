@@ -2,7 +2,7 @@
 using System.Collections.Specialized;
 
 using Tanji.Properties;
-using Tanji.Infrastructure.Services;
+using Tanji.Core.Infrastructure.Services;
 
 using WindowsFormsLifetime;
 

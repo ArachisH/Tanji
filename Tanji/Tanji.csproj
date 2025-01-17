@@ -39,7 +39,7 @@
 		<ProjectReference Include="..\Tangine\Tangine.csproj" />
 		<ProjectReference Include="..\Sulakore\Sulakore.csproj" />
 		<ProjectReference Include="..\Tanji.Core\Tanji.Core.csproj" />
-		<ProjectReference Include="..\Tanji.Infrastructure\Tanji.Infrastructure.csproj" />
+		<ProjectReference Include="..\Tanji.Core.Infrastructure\Tanji.Core.Infrastructure.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

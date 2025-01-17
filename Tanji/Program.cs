@@ -2,8 +2,8 @@
 
 using Tanji.Views;
 using Tanji.Utilities;
-using Tanji.Infrastructure.Services;
-using Tanji.Infrastructure.Configuration;
+using Tanji.Core.Infrastructure.Services;
+using Tanji.Core.Infrastructure.Configuration;
 
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;

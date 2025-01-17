@@ -1,4 +1,6 @@
-﻿namespace Tanji.Views.Pages;
+﻿using Tanji.Core.Infrastructure.ViewModels;
+
+namespace Tanji.Views.Pages;
 
 partial class InjectionView
 {
@@ -35,7 +37,7 @@ partial class InjectionView
         // 
         // viewModelSource
         // 
-        viewModelSource.DataSource = typeof(Tanji.Infrastructure.ViewModels.InjectionViewModel);
+        viewModelSource.DataSource = typeof(InjectionViewModel);
         // 
         // InjectionView
         // 

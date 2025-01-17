@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: InternalsVisibleTo("Tanji.Infrastructure")]
+[assembly: InternalsVisibleTo("Tanji.Core.Infrastructure")]
 
 namespace Tanji.Core;
 
