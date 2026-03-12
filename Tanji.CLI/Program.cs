@@ -62,7 +62,7 @@ public class Program
     public async Task RunAsync(CancellationToken cancellationToken = default)
     {
         _webInterception.Start();
-        _logger.LogInformation("Intercepting Game Token(s)...");
+        _logger.LogInformation("Intercepting Ticket(s)...");
         do
         {
             string ticket = true ? "hhus.ABC.v4" : await _webInterception.InterceptTicketAsync(cancellationToken).ConfigureAwait(false);
