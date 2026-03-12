@@ -10,7 +10,7 @@
 		<NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
 	</PropertyGroup>
 
-	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+	<PropertyGroup Condition=" '$(Configuration)' != 'Release' ">
 		<OutputType>Exe</OutputType>
 	</PropertyGroup>
 
