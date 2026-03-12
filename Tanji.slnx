@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
+  <Project Path="Sulakore/Sulakore.csproj" />
+  <Project Path="Tangine/Tangine.csproj" />
+  <Project Path="Tanji.CLI/Tanji.CLI.csproj" />
+  <Project Path="Tanji.Core.Generators/Tanji.Core.Generators.csproj" />
+  <Project Path="Tanji.Core.Infrastructure/Tanji.Core.Infrastructure.csproj" />
+  <Project Path="Tanji.Core/Tanji.Core.csproj" />
+  <Project Path="Tanji/Tanji.csproj" />
+</Solution>
