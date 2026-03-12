@@ -89,22 +89,23 @@ public sealed class EavesdropInterceptionService : IWebInterceptionService
     {
         if (requestUri.DnsSafeHost.AsSpan().ToHotel() == HHotel.Unknown)
         {
-            _logger.LogDebug("Failed to determine HHotel object type from '{Host}'.", requestUri.DnsSafeHost);
+            _logger.LogError("Failed to determine HHotel object type from '{Host}'.", requestUri.DnsSafeHost);
             return;
         }
 
         if (!message.IsSuccessStatusCode)
         {
-            _logger.LogDebug("Status Code: {Code}", message.StatusCode);
+            _logger.LogError("Status Code: {Code}", message.StatusCode);
             return;
         }
 
         string body = await message.Content.ReadAsStringAsync().ConfigureAwait(false);
         if (TryExtractTicket(body, out string? ticket) && !string.IsNullOrWhiteSpace(ticket))
         {
+            _logger.LogDebug("Ticket Extracted: {ticket}", ticket);
             await _ticketsChannel.Writer.WriteAsync(ticket).ConfigureAwait(false);
         }
-        else _logger.LogDebug("Failed to extract ticket: {Body}", body);
+        else _logger.LogError("Failed to extract ticket: {Body}", body);
     }
 
     private static bool TryExtractTicket(ReadOnlySpan<char> body, out string? ticket)
