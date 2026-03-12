@@ -57,8 +57,6 @@ public class Program
         _clientHandler = clientHandler;
         _webInterception = webInterception;
         _connectionHandler = connectionHandler;
-
-        _logger.LogDebug($"{nameof(Program)} ctor");
     }
 
     public async Task RunAsync(CancellationToken cancellationToken = default)
