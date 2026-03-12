@@ -66,7 +66,6 @@ public class Program
         do
         {
             string ticket = await _webInterception.InterceptTicketAsync(cancellationToken).ConfigureAwait(false);
-            _logger.LogInformation("Ticket Acquired: {ticket}", ticket);
             _webInterception.Stop();
 
             IGame game = await _clientHandler.PatchClientAsync(HPlatform.Flash).ConfigureAwait(false);
