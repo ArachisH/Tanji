@@ -56,10 +56,11 @@ public sealed class ClientHandlerService : IClientHandlerService
             PlatformPaths paths = GetPlatformPaths(platform, _options.PlatformPaths);
             clientPath = paths.ClientPath;
         }
+        _logger.LogInformation("Patching Client: {clientPath}", clientPath);
 
         if (!File.Exists(clientPath))
         {
-            _logger.LogError("File does not exist: {filePath}", clientPath);
+            _logger.LogCritical("File does not exist: {filePath}", clientPath);
             ThrowHelper.ThrowFileNotFoundException("The provided file path does not exist.", clientPath);
         }
 
