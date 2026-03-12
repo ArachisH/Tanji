@@ -65,7 +65,7 @@ public class Program
         _logger.LogInformation("Intercepting Ticket(s)...");
         do
         {
-            string ticket = true ? "hhus.ABC.v4" : await _webInterception.InterceptTicketAsync(cancellationToken).ConfigureAwait(false);
+            string ticket = await _webInterception.InterceptTicketAsync(cancellationToken).ConfigureAwait(false);
             _logger.LogInformation("Ticket Acquired: {ticket}", ticket);
             _webInterception.Stop();
 
