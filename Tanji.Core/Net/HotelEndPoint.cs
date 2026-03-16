@@ -30,7 +30,7 @@ public sealed class HotelEndPoint : IPEndPoint
         {
             ThrowHelper.ThrowArgumentException($"Unable to create a {nameof(HotelEndPoint)} object from {nameof(HHotel.Unknown)}.", nameof(hotel));
         }
-        return Parse($"game-{hotel.ToRegion()}.habbo.com", 30001);
+        return Parse($"game-{hotel.ToRegion()}.habbo.com", 30000);
     }
     public static HotelEndPoint Create(ReadOnlySpan<char> host) => Create(host.ToHotel());
 
