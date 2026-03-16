@@ -255,14 +255,14 @@ public sealed class ClientHandlerService : IClientHandlerService
         switch (platform)
         {
             case HPlatform.Flash:
+            {
+                return new GamePatchingOptions(HPatches.FlashDefaults)
                 {
-                    return new GamePatchingOptions(HPatches.FlashDefaults)
-                    {
-                        KeyShoutingId = 4002,
-                        AddressShoutingId = 4000,
-                        InjectedAddress = new IPEndPoint(IPAddress.Loopback, gameListenPort),
-                    };
-                }
+                    KeyShoutingId = 4002,
+                    AddressShoutingId = 4000,
+                    InjectedAddress = new IPEndPoint(IPAddress.Loopback, gameListenPort),
+                };
+            }
             default: throw new NotSupportedException("Unable to acquire game patch options for the provided platform.");
         }
     }
