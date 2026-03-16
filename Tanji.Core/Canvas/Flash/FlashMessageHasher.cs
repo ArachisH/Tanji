@@ -33,21 +33,21 @@ public class FlashMessageHasher : IBufferWriter<byte>
         {
             case TraitKind.Slot:
             case TraitKind.Constant:
+            {
+                Write(trait.Type);
+                if (trait.Value != null)
                 {
-                    Write(trait.Type);
-                    if (trait.Value != null)
-                    {
-                        Write(trait.ValueKind, trait.Value);
-                    }
-                    break;
+                    Write(trait.ValueKind, trait.Value);
                 }
+                break;
+            }
             case TraitKind.Method:
             case TraitKind.Getter:
             case TraitKind.Setter:
-                {
-                    Write(trait.Method);
-                    break;
-                }
+            {
+                Write(trait.Method);
+                break;
+            }
         }
     }
     public void Write(ASMethod method)
@@ -118,26 +118,26 @@ public class FlashMessageHasher : IBufferWriter<byte>
         switch (kind)
         {
             case ConstantKind.Double:
-                Write((double)value);
-                break;
+            Write((double)value);
+            break;
             case ConstantKind.Integer:
-                Write((int)value);
-                break;
+            Write((int)value);
+            break;
             case ConstantKind.UInteger:
-                Write((uint)value);
-                break;
+            Write((uint)value);
+            break;
             case ConstantKind.String:
-                Write((string)value);
-                break;
+            Write((string)value);
+            break;
             case ConstantKind.Null:
-                Write("null");
-                break;
+            Write("null");
+            break;
             case ConstantKind.True:
-                Write(true);
-                break;
+            Write(true);
+            break;
             case ConstantKind.False:
-                Write(false);
-                break;
+            Write(false);
+            break;
         }
     }
     public void Write(ASContainer container, bool includeTraits)
