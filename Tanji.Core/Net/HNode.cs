@@ -42,15 +42,14 @@ public sealed class HNode : IDisposable
     public IStreamCipher? DecryptCipher { get; set; }
 
     /// <summary>
-    /// The format used by the client when receiving packets from the server.
-    /// Alternatively, the format used by the server when sending packets to the client.
+    /// The packet format to apply when receiving structured packets from the remote endpoint.
     /// </summary>
-    public required IHFormat ReceivePacketFormat { get; init; }
+    public required IHFormat PacketFormat { get; init; }
 
     [SetsRequiredMembers]
-    private HNode(Stream socketStream, IHFormat receivePacketFormat)
+    private HNode(Stream socketStream, IHFormat packetFormat)
     {
-        ReceivePacketFormat = receivePacketFormat;
+        PacketFormat = packetFormat;
 
         _socketStream = socketStream;
         _sendSemaphore = new SemaphoreSlim(1, 1);
@@ -158,11 +157,11 @@ public sealed class HNode : IDisposable
         await _receiveSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
         {
-            Memory<byte> buffer = writer.GetMemory(ReceivePacketFormat.MinBufferSize);
-            Memory<byte> header = buffer.Slice(0, ReceivePacketFormat.MinBufferSize);
+            Memory<byte> buffer = writer.GetMemory(PacketFormat.MinBufferSize);
+            Memory<byte> header = buffer.Slice(0, PacketFormat.MinBufferSize);
 
             totalReceived = await ReadFromStreamAsync(header, cancellationToken).ConfigureAwait(false);
-            if (totalReceived < 1 || !ReceivePacketFormat.TryReadHeader(header.Span, out int length, out short id, out _)) return -1;
+            if (totalReceived < 1 || !PacketFormat.TryReadHeader(header.Span, out int length, out short id, out _)) return -1;
 
             if (DecryptCipher != null)
             {
@@ -170,14 +169,14 @@ public sealed class HNode : IDisposable
             }
 
             // Increase buffer size if needed
-            int bodyAvailable = length - ReceivePacketFormat.MinPacketLength;
-            if (bodyAvailable > buffer.Length - ReceivePacketFormat.MinBufferSize)
+            int bodyAvailable = length - PacketFormat.MinPacketLength;
+            if (bodyAvailable > buffer.Length - PacketFormat.MinBufferSize)
             {
-                Span<byte> headerTemp = stackalloc byte[ReceivePacketFormat.MinBufferSize];
+                Span<byte> headerTemp = stackalloc byte[PacketFormat.MinBufferSize];
                 header.Span.CopyTo(headerTemp);
 
-                buffer = writer.GetMemory(ReceivePacketFormat.MinBufferSize + bodyAvailable);
-                header = buffer.Slice(0, ReceivePacketFormat.MinBufferSize);
+                buffer = writer.GetMemory(PacketFormat.MinBufferSize + bodyAvailable);
+                header = buffer.Slice(0, PacketFormat.MinBufferSize);
                 headerTemp.CopyTo(header.Span);
             }
 
