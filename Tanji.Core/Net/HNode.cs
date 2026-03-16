@@ -17,8 +17,8 @@ namespace Tanji.Core.Net;
 
 public sealed class HNode : IDisposable
 {
-    private static ReadOnlySpan<byte> _okBytes => "OK"u8;
-    private static ReadOnlySpan<byte> _startTLSBytes => "StartTLS"u8;
+    private static readonly byte[] _okBytes = "OK"u8.ToArray();
+    private static readonly byte[] _startTLSBytes = "StartTLS"u8.ToArray();
     private static ReadOnlySpan<byte> _rfc6455GuidBytes => "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"u8;
     private static ReadOnlySpan<byte> _secWebSocketKeyBytes => "Sec-WebSocket-Key: "u8;
     private static ReadOnlySpan<byte> _upgradeWebSocketResponseBytes => "HTTP/1.1 101 Switching Protocols\r\nConnection: Upgrade\r\nUpgrade: websocket\r\nSec-WebSocket-Accept: "u8;
@@ -251,7 +251,7 @@ public sealed class HNode : IDisposable
         IsUpgraded = true;
         _socketStream = _webSocketStream = new WebSocketStream(_socketStream, true, false); // Anything now being sent or received through the stream will be parsed using the WebSocket protocol.
 
-        await SendAsync(_startTLSBytes.ToArray(), cancellationToken).ConfigureAwait(false);
+        await SendAsync(_startTLSBytes, cancellationToken).ConfigureAwait(false);
         received = await ReceiveAsync(receiveOwner.Memory, cancellationToken).ConfigureAwait(false);
         if (!IsTLSAccepted(receiveOwner.Span.Slice(0, received))) return false;
 
@@ -309,7 +309,7 @@ public sealed class HNode : IDisposable
         received = await ReceiveAsync(receivedOwner.Memory, cancellationToken).ConfigureAwait(false);
         if (IsTLSRequested(receivedOwner.Span.Slice(0, received)))
         {
-            await SendAsync(_okBytes.ToArray(), cancellationToken).ConfigureAwait(false);
+            await SendAsync(_okBytes, cancellationToken).ConfigureAwait(false);
 
             var secureSocketStream = new SslStream(_socketStream, false, AlwaysValidateRemoteCertificate);
             _socketStream = secureSocketStream;
