@@ -16,14 +16,14 @@ public sealed class CachedGame : IGame
     public required HPlatform Platform { get; init; }
 
     [JsonConverter(typeof(FormatConverter))]
-    public required IHFormat SendPacketFormat { get; init; }
+    public required IHFormat OutboundPacketFormat { get; init; }
     [JsonConverter(typeof(FormatConverter))]
-    public required IHFormat ReceivePacketFormat { get; init; }
+    public required IHFormat InboundPacketFormat { get; init; }
 
     public required string Revision { get; init; }
     public required int MinimumConnectionAttempts { get; init; }
 
-    public required GamePatchingOptions AppliedPatchingOptions { get; init; }
+    public required GamePatchingOptions PatchingOptions { get; init; }
 
     [JsonIgnore]
     public bool IsDisposed { get; private set; }
@@ -31,21 +31,21 @@ public sealed class CachedGame : IGame
     public CachedGame()
     { }
     [SetsRequiredMembers]
-    public CachedGame(IGame game, GamePatchingOptions appliedPatches, string clientPath)
+    public CachedGame(IGame game, GamePatchingOptions patchingOptions, string clientPath)
     {
         ArgumentNullException.ThrowIfNull(game, nameof(game));
 
         IsPostShuffle = game.IsPostShuffle;
         Platform = game.Platform;
 
-        SendPacketFormat = game.SendPacketFormat;
-        ReceivePacketFormat = game.ReceivePacketFormat;
+        OutboundPacketFormat = game.OutboundPacketFormat;
+        InboundPacketFormat = game.InboundPacketFormat;
 
         Revision = game.Revision ?? "< Unknown Revision >";
         MinimumConnectionAttempts = game.MinimumConnectionAttempts;
 
         Path = clientPath;
-        AppliedPatchingOptions = appliedPatches;
+        PatchingOptions = patchingOptions;
     }
 
     public void Disassemble() => throw new NotSupportedException();

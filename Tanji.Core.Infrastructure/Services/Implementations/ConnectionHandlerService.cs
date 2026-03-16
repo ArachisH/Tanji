@@ -67,7 +67,7 @@ public sealed class ConnectionHandlerService : IConnectionHandlerService
             throw new Exception("Failed to intercept the local connection attempt from the client.");
         }
 
-        HotelEndPoint remoteEndPoint = context.AppliedPatchingOptions.Patches.HasFlag(HPatches.InjectAddressShouter)
+        HotelEndPoint remoteEndPoint = context.PatchingOptions.Patches.HasFlag(HPatches.InjectAddressShouter)
             ? await _endPointResolver.ResolveAsync(local, context, cancellationToken).ConfigureAwait(false)
             : await _endPointResolver.ResolveAsync(ticket, cancellationToken).ConfigureAwait(false);
 
@@ -93,7 +93,7 @@ public sealed class ConnectionHandlerService : IConnectionHandlerService
         while (!cancellationToken.IsCancellationRequested && (local == null || local.IsDisposed))
         {
             Socket localSocket = await AcceptAsync(port, cancellationToken).ConfigureAwait(false);
-            local = new HNode(localSocket, context.ReceivePacketFormat);
+            local = new HNode(localSocket, context.InboundPacketFormat);
 
             if (--listenSkipAmount > 0)
             {
@@ -134,7 +134,7 @@ public sealed class ConnectionHandlerService : IConnectionHandlerService
     public static async Task<HNode> EstablishRemoteConnectionAsync(HConnectionContext context, IPEndPoint remoteEndPoint, CancellationToken cancellationToken = default)
     {
         Socket remoteSocket = await ConnectAsync(remoteEndPoint, cancellationToken).ConfigureAwait(false);
-        var remote = new HNode(remoteSocket, context.ReceivePacketFormat);
+        var remote = new HNode(remoteSocket, context.InboundPacketFormat);
 
         if (context.IsWebSocketConnection)
         {

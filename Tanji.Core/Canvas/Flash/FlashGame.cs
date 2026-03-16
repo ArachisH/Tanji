@@ -45,14 +45,14 @@ public sealed class FlashGame : IGame
     public HPlatform Platform => HPlatform.Flash;
     public bool IsPostShuffle { get; private set; } = true;
 
-    public IHFormat SendPacketFormat => IsPostShuffle ? IHFormat.EvaWire : IHFormat.WedgieOut;
-    public IHFormat ReceivePacketFormat => IsPostShuffle ? IHFormat.EvaWire : IHFormat.WedgieIn;
+    public IHFormat InboundPacketFormat => IsPostShuffle ? IHFormat.EvaWire : IHFormat.WedgieIn;
+    public IHFormat OutboundPacketFormat => IsPostShuffle ? IHFormat.EvaWire : IHFormat.WedgieOut;
 
     public string? Revision { get; private set; }
     public int MinimumConnectionAttempts { get; private set; }
 
     public string? Path { get; private set; }
-    public GamePatchingOptions AppliedPatchingOptions { get; private set; }
+    public GamePatchingOptions PatchingOptions { get; private set; }
 
     public bool IsDisposed { get; private set; }
 
@@ -151,7 +151,7 @@ public sealed class FlashGame : IGame
     }
     public void Patch(GamePatchingOptions options)
     {
-        AppliedPatchingOptions = options;
+        PatchingOptions = options;
         foreach (HPatches patch in Enum.GetValues(typeof(HPatches)))
         {
             if ((options.Patches & patch) != patch || patch == HPatches.None || patch == HPatches.FlashDefaults) continue;

@@ -10,13 +10,13 @@ public interface IGame : IDisposable
     bool IsPostShuffle { get; }
     HPlatform Platform { get; }
 
-    IHFormat SendPacketFormat { get; }
-    IHFormat ReceivePacketFormat { get; }
+    IHFormat InboundPacketFormat { get; }
+    IHFormat OutboundPacketFormat { get; }
 
     string? Revision { get; }
     int MinimumConnectionAttempts { get; }
 
-    GamePatchingOptions AppliedPatchingOptions { get; }
+    GamePatchingOptions PatchingOptions { get; }
 
     void Disassemble();
     void Assemble(string path);

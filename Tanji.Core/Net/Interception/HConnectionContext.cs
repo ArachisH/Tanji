@@ -13,10 +13,10 @@ public readonly record struct HConnectionContext
     public int MinimumConnectionAttempts { get; init; } = 1;
     public bool IsFakingPolicyRequest { get; init; } = true;
     public bool IsWebSocketConnection { get; init; } = default;
-    public GamePatchingOptions AppliedPatchingOptions { get; init; } = default;
+    public GamePatchingOptions PatchingOptions { get; init; } = default;
 
-    public IHFormat SendPacketFormat { get; init; } = IHFormat.EvaWire;
-    public IHFormat ReceivePacketFormat { get; init; } = IHFormat.EvaWire;
+    public IHFormat InboundPacketFormat { get; init; } = IHFormat.EvaWire;
+    public IHFormat OutboundPacketFormat { get; init; } = IHFormat.EvaWire;
 
     public X509Certificate? WebSocketClientCertificate { get; init; } = default;
     public X509Certificate? WebSocketServerCertificate { get; init; } = default;
@@ -26,9 +26,9 @@ public readonly record struct HConnectionContext
         ClientPath = game.Path;
         Platform = game.Platform;
 
-        SendPacketFormat = game.SendPacketFormat;
-        ReceivePacketFormat = game.ReceivePacketFormat;
-        AppliedPatchingOptions = game.AppliedPatchingOptions;
+        PatchingOptions = game.PatchingOptions;
+        InboundPacketFormat = game.InboundPacketFormat;
+        OutboundPacketFormat = game.OutboundPacketFormat;
         MinimumConnectionAttempts = game.MinimumConnectionAttempts;
 
         IsFakingPolicyRequest = MinimumConnectionAttempts > 1;
