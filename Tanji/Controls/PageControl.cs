@@ -46,10 +46,7 @@ public class PageControl<TObservable> : UserControl where TObservable : Observab
         if (DataContext is TObservable context)
         {
             Context = context;
-            if (Source != null)
-            {
-                Source.DataSource = context;
-            }
+            Source?.DataSource = context;
         }
         base.OnDataContextChanged(e);
     }
