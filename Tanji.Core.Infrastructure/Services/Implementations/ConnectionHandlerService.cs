@@ -45,14 +45,12 @@ public sealed class ConnectionHandlerService : IConnectionHandlerService
     {
         if (string.IsNullOrWhiteSpace(ticket))
         {
-            _logger.LogError("Ticket should be provided when attempting to launch the client.");
             ThrowHelper.ThrowArgumentNullException(nameof(ticket));
         }
 
         HNode? local = await AcceptLocalNodeAsync(context, _options.GameListenPort, cancellationToken).ConfigureAwait(false);
         if (local == null || !local.IsConnected)
         {
-            _logger.LogError("Failed to intercept the local connection attempt from the client.");
             throw new Exception("Failed to intercept the local connection attempt from the client.");
         }
 
