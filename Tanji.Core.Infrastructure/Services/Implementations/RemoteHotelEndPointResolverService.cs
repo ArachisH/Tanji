@@ -21,23 +21,12 @@ public sealed class RemoteHotelEndPointResolverService : IRemoteEndPointResolver
         _logger = logger;
     }
 
-    public async Task<HotelEndPoint> ResolveAsync(string ticket, CancellationToken cancellationToken = default)
+    public Task<HotelEndPoint> ResolveAsync(string ticket, CancellationToken cancellationToken = default)
     {
         HHotel hotel = HExtensions.ToHotel(ticket);
         string host = $"game-{hotel.ToRegion()}.habbo.com";
 
-        IPAddress[] addresses = await Dns.GetHostAddressesAsync(host, cancellationToken).ConfigureAwait(false);
-        if (addresses.Length < 1)
-        {
-            _logger.LogCritical("Failed to resolve the external IP address of the host '{host}'.", host);
-            throw new Exception($"Failed to resolve the external IP address of the host '{host}'.");
-        }
-
-        // TODO: Adjust port based on platform
-        return new HotelEndPoint(addresses[0], 30000, host)
-        {
-            Hotel = hotel
-        };
+        return HotelEndPoint.ParseAsync(host, 30000, cancellationToken);
     }
     public async Task<HotelEndPoint> ResolveAsync(HNode local, HConnectionContext context, CancellationToken cancellationToken = default)
     {
