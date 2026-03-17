@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-using Tanji.Core.Net;
+﻿using Tanji.Core.Net;
 using Tanji.Core.Canvas;
 using Tanji.Core.Net.Buffers;
 using Tanji.Core.Net.Formats;
@@ -30,15 +28,13 @@ public sealed class RemoteHotelEndPointResolverService : IRemoteEndPointResolver
     }
     public async Task<HotelEndPoint> ResolveAsync(HNode local, HConnectionContext context, CancellationToken cancellationToken = default)
     {
-        using var writer = new ArrayPoolBufferWriter<byte>(128);
-        _ = await local.ReceivePacketAsync(writer, cancellationToken).ConfigureAwait(false);
+        using var packetBufferWriter = new ArrayPoolBufferWriter<byte>(128);
+        int received = await local.ReceivePacketAsync(packetBufferWriter, cancellationToken).ConfigureAwait(false);
 
-        HotelEndPoint? remoteEndPoint = await ParseRemoteEndPointAsync(context.SendPacketFormat, writer.WrittenSpan).ConfigureAwait(false);
-        if (remoteEndPoint == null)
-        {
-            _logger.LogError("Failed to parse the remote endpoint from the intercepted packet.");
-            throw new Exception("Failed to parse the remote endpoint from the intercepted packet.");
-        }
+        HotelEndPoint? remoteEndPoint = await ParseRemoteEndPointAsync(context.OutboundPacketFormat, packetBufferWriter.WrittenSpan).ConfigureAwait(false)
+            ?? throw new Exception("Failed to parse the remote end point from the intercepted packet.");
+
+        _logger.LogDebug("Resolved Remote end point: {endpoint}, {received:n0} Packet Bytes", remoteEndPoint, received);
         return remoteEndPoint;
     }
 
