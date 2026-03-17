@@ -28,6 +28,9 @@ partial class PacketLoggerView
     /// </summary>
     private void InitializeComponent()
     {
+        components = new System.ComponentModel.Container();
+        viewModelSrc = new System.Windows.Forms.BindingSource(components);
+        ((System.ComponentModel.ISupportInitialize)viewModelSrc).BeginInit();
         SuspendLayout();
         // 
         // PacketLoggerView
@@ -39,8 +42,11 @@ partial class PacketLoggerView
         Name = "PacketLoggerView";
         StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
         Text = "Tanji - Packet Logger";
+        ((System.ComponentModel.ISupportInitialize)viewModelSrc).EndInit();
         ResumeLayout(false);
     }
 
     #endregion
+
+    private System.Windows.Forms.BindingSource viewModelSrc;
 }
