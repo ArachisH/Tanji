@@ -71,8 +71,10 @@ public class Program
             IGame game = await _clientHandler.PatchClientAsync(HPlatform.Flash).ConfigureAwait(false);
             var context = new HConnectionContext(game);
 
-            HConnection connection = await _connectionHandler.LaunchAndInterceptConnectionAsync(ticket, context, cancellationToken);
-            await connection.AttachNodesAsync(cancellationToken).ConfigureAwait(false);
+            Task<HConnection> connection = _connectionHandler.InterceptConnectionAsync(ticket, context, cancellationToken);
+            _ = _clientHandler.LaunchClientAsync(context.Platform, ticket, context.ClientPath);
+
+            await connection.ConfigureAwait(false);
         }
         while (!cancellationToken.IsCancellationRequested);
     }

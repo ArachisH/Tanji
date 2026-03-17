@@ -8,5 +8,5 @@ public interface IConnectionHandlerService
 {
     ObservableCollection<HConnection> Connections { get; }
 
-    Task<HConnection> LaunchAndInterceptConnectionAsync(string ticket, HConnectionContext context, CancellationToken cancellationToken = default);
+    Task<HConnection> InterceptConnectionAsync(string ticket, HConnectionContext context, CancellationToken cancellationToken = default);
 }

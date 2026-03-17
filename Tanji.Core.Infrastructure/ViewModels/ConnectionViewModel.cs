@@ -71,13 +71,13 @@ public partial class ConnectionViewModel : ObservableObject
         IGame game = await _clientHandlerService.PatchClientAsync(HPlatform.Flash, CustomClientPath); // TODO: Radio button for selecting client type
         _logger.LogTrace("Client Patched: {patches}", game.AppliedPatchingOptions);
 
+        Status = INTERCEPTING_CONNECTION;
+        // Begin listening for connection attempts from the client, before launching the client.
         var context = new HConnectionContext(game);
-        HConnection connection = await _connectionHandler.LaunchAndInterceptConnectionAsync(ticket, context);
-        _logger.LogTrace("Connection(s) Established: Local|{local}, Remote|{remote}", connection.Local, connection.Remote);
+        Task<HConnection> interceptConnectionTask = _connectionHandler.InterceptConnectionAsync(ticket, context);
+        _ = _clientHandlerService.LaunchClientAsync(context.Platform, ticket, context.ClientPath);
 
-        Status = "Clamping Connections...";
-        _ = connection.AttachNodesAsync();
-
+        await interceptConnectionTask;
         Status = STANDING_BY;
     }
 }

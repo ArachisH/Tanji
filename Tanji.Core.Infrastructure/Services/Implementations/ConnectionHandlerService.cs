@@ -49,7 +49,7 @@ public sealed class ConnectionHandlerService : IConnectionHandlerService
         _connectionFactory = connectionFactory;
     }
 
-    public async Task<HConnection> LaunchAndInterceptConnectionAsync(string ticket, HConnectionContext context, CancellationToken cancellationToken = default)
+    public async Task<HConnection> InterceptConnectionAsync(string ticket, HConnectionContext context, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(ticket))
         {
@@ -57,10 +57,7 @@ public sealed class ConnectionHandlerService : IConnectionHandlerService
             ThrowHelper.ThrowArgumentNullException(nameof(ticket));
         }
 
-        Task<HNode?> acceptLocalTask = AcceptLocalNodeAsync(context, _options.GameListenPort, cancellationToken);
-        using Process clientProcess = await _clientHandler.LaunchClientAsync(context.Platform, ticket, context.ClientPath).ConfigureAwait(false);
-
-        HNode? local = await acceptLocalTask.ConfigureAwait(false);
+        HNode? local = await AcceptLocalNodeAsync(context, _options.GameListenPort, cancellationToken).ConfigureAwait(false);
         if (local == null || !local.IsConnected)
         {
             _logger.LogError("Failed to intercept the local connection attempt from the client.");
@@ -82,7 +79,10 @@ public sealed class ConnectionHandlerService : IConnectionHandlerService
         HNode remote = await EstablishRemoteConnectionAsync(context, remoteEndPoint, cancellationToken).ConfigureAwait(false);
         HConnection connection = _connectionFactory.Create(local, remote, context);
 
+        // Allow services to bind to specific packets before bridging the nodes.
         Connections.Add(connection);
+
+        _ = connection.BridgeNodesAsync(cancellationToken);
         return connection;
     }
 
