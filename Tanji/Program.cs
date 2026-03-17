@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Tanji.Views;
-using Tanji.Utilities;
 using Tanji.Core.Infrastructure.Services;
 using Tanji.Core.Infrastructure.Configuration;
 

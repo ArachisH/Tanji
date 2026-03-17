@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using WindowsFormsLifetime;
 
-namespace Tanji.Utilities;
+namespace Tanji.Core.Infrastructure.Services;
 
 public static class ServiceCollectionExtensions
 {
