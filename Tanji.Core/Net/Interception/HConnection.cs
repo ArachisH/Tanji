@@ -40,20 +40,11 @@ public sealed class HConnection : IDisposable
         return _weldTask = Task.WhenAll(localToRemote, remoteToLocal);
     }
 
-    public void Dispose()
-    {
-        Disconnect();
-    }
+    public void Dispose() => Disconnect();
     public void Disconnect()
     {
-        if (!Local.IsDisposed)
-        {
-            Local.Dispose();
-        }
-        if (!Remote.IsDisposed)
-        {
-            Remote.Dispose();
-        }
+        if (!Local.IsDisposed) Local.Dispose();
+        if (!Remote.IsDisposed) Remote.Dispose();
     }
 
     private static async Task AttachNodesAsync(HNode source, HNode destination, bool isOutbound, IMiddleman middleman, CancellationToken cancellationToken = default)
