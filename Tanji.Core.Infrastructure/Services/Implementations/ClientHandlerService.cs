@@ -197,14 +197,17 @@ public sealed class ClientHandlerService : IClientHandlerService
         launcherProcess.ErrorDataReceived += Process_DataReceived;
         launcherProcess.OutputDataReceived += Process_DataReceived;
 
-        ApplyFlashLauncherSettings(paths.RootPath, "patched.", "Tanji.");
-        if (launcherProcess.Start())
+        try
         {
-            // Wait for process to finish using the modified 'application.xml' file
-            await Task.Delay(250).ConfigureAwait(false);
-            ApplyFlashLauncherSettings(paths.RootPath);
+            ApplyFlashLauncherSettings(paths.RootPath, "patched.", "Tanji.");
+            if (launcherProcess.Start())
+            {
+                // Wait for process to finish using the modified 'application.xml' file, then reset.
+                await Task.Delay(1000).ConfigureAwait(false);
+            }
+            else throw new Exception("Failed to start the flash client process.");
         }
-        else throw new Exception("Failed to start the flash client process.");
+        finally { ApplyFlashLauncherSettings(paths.RootPath); }
 
         return launcherProcess;
     }
