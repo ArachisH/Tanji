@@ -10,7 +10,7 @@ namespace Tanji.Views;
 
 public partial class MainView : Form
 {
-    private PacketLoggerView? _packetLoggerView;
+    private readonly PacketLoggerView _packetLoggerView;
 
     private readonly IGuiContext _guiContext;
     private readonly IFormProvider _formProvider;
@@ -22,6 +22,7 @@ public partial class MainView : Form
     {
         _guiContext = guiContext;
         _formProvider = formProvider;
+        _packetLoggerView = _formProvider.GetForm<PacketLoggerView>();
 
         InitializeComponent();
 
@@ -31,9 +32,6 @@ public partial class MainView : Form
 
     private async void Connections_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        // Do not assume this event is running on UI thread.
-        _packetLoggerView ??= await _formProvider.GetFormAsync<PacketLoggerView>().ConfigureAwait(false);
-
         if (e.NewItems?.Count > 0)
         {
             _guiContext.Invoke(_packetLoggerView.Show);
