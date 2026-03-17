@@ -4,7 +4,6 @@ using System.ComponentModel;
 
 namespace Tanji.Controls;
 
-[DesignerCategory("Code")]
 public class TanjiLabel : Control, ISkinnable
 {
     private int _borderWidth = 1;

@@ -12,7 +12,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 namespace Tanji.Controls;
 
 [ToolboxItem(false)]
-[DesignerCategory("Code")]
 public class PageControl<TObservable> : UserControl where TObservable : ObservableObject
 {
     protected virtual BindingSource? Source { get; }

@@ -8,7 +8,6 @@ using System.ComponentModel.Design;
 
 namespace Tanji.Controls;
 
-[DesignerCategory("Code")]
 public class TanjiButton : ButtonBase, IButtonControl, ISkinnable
 {
     private bool _isPressed;

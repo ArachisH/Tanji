@@ -6,7 +6,6 @@ using System.Collections.Generic;
 
 namespace Tanji.Controls;
 
-[DesignerCategory("Code")]
 public class TanjiListView : ListView
 {
     private bool _lastSelectionState;

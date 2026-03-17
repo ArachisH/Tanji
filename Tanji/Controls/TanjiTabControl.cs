@@ -4,7 +4,6 @@ using System.ComponentModel;
 
 namespace Tanji.Controls;
 
-[DesignerCategory("Code")]
 public sealed class TanjiTabControl : TabControl, ISkinnable
 {
     private Pen _pen;
