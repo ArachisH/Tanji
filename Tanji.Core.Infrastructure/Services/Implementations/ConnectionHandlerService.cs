@@ -1,21 +1,19 @@
 ﻿using System.Net;
 using System.Text;
 using System.Net.Sockets;
-using System.Diagnostics;
 using System.Collections.ObjectModel;
 
-using Tanji.Core;
+using CommunityToolkit.HighPerformance.Buffers;
+
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+
 using Tanji.Core.Net;
 using Tanji.Core.Canvas;
+using Tanji.Core.Net.Buffers;
 using Tanji.Core.Net.Interception;
-
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Logging;
-
-using CommunityToolkit.HighPerformance.Buffers;
-using Tanji.Core.Infrastructure.Services;
+using Tanji.Core.Cryptography.Ciphers;
 using Tanji.Core.Infrastructure.Configuration;
-using Tanji.Core.Infrastructure.Factories;
 
 namespace Tanji.Core.Infrastructure.Services.Implementations;
 
@@ -25,8 +23,6 @@ public sealed class ConnectionHandlerService : IConnectionHandlerService
     private static readonly ReadOnlyMemory<byte> XDPResponseBytes = Encoding.UTF8.GetBytes("<cross-domain-policy><allow-access-from domain=\"*\" to-ports=\"*\"/></cross-domain-policy>\0");
 
     private readonly TanjiOptions _options;
-    private readonly IClientHandlerService _clientHandler;
-    private readonly IConnectionFactory _connectionFactory;
     private readonly ILogger<ConnectionHandlerService> _logger;
     private readonly IRemoteEndPointResolverService<HotelEndPoint> _endPointResolver;
 
@@ -38,15 +34,11 @@ public sealed class ConnectionHandlerService : IConnectionHandlerService
 
     public ConnectionHandlerService(ILogger<ConnectionHandlerService> logger,
         IOptions<TanjiOptions> options,
-        IConnectionFactory connectionFactory,
-        IClientHandlerService clientHandler,
         IRemoteEndPointResolverService<HotelEndPoint> endPointResolver)
     {
         _logger = logger;
         _options = options.Value;
-        _clientHandler = clientHandler;
         _endPointResolver = endPointResolver;
-        _connectionFactory = connectionFactory;
     }
 
     public async Task<HConnection> InterceptConnectionAsync(string ticket, HConnectionContext context, CancellationToken cancellationToken = default)
