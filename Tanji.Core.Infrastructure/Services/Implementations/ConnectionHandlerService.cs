@@ -58,16 +58,10 @@ public sealed class ConnectionHandlerService : IConnectionHandlerService
             ? await _endPointResolver.ResolveAsync(local, context, cancellationToken).ConfigureAwait(false)
             : await _endPointResolver.ResolveAsync(ticket, cancellationToken).ConfigureAwait(false);
 
-        if (remoteEndPoint == null)
-        {
-            _logger.LogError("Failed to resolve the remote address from the address shouting mechanism.");
-            throw new Exception("Failed to resolve the remote address from the address shouting mechanism.");
-        }
-
         // TODO: Use ProxyFactory to acquire proxy instances to apply to the remote connection.
 
         HNode remote = await EstablishRemoteConnectionAsync(context, remoteEndPoint, cancellationToken).ConfigureAwait(false);
-        HConnection connection = _connectionFactory.Create(local, remote, context);
+        var connection = new HConnection(local, remote, context);
 
         // Allow services to bind to specific packets before bridging the nodes.
         Connections.Add(connection);
