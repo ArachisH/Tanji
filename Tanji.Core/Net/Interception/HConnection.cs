@@ -1,43 +1,40 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
 using CommunityToolkit.HighPerformance.Buffers;
 
 namespace Tanji.Core.Net.Interception;
 
 public sealed class HConnection : IDisposable
 {
-    private Task? _weldTask;
+    private Task? _bridgeNodesTask;
 
-    public int TotalInboundPackets { get; }
-    public int TotalOutboundPackets { get; }
+    public delegate Task AsyncEventHandler<TEventArgs>(object sender, TEventArgs e);
+
+    public event AsyncEventHandler<PacketInterceptedEventArgs>? PacketInboundAsync;
+    public event AsyncEventHandler<PacketInterceptedEventArgs>? PacketOutboundAsync;
+
+    public HNode Local { get; }
+    public HNode Remote { get; }
+    public HConnectionContext Context { get; }
 
     public bool IsDisposed => Local.IsDisposed || Remote.IsDisposed;
     public bool IsConnected => Local.IsConnected && Remote.IsConnected;
 
-    public required HNode Local { get; init; }
-    public required HNode Remote { get; init; }
-    public required IMiddleman Middleman { get; init; }
-    public required HConnectionContext Context { get; init; }
-
-    [SetsRequiredMembers]
-    public HConnection(HNode local, HNode remote, IMiddleman middleman, HConnectionContext context)
+    public HConnection(HNode local, HNode remote, HConnectionContext context)
     {
         Local = local;
         Remote = remote;
         Context = context;
-        Middleman = middleman;
     }
 
-    public Task AttachNodesAsync(CancellationToken cancellationToken = default)
+    public Task BridgeNodesAsync(CancellationToken cancellationToken = default)
     {
-        if (_weldTask != null && !_weldTask.IsCompleted)
+        if (_bridgeNodesTask != null && !_bridgeNodesTask.IsCompleted)
         {
-            return _weldTask;
+            return _bridgeNodesTask;
         }
 
-        Task localToRemote = AttachNodesAsync(Local, Remote, true, Middleman, cancellationToken);
-        Task remoteToLocal = AttachNodesAsync(Remote, Local, false, Middleman, cancellationToken);
-        return _weldTask = Task.WhenAll(localToRemote, remoteToLocal);
+        Task localToRemote = BridgeNodesAsync(Local, Remote, true, cancellationToken);
+        Task remoteToLocal = BridgeNodesAsync(Remote, Local, false, cancellationToken);
+        return _bridgeNodesTask = Task.WhenAll(localToRemote, remoteToLocal);
     }
 
     public void Dispose() => Disconnect();
@@ -47,40 +44,50 @@ public sealed class HConnection : IDisposable
         if (!Remote.IsDisposed) Remote.Dispose();
     }
 
-    private static async Task AttachNodesAsync(HNode source, HNode destination, bool isOutbound, IMiddleman middleman, CancellationToken cancellationToken = default)
+    private async Task BridgeNodesAsync(HNode source, HNode destination, bool isOutbound, CancellationToken cancellationToken)
     {
-        int received;
         while (source.IsConnected && destination.IsConnected && !cancellationToken.IsCancellationRequested)
         {
-            // Do not dispose 'bufferWriter' here, instead, dispose of it within the 'TransferPacketAsync' method
-            var writer = new ArrayPoolBufferWriter<byte>(source.ReceivePacketFormat.MinBufferSize);
-            received = await source.ReceivePacketAsync(writer, cancellationToken).ConfigureAwait(false);
-
+            var packetBufferWriter = new ArrayPoolBufferWriter<byte>(source.PacketFormat.MinBufferSize);
+            int received = await source.ReceivePacketAsync(packetBufferWriter, cancellationToken).ConfigureAwait(false);
             if (received > 0)
             {
-                // Continuously attempt to receive packets from the node
-                _ = HandleInterceptedPacketAsync(source, destination, isOutbound, middleman, writer, cancellationToken);
+                _ = HandleInterceptedPacketAsync(destination, isOutbound, packetBufferWriter, cancellationToken);
             }
-            else writer.Dispose();
         }
     }
-    private static async Task HandleInterceptedPacketAsync(HNode source, HNode destination, bool isOutbound, IMiddleman middleman, ArrayPoolBufferWriter<byte> writer, CancellationToken cancellationToken = default)
+    private async Task HandleInterceptedPacketAsync(HNode destination, bool isOutbound, ArrayPoolBufferWriter<byte> packetBufferWriter, CancellationToken cancellationToken)
     {
         try
         {
-            // Mutable packet buffer, which will be encrypted if the node has an active cipher instance.
-            Memory<byte> buffer = writer.DangerousGetArray();
-            if ((middleman.IsHandlingOutbound && isOutbound) || (middleman.IsHandlingInbound && !isOutbound))
-            {
-                ValueTask<bool> packetProcessTask = !isOutbound
-                    ? middleman.PacketInboundAsync(buffer, source, destination)
-                    : middleman.PacketOutboundAsync(buffer, source, destination);
+            AsyncEventHandler<PacketInterceptedEventArgs>? handler = isOutbound ? PacketOutboundAsync : PacketInboundAsync;
+            Memory<byte> mutablePacketBuffer = packetBufferWriter.DangerousGetArray();
 
-                // If true, the packet is to be ignored/blocked
-                if (await packetProcessTask.ConfigureAwait(false)) return;
+            bool isReadOnlyBuffer = false;
+            if (handler != null)
+            {
+                var args = new PacketInterceptedEventArgs(mutablePacketBuffer, destination.PacketFormat, isOutbound)
+                {
+                    Cancel = cancellationToken.IsCancellationRequested
+                };
+                await handler.Invoke(this, args).ConfigureAwait(false);
+
+                // Packet was replaced as read-only.
+                if (isReadOnlyBuffer = args.IsReadOnly)
+                {
+                    await destination.SendPacketAsync(args.PacketBuffer, cancellationToken).ConfigureAwait(false);
+                }
+                else if (args.IsReplaced)
+                {
+                    mutablePacketBuffer = args.GetMutablePacketBuffer();
+                }
             }
-            await destination.SendPacketAsync(buffer, cancellationToken).ConfigureAwait(false);
+
+            if (!isReadOnlyBuffer)
+            {
+                await destination.SendPacketAsync(mutablePacketBuffer, cancellationToken).ConfigureAwait(false);
+            }
         }
-        finally { writer.Dispose(); }
+        finally { packetBufferWriter.Dispose(); }
     }
 }
