@@ -72,7 +72,7 @@ public class Program
             var context = new HConnectionContext(game);
 
             Task<HConnection> connection = _connectionHandler.InterceptConnectionAsync(ticket, context, cancellationToken);
-            _ = _clientHandler.LaunchClientAsync(context.Platform, ticket, context.ClientPath);
+            _ = _clientHandler.LaunchClientAsync(context.Platform, ticket, context.ClientPath.FullName);
 
             await connection.ConfigureAwait(false);
         }
