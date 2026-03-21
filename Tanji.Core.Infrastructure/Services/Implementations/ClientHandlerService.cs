@@ -36,10 +36,11 @@ public sealed class ClientHandlerService : IClientHandlerService
         {
             WriteIndented = true,
             PropertyNameCaseInsensitive = true,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
         SerializerOptions.Converters.Add(new FormatConverter());
         SerializerOptions.Converters.Add(new PlatformConverter());
+        SerializerOptions.Converters.Add(new FileInfoConverter());
         SerializerOptions.Converters.Add(new IPEndPointConverter());
     }
     public ClientHandlerService(ILogger<ClientHandlerService> logger, IOptions<TanjiOptions> options)
