@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 using Tanji.Core.Net.Formats;
 
-namespace Tanji.Core.Json;
+namespace Tanji.Core.Infrastructure.Json.Converters;
 
 public sealed class FormatConverter : JsonConverter<IHFormat>
 {

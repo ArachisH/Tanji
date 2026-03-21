@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 using Tanji.Core.Canvas;
 
-namespace Tanji.Core.Json;
+namespace Tanji.Core.Infrastructure.Json.Converters;
 
 public sealed class PlatformConverter : JsonConverter<HPlatform>
 {
@@ -13,9 +13,11 @@ public sealed class PlatformConverter : JsonConverter<HPlatform>
         {
             case HPlatform.Flash: writer.WriteStringValue("Flash"); break;
             case HPlatform.Unity: writer.WriteStringValue("Unity"); break;
+            case HPlatform.Shockwave: writer.WriteStringValue("Shockwave"); break;
         }
     }
-    public override HPlatform Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) => ToPlatform(reader.GetString());
+    public override HPlatform Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        => ToPlatform(reader.GetString());
 
     public static string ToClientName(HPlatform platform) => platform switch
     {

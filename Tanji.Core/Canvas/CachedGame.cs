@@ -1,7 +1,5 @@
-﻿using System.Text.Json.Serialization;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
-using Tanji.Core.Json;
 using Tanji.Core.Net.Formats;
 using Tanji.Core.Net.Messages;
 
@@ -12,13 +10,10 @@ public sealed class CachedGame : IGame
     public required FileInfo? Path { get; init; }
 
     public required bool IsPostShuffle { get; init; }
-    [JsonConverter(typeof(PlatformConverter))]
     public required HPlatform Platform { get; init; }
 
-    [JsonConverter(typeof(FormatConverter))]
-    public required IHFormat OutboundPacketFormat { get; init; }
-    [JsonConverter(typeof(FormatConverter))]
     public required IHFormat InboundPacketFormat { get; init; }
+    public required IHFormat OutboundPacketFormat { get; init; }
 
     public required string Revision { get; init; }
     public required int MinimumConnectionAttempts { get; init; }
