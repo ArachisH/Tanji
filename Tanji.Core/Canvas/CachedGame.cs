@@ -25,9 +25,6 @@ public sealed class CachedGame : IGame
 
     public required GamePatchingOptions PatchingOptions { get; init; }
 
-    [JsonIgnore]
-    public bool IsDisposed { get; private set; }
-
     public CachedGame()
     { }
     [SetsRequiredMembers]
@@ -48,28 +45,13 @@ public sealed class CachedGame : IGame
         PatchingOptions = patchingOptions;
     }
 
-    public void Disassemble() => throw new NotSupportedException();
-    public void Assemble(string path) => throw new NotSupportedException();
-    public void GenerateMessageHashes() => throw new NotSupportedException();
-    public void Patch(GamePatchingOptions options) => throw new NotSupportedException();
+    void IGame.Disassemble() => throw new NotSupportedException();
+    void IGame.Assemble(string path) => throw new NotSupportedException();
+    void IGame.GenerateMessageHashes() => throw new NotSupportedException();
+    void IGame.Patch(GamePatchingOptions options) => throw new NotSupportedException();
 
-    public bool TryResolveMessage(uint hash, out HMessage message) => throw new NotSupportedException();
-    public bool TryResolveMessage(string name, out HMessage message) => throw new NotSupportedException();
+    bool IGame.TryResolveMessage(uint hash, out HMessage message) => throw new NotSupportedException();
+    bool IGame.TryResolveMessage(string name, out HMessage message) => throw new NotSupportedException();
 
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-    private void Dispose(bool disposing)
-    {
-        if (!IsDisposed)
-        {
-            if (disposing)
-            {
-                // TODO: dispose managed state (managed objects)
-            }
-            IsDisposed = true;
-        }
-    }
+    void IDisposable.Dispose() => throw new NotSupportedException();
 }
