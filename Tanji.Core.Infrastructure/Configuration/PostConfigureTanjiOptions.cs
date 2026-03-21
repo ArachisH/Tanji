@@ -1,16 +1,26 @@
 ﻿using System.Text.Json;
 using System.Collections.ObjectModel;
 
-using Tanji.Core.Json;
 using Tanji.Core.Canvas;
+using Tanji.Core.Infrastructure.Json;
+using Tanji.Core.Infrastructure.Json.Converters;
 
 using Microsoft.Extensions.Options;
-using Tanji.Core.Infrastructure.Json;
 
 namespace Tanji.Core.Infrastructure.Configuration;
 
 internal sealed class PostConfigureTanjiOptions : IPostConfigureOptions<TanjiOptions>
 {
+    private static readonly JsonSerializerOptions _options;
+
+    static PostConfigureTanjiOptions()
+    {
+        _options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
+    }
+
     public void PostConfigure(string? name, TanjiOptions options)
     {
         options.LauncherPath = Environment.ExpandEnvironmentVariables(options.LauncherPath);
@@ -18,11 +28,7 @@ internal sealed class PostConfigureTanjiOptions : IPostConfigureOptions<TanjiOpt
         if (!versionsFileInfo.Exists) return;
 
         using var versionsFileStream = File.OpenRead(versionsFileInfo.FullName);
-        options.Versions = JsonSerializer.Deserialize<LauncherVersions>(versionsFileStream,
-            new JsonSerializerOptions()
-            {
-                PropertyNameCaseInsensitive = true
-            });
+        options.Versions = JsonSerializer.Deserialize<LauncherVersions>(versionsFileStream, _options);
         if (options.Versions == default) return;
 
         var platformPaths = new Dictionary<HPlatform, PlatformPaths>();
@@ -32,7 +38,7 @@ internal sealed class PostConfigureTanjiOptions : IPostConfigureOptions<TanjiOpt
         {
             if (platformPaths.ContainsKey(installation.Platform))
             {
-                if(platformPaths[installation.Platform].Version < int.Parse(installation.Version))
+                if (platformPaths[installation.Platform].Version < int.Parse(installation.Version))
                 {
                     platformPaths.Remove(installation.Platform);
                 }
