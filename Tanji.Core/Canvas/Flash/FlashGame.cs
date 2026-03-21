@@ -168,7 +168,9 @@ public sealed class FlashGame : IGame
         {
             message = new HMessage(flashMessage.Id, flashMessage.IsOutgoing)
             {
-                Hash = flashMessage.Hash
+                Hash = hash,
+                Name = flashMessage.MessageClass.QName.Name,
+                Structure = flashMessage.Structure
             };
         }
         return message != default;
@@ -180,7 +182,9 @@ public sealed class FlashGame : IGame
         {
             message = new HMessage(flashMessage.Id, flashMessage.IsOutgoing)
             {
-                Hash = flashMessage.Hash
+                Hash = flashMessage.Hash,
+                Name = name,
+                Structure = flashMessage.Structure
             };
         }
         return message != default;

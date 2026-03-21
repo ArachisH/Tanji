@@ -7,18 +7,35 @@ namespace Tanji.Core.Net.Messages;
 [DebuggerDisplay("Resolved = {Resolved,nq}")]
 public abstract class Identifiers
 {
+    private readonly Dictionary<short, HMessage> _messagesById;
+    private readonly Dictionary<uint, HMessage> _messagesByHash;
+    private readonly Dictionary<string, HMessage> _messagesByName;
+
     public bool IsOutgoing { get; init; }
     public int Resolved { get; private set; }
 
+    public HMessage this[short id] => _messagesById.GetValueOrDefault(id);
+    public HMessage this[string name] => _messagesByName.GetValueOrDefault(name);
+
     public Identifiers(bool isOutgoing)
     {
+        _messagesById = [];
+        _messagesByHash = [];
+        _messagesByName = [];
+
         IsOutgoing = isOutgoing;
     }
 
-    protected void Register(HMessage value, ref HMessage backingField)
+    protected void Register(ref HMessage backingField, string name, HMessage value)
     {
         backingField = value;
-        Resolved += value == default ? -1 : 1;
+        if (value != default)
+        {
+            _messagesByName.Add(name, value);
+            _messagesById.Add(value.Id, value);
+            _messagesByHash.Add(value.Hash, value);
+            Resolved++;
+        }
     }
     protected HMessage ResolveMessage(IGame game, string name, short unityId, ReadOnlySpan<uint> postShuffleHashes)
     {

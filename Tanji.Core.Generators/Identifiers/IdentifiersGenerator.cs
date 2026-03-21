@@ -71,7 +71,7 @@ public sealed class IdentifiersGenerator : IIncrementalGenerator
                     public HMessage {{message.Name}}
                     {
                         get => {{backingFieldVariableName}};
-                        init => Register(value, ref {{backingFieldVariableName}});
+                        init => Register(ref {{backingFieldVariableName}}, "{{message.Name}}", value);
                     }
                 """);
 

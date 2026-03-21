@@ -10,6 +10,8 @@ public readonly record struct HMessage
     public required bool IsOutgoing { get; init; }
 
     public uint Hash { get; init; }
+    public string? Name { get; init; }
+    public string? Structure { get; init; }
 
     [SetsRequiredMembers]
     public HMessage(short id, bool isOutgoing)
