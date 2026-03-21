@@ -1,6 +1,5 @@
 ﻿using System.Text.Json.Serialization;
 
-using Tanji.Core.Json;
 using Tanji.Core.Canvas;
 using Tanji.Core.Infrastructure.Json.Converters;
 
