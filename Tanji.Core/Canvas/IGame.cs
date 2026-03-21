@@ -5,7 +5,7 @@ namespace Tanji.Core.Canvas;
 
 public interface IGame : IDisposable
 {
-    string? Path { get; }
+    FileInfo? Path { get; }
 
     bool IsPostShuffle { get; }
     HPlatform Platform { get; }
@@ -15,7 +15,6 @@ public interface IGame : IDisposable
 
     string? Revision { get; }
     int MinimumConnectionAttempts { get; }
-
     GamePatchingOptions PatchingOptions { get; }
 
     void Disassemble();

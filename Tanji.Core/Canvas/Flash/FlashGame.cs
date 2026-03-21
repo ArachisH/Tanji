@@ -51,7 +51,7 @@ public sealed class FlashGame : IGame
     public string? Revision { get; private set; }
     public int MinimumConnectionAttempts { get; private set; }
 
-    public string? Path { get; private set; }
+    public FileInfo? Path { get; private set; }
     public GamePatchingOptions PatchingOptions { get; private set; }
 
     public bool IsDisposed { get; private set; }
@@ -59,7 +59,7 @@ public sealed class FlashGame : IGame
     public FlashGame(string path)
         : this(new ShockwaveFlash(path))
     {
-        Path = path;
+        Path = new FileInfo(path);
     }
     public FlashGame(byte[] data)
         : this(new ShockwaveFlash(data))

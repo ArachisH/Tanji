@@ -9,7 +9,7 @@ namespace Tanji.Core.Canvas;
 
 public sealed class CachedGame : IGame
 {
-    public required string Path { get; init; }
+    public required FileInfo? Path { get; init; }
 
     public required bool IsPostShuffle { get; init; }
     [JsonConverter(typeof(PlatformConverter))]
@@ -44,7 +44,7 @@ public sealed class CachedGame : IGame
         Revision = game.Revision ?? "< Unknown Revision >";
         MinimumConnectionAttempts = game.MinimumConnectionAttempts;
 
-        Path = clientPath;
+        Path = new FileInfo(clientPath);
         PatchingOptions = patchingOptions;
     }
 

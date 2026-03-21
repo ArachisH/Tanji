@@ -7,7 +7,7 @@ namespace Tanji.Core.Net.Interception;
 
 public readonly record struct HConnectionContext
 {
-    public string? ClientPath { get; init; }
+    public FileInfo ClientPath { get; init; }
     public HPlatform Platform { get; init; }
 
     public int MinimumConnectionAttempts { get; init; } = 1;

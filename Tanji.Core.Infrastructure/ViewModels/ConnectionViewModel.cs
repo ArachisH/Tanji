@@ -66,12 +66,12 @@ public partial class ConnectionViewModel : ObservableObject
 
         Status = PATCHING_CLIENT;
         IGame game = await _clientHandlerService.PatchClientAsync(HPlatform.Flash, CustomClientPath); // TODO: Radio button for selecting client type
-
-        Status = INTERCEPTING_CONNECTION;
-        // Begin listening for connection attempts from the client, before launching the client.
         var context = new HConnectionContext(game);
+
+        // Begin listening for connection attempts from the client, before launching the client.
+        Status = INTERCEPTING_CONNECTION;
         Task<HConnection> interceptConnectionTask = _connectionHandler.InterceptConnectionAsync(ticket, context);
-        _ = _clientHandlerService.LaunchClientAsync(context.Platform, ticket, context.ClientPath);
+        _ = _clientHandlerService.LaunchClientAsync(context.Platform, ticket, context.ClientPath.FullName);
 
         await interceptConnectionTask;
         Status = STANDING_BY;
