@@ -27,8 +27,8 @@ public sealed class ClientHandlerService : IClientHandlerService
     private readonly TanjiOptions _options;
     private readonly ILogger<ClientHandlerService> _logger;
 
-    public DirectoryInfo MessagesDirectory { get; } = Directory.CreateDirectory("Messages");
-    public DirectoryInfo PatchedClientsDirectory { get; } = Directory.CreateDirectory("Patched Clients");
+    public DirectoryInfo MessagesDirectory { get; }
+    public DirectoryInfo PatchedClientsDirectory { get; }
 
     static ClientHandlerService()
     {
@@ -47,6 +47,12 @@ public sealed class ClientHandlerService : IClientHandlerService
     {
         _logger = logger;
         _options = options.Value;
+
+        MessagesDirectory = Directory.CreateDirectory("Messages");
+        MessagesDirectory.Attributes = FileAttributes.Normal;
+
+        PatchedClientsDirectory = Directory.CreateDirectory("Patched Clients");
+        PatchedClientsDirectory.Attributes = FileAttributes.Normal;
     }
 
     public async Task<IGame> PatchClientAsync(HPlatform platform, string? clientPath = null)
