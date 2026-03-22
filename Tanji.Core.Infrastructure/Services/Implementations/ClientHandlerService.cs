@@ -111,16 +111,17 @@ public sealed class ClientHandlerService : IClientHandlerService
         _logger.LogInformation("Assembling client");
         string assemblePath = Path.Combine(PatchedClientsDirectory.FullName, $"{md5Hash}_{game.Revision}_{clientFileInfo.Name}");
         game.Assemble(assemblePath);
-
-        var incoming = new Incoming(game);
-        var outgoing = new Outgoing(game);
         var cachedGame = new CachedGame(game, patchingOptions, assemblePath);
 
         using FileStream gameSerializationStream = File.Create(Path.Combine(PatchedClientsDirectory.FullName, $"{md5Hash}_{game.Revision}.json"));
         JsonSerializer.Serialize(gameSerializationStream, cachedGame, SerializerOptions);
 
         using FileStream messagesSerializationStream = File.Create(Path.Combine(MessagesDirectory.FullName, $"{game.Revision}.json"));
-        JsonSerializer.Serialize(messagesSerializationStream, new CachedIdentifiers { Outgoing = outgoing, Incoming = incoming }, SerializerOptions);
+        JsonSerializer.Serialize(messagesSerializationStream, new CachedIdentifiers
+        {
+            Outgoing = new Outgoing(game),
+            Incoming = new Incoming(game)
+        }, SerializerOptions);
 
         return cachedGame;
     }
