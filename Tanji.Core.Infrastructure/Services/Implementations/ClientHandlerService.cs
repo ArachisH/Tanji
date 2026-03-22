@@ -77,16 +77,20 @@ public sealed class ClientHandlerService : IClientHandlerService
         // Attempt to load game data from a json file.
         await MD5.HashDataAsync(tempClientFileStream, clientFileHash).ConfigureAwait(false);
 
-        string identifier = Convert.ToHexString(clientFileHash, 0, 4);
+        string md5Hash = Convert.ToHexString(clientFileHash, 0, 4);
         foreach (FileInfo fileInfo in PatchedClientsDirectory.EnumerateFiles())
         {
-            if (!fileInfo.Name.StartsWith(identifier, StringComparison.InvariantCultureIgnoreCase) ||
+            if (!fileInfo.Name.StartsWith(md5Hash, StringComparison.InvariantCultureIgnoreCase) ||
                 !fileInfo.Name.EndsWith(".json")) continue;
 
             using var deserializationStream = File.OpenRead(fileInfo.FullName);
             CachedGame? deserializedCachedGame = JsonSerializer.Deserialize<CachedGame>(deserializationStream, SerializerOptions);
 
-            return deserializedCachedGame ?? throw new Exception("Failed to deserialize the cached game.");
+            CachedGame? deserializedCachedGame = JsonSerializer.Deserialize<CachedGame>(deserializationStream, SerializerOptions)
+                ?? throw new Exception("Failed to deserialize cached game file.");
+
+            _logger.LogInformation("Discovered Cached Client > {path}", deserializedCachedGame.Path!.FullName);
+            return deserializedCachedGame;
         }
 
         var clientFileInfo = new FileInfo(clientPath);
