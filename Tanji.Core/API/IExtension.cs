@@ -8,6 +8,6 @@ public interface IExtension : IDisposable
     IInstaller Installer { get; set; }
 
     void OnConnected();
-    void HandleOutgoing(DataInterceptedEventArgs e);
-    void HandleIncoming(DataInterceptedEventArgs e);
+    void HandleOutgoing(PacketInterceptedEventArgs e);
+    void HandleIncoming(PacketInterceptedEventArgs e);
 }
