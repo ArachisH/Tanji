@@ -1,15 +1,15 @@
 ﻿using System.Runtime.InteropServices;
 
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+
 using Tanji.Core.Canvas;
 using Tanji.Core.Net.Interception;
 using Tanji.Core.Infrastructure.Services;
 using Tanji.Core.Infrastructure.Configuration;
 
 using Eavesdrop;
-
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Tanji.CLI;
 
