@@ -245,7 +245,7 @@ public sealed class ClientHandlerService : IClientHandlerService
                 using var gameBuffer = MemoryOwner<byte>.Allocate((int)clientFileInfo.Length);
                 Span<byte> gameBufferSpan = gameBuffer.Span;
 
-                gameStream.Read(gameBufferSpan);
+                gameStream.ReadExactly(gameBufferSpan);
                 wasLoadedIntoMemory = true;
 
                 int decryptedLength = FlashCrypto.Decrypt(ref gameBufferSpan, out int writtenOffset);
