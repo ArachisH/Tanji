@@ -225,7 +225,7 @@ public sealed class ClientHandlerService : IClientHandlerService
     private static IGame AcquireGame(HPlatform platform, Stream clientFileStream) => platform switch
     {
         HPlatform.Flash => new FlashGame(clientFileStream),
-        //HPlatform.Unity => new UnityGame(gameStream),
+        //HPlatform.Unity => new UnityGame(clientFileStream),
         _ => throw new ArgumentException("Failed to initialize a game instance for the provided platform.", nameof(platform))
     };
     private static Stream AcquireGameStream(HPlatform platform, FileInfo clientFileInfo)
@@ -257,7 +257,7 @@ public sealed class ClientHandlerService : IClientHandlerService
         {
             if (wasLoadedIntoMemory)
             {
-                // Original file stream should be disposed, as we'll be returning another stream that references a rented buffer.
+                // Original file stream should be disposed, as we'll be returning another smaller stream with just the required information.
                 gameStream?.Dispose();
             }
         }
