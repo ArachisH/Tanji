@@ -83,7 +83,6 @@ public sealed class ClientHandlerService : IClientHandlerService
                 !fileInfo.Name.EndsWith(".json")) continue;
 
             using var deserializationStream = File.OpenRead(fileInfo.FullName);
-            CachedGame? deserializedCachedGame = JsonSerializer.Deserialize<CachedGame>(deserializationStream, SerializerOptions);
 
             CachedGame? deserializedCachedGame = JsonSerializer.Deserialize<CachedGame>(deserializationStream, SerializerOptions)
                 ?? throw new Exception("Failed to deserialize cached game file.");
