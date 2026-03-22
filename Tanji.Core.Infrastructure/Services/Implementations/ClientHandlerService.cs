@@ -62,7 +62,6 @@ public sealed class ClientHandlerService : IClientHandlerService
             PlatformPaths paths = GetPlatformPaths(platform, _options.PlatformPaths);
             clientPath = paths.ClientPath;
         }
-        _logger.LogInformation("Patching Client: {clientPath}", clientPath);
 
         if (!File.Exists(clientPath))
         {
