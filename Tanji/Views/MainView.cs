@@ -15,10 +15,8 @@ public partial class MainView : Form
     private readonly IGuiContext _guiContext;
     private readonly IFormProvider _formProvider;
 
-    public MainView(
-        IConnectionHandlerService connectionHandler,
-        IGuiContext guiContext,
-        IFormProvider formProvider)
+    public MainView(IGuiContext guiContext, IFormProvider formProvider,
+        IConnectionHandlerService connectionHandler)
     {
         _guiContext = guiContext;
         _formProvider = formProvider;
@@ -30,7 +28,7 @@ public partial class MainView : Form
         connectionHandler.Connections.CollectionChanged += Connections_CollectionChanged;
     }
 
-    private async void Connections_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    private void Connections_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         if (e.NewItems?.Count > 0)
         {
