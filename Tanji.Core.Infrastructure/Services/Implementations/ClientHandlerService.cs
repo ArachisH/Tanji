@@ -184,13 +184,13 @@ public sealed class ClientHandlerService : IClientHandlerService
         var info = new ProcessStartInfo();
         if (_options.IsUsingAirDebugLauncher)
         {
-            info.FileName = "adl.exe";
+            info.FileName = Environment.ExpandEnvironmentVariables("%AIR_HOME%\\bin\\adl.exe");
             info.CreateNoWindow = false;
             info.UseShellExecute = false;
             info.RedirectStandardError = true;
             info.RedirectStandardOutput = true;
             info.WorkingDirectory = paths.RootPath;
-            info.Arguments = $"\".\\META-INF\\AIR\\application.xml\" root-dir . -- server {ticket[..4]} ticket {ticket[5..]}";
+            info.Arguments = $"\".\\META-INF\\AIR\\application.xml\" -profile extendedDesktop root-dir . -- server {ticket[..4]} ticket {ticket[5..]}";
         }
         else
         {
