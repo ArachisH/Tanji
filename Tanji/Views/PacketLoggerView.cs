@@ -22,7 +22,7 @@ public partial class PacketLoggerView : Form
     {
         if (Program.Services is not null)
         {
-            DataContext = Program.Services.GetRequiredService<LoggerViewModel>();
+            DataContext = Program.Services.GetRequiredService<PacketLoggerViewModel>();
         }
         base.OnLoad(e);
     }

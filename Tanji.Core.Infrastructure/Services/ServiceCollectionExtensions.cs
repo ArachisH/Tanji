@@ -30,7 +30,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ToolboxViewModel>();
         services.AddSingleton<ExtensionsViewModel>();
         services.AddSingleton<SettingsViewModel>();
-        services.AddSingleton<LoggerViewModel>();
+        services.AddSingleton<PacketLoggerViewModel>();
 
         // Add Hosted Services
         services.AddHostedService(provider => provider.GetRequiredService<IHotelStateService>());
