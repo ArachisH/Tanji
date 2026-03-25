@@ -8,8 +8,8 @@ public sealed class HConnection : IDisposable
 
     public delegate Task AsyncEventHandler<TEventArgs>(object sender, TEventArgs e);
 
-    public event AsyncEventHandler<PacketInterceptedEventArgs>? PacketInboundAsync;
-    public event AsyncEventHandler<PacketInterceptedEventArgs>? PacketOutboundAsync;
+    public event AsyncEventHandler<PacketInterceptedEventArgs>? PacketIncomingAsync;
+    public event AsyncEventHandler<PacketInterceptedEventArgs>? PacketOutgoingAsync;
 
     public HNode Local { get; }
     public HNode Remote { get; }
@@ -44,7 +44,7 @@ public sealed class HConnection : IDisposable
         if (!Remote.IsDisposed) Remote.Dispose();
     }
 
-    private async Task BridgeNodesAsync(HNode source, HNode destination, bool isOutbound, CancellationToken cancellationToken)
+    private async Task BridgeNodesAsync(HNode source, HNode destination, bool isOutgoing, CancellationToken cancellationToken)
     {
         while (source.IsConnected && destination.IsConnected && !cancellationToken.IsCancellationRequested)
         {
@@ -52,21 +52,21 @@ public sealed class HConnection : IDisposable
             int received = await source.ReceivePacketAsync(packetBufferWriter, cancellationToken).ConfigureAwait(false);
             if (received > 0)
             {
-                _ = HandleInterceptedPacketAsync(destination, isOutbound, packetBufferWriter, cancellationToken);
+                _ = HandleInterceptedPacketAsync(destination, isOutgoing, packetBufferWriter, cancellationToken);
             }
         }
     }
-    private async Task HandleInterceptedPacketAsync(HNode destination, bool isOutbound, ArrayPoolBufferWriter<byte> packetBufferWriter, CancellationToken cancellationToken)
+    private async Task HandleInterceptedPacketAsync(HNode destination, bool isOutgoing, ArrayPoolBufferWriter<byte> packetBufferWriter, CancellationToken cancellationToken)
     {
         try
         {
-            AsyncEventHandler<PacketInterceptedEventArgs>? handler = isOutbound ? PacketOutboundAsync : PacketInboundAsync;
+            AsyncEventHandler<PacketInterceptedEventArgs>? handler = isOutgoing ? PacketOutgoingAsync : PacketIncomingAsync;
             Memory<byte> mutablePacketBuffer = packetBufferWriter.DangerousGetArray();
 
             bool isReadOnlyBuffer = false;
             if (handler != null)
             {
-                var args = new PacketInterceptedEventArgs(mutablePacketBuffer, destination.PacketFormat, isOutbound)
+                var args = new PacketInterceptedEventArgs(mutablePacketBuffer, destination.PacketFormat, isOutgoing)
                 {
                     Cancel = cancellationToken.IsCancellationRequested
                 };

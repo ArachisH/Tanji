@@ -31,7 +31,7 @@ public sealed class RemoteHotelEndPointResolverService : IRemoteEndPointResolver
         using var packetBufferWriter = new ArrayPoolBufferWriter<byte>(128);
         int received = await local.ReceivePacketAsync(packetBufferWriter, cancellationToken).ConfigureAwait(false);
 
-        HotelEndPoint? remoteEndPoint = await ParseRemoteEndPointAsync(context.OutboundPacketFormat, packetBufferWriter.WrittenSpan).ConfigureAwait(false)
+        HotelEndPoint? remoteEndPoint = await ParseRemoteEndPointAsync(context.OutgoingPacketFormat, packetBufferWriter.WrittenSpan).ConfigureAwait(false)
             ?? throw new Exception("Failed to parse the remote end point from the intercepted packet.");
 
         _logger.LogDebug("Resolved Remote end point: {endpoint}, {received:n0} Packet Bytes", remoteEndPoint, received);

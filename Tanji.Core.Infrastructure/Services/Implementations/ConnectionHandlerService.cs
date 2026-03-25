@@ -77,7 +77,7 @@ public sealed class ConnectionHandlerService : IConnectionHandlerService
         while (!cancellationToken.IsCancellationRequested && (local == null || local.IsDisposed))
         {
             Socket localSocket = await AcceptAsync(port, cancellationToken).ConfigureAwait(false);
-            local = new HNode(localSocket, context.InboundPacketFormat);
+            local = new HNode(localSocket, context.IncomingPacketFormat);
 
             if (--listenSkipAmount > 0)
             {
@@ -118,7 +118,7 @@ public sealed class ConnectionHandlerService : IConnectionHandlerService
     public static async Task<HNode> EstablishRemoteConnectionAsync(HConnectionContext context, IPEndPoint remoteEndPoint, CancellationToken cancellationToken = default)
     {
         Socket remoteSocket = await ConnectAsync(remoteEndPoint, cancellationToken).ConfigureAwait(false);
-        var remote = new HNode(remoteSocket, context.InboundPacketFormat);
+        var remote = new HNode(remoteSocket, context.IncomingPacketFormat);
 
         if (context.IsWebSocketConnection)
         {

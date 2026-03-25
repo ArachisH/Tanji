@@ -10,8 +10,8 @@ public interface IGame : IDisposable
     bool IsPostShuffle { get; }
     HPlatform Platform { get; }
 
-    IHFormat InboundPacketFormat { get; }
-    IHFormat OutboundPacketFormat { get; }
+    IHFormat IncomingPacketFormat { get; }
+    IHFormat OutgoingPacketFormat { get; }
 
     string? Revision { get; }
     int MinimumConnectionAttempts { get; }

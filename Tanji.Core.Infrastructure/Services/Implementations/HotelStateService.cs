@@ -39,7 +39,7 @@ public sealed class HotelStateService : IHotelStateService
             {
                 foreach (HConnection connection in e.NewItems!)
                 {
-                    connection.PacketOutboundAsync += Outbound_RetrieveSharedKeyAsync;
+                    connection.PacketOutgoingAsync += Outgoing_RetrieveSharedKeyAsync;
                 }
                 break;
             }
@@ -47,7 +47,7 @@ public sealed class HotelStateService : IHotelStateService
             {
                 foreach (HConnection connection in e.OldItems!)
                 {
-                    connection.PacketOutboundAsync -= Outbound_RetrieveSharedKeyAsync;
+                    connection.PacketOutgoingAsync -= Outgoing_RetrieveSharedKeyAsync;
                 }
                 break;
             }
@@ -55,7 +55,7 @@ public sealed class HotelStateService : IHotelStateService
         }
     }
 
-    private Task Outbound_RetrieveSharedKeyAsync(object sender, PacketInterceptedEventArgs e)
+    private Task Outgoing_RetrieveSharedKeyAsync(object sender, PacketInterceptedEventArgs e)
     {
         ReadOnlySpan<byte> packetBufferSpan = e.PacketBuffer.Span;
         e.PacketFormat.TryReadId(packetBufferSpan, out short id, out int bytesRead);
@@ -76,7 +76,7 @@ public sealed class HotelStateService : IHotelStateService
 
             // Unsubscribe, this is only done during the handshake phase.
             e.Cancel = true;
-            ((HConnection)sender).PacketOutboundAsync -= Outbound_RetrieveSharedKeyAsync;
+            ((HConnection)sender).PacketOutgoingAsync -= Outgoing_RetrieveSharedKeyAsync;
         }
         return Task.CompletedTask;
     }

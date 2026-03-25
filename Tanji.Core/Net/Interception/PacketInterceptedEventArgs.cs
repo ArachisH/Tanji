@@ -9,7 +9,7 @@ public sealed class PacketInterceptedEventArgs : CancelEventArgs
     private Memory<byte> _packetBuffer;
     private ReadOnlyMemory<byte>? _roPacketBuffer;
 
-    public bool IsOutbound { get; }
+    public bool IsOutgoing { get; }
     public IHFormat PacketFormat { get; }
     public ReadOnlyMemory<byte> PacketBuffer => _roPacketBuffer ?? _packetBuffer;
 
@@ -19,11 +19,11 @@ public sealed class PacketInterceptedEventArgs : CancelEventArgs
     /// </summary>
     public bool IsReadOnly { get; private set; }
 
-    public PacketInterceptedEventArgs(Memory<byte> originalPacketBuffer, IHFormat packetFormat, bool isOutbound)
+    public PacketInterceptedEventArgs(Memory<byte> originalPacketBuffer, IHFormat packetFormat, bool isOutgoing)
     {
         _packetBuffer = originalPacketBuffer;
 
-        IsOutbound = isOutbound;
+        IsOutgoing = isOutgoing;
         PacketFormat = packetFormat;
     }
 

@@ -45,8 +45,8 @@ public sealed class FlashGame : IGame
     public HPlatform Platform => HPlatform.Flash;
     public bool IsPostShuffle { get; private set; } = true;
 
-    public IHFormat InboundPacketFormat => IsPostShuffle ? IHFormat.EvaWire : IHFormat.WedgieIn;
-    public IHFormat OutboundPacketFormat => IsPostShuffle ? IHFormat.EvaWire : IHFormat.WedgieOut;
+    public IHFormat IncomingPacketFormat => IsPostShuffle ? IHFormat.EvaWire : IHFormat.WedgieIn;
+    public IHFormat OutgoingPacketFormat => IsPostShuffle ? IHFormat.EvaWire : IHFormat.WedgieOut;
 
     public string? Revision { get; private set; }
     public int MinimumConnectionAttempts { get; private set; }

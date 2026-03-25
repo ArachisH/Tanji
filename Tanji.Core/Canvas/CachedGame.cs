@@ -12,8 +12,8 @@ public sealed class CachedGame : IGame
     public required bool IsPostShuffle { get; init; }
     public required HPlatform Platform { get; init; }
 
-    public required IHFormat InboundPacketFormat { get; init; }
-    public required IHFormat OutboundPacketFormat { get; init; }
+    public required IHFormat IncomingPacketFormat { get; init; }
+    public required IHFormat OutgoingPacketFormat { get; init; }
 
     public required string Revision { get; init; }
     public required int MinimumConnectionAttempts { get; init; }
@@ -30,8 +30,8 @@ public sealed class CachedGame : IGame
         IsPostShuffle = game.IsPostShuffle;
         Platform = game.Platform;
 
-        OutboundPacketFormat = game.OutboundPacketFormat;
-        InboundPacketFormat = game.InboundPacketFormat;
+        OutgoingPacketFormat = game.OutgoingPacketFormat;
+        IncomingPacketFormat = game.IncomingPacketFormat;
 
         Revision = game.Revision ?? "< Unknown Revision >";
         MinimumConnectionAttempts = game.MinimumConnectionAttempts;
