@@ -26,7 +26,6 @@ public partial class PacketLoggerView : Form
         }
         base.OnLoad(e);
     }
-
     protected override void OnDataContextChanged(EventArgs e)
     {
         if (DataContext is ObservableObject observable)
