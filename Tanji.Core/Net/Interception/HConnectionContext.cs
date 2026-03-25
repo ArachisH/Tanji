@@ -7,8 +7,9 @@ namespace Tanji.Core.Net.Interception;
 
 public readonly record struct HConnectionContext
 {
-    public FileInfo ClientPath { get; init; }
+    public string? Revision { get; init; }
     public HPlatform Platform { get; init; }
+    public FileInfo? ClientPath { get; init; }
 
     public int MinimumConnectionAttempts { get; init; } = 1;
     public bool IsFakingPolicyRequest { get; init; } = true;
@@ -25,6 +26,7 @@ public readonly record struct HConnectionContext
     {
         ClientPath = game.Path;
         Platform = game.Platform;
+        Revision = game.Revision;
 
         PatchingOptions = game.PatchingOptions;
         IncomingPacketFormat = game.IncomingPacketFormat;
