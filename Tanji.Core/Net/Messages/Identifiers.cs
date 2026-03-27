@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 using Tanji.Core.Canvas;
 
@@ -14,8 +15,9 @@ public abstract class Identifiers
     public bool IsOutgoing { get; init; }
     public int Resolved { get; private set; }
 
-    public HMessage this[short id] => _messagesById.GetValueOrDefault(id);
-    public HMessage this[string name] => _messagesByName.GetValueOrDefault(name);
+    public ref HMessage this[short id] => ref CollectionsMarshal.GetValueRefOrNullRef(_messagesById, id);
+    //public ref HMessage this[uint hash] => ref CollectionsMarshal.GetValueRefOrNullRef(_messagesByHash, hash);
+    public ref HMessage this[string name] => ref CollectionsMarshal.GetValueRefOrNullRef(_messagesByName, name);
 
     public Identifiers(bool isOutgoing)
     {
