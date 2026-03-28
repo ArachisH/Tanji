@@ -56,7 +56,7 @@ public partial class ConnectionViewModel : ObservableObject
     [RelayCommand]
     private async Task ConnectAsync()
     {
-        _webInterception.Start();
+        _webInterception.Stop();
 
         Status = INTERCEPTING_CLIENT_PAGE;
         string ticket = await _webInterception.InterceptTicketAsync();
