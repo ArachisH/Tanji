@@ -6,7 +6,7 @@ public sealed class HConnection : IDisposable
 {
     private Task? _bridgeNodesTask;
 
-    public delegate Task AsyncEventHandler<TEventArgs>(object sender, TEventArgs e);
+    public delegate ValueTask AsyncEventHandler<TEventArgs>(object sender, TEventArgs e);
 
     public event AsyncEventHandler<PacketInterceptedEventArgs>? PacketIncomingAsync;
     public event AsyncEventHandler<PacketInterceptedEventArgs>? PacketOutgoingAsync;

@@ -55,7 +55,7 @@ public sealed class HotelStateService : IHotelStateService
         }
     }
 
-    private Task Outgoing_RetrieveSharedKeyAsync(object sender, PacketInterceptedEventArgs e)
+    private ValueTask Outgoing_RetrieveSharedKeyAsync(object sender, PacketInterceptedEventArgs e)
     {
         ReadOnlySpan<byte> packetBufferSpan = e.PacketBuffer.Span;
         e.PacketFormat.TryReadId(packetBufferSpan, out short id, out int bytesRead);
@@ -78,6 +78,6 @@ public sealed class HotelStateService : IHotelStateService
             e.Cancel = true;
             ((HConnection)sender).PacketOutgoingAsync -= Outgoing_RetrieveSharedKeyAsync;
         }
-        return Task.CompletedTask;
+        return ValueTask.CompletedTask;
     }
 }
