@@ -1,0 +1,40 @@
+name: Build (Develop)
+
+on:
+  workflow_dispatch:
+
+  pull_request:
+    branches:
+      - develop
+
+  push:
+    branches:
+      - develop
+
+jobs:
+  build:
+
+    strategy:
+      matrix:
+        os: [windows-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v4
+      name: Git Checkout
+      with:
+        fetch-depth: 0
+
+    - uses: actions/setup-dotnet@v4
+      name: .NET Setup
+      with:
+        dotnet-version: 10.0.x
+
+    - name: Restoring
+      run: dotnet restore --verbosity normal
+
+    - name: Building
+      run: dotnet build --configuration Release --no-restore --verbosity normal
+
+    - name: Testing
+      run: dotnet test --configuration Release --no-restore --no-build --verbosity normal
