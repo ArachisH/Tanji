@@ -15,9 +15,9 @@ public abstract class Identifiers
     public bool IsOutgoing { get; init; }
     public int Resolved { get; private set; }
 
-    public ref HMessage this[short id] => ref CollectionsMarshal.GetValueRefOrNullRef(_messagesById, id);
-    //public ref HMessage this[uint hash] => ref CollectionsMarshal.GetValueRefOrNullRef(_messagesByHash, hash);
-    public ref HMessage this[string name] => ref CollectionsMarshal.GetValueRefOrNullRef(_messagesByName, name);
+    public ref readonly HMessage this[short id] => ref CollectionsMarshal.GetValueRefOrNullRef(_messagesById, id);
+    //public ref readonly HMessage this[uint hash] => ref CollectionsMarshal.GetValueRefOrNullRef(_messagesByHash, hash);
+    public ref readonly HMessage this[string name] => ref CollectionsMarshal.GetValueRefOrNullRef(_messagesByName, name);
 
     public Identifiers(bool isOutgoing)
     {
