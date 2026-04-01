@@ -184,7 +184,7 @@ public sealed class ClientHandlerService : IClientHandlerService
     private async Task<Process> LaunchFlashClientAsync(PlatformPaths paths, string ticket)
     {
         ProcessStartInfo info = _options.IsUsingAirDebugLauncher
-            ? new ProcessStartInfo(Environment.ExpandEnvironmentVariables("%AIR_HOME%\\bin\\adl.exe"))
+            ? new ProcessStartInfo(Environment.ExpandEnvironmentVariables("%AIR_HOME%\\bin\\adl64.exe"))
         {
                 CreateNoWindow = false,
                 UseShellExecute = false,
