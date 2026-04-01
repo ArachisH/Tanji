@@ -39,10 +39,8 @@ partial class PacketLoggerView
         loggerVw.BackColor = System.Drawing.Color.FromArgb(22, 22, 22);
         loggerVw.BorderStyle = System.Windows.Forms.BorderStyle.None;
         loggerVw.Dock = System.Windows.Forms.DockStyle.Fill;
-        loggerVw.Font = new System.Drawing.Font("Consolas", 11F);
+        loggerVw.Font = new System.Drawing.Font("Cascadia Code", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
         loggerVw.ForeColor = System.Drawing.Color.White;
-        loggerVw.HideSelection = false;
-        loggerVw.IsHidingCaret = false;
         loggerVw.Location = new System.Drawing.Point(0, 0);
         loggerVw.Name = "loggerVw";
         loggerVw.ReadOnly = true;
