@@ -26,6 +26,8 @@ public sealed class TanjiOptions
 
     public required bool IsUsingAirDebugLauncher { get; init; }
 
+    public required PacketLoggingOptions PacketLoggingOptions { get; init; }
+
     [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
     public LauncherVersions Versions { get; internal set; }
 
