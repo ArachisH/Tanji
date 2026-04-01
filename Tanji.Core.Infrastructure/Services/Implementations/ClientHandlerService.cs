@@ -24,6 +24,9 @@ namespace Tanji.Core.Infrastructure.Services.Implementations;
 
 public sealed class ClientHandlerService : IClientHandlerService
 {
+    private const int BASE_AIR_UNIQUE_ID = 500000000;
+    private const string BASE_AIR_APPLICATION_ID = "com.sulake.habboair";
+
     private static readonly JsonSerializerOptions SerializerOptions;
 
     private readonly TanjiOptions _options;
@@ -55,6 +58,8 @@ public sealed class ClientHandlerService : IClientHandlerService
 
         PatchedClientsDirectory = Directory.CreateDirectory("Patched Clients");
         PatchedClientsDirectory.Attributes = FileAttributes.Normal;
+
+        ClearLocalFlashStorage();
     }
 
     public async Task<IGame> PatchClientAsync(HPlatform platform, string? clientPath = null)
@@ -203,17 +208,26 @@ public sealed class ClientHandlerService : IClientHandlerService
         launcherProcess.ErrorDataReceived += Process_DataReceived;
         launcherProcess.OutputDataReceived += Process_DataReceived;
 
+        string uniqueApplicationId = GetUniqueApplicationId(out string localFlashStoragePath);
         try
         {
-            ApplyFlashLauncherSettings(paths.RootPath, "patched.", "Tanji.");
+            ApplyFlashLauncherSettings(paths.RootPath, uniqueApplicationId,
+                "patched." + PlatformConverter.ToClientName(HPlatform.Flash));
+
             if (launcherProcess.Start())
             {
-                // Wait for process to finish using the modified 'application.xml' file, then reset.
-                await Task.Delay(1000).ConfigureAwait(false);
+                do { await Task.Delay(1250).ConfigureAwait(false); }
+                while (!Directory.Exists(localFlashStoragePath));
+
+                _logger.LogDebug("Cleared local flash storage directory. | {directory}", localFlashStoragePath);
+                ClearLocalFlashStorage();
             }
-            else throw new Exception("Failed to start the flash client process.");
         }
-        finally { ApplyFlashLauncherSettings(paths.RootPath); }
+        finally
+        {
+            ApplyFlashLauncherSettings(paths.RootPath, BASE_AIR_APPLICATION_ID,
+                PlatformConverter.ToClientName(HPlatform.Flash));
+        }
 
         return launcherProcess;
     }
@@ -274,7 +288,7 @@ public sealed class ClientHandlerService : IClientHandlerService
             default: throw new NotSupportedException("Unable to acquire game patch options for the provided platform.");
         }
     }
-    private static void ApplyFlashLauncherSettings(string launcherRootPath, string? contentPrefix = null, string? idPrefix = null)
+    private static void ApplyFlashLauncherSettings(string launcherRootPath, string applicationId, string applicationContent)
     {
         string applicationXMLPath = Path.Combine(launcherRootPath, "META-INF\\AIR\\application.xml");
         var habboAirSettings = new XmlDocument();
@@ -285,14 +299,14 @@ public sealed class ClientHandlerService : IClientHandlerService
         {
             ThrowHelper.ThrowNullReferenceException("The 'id' element does not exist in the application's XML configuration file.");
         }
-        idElement.InnerText = $"{idPrefix}com.sulake.habboair";
+        idElement.InnerText = applicationId;
 
         XmlElement? contentElement = habboAirSettings["application"]?["initialWindow"]?["content"];
         if (contentElement == null)
         {
             ThrowHelper.ThrowNullReferenceException("The 'application.initialWindow.content' element does not exist in the application's XML configuration file.");
         }
-        contentElement.InnerText = $"{contentPrefix}{PlatformConverter.ToClientName(HPlatform.Flash)}";
+        contentElement.InnerText = applicationContent;
 
         habboAirSettings.Save(applicationXMLPath);
     }
@@ -313,5 +327,29 @@ public sealed class ClientHandlerService : IClientHandlerService
     {
         public required Outgoing Outgoing { get; init; }
         public required Incoming Incoming { get; init; }
+    }
+
+    private static string GetUniqueApplicationId(out string localFlashStoragePath)
+    {
+        IEnumerable<Process> processes = Process.GetProcessesByName("Habbo")
+            .Concat(Process.GetProcessesByName("adl"))
+            .Where(p => p.MainWindowTitle == "Habbo");
+
+        int uniqueId = BASE_AIR_UNIQUE_ID + (processes.Any() ? processes.Max(p => p.Id) : 0);
+
+        string applicationId = $"{BASE_AIR_APPLICATION_ID}-{uniqueId}";
+        localFlashStoragePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), applicationId);
+
+        return applicationId;
+    }
+    private static void ClearLocalFlashStorage()
+    {
+        string roamingDirectoryPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        var roamingDirectory = new DirectoryInfo(roamingDirectoryPath);
+
+        foreach (DirectoryInfo item in roamingDirectory.EnumerateDirectories($"*{BASE_AIR_APPLICATION_ID}-*"))
+        {
+            if (item.Exists) item.Delete(true);
+        }
     }
 }
