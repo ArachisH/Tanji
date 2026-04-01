@@ -2,6 +2,9 @@
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
   </Folder>
+  <Folder Name="/Testing/">
+    <Project Path="Testing/Tanji.Core.Infrastructure.Tests/Tanji.Core.Infrastructure.Tests.csproj" Id="3cd30bb6-e1c7-4aab-bd10-c73a9dac7fee" />
+  </Folder>
   <Project Path="Tanji.CLI/Tanji.CLI.csproj" />
   <Project Path="Tanji.Core.Generators/Tanji.Core.Generators.csproj" />
   <Project Path="Tanji.Core.Infrastructure/Tanji.Core.Infrastructure.csproj" />
