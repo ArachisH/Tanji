@@ -31,6 +31,7 @@ public sealed class ClientHandlerService : IClientHandlerService
 
     private readonly TanjiOptions _options;
     private readonly ILogger<ClientHandlerService> _logger;
+    private readonly Dictionary<string, CachedIdentifiers> _cachedIdentifiers;
 
     public DirectoryInfo MessagesDirectory { get; }
     public DirectoryInfo PatchedClientsDirectory { get; }
@@ -50,6 +51,8 @@ public sealed class ClientHandlerService : IClientHandlerService
     }
     public ClientHandlerService(ILogger<ClientHandlerService> logger, IOptions<TanjiOptions> options)
     {
+        _cachedIdentifiers = [];
+
         _logger = logger;
         _options = options.Value;
 
@@ -89,12 +92,19 @@ public sealed class ClientHandlerService : IClientHandlerService
             if (!fileInfo.Name.StartsWith(md5Hash, StringComparison.InvariantCultureIgnoreCase) ||
                 !fileInfo.Name.EndsWith(".json")) continue;
 
-            using var deserializationStream = File.OpenRead(fileInfo.FullName);
+            using FileStream deserializationStream = File.OpenRead(fileInfo.FullName);
 
-            CachedGame? deserializedCachedGame = JsonSerializer.Deserialize<CachedGame>(deserializationStream, SerializerOptions)
-                ?? throw new Exception("Failed to deserialize cached game file.");
+            CachedGame? deserializedCachedGame = await JsonSerializer.DeserializeAsync<CachedGame>(
+                deserializationStream, SerializerOptions).ConfigureAwait(false);
+
+            if (deserializedCachedGame == null)
+            {
+                throw new Exception("Failed to deserialize cached game file.");
+            }
 
             _logger.LogInformation("Discovered Cached Client > {path}", deserializedCachedGame.Path!.FullName);
+            _ = TryGetIdentifiers(deserializedCachedGame.Revision, out _, out _); // Cache identifiers for future use.
+
             return deserializedCachedGame;
         }
 
@@ -118,17 +128,23 @@ public sealed class ClientHandlerService : IClientHandlerService
         _logger.LogInformation("Assembling client");
         string assemblePath = Path.Combine(PatchedClientsDirectory.FullName, $"{md5Hash}_{game.Revision}_{clientFileInfo.Name}");
         game.Assemble(assemblePath);
+
         var cachedGame = new CachedGame(game, patchingOptions, assemblePath);
-
-        using FileStream gameSerializationStream = File.Create(Path.Combine(PatchedClientsDirectory.FullName, $"{md5Hash}_{game.Revision}.json"));
-        JsonSerializer.Serialize(gameSerializationStream, cachedGame, SerializerOptions);
-
-        using FileStream messagesSerializationStream = File.Create(Path.Combine(MessagesDirectory.FullName, $"{game.Revision}.json"));
-        JsonSerializer.Serialize(messagesSerializationStream, new CachedIdentifiers
+        var cachedIdentifiers = new CachedIdentifiers
         {
             Outgoing = new Outgoing(game),
             Incoming = new Incoming(game)
-        }, SerializerOptions);
+        };
+
+        using FileStream gameSerializationStream = File.Create(Path.Combine(PatchedClientsDirectory.FullName, $"{md5Hash}_{game.Revision}.json"));
+        await JsonSerializer.SerializeAsync(gameSerializationStream, cachedGame, SerializerOptions).ConfigureAwait(false);
+
+        if (!string.IsNullOrWhiteSpace(game.Revision))
+        {
+            using FileStream messagesSerializationStream = File.Create(Path.Combine(MessagesDirectory.FullName, $"{game.Revision}.json"));
+            await JsonSerializer.SerializeAsync(messagesSerializationStream, cachedIdentifiers, SerializerOptions).ConfigureAwait(false);
+            _cachedIdentifiers.Add(game.Revision, cachedIdentifiers);
+        }
 
         return cachedGame;
     }
@@ -137,18 +153,32 @@ public sealed class ClientHandlerService : IClientHandlerService
         outgoing = null;
         incoming = null;
         if (string.IsNullOrWhiteSpace(revision)) return false;
-        foreach (FileInfo fileInfo in MessagesDirectory.EnumerateFiles())
+
+        ref CachedIdentifiers cachedIdentifiers =
+            ref CollectionsMarshal.GetValueRefOrNullRef(_cachedIdentifiers, revision!);
+
+        if (!Unsafe.IsNullRef(in cachedIdentifiers))
         {
-            if (!fileInfo.Name.EndsWith($"{revision}.json")) continue;
-
-            using FileStream messagesDeserializationStream = File.OpenRead(fileInfo.FullName);
-            var identifiers = JsonSerializer.Deserialize<CachedIdentifiers>(messagesDeserializationStream, SerializerOptions);
-
-            outgoing = identifiers.Outgoing;
-            incoming = identifiers.Incoming;
-            return true;
+            outgoing = cachedIdentifiers.Outgoing;
+            incoming = cachedIdentifiers.Incoming;
         }
-        return false;
+        else
+        {
+            foreach (FileInfo fileInfo in MessagesDirectory.EnumerateFiles())
+            {
+                if (!fileInfo.Name.EndsWith($"{revision}.json")) continue;
+
+                using FileStream messagesDeserializationStream = File.OpenRead(fileInfo.FullName);
+                var identifiers = JsonSerializer.Deserialize<CachedIdentifiers>(messagesDeserializationStream, SerializerOptions);
+
+                _cachedIdentifiers.Add(revision, identifiers);
+
+                outgoing = identifiers.Outgoing;
+                incoming = identifiers.Incoming;
+                break;
+            }
+        }
+        return outgoing != null && incoming != null;
     }
     public Task<Process> LaunchClientAsync(HPlatform platform, string ticket, string? clientPath = null)
     {
@@ -190,7 +220,7 @@ public sealed class ClientHandlerService : IClientHandlerService
     {
         ProcessStartInfo info = _options.IsUsingAirDebugLauncher
             ? new ProcessStartInfo(Environment.ExpandEnvironmentVariables("%AIR_HOME%\\bin\\adl64.exe"))
-        {
+            {
                 CreateNoWindow = false,
                 UseShellExecute = false,
                 RedirectStandardError = true,
