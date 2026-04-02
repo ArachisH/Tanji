@@ -18,17 +18,15 @@ public sealed class PacketLogBuilderServiceTests
 {
     [Theory]
     [MemberData(nameof(PacketBuffersWithRepeats))]
-    public void Build_PacketLogs_ReturnsNullOnRepetitions(IEnumerable<(bool IsOutgoing, byte[] Buffer, bool IsNull)> packets)
+    public void WritePacketLog_IncrementsRepetitionsForRepeatedPackets(IEnumerable<(bool IsOutgoing, byte[] Buffer, int Repetitions)> packets)
     {
         PacketLogHandlerService service = CreateService(true);
-        foreach ((bool IsOutgoing, byte[] Buffer, bool IsNull) packet in packets)
+        foreach ((bool IsOutgoing, byte[] Buffer, int Repetitions) expected in packets)
         {
-            PacketLog? pLog = service.WritePacketLog(packet.Buffer, packet.IsOutgoing, IHFormat.EvaWire, string.Empty);
-            if (packet.IsNull)
-            {
-                Assert.Null(pLog);
-            }
-            else Assert.NotNull(pLog);
+            PacketLog? actual = service.WritePacketLog(expected.Buffer, expected.IsOutgoing, IHFormat.EvaWire, string.Empty);
+
+            Assert.NotNull(actual);
+            Assert.Equal(expected.Repetitions, actual.Repetitions);
         }
     }
 
@@ -69,16 +67,16 @@ public sealed class PacketLogBuilderServiceTests
             new FakeClientHandlerService());
     }
 
-    public static TheoryData<IEnumerable<(bool IsOutgoing, byte[] Packet, bool IsNull)>> PacketBuffersWithRepeats => new()
+    public static TheoryData<IEnumerable<(bool IsOutgoing, byte[] Packet, int Repetitions)>> PacketBuffersWithRepeats => new()
     {
-        new (bool, byte[], bool)[]
+        new (bool, byte[], int)[]
         {
-            (true, [0, 0, 0, 2, 0, 5], false),
-            (true, [0, 0, 0, 2, 0, 5], true),
-            (true, [0, 0, 0, 2, 0, 5], true),
-            (true, [0, 0, 0, 2, 0, 6], false),
-            (false, [0, 0, 0, 30, 0, 7, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99], false),
-            (false, [0, 0, 0, 2, 0, 8], false),
+            (true, [0, 0, 0, 2, 0, 5], 1),
+            (true, [0, 0, 0, 2, 0, 5], 2),
+            (true, [0, 0, 0, 2, 0, 5], 3),
+            (true, [0, 0, 0, 2, 0, 6], 1),
+            (false, [0, 0, 0, 30, 0, 7, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99], 1),
+            (false, [0, 0, 0, 2, 0, 8], 1),
         },
     };
 
