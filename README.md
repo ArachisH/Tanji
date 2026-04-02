@@ -3,7 +3,8 @@
 </p>
 
 <p align="center">
-	<img alt="Build" src="https://github.com/ArachisH/Tanji/actions/workflows/build.yaml/badge.svg?branch=develop">
+	<img alt="Build (Main)" src="https://github.com/ArachisH/Tanji/actions/workflows/build-main.yaml/badge.svg">
+	<img alt="Build (Develop)" src="https://github.com/ArachisH/Tanji/actions/workflows/build-develop.yaml/badge.svg">
 	<img alt="GitHub Tag" src="https://img.shields.io/github/v/tag/ArachisH/Tanji?label=Latest%20Version">
 	<img alt="GitHub Total Downloads" src="https://img.shields.io/github/downloads/ArachisH/Tanji/total?label=Total%20Downloads">
 	<img alt="GitHub License" src="https://img.shields.io/github/license/ArachisH/Tanji?label=License">
