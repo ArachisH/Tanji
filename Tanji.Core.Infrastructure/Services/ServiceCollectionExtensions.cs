@@ -12,7 +12,6 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddTanjiCore(this IServiceCollection services)
     {
-
         // Add Configuration
         services.AddOptions();
         services.AddSingleton<IPostConfigureOptions<TanjiOptions>, PostConfigureTanjiOptions>();
@@ -20,6 +19,7 @@ public static class ServiceCollectionExtensions
         // Add Singleton Services
         services.AddSingleton<IHotelStateService, HotelStateService>();
         services.AddSingleton<IClientHandlerService, ClientHandlerService>();
+        services.AddSingleton<IPacketLogHandlerService, PacketLogHandlerService>();
         services.AddSingleton<IConnectionHandlerService, ConnectionHandlerService>();
         services.AddSingleton<IWebInterceptionService, EavesdropInterceptionService>();
         services.AddSingleton<IRemoteEndPointResolverService<HotelEndPoint>, RemoteHotelEndPointResolverService>();
