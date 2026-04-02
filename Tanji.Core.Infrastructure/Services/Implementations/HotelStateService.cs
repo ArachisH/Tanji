@@ -55,14 +55,13 @@ public sealed class HotelStateService : IHotelStateService
         }
     }
 
-    private ValueTask Outgoing_RetrieveSharedKeyAsync(object sender, PacketInterceptedEventArgs e)
+    private ValueTask Outgoing_RetrieveSharedKeyAsync(HConnection connection, PacketInterceptedEventArgs e)
     {
         ReadOnlySpan<byte> packetBufferSpan = e.PacketBuffer.Span;
         e.PacketFormat.TryReadId(packetBufferSpan, out short id, out int bytesRead);
 
         if (id == 4002) // TODO: Use GamePatchingOptions to check correct packet id.
         {
-            var connection = (HConnection)sender;
             e.PacketFormat.TryReadUTF8(packetBufferSpan.Slice(e.PacketFormat.MinBufferSize), out string sharedKeyHex, out _);
 
             if (sharedKeyHex.Length % 2 != 0)
@@ -76,7 +75,7 @@ public sealed class HotelStateService : IHotelStateService
 
             // Unsubscribe, this is only done during the handshake phase.
             e.Cancel = true;
-            ((HConnection)sender).PacketOutgoingAsync -= Outgoing_RetrieveSharedKeyAsync;
+            connection.PacketOutgoingAsync -= Outgoing_RetrieveSharedKeyAsync;
         }
         return ValueTask.CompletedTask;
     }

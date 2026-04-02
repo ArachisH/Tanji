@@ -6,10 +6,10 @@ public sealed class HConnection : IDisposable
 {
     private Task? _bridgeNodesTask;
 
-    public delegate ValueTask AsyncEventHandler<TEventArgs>(object sender, TEventArgs e);
+    public delegate ValueTask PacketInterceptedEventHandler(HConnection connection, PacketInterceptedEventArgs e);
 
-    public event AsyncEventHandler<PacketInterceptedEventArgs>? PacketIncomingAsync;
-    public event AsyncEventHandler<PacketInterceptedEventArgs>? PacketOutgoingAsync;
+    public event PacketInterceptedEventHandler? PacketIncomingAsync;
+    public event PacketInterceptedEventHandler? PacketOutgoingAsync;
 
     public HNode Local { get; }
     public HNode Remote { get; }
@@ -60,7 +60,7 @@ public sealed class HConnection : IDisposable
     {
         try
         {
-            AsyncEventHandler<PacketInterceptedEventArgs>? handler = isOutgoing ? PacketOutgoingAsync : PacketIncomingAsync;
+            PacketInterceptedEventHandler? handler = isOutgoing ? PacketOutgoingAsync : PacketIncomingAsync;
             Memory<byte> mutablePacketBuffer = packetBufferWriter.DangerousGetArray();
 
             bool isReadOnlyBuffer = false;
