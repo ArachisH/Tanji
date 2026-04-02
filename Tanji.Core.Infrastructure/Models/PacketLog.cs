@@ -88,7 +88,7 @@ public sealed class PacketLog
             pLog.Enclose(message.Name, options.DetailHighlight).AppendSpace();
         }
 
-        if (hasMessageHash && options.IsLoggingMessageHash)
+        if (message.Hash > 0 && options.IsLoggingMessageHash)
         {
             // [mHash: %Hash%]_
             hasMessageHash = true;
