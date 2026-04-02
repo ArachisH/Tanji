@@ -3,99 +3,118 @@ using System.Drawing;
 using System.Diagnostics.CodeAnalysis;
 
 using Tanji.Core.Net.Messages;
+using Tanji.Core.Infrastructure.Configuration;
 
 namespace Tanji.Core.Infrastructure.Models;
 
+/*
+ * TODO: Check if it makes sense to instead use this as a 'StringBuilder',
+ * and have it return 'chunks' that only consist of Text, and Highlight regions.
+ */
 public sealed class PacketLog
 {
+    public const string DEFAULT_SEPARATOR = "\n---------------\n";
+
+    private static readonly char[] DIRECTION_ARROWS = ['⇽', '⇾'];
+    private static readonly string[] DIRECTION_LABELS = ["Incoming", "Outgoing"];
+
+    private readonly StringBuilder _logText;
+    private readonly Queue<(int, Color)> _highlights;
+
     private static ReadOnlySpan<char> Superscripts =>
         ['\u2070', '\u00B9', '\u00B2', '\u00B3', '\u2074',
          '\u2075', '\u2076', '\u2077', '\u2078', '\u2079'];
 
-    public Queue<(int, Color)> Chunks { get; }
-    public string? FullText { get; private set; }
+    public int Length => _logText.Length;
+    public int Repetitions { get; set; } = 1;
 
-    public required HMessage Message { get; init; }
-    public required ulong Fingerprint { get; init; }
-
-    public required int PacketLength { get; init; }
-    public required string PacketText { get; init; }
+    public Color DefaultHighlight { get; init; }
 
     [SetsRequiredMembers]
-    public PacketLog(ulong fingerprint, ref HMessage message, ref ReadOnlySpan<byte> packetBufferSpan)
+    public PacketLog(Color defaultHighlight)
     {
-        Message = message;
-        Fingerprint = fingerprint;
-        Chunks = new Queue<(int, Color)>();
-        PacketLength = packetBufferSpan.Length;
-        PacketText = ToString(packetBufferSpan);
+        _logText = new StringBuilder();
+        _highlights = new Queue<(int, Color)>();
+
+        DefaultHighlight = defaultHighlight;
     }
 
-    public void Generate(IPacketHighlightProvider highlights)
+    public PacketLog AppendLine() => Append('\n');
+    public PacketLog AppendSpace() => Append(' ');
+
+    public PacketLog Open() => Append('[');
+    public PacketLog Close() => Append(']');
+
+    public PacketLog Enclose(in ReadOnlySpan<char> value) => Open().Append(value, DefaultHighlight).Close();
+    public PacketLog Enclose(in ReadOnlySpan<char> value, Color highlight) => Open().Append(value, highlight).Close();
+
+    public PacketLog Append(char character) => Append(character, DefaultHighlight);
+    public PacketLog Append(in ReadOnlySpan<char> value) => Append(value, DefaultHighlight);
+
+    // TODO: Use indexed based highlights for reducing amount of tuples being queued?
+    public PacketLog Append(char character, Color highlight)
     {
-        var allChunkText = new StringBuilder();
-        if (!string.IsNullOrWhiteSpace(Message.Structure))
-        {
-            WriteChunk(allChunkText, '[', highlights.DefaultHighlight);
-            WriteChunk(allChunkText, Message.Structure, highlights.StructureHighlight);
-            WriteChunk(allChunkText, "]\n", highlights.DefaultHighlight);
-        }
+        _logText.Append(character);
+        _highlights.Enqueue((1, highlight));
 
-        bool hasName = !string.IsNullOrWhiteSpace(Message.Name);
-        if (hasName)
-        {
-            WriteChunk(allChunkText, '[', highlights.DefaultHighlight);
-            WriteChunk(allChunkText, Message.Name, highlights.DetailHighlight);
-        }
+        return this;
+    }
+    public PacketLog Append(in ReadOnlySpan<char> value, Color highlight)
+    {
+        _logText.Append(value);
+        _highlights.Enqueue((value.Length, highlight));
 
-        bool hasHash = Message.Hash > 0;
-        if (hasHash)
-        {
-            if (hasName)
-            {
-                WriteChunk(allChunkText, ", mHash: ", highlights.DefaultHighlight);
-            }
-            WriteChunk(allChunkText, Message.Hash.ToString(), highlights.DetailHighlight);
-        }
-
-        if (!hasName && !hasHash)
-        {
-            WriteChunk(allChunkText, "< ! Unmapped Message ! >\n", Color.HotPink);
-        }
-        else
-        {
-            WriteChunk(allChunkText, "]\n", highlights.DefaultHighlight);
-        }
-
-        char arrow = Message.IsOutgoing ? '⇾' : '⇽';
-        string direction = Message.IsOutgoing ? "Outgoing" : "Incoming";
-        Color directionHighlight = Message.IsOutgoing ? highlights.OutgoingHighlight : highlights.IncomingHighlight;
-
-        WriteChunk(allChunkText, direction, directionHighlight);
-        WriteChunk(allChunkText, " [", highlights.DefaultHighlight);
-        WriteChunk(allChunkText, Message.Id.ToString(), directionHighlight);
-        WriteChunk(allChunkText, "] ", highlights.DefaultHighlight);
-        WriteChunk(allChunkText, arrow, highlights.DefaultHighlight);
-        WriteChunk(allChunkText, ' ', highlights.DefaultHighlight);
-        WriteChunk(allChunkText, PacketText, directionHighlight);
-        WriteChunk(allChunkText, "\n---------------\n", highlights.DefaultHighlight);
-
-        FullText = allChunkText.ToString();
+        return this;
     }
 
-    private void WriteChunkPosition(int length, Color highlight)
+    public override string ToString() => _logText.ToString();
+    public IEnumerable<(int length, Color highlight)> GetHighlights() => _highlights;
+
+    public static PacketLog Create(ReadOnlySpan<byte> packetBufferSpan, in HMessage message, PacketLoggingOptions options)
     {
-        Chunks.Enqueue((length, highlight));
-    }
-    private void WriteChunk(StringBuilder builder, char character, Color highlight)
-    {
-        builder.Append(character);
-        WriteChunkPosition(1, highlight);
-    }
-    private void WriteChunk(StringBuilder builder, ReadOnlySpan<char> text, Color highlight)
-    {
-        builder.Append(text);
-        WriteChunkPosition(text.Length, highlight);
+        var pLog = new PacketLog(options.DefaultHighlight);
+
+        if (IsLoggable(message.Structure, options.IsLoggingStructure))
+        {
+            // [%Structure%]\n
+            pLog.Enclose(message.Structure, options.StructureHighlight).AppendLine();
+        }
+
+        bool hasMessageHash = false, hasMessageName = false;
+        if (IsLoggable(message.Name, options.IsLoggingMessageName))
+        {
+            // [%Name%]_
+            hasMessageName = true;
+            pLog.Enclose(message.Name, options.DetailHighlight).AppendSpace();
+        }
+
+        if (hasMessageHash && options.IsLoggingMessageHash)
+        {
+            // [mHash: %Hash%]_
+            hasMessageHash = true;
+
+            pLog.Open()
+                .Append("mHash: ")
+                .Append(message.Hash.ToString(), options.DetailHighlight)
+                .Close().AppendLine();
+        }
+
+        if ((!hasMessageName && options.IsLoggingMessageName) ||
+            (!hasMessageHash && options.IsLoggingMessageHash))
+        {
+            pLog.Enclose("Unknown Message", Color.HotPink).AppendLine();
+        }
+
+        int directionIndex = message.IsOutgoing ? 1 : 0;
+        Color directionHighlight = message.IsOutgoing ? options.OutgoingHighlight : options.IncomingHighlight;
+
+        pLog.Append(DIRECTION_LABELS[directionIndex], directionHighlight).AppendSpace()
+            .Enclose(message.Id.ToString(), directionHighlight).AppendSpace()
+            .Append(DIRECTION_ARROWS[directionIndex]).AppendSpace()
+            .Append(ToString(packetBufferSpan), directionHighlight)
+            .Append(DEFAULT_SEPARATOR);
+
+        return pLog;
     }
 
     private static string ToString(ReadOnlySpan<byte> bufferSpan)
@@ -129,6 +148,10 @@ public sealed class PacketLog
             else builder.Append((char)bufferSpanByte);
         }
         return builder.ToString();
+    }
+    private static bool IsLoggable(in ReadOnlySpan<char> value, bool isLogging)
+    {
+        return isLogging && !value.IsWhiteSpace();
     }
     private static StringBuilder AppendSuperscript(StringBuilder builder, int number)
     {
